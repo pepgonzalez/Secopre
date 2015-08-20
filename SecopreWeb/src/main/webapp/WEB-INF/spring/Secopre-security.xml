@@ -1,0 +1,39 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		  http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		  http://www.springframework.org/schema/security
+		  http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<security:http pattern="/resources/**" security="none" />
+	<security:http auto-config="true">
+		<security:intercept-url pattern="/auth/**" access="hasRole('ROLE_USER')" />
+		<security:form-login 
+			login-page="/login"
+			default-target-url="/auth/start" 
+			authentication-failure-url="/login?error"
+			username-parameter="username" 
+			password-parameter="password" 
+			always-use-default-target="true"/>
+    	<security:logout logout-url="/logout" logout-success-url="/" delete-cookies="JSESSIONID" />
+		<security:csrf />
+		<security:remember-me />
+	</security:http>
+	
+	<bean id="daoAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+		<property name="userDetailsService" ref="userSecurityService" />
+		<property name="passwordEncoder" ref="encoder" />
+	</bean>
+
+	<bean id="userSecurityService" class="ideasw.secopre.web.security.UserSecurityService" />
+	<bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+
+	<!-- autentication manager es el que decide si el usuario esta logueado -->
+	<security:authentication-manager>
+		<security:authentication-provider user-service-ref="userSecurityService">
+			<security:password-encoder ref="encoder" />
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+</beans>	

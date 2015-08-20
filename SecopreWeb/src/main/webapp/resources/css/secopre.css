@@ -1,0 +1,54 @@
+/*
+	ESTILOS DE APOYO SECOPRE
+*/
+
+#loading{ display: none; position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: 999; background-color: rgb(249,246,242); background-color: rgba(249,246,242,0.9);  background-image: url(../img/loading-spinner-grey.gif); background-position: center center; background-repeat: no-repeat; }
+
+/*Estilos para mensajes*/
+/*  - MENSAJES - */
+/*  Modif. Junio 3 .mensaje.error.fc, p.advertencia[...]  */
+.mensaje{ margin: 20px 0; padding: 15px; -webkit-border-radius: 5px; border-radius: 5px; position: relative; }
+.mensaje:before, .mensaje:after{ display: table; content: " "; }
+.mensaje:after { clear: both; }
+.mensaje:before{ content: ''; position: absolute; top: -15px; left: 20px; margin-left: -8px; width: 0; height: 0; border-bottom: 15px solid transparent; border-right: 15px solid transparent; border-left: 15px solid transparent; }
+.mensaje.advertencia{ background-color: #f9f2ce; } .mensaje.advertencia:before{ border-bottom-color: #f9f2ce; }
+.mensaje.error{ background-color: #fdd4d4; } .mensaje.error:before{ border-bottom-color: #fdd4d4; }
+.mensaje.error.fc:before{ top: auto; bottom: -15px; left: 50%; margin-left: -7px; border-top: 15px solid #fdd4d4; border-bottom: none; }
+.mensaje.informacion{ background-color: #d5f6fa; } .mensaje.informacion:before{ border-bottom-color: #d5f6fa; }
+.mensaje.exito{ background-color: #dcf6eb; } .mensaje.exito:before{ border-bottom-color: #dcf6eb; }
+.mensaje p{ font-size: 17px; margin: 0; color: rgb(22,22,22); color: rgba(22,22,22,0.8); }
+.mensaje.advertencia .icon, strong.advertencia, p.advertencia{ color: #e3bd0b; }
+.mensaje.error .icon, strong.error, p.error{ color: #e55757; }
+.mensaje.exito .icon, strong.exito, p.exito{ color: #50d39b; }
+.mensaje.aviso .icon, strong.aviso, p.aviso{ color: #2bd0e8; }
+p.advertencia, p.error, p.exito, p.aviso{ font-size: 12px; margin-top: 5px; }
+.mensaje.exito .icon.f-turq{ color: #50d39b; }
+.mensaje.informacion .icon, .f-azul{ color: #2bd0e8; }
+.mensaje .icon{ width: 40px; float: left; font-size: 25px; line-height: 17px; }
+.mensaje .icon ~ p{ width: 85%; float: left; }
+.mensaje .icon-close2{ position: absolute; right:15px; top: 15px; color: #3e3c38 !important; cursor: pointer; opacity: .25; font-size: 12px; } .mensaje .icon-close2:hover{ opacity: 1; }
+.mensaje.no-flecha:before{ display: none; }
+/*helper js para redireccionamiento*/
+.sp__aux__view__all{
+}
+
+/*clases de clasificacion de tipos de mensajes (leidos, no leidos)*/
+.sp__message__pending{
+	background-color:#428bca;
+}
+	.sp__message__pending > a > .subject > .from, .sp__message__pending > a > .subject > .time, .sp__message__pending > a > .message{
+		color:white !important;
+	}
+
+	.sp__message__pending:hover > a > .subject > .from, .sp__message__pending:hover > a > .subject > .time, .sp__message__pending:hover > a > .message{
+		color:#5b9bd1 !important;
+	}
+
+
+.sp__message__readed{
+}
+
+/*clases para hacer distincion en tabs complejas y tabs basicas*/
+.sp__nav__comp{
+	display: none !important;
+}

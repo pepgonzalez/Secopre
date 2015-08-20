@@ -1,0 +1,85 @@
+<queries>
+	<getConversations>
+		<![CDATA[
+			SELECT * FROM (
+				SELECT 'OUT' AS dir, 
+					   CM.MESSAGE_ID msgId, 
+					   CM.CONVERSATION_ID cId,
+					   CM.USER_TO userId,
+					   U.USERNAME userName,
+					   IFNULL(U.AVATAR, 'avatar.png') avatar,
+					   CM.MESSAGE msg,
+					   CM.ESTATUS status,
+					   CM.CREATION_DATE creationDate
+				  FROM SECOPRE.CHAT_CONVERSATION CC,
+				  	   SECOPRE.CHAT_MESSAGE CM,
+				  	   SECOPRE.USER U
+				 WHERE CC.USER_ID = 1
+				   AND CC.CONVERSATION_ID = CM.CONVERSATION_ID
+				   AND CM.CREATION_DATE = (SELECT MAX(CREATION_DATE) FROM SECOPRE.CHAT_MESSAGE WHERE CONVERSATION_ID = CM.CONVERSATION_ID)
+				   AND CM.USER_FROM = CC.USER_ID
+				   AND CM.USER_TO = U.ID
+				   AND CM.ACTIVE = 1
+				UNION
+				SELECT 'IN' AS dir, 
+					   CM.MESSAGE_ID msgId, 
+					   CM.CONVERSATION_ID cId,
+					   CM.USER_FROM userId,
+					   U.USERNAME userName,
+					   IFNULL(U.AVATAR, 'avatar.png') avatar,
+					   CM.MESSAGE msg,
+					   CM.ESTATUS status,
+					   CM.CREATION_DATE creationDate
+				  FROM SECOPRE.CHAT_CONVERSATION CC,
+				  	   SECOPRE.CHAT_MESSAGE CM,
+				  	   SECOPRE.USER U
+				 WHERE CC.USER_ID = 1
+				   AND CC.CONVERSATION_ID = CM.CONVERSATION_ID
+				   AND CM.CREATION_DATE = (SELECT MAX(CREATION_DATE) FROM SECOPRE.CHAT_MESSAGE WHERE CONVERSATION_ID = CM.CONVERSATION_ID)
+				   AND CM.USER_TO = CC.USER_ID
+				   AND CM.USER_FROM = U.ID
+				   AND CM.ACTIVE = 1
+				) T ORDER BY T.creationDate DESC	
+		]]>
+	</getConversations>
+	<updateSeen>
+		<![CDATA[
+			UPDATE SECOPRE.CHAT_MESSAGE
+			   SET ESTATUS = 1,
+			   	   LAST_UPDATE = SYSDATE()
+			 WHERE ESTATUS = 0
+			   AND CONVERSATION_ID = ? 
+		]]>
+	</updateSeen>
+	<getConversation>
+		<![CDATA[
+			SELECT * FROM (
+				SELECT 'OUT' as direction,
+					   CM.USER_FROM userId,
+					   UF.USERNAME userName,
+					   IFNULL(UF.AVATAR, 'avatar.png') avatar,
+					   CM.MESSAGE msg,
+					   CM.ESTATUS status,
+					   CM.CREATION_DATE creationDate
+				  FROM SECOPRE.CHAT_MESSAGE CM,
+				  	   SECOPRE.USER UF
+				WHERE CM.CONVERSATION_ID = ?
+				  AND CM.USER_FROM = UF.ID
+				  AND UF.ID = ?
+				UNION
+				SELECT 'IN' as direction,
+					   CM.USER_TO userId,
+					   UT.USERNAME userName,
+					   IFNULL(UT.AVATAR, 'avatar.png') avatar,
+					   CM.MESSAGE msg,
+					   CM.ESTATUS status,
+					   CM.CREATION_DATE creationDate
+				  FROM SECOPRE.CHAT_MESSAGE CM,
+				  	   SECOPRE.USER UT
+				WHERE CM.CONVERSATION_ID = ?
+				  AND CM.USER_FROM = UT.ID
+				  AND CM.USER_TO = ?
+				) t ORDER BY t.creationDate
+		]]>
+	</getConversation>
+</queries>
