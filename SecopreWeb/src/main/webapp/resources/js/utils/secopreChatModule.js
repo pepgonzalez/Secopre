@@ -228,3 +228,20 @@ $(document).on('click','.page-quick-sidebar-toggler',function (e) {
     Metronic.unblockUI('.page-container');
     Metronic.unblockUI('.page-header');
 });
+
+
+/*evento para mostrar la conversacion desde el panel lateral de conversaciones*/
+$(document).on('click', '.page-quick-sidebar-chat-users .media-list > .media', function () {
+	console.log("click en media");
+    $('.page-quick-sidebar-chat').addClass("page-quick-sidebar-content-item-shown");
+    
+    var userId = $(this).attr("data-userId");
+    var userName = $(this).attr("data-userName");
+    
+    $('.sp__nav__basic').css("cssText", "display: none !important;");
+    var complexNav = $('.sp__nav__comp');
+    complexNav.css("cssText", "display: table-cell !important;");
+    complexNav.find('a').html(userName);
+    
+    $('.post.in .message .name').empty().html(userName);
+});
