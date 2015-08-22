@@ -608,13 +608,7 @@
 								<!-- template de conversaciones -->
 								<template id="conversation_template">
 									<li data-conversation class="media" data-userId="" data-userName="">
-										<div data-status class="media-status">
-											<!--  
-											<span class="badge badge-danger">1</span>
-											<i class="fa fa-share"></i>
-											<i class="fa fa-check"></i>
-											 -->
-										</div>
+										<div data-cStatus class="media-status"></div>
 										<img data-avatar class="media-object" src="" alt="" style="max-width:50px!important;max-height:50px!important;">
 										<div class="media-body">
 											<h4 data-user class="media-heading"></h4>
@@ -763,10 +757,14 @@
 						<!-- contenedor de chat per se -->
 						<div class="page-quick-sidebar-item">
 							<div class="page-quick-sidebar-chat-user">
+								
 								<!-- boton de regresar -->
 								<div class="page-quick-sidebar-nav">
-									<a href="javascript:;" class="page-quick-sidebar-back-to-list"><i class="icon-arrow-left"></i>Regresar</a>
+									<a href="javascript:;" id="chatReturnButton" class="page-quick-sidebar-back-to-list">
+										<i class="icon-arrow-left"></i>Regresar
+									</a>
 								</div>
+								
 								<!-- listado de mensajes -->
 								<div id="chat_container" class="page-quick-sidebar-chat-user-messages">
 								</div>
