@@ -37,6 +37,13 @@ var SecopreChat = function(config){
             res.json(r);
         });
     });
+
+    this.expressServer.get('/v1/chat/getFrecuentUsers/:userId', function(req, res){
+        var userId = req.params.userId;
+        DB.processQuery("getFrecuentUsers", [userId], function(r){
+            res.json(r);
+        });
+    });
     
 };
 

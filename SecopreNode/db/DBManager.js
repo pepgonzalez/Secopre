@@ -42,7 +42,68 @@ var DBManager = function(config){
                 callback(resultado);
             });
         });
-	}
+	};
+
+    this.processMultipleQuery = function (key, params, aditionalParams, callback){
+        DBPool.getConnection(function (error, connection){
+            if (error){
+                connection.release();
+                console.log("Error al obtener la connexion");
+                callback({});
+            }
+            var q = QueryManager.getQuery(key);
+
+            
+            var data = {};
+            var d2 = [];
+            
+
+            var clients = params.length;
+
+            console.log("usuarios conectados: " + clients);
+
+            for (var i = 0; i < params.length; i ++){
+
+                var param = params[i];
+
+                function getParams(a, b){
+                    var array = [];
+                    array.push(a);
+                    for (var m=0; m < b.length; m++){
+                        array.push(b[i]);
+                    }
+                    return array;
+                }
+
+                console.log("parametro en iteracion");
+                console.log(param);
+                console.log("Parametros:");
+                var p = getParams(param, aditionalParams);
+                console.log(p);
+
+                connection.query(q, p, function(error, resultado){
+                    if (error){
+                        console.log("error de consulta en query: " + error);
+                        callback({});
+                    }
+                    console.log("Resultado de query");
+                    console.log(resultado);
+                    _cb(resultado);
+                });
+
+                function _cb(r){
+                    if(r.length > 0){
+                        d2.push(r[0]);
+                    }
+                    console.log("valor de iteracion: " + i);
+                    if ( i == params.length){
+                        console.log("terminando loop");
+                        callback(d2);
+                    }
+                }
+            }
+        });
+    };
 }
 
 module.exports = DBManager;

@@ -189,10 +189,13 @@ var SecopreChat = function(){
 	 */
 	var _processAllConversations = function(r){
 		
-		$('body').toggleClass('page-quick-sidebar-open'); 
-	    //bloqueo de pantalla
-	    Metronic.blockUI({ target: '.page-container', textOnly: true,  message: '' });
-	    Metronic.blockUI({ target: '.page-header', textOnly: true, message: '' });
+		if (!($('body').hasClass('page-quick-sidebar-open'))){
+			
+			$('body').addClass('page-quick-sidebar-open'); 
+			//bloqueo de pantalla
+		    Metronic.blockUI({ target: '.page-container', textOnly: true,  message: '' });
+		    Metronic.blockUI({ target: '.page-header', textOnly: true, message: '' });
+		};
 		
 		//se oculta leyenda "no existen mensajes"
 		if (r.length > 0){ 
@@ -266,14 +269,53 @@ var SecopreChat = function(){
 	    return conversation;
 	}
 	
+	var _processFrecuentUsers = function(r){
+
+		if(r.length > 0){
+			$('#NoFrecuentUsrsMsgs').hide();
+			$('#frecuent__users__list').empty();
+		}
+		
+		$.each(r, function(){
+			var element = _activateTemplate(utils.Constants.Templates.FRECUENT_USERS_TEMPLATE);
+			
+			var item = element.querySelector("[data-frecuentUser]");
+			
+			var $item = $(item);
+			$item.attr('data-userId', this.userId);
+			$item.attr('data-userName', this.userName);
+			$item.attr('data-cId', this.cId);
+			
+			element.querySelector("[data-avatar]").src = utils.Constants.USER_BASE_PATH + this.avatar;
+			element.querySelector("[data-name]").innerHTML = this.userName;
+			element.querySelector("[data-employment]").innerHTML = this.employment;
+			
+			if(parseInt(this.online) == 0){
+				element.querySelector("[data-lastConnection]").innerHTML = utils.DateUtils.getUXDate(utils.DateUtils.getDateFromDBString(this.lastConnection));
+				$item.find('[data-online]').hide();
+			}
+			
+			$("#frecuent__users__list").append(element);
+		});	
+	};
+	
 	/************************************************************************************************************************
 	 	FUNCIONES PUBLICAS DEL SERVICIO CHAT
 	 ************************************************************************************************************************/
 	
 	/*funcion para cargar el popup*/
 	this.loadInitialData = function(){
+		/*carga informacion de popup*/
 		_getAjaxRequest("http://localhost:3000/v1/chat/getConversations/" + this.userId + "/0/6", _processInitialData);
+		/*carga informacion de usuarios frecuentes*/
+		this.loadFrecuentUsers();
 	};
+	
+	/*funcion para actualizar el estado de los usuarios frecuentes*/
+	this.loadFrecuentUsers = function(){
+		_getAjaxRequest("http://localhost:3000/v1/chat/getFrecuentUsers/" + this.userId , _processFrecuentUsers);
+	};
+	
 	
 	/*funcion para mostrar conversacion*/
 	this.loadConversation = function(c, source){
@@ -311,6 +353,9 @@ var SecopreChat = function(){
 		_addChatSource(source);
 	};
 	
+	this.loadActiveUsers = function(r){
+	};
+	
 	/************************************************************************************************************************
  		FUNCIONES DE SOCKET
 	 ************************************************************************************************************************/
@@ -318,11 +363,49 @@ var SecopreChat = function(){
 	this.initSocket = function(){
 		var data = {"userId" : this.userId};
 		this.socket = io.connect(utils.Constants.SOCKET_URL, {query :'data=' + JSON.stringify(data) });
-		alert("conectado al socket");
-		_loadSocketEvents(this.socket);
+		//_loadSocketEvents(this.socket);
+		
+		this.socket.on('load_active_users', function(r){
+			if(r.length > 0){
+				$('#not__online__users__msg').hide();
+				$('#online__users__list').empty();
+			}
+			
+			$.each(r, function(){
+				var element = _activateTemplate(utils.Constants.Templates.ONLINE_USER_TEMPLATE);
+				
+				var item = element.querySelector("[data-onlineUser]");
+				
+				var $item = $(item);
+				$item.attr('data-userId', this.userId);
+				$item.attr('data-userName', this.userName);
+				$item.attr('data-cId', this.cId);
+				
+				element.querySelector("[data-avatar]").src = utils.Constants.USER_BASE_PATH + this.avatar;
+				element.querySelector("[data-name]").innerHTML = this.userName;
+				element.querySelector("[data-employment]").innerHTML = this.employment;
+				
+				$("#online__users__list").append(element);
+			});	
+		});
+		
+		this.socket.on('chat_new_user', function(data){
+			console.log(data);
+		});
+		
+		this.socket.on('chat_user_leave', function(data){
+			console.log(data);
+		});
 	};
 
+	/*
 	var _loadSocketEvents = function(socket){
+		
+		socket.on('load_active_users', function(data){
+			alert("usuarios en linea obtenidos");
+			console.log(data);
+		});
+		
 		socket.on('chat_new_user', function(data){
 			alert("evento: chat_new_user");
 			console.log(data);
@@ -332,12 +415,8 @@ var SecopreChat = function(){
 			console.log(data);
 		});
 	};
+	*/
 }
-
-
-
-
-
 
 
 
@@ -381,13 +460,12 @@ $(document).on('click', '.sp__aux__view__all', function (e) {
 
 /*evento para controlar el click sobre el tab de conversaciones*/
 $(document).on('click', '#conversationTab', function(){
-	alert("click en tab de conversaciones");
 	Chat.loadAllConversations();
 });
 
 /*evento para controlar el click sobre el tab de usuarios*/
 $(document).on('click', '#userTab', function(){
-	alert("click en tab de usuarios");
+	Chat.loadFrecuentUsers();
 });
 
 /*evento para mostrar la conversacion desde el panel lateral de conversaciones*/
