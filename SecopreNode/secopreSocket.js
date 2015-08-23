@@ -20,7 +20,7 @@ var SecopreSocket = function(config){
 			DB.processQuery("finishUserConnection",[socket.id], function(r){
         	    console.log("ok");
         	    console.log(r);
-        	    socket.emit('chat_user_leave', {user: data.userId});
+        	    socket.broadcast.emit('chat_user_leave', {user: data.userId});
         	});
 
 		});
@@ -29,7 +29,7 @@ var SecopreSocket = function(config){
 		DB.processQuery("startUserConnection", [data.userId, socket.id], function(r){
             console.log("ok");
             console.log(r);
-            socket.emit('chat_new_user', {user: data.userId});
+            socket.broadcast.emit('chat_new_user', {user: data.userId});
         });
 	});
 }
