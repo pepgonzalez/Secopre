@@ -56,9 +56,9 @@ public class Role implements Persistible, GrantedAuthority {
     @NotAudited
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     @ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-    @JoinTable(name = "PERMISSION_ROLE",
-        joinColumns = {@JoinColumn(name="PERMISSION_ID")},
-        inverseJoinColumns = {@JoinColumn(name="ROLE_ID")}
+    @JoinTable(name = "ROLE_PERMISSION",
+        joinColumns = {@JoinColumn(name="ROLE_ID")},
+        inverseJoinColumns = {@JoinColumn(name="PERMISSION_ID")}
     )
 	private List<Permission> permissions;
 

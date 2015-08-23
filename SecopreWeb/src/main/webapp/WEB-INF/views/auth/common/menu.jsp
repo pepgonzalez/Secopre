@@ -1,3 +1,5 @@
+<%@ include file="/WEB-INF/views/auth/common/springTags.jsp"%>
+
 	<!-- BEGIN SIDEBAR -->
 	<div class="page-sidebar-wrapper">
 		<!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
@@ -17,143 +19,29 @@
 					<span class="title">Mi Dashboard</span>
 					</a>
 				</li>
-				<li>
-					<a href="javascript:;">
-					<i class="icon-settings"></i>
-					<span class="title">Administracion</span>
-					<span class="arrow "></span>
-					</a>
-					<ul class="sub-menu">
-						<li>
-							<a href="javascript:;" onclick="sendRequestJQ('auth/adm/usrList','dashboard','initUserAdmin()');">
-							<i class="icon-home"></i>
-							Usuarios</a>
+				<c:forEach items="${menus}" var="itemMenu" varStatus="itemStatus">
+					<li>
+						<a href="javascript:;" onclick="${itemMenu.parent.jsFunction}">
+							<i class="${itemMenu.parent.cssClass}"></i>	
+							<span class="title">${itemMenu.parent.name}</span>	
 							<span class="arrow "></span>
-						</li>
-						<li>
-							<a href="javascript:;">
-							<i class="icon-basket"></i>
-							Configuracion Usuarios</a>
-						</li>
-					</ul>
-				</li>
-				<li>
-					<a href="javascript:;">
-					<i class="icon-layers"></i>
-					<span class="title">Catalogos</span>
-					<span class="arrow "></span>
-					</a>
-					<ul class="sub-menu">
-						<li>
-							<a href="javascript:;">
-							<span class="badge badge-warning">new</span>Mantenimiento
-							<span class="arrow "></span>
-							</a>
+						</a>	
+						<c:if test="${fn:length(itemMenu.childs) > 0}">
 							<ul class="sub-menu">
-								<li>
-									<a href="javascript:;">
-									<span class="title">Claves Programaticas</span>
-									</a>								
-								</li>
-								<li>
-									<a href="javascript:;">
-									<span class="title">Distritos</span>
-									</a>								
-								</li>
-								<li>
-									<a href="javascript:;">
-									<span class="title">Parametros de Impresion</span>
-									</a>								
-								</li>
-								<li>
-									<a href="javascript:;">
-									<span class="title">Partidas</span>
-									</a>								
-								</li>
-								<li>
-									<a href="javascript:;">
-									<span class="title">Partidas por Distrito</span>
-									</a>								
-								</li>																																
-							</ul>
-						</li>
-						<li>
-							<a href="layout_sidebar_fixed.html">
-							Operacion
-							<span class="arrow "></span>
-							</a>
-							<ul class="sub-menu">
-								<li>
-									<a href="javascript:;">
-									<span class="title">Gestion de Avisos</span>
-									</a>								
-								</li>
-								<li>
-									<a href="javascript:;">
-									<span class="title">Presupuesto Anual</span>
-									</a>								
-								</li>
-								<li>
-									<a href="javascript:;">
-									<span class="title">Personas</span>
-									</a>								
-								</li>																
-							</ul>
-						</li>
-					</ul>
-				</li>
-				<li>
-					<a href="javascript:;">
-					<i class="icon-puzzle"></i>
-					<span class="title">Modulos</span>
-					<span class="arrow "></span>
-					</a>
-					<ul class="sub-menu">
-						<li>
-							<a href="ui_general.html">
-							Calendarizacion de Saldos</a>
-						</li>
-						<li>
-							<a href="ui_buttons.html">
-							Movimientos</a>
-						</li>
-						<li>
-							<a href="ui_icons.html">
-							<span class="badge badge-danger">new</span>Rectificaciones</a>
-						</li>
-						<li>
-							<a href="ui_colors.html">
-							Gastos</a>
-						</li>
-					</ul>
-				</li>
-				<li>
-					<a href="javascript:;">
-					<i class="icon-notebook"></i>
-					<span class="title">Reportes</span>
-					<span class="arrow "></span>
-					</a>
-					<ul class="sub-menu">
-						<li>
-							<a href="components_pickers.html">
-							Reporteador</a>
-						</li>
-					</ul>
-				</li>
-				<li class="last ">
-					<a href="javascript:;">
-					<i class="icon-pointer"></i>
-					<span class="title">Directorio</span>
-					<span class="arrow "></span>
-					</a>
-					<ul class="sub-menu">
-						<li>
-							<a href="javascript:;" onclick="sendRequestJQ('auth/adm/directory','dashboard');">
-							Distritos</a>
-							<span class="arrow"></span>
-						</li>
-					</ul>
-				</li>
+								<c:forEach items="${itemMenu.childs}" var="itemSubMenu" varStatus="itemSubStatus">
+									<li>
+										<a href="javascript:;" onclick="${itemSubMenu.jsFunction}">
+										<i class="${itemSubMenu.cssClass}">
+										</i>${itemSubMenu.name}</a>
+										<c:if test="${itemSubStatus.index == 0}">
+											<span class="arrow "></span>
+										</c:if>
+									</li>								
+								</c:forEach>
+							</ul>														
+						</c:if>							
+					</li>
+				</c:forEach>
 			</ul>
 			<!-- END SIDEBAR MENU -->
 		</div>

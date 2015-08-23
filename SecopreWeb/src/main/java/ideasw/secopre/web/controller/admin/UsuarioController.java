@@ -1,6 +1,7 @@
 package ideasw.secopre.web.controller.admin;
 
 import ideasw.secopre.model.security.User;
+import ideasw.secopre.service.AccessService;
 import ideasw.secopre.utils.encryption.Encryption;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
@@ -8,6 +9,9 @@ import ideasw.secopre.web.controller.base.AuthController;
 import java.security.Principal;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -33,6 +37,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller
 public class UsuarioController extends AuthController {
+
+	@Autowired
+	private AccessService accessService;
 
 	@RequestMapping(value = "adm/usrList", method = { RequestMethod.GET,
 			RequestMethod.POST })
@@ -76,13 +83,17 @@ public class UsuarioController extends AuthController {
 	}
 
 	@RequestMapping(value = "start")
-	public String home(ModelMap model, Principal principal) {
+	public String home(ModelMap model, Principal principal,
+			HttpServletRequest request) {
 		String name = principal.getName(); // get logged in username
 		model.addAttribute("username", name);
-	    
-	    User loggedUser =  baseService.findByProperty(User.class, "username", name ).get(0);
-	    model.addAttribute("loggedUser", loggedUser);
-	    
+		// Se colocan los menus del usuario en session
+		request.getSession().setAttribute("menus",
+				accessService.getMenuByUserName(name));
+		User loggedUser = baseService.findByProperty(User.class, "username",
+				name).get(0);
+		model.addAttribute("loggedUser", loggedUser);
+
 		return SecopreConstans.AUTH_INDEX;
 	}
 }

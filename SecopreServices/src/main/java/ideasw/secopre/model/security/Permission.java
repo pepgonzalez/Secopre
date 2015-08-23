@@ -2,12 +2,14 @@ package ideasw.secopre.model.security;
 
 import ideasw.secopre.model.Persistible;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -36,8 +38,25 @@ public class Permission implements Persistible {
 
 	@Column(name = "NAME", unique = true)
 	@Size(max = 50)
-	private String name;
+	private String name;	
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	private Menu menu;
+	
 
+	/**
+	 * @return the menu
+	 */
+	public Menu getMenu() {
+		return menu;
+	}
+
+	/**
+	 * @param menu the menu to set
+	 */
+	public void setMenu(Menu menu) {
+		this.menu = menu;
+	}
 
 	/**
 	 * @return the id
