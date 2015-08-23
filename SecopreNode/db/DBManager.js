@@ -30,7 +30,6 @@ var DBManager = function(config){
             }
 
             var q = QueryManager.getQuery(key);
-            console.log("consulta a realizar " + q );
             //si todo ok, tiro mi query
             connection.query(q, params, function(error, resultado){
                 connection.release();
@@ -40,7 +39,6 @@ var DBManager = function(config){
                     return;
                 }
                 //ejecutamos el callback con el
-                console.log("se ejecuta callback con los resultados");
                 callback(resultado);
             });
         });

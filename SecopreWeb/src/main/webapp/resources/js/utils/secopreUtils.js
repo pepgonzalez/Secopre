@@ -80,7 +80,8 @@ SecopreUtils = function(){
 			Templates: {
 				INBOX_TEMPLATE : "#inbox__popup__message__template",
 				CONVERSATION_TEMPLATE: "#conversation_template"
-			}
+			},
+			SOCKET_URL : 'http://localhost:3000/'
 	}
 	
 }

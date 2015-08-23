@@ -1,6 +1,4 @@
-/**
-Core script to handle the entire theme and core functions
-**/
+
 var QuickSidebar = function () {
 
     // Handles quick sidebar toggler
@@ -144,8 +142,7 @@ var QuickSidebar = function () {
             
             //var chatMessagesHeight = chatUsersHeight - wrapperChat.find('.page-quick-sidebar-chat-user-form').outerHeight() - wrapperChat.find('.page-quick-sidebar-nav').outerHeight();
             var chatMessagesHeight = chatUsersHeight - $form.outerHeight() - $nav.outerHeight();
-            
-            
+                        
             // user chat messages 
             Metronic.destroySlimScroll(chatMessages);
             chatMessages.attr("data-height", chatMessagesHeight);
@@ -156,6 +153,8 @@ var QuickSidebar = function () {
         Metronic.addResizeHandler(initChatSlimScroll); // reinitialize on window resize
 
         //Levanta la pestaña de chat al dar click en el cualquier media
+        
+        /*
         wrapper.find('.page-quick-sidebar-chat-users .media-list > .media').click(function () {
         	console.log("click en media");
             wrapperChat.addClass("page-quick-sidebar-content-item-shown");
@@ -168,16 +167,17 @@ var QuickSidebar = function () {
             complexNav.css("cssText", "display: table-cell !important;");
             complexNav.find('a').html(userName);
             
-            $('.post.in .message .name').empty().html(userName);
-            
-            
+            $('.post.in .message .name').empty().html(userName);           
         });
+        */
 
+        /*
         wrapper.find('.page-quick-sidebar-chat-user .page-quick-sidebar-back-to-list').click(function () {
             wrapperChat.removeClass("page-quick-sidebar-content-item-shown");
             $('.sp__nav__basic').css("cssText", "display: table-cell !important;");
             $('.sp__nav__comp').css("cssText", "display: none !important;");
         });
+        */
 
         var handleChatMessagePost = function (e) {
             e.preventDefault();
@@ -307,8 +307,8 @@ var QuickSidebar = function () {
             //layout handlers
             //handleQuickSidebarToggler(); // handles quick sidebar's toggler
             handleQuickSidebarChat(); // handles quick sidebar's chats
-            handleQuickSidebarAlerts(); // handles quick sidebar's alerts
-            handleQuickSidebarSettings(); // handles quick sidebar's setting
+            //handleQuickSidebarAlerts(); // handles quick sidebar's alerts
+            //handleQuickSidebarSettings(); // handles quick sidebar's setting
             //handleChatPopup();
         }
     };

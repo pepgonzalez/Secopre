@@ -581,15 +581,20 @@
 			<div class="page-quick-sidebar">
 				<div class="nav-justified">
 					<ul class="nav nav-tabs nav-justified" id="sp__nav__list">
+						
+						<!-- tabs del menu de conversaciones y usuarios -->
 						<li class="active sp__nav__basic" >
-							<a href="#quick_sidebar_tab_1" data-toggle="tab">Conversaciones<span class="badge badge-danger">1</span></a>
+							<a id="conversationTab" href="#quick_sidebar_tab_1" data-toggle="tab">Conversaciones<span id="pndConvCounter" class="badge badge-danger">1</span></a>
 						</li>
 						<li class="sp__nav__basic">
-							<a href="#quick_sidebar_tab_2" data-toggle="tab">Usuarios</a>
+							<a id="userTab" href="#quick_sidebar_tab_2" data-toggle="tab">Usuarios</a>
 						</li>
+						
+						<!-- encabezado de apartado de chat -->
 						<li class="active sp__nav__comp" style="display:none !important;">
-							<a href="#quick_sidebar_tab_2" data-toggle="tab">Usuario 1</a>
+							<a href="#quick_sidebar_tab_2" data-toggle="tab"></a>
 						</li>
+						
 					</ul>
 					<div class="tab-content">
 						<!-- div de conversaciones -->
@@ -598,26 +603,20 @@
 							<!-- listado de conversaciones -->
 							<div class="page-quick-sidebar-chat-users" data-rail-color="#ddd" data-wrapper-class="page-quick-sidebar-list">
 								<ul id="all_conversations_container" class="media-list list-items">
-										<li id="no_conversations_msg">No hay conversaciones</li>
-									
-									<template id="conversation_template">
-										<li data-conversation class="media" data-userId="" data-userName="">
-											<div data-status class="media-status">
-												<!--  
-												<span class="badge badge-danger">1</span>
-												<i class="fa fa-share"></i>
-												<i class="fa fa-check"></i>
-												 -->
-											</div>
-											<img data-avatar class="media-object" src="" alt="" style="max-width:50px!important;max-height:50px!important;">
-											<div class="media-body">
-												<h4 data-user class="media-heading"></h4>
-												<div data-msg class="date"></div>
-												<div data-time class="media-heading-small"></div>
-											</div>
-										</li>
-									</template>									
+										<li id="no_conversations_msg">No hay conversaciones</li>								
 								</ul>
+								<!-- template de conversaciones -->
+								<template id="conversation_template">
+									<li data-conversation class="media" data-userId="" data-userName="">
+										<div data-cStatus class="media-status"></div>
+										<img data-avatar class="media-object" src="" alt="" style="max-width:50px!important;max-height:50px!important;">
+										<div class="media-body">
+											<h4 data-user class="media-heading"></h4>
+											<div data-msg class="date"></div>
+											<div data-time class="media-heading-small"></div>
+										</div>
+									</li>
+								</template>	
 							</div>
 						</div>
 					
@@ -758,10 +757,14 @@
 						<!-- contenedor de chat per se -->
 						<div class="page-quick-sidebar-item">
 							<div class="page-quick-sidebar-chat-user">
+								
 								<!-- boton de regresar -->
 								<div class="page-quick-sidebar-nav">
-									<a href="javascript:;" class="page-quick-sidebar-back-to-list"><i class="icon-arrow-left"></i>Regresar</a>
+									<a href="javascript:;" id="chatReturnButton" class="page-quick-sidebar-back-to-list">
+										<i class="icon-arrow-left"></i>Regresar
+									</a>
 								</div>
+								
 								<!-- listado de mensajes -->
 								<div id="chat_container" class="page-quick-sidebar-chat-user-messages">
 								</div>

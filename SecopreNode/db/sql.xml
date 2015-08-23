@@ -82,4 +82,24 @@
 				) t ORDER BY t.creationDate
 		]]>
 	</getConversation>
+
+	<startUserConnection>
+		<![CDATA[
+			INSERT INTO SECOPRE.REL_USER_CONNECTION (USER_ID, SOCKET_ID, CREATION_DATE, LAST_UPDATE, ACTIVE)
+VALUES (?, ?, SYSDATE(), SYSDATE(), 1)
+ON DUPLICATE KEY 
+UPDATE SOCKET_ID = VALUES(SOCKET_ID),
+	   LAST_UPDATE = VALUES(LAST_UPDATE),
+	   ACTIVE = VALUES(ACTIVE)
+		]]>
+	</startUserConnection>
+
+	<finishUserConnection>
+		<![CDATA[
+			UPDATE SECOPRE.REL_USER_CONNECTION
+			SET LAST_UPDATE = SYSDATE(),
+				ACTIVE = 0
+			WHERE SOCKET_ID = ?
+		]]>
+	</finishUserConnection>
 </queries>
