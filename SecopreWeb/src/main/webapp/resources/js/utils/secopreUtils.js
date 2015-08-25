@@ -83,7 +83,10 @@ SecopreUtils = function(){
 				FRECUENT_USERS_TEMPLATE : "#frecuent_users_template",
 				ONLINE_USER_TEMPLATE : "#onlineUserTemplate"
 			},
-			SOCKET_URL : 'http://localhost:3000/'
+			SOCKET_URL : 'http://localhost:3000/',
+			Api : {
+				BASE : 'http://localhost:3000/v1/chat/'
+			}
 	}
 	
 }
