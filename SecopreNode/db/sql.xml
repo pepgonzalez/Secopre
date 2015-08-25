@@ -180,4 +180,9 @@ UPDATE SOCKET_ID = VALUES(SOCKET_ID),
 		]]>
 	</existConversation>
 
+	<startConversation>
+		<![CDATA[
+			CALL SECOPRE.START_CONVERSATION(?,?,@cId); SELECT @cId AS cId;
+		]]>
+	</startConversation>
 </queries>

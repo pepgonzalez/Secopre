@@ -18,7 +18,7 @@ var SecopreChat = function(config){
         var fromP = req.params.from;
         var toP = req.params.to;
         
-        DB.processQuery("getConversations", [usrId, parseInt(fromP), parseInt(toP)], function(r){
+        DB.processQuery("getConversations", [usrId, usrId, parseInt(fromP), parseInt(toP)], function(r){
             res.json(r);
         });
     });
@@ -43,8 +43,27 @@ var SecopreChat = function(config){
         DB.processQuery("getFrecuentUsers", [userId], function(r){
             res.json(r);
         });
+    });  
+
+
+    /*valida si existe una conversacion*/
+    this.expressServer.get('/v1/chat/getConversationId/:userId/:contactId', function(req, res){
+        var userId = req.params.userId;
+        var contactId = req.params.contactId;
+        DB.processQuery("existConversation", [userId, contactId], function(r){
+            res.json(r);
+        });
+    });  
+
+    /*proceso para crear un registro en la tabla de conversaciones*/
+    this.expressServer.get('/v1/chat/createConversation/:u1/:u2', function(req, res){
+        var u1 = req.params.u1;
+        var u2 = req.params.u2;
+
+        DB.processQuery('startConversation', [u1, u2], function(r){
+            res.json(r[1][0]);
+        });
     });
-    
 };
 
 module.exports = SecopreChat;

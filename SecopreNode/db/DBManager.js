@@ -6,7 +6,8 @@ var DBPool =  mysql.createPool({
         user     : 'root',
         password : 'root',
         database : 'secopre',
-        debug    :  false
+        debug    :  false,
+        multipleStatements: true
     });
 
 var Q = require('./SQLManager');
@@ -75,19 +76,13 @@ var DBManager = function(config){
                     return array;
                 }
 
-                console.log("parametro en iteracion");
-                console.log(param);
-                console.log("Parametros:");
                 var p = getParams(param, aditionalParams);
-                console.log(p);
-
+                
                 connection.query(q, p, function(error, resultado){
                     if (error){
                         console.log("error de consulta en query: " + error);
                         callback({});
                     }
-                    console.log("Resultado de query");
-                    console.log(resultado);
                     _cb(resultado);
                 });
 
@@ -95,9 +90,7 @@ var DBManager = function(config){
                     if(r.length > 0){
                         d2.push(r[0]);
                     }
-                    console.log("valor de iteracion: " + i);
                     if ( i == params.length){
-                        console.log("terminando loop");
                         callback(d2);
                     }
                 }
