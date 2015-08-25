@@ -97,13 +97,22 @@ var SecopreChat = function(){
 	/*
 	 * funcion privada para actualizar el estatus del encabezado del sidebar 
 	 */
-	var _updateSideBarHeader = function(type, name){
+	var _updateSideBarHeader = function(type, name, cId, userId){
 		if (type = 'chat'){
 			$('.page-quick-sidebar-wrapper').find('.page-quick-sidebar-chat').addClass("page-quick-sidebar-content-item-shown");
 	        $('.sp__nav__basic').css("cssText", "display: none !important;");
 	        var complexNav = $('.sp__nav__comp');
 	        complexNav.css("cssText", "display: table-cell !important;");
 	        complexNav.find('a').html(name);
+	        complexNav.attr('cId', cId);
+	        complexNav.attr('userId', userId);
+		}else{
+			$('.sp__nav__basic').css("cssText", "display: table-cell !important;");
+	    	var complexNav = $('.sp__nav__comp');
+	        complexNav.css("cssText", "display: none !important;");
+	        complexNav.find('a').html('');
+	        complexNav.attr('cId', '');
+	        complexNav.attr('userId', '');
 		}
 	}
 	
@@ -147,7 +156,7 @@ var SecopreChat = function(){
 		
 		$("#chat_container").empty();
 		
-		_updateSideBarHeader('chat', c.userName);
+		_updateSideBarHeader('chat', c.userName, c.Id, c.userId);
         
         $('.post.in .message .name').empty().html(c.userName);
         
@@ -345,6 +354,7 @@ var SecopreChat = function(){
 			_getAjaxRequest(url, function(r){
 				conv.id = r.cId;
 				$(c).attr('data-cId', r.cId);
+				self.socket.emit('new_cId', {"cId": r.cId, "me" : me, "userId": usr});
 				_updateSeen(conv, _processConversation);
 			});
 		}else{
@@ -362,8 +372,7 @@ var SecopreChat = function(){
 	/*funcion para cerrar conversacion*/
 	this.closeConversation = function(){
 		$('.page-quick-sidebar-wrapper .page-quick-sidebar-chat').removeClass("page-quick-sidebar-content-item-shown");
-	    $('.sp__nav__basic').css("cssText", "display: table-cell !important;");
-	    $('.sp__nav__comp').css("cssText", "display: none !important;");
+	    _updateSideBarHeader('conv', null, null, null);
 	};
 	
 	this.closeLateralPanel = function(){
@@ -378,6 +387,16 @@ var SecopreChat = function(){
 	};
 	
 	this.loadActiveUsers = function(r){
+	};
+
+	this.sendMessage = function(e){
+		e.preventDefault();
+		var msg = $('.page-quick-sidebar-chat-user-form .form-control').val();
+		console.log("mensaje:" + msg);
+		var cId = $('.sp__nav__comp').attr('cId');
+		console.log("conversation id: " + cId);
+		var userId = $('.sp__nav__comp').attr('userId');
+		console.log("user id: " + userId );
 	};
 	
 	/************************************************************************************************************************
@@ -476,6 +495,10 @@ var SecopreChat = function(){
 				$('#not__online__users__msg').hide();
 			}
 		});
+
+		this.socket.on('complement_cId', function(data){
+			$('[data-onlineUser][data-userId="'+ data.userId +'"]').attr('cId', data.cId);
+		});
 	};
 }
 
@@ -552,4 +575,20 @@ $('.page-quick-sidebar-chat-user .page-quick-sidebar-back-to-list').click(functi
 	if (source == "popup"){
 		Chat.closeLateralPanel();
 	}
+});
+
+/*-----------------------------------------------------------------------------------------
+Evento al enviar un msj
+------------------------------------------------------------------------------------------*/
+$(document).on('click','.page-quick-sidebar-chat-user-form .btn', function(e){
+	console.log("enviando msg");
+	Chat.sendMessage(e);
+});
+
+$('.page-quick-sidebar-chat-user-form .form-control').keypress(function (e) {
+	if (e.which == 13) {
+		console.log("enviando msg");
+        Chat.sendMessage(e);
+        return false;
+    }
 });

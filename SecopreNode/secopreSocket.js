@@ -30,6 +30,28 @@ var SecopreSocket = function(config){
 
 		});
 
+		/*evento y funcion para notificar cuando se creó una conversacion*/
+		function newConversationNotification(r){
+			var cId = r.cId;
+			var me = r.me;
+			var userId = r.userId;
+			//preguntamos si el usuario esta activo
+			//si esta activo, le notificamos para actualice el valor del elemento en el panel de usuarios en linea
+			DB.processQuery('isUserOnline', [userId], function(r){
+				if (r[0].active == 1){
+					io.to(r[0].socketId).emit('new_conversation', {"cId":cId, "userId": me});
+				}
+			});
+		};
+
+		socket.on('complement_cId', newConversationNotification);
+
+		/*----------------------------------
+			fin de definicion de eventos
+		------------------------------------*/
+
+
+
 		//se inicia la conexion
 		DB.processQuery("startUserConnection", [data.userId, socket.id], pushConnectedUsers);
 
@@ -48,7 +70,9 @@ var SecopreSocket = function(config){
 					connectedSockets.push(socketId);
 				};
 				
-				DB.processMultipleQuery("getActiveUsers", connectedSockets, [data.userId, data.userId], function(r){
+				DB.processMultipleQuery("getActiveUsersV2", connectedSockets, [data.userId, data.userId], function(r){
+					console.log("usuarios conectados:");
+					console.log(r);
 	            	socket.emit('load_active_users', r);
 				});
 	        });
