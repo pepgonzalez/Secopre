@@ -3,7 +3,7 @@ utils = new SecopreUtils();
 
 /*modulo de chat*/
 var SecopreChat = function(){
-	
+	var self = this;
 	/* propiedades internas del modulo */
 	this.userId = -1;
 	this.socket = {};
@@ -97,15 +97,22 @@ var SecopreChat = function(){
 	/*
 	 * funcion privada para actualizar el estatus del encabezado del sidebar 
 	 */
-	var _updateSideBarHeader = function(type, name){
+	var _updateSideBarHeader = function(type, name, cId, userId){
 		if (type = 'chat'){
 			$('.page-quick-sidebar-wrapper').find('.page-quick-sidebar-chat').addClass("page-quick-sidebar-content-item-shown");
 	        $('.sp__nav__basic').css("cssText", "display: none !important;");
 	        var complexNav = $('.sp__nav__comp');
 	        complexNav.css("cssText", "display: table-cell !important;");
 	        complexNav.find('a').html(name);
+	        complexNav.attr('cId', cId);
+	        complexNav.attr('userId', userId);
 		}else{
-			console.log("reversa");
+			$('.sp__nav__basic').css("cssText", "display: table-cell !important;");
+	    	var complexNav = $('.sp__nav__comp');
+	        complexNav.css("cssText", "display: none !important;");
+	        complexNav.find('a').html('');
+	        complexNav.attr('cId', '');
+	        complexNav.attr('userId', '');
 		}
 	}
 	
@@ -149,7 +156,7 @@ var SecopreChat = function(){
 		
 		$("#chat_container").empty();
 		
-		_updateSideBarHeader('chat', c.userName);
+		_updateSideBarHeader('chat', c.userName, c.Id, c.userId);
         
         $('.post.in .message .name').empty().html(c.userName);
         
@@ -189,10 +196,13 @@ var SecopreChat = function(){
 	 */
 	var _processAllConversations = function(r){
 		
-		$('body').toggleClass('page-quick-sidebar-open'); 
-	    //bloqueo de pantalla
-	    Metronic.blockUI({ target: '.page-container', textOnly: true,  message: '' });
-	    Metronic.blockUI({ target: '.page-header', textOnly: true, message: '' });
+		if (!($('body').hasClass('page-quick-sidebar-open'))){
+			
+			$('body').addClass('page-quick-sidebar-open'); 
+			//bloqueo de pantalla
+		    Metronic.blockUI({ target: '.page-container', textOnly: true,  message: '' });
+		    Metronic.blockUI({ target: '.page-header', textOnly: true, message: '' });
+		};
 		
 		//se oculta leyenda "no existen mensajes"
 		if (r.length > 0){ 
@@ -203,9 +213,6 @@ var SecopreChat = function(){
 		//iteracion sobre los resultados
 		$.each(r, function(){
 			var element = _activateTemplate(utils.Constants.Templates.CONVERSATION_TEMPLATE);
-			
-			console.log(element);
-			console.log(this);
 			
 			element.querySelector("[data-user]").innerHTML = this.userName;
 			element.querySelector("[data-time]").innerHTML = utils.DateUtils.getUXDate(utils.DateUtils.getDateFromDBString(this.creationDate));		
@@ -266,25 +273,94 @@ var SecopreChat = function(){
 	    return conversation;
 	}
 	
+	var _processFrecuentUsers = function(r){
+
+		if(r.length > 0){
+			$('#NoFrecuentUsrsMsgs').hide();
+			$('#frecuent__users__list').empty();
+		}
+		
+		$.each(r, function(){
+			var element = _activateTemplate(utils.Constants.Templates.FRECUENT_USERS_TEMPLATE);
+			
+			var item = element.querySelector("[data-frecuentUser]");
+			
+			var $item = $(item);
+			$item.attr('data-userId', this.userId);
+			$item.attr('data-userName', this.userName);
+			$item.attr('data-cId', this.cId);
+			
+			element.querySelector("[data-avatar]").src = utils.Constants.USER_BASE_PATH + this.avatar;
+			element.querySelector("[data-name]").innerHTML = this.userName;
+			element.querySelector("[data-employment]").innerHTML = this.employment;
+			
+			if(parseInt(this.online) == 0){
+				element.querySelector("[data-lastConnection]").innerHTML = utils.DateUtils.getUXDate(utils.DateUtils.getDateFromDBString(this.lastConnection));
+				$item.find('[data-online]').hide();
+			}
+			
+			$("#frecuent__users__list").append(element);
+		});	
+	};
+	
+	var _updateFrecuentUserstatus = function(userId, online){
+		var frecuentUsersList = document.querySelector('#frecuent__users__list');
+		
+		var element = frecuentUsersList.querySelector('[data-userId="'+userId+'"]');
+		if(online){
+			$(element).find('[data-online]').show();
+			$(element).find('[data-lastConnection]').hide();
+		}else{
+			$(element).find('[data-online]').hide();
+			$(element).find('[data-lastConnection]').show();
+			$(element).find('[data-lastConnection]').html('Justo Ahora');
+		}
+	};
+	
 	/************************************************************************************************************************
 	 	FUNCIONES PUBLICAS DEL SERVICIO CHAT
 	 ************************************************************************************************************************/
 	
 	/*funcion para cargar el popup*/
 	this.loadInitialData = function(){
+		/*carga informacion de popup*/
 		_getAjaxRequest("http://localhost:3000/v1/chat/getConversations/" + this.userId + "/0/6", _processInitialData);
+		/*carga informacion de usuarios frecuentes*/
+		this.loadFrecuentUsers();
 	};
+	
+	/*funcion para actualizar el estado de los usuarios frecuentes*/
+	this.loadFrecuentUsers = function(){
+		_getAjaxRequest("http://localhost:3000/v1/chat/getFrecuentUsers/" + this.userId , _processFrecuentUsers);
+	};
+	
 	
 	/*funcion para mostrar conversacion*/
 	this.loadConversation = function(c, source){
-		
 		if (!($('body').hasClass('page-quick-sidebar-open'))){
 			$('body').toggleClass('page-quick-sidebar-open');
 		}
 	
 		var conv = _getConversationObject(c);
 		conv.source = source;
-	    _updateSeen(conv, _processConversation);	    
+		
+		
+		if(conv.id == -1){
+			//se crea la conversacion
+			var me = this.userId;
+			var usr = conv.userId;
+			var url = "http://localhost:3000/v1/chat/createConversation/" + me + "/" + usr;
+			
+			_getAjaxRequest(url, function(r){
+				conv.id = r.cId;
+				$(c).attr('data-cId', r.cId);
+				self.socket.emit('new_cId', {"cId": r.cId, "me" : me, "userId": usr});
+				_updateSeen(conv, _processConversation);
+			});
+		}else{
+			_updateSeen(conv, _processConversation);
+		}
+			    
 	};
 	
 	/*funcion para mostrar todas las conversaciones*/
@@ -296,8 +372,7 @@ var SecopreChat = function(){
 	/*funcion para cerrar conversacion*/
 	this.closeConversation = function(){
 		$('.page-quick-sidebar-wrapper .page-quick-sidebar-chat').removeClass("page-quick-sidebar-content-item-shown");
-	    $('.sp__nav__basic').css("cssText", "display: table-cell !important;");
-	    $('.sp__nav__comp').css("cssText", "display: none !important;");
+	    _updateSideBarHeader('conv', null, null, null);
 	};
 	
 	this.closeLateralPanel = function(){
@@ -311,6 +386,19 @@ var SecopreChat = function(){
 		_addChatSource(source);
 	};
 	
+	this.loadActiveUsers = function(r){
+	};
+
+	this.sendMessage = function(e){
+		e.preventDefault();
+		var msg = $('.page-quick-sidebar-chat-user-form .form-control').val();
+		console.log("mensaje:" + msg);
+		var cId = $('.sp__nav__comp').attr('cId');
+		console.log("conversation id: " + cId);
+		var userId = $('.sp__nav__comp').attr('userId');
+		console.log("user id: " + userId );
+	};
+	
 	/************************************************************************************************************************
  		FUNCIONES DE SOCKET
 	 ************************************************************************************************************************/
@@ -318,26 +406,101 @@ var SecopreChat = function(){
 	this.initSocket = function(){
 		var data = {"userId" : this.userId};
 		this.socket = io.connect(utils.Constants.SOCKET_URL, {query :'data=' + JSON.stringify(data) });
-		alert("conectado al socket");
-		_loadSocketEvents(this.socket);
-	};
-
-	var _loadSocketEvents = function(socket){
-		socket.on('chat_new_user', function(data){
-			alert("evento: chat_new_user");
-			console.log(data);
+		//_loadSocketEvents(this.socket);
+		
+		this.socket.on('load_active_users', function(r){
+			if(r.length > 0){
+				$('#not__online__users__msg').hide();
+				$('#online__users__list').empty();
+			}
+			
+			$.each(r, function(){
+				
+				var isFrecuentUser = $('[data-frecuentUser][data-userId="'+this.userId+'"]').length;
+				
+				if (isFrecuentUser){
+					_updateFrecuentUserstatus(this.userId, true);
+				}else{
+				
+					var element = _activateTemplate(utils.Constants.Templates.ONLINE_USER_TEMPLATE);
+					
+					var item = element.querySelector("[data-onlineUser]");
+					
+					var $item = $(item);
+					$item.attr('data-userId', this.userId);
+					$item.attr('data-userName', this.userName);
+					$item.attr('data-cId', this.cId);
+					
+					element.querySelector("[data-avatar]").src = utils.Constants.USER_BASE_PATH + this.avatar;
+					element.querySelector("[data-name]").innerHTML = this.userName;
+					element.querySelector("[data-employment]").innerHTML = this.employment;
+					
+					$("#online__users__list").append(element);
+					
+				}
+			});	
 		});
-		socket.on('chat_user_leave', function(data){
-			alert("evento: chat_user_leave");
-			console.log(data);
+		
+		this.socket.on('chat_new_user', function(data){
+			
+			var nUser = data[0].userId;
+			
+		    var url = "http://localhost:3000/v1/chat/getConversationId/" + self.userId + "/" + nUser;
+		    _getAjaxRequest(url, addNewUser);
+			
+			function addNewUser(r){
+				
+				var u = data[0];
+				var isFrecuentUser = $('[data-frecuentUser][data-userId="'+u.userId+'"]').length;
+				
+				if (isFrecuentUser == 1){
+				
+					_updateFrecuentUserstatus(u.userId, true);
+				
+				}else{
+		
+					var element = _activateTemplate(utils.Constants.Templates.ONLINE_USER_TEMPLATE);
+					var item = element.querySelector("[data-onlineUser]");
+					
+					var $item = $(item);
+					$item.attr('data-userId', u.userId);
+					$item.attr('data-userName', u.userName);
+					$item.attr('data-cId', r[0].cId);
+					
+					element.querySelector("[data-avatar]").src = utils.Constants.USER_BASE_PATH + u.avatar;
+					element.querySelector("[data-name]").innerHTML = u.userName;
+					element.querySelector("[data-employment]").innerHTML = u.employment;
+					
+					$("#online__users__list").append(element);
+				}
+				
+				if ($('[data-onlineUser]').length > 0){
+					$('#not__online__users__msg').hide();
+				}
+			}
+			
+		});
+		
+		this.socket.on('chat_user_leave', function(data){
+			
+			var isFrecuentUser = $('[data-frecuentUser][data-userId="'+data[0].userId+'"]').length;
+			
+			if (isFrecuentUser == 1){
+				_updateFrecuentUserstatus(data[0].userId, false);
+			}else{
+				$('[data-onlineUser][data-userId="'+ data[0].userId +'"]').remove();
+			}
+			
+			if ($('[data-onlineUser]').length > 0){
+				$('#not__online__users__msg').hide();
+			}
+		});
+
+		this.socket.on('complement_cId', function(data){
+			$('[data-onlineUser][data-userId="'+ data.userId +'"]').attr('cId', data.cId);
 		});
 	};
 }
-
-
-
-
-
 
 
 
@@ -381,13 +544,12 @@ $(document).on('click', '.sp__aux__view__all', function (e) {
 
 /*evento para controlar el click sobre el tab de conversaciones*/
 $(document).on('click', '#conversationTab', function(){
-	alert("click en tab de conversaciones");
 	Chat.loadAllConversations();
 });
 
 /*evento para controlar el click sobre el tab de usuarios*/
 $(document).on('click', '#userTab', function(){
-	alert("click en tab de usuarios");
+	Chat.loadFrecuentUsers();
 });
 
 /*evento para mostrar la conversacion desde el panel lateral de conversaciones*/
@@ -413,4 +575,20 @@ $('.page-quick-sidebar-chat-user .page-quick-sidebar-back-to-list').click(functi
 	if (source == "popup"){
 		Chat.closeLateralPanel();
 	}
+});
+
+/*-----------------------------------------------------------------------------------------
+Evento al enviar un msj
+------------------------------------------------------------------------------------------*/
+$(document).on('click','.page-quick-sidebar-chat-user-form .btn', function(e){
+	console.log("enviando msg");
+	Chat.sendMessage(e);
+});
+
+$('.page-quick-sidebar-chat-user-form .form-control').keypress(function (e) {
+	if (e.which == 13) {
+		console.log("enviando msg");
+        Chat.sendMessage(e);
+        return false;
+    }
 });

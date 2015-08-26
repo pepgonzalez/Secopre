@@ -625,132 +625,42 @@
 							<!-- usuarios -->
 							<div class="page-quick-sidebar-chat-users" data-rail-color="#ddd" data-wrapper-class="page-quick-sidebar-list">
 								<h3 class="list-heading">Contactos Frecuentes</h3>
-								<ul class="media-list list-items">
-									<li class="media" data-userId="1" data-userName="Usuario Frecuente 1">
-										<img class="media-object" src='<c:url value="/resources/img/avatar.png"/>' alt="...">
-										<div class="media-body">
-											<h4 class="media-heading">Usuario Frecuente 1</h4>
-											<div class="media-heading-sub">
-												 Puesto Usuario Frecuente 1
-											</div>
-											<div class="media-heading-small">
-												 Última Conexión: 31/07/2105
-											</div>
-										</div>
-									</li>
-									<li class="media" data-userId="2" data-userName="Usuario Frecuente 2">
-										<img class="media-object" src='<c:url value="/resources/img/avatar.png"/>' alt="...">
-										<div class="media-body">
-											<h4 class="media-heading">Usuario Frecuente 2</h4>
-											<div class="media-heading-sub">
-												 Puesto Usuario Frecuente 2
-											</div>
-											<div class="media-heading-small">
-												 Última Conexión: 28/07/2105
-											</div>
-										</div>
-									</li>
-									<li class="media" data-userId="3" data-userName="Usuario Frecuente 3">
-										<div class="media-status">
-											<span class="badge badge-success"> </span>
-										</div>
-										<img class="media-object" src='<c:url value="/resources/img/avatar.png"/>' alt="...">
-										<div class="media-body">
-											<h4 class="media-heading">Usuario Frecuente 3</h4>
-											<div class="media-heading-sub">
-												 Puesto Usuario Frecuente 3
-											</div>
-										</div>
-									</li>
-									<li class="media" data-userId="4" data-userName="Usuario Frecuente 4">
-										<img class="media-object" src='<c:url value="/resources/img/avatar.png"/>' alt="...">
-										<div class="media-body">
-											<h4 class="media-heading">Usuario Frecuente 4</h4>
-											<div class="media-heading-sub">
-												 Puesto Usuario Frecuente 4
-											</div>
-											<div class="media-heading-small">
-												 Última Conexión: hace 1 hora
-											</div>
-										</div>
-									</li>
-									<li class="media" data-userId="5" data-userName="Usuario Frecuente 5">
-										<div class="media-status">
-											<span class="badge badge-success"> </span>
-										</div>
-										<img class="media-object" src='<c:url value="/resources/img/avatar.png"/>' alt="...">
-										<div class="media-body">
-											<h4 class="media-heading">Usuario Frecuente 5</h4>
-											<div class="media-heading-sub">
-												 Puesto Usuario Frecuente 5
-											</div>
-										</div>
-									</li>
+								
+								<ul id="frecuent__users__list" class="media-list list-items">
+									<li id="NoFrecuentUsrsMsgs">No existen usuarios frecuentes</li>
 								</ul>
+								
+								<template id="frecuent_users_template">
+									<li data-frecuentUser class="media" data-userId="" data-userName="">
+										<div data-online class="media-status"><span class="badge badge-success"> </span></div>
+										<img data-avatar class="media-object" src="" alt="">
+										<div class="media-body">
+											<h4 data-name class="media-heading"></h4>
+											<div data-employment class="media-heading-sub"></div>
+											<div data-lastConnection class="media-heading-small"></div>
+										</div>
+									</li>
+								</template>
+								
+								
+								
 								<!-- esto va para el div de usuarios -->
 								<h3 class="list-heading">En Línea</h3>
-								<ul class="media-list list-items">								
-									<li class="media" data-userId="1" data-userName="Usuario en Linea 1">
-										<div class="media-status">
-											<span class="badge badge-success"> </span>
-										</div>
-										<img class="media-object" src='<c:url value="/resources/img/avatar.png"/>' alt="...">
-										<div class="media-body">
-											<h4 class="media-heading">Usuario en Linea 1</h4>
-											<div class="media-heading-sub">
-												 Puesto usuario en Linea 1
-											</div>
-										</div>
-									</li>
-									<li class="media" data-userId="2" data-userName="Usuario en Linea 2">
-										<div class="media-status">
-											<span class="badge badge-success"> </span>
-										</div>
-										<img class="media-object" src='<c:url value="/resources/img/avatar.png"/>' alt="...">
-										<div class="media-body">
-											<h4 class="media-heading">Usuario en Linea 2</h4>
-											<div class="media-heading-sub">
-												 Puesto usuario en Linea 2
-											</div>
-										</div>
-									</li>
-									<li class="media" data-userId="3" data-userName="Usuario en Linea 3">
-										<div class="media-status">
-											<span class="badge badge-success"> </span>
-										</div>
-										<img class="media-object" src='<c:url value="/resources/img/avatar.png"/>' alt="...">
-										<div class="media-body">
-											<h4 class="media-heading">Usuario en Linea 3</h4>
-											<div class="media-heading-sub">
-												 Puesto usuario en Linea 3
-											</div>
-										</div>
-									</li>
-									<li class="media" data-userId="4" data-userName="Usuario en Linea 4">
-										<div class="media-status">
-											<span class="badge badge-success"> </span>
-										</div>
-										<img class="media-object" src='<c:url value="/resources/img/avatar.png"/>' alt="...">
-										<div class="media-body">
-											<h4 class="media-heading">Usuario en Linea 4</h4>
-											<div class="media-heading-sub">
-												 Puesto usuario en Linea 4
-											</div>
-										</div>
-									</li>
-									<li class="media" data-userId="5" data-userName="Usuario en Linea 5">
-										<div class="media-status">
-											<span class="badge badge-success"> </span>
-										</div>
-										<img class="media-object" src='<c:url value="/resources/img/avatar.png"/>' alt="...">
-										<div class="media-body">
-											<h4 class="media-heading">Usuario en Linea 5</h4>
-											<div class="media-heading-sub">
-												 Puesto usuario en Linea 5
-											</div>
-										</div>
-									</li>
+								<ul id="online__users__list" class="media-list list-items">								
+									<li id="not__online__users__msg">No hay usuarios en línea</li>
 								</ul>
+								
+								<template id="onlineUserTemplate">
+									<li data-onlineUser class="media" data-userId="" data-userName="">
+										<div class="media-status"><span class="badge badge-success"> </span></div>
+										<img data-avatar class="media-object" src="" alt="">
+										<div class="media-body">
+											<h4 data-name class="media-heading"></h4>
+											<div data-employment class="media-heading-sub"></div>
+										</div>
+									</li>
+								</template>
+								
 							</div>
 						</div>
 
