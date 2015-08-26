@@ -146,7 +146,7 @@
 	
 	<script src='<c:url value="/resources/js/utils/secopre.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/demo/table-managed.js"/>' type="text/javascript"></script>	
-	<script src='<c:url value="/resources/js/modules/users.js"/>' type="text/javascript"></script>	
+	<script src='<c:url value="/resources/js/modules/admin.js"/>' type="text/javascript"></script>	
 	
 	<!-- END PAGE LEVEL CUSTOM SCRIPTS -->
 	

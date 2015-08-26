@@ -41,28 +41,28 @@ public class Permission implements Persistible {
 	private String name;	
 	
 	@ManyToOne(cascade = CascadeType.ALL)
-	private Menu menu;
+	private Path path;
 	
-
-	/**
-	 * @return the menu
-	 */
-	public Menu getMenu() {
-		return menu;
-	}
-
-	/**
-	 * @param menu the menu to set
-	 */
-	public void setMenu(Menu menu) {
-		this.menu = menu;
-	}
 
 	/**
 	 * @return the id
 	 */
 	public Long getId() {
 		return id;
+	}
+
+	/**
+	 * @return the path
+	 */
+	public Path getPath() {
+		return path;
+	}
+
+	/**
+	 * @param path the path to set
+	 */
+	public void setPath(Path path) {
+		this.path = path;
 	}
 
 	/**

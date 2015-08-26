@@ -2,14 +2,12 @@ package ideasw.secopre.model.security;
 
 import ideasw.secopre.model.Persistible;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -51,9 +49,6 @@ public class Menu implements Persistible {
 
 	@Column(name = "MENU_ORDER")
 	private int order;
-
-	@ManyToOne(cascade = CascadeType.ALL)
-	private Path path;
 
 	/**
 	 * @return the id
@@ -188,21 +183,6 @@ public class Menu implements Persistible {
 	 */
 	public void setOrder(int order) {
 		this.order = order;
-	}
-
-	/**
-	 * @return the path
-	 */
-	public Path getPath() {
-		return path;
-	}
-
-	/**
-	 * @param path
-	 *            the path to set
-	 */
-	public void setPath(Path path) {
-		this.path = path;
 	}
 
 }

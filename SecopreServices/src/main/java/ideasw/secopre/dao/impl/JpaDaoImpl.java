@@ -19,6 +19,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 /**
@@ -26,6 +27,7 @@ import org.springframework.util.StringUtils;
  *
  */
 @Repository
+@Transactional
 public class JpaDaoImpl implements JpaDao {
 
 	@PersistenceContext

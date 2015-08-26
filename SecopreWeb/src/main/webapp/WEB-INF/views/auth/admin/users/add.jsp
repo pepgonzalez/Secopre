@@ -1,3 +1,5 @@
+<%@ include file="/WEB-INF/views/auth/common/springTags.jsp"%>
+
 			<!-- BEGIN PAGE CONTENT-->
 			<div class="row">
 				<div class="col-md-12">
@@ -56,14 +58,9 @@
 											</div>
 										</div>
 										<div class="tab-content">
-											<div class="alert alert-danger display-hide">
-												<button class="close" data-close="alert"></button>
-												You have some form errors. Please check below.
-											</div>
-											<div class="alert alert-success display-hide">
-												<button class="close" data-close="alert"></button>
-												Your form validation is successful!
-											</div>
+										<!-- Se incluyen los DIV de alertamiento en formularios -->
+											<%@ include file="/WEB-INF/views/auth/common/alertForm.jsp"%>
+
 											<div class="tab-pane active" id="tab1">
 												<h3 class="block">Provide your account details</h3>
 												<div class="form-body">													

@@ -41,7 +41,7 @@ public class UsuarioController extends AuthController {
 	@Autowired
 	private AccessService accessService;
 
-	@RequestMapping(value = "adm/usrList", method = { RequestMethod.GET,
+	@RequestMapping(value = "adm/usr/list", method = { RequestMethod.GET,
 			RequestMethod.POST })
 	public String getUserList(ModelMap model, RedirectAttributes attributes) {
 		List<User> userList = baseService.findAll(User.class);

@@ -9,7 +9,11 @@ public class SecopreConstans {
 	public static final String MV_403 = "403";
 	
 	//####Modulo Administracion Usuarios####//
-	public static final String MV_ADM_USR_LIST = "auth/admin/usrList";
+	public static final String MV_ADM_USR_LIST = "auth/admin/usr/list";
 	public static final String MV_ADM_USR = "auth/admin/users/users";
 	public static final String MV_ADM_DIR = "auth/admin/dir/directory";
+	
+	//####Modulo Administracion Roles####//
+	public static final String MV_LIST = "list";
+	public static final String MV_ADM_ROLE = "auth/admin/config/role/roles";
 }

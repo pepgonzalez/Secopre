@@ -38,13 +38,13 @@ function unblockPage() {
  * 
  * @param formId:
  *            el id del formulario a enviar
- * @param actionURL:
- *            el Path a cual se enviara la peticion AJAX
  * @param targetId:
  *            el id del div donde se inyectara el HTML producido por la peticion
  */
-function sendRequestJQ(formId, actionURL, targetId) {
+function submitAjaxJQ(formId, targetId,after) {
 	var frm = $('#' + formId);
+	var action = frm.attr('action')
+
 	var header = $("meta[name='_csrf_header']").attr("content");
 	var token = $("meta[name='_csrf']").attr("content");
 
@@ -52,7 +52,7 @@ function sendRequestJQ(formId, actionURL, targetId) {
 	$
 			.ajax({
 				type : "POST",
-				url : context + '/' + actionURL,
+				url : context + '/' + action,
 				data : (frm !== undefined && frm !== null) ? frm
 						.serialize(true) : null,
 				beforeSend : function(xhr) {
@@ -63,6 +63,9 @@ function sendRequestJQ(formId, actionURL, targetId) {
 					$('#' + targetId).html(data);
 				},
 				complete : function(jqXHR) {
+					if (after !== null) {
+						eval(after);
+					}					
 					unblockPage();
 
 				},
@@ -104,4 +107,3 @@ function sendRequestJQ(actionURL, targetId, after) {
 		type : 'POST'
 	});
 }
-

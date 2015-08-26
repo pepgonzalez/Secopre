@@ -1,3 +1,5 @@
+<%@ include file="/WEB-INF/views/auth/common/springTags.jsp"%>
+
 			<!-- BEGIN PAGE CONTENT INNER -->
 			<div class="row">
 				<div class="col-md-12">
@@ -43,11 +45,11 @@
 									</div>
 								</div>
 							</div>
-							<table class="table table-striped table-bordered table-hover" id="sample_1">
+							<table class="table table-striped table-bordered table-hover" id="userTable">
 							<thead>
 							<tr>
 								<th class="table-checkbox">
-									<input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes"/>
+									<input type="checkbox" class="group-checkable" data-set="#userTable .checkboxes"/>
 								</th>
 								<th><spring:message code="application.pages.admin.users.username"/></th>
 								<th><spring:message code="application.pages.admin.users.email"/></th>

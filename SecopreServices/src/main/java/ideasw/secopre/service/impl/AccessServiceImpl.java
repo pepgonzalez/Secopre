@@ -49,8 +49,8 @@ public class AccessServiceImpl implements AccessService {
 				List<Permission> permissions = role.getPermissions();
 				if (permissions != null && !permissions.isEmpty()) {
 					for (Permission permission : permissions) {
-						if (permission.getMenu() != null)
-							menus.add(permission.getMenu());
+						if (permission.getPath() != null && permission.getPath().getMenu() != null)
+							menus.add (permission.getPath().getMenu());
 					}
 				}
 			}

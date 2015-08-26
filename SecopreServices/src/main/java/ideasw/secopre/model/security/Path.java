@@ -1,15 +1,17 @@
 package ideasw.secopre.model.security;
 
+import ideasw.secopre.model.Persistible;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
-
-import ideasw.secopre.model.Persistible;
 
 /**
  * Entidad que permite almacenar los paths definidos para la aplicacion, estos
@@ -40,6 +42,9 @@ public class Path implements Persistible {
 	@Column(name = "URL", unique = true)
 	@Size(max = 50)
 	private String url;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	private Menu menu;	
 
 	/**
 	 * @return the id
@@ -99,6 +104,20 @@ public class Path implements Persistible {
 	 */
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	/**
+	 * @return the menu
+	 */
+	public Menu getMenu() {
+		return menu;
+	}
+
+	/**
+	 * @param menu the menu to set
+	 */
+	public void setMenu(Menu menu) {
+		this.menu = menu;
 	}
 
 }
