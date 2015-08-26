@@ -69,15 +69,21 @@ var DBManager = function(config){
 
                 function getParams(a, b){
                     var array = [];
+                    
+                    /*
                     array.push(a);
                     for (var m=0; m < b.length; m++){
                         array.push(b[i]);
-                    }
+                    }*/
+                    array.push(b[0]);
+                    array.push(a);
+                    array.push(b[1]);
                     return array;
                 }
 
                 var p = getParams(param, aditionalParams);
-                
+                console.log("parametros de consulta");
+                console.log(p);
                 connection.query(q, p, function(error, resultado){
                     if (error){
                         console.log("error de consulta en query: " + error);

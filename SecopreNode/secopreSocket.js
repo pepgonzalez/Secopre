@@ -35,16 +35,43 @@ var SecopreSocket = function(config){
 			var cId = r.cId;
 			var me = r.me;
 			var userId = r.userId;
+			console.log("nueva conversacion creada");
+			console.log("conversationid: " +cId);
+			console.log("usuario que crea:" + me);
+			console.log("usuario 2 "+ userId);
 			//preguntamos si el usuario esta activo
 			//si esta activo, le notificamos para actualice el valor del elemento en el panel de usuarios en linea
 			DB.processQuery('isUserOnline', [userId], function(r){
+				console.log(r);
 				if (r[0].active == 1){
-					io.to(r[0].socketId).emit('new_conversation', {"cId":cId, "userId": me});
+					console.log("uusario activo, mandando notificacion");
+					io.to(r[0].socketId).emit('complement_cId', {"cId":cId, "userId": me});
 				}
 			});
 		};
 
-		socket.on('complement_cId', newConversationNotification);
+		socket.on('new_cId', newConversationNotification);
+
+
+		/*evento y funcion para procesar un nuevo mensaje*/
+		function processNewMessage(data){
+			DB.processQuery("insertMessage", [data.cId, data.me, data.userId, data.msg], function(r){
+				console.log("mensaje insertado");
+				console.log(r);
+
+				DB.processQuery('isUserOnline', [data.userId], function(res){
+				console.log(res);
+				if (res[0].active == 1){
+					console.log("mandando notif nuevo msg");
+					io.to(res[0].socketId).emit('new_message_received', 
+						{"cId":data.cId, "userId": data.me, "msg":data.msg});
+				}
+			});
+
+			});
+		}
+
+		socket.on('new_message', processNewMessage);
 
 		/*----------------------------------
 			fin de definicion de eventos

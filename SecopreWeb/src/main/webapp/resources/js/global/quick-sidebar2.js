@@ -250,6 +250,8 @@ var QuickSidebar = function () {
         
         //wrapperChat.find('.page-quick-sidebar-chat-user-form .btn').click(handleChatMessagePost);
         //wrapperChat.find('.page-quick-sidebar-chat-user-form .form-control').keypress(function (e) {
+        
+        /*
         $('.page-quick-sidebar-chat-user-form .btn').click(handleChatMessagePost);
         $('.page-quick-sidebar-chat-user-form .form-control').keypress(function (e) {
         	if (e.which == 13) {
@@ -257,6 +259,7 @@ var QuickSidebar = function () {
                 return false;
             }
         });
+        */
     };
 
     // Handles quick sidebar tasks
