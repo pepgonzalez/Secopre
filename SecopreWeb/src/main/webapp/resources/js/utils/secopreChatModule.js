@@ -3,6 +3,7 @@ utils = new SecopreUtils();
 
 /*modulo de chat*/
 var SecopreChat = function(){
+	
 	var self = this;
 	/* propiedades internas del modulo */
 	this.userId = -1;
@@ -10,32 +11,232 @@ var SecopreChat = function(){
 	
 	this.windowState = "close";
 	
+	/*-------------------------------------------------------------------------------------
+		UTILERIAS
+	--------------------------------------------------------------------------------------*/
+
 	/*
-	 * funcion privada para realizar peticion ajax
+	 * funcion privada para realizar peticion ajax y ejecutar callback con los resultados
 	 */
-	var _getAjaxRequest = function(urlRequest, callback ){
+	function _getAjaxRequest(urlRequest, callback ){
 		$.ajax({
 			url: urlRequest,
 			dataType: 'json'
 		}).done(function(r) {
 			callback(r);
 		});
-	};
+	}
 	
 	/*
 	 * funcion privada para activar una plantilla 
 	 */
-	var _activateTemplate = function(id) {
+	function _activateTemplate(id) {
 	    var t = document.querySelector(id);
 	    return document.importNode(t.content, true);
-	};
+	}
+
+	/*
+	 * funcion privada para actualizar el estatus del encabezado del sidebar 
+	 */
+	function _updateSideBarHeader(type, name, cId, userId, avatar){
+		var complexNav = $('.sp__nav__comp');
+		if (type == 'chat'){
+			$('.page-quick-sidebar-wrapper').find('.page-quick-sidebar-chat').addClass("page-quick-sidebar-content-item-shown");
+			$('.sp__nav__basic').css("cssText", "display: none !important;");
+			complexNav.css("cssText", "display: table-cell !important;");
+		}else{
+			$('.sp__nav__basic').css("cssText", "display: table-cell !important;");
+			complexNav.css("cssText", "display: none !important;");
+		}
+		complexNav.find('a').html(name);
+	    complexNav.attr('cId', cId);
+	    complexNav.attr('userId', userId);
+	    complexNav.attr('avatar', avatar);
+	}
+
+	/*
+	 * funcion privada para actualizar el contador de conversaciones pendientes del id recibido
+	 */
+	function _updateNotificationCounter(id, value){
+		var counter = $(id);
+		if (value == 0 ){
+			counter.hide();
+		}else{
+			counter.show().html(value);
+		}
+	}
+
+	/*
+	 * funcion privada para actualizar mensaje de en bandeja de inbox al ser visto
+	 */
+	function _updateInboxMessageAsSeen(cId){
+		/*se actualiza el estatus de la conversacion*/
+		var conversation = $('[data-inbox-message][data-cId="'+ cId +'"]');
+		conversation.removeClass();
+		conversation.attr('class', 'sp__message__readed');
+		
+		var currentPending = parseInt($("#new_messages_badge").text());
+		if (currentPending > 0){
+			if ((currentPending - 1 ) > 0){
+				$('#sp_new_msgs_mumber').html(currentPending - 1);
+			}else{
+				$('#sp_new_messages_label').html("No hay mensajes nuevos");
+			}
+			_updateNotificationCounter("#new_messages_badge", currentPending - 1);
+		}
+	}
+
+	/*
+	 * funcion privada para actualizar mensaje en sidebar de conversaciones al ser visto
+	 */
+	function _updateConversationMessageAsSeen(cId){
+		var conversation = $('[data-conversation][data-cId="'+ cId +'"]');
+		conversation.find('[data-cStatus]').html('');
+		var currentPending = parseInt($('#pndConvCounter').text());
+		if (currentPending > 0){
+			_updateNotificationCounter('#pndConvCounter', currentPending - 1);
+		}
+	}
+
+	/*
+	 * funcion privada que retorna el alto de un elemento para hacer scroll
+	 */
+	function _getElementHeigth(id) {
+		var e = $(document).find(id);
+        var height = 0;
+		e.find(".post").each(function() {
+        	height = height + $(this).outerHeight();
+        });
+        return height;
+    }
+
+    /*
+	 * funcion interna para agregar el attributo de fuente al boton regresar del chat
+	 */
+	function _addChatSource(source){
+		$('#chatReturnButton').attr('data-source', source);
+	}
+
+	/*
+	 * funcion privada para generar objeto de datos a partir de objeto jQuery de conversacion
+	 */
+	function _getConversationObject(c){
+		var conversation = {};
+	    conversation.userId = $(c).attr("data-userId");
+	    conversation.userName = $(c).attr("data-userName");
+	    conversation.id = $(c).attr("data-cId");
+	    conversation.dir = $(c).attr('data-dir');
+	    conversation.status = parseInt($(c).attr('data-status'));
+	    conversation.avatar  = $(c).find('[data-avatar]').attr('src');
+	    return conversation;
+	}
 	
 	/*
-	 * funcion privada para procesar la informacion inicial de chat 
+	 * funcion para actualizar el estatus del visto en el dom para que no truene 
 	 */
-	var _processInitialData = function(r){
+	function _updateInDOM(c){
+		$('[data-inbox-message][data-cId="' + c.id + '"]').attr('data-status', 1);
+		$('[data-conversation][data-cId="' + c.id + '"]').attr('data-status', 1);
+	}
+
+	/*
+	 * funcion para agregar un nuevo msj al chat
+	 */
+	function _addMessageToChat(dir, data){
+		var className = "";
+		var avatar = "";
+		var userName = "";
+
+		if (dir == 'IN'){
+			className = 'post in';
+			avatar =  $('.sp__nav__comp').attr('avatar');
+			userName =  $('.sp__nav__comp').find('a').html();
+		}else{
+			className = 'post out';
+			avatar = $('#loggedUserAvatar').attr('src');
+			userName = $('.username').html();
+		}
+		
+		var element = _activateTemplate("#chat_message");				
+		
+		element.querySelector("[msg]").className = className;
+		element.querySelector("[data-avatar]").src = avatar;
+		element.querySelector("[data-username]").innerHTML = userName;
+		element.querySelector("[data-msg-body]").innerHTML = data.msg;
+		element.querySelector("[data-time]").innerHTML= 'Ahora';			
+		
+		var chatContainer = $(document).find("#chat_container");
+		chatContainer.append(element);
+		
+		//scroll
+		var alto = _getElementHeigth('#chat_container');
+        chatContainer.slimScroll({
+            scrollTo: alto
+        });
+	}
+
+	/*
+	 * funcion para actualizar sidebar cuando llegue un nuevo msg
+	 */
+	function _processNewMessageInSidebar(data){
+		self.loadAllConversations();
+	}
+
+	/*
+	 * function privada para actualizar el estado de un usuario frecuente
+	*/
+	function _updateFrecuentUserStatus(userId, online){		
+		var list = document.querySelector('#frecuent__users__list');
+		var element = list.querySelector('[data-userId="'+userId+'"]');
+		if(online){
+			$(element).find('[data-online]').show();
+			$(element).find('[data-lastConnection]').hide();
+		}else{
+			$(element).find('[data-online]').hide();
+			$(element).find('[data-lastConnection]').show();
+			$(element).find('[data-lastConnection]').html('Justo Ahora');
+		}
+	}
+	
+	function _updatePopupLabel(pendingMessages){
+		var numberMessagesBadge = $(document).find('#sp_new_msgs_mumber');
+		
+		//si en dom existen msjs pendientes
+		if (numberMessagesBadge.length > 0){
+			//si en ajax hay mensajes pendientes
+			if (pendingMessages > 0){
+				document.querySelector("#sp_new_msgs_mumber").innerHTML = pendingMessages;
+				$("#new_messages_badge").html(pendingMessages);
+			//si en ajax no hay mensajes pendientes
+			}else{
+				$('#sp_new_messages_label').html("No hay msjs nuevos");
+				$("#new_messages_badge").hide();
+			}
+		//si en dom no existen mensajes pendientes
+		}else{
+			//si existen mensajes pendientes en ajax
+			if (pendingMessages > 0){
+				$('#sp_new_messages_label').html('Tiene <span id="sp_new_msgs_mumber" class="bold">1</span> Nuevo(s) Mensajes(s)');
+				$(document).find('#sp_new_msgs_number').text(pendingMessages);
+				$("#new_messages_badge").show().text(pendingMessages);
+			}
+		}
+	}
+
+	/*-------------------------------------------------------------------------------------
+		FUNCIONES DE PROCESAMIENTO
+	--------------------------------------------------------------------------------------*/
+	
+	/*
+	 * funcion privada para procesar la informacion inicial de chat (carga el popup)
+	 */
+	function _processInitialData(r){
 		//se oculta leyenda "no existen mensajes"
-		if (r.length > 0){ $("#no__inbox__msgs").hide(); }
+		if (r.length > 0){ 
+			$("#no__inbox__msgs").hide(); 
+		}
+		//limpiamos el listado
+		$("#inbox__popup__msgs__list").empty();
 		
 		var pendingMessages = 0;
 		//iteracion sobre los resultados
@@ -66,18 +267,13 @@ var SecopreChat = function(){
 			$("#inbox__popup__msgs__list").append(element);
 		});	
 		
-		document.querySelector("#sp_new_msgs_mumber").innerHTML = pendingMessages;
-		$("#new_messages_badge").html(pendingMessages);
-		if(pendingMessages == 0){
-			$('#sp_new_messages_label').html("No hay msjs nuevos");
-			$("#new_messages_badge").hide();
-		}
+		_updatePopupLabel(pendingMessages);
 	}
 	
 	/*
-	 * funcion privada para actualizar el estatus del msg 
+	 * funcion privada para actualizar el estatus del msg cuando el usuario lo ve
 	 */
-	var _updateSeen = function(c, callback){
+	function _updateSeen(c, callback){
 		
 		/*actualiza el estatus si es necesario*/
 		if (c.dir == 'IN' && c.status == 0){
@@ -94,68 +290,30 @@ var SecopreChat = function(){
 		}else{
 			callback(c,{});
 		}
-	};
+	}
 	
-	/*
-	 * funcion privada para actualizar el estatus del encabezado del sidebar 
-	 */
-	var _updateSideBarHeader = function(type, name, cId, userId, avatar){
-		if (type == 'chat'){
-			$('.page-quick-sidebar-wrapper').find('.page-quick-sidebar-chat').addClass("page-quick-sidebar-content-item-shown");
-	        $('.sp__nav__basic').css("cssText", "display: none !important;");
-	        var complexNav = $('.sp__nav__comp');
-	        complexNav.css("cssText", "display: table-cell !important;");
-	        complexNav.find('a').html(name);
-	        complexNav.attr('cId', cId);
-	        complexNav.attr('userId', userId);
-	        complexNav.attr('avatar', avatar);
-		}else{
-			$('.sp__nav__basic').css("cssText", "display: table-cell !important;");
-	    	var complexNav = $('.sp__nav__comp');
-	        complexNav.css("cssText", "display: none !important;");
-	        complexNav.find('a').html('');
-	        complexNav.attr('cId', '');
-	        complexNav.attr('userId', '');
-	        complexNav.attr('avatar', '');
-		}
+	function _updateSeenFromLiveChat(cId, callback){
+		$.ajax({
+			url: "http://localhost:3000/v1/chat/updateSeen/" + cId,
+			dataType: 'json'
+		}).done(function(r) {
+			if (parseInt(r.affectedRows) > 0){
+				callback();
+			}else{
+				alert("Error de conexion con API de mensajeria");
+			}
+		});
 	}
 	
 	/*
-	 * funcion para procesar la conversacion 
+	 * funcion para abrir el chat y cargar la conversacion
 	 */
-	var _processConversation = function(c, res){
-		
-		/*funcion interna para actualizar el estatus del popup*/
-		var _updatePopupState = function (){
-			/*se actualiza el estatus de la conversacion*/
-			var conversation = $('[data-inbox-message][data-cId="'+ c.id +'"]');
-			conversation.removeClass();
-			conversation.attr('class', 'sp__message__readed');
-			
-			var currentPending = parseInt($("#new_messages_badge").text());
-			if (currentPending > 0){
-				if ((currentPending - 1 ) > 0){
-					$('#sp_new_msgs_mumber').html(currentPending - 1);
-				}else{
-					$('#sp_new_messages_label').html("No hay mensajes nuevos");
-				}
-				_updateConvCounter("#new_messages_badge", currentPending - 1);
-			}
-		};
-		
-		/*funcion interna para actualizar el estado de la barra lateral*/
-		var _updateSideBarState = function(){
-			var conversation = $('[data-conversation][data-cId="'+ c.id +'"]');
-			conversation.find('[data-cStatus]').html('');
-			var currentPending = parseInt($('#pndConvCounter').text());
-			if (currentPending > 0){
-				_updateConvCounter('#pndConvCounter', currentPending - 1);
-			}
-		};
+	function _processConversation(c, res){
 		
 		if (c.dir == 'IN' && c.status == 0){
-			_updatePopupState();
-			_updateSideBarState();
+			_updateInboxMessageAsSeen(c.id);
+			_updateConversationMessageAsSeen(c.id);
+			_updateInDOM(c);
 		}
 		
 		$("#chat_container").empty();
@@ -164,14 +322,16 @@ var SecopreChat = function(){
         
         $('.post.in .message .name').empty().html(c.userName);
         
-        //bloqueo de pantalla
-        Metronic.blockUI({ target: '.page-container', textOnly: true,  message: '' });
-        Metronic.blockUI({ target: '.page-header', textOnly: true, message: '' });
-		
+        //bloqueo de pantalla si la conversacion viene de popup
+        if (c.source == 'popup'){
+        	Metronic.blockUI({ target: '.page-container', textOnly: true,  message: '' });
+        	Metronic.blockUI({ target: '.page-header', textOnly: true, message: '' });
+		}
+
         var chatContainer = $(document).find(".page-quick-sidebar-chat-user-messages");
         
-		//SE OBTIENEN LAS CONVERSACIONES
         var url =  "http://localhost:3000/v1/chat/getConversation/" + c.id + "/" + c.userId;
+		
 		_getAjaxRequest(url, function(data){
 			
 			$.each(data, function(){
@@ -181,40 +341,25 @@ var SecopreChat = function(){
 				element.querySelector("[data-username]").innerHTML = this.userName;
 				element.querySelector("[data-msg-body]").innerHTML = this.msg;
 				element.querySelector("[data-time]").innerHTML= utils.DateUtils.getUXTimeFromDBDate(this.creationDate);				
-				chatContainer.append(element);			
+				chatContainer.prepend(element);			
 				
 			});
 			
-			var getLastPostPos = function() {
-	            var height = 0;
-				chatContainer.find(".post").each(function() {
-	            	height = height + $(this).outerHeight();
-	            });
-	            return height;
-	        }; 
-			//scroll
+			//scroll hacia el ultimo mensaje
 	        chatContainer.slimScroll({
-	            scrollTo: getLastPostPos()
+	            scrollTo: _getElementHeigth("#chat_container")
 	        });
 			
 		});	
         
 		/*se agrega la fuente de invocacion al chat*/
 		_addChatSource(c.source);
-	};
-	
-	
-	/*
-	 * funcion interna para agregar el attributo de fuente al boton regresar del chat
-	 */
-	var _addChatSource = function(source){
-		$('#chatReturnButton').attr('data-source', source);
 	}
 	
 	/*
-	 * funcion interna para procesar todas las conversaciones 
+	 * funcion interna para cargar todas las conversaciones en el sidebar
 	 */
-	var _processAllConversations = function(r){
+	function _processAllConversations(r){
 		
 		if (!($('body').hasClass('page-quick-sidebar-open'))){
 			
@@ -266,35 +411,13 @@ var SecopreChat = function(){
 			$("#all_conversations_container").append(element);
 		});	
 		
-		_updateConvCounter("#pndConvCounter", pendingMessages);
-	};
-	
-	/*
-	 * funcion privada para actualizar el contador de conversaciones pendientes 
-	 */
-	var _updateConvCounter = function(id, value){
-		if (value == 0 ){
-			$(id).hide();
-		}else{
-			document.querySelector(id).innerHTML = value;
-		}
-	};
-	
-	/*
-	 * funcion privada para generar instancia de conversacion 
-	 */
-	var _getConversationObject = function(c){
-		var conversation = {};
-	    conversation.userId = $(c).attr("data-userId");
-	    conversation.userName = $(c).attr("data-userName");
-	    conversation.id = $(c).attr("data-cId");
-	    conversation.dir = $(c).attr('data-dir');
-	    conversation.status = parseInt($(c).attr('data-status'));
-	    conversation.avatar  = $(c).find('[data-avatar]').attr('src');
-	    return conversation;
+		_updateNotificationCounter("#pndConvCounter", pendingMessages);
 	}
 	
-	var _processFrecuentUsers = function(r){
+	/*
+	 * funcion interna para actualizar los usuarios frecuentes de la pestaña de usuarios
+	 */
+	function _processFrecuentUsers(r){
 
 		if(r.length > 0){
 			$('#NoFrecuentUsrsMsgs').hide();
@@ -322,79 +445,32 @@ var SecopreChat = function(){
 			
 			$("#frecuent__users__list").append(element);
 		});	
-	};
-	
-	var _updateFrecuentUserstatus = function(userId, online){
-		var frecuentUsersList = document.querySelector('#frecuent__users__list');
-		
-		var element = frecuentUsersList.querySelector('[data-userId="'+userId+'"]');
-		if(online){
-			$(element).find('[data-online]').show();
-			$(element).find('[data-lastConnection]').hide();
-		}else{
-			$(element).find('[data-online]').hide();
-			$(element).find('[data-lastConnection]').show();
-			$(element).find('[data-lastConnection]').html('Justo Ahora');
-		}
-	};
-	
-	
-	var _processNewMessageInSidebar = function(data){
-		console.log(data);
-		self.loadAllConversations();
-	};
-	
-	var _addMessageToChat = function(dir, data){
-		var className = "";
-		var avatar = "";
-		var userName = "";
-		if (dir == 'IN'){
-			className = 'post in';
-			avatar =  $('.sp__nav__comp').attr('avatar');
-			userName =  $('.sp__nav__comp').find('a').html();
-		}else{
-			className = 'post out';
-			avatar = $('#loggedUserAvatar').attr('src');
-			userName = $('.username').html();
-		}
-		
-		var element = _activateTemplate("#chat_message");				
-		
-		element.querySelector("[msg]").className = className;
-		element.querySelector("[data-avatar]").src = avatar;
-		element.querySelector("[data-username]").innerHTML = userName;
-		element.querySelector("[data-msg-body]").innerHTML = data.msg;
-		element.querySelector("[data-time]").innerHTML= 'Ahora';			
-		
-		var chatContainer = $("#chat_container");
-		chatContainer.append(element);
-		
-		var getLastPostPos = function() {
-            var height = 0;
-			chatContainer.find(".post").each(function() {
-            	height = height + $(this).outerHeight();
-            });
-            return height;
-        }; 
-		//scroll
-        chatContainer.slimScroll({
-            scrollTo: getLastPostPos()
-        });
-		
 	}
 	
-	var _processNewMessage = function(data){
+
+	/*
+	 * funcion interna para procesar un nuevo mensaje
+	 */
+	function _processNewMessage(data){		
+		
 		if (self.windowState == 'close'){
 			self.loadInitialData();
 		}else if (self.windowState == 'sidebar'){
 			_processNewMessageInSidebar(data);
 		}else{
-			console.log("estoy en el chat");
 			var currentConvId = parseInt($('.sp__nav__comp').attr('cId'));
 			if (currentConvId == data.cId){
+				
 				_addMessageToChat('IN', data);
+				
+				//se actualiza a visto
+				_updateSeenFromLiveChat(data.cId, function(){
+					self.loadInitialData();	
+					self.loadAllConversations();
+				});
+				
 			}else{
-				console.log('no soy la conversacion');
+				_processNewMessageInSidebar(data);
 			}
 		}
 	};
@@ -426,12 +502,9 @@ var SecopreChat = function(){
 		var conv = _getConversationObject(c);
 		conv.source = source;
 		
-		
 		if(conv.id == -1){
 			//se crea la conversacion
-			var me = this.userId;
-			var usr = conv.userId;
-			var url = "http://localhost:3000/v1/chat/createConversation/" + me + "/" + usr;
+			var url = "http://localhost:3000/v1/chat/createConversation/" + this.userId + "/" + conv.userId;
 			
 			_getAjaxRequest(url, function(r){
 				conv.id = r.cId;
@@ -454,13 +527,10 @@ var SecopreChat = function(){
 	/*funcion para cerrar conversacion*/
 	this.closeConversation = function(){
 		$('.page-quick-sidebar-wrapper .page-quick-sidebar-chat').removeClass("page-quick-sidebar-content-item-shown");
-		
-		//$('.sp__nav__basic').css("cssText", "display: table-cell !important;");
-		//$('.sp__nav__comp').css("cssText", "display: none !important;");
-	    console.log("actualizando por funcion");
 		_updateSideBarHeader('conv', null, null, null, null);
 	};
 	
+	/*funcion para cerrar el panel lateral*/
 	this.closeLateralPanel = function(){
 		$('body').removeClass('page-quick-sidebar-open'); 
 	    //desbloqueo de pantalla
@@ -468,13 +538,14 @@ var SecopreChat = function(){
 	    Metronic.unblockUI('.page-header');
 	};
 	
+	/*funcion para agregar la fuente al chat*/
 	this.addChatSource = function(source){
 		_addChatSource(source);
 	};
-	
-	this.loadActiveUsers = function(r){
-	};
 
+	/*
+	 * funcion para enviar un msj (logica que se ejecuta en el usuario que envia el msj)
+	 */
 	this.sendMessage = function(e){
 		e.preventDefault();
 		var input = $('.page-quick-sidebar-chat-user-form .form-control');
@@ -482,9 +553,23 @@ var SecopreChat = function(){
 		var cId = $('.sp__nav__comp').attr('cId');
 		var userId = $('.sp__nav__comp').attr('userId');
 		var data = {"cId":cId, "me":self.userId, "userId":userId, "msg":msg};
+		
 		this.socket.emit('new_message', data);
-		console.log("mensaje enviado");
+		
 		_addMessageToChat('OUT', data);
+		
+		input.val('');
+	};
+	
+	
+	this.handleSearch = function(userName){
+		if(userName.length > 0){
+	    	$('#finded_users').show();
+	    	$('#finded_users_list').show();
+	    }else{
+	    	$('#finded_users').hide();
+	    	$('#finded_users_list').hide();
+	    }
 	};
 	
 	/************************************************************************************************************************
@@ -492,9 +577,10 @@ var SecopreChat = function(){
 	 ************************************************************************************************************************/
 	
 	this.initSocket = function(){
+		
 		var data = {"userId" : this.userId};
+		
 		this.socket = io.connect(utils.Constants.SOCKET_URL, {query :'data=' + JSON.stringify(data) });
-		//_loadSocketEvents(this.socket);
 		
 		this.socket.on('load_active_users', function(r){
 			if(r.length > 0){
@@ -507,7 +593,7 @@ var SecopreChat = function(){
 				var isFrecuentUser = $('[data-frecuentUser][data-userId="'+this.userId+'"]').length;
 				
 				if (isFrecuentUser){
-					_updateFrecuentUserstatus(this.userId, true);
+					_updateFrecuentUserStatus(this.userId, true);
 				}else{
 				
 					var element = _activateTemplate(utils.Constants.Templates.ONLINE_USER_TEMPLATE);
@@ -543,7 +629,7 @@ var SecopreChat = function(){
 				
 				if (isFrecuentUser == 1){
 				
-					_updateFrecuentUserstatus(u.userId, true);
+					_updateFrecuentUserStatus(u.userId, true);
 				
 				}else{
 		
@@ -574,7 +660,7 @@ var SecopreChat = function(){
 			var isFrecuentUser = $('[data-frecuentUser][data-userId="'+data[0].userId+'"]').length;
 			
 			if (isFrecuentUser == 1){
-				_updateFrecuentUserstatus(data[0].userId, false);
+				_updateFrecuentUserStatus(data[0].userId, false);
 			}else{
 				$('[data-onlineUser][data-userId="'+ data[0].userId +'"]').remove();
 			}
@@ -590,16 +676,14 @@ var SecopreChat = function(){
 		
 		this.socket.on('new_message_received', function(data){
 			_processNewMessage(data);
-			//alert("nuevo mensaje recibido");
-			//console.log(data);
-			//var ws = self.windowState;
-			//console.log("estado de la ventana: " + ws);
+		});
+		
+		this.socket.on('update', function(data){
+			self.loadInitialData();
+			self.loadAllConversations();
 		});
 	};
 }
-
-
-
 
 /*inicalizacion de objeto base*/
 var Chat = new SecopreChat();
@@ -614,6 +698,8 @@ $(document).ready(function(){
 		Chat.userId = userId;
 		Chat.loadInitialData();
 		Chat.initSocket();
+		$('#finded_users').hide();
+    	$('#finded_users_list').hide();
 	}else{
 		$("#header_inbox_bar").hide();
 	}
@@ -685,14 +771,17 @@ $('.page-quick-sidebar-chat-user .page-quick-sidebar-back-to-list').click(functi
 Evento al enviar un msj
 ------------------------------------------------------------------------------------------*/
 $(document).on('click','.page-quick-sidebar-chat-user-form .btn', function(e){
-	console.log("enviando msg");
 	Chat.sendMessage(e);
 });
 
 $('.page-quick-sidebar-chat-user-form .form-control').keypress(function (e) {
 	if (e.which == 13) {
-		console.log("enviando msg");
-        Chat.sendMessage(e);
+		Chat.sendMessage(e);
         return false;
     }
+});
+
+$('#searchUserInput').keyup(function() {
+    var userName = this.value;
+    Chat.handleSearch(userName);
 });

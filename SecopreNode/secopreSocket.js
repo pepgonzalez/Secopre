@@ -52,22 +52,24 @@ var SecopreSocket = function(config){
 
 		socket.on('new_cId', newConversationNotification);
 
+		/*funcion generica para empujar un msj al socket si esta en linea y ejecutar el callback recibido*/
+		function pushEvent(event, userId, data, callback){
+			DB.processQuery('isUserOnline', [userId], function(res){
+				if (res[0].active == 1){
+					io.to(res[0].socketId).emit(event, data);
+				}
+				callback();
+			});
+		}
 
 		/*evento y funcion para procesar un nuevo mensaje*/
 		function processNewMessage(data){
 			DB.processQuery("insertMessage", [data.cId, data.me, data.userId, data.msg], function(r){
-				console.log("mensaje insertado");
-				console.log(r);
-
-				DB.processQuery('isUserOnline', [data.userId], function(res){
-				console.log(res);
-				if (res[0].active == 1){
-					console.log("mandando notif nuevo msg");
-					io.to(res[0].socketId).emit('new_message_received', 
-						{"cId":data.cId, "userId": data.me, "msg":data.msg});
-				}
-			});
-
+				//emito al usuario que recibio un msj
+				var dataToReceiver = {"cId":data.cId, "userId": data.me, "msg":data.msg};			
+				pushEvent('new_message_received', data.userId, dataToReceiver, function(){
+					pushEvent('update', data.me, {}, function(){});
+				});
 			});
 		}
 

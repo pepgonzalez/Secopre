@@ -143,22 +143,23 @@
 									<li id="no__inbox__msgs">
 										No hay mensajes
 									</li>
-									<!-- sp__message__readed o sp__message__pending -->
-									<template id="inbox__popup__message__template">
-										<li data-inbox-message data-userId="" data-userName="" data-cId="">
-											<a href="javascript:;">
-												<span class="photo">
-													<img data-avatar src='<c:url value="/resources/img/users/avatar.png"/>' class="img-circle" alt="">
-												</span>
-												<span class="subject">
-													<span data-user class="from">Usuario 1</span>
-													<span data-time class="time">Ahora</span>
-												</span>
-												<span data-message class="message">Mensaje de prueba 1 usuario 1</span>
-											</a>
-										</li>
-									</template>
 								</ul>
+								
+								<!-- sp__message__readed o sp__message__pending -->
+								<template id="inbox__popup__message__template">
+									<li data-inbox-message data-userId="" data-userName="" data-cId="">
+										<a href="javascript:;">
+											<span class="photo">
+												<img data-avatar src='<c:url value="/resources/img/users/avatar.png"/>' class="img-circle" alt="">
+											</span>
+											<span class="subject">
+												<span data-user class="from">Usuario 1</span>
+												<span data-time class="time">Ahora</span>
+											</span>
+											<span data-message class="message">Mensaje de prueba 1 usuario 1</span>
+										</a>
+									</li>
+								</template>
 							</li>
 						</ul>
 					</li>

@@ -624,6 +624,15 @@
 						<div class="tab-pane page-quick-sidebar-chat" id="quick_sidebar_tab_2">
 							<!-- usuarios -->
 							<div class="page-quick-sidebar-chat-users" data-rail-color="#ddd" data-wrapper-class="page-quick-sidebar-list">
+								
+								<div id="searchPanel">
+									<input id="searchUserInput" type="text" class="form-control" placeholder="Buscar un usuario..." style="margin-left:10%;width:80%;text-align:center;">
+									<h3 id="finded_users" class="list-heading">Usuarios encontrados</h3>
+									<ul id="finded_users_list" class="media-list list-items">
+									</ul>
+								</div>
+								
+								
 								<h3 class="list-heading">Contactos Frecuentes</h3>
 								
 								<ul id="frecuent__users__list" class="media-list list-items">
