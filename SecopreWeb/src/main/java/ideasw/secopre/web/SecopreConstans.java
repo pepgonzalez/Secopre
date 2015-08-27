@@ -16,4 +16,8 @@ public class SecopreConstans {
 	//####Modulo Administracion Roles####//
 	public static final String MV_LIST = "list";
 	public static final String MV_ADM_ROLE = "auth/admin/config/role/roles";
+
+	//####Modulo Administracion Permisos####//
+	public static final String MV_ADM_PERMISSION = "auth/admin/config/perm/perms";
+	
 }
