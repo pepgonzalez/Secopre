@@ -58,7 +58,9 @@ var SecopreSocket = function(config){
 				if (res[0].active == 1){
 					io.to(res[0].socketId).emit(event, data);
 				}
-				callback();
+				if (typeof callback === "function") {
+					callback();
+				}
 			});
 		}
 
@@ -75,10 +77,22 @@ var SecopreSocket = function(config){
 
 		socket.on('new_message', processNewMessage);
 
+
+		/*funcion y evento para busqueda de usuarios*/
+
+
 		/*----------------------------------
 			fin de definicion de eventos
 		------------------------------------*/
+		function processUserSearch(data){
+			console.log(data.me);
+			console.log(data.userName);
+			DB.processQuery("getUserInfo", [data.me, data.userName, data.me], function(r){
+				pushEvent("search_user_result", data.me, r)
+			});
+		}
 
+		socket.on('search_user', processUserSearch);
 
 
 		//se inicia la conexion

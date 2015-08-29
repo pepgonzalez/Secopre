@@ -415,6 +415,41 @@ var SecopreChat = function(){
 	}
 	
 	/*
+	 * funcion interna para procesar los resultados de la busqueda de usuarios 
+	 */
+	function _processUsersSearch(r){
+		
+			$('#finded_users_list').empty();
+			if(r.length > 0){
+				$('#finded_users').html("Usuarios Encontrados:");
+			}else{
+				$('#finded_users').html("No hay coincidencias...");
+			}
+		
+		$.each(r, function(){
+			var element = _activateTemplate(utils.Constants.Templates.FINDED_USER_TEMPLATE);
+			
+			var item = element.querySelector("[data-findedUser]");
+			
+			var $item = $(item);
+			$item.attr('data-userId', this.userId);
+			$item.attr('data-userName', this.userName);
+			$item.attr('data-cId', this.cId);
+			
+			element.querySelector("[data-avatar]").src = utils.Constants.USER_BASE_PATH + this.avatar;
+			element.querySelector("[data-name]").innerHTML = this.userName;
+			element.querySelector("[data-employment]").innerHTML = this.employment;
+			
+			if(parseInt(this.online) == 0){
+				element.querySelector("[data-lastConnection]").innerHTML = utils.DateUtils.getUXDate(utils.DateUtils.getDateFromDBString(this.lastConnection));
+				$item.find('[data-online]').hide();
+			}
+			
+			$("#finded_users_list").append(element);
+		});	
+	}
+	
+	/*
 	 * funcion interna para actualizar los usuarios frecuentes de la pestaña de usuarios
 	 */
 	function _processFrecuentUsers(r){
@@ -564,11 +599,12 @@ var SecopreChat = function(){
 	
 	this.handleSearch = function(userName){
 		if(userName.length > 0){
+			this.socket.emit('search_user', {"me": this.userId, "userName": userName});
 	    	$('#finded_users').show();
 	    	$('#finded_users_list').show();
 	    }else{
 	    	$('#finded_users').hide();
-	    	$('#finded_users_list').hide();
+	    	$('#finded_users_list').empty().hide();
 	    }
 	};
 	
@@ -681,6 +717,11 @@ var SecopreChat = function(){
 		this.socket.on('update', function(data){
 			self.loadInitialData();
 			self.loadAllConversations();
+		});
+		
+		this.socket.on('search_user_result', function(data){
+			console.log(data.length);
+			_processUsersSearch(data);
 		});
 	};
 }

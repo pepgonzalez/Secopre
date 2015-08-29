@@ -81,7 +81,8 @@ SecopreUtils = function(){
 				INBOX_TEMPLATE : "#inbox__popup__message__template",
 				CONVERSATION_TEMPLATE: "#conversation_template",
 				FRECUENT_USERS_TEMPLATE : "#frecuent_users_template",
-				ONLINE_USER_TEMPLATE : "#onlineUserTemplate"
+				ONLINE_USER_TEMPLATE : "#onlineUserTemplate",
+				FINDED_USER_TEMPLATE : "#finded_users_template"
 			},
 			SOCKET_URL : 'http://localhost:3000/',
 			Api : {

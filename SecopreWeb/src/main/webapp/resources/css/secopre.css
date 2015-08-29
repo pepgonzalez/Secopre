@@ -52,3 +52,9 @@ p.advertencia, p.error, p.exito, p.aviso{ font-size: 12px; margin-top: 5px; }
 .sp__nav__comp{
 	display: none !important;
 }
+
+/*estilo para forzar dimensiones del avatar*/
+.avatar, .media-object{
+	width: 50px!important;
+	height:50px!important;
+}

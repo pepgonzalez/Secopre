@@ -227,4 +227,29 @@
 			(?,?,?,?,0,SYSDATE());
 		]]>
 	</insertMessage>
+
+	<getUserInfo>
+		<![CDATA[
+			SELECT U.ID userId,
+				   U.USERNAME userName,
+				   IFNULL(U.AVATAR, 'avatar.png') avatar,
+				   E.DESCRIPTION employment,
+				   IFNULL((
+				   		SELECT T1.CONVERSATION_ID
+				   	     FROM SECOPRE.CHAT_CONVERSATION T1 WHERE T1.USER_ID = RUC.USER_ID
+				   	      AND T1.CONVERSATION_ID IN (SELECT T2.CONVERSATION_ID FROM SECOPRE.CHAT_CONVERSATION T2 WHERE T2.USER_ID = ?)
+				   ),-1) cId,
+				   CONVERT(RUC.ACTIVE, DECIMAL) online,
+				   RUC.LAST_UPDATE lastConnection
+			  FROM SECOPRE.REL_USER_CONNECTION RUC,
+			  	   SECOPRE.USER U,
+			  	   SECOPRE.REL_USER_EMPLOYMENT RUE,
+			  	   SECOPRE.EMPLOYMENT E
+			 WHERE UPPER(U.USERNAME) LIKE UPPER(CONCAT('%', ?, '%'))
+			   AND U.ID != ?
+			   AND RUC.USER_ID = U.ID
+			   AND RUC.USER_ID = RUE.USER_ID
+			   AND RUE.EMPLOYMENT_ID = E.EMPLOYMENT_ID
+		]]>
+	</getUserInfo>
 </queries>

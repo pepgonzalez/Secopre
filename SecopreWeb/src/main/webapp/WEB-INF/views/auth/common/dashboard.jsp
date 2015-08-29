@@ -630,6 +630,18 @@
 									<h3 id="finded_users" class="list-heading">Usuarios encontrados</h3>
 									<ul id="finded_users_list" class="media-list list-items">
 									</ul>
+									
+									<template id="finded_users_template">
+									<li data-findedUser class="media" data-userId="" data-userName="">
+										<div data-online class="media-status"><span class="badge badge-success"> </span></div>
+										<img data-avatar class="media-object" src="" alt="">
+										<div class="media-body">
+											<h4 data-name class="media-heading"></h4>
+											<div data-employment class="media-heading-sub"></div>
+											<div data-lastConnection class="media-heading-small"></div>
+										</div>
+									</li>
+								</template>
 								</div>
 								
 								
