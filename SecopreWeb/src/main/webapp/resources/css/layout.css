@@ -212,6 +212,8 @@ Page Header
             content: ''; }
           .page-header.navbar .top-menu .navbar-nav > li.dropdown .dropdown-menu > li > a {
             color: #555; }
+            .page-header.navbar .top-menu .navbar-nav > li.dropdown .dropdown-menu > li > form > a {
+            color: #555; }
       .page-header.navbar .top-menu .navbar-nav > li.separator {
         height: 18px;
         width: 1px;

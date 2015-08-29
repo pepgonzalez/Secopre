@@ -81,7 +81,7 @@
 				  AND CM.USER_FROM = UT.ID
 				  AND CM.USER_TO = ?
 				) t ORDER BY t.creationDate DESC
-				LIMIT 20
+				LIMIT ?, ?
 		]]>
 	</getConversation>
 

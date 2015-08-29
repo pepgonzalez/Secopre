@@ -33,7 +33,16 @@ var SecopreChat = function(config){
     this.expressServer.get('/v1/chat/getConversation/:cId/:userId', function(req, res){
         var cId = req.params.cId;
         var userId = req.params.userId;
-        DB.processQuery("getConversation", [cId, userId, cId, userId], function(r){
+        DB.processQuery("getConversation", [cId, userId, cId, userId, 0, 21], function(r){
+            res.json(r);
+        });
+    });
+
+    this.expressServer.get('/v1/chat/getMoreMsgs/:cId/:userId/:from', function(req, res){
+        var cId = req.params.cId;
+        var userId = req.params.userId;
+        var from = req.params.from;
+        DB.processQuery("getConversation", [cId, userId, cId, userId, parseInt(from), 21], function(r){
             res.json(r);
         });
     });
@@ -63,6 +72,11 @@ var SecopreChat = function(config){
         DB.processQuery('startConversation', [u1, u2], function(r){
             res.json(r[1][0]);
         });
+    });
+
+    /*ping*/
+    this.expressServer.get('/v1/', function(req, res){
+        res.json({"status":200});
     });
 };
 

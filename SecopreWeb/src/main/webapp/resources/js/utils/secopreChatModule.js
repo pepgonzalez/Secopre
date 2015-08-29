@@ -334,21 +334,35 @@ var SecopreChat = function(){
 		
 		_getAjaxRequest(url, function(data){
 			
-			$.each(data, function(){
-				var element = _activateTemplate("#chat_message");				
-				element.querySelector("[msg]").className = (this.direction == 'IN' ? 'post out' : 'post in');
-				element.querySelector("[data-avatar]").src = utils.Constants.USER_BASE_PATH + this.avatar;
-				element.querySelector("[data-username]").innerHTML = this.userName;
-				element.querySelector("[data-msg-body]").innerHTML = this.msg;
-				element.querySelector("[data-time]").innerHTML= utils.DateUtils.getUXTimeFromDBDate(this.creationDate);				
-				chatContainer.prepend(element);			
+			var total = data.length;			
+			var batch = 20;
+			
+			if (total < batch){batch = total;}
+			
+			for(var i = 0; i< batch; i++){
+				e = data[i];
 				
-			});
+				var element = _activateTemplate("#chat_message");				
+				element.querySelector("[msg]").className = (e.direction == 'IN' ? 'post out' : 'post in');
+				element.querySelector("[data-avatar]").src = utils.Constants.USER_BASE_PATH + e.avatar;
+				element.querySelector("[data-username]").innerHTML = e.userName;
+				element.querySelector("[data-msg-body]").innerHTML = e.msg;
+				element.querySelector("[data-time]").innerHTML= utils.DateUtils.getUXTimeFromDBDate(e.creationDate);				
+				chatContainer.prepend(element);			
+			}
+			
+			var totalMsgs = chatContainer.find('.post').length;
 			
 			//scroll hacia el ultimo mensaje
 	        chatContainer.slimScroll({
 	            scrollTo: _getElementHeigth("#chat_container")
 	        });
+	        
+	        if ((total > 20) && (total % 20) > 0){
+	        	var more = _activateTemplate('#has_more_msgs');
+	        	$(more).find('#load_more_msgs').attr('msgs', totalMsgs);
+	        	chatContainer.prepend(more);
+	        }
 			
 		});	
         
@@ -608,6 +622,48 @@ var SecopreChat = function(){
 	    }
 	};
 	
+	this.loadMoreMessages = function(from){
+		var chatHeader = $('.sp__nav__comp');
+		var cId = chatHeader.attr('cId');
+		var userId = chatHeader.attr('userId');
+				
+		var chatContainer = $(document).find(".page-quick-sidebar-chat-user-messages");
+        
+        var url =  "http://localhost:3000/v1/chat/getMoreMsgs/" + cId + "/" + userId + "/" + from;
+		
+		_getAjaxRequest(url, function(data){
+			
+			var total = data.length;
+			
+			var batch = 20;
+			if (total < batch){
+				batch = total;
+			}
+			chatContainer.find('#load_more_msgs').remove();
+			
+			for(var i = 0; i< batch; i++){
+				e = data[i];
+				
+				var element = _activateTemplate("#chat_message");				
+				element.querySelector("[msg]").className = (e.direction == 'IN' ? 'post out' : 'post in');
+				element.querySelector("[data-avatar]").src = utils.Constants.USER_BASE_PATH + e.avatar;
+				element.querySelector("[data-username]").innerHTML = e.userName;
+				element.querySelector("[data-msg-body]").innerHTML = e.msg;
+				element.querySelector("[data-time]").innerHTML= utils.DateUtils.getUXTimeFromDBDate(e.creationDate);				
+				chatContainer.prepend(element);			
+			}
+			
+			var totalMsgs = chatContainer.find('.post').length;
+	        if ((total > 20) && (total % 20) > 0){
+	        	var more = _activateTemplate('#has_more_msgs');
+	        	$(more).find('#load_more_msgs').attr('msgs', totalMsgs);
+	        	chatContainer.prepend(more);
+	        }
+			
+		});	
+		
+	}
+	
 	/************************************************************************************************************************
  		FUNCIONES DE SOCKET
 	 ************************************************************************************************************************/
@@ -720,7 +776,6 @@ var SecopreChat = function(){
 		});
 		
 		this.socket.on('search_user_result', function(data){
-			console.log(data.length);
 			_processUsersSearch(data);
 		});
 	};
@@ -736,11 +791,25 @@ $(document).ready(function(){
 	var userHasChatModule = Boolean ($("#chatModuleActive").val());
 	
 	if (userHasChatModule){
-		Chat.userId = userId;
-		Chat.loadInitialData();
-		Chat.initSocket();
-		$('#finded_users').hide();
-    	$('#finded_users_list').hide();
+		
+		//ping al server para validar si existe
+		$.ajax({
+		      type: "GET",
+		      url: "http://localhost:3000/v1/",
+		      success: function (response) {
+		    	
+		    	Chat.userId = userId;
+		  		Chat.loadInitialData();
+		  		Chat.initSocket();
+		  		
+		  		$('#finded_users').hide();
+		      	$('#finded_users_list').hide();
+		      },
+		      error: function (xhr, ajaxOptions, thrownError) {
+		    	  $("#header_inbox_bar").hide();
+		      }
+		});
+		
 	}else{
 		$("#header_inbox_bar").hide();
 	}
@@ -825,4 +894,9 @@ $('.page-quick-sidebar-chat-user-form .form-control').keypress(function (e) {
 $('#searchUserInput').keyup(function() {
     var userName = this.value;
     Chat.handleSearch(userName);
+});
+
+$(document).on('click', '#load_more_msgs', function(e){
+	var totalMsgs = $(this).attr('msgs');
+	Chat.loadMoreMessages(totalMsgs);
 });

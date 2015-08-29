@@ -296,13 +296,15 @@
 								<i class="icon-lock"></i> Bloquear Pantalla </a>
 							</li>
 							<li>
-								
+								<a href="" onclick="document.getElementById('logoutForm').submit();return false;" class="logoutButton">
+									<i class="icon-key"></i>Salir
+								</a>
+							
 								<c:url var="logoutUrl" value="/logout"/>
-								<form action="${logoutUrl}" method="post">
-  									<input type="submit" value="Salir form" />
+								<form id="logoutForm" action="${logoutUrl}" method="post">
+  									<!--  <input type="submit" value="Salir form" /> -->
   									<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 								</form>
-								<i class="icon-key"></i> Salir </a>
 							</li>
 						</ul>
 					</li>

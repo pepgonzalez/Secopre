@@ -699,6 +699,13 @@
 								<!-- listado de mensajes -->
 								<div id="chat_container" class="page-quick-sidebar-chat-user-messages">
 								</div>
+								
+								<template id="has_more_msgs">
+									<div id="more_msgs_container" style="text-align:center;"></div>
+										<a id="load_more_msgs" href="#" style="text-align:center;">Cargar mensajes anteriores...</a>
+									</div>
+								</template>
+								
 								<!-- plantilla de cuerpo de msg -->
 								<template id="chat_message">
 										<!-- post out post in -->

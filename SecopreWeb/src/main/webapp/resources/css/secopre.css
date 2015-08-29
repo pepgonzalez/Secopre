@@ -58,3 +58,8 @@ p.advertencia, p.error, p.exito, p.aviso{ font-size: 12px; margin-top: 5px; }
 	width: 50px!important;
 	height:50px!important;
 }
+
+.logoutButton{
+	font-size: 14px;
+    font-weight: 300;	
+}
