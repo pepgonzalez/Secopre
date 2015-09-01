@@ -19,13 +19,13 @@
 			<!-- END PAGE BREADCRUMB -->
 
 			<!-- FORMULARIO AGREGAR ROLES -->
-			<div id="add_perms">
+			<div id="add_Perm">
 				<%@ include file="/WEB-INF/views/auth/admin/config/perm/add.jsp"%>
 			</div>
 			<!-- TERMINA FORMULARIO AGREGAR ROLES -->
 			
 			<!-- LISTA ROLES -->
-			<div id="list_perms">
+			<div id="list_Perm">
 				<%@ include file="/WEB-INF/views/auth/admin/config/perm/list.jsp"%>
 			</div>
 			<!-- TERMINA LISTA ROLES -->			

@@ -45,7 +45,7 @@
 					</div>
 				</div>
 				<table class="table table-striped table-bordered table-hover"
-					id="permTable">
+					id="PermTable">
 					<thead>
 						<tr>
 							<th class="table-checkbox"><input type="checkbox"

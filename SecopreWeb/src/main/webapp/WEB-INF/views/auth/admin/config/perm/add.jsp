@@ -24,7 +24,7 @@
 							</div>
 						</div>
 						<div class="portlet-body form">
-							<form:form cssClass="form-horizontal" id="roleForm" commandName="role" action="auth/adm/role/add">
+							<form:form cssClass="form-horizontal" id="PermForm" commandName="permission" action="auth/adm/perm/add">
 								<div class="form-body">
 								<!-- Se incluyen los DIV de alertamiento en formularios -->
 									<%@ include file="/WEB-INF/views/auth/common/alertForm.jsp"%>						
