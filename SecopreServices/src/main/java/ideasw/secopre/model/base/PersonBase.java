@@ -1,6 +1,7 @@
 package ideasw.secopre.model.base;
 
 import ideasw.secopre.enums.Gender;
+import ideasw.secopre.model.Address;
 
 import javax.persistence.Column;
 import javax.persistence.EnumType;
@@ -8,7 +9,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 /**
  * 
@@ -58,6 +61,9 @@ public class PersonBase extends AuditEntity {
 	@Column(name = "WEB_SITE",nullable = true, length = 300)
 	private String webSite;
 
+	@ManyToOne
+	@PrimaryKeyJoinColumn(name = "ADDRESS_ID", referencedColumnName = "ID")
+	private Address address;
 	/**
 	 * @return the id
 	 */
