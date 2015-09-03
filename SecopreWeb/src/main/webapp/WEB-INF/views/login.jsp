@@ -73,7 +73,10 @@
 					</div>
 				</c:if>
 				<c:if test="${not empty msg}">
-					<div class="msg">${msg}</div>
+					<div class="alert alert-success display-show">
+						<button class="close" data-close="alert"></button>
+						<span>${msg}</span>
+					</div>
 				</c:if>
 				<div class="alert alert-danger display-hide">
 					<button class="close" data-close="alert"></button>

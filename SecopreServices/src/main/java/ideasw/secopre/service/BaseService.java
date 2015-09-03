@@ -1,6 +1,6 @@
 package ideasw.secopre.service;
 
-import ideasw.secopre.model.Persistible;
+import ideasw.secopre.model.base.Persistible;
 
 import java.util.List;
 import java.util.Map;

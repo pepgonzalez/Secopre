@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,15 +50,29 @@ public class HomeController extends ControllerBase {
 	// Spring Security see this :
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView login(
-			@RequestParam(value = "error", required = false) String error,
-			@RequestParam(value = "logout", required = false) String logout) {
+			@RequestParam(value = "error", required = false) String error) {
 		ModelAndView model = new ModelAndView();
-		if (error != null) {
+		if (error != null && !StringUtils.isEmpty(error)) {
 			model.addObject("error", "Credenciales Inválidas!");
 		}
-		if (logout != null) {
-			model.addObject("msg", "Salió de la aplicacion Exitosamente.");
-		}
+		model.setViewName(SecopreConstans.MV_LOGIN);
+		return model;
+	}
+
+	/**
+	 * Metodo que atiende las peticiones al contexto /login.htm
+	 * 
+	 * @param model
+	 * @return pagina JSP
+	 */
+	// Spring Security see this :
+	@RequestMapping(value = "/logout", method = RequestMethod.POST)
+	public ModelAndView logout(
+			@RequestParam(value = "logout", required = false) String logout) {
+		ModelAndView model = new ModelAndView();
+		
+		model.addObject("msg", "Salió de la aplicacion Exitosamente.");
+		
 		model.setViewName(SecopreConstans.MV_LOGIN);
 		return model;
 	}

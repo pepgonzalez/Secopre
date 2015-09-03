@@ -45,7 +45,7 @@
 									</div>
 								</div>
 							</div>
-							<table class="table table-striped table-bordered table-hover" id="userTable">
+							<table class="table table-striped table-bordered table-hover" id="UserTable">
 							<thead>
 							<tr>
 								<th class="table-checkbox">

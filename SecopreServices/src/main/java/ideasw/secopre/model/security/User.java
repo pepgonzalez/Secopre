@@ -3,7 +3,7 @@
  */
 package ideasw.secopre.model.security;
 
-import ideasw.secopre.model.Persistible;
+import ideasw.secopre.model.base.Persistible;
 
 import java.util.Collection;
 import java.util.List;

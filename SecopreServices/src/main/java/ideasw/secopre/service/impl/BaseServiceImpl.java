@@ -4,7 +4,7 @@
 package ideasw.secopre.service.impl;
 
 import ideasw.secopre.dao.JpaDao;
-import ideasw.secopre.model.Persistible;
+import ideasw.secopre.model.base.Persistible;
 import ideasw.secopre.service.BaseService;
 
 import java.util.List;

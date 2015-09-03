@@ -3,6 +3,7 @@ package ideasw.secopre.web;
 public class SecopreConstans {
 	public static final String USER_IN_SESSION = "User_In_Session"; 
 	//####Constantes de vistas####//
+	public static final String MV_START = "/auth/start";
 	public static final String MV_LOGIN = "login";
 	public static final String REDIRECT_ROOT_AUTH = "redirect:auth/";
 	public static final String AUTH_INDEX = "auth/common/layout";

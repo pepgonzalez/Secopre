@@ -49,6 +49,7 @@
 	<!-- END THEME STYLES -->
 	<!-- BEGIN PAGE CUSTOM STYLES -->
 	<link href='<c:url value="/resources/css/plugins/dataTables.bootstrap.css"/>' rel="stylesheet" type="text/css"/>
+	<link href='<c:url value="/resources/css/plugins/multi-select.css"/>' rel="stylesheet" type="text/css"/>
 	<link href='<c:url value="/resources/css/plugins/introjs.min.css"/>' rel="stylesheet" type="text/css"/>
 	<link href='<c:url value="/resources/css/secopre.css"/>' rel="stylesheet" type="text/css"/>
 	<!-- END PAGE CUSTOM STYLES -->	
@@ -95,6 +96,8 @@
 	<!-- IMPORTANT! Load jquery-ui.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
 	<script src='<c:url value="/resources/js/plugins/jquery-ui.min.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/bootstrap.min.js"/>' type="text/javascript"></script>
+	<script src='<c:url value="/resources/js/plugins/jquery.bootstrap.wizard.min.js"/>' type="text/javascript"></script>
+	
 	
 	<script src='<c:url value="/resources/js/plugins/bootstrap-hover-dropdown.min.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/jquery.slimscroll.min.js"/>'type="text/javascript"></script>
@@ -138,7 +141,8 @@
 	<script src='<c:url value="/resources/js/plugins/jquery.validate.min.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/additional-methods.min.js"/>' type="text/javascript"></script>	
 	<script src='<c:url value="/resources/js/plugins/jquery.dataTables.min.js"/>' type="text/javascript"></script>
-	<script src='<c:url value="/resources/js/plugins/dataTables.bootstrap.js"/>' type="text/javascript"></script>		
+	<script src='<c:url value="/resources/js/plugins/dataTables.bootstrap.js"/>' type="text/javascript"></script>
+	<script src='<c:url value="/resources/js/plugins/jquery.multi-select.js"/>' type="text/javascript"></script>		
 	<script src='<c:url value="/resources/js/plugins/intro.min.js"/>' type="text/javascript"></script>
 	
 	<script src='<c:url value="/resources/js/utils/secopreUtils.js"/>' type="text/javascript"></script>

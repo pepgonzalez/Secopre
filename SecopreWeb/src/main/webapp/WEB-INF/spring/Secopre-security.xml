@@ -15,10 +15,14 @@
 			authentication-failure-url="/login?error"
 			username-parameter="username" 
 			password-parameter="password" 
+			authentication-success-handler-ref="authenticationSuccessHandler"
 			always-use-default-target="true"/>
-    	<security:logout logout-url="/logout" logout-success-url="/" delete-cookies="JSESSIONID" />
+    	<security:logout logout-url="/login?logout" logout-success-url="/" delete-cookies="JSESSIONID" />
 		<security:csrf />
 		<security:remember-me />
+		<security:session-management>
+			<security:concurrency-control error-if-maximum-exceeded="true" expired-url="/login?error" max-sessions="1"/>
+		</security:session-management>
 	</security:http>
 	
 	<bean id="daoAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">

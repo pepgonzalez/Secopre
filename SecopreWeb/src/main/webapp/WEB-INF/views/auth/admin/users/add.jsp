@@ -7,7 +7,7 @@
 						<div class="portlet-title">
 							<div class="caption">
 								<i class="fa fa-gift"></i> <spring:message code="application.pages.admin.users.title"/> - <span class="step-title">
-								Step 1 of 4 </span>
+								Paso 1 de 4 </span>
 							</div>
 							<div class="tools hidden-xs">
 								<a href="javascript:;" class="collapse">
@@ -15,7 +15,7 @@
 							</div>
 						</div>
 						<div class="portlet-body form">
-							<form action="#" class="form-horizontal" id="submit_form" method="POST">
+							<form action="#" class="form-horizontal" id="submit_form" method="POST" action="#" novalidate="novalidate">
 								<div class="form-wizard">
 									<div class="form-body">
 
@@ -25,7 +25,7 @@
 												<span class="number">
 												1 </span>
 												<span class="desc">
-												<i class="fa fa-check"></i> Informacion de Cuenta </span>
+												<i class="fa fa-check"></i> Información de Cuenta </span>
 												</a>
 											</li>
 											<li>
@@ -49,7 +49,7 @@
 												<span class="number">
 												4 </span>
 												<span class="desc">
-												<i class="fa fa-check"></i> Confirmacion</span>
+												<i class="fa fa-check"></i> Confirmación</span>
 												</a>
 											</li>
 										</ul>
@@ -62,7 +62,7 @@
 											<%@ include file="/WEB-INF/views/auth/common/alertForm.jsp"%>
 
 											<div class="tab-pane active" id="tab1">
-												<h3 class="block">Provide your account details</h3>
+												<h3 class="block">Proporcionar datos de su cuenta</h3>
 												<div class="form-body">													
 													<div class="form-group form-md-line-input">
 														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.users.username"/>
@@ -70,7 +70,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input id="username" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.users.username.placeholder"/>'>
+																<input id="username" name="username" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.users.username.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.admin.users.username.help"/></span>
@@ -80,10 +80,12 @@
 													</div>
 													
 													<div class="form-group form-md-line-input has-danger">
-														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.users.nickname"/></label>
+														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.users.nickname"/>
+														<span class="required">* </span>
+														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.users.nickname.placeholder"/>'>
+																<input name="nickname"  id="nickname" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.users.nickname.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.admin.users.nickname.help"/></span>
@@ -92,13 +94,15 @@
 														</div>
 													</div>
 													<div class="form-group form-md-line-input">
-														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.users.email"/></label>
+														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.users.email"/> 
+														<span class="required">* </span>
+														</label>
 														<div class="col-md-10">
 															<div class="input-group">
 																<span class="input-group-addon">
 																<i class="fa fa-envelope"></i>
 																</span>
-																<input type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.users.email"/>'>
+																<input name="email"  id="email" type="email"  class="form-control" placeholder='<spring:message code="application.pages.admin.users.email"/>'>
 																<div class="form-control-focus">
 																</div>																				
 <!-- 																<span class="help-block"><spring:message code="application.pages.admin.users.email.help"/></span> -->
@@ -106,10 +110,12 @@
 														</div>
 													</div>
 													<div class="form-group form-md-line-input has-danger">
-														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.users.password"/></label>
+														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.users.password"/>
+														<span class="required">* </span>
+														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.users.password.placeholder"/>'>
+																<input id="password" name="password" type="password" class="form-control" placeholder='<spring:message code="application.pages.admin.users.password.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.admin.users.password.help"/></span>
@@ -118,18 +124,51 @@
 														</div>
 													</div>	
 													<div class="form-group form-md-line-input has-danger">
-														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.users.password"/></label>
+														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.users.password"/>
+														<span class="required">* </span>
+														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.users.password.placeholder"/>'>
+																<input id="rpassword" name="rpassword" type="password" class="form-control" placeholder='<spring:message code="application.pages.admin.users.password.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.admin.users.password.help"/></span>
 																<i class="fa fa-bell-o"></i>
 															</div>
 														</div>
-													</div>																						
-												</div>
+													</div>	
+													
+													
+<!-- 													<div class="form-group"> -->
+<%-- 													   <label class="control-label col-md-2" for="form_control_1"><spring:message code="application.pages.admin.users.chat"/> --%>
+<!-- 													      <span class="required" aria-required="true"> * </span> -->
+<!-- 													   </label> -->
+<!-- 													      <div class="col-md-3"> -->
+<!--                                                           <div class="radio-list"> -->
+<!--                                                        <label> -->
+<!--                                                           <div class="radio"> -->
+<!--                                                              <span><input type="radio" data-title="Si" value="S" name="gender" > -->
+<!-- 															</span> -->
+<!-- 														</div> -->
+<!-- 														Si -->
+<!-- 												      </label> -->
+
+
+<!-- 													  <label> -->
+<!-- 													     <div class="radio"> -->
+<!-- 													        <span> -->
+<!-- 													        <input type="radio" data-title="No" value="N" name="gender"> -->
+<!-- 													        </span> -->
+<!-- 												         </div> -->
+<!-- 															No -->
+<!-- 															</label> -->
+<!-- 														</div> -->
+<!-- 														<div id="form_gender_error"> </div> -->
+<!-- 														</div> -->
+<!-- 														</div> -->
+												       
+												       																				
+											    	</div>
 											</div>
 											<div class="tab-pane" id="tab2">
 												<h3 class="block">Roles</h3>

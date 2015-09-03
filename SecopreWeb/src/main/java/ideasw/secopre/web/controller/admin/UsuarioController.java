@@ -82,9 +82,10 @@ public class UsuarioController extends AuthController {
 		return "redirect:" + SecopreConstans.MV_ADM_USR_LIST;
 	}
 
-	@RequestMapping(value = "start")
+	@RequestMapping(value = "start" , method = RequestMethod.GET)
 	public String home(ModelMap model, Principal principal,
 			HttpServletRequest request) {
+		
 		String name = principal.getName(); // get logged in username
 		model.addAttribute("username", name);
 		// Se colocan los menus del usuario en session

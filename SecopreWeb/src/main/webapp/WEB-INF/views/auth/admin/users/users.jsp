@@ -19,13 +19,13 @@
 			<!-- END PAGE BREADCRUMB -->
 
 			<!-- FORMULARIO AGREGAR USUARIOS -->
-			<div id="add_users">
+			<div id="add_User">
 				<%@ include file="/WEB-INF/views/auth/admin/users/add.jsp"%>
 			</div>
 			<!-- TERMINA FORMULARIO AGREGAR USUARIOS -->
 			
 			<!-- LISTA USUARIOS -->
-			<div id="list_users">
+			<div id="list_User">
 				<%@ include file="/WEB-INF/views/auth/admin/users/list.jsp"%>
 			</div>
 			<!-- TERMINA LISTA USUARIOS -->			

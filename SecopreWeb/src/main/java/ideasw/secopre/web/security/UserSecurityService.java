@@ -32,7 +32,8 @@ public class UserSecurityService implements UserDetailsService {
 			throw new UsernameNotFoundException("El usuario: " + username
 					+ " no ese encuentra activo");
 
-			//TODO: validar password expirado 
+		//TODO: validar password expirado 
+		
 		return assembler.buildUserFromUserEntity(user);
 
 	}

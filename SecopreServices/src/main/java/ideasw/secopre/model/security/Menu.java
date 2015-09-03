@@ -1,6 +1,6 @@
 package ideasw.secopre.model.security;
 
-import ideasw.secopre.model.Persistible;
+import ideasw.secopre.model.base.Persistible;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -6,11 +6,13 @@ import ideasw.secopre.model.security.Menu;
 import ideasw.secopre.model.security.Permission;
 import ideasw.secopre.model.security.Role;
 import ideasw.secopre.model.security.User;
+import ideasw.secopre.model.security.UserAccess;
 import ideasw.secopre.service.AccessService;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -101,5 +103,17 @@ public class AccessServiceImpl implements AccessService {
 
 				});
 		return childs;
+	}
+
+	@Override
+	public void onLoginSuccess(String username, String jSessionId,
+			String remoteIP) {
+		User user = loadUserByUsername(username);
+		UserAccess access = new UserAccess();
+		access.setjSessionId(jSessionId);
+		access.setLoginDate(new Date());
+		access.setRemoteIP(remoteIP);
+		access.setUser(user);
+		jpaDao.persist(access);
 	}
 }

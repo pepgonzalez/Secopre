@@ -10,4 +10,6 @@ public interface AccessService {
 	public User loadUserByUsername(String userName);
 
 	public List<RenderSingleMenu> getMenuByUserName(String username);
+	
+	public void onLoginSuccess(String username, String jSessionId, String remoteIP);
 }

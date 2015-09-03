@@ -1,4 +1,4 @@
-package ideasw.secopre.model;
+package ideasw.secopre.model.base;
 
 import java.io.Serializable;
 

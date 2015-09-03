@@ -14,7 +14,7 @@ import javax.persistence.Index;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import ideasw.secopre.model.Persistible;
+import ideasw.secopre.model.base.Persistible;
 
 /**
  * Esta entidad permite almacenar el control de acceso de todos los usuarios de
@@ -47,6 +47,9 @@ public class UserAccess implements Persistible {
 	@Column(name = "REMOTE_IP")
 	private String remoteIP;
 
+	@Column(name = "JSESSIONID")
+	private String jSessionId;
+	
 	public Long getId() {
 		return id;
 	}
@@ -85,6 +88,20 @@ public class UserAccess implements Persistible {
 
 	public void setRemoteIP(String remoteIP) {
 		this.remoteIP = remoteIP;
+	}
+
+	/**
+	 * @return the jSessionId
+	 */
+	public String getjSessionId() {
+		return jSessionId;
+	}
+
+	/**
+	 * @param jSessionId the jSessionId to set
+	 */
+	public void setjSessionId(String jSessionId) {
+		this.jSessionId = jSessionId;
 	}
 
 }
