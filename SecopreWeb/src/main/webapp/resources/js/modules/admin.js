@@ -599,3 +599,15 @@ function initWizard() {
 	}).hide();
 
 }
+
+
+/*funciones de tramites **OJO** mala idea declarar las funciones en scope global*/
+var TramiteClassHelper = function(){
+	
+	this.initTramitePage = function(){
+		alert('Inicializando pagina de tramite');
+	};
+	
+}
+
+TramiteHelper = new TramiteClassHelper();

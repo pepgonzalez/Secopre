@@ -21,4 +21,9 @@ public class SecopreConstans {
 	//####Modulo Administracion Permisos####//
 	public static final String MV_ADM_PERMISSION = "auth/admin/config/perm/perms";
 	
+	//####Modulo de Tramites####//
+	public static final String MV_TRAM_ADD = "auth/tramite/add";
+	public static final String MV_TRAM_LIST = "auth/tramite/list";
+		
+	
 }
