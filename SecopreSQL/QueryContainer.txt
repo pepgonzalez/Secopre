@@ -1,0 +1,39 @@
+/*
+ * Created on Feb 7, 2008
+ *
+ * To change the template for this generated file go to
+ * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ */
+package com.afirme.afirmenew.persistence.querycontainer;
+
+import java.util.Properties;
+
+/**
+ * @author aalonzo
+ *
+ * To change the template for this generated type comment go to
+ * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ */
+public class QueryContainer {
+	Properties queries;
+	
+	public String getSQL(String key) {
+		return queries.getProperty(key);
+	}
+
+
+	/**
+	 * @return
+	 */
+	public Properties getQueries() {
+		return queries;
+	}
+
+	/**
+	 * @param properties
+	 */
+	public void setQueries(Properties properties) {
+		queries = properties;
+	}
+
+}
