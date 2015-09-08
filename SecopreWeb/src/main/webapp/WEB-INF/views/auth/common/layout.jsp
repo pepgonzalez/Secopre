@@ -50,6 +50,7 @@
 	<!-- BEGIN PAGE CUSTOM STYLES -->
 	<link href='<c:url value="/resources/css/plugins/dataTables.bootstrap.css"/>' rel="stylesheet" type="text/css"/>
 	<link href='<c:url value="/resources/css/plugins/multi-select.css"/>' rel="stylesheet" type="text/css"/>
+	<link href='<c:url value="/resources/css/plugins/toastr.min.css"/>' rel="stylesheet" type="text/css"/>
 	<link href='<c:url value="/resources/css/plugins/introjs.min.css"/>' rel="stylesheet" type="text/css"/>
 	<link href='<c:url value="/resources/css/secopre.css"/>' rel="stylesheet" type="text/css"/>
 	<!-- END PAGE CUSTOM STYLES -->	
@@ -144,9 +145,9 @@
 	<script src='<c:url value="/resources/js/plugins/dataTables.bootstrap.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/jquery.multi-select.js"/>' type="text/javascript"></script>		
 	<script src='<c:url value="/resources/js/plugins/intro.min.js"/>' type="text/javascript"></script>
+	<script src='<c:url value="/resources/js/plugins/toastr.min.js"/>' type="text/javascript"></script>		
 	
-	<script src='<c:url value="/resources/js/utils/secopreUtils.js"/>' type="text/javascript"></script>
-	
+	<script src='<c:url value="/resources/js/utils/secopreUtils.js"/>' type="text/javascript"></script>	
 	<script src='<c:url value="/resources/js/utils/secopre.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/demo/table-managed.js"/>' type="text/javascript"></script>	
 	<script src='<c:url value="/resources/js/modules/admin.js"/>' type="text/javascript"></script>	

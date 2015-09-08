@@ -126,7 +126,7 @@ function initUserValidations() {
 						input = $('[name="' + $(this).attr("data-display")
 								+ '"]:checked', form);
 					}
-					if (input.is(":text") || input.is("textarea") || input.is(":email")) {
+					if (input.is(":text") || input.is("textarea")) {
 						$(this).html(input.val());
 					} else if (input.is("select")) {
 						var elements = [];
@@ -137,6 +137,8 @@ function initUserValidations() {
 						$(this).html(elements.join("<br>"));
 					} else if (input.is(":radio") && input.is(":checked")) {
 						$(this).html(input.attr("data-title"));
+					}else {
+						$(this).html($("input[name='email']").val());
 					}
 				});
 	}
@@ -212,7 +214,8 @@ function initUserValidations() {
 
 	$('#form_wizard_1').find('.button-previous').hide();
 	$('#form_wizard_1 .button-submit').click(function() {
-		alert('Finished! Hope you like it :)');
+		formId, targetId,after
+		submitAjaxJQ('submit_form','dashboard','');
 	}).hide();
 }
 

@@ -41,7 +41,7 @@ function unblockPage() {
  * @param targetId:
  *            el id del div donde se inyectara el HTML producido por la peticion
  */
-function submitAjaxJQ(formId, targetId,after) {
+function submitAjaxJQ(formId, targetId, after) {
 	var frm = $('#' + formId);
 	var action = frm.attr('action')
 
@@ -61,16 +61,23 @@ function submitAjaxJQ(formId, targetId,after) {
 				success : function(data) {
 					$("#" + targetId).html("");
 					$('#' + targetId).html(data);
+					// Mensaje Exito
+					alert(data.message);
+					showNotification('success',
+							'La operacion se realizo correctamente!!');
 				},
 				complete : function(jqXHR) {
 					if (after !== null) {
 						eval(after);
-					}					
+					}
 					unblockPage();
-
 				},
 				error : function(xhr, ajaxOptions, thrownError) {
 					unblockPage();
+					// Mensaje error
+					showNotification('error',
+							'Ocurrio un error al ejecutar su peticion:'
+									+ thrownError);
 				}
 			});
 }
@@ -106,4 +113,30 @@ function sendRequestJQ(actionURL, targetId, after) {
 		},
 		type : 'POST'
 	});
+}
+
+function showNotification(notifType, notifMsg) {
+
+	var shortCutFunction = notifType;// success, info, warning, error
+	var msg = notifMsg;
+	var title = 'Notificaciones Secopre';
+
+	toastr.options = {
+		closeButton : 'true',
+		positionClass : 'toast-top-right',
+		onclick : null,
+		showDuration : '1000',
+		hideDuration : '1000',
+		timeOut : '5000',
+		extendedTimeOut : '1000',
+		showEasing : 'swing',
+		hideEasing : 'linear',
+		showMethod : 'fadeIn',
+		hideMethod : 'fadeOut'
+	};
+
+	if (!msg) {
+		msg = getMessage();
+	}
+	var $toast = toastr[shortCutFunction](msg, title); // Wire up an event
 }

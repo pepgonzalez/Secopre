@@ -15,11 +15,10 @@
 				</div>
 			</div>
 			<div class="portlet-body form">
-				<form action="#" class="form-horizontal" id="submit_form"
-					method="POST" action="#" novalidate="novalidate">
+				<form action="adm/usr/add" class="form-horizontal" id="submit_form"
+					method="POST" novalidate="novalidate">
 					<div class="form-wizard">
 						<div class="form-body">
-
 							<ul class="nav nav-pills nav-justified steps">
 								<li><a href="#tab1" data-toggle="tab" class="step"> <span
 										class="number"> 1 </span> <span class="desc"> <i
@@ -105,6 +104,22 @@
 												</div>
 											</div>
 										</div>
+										<div class="form-group form-md-line-input">
+											<label class="col-md-3 control-label" for="form_control_1"><spring:message
+													code="application.pages.admin.users.hasChatActive" /> <span
+												class="required">* </span> </label>
+											<div class="col-md-9">
+												<div class="input-group">
+													<span class="input-group-addon"> <i
+														class="fa fa-envelope"></i>
+													</span> <input name="hasChatActive" id="hasChatActive" type="checkbox"
+														class="form-control">
+													<div class="form-control-focus"></div>
+													<span class="help-block"><spring:message
+															code="application.pages.admin.users.email.help" /></span>
+												</div>
+											</div>
+										</div>										
 										<div class="form-group form-md-line-input has-danger">
 											<label class="col-md-3 control-label" for="form_control_1"><spring:message
 													code="application.pages.admin.users.password" /> <span
