@@ -1,5 +1,7 @@
 package ideasw.secopre.web.controller.admin;
 
+import ideasw.secopre.model.security.Permission;
+import ideasw.secopre.model.security.Role;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.AccessService;
 import ideasw.secopre.utils.encryption.Encryption;
@@ -7,7 +9,6 @@ import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
 
 import java.security.Principal;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -44,10 +45,11 @@ public class UsuarioController extends AuthController {
 	@RequestMapping(value = "adm/usr/list", method = { RequestMethod.GET,
 			RequestMethod.POST })
 	public String getUserList(ModelMap model, RedirectAttributes attributes) {
-		List<User> userList = baseService.findAll(User.class);
 		User user = new User();
-		model.addAttribute("userList", userList);
+		model.addAttribute("userList", baseService.findAll(User.class));
 		model.addAttribute("user", user);
+		model.addAttribute("roles", baseService.findAll(Role.class));
+		model.addAttribute("permissions", baseService.findAll(Permission.class));
 		return SecopreConstans.MV_ADM_USR;
 	}
 
