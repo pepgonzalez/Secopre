@@ -11,41 +11,62 @@
 								<span class="caption-subject bold uppercase"><spring:message code="application.pages.tramite.add.title"/></span>
 							</div>
 							<div class="actions">
-								<!--  
-								<a class="btn btn-circle btn-icon-only blue" href="javascript:;">
-									<i class="icon-cloud-upload"></i>
-								</a>
-								<a class="btn btn-circle btn-icon-only green" href="javascript:;">
-									<i class="icon-wrench"></i>
-								</a>
-								<a class="btn btn-circle btn-icon-only red" href="javascript:;">
-									<i class="icon-trash"></i>
-								</a>
-								-->
 								<a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title="">
 								</a>
 							</div>
 						</div>
+						
 						<div class="portlet-body form">
-							<form:form cssClass="form-horizontal" id="PermForm" commandName="permission" action="auth/adm/perm/add">
+							<!-- formulario -->	
+							<form:form cssClass="form-horizontal" method="post" modelAttribute="requestForm" action="auth/tram/add">
+							
 								<div class="form-body">
 									<!-- Se incluyen los DIV de alertamiento en formularios -->
 									<%@ include file="/WEB-INF/views/auth/common/alertForm.jsp"%>
 									
+									
 									<div class="form-group form-md-line-input">
-										<label class="col-md-2 control-label" for="form_control_2"><spring:message code="application.pages.tramite.add.select"/></label>
+										<label class="col-md-2 control-label" for="formalityId"><spring:message code="application.pages.tramite.add.select"/></label>
 										<div class="col-md-10">
-											<select class="form-control" id="form_control_2">
-												<option value="">Seleccione...</option>
-												<c:forEach items="${formalities}" var="formality" varStatus="formalityStatus">
-													<option value="${formality.formalityId}">${formality.description}</option>
-												</c:forEach>
-												
-											</select>
+											<form:select path="formalityId" id="formalityId" class="form-control">
+											   	<form:option value="-1" label="Seleccione..."/>
+    											<form:options items="${formalities}" />
+											</form:select>
+										</div>
+									</div>
+									
+									<!-- campo de nombre de usuario -->
+									<div class="form-group form-md-line-input">
+										<label class="col-md-2 control-label" for="firstName"><spring:message code="application.pages.tramite.add.firstName"/></label>
+										<div class="col-md-10">
+											<form:input path="firstName" type="text" id="firstName" class="form-control" />
 											<div class="form-control-focus">
 											</div>
+											<span class="help-block">Campo 1</span>
 										</div>
-									</div>								
+									</div>
+									
+									<!-- campo de apellido paterno -->
+									<div class="form-group form-md-line-input">
+										<label class="col-md-2 control-label" for="parentLastName"><spring:message code="application.pages.tramite.add.parentLastName"/></label>
+										<div class="col-md-10">
+											<form:input path="parentLastName" type="text" id="parentLastName" class="form-control" />
+											<div class="form-control-focus">
+											</div>
+											<span class="help-block">Campo 2</span>
+										</div>
+									</div>
+									
+									<!-- campo de apellido materno -->
+									<div class="form-group form-md-line-input">
+										<label class="col-md-2 control-label" for="motherLastName"><spring:message code="application.pages.tramite.add.parentLastName"/></label>
+										<div class="col-md-10">
+											<form:input path="motherLastName" type="text" id="motherLastName" class="form-control" />
+											<div class="form-control-focus">
+											</div>
+											<span class="help-block">Campo 3</span>
+										</div>
+									</div>
 								
 								</div>
 								
@@ -57,8 +78,10 @@
 										</div>
 									</div>
 								</div>
-							</form:form>
+								
+							</form:form>	
 						</div>
+						
 					</div>
 					<!-- END SAMPLE FORM PORTLET-->
 				</div>
