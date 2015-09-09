@@ -37,9 +37,10 @@
 										<div class="col-md-10">
 											<select class="form-control" id="form_control_2">
 												<option value="">Seleccione...</option>
-												<option value="">Tramite 1</option>
-												<option value="">Tramite 2</option>
-												<option value="">Tramite 3</option>
+												<c:forEach items="${formalities}" var="formality" varStatus="formalityStatus">
+													<option value="${formality.formalityId}">${formality.description}</option>
+												</c:forEach>
+												
 											</select>
 											<div class="form-control-focus">
 											</div>

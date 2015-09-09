@@ -13,8 +13,10 @@ http://www.springframework.org/schema/context/spring-context.xsd
 http://www.springframework.org/schema/jee
 http://www.springframework.org/schema/jee/spring-jee.xsd">
 
-	<!-- escaneado automatico de componentes de tipo @Component , @Repository, 
-		@Service, @Controller -->
+	<!-- import del archivo XML con SQL nativo -->
+	<import resource="SQL.xml"/>
+
+	<!-- escaneado automatico de componentes de tipo @Component , @Repository,  @Service, @Controller -->
 	<context:component-scan base-package="ideasw.secopre.service.*, ideasw.secopre.dao.*" />
 
 	<!-- holding properties for database connectivity / -->

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+	<bean id="queryContainer" class="ideasw.secopre.sql.QueryContainer">
+		<property name="queries">
+			<props>
+						
+				<prop key="GET_FORMALITY_FROM_USER_ID">
+					<![CDATA[
+						SELECT DISTINCT (T.ID) AS FORMALITY_ID, T.F_DESC AS DESCRIPTION, T.WORKFLOW_ID FROM (
+							SELECT F.ID,
+								   F.DESCRIPTION F_DESC,
+								   F.WORKFLOW_ID,
+								   W.DESCRIPTION WF_DESC,
+								   W.FIRST_STAGE_CFG,
+								   SCR.ROLE_ID,
+								   R.ROLENAME
+							  FROM SECOPRE.FORMALITY F,
+							  	   SECOPRE.WORKFLOW W,
+							  	   SECOPRE.STAGE_CONFIG_ROLE SCR,
+							  	   SECOPRE.ROLE R,
+							  	   SECOPRE.USER_ROLE UR
+							 WHERE F.WORKFLOW_ID = W.ID
+							   AND W.FIRST_STAGE_CFG = SCR.STAGE_CONFIG_ID
+							   AND SCR.ROLE_ID = R.ID
+							   AND R.ID = UR.ROLE_ID
+							   AND UR.USER_ID = :userId
+							) T
+					]]>
+				</prop>			
+	
+			</props>				
+		</property>
+	</bean>
+</beans>
