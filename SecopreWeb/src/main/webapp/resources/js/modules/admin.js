@@ -24,6 +24,7 @@ function initAdminPage(page) {
 	});
 	$('button.btn.blue').click(
 			function() {
+				console.log("submit boton blue");
 				submitAjaxJQ(page + 'Form', 'dashboard', 'initAdminPage('
 						+ page + ');');
 			});
@@ -220,12 +221,62 @@ function initUserValidations() {
 }
 
 /*funciones de tramites **OJO** mala idea declarar las funciones en scope global*/
-var TramiteClassHelper = function(){
+function initTramitePage(){
+		alert("iniciando controlador de tramite");
 	
-	this.initTramitePage = function(){
-		alert('Inicializando pagina de tramite');
-	};
-	
-}
+		//se obtiene la forma
+		var requestForm = $("#requestForm");
+		//se define la validacion
+		requestForm.validate({
+			doNotHideMessage : true,
+			errorElement : 'span', // default input error message container
+			errorClass : 'help-block help-block-error', // default input error
+			// message class
+			focusInvalid : false, // do not focus the last invalid input
+			
+			rules : {
+				formalityId : {
+					required : true
+				},
+				firstName : {
+					required : true
+				},
+				parentLastName : {
+					required : true
+				},
+				motherLastName :{
+					required : true
+				}
+			},
 
-TramiteHelper = new TramiteClassHelper();
+			invalidHandler : function(event, validator) { // display error alert
+				console.log("error en la forma")
+			},
+
+			errorPlacement : function(error, element) { // render error placement
+			},
+
+			highlight : function(element) { // hightlight error inputs
+			},
+
+			unhighlight : function(element) { // revert the change done by
+			},
+
+			success : function(label, element) {
+				console.log("todo ok");
+			},
+
+			submitHandler : function(form) {
+				console.log("todo ok, haciendo submit");
+				form[0].submit(); // submit the form
+			}
+		});
+		
+		$('#submitRequestForm').click(function() {
+			console.log("haciendo submit ajax");
+			if (requestForm.valid()){
+				submitAjaxJQ('requestForm','dashboard','');
+			}
+			console.log("fin submit ajax");
+		});		
+}

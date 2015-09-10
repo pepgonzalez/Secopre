@@ -18,7 +18,7 @@
 						
 						<div class="portlet-body form">
 							<!-- formulario -->	
-							<form:form cssClass="form-horizontal" method="post" modelAttribute="requestForm" action="auth/tram/add">
+							<form:form cssClass="form-horizontal" method="POST" modelAttribute="requestForm" id="requestForm" action="auth/tram/add" novalidate="novalidate">
 							
 								<div class="form-body">
 									<!-- Se incluyen los DIV de alertamiento en formularios -->
@@ -74,7 +74,7 @@
 									<div class="row">
 										<div class="col-md-offset-2 col-md-10">
 											<button type="button" class="btn default"><spring:message code="application.back"/></button>
-											<button type="button" class="btn blue"><spring:message code="application.pages.tramite.add.crear"/></button>
+											<button type="button" class="" id="submitRequestForm"><spring:message code="application.pages.tramite.add.crear"/></button>
 										</div>
 									</div>
 								</div>

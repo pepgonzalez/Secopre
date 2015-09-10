@@ -43,18 +43,26 @@ function unblockPage() {
  */
 function submitAjaxJQ(formId, targetId, after) {
 	var frm = $('#' + formId);
-	var action = frm.attr('action')
+	var action = frm.attr('action');
+	
+	
+	var x = (frm !== undefined && frm !== null) ? frm.serialize(true) : null;
+	
+	alert(x);
 
 	var header = $("meta[name='_csrf_header']").attr("content");
 	var token = $("meta[name='_csrf']").attr("content");
 
+	var path = context + '/' + action;
+	
+	alert("haciendo submit POST a: " + path);
+	
 	blockPage();
 	$
 			.ajax({
 				type : "POST",
 				url : context + '/' + action,
-				data : (frm !== undefined && frm !== null) ? frm
-						.serialize(true) : null,
+				data : (frm !== undefined && frm !== null) ? frm.serialize(true) : null,
 				beforeSend : function(xhr) {
 					xhr.setRequestHeader(header, token);
 				},
