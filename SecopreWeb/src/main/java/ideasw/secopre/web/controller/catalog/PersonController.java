@@ -27,8 +27,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * 
  * El {@link RequestMapping} se compone de 3 paths principales que son
  * <ul>
- * <li>adm: Indica que esta en el modulo de administracion</li>
- * <li>usr: Indica que la configuracion pertenece a Usuarios</li>
+ * <li>cat: Indica que esta en el modulo de catalogos</li>
+ * <li>person: Indica que la configuracion pertenece a Usuarios</li>
  * <li>auth: Indica que el modulo esta protegido por autorizacion</li>
  * </ul>
  * 
@@ -41,7 +41,7 @@ public class PersonController extends AuthController {
 	@Autowired
 	private AccessService accessService;
 
-	@RequestMapping(value = "adm/person/list", method = { RequestMethod.GET,
+	@RequestMapping(value = "cat/person/list", method = { RequestMethod.GET,
 			RequestMethod.POST })
 	public String getPersonList(ModelMap model, RedirectAttributes attributes) {
 		Person person = new Person();
