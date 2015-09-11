@@ -3,6 +3,7 @@ package ideasw.secopre.service.impl;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,10 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Service;
 
 import ideasw.secopre.dao.impl.SecopreJdbcTemplate;
 import ideasw.secopre.dto.Formality;
+import ideasw.secopre.dto.Request;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.AccessNativeService;
 import ideasw.secopre.sql.QueryContainer;
@@ -52,6 +56,28 @@ public class AccessNativeServiceImpl implements AccessNativeService{
 				});
 	
 		return result;
+	}
+
+	public Long startFormality(Request request) {
+		Long requestId = this.insertRequest(request);
+		request.setRequestId(requestId);
+		
+		return requestId;
+	}
+	
+	//privados mientras son requeridos en otra capa
+	private Long insertRequest(Request request){
+		
+		Map<String, Object> parameters = new HashMap<String, Object>();
+	    parameters.put("FIRST_NAME", request.getFirstName());
+	    parameters.put("PARENT_LAST_NAME", request.getParentLastName());
+	    parameters.put("MOTHER_LAST_NAME", request.getMotherLastName());
+	    parameters.put("LAST_UPDATE", new Date());
+	    parameters.put("ACTIVE", 1);
+	    
+	    
+		Number id = sql.getSimpleJdbcInsert("REQUEST", "ID").executeAndReturnKey(parameters);
+		return new Long(id.longValue());
 	}
 
 }

@@ -42,25 +42,22 @@ function unblockPage() {
  *            el id del div donde se inyectara el HTML producido por la peticion
  */
 function submitAjaxJQ(formId, targetId, after) {
+	var method = 'POST';
 	var frm = $('#' + formId);
 	var action = frm.attr('action');
 	
 	
 	var x = (frm !== undefined && frm !== null) ? frm.serialize(true) : null;
 	
-	alert(x);
-
 	var header = $("meta[name='_csrf_header']").attr("content");
 	var token = $("meta[name='_csrf']").attr("content");
 
 	var path = context + '/' + action;
-	
-	alert("haciendo submit POST a: " + path);
-	
+		
 	blockPage();
 	$
 			.ajax({
-				type : "POST",
+				type : method,
 				url : context + '/' + action,
 				data : (frm !== undefined && frm !== null) ? frm.serialize(true) : null,
 				beforeSend : function(xhr) {
@@ -70,7 +67,6 @@ function submitAjaxJQ(formId, targetId, after) {
 					$("#" + targetId).html("");
 					$('#' + targetId).html(data);
 					// Mensaje Exito
-					alert(data.message);
 					showNotification('success',
 							'La operacion se realizo correctamente!!');
 				},
@@ -100,7 +96,8 @@ function submitAjaxJQ(formId, targetId, after) {
  * @param after:
  *            funcion JS que sera evaluada al finalizar la peticion
  */
-function sendRequestJQ(actionURL, targetId, after) {
+function sendRequestJQ(actionURL, targetId, after, method) {
+	method = method || "POST";
 	var header = $("meta[name='_csrf_header']").attr("content");
 	var token = $("meta[name='_csrf']").attr("content");
 	blockPage();
@@ -119,7 +116,7 @@ function sendRequestJQ(actionURL, targetId, after) {
 			}
 			unblockPage();
 		},
-		type : 'POST'
+		type : method
 	});
 }
 

@@ -47,4 +47,9 @@ public class Request {
 		this.motherLastName = motherLastName;
 	}
 	
+	@Override
+	public String toString(){
+		return "{requestId: " + requestId + ",formalityId: " + formalityId + ",firstName: "+firstName+",parentLastName: "+parentLastName+", motherLastName: "+motherLastName;
+	}
+	
 }

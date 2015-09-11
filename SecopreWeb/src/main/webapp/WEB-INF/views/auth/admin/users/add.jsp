@@ -53,19 +53,19 @@
 									<h3 class="block">Proporcionar datos de su cuenta</h3>
 									<div class="form-body">
 										<div class="form-group form-md-line-input">
-											<label class="col-md-3 control-label" for="form_control_1"><spring:message
-													code="application.pages.admin.users.username" /> <span
-												class="required">* </span> </label>
+											<label class="col-md-3 control-label" for="form_control_1"><spring:message code="application.pages.admin.users.username" />
+												<span class="required">*</span>
+											</label>
 											<div class="col-md-9">
 												<div class="input-group">
-													<span class="input-group-addon"> <i
-														class="icon-user"></i>
-													</span> <input id="username" name="username" type="text"
-														class="form-control"
-														placeholder='<spring:message code="application.pages.admin.users.username.placeholder"/>'>
+													<span class="input-group-addon"> 
+														<i class="icon-user"></i>
+													</span> 
+													<input id="username" name="username" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.users.username.placeholder"/>'>
 													<div class="form-control-focus"></div>
-													<span class="help-block"><spring:message
-															code="application.pages.admin.users.username.help" /></span>
+													<span class="help-block">
+														<spring:message code="application.pages.admin.users.username.help" />
+													</span>
 												</div>
 											</div>
 										</div>
@@ -88,19 +88,21 @@
 											</div>
 										</div>
 										<div class="form-group form-md-line-input">
-											<label class="col-md-3 control-label" for="form_control_1"><spring:message
-													code="application.pages.admin.users.email" /> <span
-												class="required">* </span> </label>
+											<label class="col-md-3 control-label" for="form_control_1">
+												<spring:message code="application.pages.admin.users.email" />
+												<span class="required">*</span>
+											</label>
 											<div class="col-md-9">
 												<div class="input-group">
-													<span class="input-group-addon"> <i
-														class="fa fa-envelope"></i>
-													</span> <input name="email" id="email" type="email"
-														class="form-control"
-														placeholder='<spring:message code="application.pages.admin.users.email"/>'>
-													<div class="form-control-focus"></div>
-													<span class="help-block"><spring:message
-															code="application.pages.admin.users.email.help" /></span>
+													<span class="input-group-addon">
+														<i class="fa fa-envelope"></i>
+													</span> 
+													<input name="email" id="email" type="email" class="form-control" placeholder='<spring:message code="application.pages.admin.users.email"/>'>
+													<div class="form-control-focus">
+													</div>
+													<span class="help-block">
+														<spring:message code="application.pages.admin.users.email.help" />
+													</span>
 												</div>
 											</div>
 										</div>

@@ -22,9 +22,6 @@ import ideasw.secopre.web.controller.base.AuthController;
 
 @Controller
 public class TramiteController extends AuthController {
-	
-	@Autowired
-	private AccessService accessService;
 
 	@Autowired
 	private AccessNativeService accessNativeService;
@@ -32,22 +29,7 @@ public class TramiteController extends AuthController {
 	@RequestMapping(value = "tram/add", method = { RequestMethod.GET })
 	public String showFormalityForm(ModelMap model, RedirectAttributes attributes,  Principal principal) {
 		
-		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
-		
-		List<Formality> formalities = accessNativeService.getFormalityAvailableByUser(loggedUser);
-		model.addAttribute("formalities", formalities);
-		
-		//modelo de user
-		Request requestForm = new Request();
-		model.addAttribute("requestForm", requestForm);
-		
-		return SecopreConstans.MV_TRAM_ADD;
-	}
-
-	@RequestMapping(value = "tram/add", method = { RequestMethod.POST })
-	public String addFormality(ModelMap model, RedirectAttributes attributes,  Principal principal) {
-		
-		System.out.println("NUEVA PETICION___________________");
+		System.out.println("showFormalityForm");
 		
 		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
 		
@@ -57,14 +39,35 @@ public class TramiteController extends AuthController {
 		for (Formality f : formalities) {
 		   formalitiesMap.put(f.getFormalityId(), f.getDescription());
 		}
+		Request requestForm = new Request();
 		
 		model.addAttribute("formalities", formalitiesMap);
-		//modelo de user
-		Request requestForm = new Request();
 		model.addAttribute("requestForm", requestForm);
 		
 		return SecopreConstans.MV_TRAM_ADD;
 	}
+	
+	@RequestMapping(value = "tram/list", method = { RequestMethod.GET })
+	public String showFormalityList(ModelMap model, RedirectAttributes attributes,  Principal principal) {
+		
+		System.out.println("showFormalityList");
+				
+		return SecopreConstans.MV_TRAM_LIST;
+	}
+
+	@RequestMapping(value = "tram/add", method = { RequestMethod.POST })
+	public String addFormality(@ModelAttribute("requestForm") Request requestForm, ModelMap model, RedirectAttributes attributes,  Principal principal) {
+		
+		System.out.println("addFormality");
+		System.out.println(requestForm);
+		
+		Long id = accessNativeService.startFormality(requestForm);
+		System.out.println(id);
+		
+		return "redirect:/auth/tram/list";
+	}
+	
+	
 	
 	
 	

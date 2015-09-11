@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 
 /**
@@ -60,5 +61,9 @@ public class SecopreJdbcTemplate {
 	 */
 	public SimpleJdbcCall getSimpleJdbcCall() {
 		return new SimpleJdbcCall(dataSource);
+	}
+	
+	public SimpleJdbcInsert getSimpleJdbcInsert(String table, String columnKey){
+		return new SimpleJdbcInsert(dataSource).withTableName(table).usingGeneratedKeyColumns(columnKey);
 	}
 }

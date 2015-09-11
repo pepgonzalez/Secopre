@@ -28,10 +28,14 @@
 									<div class="form-group form-md-line-input">
 										<label class="col-md-2 control-label" for="formalityId"><spring:message code="application.pages.tramite.add.select"/></label>
 										<div class="col-md-10">
-											<form:select path="formalityId" id="formalityId" class="form-control">
-											   	<form:option value="-1" label="Seleccione..."/>
-    											<form:options items="${formalities}" />
-											</form:select>
+												<form:select path="formalityId" id="formalityId" class="form-control">
+												   	<form:option value="-1" label="Seleccione..."/>
+	    											<form:options items="${formalities}" />
+												</form:select>
+												<div class="form-control-focus"></div>
+												<span class="help-block">
+													<spring:message code="application.pages.tramite.add.selectFormality"/>
+												</span>
 										</div>
 									</div>
 									
@@ -42,7 +46,9 @@
 											<form:input path="firstName" type="text" id="firstName" class="form-control" />
 											<div class="form-control-focus">
 											</div>
-											<span class="help-block">Campo 1</span>
+											<span class="help-block">
+												<spring:message code="application.pages.tramite.add.notEmpty"/>
+											</span>
 										</div>
 									</div>
 									
@@ -53,7 +59,9 @@
 											<form:input path="parentLastName" type="text" id="parentLastName" class="form-control" />
 											<div class="form-control-focus">
 											</div>
-											<span class="help-block">Campo 2</span>
+											<span class="help-block">
+												<spring:message code="application.pages.tramite.add.notEmpty"/>
+											</span>
 										</div>
 									</div>
 									
@@ -64,7 +72,9 @@
 											<form:input path="motherLastName" type="text" id="motherLastName" class="form-control" />
 											<div class="form-control-focus">
 											</div>
-											<span class="help-block">Campo 3</span>
+											<span class="help-block">
+												<spring:message code="application.pages.tramite.add.notEmpty"/>
+											</span>
 										</div>
 									</div>
 								
@@ -74,7 +84,7 @@
 									<div class="row">
 										<div class="col-md-offset-2 col-md-10">
 											<button type="button" class="btn default"><spring:message code="application.back"/></button>
-											<button type="button" class="" id="submitRequestForm"><spring:message code="application.pages.tramite.add.crear"/></button>
+											<button type="button" class="btn green" id="submitRequestForm"><spring:message code="application.pages.tramite.add.crear"/></button>
 										</div>
 									</div>
 								</div>
