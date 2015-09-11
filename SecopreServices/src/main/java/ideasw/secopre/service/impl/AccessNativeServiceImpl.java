@@ -61,8 +61,40 @@ public class AccessNativeServiceImpl implements AccessNativeService{
 	public Long startFormality(Request request) {
 		Long requestId = this.insertRequest(request);
 		request.setRequestId(requestId);
+		//se obtiene la configuracion del tramite
+		Formality formality = this.getFormalityById(request.getFormalityId());
+		
+		//se guarda la configuracion del request
+		
+		//se inicia la historia del tramite
 		
 		return requestId;
+	}
+	
+	
+	public Formality getFormalityById(Long formalityId){
+		
+		final List<Formality> formalityList = new ArrayList<Formality>();
+		
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("formalityId", formalityId);
+		
+		sql.getNamedParameterJdbcTemplate().query(queryContainer.getSQL(SQLConstants.GET_FORMALITY_BY_ID), namedParameters,
+				new RowMapper<Object>(){
+					
+					public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+						Formality formality = new Formality();
+						formality.setFormalityId(rs.getLong("ID"));
+						formality.setDescription(rs.getString("DESCRIPTION"));
+						formality.setWorkFlowId(rs.getLong("WORKFLOW_ID"));
+						
+						formalityList.add(formality);
+						
+						return formality;
+					}
+					
+				});
+	
+		return formalityList.get(0);
 	}
 	
 	//privados mientras son requeridos en otra capa
@@ -74,7 +106,6 @@ public class AccessNativeServiceImpl implements AccessNativeService{
 	    parameters.put("MOTHER_LAST_NAME", request.getMotherLastName());
 	    parameters.put("LAST_UPDATE", new Date());
 	    parameters.put("ACTIVE", 1);
-	    
 	    
 		Number id = sql.getSimpleJdbcInsert("REQUEST", "ID").executeAndReturnKey(parameters);
 		return new Long(id.longValue());

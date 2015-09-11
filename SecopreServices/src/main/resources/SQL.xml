@@ -28,6 +28,12 @@
 							   AND UR.USER_ID = :userId
 							) T
 					]]>
+				</prop>	
+				
+				<prop key="GET_FORMALITY_BY_ID">
+					<![CDATA[
+						SELECT * FROM SECOPRE.FORMALITY WHERE ID = :formalityId
+					]]>
 				</prop>			
 	
 			</props>				
