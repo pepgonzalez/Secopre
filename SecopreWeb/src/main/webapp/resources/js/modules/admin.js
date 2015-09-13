@@ -496,3 +496,21 @@ function initPersonValidations() {
 
 function initTramiteListPage(){
 }
+
+function initFullCapture(){
+	alert("Iniciando captura completa");
+	
+	var requestForm = $('#requestForm');
+	
+	$('#partialSave').click(function(e){
+		alert("haciendo guardado parcial");
+		requestForm.find('#nextStageValueCode').val("SOLPEND");
+		submitAjaxJQ('requestForm','dashboard','');
+	});
+	
+	$('#saveAndContinue').click(function(e){
+		alert("Finalizando captura y avanzando tramite");
+		requestForm.find('#nextStageValueCode').val("SOLCOMP");
+		submitAjaxJQ('requestForm','dashboard','');
+	});
+}

@@ -24,6 +24,7 @@ public class SecopreConstans {
 	//####Modulo de Tramites####//
 	public static final String MV_TRAM_ADD = "auth/tramite/add";
 	public static final String MV_TRAM_LIST = "auth/tramite/list";
+	public static final String MV_TRAM_MOVS = "auth/tramite/movements";
 	
 	//####Modulo de Catalogos####//
 	public static final String MV_CAT_PERSON = "auth/catalog/person/persons";

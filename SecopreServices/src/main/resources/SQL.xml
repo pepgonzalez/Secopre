@@ -32,9 +32,122 @@
 				
 				<prop key="GET_FORMALITY_BY_ID">
 					<![CDATA[
-						SELECT * FROM SECOPRE.FORMALITY WHERE ID = :formalityId
+						SELECT ID AS FORMALITY_ID,
+							   DESCRIPTION,
+							   WORKFLOW_ID,
+							   LAST_UPDATE,
+							   ACTIVE
+					      FROM SECOPRE.FORMALITY WHERE ID = :formalityId
 					]]>
-				</prop>			
+				</prop>		
+				
+				<prop key="INSERT_REQUEST_CONFIG">
+					<![CDATA[
+						INSERT INTO SECOPRE.REQUEST_CONFIG
+						(REQUEST_ID, FORMALITY_ID, WORKFLOW_ID, LAST_UPDATE, ACTIVE)
+						VALUES
+						(:requestId, :formalityId, :workFlowId, SYSDATE(), 1)
+					]]>
+				</prop>	
+			
+				<prop key="GET_NEXT_CONSECUTIVE">
+					<![CDATA[
+						SELECT (IFNULL(MAX(CONSECUTIVE), 0) + 1) AS CONSECUTIVE
+  						  FROM SECOPRE.REQUEST_HISTORY
+ 						 WHERE REQUEST_ID = :requestId
+					]]>
+				</prop>	
+	
+				<prop key="GET_REQUEST_FIRST_WORKFLOW_CONFIG">
+					<![CDATA[
+						 SELECT WC.*
+						   FROM SECOPRE.WORKFLOW_CONFIG WC,
+						   		SECOPRE.REQUEST_CONFIG RC,
+						   		SECOPRE.WORKFLOW W
+						  WHERE RC.REQUEST_ID = :requestId
+						    AND WC.WF_CFG_CODE = :wfConfigCode
+						    AND WC.WORKFLOW_ID = RC.WORKFLOW_ID
+						    AND RC.WORKFLOW_ID = W.ID
+						    AND WC.STAGE_CONFIG_ID = W.FIRST_STAGE_CFG
+					]]>
+				</prop>
+				
+				<prop key="INSERT_REQUEST_HISTORY">
+					<![CDATA[
+						 INSERT INTO SECOPRE.REQUEST_HISTORY
+						 (REQUEST_ID, CONSECUTIVE, WORKFLOW_CONFIG_ID, USER_ID, LAST_UPDATE, ACTIVE)
+						 VALUES
+						 (:requestId, :consecutive, :workFlowConfigId, :userId, SYSDATE(), 1)
+					]]>
+				</prop>
+				
+				<prop key="GET_FORMALITY_INBOX">
+					<![CDATA[
+						SELECT DISTINCT R.ID,
+						 		(CONCAT(R.FIRST_NAME, ' ', R.PARENT_LAST_NAME, ' ', R.MOTHER_LAST_NAME))AS NAME,
+						 		RC.FORMALITY_ID,
+						 		F.DESCRIPTION FORMALITY_DESCRIPTION,
+						 		RH.WORKFLOW_CONFIG_ID,
+						 		WC.STAGE_CONFIG_ID,
+						 		ST.DESCRIPTION,
+						 		WC.NEXT_STAGE_CONFIG,
+						 		SC.PATH_ID,
+						 		P.URL,
+						 		SC.IS_CAPTURE,
+						 		SC.IS_AUTHORIZATION,
+						 		SC.CAPTURE_FORM,
+						 		WC.STATUS_ID,
+						 		S.DESCRIPTION NEXT_DESCRIPTION
+						   FROM SECOPRE.REQUEST R,
+						   		SECOPRE.REQUEST_HISTORY RH,
+						   		SECOPRE.REQUEST_CONFIG RC,
+						   		SECOPRE.FORMALITY F,
+						   		SECOPRE.WORKFLOW_CONFIG WC,
+						   		SECOPRE.STAGE_CONFIG SC0,
+						   		SECOPRE.STAGE_CONFIG SC,
+						   		SECOPRE.PATH P,
+						   		SECOPRE.STATUS S,
+						   		SECOPRE.STAGE_CONFIG_ROLE SCR,
+						   		SECOPRE.USER_ROLE UR,
+						   		SECOPRE.USER U,
+						   		SECOPRE.STAGE ST
+						  WHERE R.ID = RH.REQUEST_ID
+						    AND RH.ACTIVE = 1
+						    AND R.ID = RC.REQUEST_ID
+						    AND RC.FORMALITY_ID = F.ID
+						    AND RH.WORKFLOW_CONFIG_ID = WC.ID
+						    AND WC.ACTIVE = 1
+						    AND WC.NEXT_STAGE_CONFIG = SC.ID
+						    AND WC.STAGE_CONFIG_ID = SC0.ID
+						    AND SC0.STAGE_ID = ST.ID
+						    AND SC.PATH_ID = P.ID
+						    AND WC.STATUS_ID = S.ID
+						    AND SC.ID = SCR.STAGE_CONFIG_ID
+						    AND SCR.ROLE_ID = UR.ROLE_ID
+						    AND UR.USER_ID = U.ID
+						    AND U.ID = :userId
+					]]>
+				</prop>
+				
+				<prop key="GET_REQUEST_WORKFLOW_CONFIG">
+					<![CDATA[
+						 SELECT WC.*
+						   FROM SECOPRE.WORKFLOW_CONFIG WC,
+						   		SECOPRE.REQUEST_CONFIG RC
+						  WHERE RC.REQUEST_ID = :requestId
+						    AND WC.WF_CFG_CODE = :wfConfigCode
+						    AND WC.WORKFLOW_ID = RC.WORKFLOW_ID
+						    AND WC.STAGE_CONFIG_ID = :stageConfigId
+					]]>
+				</prop>
+				
+				<prop key="INACTIVATE_ACTIVE_STAGE">
+					<![CDATA[
+						 UPDATE SECOPRE.REQUEST_HISTORY
+						    SET ACTIVE = 0
+						  WHERE REQUEST_ID = :requestId
+					]]>
+				</prop>
 	
 			</props>				
 		</property>

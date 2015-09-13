@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ideasw.secopre.dto.Formality;
+import ideasw.secopre.dto.Inbox;
 import ideasw.secopre.dto.Request;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.AccessNativeService;
@@ -51,6 +52,11 @@ public class TramiteController extends AuthController {
 	public String showFormalityList(ModelMap model, RedirectAttributes attributes,  Principal principal) {
 		
 		System.out.println("showFormalityList");
+		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
+
+		List<Inbox> inboxList = accessNativeService.getInboxByUserId(loggedUser.getId());
+		
+		model.addAttribute("inboxList", inboxList);
 				
 		return SecopreConstans.MV_TRAM_LIST;
 	}
@@ -58,17 +64,12 @@ public class TramiteController extends AuthController {
 	@RequestMapping(value = "tram/add", method = { RequestMethod.POST })
 	public String addFormality(@ModelAttribute("requestForm") Request requestForm, ModelMap model, RedirectAttributes attributes,  Principal principal) {
 		
-		System.out.println("addFormality");
-		System.out.println(requestForm);
+		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
 		
-		Long id = accessNativeService.startFormality(requestForm);
+		Long id = accessNativeService.startFormality(requestForm, loggedUser.getId());
 		System.out.println(id);
 		
 		return "redirect:/auth/tram/list";
 	}
-	
-	
-	
-	
 	
 }

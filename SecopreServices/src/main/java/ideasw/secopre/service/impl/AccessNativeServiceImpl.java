@@ -18,97 +18,130 @@ import org.springframework.stereotype.Service;
 
 import ideasw.secopre.dao.impl.SecopreJdbcTemplate;
 import ideasw.secopre.dto.Formality;
+import ideasw.secopre.dto.Inbox;
 import ideasw.secopre.dto.Request;
+import ideasw.secopre.dto.WorkFlowConfig;
+import ideasw.secopre.enums.WorkFlowCode;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.AccessNativeService;
+import ideasw.secopre.service.impl.mapper.FormalityMapper;
+import ideasw.secopre.service.impl.mapper.InboxMapper;
+import ideasw.secopre.service.impl.mapper.WorkFlowConfigMapper;
 import ideasw.secopre.sql.QueryContainer;
 import ideasw.secopre.sql.SQLConstants;
 
 @Service
-public class AccessNativeServiceImpl implements AccessNativeService{
+public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl implements AccessNativeService{
 
 	@Autowired
 	QueryContainer queryContainer;
-	
-	@Autowired
-	SecopreJdbcTemplate sql;
 
 	@Override
+	/*
+	 * Obtiene todos los tramites disponibles que puede iniciar el usuario
+	 * */
 	public List<Formality> getFormalityAvailableByUser(User user) {
-		final List<Formality> result = new ArrayList<Formality>();
-		
-		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("userId", user.getId());
-	
-		sql.getNamedParameterJdbcTemplate().query(queryContainer.getSQL(SQLConstants.GET_FORMALITY_FROM_USER_ID), namedParameters,
-				new RowMapper<Object>(){
-					
-					public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
-						Formality formality = new Formality();
-						formality.setFormalityId(rs.getLong("FORMALITY_ID"));
-						formality.setDescription(rs.getString("DESCRIPTION"));
-						formality.setWorkFlowId(rs.getLong("WORKFLOW_ID"));
-						
-						result.add(formality);
-						
-						return formality;
-					}
-					
-				});
-	
-		return result;
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("userId", user.getId());	
+		return this.queryForList(Formality.class, queryContainer.getSQL(SQLConstants.GET_FORMALITY_FROM_USER_ID), namedParameters, new FormalityMapper());
 	}
 
-	public Long startFormality(Request request) {
-		Long requestId = this.insertRequest(request);
-		request.setRequestId(requestId);
-		//se obtiene la configuracion del tramite
+	/*
+	 * Proceso para inicio de tramite, inserta en REQUEST, REQUEST_CONFIG, REQUEST_HISTORY
+	 * */
+	public Long startFormality(Request request, Long userId) {
+		request.setRequestId(this.insertRequest(request));
+
 		Formality formality = this.getFormalityById(request.getFormalityId());
+		this.insertRequestConfig(request.getRequestId(), formality);
 		
-		//se guarda la configuracion del request
+		this.invokeNextStage(request.getRequestId(), WorkFlowCode.SOLCOMP.name() , -1L,  userId);
 		
-		//se inicia la historia del tramite
-		
-		return requestId;
+		return request.getRequestId();
+	}
+	
+	/*
+	 * Proceso para obtener el listado de tramites en proceso por usuario
+	 * */
+	public List<Inbox> getInboxByUserId(Long userId){
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("userId", userId);	
+		return this.queryForList(Inbox.class, queryContainer.getSQL(SQLConstants.GET_FORMALITY_INBOX), namedParameters, new InboxMapper());
 	}
 	
 	
-	public Formality getFormalityById(Long formalityId){
+	public void invokeNextStage(Request request, Long userId){
+		this.invokeNextStage(request.getRequestId(), request.getNextStageValueCode(), request.getStageConfigId(), userId);
+	}
+	
+	/*
+	 * Proceso para avanzar un tramite de etapa
+	 * */
+	private void invokeNextStage(Long requestId, String valueCode, Long stageConfigId,  Long userId){
 		
-		final List<Formality> formalityList = new ArrayList<Formality>();
+		int consecutive = this.getNextConsecutive(requestId);
+	
+		if(consecutive == 1){
+			WorkFlowConfig transition = this.getRequestFirstWorkFlowConfig(requestId, valueCode).get(0);
+			this.insertTransition(requestId, transition, consecutive, userId);
+		}else{
+			WorkFlowConfig transition = this.getRequestWorkFlowConfig(requestId, valueCode, stageConfigId).get(0);
+			this.inactivateActiveStage(requestId);
+			this.insertTransition(requestId, transition, consecutive, userId);
+		}
+	}
+	
+	
+	/*----------------------------------------------------------------------------------------------------------
+	 * 	Procesos internos del service
+	 * ---------------------------------------------------------------------------------------------------------*/
+	
+	private List<WorkFlowConfig> getRequestFirstWorkFlowConfig(Long requestId, String wfConfigCode) {
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("requestId", requestId).addValue("wfConfigCode", wfConfigCode);	
+		return this.queryForList(WorkFlowConfig.class, queryContainer.getSQL(SQLConstants.GET_REQUEST_FIRST_WORKFLOW_CONFIG), namedParameters, new WorkFlowConfigMapper());
+	}
+	
+	private List<WorkFlowConfig> getRequestWorkFlowConfig(Long requestId, String wfConfigCode, Long stageConfigId) {
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("requestId", requestId).addValue("wfConfigCode", wfConfigCode).addValue("stageConfigId", stageConfigId);	
+		return this.queryForList(WorkFlowConfig.class, queryContainer.getSQL(SQLConstants.GET_REQUEST_WORKFLOW_CONFIG), namedParameters, new WorkFlowConfigMapper());
+	}
+	
+	private int inactivateActiveStage(Long requestId){
+		SqlParameterSource params = new MapSqlParameterSource().addValue("requestId", requestId);
+		return this.insertOrUpdate(queryContainer.getSQL(SQLConstants.INACTIVATE_ACTIVE_STAGE), params);
+	}
+	
+	private int getNextConsecutive(Long requestId){
+		SqlParameterSource params = new MapSqlParameterSource().addValue("requestId", requestId);
+		return this.queryForObject(Integer.class, queryContainer.getSQL(SQLConstants.GET_NEXT_CONSECUTIVE), params);
+	}
+	
+	private int insertRequestConfig(Long requestId, Formality formality){
+		SqlParameterSource params = new MapSqlParameterSource()
+				.addValue("requestId", requestId)
+				.addValue("formalityId", formality.getFormalityId())
+				.addValue("workFlowId", formality.getWorkFlowId());
 		
+		return this.insertOrUpdate(queryContainer.getSQL(SQLConstants.INSERT_REQUEST_CONFIG), params);
+	}
+	
+	private Formality getFormalityById(Long formalityId){		
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("formalityId", formalityId);
-		
-		sql.getNamedParameterJdbcTemplate().query(queryContainer.getSQL(SQLConstants.GET_FORMALITY_BY_ID), namedParameters,
-				new RowMapper<Object>(){
-					
-					public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
-						Formality formality = new Formality();
-						formality.setFormalityId(rs.getLong("ID"));
-						formality.setDescription(rs.getString("DESCRIPTION"));
-						formality.setWorkFlowId(rs.getLong("WORKFLOW_ID"));
-						
-						formalityList.add(formality);
-						
-						return formality;
-					}
-					
-				});
-	
-		return formalityList.get(0);
+		List<Formality> list = this.queryForList(Formality.class, queryContainer.getSQL(SQLConstants.GET_FORMALITY_BY_ID), namedParameters, new FormalityMapper());
+		return list.get(0);
 	}
 	
-	//privados mientras son requeridos en otra capa
+
 	private Long insertRequest(Request request){
+		return this.insertAndReturnId(Request.TABLE_NAME, Request.PRIMARY_KEY, request.getParams());
+	}
+	
+	private int insertTransition(Long requestId, WorkFlowConfig config, int consecutive, Long userId){
+		SqlParameterSource params = new MapSqlParameterSource()
+				.addValue("requestId", requestId)
+				.addValue("consecutive", consecutive)
+				.addValue("workFlowConfigId",config.getWorkFlowConfigId())
+				.addValue("userId", userId);
 		
-		Map<String, Object> parameters = new HashMap<String, Object>();
-	    parameters.put("FIRST_NAME", request.getFirstName());
-	    parameters.put("PARENT_LAST_NAME", request.getParentLastName());
-	    parameters.put("MOTHER_LAST_NAME", request.getMotherLastName());
-	    parameters.put("LAST_UPDATE", new Date());
-	    parameters.put("ACTIVE", 1);
-	    
-		Number id = sql.getSimpleJdbcInsert("REQUEST", "ID").executeAndReturnKey(parameters);
-		return new Long(id.longValue());
+		return this.insertOrUpdate(queryContainer.getSQL(SQLConstants.INSERT_REQUEST_HISTORY), params);
 	}
 
 }
