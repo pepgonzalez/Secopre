@@ -15,7 +15,7 @@
 				</div>
 			</div>
 			<div class="portlet-body form">
-				<form action="adm/usr/add" class="form-horizontal" id="submit_form"
+				<form action="auth/adm/usr/add" class="form-horizontal" id="submit_form"
 					method="POST" novalidate="novalidate">
 					<div class="form-wizard">
 						<div class="form-body">
@@ -129,7 +129,7 @@
 											<div class="col-md-9">
 												<div class="input-group">
 													<span class="input-group-addon"> <i
-														class="fa fa-bell-o"></i>
+														class="fa fa-key"></i>
 													</span> <input id="password" name="password" type="password"
 														class="form-control"
 														placeholder='<spring:message code="application.pages.admin.users.password.placeholder"/>'>
@@ -146,7 +146,7 @@
 											<div class="col-md-9">
 												<div class="input-group">
 													<span class="input-group-addon"> <i
-														class="fa fa-bell-o"></i>
+														class="fa fa-key"></i>
 													</span> <input id="rpassword" name="rpassword" type="password"
 														class="form-control"
 														placeholder='<spring:message code="application.pages.admin.users.password.placeholder"/>'>
@@ -240,9 +240,8 @@
 										<i class="m-icon-swapleft"></i> Back
 									</a> <a href="javascript:;" class="btn blue button-next">
 										Continue <i class="m-icon-swapright m-icon-white"></i>
-									</a> <a href="javascript:;" class="btn green button-submit">
-										Submit <i class="m-icon-swapright m-icon-white"></i>
-									</a>
+									</a> 
+									<button type="button" class="btn green button-submit" id="submitRequestForm"><spring:message code="application.pages.admin.users.crear"/></button>
 								</div>
 							</div>
 						</div>

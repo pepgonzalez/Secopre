@@ -3,21 +3,13 @@ package ideasw.secopre.web.controller.catalog;
 import ideasw.secopre.model.Person;
 import ideasw.secopre.model.security.Permission;
 import ideasw.secopre.model.security.Role;
-import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.AccessService;
-import ideasw.secopre.utils.encryption.Encryption;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
-
-import java.security.Principal;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -49,6 +41,19 @@ public class PersonController extends AuthController {
 		model.addAttribute("person", person);
 		model.addAttribute("roles", baseService.findAll(Role.class));
 		model.addAttribute("permissions", baseService.findAll(Permission.class));
+		return SecopreConstans.MV_CAT_PERSON;
+	}
+	
+	@RequestMapping(value = "cat/person/add", method = RequestMethod.POST)
+	public String add(@ModelAttribute("person") Person person, ModelMap model) {
+		try {
+			baseService.persist(person);
+		} catch (Exception e) {
+			model.addAttribute(
+					"errors",
+					initErrors("Ocurrio un error al insertar el usuario:"
+							+ e.getMessage()));
+		}
 		return SecopreConstans.MV_CAT_PERSON;
 	}
 

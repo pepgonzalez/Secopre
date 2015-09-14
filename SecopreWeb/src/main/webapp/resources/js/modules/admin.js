@@ -11,6 +11,14 @@ function initUserPage() {
 	$('#permissions').multiSelect();
 }
 
+function initUserList() {
+	sendRequestJQ('auth/adm/usr/list','dashboard','initUserPage()');
+}
+
+function initPersonList() {
+	sendRequestJQ('auth/cat/person/list','dashboard','initPersonPage()');
+}
+
 function initPersonPage() {
 	initAdminPage('Person');
 	initPersonValidations();
@@ -71,9 +79,8 @@ function initUserValidations() {
 				minlength : 6,
 				equalTo : "#password"
 			},
-			roles:{
-				required : true
-			}
+			roles: "required",
+			permissions: "required"
 		},
 
 		invalidHandler : function(event, validator) { // display error alert
@@ -221,9 +228,15 @@ function initUserValidations() {
 
 	$('#form_wizard_1').find('.button-previous').hide();
 	$('#form_wizard_1 .button-submit').click(function() {
-		formId, targetId,after
-		submitAjaxJQ('submit_form','dashboard','');
+	//	formId, targetId,after
+	//	submitAjaxJQ('submit_form','dashboard','');
 	}).hide();
+	
+	$('#submitRequestForm').click(function() {
+		if (form.valid()){
+			submitAjaxJQ('submit_form','dashboard','initUserList()');
+		}
+	});	
 }
 
 /*funciones de tramites **OJO** mala idea declarar las funciones en scope global*/
@@ -318,7 +331,6 @@ function initPersonValidations() {
 				required : true
 			},
 			secondName : {
-				required : true
 			},
 			fatherLastName : {
 				required : true
@@ -333,13 +345,10 @@ function initPersonValidations() {
 				required : true
 			},
 			twitter:{
-				required : true
 			},
 			facebook:{
-				required : true
 			},
 			webSite:{
-				required : true
 			}
 			
 		},
@@ -489,9 +498,15 @@ function initPersonValidations() {
 
 	$('#form_wizard_1').find('.button-previous').hide();
 	$('#form_wizard_1 .button-submit').click(function() {
-		formId, targetId,after
-		submitAjaxJQ('submit_form','dashboard','');
+//		formId, targetId,after
+//		submitAjaxJQ('submit_form','dashboard','');
 	}).hide();
+	
+	$('#submitRequestForm').click(function() {
+		if (form.valid()){
+			submitAjaxJQ('submit_form','dashboard','initPersonList()');
+		}
+	});		
 }
 
 function initTramiteListPage(){

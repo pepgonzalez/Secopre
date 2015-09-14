@@ -81,7 +81,7 @@ public class UsuarioController extends AuthController {
 					initErrors("Ocurrio un error al insertar el usuario:"
 							+ e.getMessage()));
 		}
-		return "redirect:" + SecopreConstans.MV_ADM_USR_LIST;
+		return SecopreConstans.MV_ADM_USR;
 	}
 
 	@RequestMapping(value = "start" , method = RequestMethod.GET)
