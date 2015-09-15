@@ -1,11 +1,12 @@
 package ideasw.secopre.web.controller.catalog;
 
-import ideasw.secopre.model.Person;
+import ideasw.secopre.model.catalog.Person;
 import ideasw.secopre.model.security.Permission;
 import ideasw.secopre.model.security.Role;
 import ideasw.secopre.service.AccessService;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

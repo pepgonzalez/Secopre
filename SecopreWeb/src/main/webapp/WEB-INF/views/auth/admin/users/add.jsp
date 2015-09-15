@@ -113,9 +113,9 @@
 											<div class="col-md-9">
 												<div class="input-group">
 													<span class="input-group-addon"> <i
-														class="fa fa-envelope"></i>
+														class="fa-weixin"></i>
 													</span> <input name="hasChatActive" id="hasChatActive" type="checkbox"
-														class="form-control">
+														class="icheck">
 													<div class="form-control-focus"></div>
 													<span class="help-block"><spring:message
 															code="application.pages.admin.users.email.help" /></span>

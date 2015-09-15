@@ -1,7 +1,7 @@
 package ideasw.secopre.model.base;
 
 import ideasw.secopre.enums.Gender;
-import ideasw.secopre.model.Address;
+import ideasw.secopre.model.catalog.Address;
 
 import javax.persistence.Column;
 import javax.persistence.EnumType;
