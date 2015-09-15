@@ -8,10 +8,11 @@
 						
 				<prop key="GET_FORMALITY_FROM_USER_ID">
 					<![CDATA[
-						SELECT DISTINCT (T.ID) AS FORMALITY_ID, T.F_DESC AS DESCRIPTION, T.WORKFLOW_ID FROM (
+						SELECT DISTINCT (T.ID) AS FORMALITY_ID, T.F_DESC AS DESCRIPTION, T.WORKFLOW_ID, T.AUTHORIZATION_ID FROM (
 							SELECT F.ID,
 								   F.DESCRIPTION F_DESC,
 								   F.WORKFLOW_ID,
+								   F.AUTHORIZATION_ID,
 								   W.DESCRIPTION WF_DESC,
 								   W.FIRST_STAGE_CFG,
 								   SCR.ROLE_ID,
@@ -36,7 +37,8 @@
 							   DESCRIPTION,
 							   WORKFLOW_ID,
 							   LAST_UPDATE,
-							   ACTIVE
+							   ACTIVE, 
+							   AUTHORIZATION_ID
 					      FROM SECOPRE.FORMALITY WHERE ID = :formalityId
 					]]>
 				</prop>		
@@ -44,9 +46,9 @@
 				<prop key="INSERT_REQUEST_CONFIG">
 					<![CDATA[
 						INSERT INTO SECOPRE.REQUEST_CONFIG
-						(REQUEST_ID, FORMALITY_ID, WORKFLOW_ID, LAST_UPDATE, ACTIVE)
+						(REQUEST_ID, FORMALITY_ID, WORKFLOW_ID, LAST_UPDATE, ACTIVE, AUTHORIZATION_ID)
 						VALUES
-						(:requestId, :formalityId, :workFlowId, SYSDATE(), 1)
+						(:requestId, :formalityId, :workFlowId, SYSDATE(), 1, :authorizationId)
 					]]>
 				</prop>	
 			
@@ -146,6 +148,17 @@
 						 UPDATE SECOPRE.REQUEST_HISTORY
 						    SET ACTIVE = 0
 						  WHERE REQUEST_ID = :requestId
+					]]>
+				</prop>
+				
+				<prop key="GET_REQUEST_BY_ID">
+					<![CDATA[
+						SELECT ID AS REQUEST_ID,
+					           FIRST_NAME,
+					           PARENT_LAST_NAME,
+					           MOTHER_LAST_NAME
+					      FROM SECOPRE.REQUEST
+					     WHERE ID = :requestId
 					]]>
 				</prop>
 	

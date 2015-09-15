@@ -26,6 +26,7 @@ import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.AccessNativeService;
 import ideasw.secopre.service.impl.mapper.FormalityMapper;
 import ideasw.secopre.service.impl.mapper.InboxMapper;
+import ideasw.secopre.service.impl.mapper.RequestMapper;
 import ideasw.secopre.service.impl.mapper.WorkFlowConfigMapper;
 import ideasw.secopre.sql.QueryContainer;
 import ideasw.secopre.sql.SQLConstants;
@@ -118,7 +119,8 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		SqlParameterSource params = new MapSqlParameterSource()
 				.addValue("requestId", requestId)
 				.addValue("formalityId", formality.getFormalityId())
-				.addValue("workFlowId", formality.getWorkFlowId());
+				.addValue("workFlowId", formality.getWorkFlowId())
+				.addValue("authorizationId", formality.getAuthorizationId());
 		
 		return this.insertOrUpdate(queryContainer.getSQL(SQLConstants.INSERT_REQUEST_CONFIG), params);
 	}
@@ -142,6 +144,13 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 				.addValue("userId", userId);
 		
 		return this.insertOrUpdate(queryContainer.getSQL(SQLConstants.INSERT_REQUEST_HISTORY), params);
+	}
+
+	@Override
+	public Request getRequestById(Long requestId) {
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("requestId", requestId);
+		List<Request> list = this.queryForList(Request.class, queryContainer.getSQL(SQLConstants.GET_REQUEST_BY_ID), namedParameters, new RequestMapper());
+		return list.get(0);
 	}
 
 }

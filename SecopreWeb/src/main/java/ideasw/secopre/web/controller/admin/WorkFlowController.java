@@ -50,6 +50,24 @@ public class WorkFlowController extends AuthController{
 		return SecopreConstans.MV_TRAM_MOVS;
 	}
 	
+	@RequestMapping(value = "wf/authorization/{requestId}/{stageConfigId}", method = { RequestMethod.GET })
+	public String showAuthorizationInfo(@PathVariable("requestId") Long requestId, 
+									   @PathVariable("stageConfigId") Long stageConfigId, 
+									   ModelMap model, RedirectAttributes attributes,  Principal principal) {
+		
+		System.out.println("showAuthorizationInfo");
+		
+		Request requestForm = new Request();
+		requestForm = accessNativeService.getRequestById(requestId);
+		requestForm.setStageConfigId(stageConfigId);
+		
+		requestForm.setAuthorizationForm(true);
+		
+		model.addAttribute("requestForm", requestForm);
+		
+		return SecopreConstans.MV_TRAM_AUTH;
+	}
+	
 	@RequestMapping(value = "wf/capture/movements", method = { RequestMethod.POST })
 	public String saveMovements(@ModelAttribute("requestForm") Request requestForm, ModelMap model, RedirectAttributes attributes,  Principal principal) {
 		

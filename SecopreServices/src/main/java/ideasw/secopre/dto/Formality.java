@@ -12,8 +12,14 @@ public class Formality {
 	private Long formalityId;
 	private String description;
 	private Long workFlowId;
+	private Long authorizationId;
 	
-	
+	public Long getAuthorizationId() {
+		return authorizationId;
+	}
+	public void setAuthorizationId(Long authorizationId) {
+		this.authorizationId = authorizationId;
+	}
 	public Long getFormalityId() {
 		return formalityId;
 	}

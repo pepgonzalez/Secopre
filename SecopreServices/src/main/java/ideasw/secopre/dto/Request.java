@@ -19,9 +19,19 @@ public class Request {
 	private String motherLastName;
 	private Long formalityId;
 
+	//variables de transporte
 	private String nextStageValueCode;
 	private Long stageConfigId;
 	
+	//variables de authorizacion
+	private boolean authorizationForm;
+	
+	public boolean getAuthorizationForm() {
+		return authorizationForm;
+	}
+	public void setAuthorizationForm(boolean authorizationForm) {
+		this.authorizationForm = authorizationForm;
+	}
 	public Long getFormalityId() {
 		return formalityId;
 	}

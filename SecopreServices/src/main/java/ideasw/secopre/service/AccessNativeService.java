@@ -16,5 +16,7 @@ public interface AccessNativeService {
 	List<Inbox> getInboxByUserId(Long userId);
 	
 	void invokeNextStage(Request requestForm,  Long userId);
+	
+	Request getRequestById(Long requestId);
 
 }
