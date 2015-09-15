@@ -1,4 +1,7 @@
-package ideasw.secopre.model.base;
+package ideasw.secopre.model.catalog;
+
+import ideasw.secopre.model.base.AuditEntity;
+import ideasw.secopre.model.base.Persistible;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

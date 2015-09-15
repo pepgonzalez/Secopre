@@ -1,4 +1,4 @@
-package ideasw.secopre.model;
+package ideasw.secopre.model.catalog;
 
 import ideasw.secopre.model.base.AuditEntity;
 import ideasw.secopre.model.base.Persistible;
