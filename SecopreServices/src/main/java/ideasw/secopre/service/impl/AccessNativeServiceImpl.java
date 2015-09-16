@@ -17,15 +17,18 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Service;
 
 import ideasw.secopre.dao.impl.SecopreJdbcTemplate;
+import ideasw.secopre.dto.Authorization;
 import ideasw.secopre.dto.Formality;
 import ideasw.secopre.dto.Inbox;
 import ideasw.secopre.dto.Request;
+import ideasw.secopre.dto.RequestConfig;
 import ideasw.secopre.dto.WorkFlowConfig;
 import ideasw.secopre.enums.WorkFlowCode;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.AccessNativeService;
 import ideasw.secopre.service.impl.mapper.FormalityMapper;
 import ideasw.secopre.service.impl.mapper.InboxMapper;
+import ideasw.secopre.service.impl.mapper.RequestConfigMapper;
 import ideasw.secopre.service.impl.mapper.RequestMapper;
 import ideasw.secopre.service.impl.mapper.WorkFlowConfigMapper;
 import ideasw.secopre.sql.QueryContainer;
@@ -80,7 +83,7 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	 * Proceso para avanzar un tramite de etapa
 	 * */
 	private void invokeNextStage(Long requestId, String valueCode, Long stageConfigId,  Long userId){
-		
+			
 		int consecutive = this.getNextConsecutive(requestId);
 	
 		if(consecutive == 1){
@@ -117,6 +120,29 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		SqlParameterSource params = new MapSqlParameterSource().addValue("requestId", requestId);
 		return this.queryForObject(Integer.class, queryContainer.getSQL(SQLConstants.GET_NEXT_CONSECUTIVE), params);
 	}
+	
+	private int canUserAuthorize(Long authorizationId, Long stageConfigId, Long userId){
+		SqlParameterSource params = new MapSqlParameterSource()
+				.addValue("authorizationId", authorizationId)
+				.addValue("stageConfigId", stageConfigId)
+				.addValue("userId", userId);
+		return this.queryForObject(Integer.class, queryContainer.getSQL(SQLConstants.CAN_USER_AUTHORIZE), params);
+	}
+	
+	private int isAuthorizationSuperUser(Long authorizationId, Long userId){
+		SqlParameterSource params = new MapSqlParameterSource()
+				.addValue("authorizationId", authorizationId)
+				.addValue("userId", userId);
+		return this.queryForObject(Integer.class, queryContainer.getSQL(SQLConstants.IS_USER_AUTHORIZATION_SUPERUSER), params);
+	}
+	
+	private int hasMoreSignatures(Long requestId, Long stageConfigId){
+		SqlParameterSource params = new MapSqlParameterSource()
+				.addValue("requestId", requestId)
+				.addValue("stageConfigId", stageConfigId);
+		return this.queryForObject(Integer.class, queryContainer.getSQL(SQLConstants.HAS_MORE_SIGNATURES), params);
+	}
+	
 	
 	private int insertRequestConfig(Long requestId, Formality formality){
 		SqlParameterSource params = new MapSqlParameterSource()
@@ -162,6 +188,34 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("requestId", requestId);
 		List<Request> list = this.queryForList(Request.class, queryContainer.getSQL(SQLConstants.GET_REQUEST_BY_ID), namedParameters, new RequestMapper());
 		return list.get(0);
+	}
+	
+	public RequestConfig getRequestConfigById(Long requestId){
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("requestId", requestId);
+		List<RequestConfig> list = this.queryForList(RequestConfig.class, queryContainer.getSQL(SQLConstants.GET_REQUEST_CONFIG_BY_ID), namedParameters, new RequestConfigMapper());
+		return list.get(0);
+	}
+
+
+	@Override
+	public Authorization getAuthorization(Request request, User user) {
+		Authorization authorization = new Authorization();
+		//se obtiene el requestConfig y se agrega codigo a authorizacion
+		RequestConfig config = this.getRequestConfigById(request.getRequestId());
+		Formality formality = this.getFormalityById(config.getFormalityId());
+		
+		authorization.setFormalityCode(formality.getCode());
+		
+		//se valida si el usuario puede autorizar la etapa
+		authorization.setCanUserAuthorize((this.canUserAuthorize(formality.getAuthorizationId(), request.getStageConfigId(), user.getId())) > 0);
+		
+		//se valida si el usuario tiene el rol de superusuario configurado para el grupo de authorizacion
+		authorization.setSuperUser(this.isAuthorizationSuperUser(formality.getAuthorizationId(), user.getId()) > 0);
+		
+		//se valida si la etapa tiene mas firmas o es la ultima firma
+		authorization.setMoreSignatures(this.hasMoreSignatures(request.getRequestId(), request.getStageConfigId()) > 0);
+		
+		return authorization;
 	}
 
 }

@@ -529,3 +529,45 @@ function initFullCapture(){
 		submitAjaxJQ('requestForm','dashboard','');
 	});
 }
+
+function initFullCapture(){
+	alert("Iniciando captura completa");
+	
+	var requestForm = $('#requestForm');
+	
+	$('#partialSave').click(function(e){
+		alert("haciendo guardado parcial");
+		requestForm.find('#nextStageValueCode').val("SOLPEND");
+		submitAjaxJQ('requestForm','dashboard','');
+	});
+	
+	$('#saveAndContinue').click(function(e){
+		alert("Finalizando captura y avanzando tramite");
+		requestForm.find('#nextStageValueCode').val("SOLCOMP");
+		submitAjaxJQ('requestForm','dashboard','');
+	});
+}
+
+function initAuthorization(){
+	alert("Iniciando autorizacion");
+	
+	var requestForm = $('#requestForm');
+	
+	$('#cancelFormality').click(function(e){
+		alert("Cancelando Tramite");
+		requestForm.find('#nextStageValueCode').val("CANCELAR");
+		submitAjaxJQ('requestForm','dashboard','');
+	});
+	
+	$('#authorizateFormality').click(function(e){
+		alert("autorizando Tramite");
+		requestForm.find('#nextStageValueCode').val("SIGFIRMA");
+		submitAjaxJQ('requestForm','dashboard','');
+	});
+	
+	$('#finishFormality').click(function(e){
+		alert("autorizando Tramite y finalizar");
+		requestForm.find('#nextStageValueCode').val("CONTINUAR");
+		submitAjaxJQ('requestForm','dashboard','');
+	});
+}

@@ -15,6 +15,8 @@ public class RequestMapper implements RowMapper<Object> {
 		 request.setFirstName(rs.getString("FIRST_NAME"));
 		 request.setParentLastName(rs.getString("PARENT_LAST_NAME"));
 		 request.setMotherLastName(rs.getString("MOTHER_LAST_NAME"));
+		 request.setMovementName(rs.getString("MOVEMENT_NAME"));
+		 request.setMovementPrice(rs.getFloat("MOVEMENT_PRICE"));
 		 return request;   
 	 }    
 } 

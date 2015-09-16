@@ -2,6 +2,7 @@ package ideasw.secopre.service;
 
 import java.util.List;
 
+import ideasw.secopre.dto.Authorization;
 import ideasw.secopre.dto.Formality;
 import ideasw.secopre.dto.Inbox;
 import ideasw.secopre.dto.Request;
@@ -21,4 +22,5 @@ public interface AccessNativeService {
 	
 	public int insertOrUpdateRequestDetail(Request request);
 
+	Authorization getAuthorization(Request request, User user);
 }

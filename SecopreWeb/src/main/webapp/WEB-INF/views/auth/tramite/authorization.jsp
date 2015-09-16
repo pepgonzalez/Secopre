@@ -18,11 +18,15 @@
 						
 						<div class="portlet-body form">
 							<!-- formulario -->	
-							<form:form cssClass="form-horizontal" method="POST" modelAttribute="requestForm" id="requestForm" action="auth/tramite/authorization" novalidate="novalidate">
+							<form:form cssClass="form-horizontal" method="POST" modelAttribute="requestForm" id="requestForm" action="auth/wf/authorization" novalidate="novalidate">
 							
 								<div class="form-body">
 									<!-- Se incluyen los DIV de alertamiento en formularios -->
 									<%@ include file="/WEB-INF/views/auth/common/alertForm.jsp"%>
+									
+									<form:hidden path="requestId" />
+									<form:hidden path="stageConfigId" />
+									<form:hidden path="nextStageValueCode" id="nextStageValueCode" />
 									
 									<!-- campo de nombre de usuario -->
 									<div class="form-group form-md-line-input">
@@ -62,16 +66,27 @@
 											</span>
 										</div>
 									</div>
+									
+									<jsp:include page="/WEB-INF/views/auth/common/formality/${authorization.formalityCode}.jsp" flush="true"/>
+									
 								
 								</div>
 								
 								<div class="form-actions margin-top-10">
 									<div class="row">
 										<div class="col-md-offset-2 col-md-10">
-											<button type="button" class="btn default"><spring:message code="application.back"/></button>
-											<button type="button" class="btn default">Cancelar Solicitur</button>
-											<button type="button" class="btn green">Autorizar</button>
-											<button type="button" class="btn green">Terminar Folio</button>
+											
+											<button type="button" class="btn default" onclick="sendRequestJQ('auth/tram/list','dashboard','initTramiteListPage()','GET');">Regresar a Mis Tramites</button>
+											
+											<c:if test="${authorization.canUserAuthorize || authorization.superUser}">
+												<button type="button" class="btn default" id="cancelFormality" >Cancelar Solicitud</button>
+											</c:if>
+											<c:if test="${authorization.canUserAuthorize && authorization.moreSignatures}">
+												<button type="button" class="btn green" id="authorizateFormality">Autorizar</button>
+											</c:if>
+											<c:if test="${(authorization.superUser) || (authorization.canUserAuthorize && !(authorization.moreSignatures))}">
+												<button type="button" class="btn green" id="finishFormality">Finalizar Tramite</button>
+											</c:if>
 										</div>
 									</div>
 								</div>

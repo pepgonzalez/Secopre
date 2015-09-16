@@ -115,4 +115,8 @@ public class Inbox {
 		basePath = basePath + "/" + this.requestId + "/" + this.nextStageConfig;
 		return basePath;
 	}
+	
+	public String getNextStageJSFunction(){
+		return (this.isAuthorization ? "initAuthorization()" : "initFullCapture()");
+	}
 }

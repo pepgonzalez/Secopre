@@ -155,12 +155,16 @@
 				
 				<prop key="GET_REQUEST_BY_ID">
 					<![CDATA[
-						SELECT ID AS REQUEST_ID,
-					           FIRST_NAME,
-					           PARENT_LAST_NAME,
-					           MOTHER_LAST_NAME
-					      FROM SECOPRE.REQUEST
-					     WHERE ID = :requestId
+						SELECT R.ID AS REQUEST_ID,
+							   R.FIRST_NAME,
+						       R.PARENT_LAST_NAME,
+							   R.MOTHER_LAST_NAME,
+							   RD.MOVEMENT_NAME,
+							   RD.MOVEMENT_PRICE
+						  FROM SECOPRE.REQUEST R,
+						  	   SECOPRE.REQUEST_DETAIL RD
+						 WHERE R.ID = :requestId
+						   AND R.ID = RD.REQUEST_ID
 					]]>
 				</prop>
 				
@@ -173,6 +177,49 @@
 						ON DUPLICATE KEY UPDATE MOVEMENT_NAME = VALUES(MOVEMENT_NAME),
  												MOVEMENT_PRICE = VALUES(MOVEMENT_PRICE),
 						       					LAST_UPDATE = VALUES(LAST_UPDATE)
+					]]>
+				</prop>
+				
+				<prop key="GET_REQUEST_CONFIG_BY_ID">
+					<![CDATA[
+						SELECT *
+						  FROM SECOPRE.REQUEST_CONFIG
+						 WHERE REQUEST_ID = :requestId
+					]]>
+				</prop>
+				
+				<prop key="CAN_USER_AUTHORIZE">
+					<![CDATA[
+					SELECT COUNT(*) AS CAN_AUTHORIZE 
+					  FROM SECOPRE.AUTHORIZATION_CONFIG AC,
+					  	   SECOPRE.REL_USER_EMPLOYMENT RUE
+					 WHERE AC.AUTHORIZATION_ID = :authorizationId
+					   AND AC.STAGE_CONFIG_ID = :stageConfigId
+					   AND AC.EMPLOYMENT_ID = RUE.EMPLOYMENT_ID
+					   AND RUE.USER_ID = :userId		
+					]]>
+				</prop>
+				
+				<prop key="IS_USER_AUTHORIZATION_SUPERUSER">
+					<![CDATA[
+						SELECT COUNT(*) AS IS_SUPER_USER
+						  FROM SECOPRE.AUTHORIZATION A,
+						  	   SECOPRE.USER_ROLE UR
+						 WHERE A.ID = :authorizationId
+						   AND A.SUPER_USER_ROLE = UR.ROLE_ID
+						   AND UR.USER_ID = :userId	
+					]]>
+				</prop>
+				
+				<prop key="HAS_MORE_SIGNATURES">
+					<![CDATA[
+						SELECT COUNT(*) HAS_MORE_SIGNATURE 
+						  FROM SECOPRE.WORKFLOW_CONFIG WC,
+						  	   SECOPRE.REQUEST_CONFIG RC
+						 WHERE WC.WORKFLOW_ID = RC.WORKFLOW_ID
+						   AND RC.REQUEST_ID = :requestId
+						   AND WC.STAGE_CONFIG_ID = :stageConfigId
+						   AND WC.WF_CFG_CODE = 'SIGFIRMA'
 					]]>
 				</prop>
 	

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ideasw.secopre.dto.Authorization;
 import ideasw.secopre.dto.Formality;
 import ideasw.secopre.dto.Inbox;
 import ideasw.secopre.dto.Request;
@@ -36,7 +37,8 @@ public class WorkFlowController extends AuthController{
 		System.out.println("showMovementsCapture");
 		Request requestForm = new Request();
 		
-		requestForm.setRequestId(requestId);
+		requestForm = accessNativeService.getRequestById(requestId);
+		
 		requestForm.setStageConfigId(stageConfigId);
 		requestForm.setFormalityCode(formalityCode);
 		
@@ -45,25 +47,7 @@ public class WorkFlowController extends AuthController{
 		return SecopreConstans.MV_TRAM_CAPTURE;
 	}
 	
-	@RequestMapping(value = "wf/authorization/{requestId}/{stageConfigId}", method = { RequestMethod.GET })
-	public String showAuthorizationInfo(@PathVariable("requestId") Long requestId, 
-									   @PathVariable("stageConfigId") Long stageConfigId, 
-									   ModelMap model, RedirectAttributes attributes,  Principal principal) {
-		
-		System.out.println("showAuthorizationInfo");
-		
-		Request requestForm = new Request();
-		requestForm = accessNativeService.getRequestById(requestId);
-		requestForm.setStageConfigId(stageConfigId);
-		
-		requestForm.setAuthorizationForm(true);
-		
-		model.addAttribute("requestForm", requestForm);
-		
-		return SecopreConstans.MV_TRAM_AUTH;
-	}
-	
-	@RequestMapping(value = "wf/capture/movements", method = { RequestMethod.POST })
+	@RequestMapping(value = "wf/capture/{movementCode}", method = { RequestMethod.POST })
 	public String saveMovements(@ModelAttribute("requestForm") Request requestForm, ModelMap model, RedirectAttributes attributes,  Principal principal) {
 		
 		System.out.println("Guardando movimientos");
@@ -75,6 +59,41 @@ public class WorkFlowController extends AuthController{
 		
 		//TODO implementacion para guardar informacion completa de tramite de movimiento
 		accessNativeService.insertOrUpdateRequestDetail(requestForm);
+		
+		//avanzar de etapa
+		accessNativeService.invokeNextStage(requestForm, loggedUser.getId());
+
+		return "redirect:/auth/tram/list";
+	}
+	
+	@RequestMapping(value = "wf/authorization/{requestId}/{stageConfigId}", method = { RequestMethod.GET })
+	public String showAuthorizationInfo(@PathVariable("requestId") Long requestId, 
+									   @PathVariable("stageConfigId") Long stageConfigId, 
+									   ModelMap model, RedirectAttributes attributes,  Principal principal) {
+		
+		System.out.println("showAuthorizationInfo");
+		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
+		
+		Request requestForm = new Request();
+		requestForm = accessNativeService.getRequestById(requestId);
+		requestForm.setStageConfigId(stageConfigId);
+		requestForm.setAuthorizationForm(true);
+		
+		//se obtienen valores de authorizacion
+		Authorization authorization = accessNativeService.getAuthorization(requestForm, loggedUser);
+		System.out.println(authorization);
+		
+		model.addAttribute("requestForm", requestForm);
+		model.addAttribute("authorization", authorization);
+		
+		return SecopreConstans.MV_TRAM_AUTH;
+	}
+	
+	@RequestMapping(value = "wf/authorization", method = { RequestMethod.POST })
+	public String authorizeCancelOrFinishFormality(@ModelAttribute("requestForm") Request requestForm, ModelMap model, RedirectAttributes attributes,  Principal principal) {
+		
+		System.out.println("authorizeCancelOrFinishFormality");
+		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
 		
 		//avanzar de etapa
 		accessNativeService.invokeNextStage(requestForm, loggedUser.getId());
