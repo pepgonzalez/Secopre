@@ -51,6 +51,7 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	 * */
 	public Long startFormality(Request request, Long userId) {
 		request.setRequestId(this.insertRequest(request));
+		this.insertOrUpdateRequestDetail(request);
 
 		Formality formality = this.getFormalityById(request.getFormalityId());
 		this.insertRequestConfig(request.getRequestId(), formality);
@@ -72,6 +73,8 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	public void invokeNextStage(Request request, Long userId){
 		this.invokeNextStage(request.getRequestId(), request.getNextStageValueCode(), request.getStageConfigId(), userId);
 	}
+	
+	
 	
 	/*
 	 * Proceso para avanzar un tramite de etapa
@@ -134,6 +137,14 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 
 	private Long insertRequest(Request request){
 		return this.insertAndReturnId(Request.TABLE_NAME, Request.PRIMARY_KEY, request.getParams());
+	}
+	
+	public int insertOrUpdateRequestDetail(Request request){
+		SqlParameterSource params = new MapSqlParameterSource()
+				.addValue("requestId", request.getRequestId())
+				.addValue("movementName", request.getMovementName())
+				.addValue("movementPrice", request.getMovementPrice());
+		return this.insertOrUpdate(queryContainer.getSQL(SQLConstants.INSERT_OR_UPDATE_REQUEST_DETAIL), params);
 	}
 	
 	private int insertTransition(Long requestId, WorkFlowConfig config, int consecutive, Long userId){

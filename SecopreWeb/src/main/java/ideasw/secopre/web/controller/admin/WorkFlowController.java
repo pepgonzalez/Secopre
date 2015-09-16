@@ -27,27 +27,22 @@ public class WorkFlowController extends AuthController{
 	@Autowired
 	private AccessNativeService accessNativeService;
 	
-	@RequestMapping(value = "wf/capture/basic", method = { RequestMethod.GET })
-	public String showBasicCapture(ModelMap model, RedirectAttributes attributes,  Principal principal) {
-		
-		System.out.println("showBasicCapture");
-		
-		return SecopreConstans.MV_TRAM_ADD;
-	}
-	
-	@RequestMapping(value = "wf/capture/movements/{requestId}/{stageConfigId}", method = { RequestMethod.GET })
+	@RequestMapping(value = "wf/capture/{formalityCode}/{requestId}/{stageConfigId}", method = { RequestMethod.GET })
 	public String showMovementsCapture(@PathVariable("requestId") Long requestId, 
 									   @PathVariable("stageConfigId") Long stageConfigId, 
+									   @PathVariable("formalityCode") String formalityCode,
 									   ModelMap model, RedirectAttributes attributes,  Principal principal) {
 		
 		System.out.println("showMovementsCapture");
 		Request requestForm = new Request();
+		
 		requestForm.setRequestId(requestId);
 		requestForm.setStageConfigId(stageConfigId);
+		requestForm.setFormalityCode(formalityCode);
 		
 		model.addAttribute("requestForm", requestForm);
 		
-		return SecopreConstans.MV_TRAM_MOVS;
+		return SecopreConstans.MV_TRAM_CAPTURE;
 	}
 	
 	@RequestMapping(value = "wf/authorization/{requestId}/{stageConfigId}", method = { RequestMethod.GET })
@@ -79,6 +74,7 @@ public class WorkFlowController extends AuthController{
 		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
 		
 		//TODO implementacion para guardar informacion completa de tramite de movimiento
+		accessNativeService.insertOrUpdateRequestDetail(requestForm);
 		
 		//avanzar de etapa
 		accessNativeService.invokeNextStage(requestForm, loggedUser.getId());

@@ -18,5 +18,7 @@ public interface AccessNativeService {
 	void invokeNextStage(Request requestForm,  Long userId);
 	
 	Request getRequestById(Long requestId);
+	
+	public int insertOrUpdateRequestDetail(Request request);
 
 }

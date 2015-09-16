@@ -13,6 +13,15 @@ public class Formality {
 	private String description;
 	private Long workFlowId;
 	private Long authorizationId;
+	private String code;
+	
+
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
 	
 	public Long getAuthorizationId() {
 		return authorizationId;
