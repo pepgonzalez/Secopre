@@ -37,7 +37,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  *
  */
 @Controller
-public class UsuarioController extends AuthController {
+public class UserController extends AuthController {
 
 	@Autowired
 	private AccessService accessService;
@@ -74,6 +74,7 @@ public class UsuarioController extends AuthController {
 	public String add(@ModelAttribute("user") User user, ModelMap model) {
 		try {
 			user.setPassword(Encryption.encrypByBCrypt(user.getPassword()));
+			user.setActive(Boolean.TRUE);
 			baseService.persist(user);
 		} catch (Exception e) {
 			model.addAttribute(
