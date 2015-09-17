@@ -8,7 +8,7 @@
 						<div class="portlet-title">
 							<div class="caption font-green-haze">
 								<i class="icon-settings font-green-haze"></i>
-								<span class="caption-subject bold uppercase">Captura de informacion de movimientos</span>
+								<span class="caption-subject bold uppercase">Captura de informacion de ${requestForm.formalityCode}</span>
 							</div>
 							<div class="actions">
 								<a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title="">
@@ -29,7 +29,34 @@
 									<form:hidden path="stageConfigId" />
 									<form:hidden path="nextStageValueCode" id="nextStageValueCode" />
 									
+									  
+									<jsp:include page="/WEB-INF/views/auth/common/formality/${requestForm.formalityCode}.jsp" flush="true"/>
 									
+<!--  
+<div class="form-group form-md-line-input">
+	<label class="col-md-2 control-label" for="movementName">Nombre del movimiento</label>
+	<div class="col-md-10">
+		<form:input path="movementName" type="text" id="movementName" class="form-control" />
+		<div class="form-control-focus">
+		</div>
+		<span class="help-block">
+			<spring:message code="application.pages.tramite.add.notEmpty"/>
+		</span>
+	</div>
+</div>
+
+<div class="form-group form-md-line-input">
+	<label class="col-md-2 control-label" for="movementPrice">Precio del movimiento</label>
+	<div class="col-md-10">
+		<form:input path="movementPrice" type="text" id="movementPrice" class="form-control" />
+		<div class="form-control-focus">
+		</div>
+		<span class="help-block">
+			<spring:message code="application.pages.tramite.add.notEmpty"/>
+		</span>
+	</div>
+</div>
+-->							
 			
 								</div>
 								

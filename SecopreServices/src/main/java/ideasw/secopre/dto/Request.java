@@ -13,15 +13,38 @@ import java.util.Map;
  */
 public class Request {
 
+	//variables correspondientes a REQUEST
 	private Long requestId;
 	private String firstName;
 	private String parentLastName;
 	private String motherLastName;
-	private Long formalityId;
+	
+	//variables correspondientes a REQUEST_DETAIL
+	private String movementName;
+	private Float movementPrice;
 
+	//variables de transporte
 	private String nextStageValueCode;
 	private Long stageConfigId;
+	private String formalityCode;
+	private Long formalityId;
 	
+	//variables de authorizacion
+	private boolean authorizationForm;
+		
+	public String getFormalityCode() {
+		return formalityCode;
+	}
+	public void setFormalityCode(String formalityCode) {
+		this.formalityCode = formalityCode;
+	}
+	
+	public boolean getAuthorizationForm() {
+		return authorizationForm;
+	}
+	public void setAuthorizationForm(boolean authorizationForm) {
+		this.authorizationForm = authorizationForm;
+	}
 	public Long getFormalityId() {
 		return formalityId;
 	}
@@ -64,6 +87,18 @@ public class Request {
 	}
 	public void setStageConfigId(Long stageConfigId) {
 		this.stageConfigId = stageConfigId;
+	}
+	public String getMovementName() {
+		return movementName;
+	}
+	public void setMovementName(String movementName) {
+		this.movementName = movementName;
+	}
+	public Float getMovementPrice() {
+		return movementPrice;
+	}
+	public void setMovementPrice(Float movementPrice) {
+		this.movementPrice = movementPrice;
 	}
 	
 	@Override

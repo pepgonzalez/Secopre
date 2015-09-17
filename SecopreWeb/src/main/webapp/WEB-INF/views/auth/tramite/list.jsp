@@ -63,7 +63,7 @@
 									<td>${inboxItem.formalityDescription}</td>
 									<td>${inboxItem.nextDescription}</td>
 									<td>
-										<a href="#" onclick="sendRequestJQ('${inboxItem.nextStageURL}','dashboard','initFullCapture()','GET');">
+										<a href="#" onclick="sendRequestJQ('${inboxItem.nextStageURL}','dashboard','${inboxItem.nextStageJSFunction}','GET');">
 											<span class="label label-sm label-success"> Ver </span>
 										</a>
 									</td>
