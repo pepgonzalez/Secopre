@@ -26,11 +26,23 @@ public class SecopreConstans {
 	public static final String MV_TRAM_LIST = "auth/tramite/list";
 	public static final String MV_TRAM_CAPTURE = "auth/tramite/capture";
 	public static final String MV_TRAM_AUTH = "auth/tramite/authorization";
+
+	//####Modulo de Catalogos Operativos####//
+	public static final String MV_CAT_ENTRY = "auth/oper/entry/list";
+	public static final String MV_CAT_ENTRY_ADD = "auth/oper/entry/add";
+	
 	
 	//####Modulo de Catalogos####//
 	public static final String MV_CAT_PERSON = "auth/catalog/person/persons";
 	public static final String MV_CAT_PERSON_ADD = "auth/catalog/person/add";
 
-		
-	
+	public static final String MV_CAT_DISTRICT = "auth/catalog/district/list";
+	public static final String MV_CAT_DISTRICT_ADD = "auth/catalog/district/add";		
+
+	public static final String MV_CAT_POSITION = "auth/catalog/position/list";
+	public static final String MV_CAT_POSITION_ADD = "auth/catalog/position/add";			
+
+	public static final String MV_CAT_ADDRESS = "auth/catalog/address/list";
+	public static final String MV_CAT_ADDRESS_ADD = "auth/catalog/address/add";			
+
 }
