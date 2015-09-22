@@ -1,36 +1,36 @@
 function initPermPage() {
-	initAdminPage('Perm');
+	initPage('Perm');
 }
 function initRolePage() {
-	initAdminPage('Role');
+	initPage('Role');
 }
 function initUserPage() {
-	initAdminPage('User');
+	initPage('User');
 	initUserValidations();
 	$('#roles').multiSelect();
 	$('#permissions').multiSelect();
 	$('input').iCheck({
-	    checkboxClass: 'icheckbox_square',
-	    radioClass: 'iradio_square',
-	    increaseArea: '20%' // optional
+		checkboxClass : 'icheckbox_square',
+		radioClass : 'iradio_square',
+		increaseArea : '20%' // optional
 	});
 }
 
 function initUserList() {
-	sendRequestJQ('auth/adm/usr/list','dashboard','initUserPage()');
+	sendRequestJQ('auth/adm/usr/list', 'dashboard', 'initUserPage()');
 }
 
 function initPersonList() {
-	sendRequestJQ('auth/cat/person/list','dashboard','initPersonPage()');
+	sendRequestJQ('auth/cat/person/list', 'dashboard', 'initPersonPage()');
 }
 
 function initPersonPage() {
-	initAdminPage('Person');
+	initPage('Person');
 	initPersonValidations();
 	$('#my_multi_select1').multiSelect();
 }
 
-function initAdminPage(page) {
+function initPage(page) {
 	$('#' + page + 'Table').DataTable();
 	$('#add_' + page).hide();
 	$('button.btn.green').click(function() {
@@ -44,7 +44,7 @@ function initAdminPage(page) {
 	$('button.btn.blue').click(
 			function() {
 				console.log("submit boton blue");
-				submitAjaxJQ(page + 'Form', 'dashboard', 'initAdminPage('
+				submitAjaxJQ(page + 'Form', 'dashboard', 'initPage('
 						+ page + ');');
 			});
 
@@ -84,8 +84,8 @@ function initUserValidations() {
 				minlength : 6,
 				equalTo : "#password"
 			},
-			roles: "required",
-			permissions: "required"
+			roles : "required",
+			permissions : "required"
 		},
 
 		invalidHandler : function(event, validator) { // display error alert
@@ -150,13 +150,14 @@ function initUserValidations() {
 					} else if (input.is("select")) {
 						var elements = [];
 						input.each(function() {
-						    var selectedOption = $(this).find('option:selected');
-						    elements.push(selectedOption.text());
-						});					
+							var selectedOption = $(this)
+									.find('option:selected');
+							elements.push(selectedOption.text());
+						});
 						$(this).html(elements.join("<br>"));
 					} else if (input.is(":radio") && input.is(":checked")) {
 						$(this).html(input.attr("data-title"));
-					}else {
+					} else {
 						$(this).html($("input[name='email']").val());
 					}
 				});
@@ -233,90 +234,95 @@ function initUserValidations() {
 
 	$('#form_wizard_1').find('.button-previous').hide();
 	$('#form_wizard_1 .button-submit').click(function() {
-	//	formId, targetId,after
-	//	submitAjaxJQ('submit_form','dashboard','');
+		// formId, targetId,after
+		// submitAjaxJQ('submit_form','dashboard','');
 	}).hide();
-	
+
 	$('#submitRequestForm').click(function() {
-		if (form.valid()){
-			submitAjaxJQ('submit_form','dashboard','initUserList()');
+		if (form.valid()) {
+			submitAjaxJQ('submit_form', 'dashboard', 'initUserList()');
 		}
-	});	
+	});
 }
 
-/*funciones de tramites **OJO** mala idea declarar las funciones en scope global*/
-function initTramitePage(){
-	
-		//se obtiene la forma
-		var requestForm = $("#requestForm");
-		var error = $('.alert-danger', requestForm);
-		var success = $('.alert-success', requestForm);
-		
-		//se define la validacion
-		requestForm.validate({
-			doNotHideMessage : true,
-			errorElement : 'span', // default input error message container
-			errorClass : 'help-block help-block-error', // default input error
-			// message class
-			focusInvalid : false, // do not focus the last invalid input
-			
-			rules : {
-				formalityId : {
-					required : true,
-					min : 1
-				},
-				firstName : {
-					required : true
-				},
-				parentLastName : {
-					required : true
-				},
-				motherLastName :{
-					required : true
-				}
-			},
+/*
+ * funciones de tramites **OJO** mala idea declarar las funciones en scope
+ * global
+ */
+function initTramitePage() {
 
-			invalidHandler : function(event, validator) { // display error alert
-				// on form submit
-				success.hide();
-				error.show();
-				Metronic.scrollTo(error, -50);
-			},
+	// se obtiene la forma
+	var requestForm = $("#requestForm");
+	var error = $('.alert-danger', requestForm);
+	var success = $('.alert-success', requestForm);
 
-			errorPlacement : function(error, element) {
-				var icon = $(element).parent('.input-icon').children('i');
-				icon.removeClass('fa-check').addClass("fa-warning");
-				icon.attr("data-original-title", error.text()).tooltip({'container' : 'body'});
-			},
+	// se define la validacion
+	requestForm.validate({
+		doNotHideMessage : true,
+		errorElement : 'span', // default input error message container
+		errorClass : 'help-block help-block-error', // default input error
+		// message class
+		focusInvalid : false, // do not focus the last invalid input
 
-			highlight : function(element) { 
-				$(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+		rules : {
+			formalityId : {
+				required : true,
+				min : 1
 			},
-
-			unhighlight : function(element) { 
-				$(element).closest('.form-group').removeClass('has-error');
+			firstName : {
+				required : true
 			},
-
-			success : function(label, element) {
-				var icon = $(element).parent('.input-icon').children('i');
-				$(element).closest('.form-group').removeClass('has-error')
-						.addClass('has-success'); // set success class to the
-				// control group
-				icon.removeClass("fa-warning").addClass("fa-check");
+			parentLastName : {
+				required : true
 			},
-
-			submitHandler : function(form) {
-				form[0].submit(); // submit the form
+			motherLastName : {
+				required : true
 			}
-		});
-		
-		$('#submitRequestForm').click(function() {
-			if (requestForm.valid()){
-				submitAjaxJQ('requestForm','dashboard','');
-			}
-		});		
+		},
+
+		invalidHandler : function(event, validator) { // display error alert
+			// on form submit
+			success.hide();
+			error.show();
+			Metronic.scrollTo(error, -50);
+		},
+
+		errorPlacement : function(error, element) {
+			var icon = $(element).parent('.input-icon').children('i');
+			icon.removeClass('fa-check').addClass("fa-warning");
+			icon.attr("data-original-title", error.text()).tooltip({
+				'container' : 'body'
+			});
+		},
+
+		highlight : function(element) {
+			$(element).closest('.form-group').removeClass('has-success')
+					.addClass('has-error');
+		},
+
+		unhighlight : function(element) {
+			$(element).closest('.form-group').removeClass('has-error');
+		},
+
+		success : function(label, element) {
+			var icon = $(element).parent('.input-icon').children('i');
+			$(element).closest('.form-group').removeClass('has-error')
+					.addClass('has-success'); // set success class to the
+			// control group
+			icon.removeClass("fa-warning").addClass("fa-check");
+		},
+
+		submitHandler : function(form) {
+			form[0].submit(); // submit the form
+		}
+	});
+
+	$('#submitRequestForm').click(function() {
+		if (requestForm.valid()) {
+			submitAjaxJQ('requestForm', 'dashboard', '');
+		}
+	});
 }
-
 
 function initPersonValidations() {
 
@@ -335,8 +341,7 @@ function initPersonValidations() {
 			name : {
 				required : true
 			},
-			secondName : {
-			},
+			secondName : {},
 			fatherLastName : {
 				required : true
 			},
@@ -346,16 +351,13 @@ function initPersonValidations() {
 			telephone : {
 				required : true
 			},
-			mobileTelepone:{
+			mobileTelepone : {
 				required : true
 			},
-			twitter:{
-			},
-			facebook:{
-			},
-			webSite:{
-			}
-			
+			twitter : {},
+			facebook : {},
+			webSite : {}
+
 		},
 
 		invalidHandler : function(event, validator) { // display error alert
@@ -420,13 +422,14 @@ function initPersonValidations() {
 					} else if (input.is("select")) {
 						var elements = [];
 						input.each(function() {
-						    var selectedOption = $(this).find('option:selected');
-						    elements.push(selectedOption.text());
-						});					
+							var selectedOption = $(this)
+									.find('option:selected');
+							elements.push(selectedOption.text());
+						});
 						$(this).html(elements.join("<br>"));
 					} else if (input.is(":radio") && input.is(":checked")) {
 						$(this).html(input.attr("data-title"));
-					}else {
+					} else {
 						$(this).html($("input[name='email']").val());
 					}
 				});
@@ -503,76 +506,76 @@ function initPersonValidations() {
 
 	$('#form_wizard_1').find('.button-previous').hide();
 	$('#form_wizard_1 .button-submit').click(function() {
-//		formId, targetId,after
-//		submitAjaxJQ('submit_form','dashboard','');
+		// formId, targetId,after
+		// submitAjaxJQ('submit_form','dashboard','');
 	}).hide();
-	
+
 	$('#submitRequestForm').click(function() {
-		if (form.valid()){
-			submitAjaxJQ('submit_form','dashboard','initPersonList()');
+		if (form.valid()) {
+			submitAjaxJQ('submit_form', 'dashboard', 'initPersonList()');
 		}
-	});		
+	});
 }
 
-function initTramiteListPage(){
+function initTramiteListPage() {
 }
 
-function initFullCapture(){
+function initFullCapture() {
 	alert("Iniciando captura completa");
-	
+
 	var requestForm = $('#requestForm');
-	
-	$('#partialSave').click(function(e){
+
+	$('#partialSave').click(function(e) {
 		alert("haciendo guardado parcial");
 		requestForm.find('#nextStageValueCode').val("SOLPEND");
-		submitAjaxJQ('requestForm','dashboard','');
+		submitAjaxJQ('requestForm', 'dashboard', '');
 	});
-	
-	$('#saveAndContinue').click(function(e){
+
+	$('#saveAndContinue').click(function(e) {
 		alert("Finalizando captura y avanzando tramite");
 		requestForm.find('#nextStageValueCode').val("SOLCOMP");
-		submitAjaxJQ('requestForm','dashboard','');
+		submitAjaxJQ('requestForm', 'dashboard', '');
 	});
 }
 
-function initFullCapture(){
+function initFullCapture() {
 	alert("Iniciando captura completa");
-	
+
 	var requestForm = $('#requestForm');
-	
-	$('#partialSave').click(function(e){
+
+	$('#partialSave').click(function(e) {
 		alert("haciendo guardado parcial");
 		requestForm.find('#nextStageValueCode').val("SOLPEND");
-		submitAjaxJQ('requestForm','dashboard','');
+		submitAjaxJQ('requestForm', 'dashboard', '');
 	});
-	
-	$('#saveAndContinue').click(function(e){
+
+	$('#saveAndContinue').click(function(e) {
 		alert("Finalizando captura y avanzando tramite");
 		requestForm.find('#nextStageValueCode').val("SOLCOMP");
-		submitAjaxJQ('requestForm','dashboard','');
+		submitAjaxJQ('requestForm', 'dashboard', '');
 	});
 }
 
-function initAuthorization(){
+function initAuthorization() {
 	alert("Iniciando autorizacion");
-	
+
 	var requestForm = $('#requestForm');
-	
-	$('#cancelFormality').click(function(e){
+
+	$('#cancelFormality').click(function(e) {
 		alert("Cancelando Tramite");
 		requestForm.find('#nextStageValueCode').val("CANCELAR");
-		submitAjaxJQ('requestForm','dashboard','');
+		submitAjaxJQ('requestForm', 'dashboard', '');
 	});
-	
-	$('#authorizateFormality').click(function(e){
+
+	$('#authorizateFormality').click(function(e) {
 		alert("autorizando Tramite");
 		requestForm.find('#nextStageValueCode').val("SIGFIRMA");
-		submitAjaxJQ('requestForm','dashboard','');
+		submitAjaxJQ('requestForm', 'dashboard', '');
 	});
-	
-	$('#finishFormality').click(function(e){
+
+	$('#finishFormality').click(function(e) {
 		alert("autorizando Tramite y finalizar");
 		requestForm.find('#nextStageValueCode').val("CONTINUAR");
-		submitAjaxJQ('requestForm','dashboard','');
+		submitAjaxJQ('requestForm', 'dashboard', '');
 	});
 }

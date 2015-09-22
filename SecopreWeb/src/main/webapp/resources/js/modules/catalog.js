@@ -1,0 +1,3 @@
+function initPositionCat() {
+	initPage('Position');
+}
