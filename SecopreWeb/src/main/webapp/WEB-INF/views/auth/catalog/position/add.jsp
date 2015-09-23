@@ -6,7 +6,7 @@
 					<div class="portlet box blue" id="form_wizard_1">
 						<div class="portlet-title">
 							<div class="caption">
-								<i class="fa fa-gift"></i> <spring:message code="application.pages.admin.persons.title"/> - <span class="step-title">
+								<i class="fa fa-gift"></i> <spring:message code="application.pages.catalog.position.title"/> - <span class="step-title">
 								Paso 1 de 2 </span>
 							</div>
 							<div class="tools hidden-xs">
@@ -15,7 +15,7 @@
 							</div>
 						</div>
 						<div class="portlet-body form">
-							<form action="auth/cat/person/add" class="form-horizontal" id="submit_form"  modelAttribute="submit_form" method="POST"  novalidate="novalidate">
+							<form action="auth/cat/position/add" class="form-horizontal" id="submit_form"  modelAttribute="submit_form" method="POST"  novalidate="novalidate">
 								<div class="form-wizard">
 									<div class="form-body">
 
@@ -25,7 +25,7 @@
 												<span class="number">
 												1 </span>
 												<span class="desc">
-												<i class="fa fa-check"></i> Datos Generales </span>
+												<i class="fa fa-check"></i> Puestos </span>
 												</a>
 											</li>
 											<li>
@@ -33,210 +33,63 @@
 												<span class="number">
 												2 </span>
 												<span class="desc">
-												<i class="fa fa-check"></i>Direccion </span>
+												<i class="fa fa-check"></i>Confirmación </span>
 												</a>
 											</li>
 											
 										</ul>
+										
 										<div id="bar" class="progress progress-striped" role="progressbar">
 											<div class="progress-bar progress-bar-success">
 											</div>
 										</div>
+									
 										<div class="tab-content">
 										<!-- Se incluyen los DIV de alertamiento en formularios -->
 											<%@ include file="/WEB-INF/views/auth/common/alertForm.jsp"%>
 
 											<div class="tab-pane active" id="tab1">
-												<h3 class="block">Proporcionar datos personales</h3>
+												<h3 class="block">Proporcionar Información de Puesto</h3>
 												<div class="form-body">													
 													
 													
 													<div class="form-group form-md-line-input">
-														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.name"/>
+														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.position.name"/>
 															<span class="required">* </span>
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input id="name" name="name" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.name.placeholder"/>'>
+																<input id="name" name="name" type="text" class="form-control" placeholder='<spring:message code="application.pages.catalog.position.name.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.persons.name.help"/></span>
+																<span class="help-block"><spring:message code="application.pages.catalog.position.name.help"/></span>
 																<i class="icon-user"></i>
 															</div>
 														</div>
 													</div>
 													
 													<div class="form-group form-md-line-input has-danger">
-														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.secondName"/>
+														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.position.description"/>
 														<span class="required">* </span>
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input name="secondName"  id="secondName" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.secondName.placeholder"/>'>
+																<input name="description"  id="description" type="text" class="form-control" placeholder='<spring:message code="application.pages.catalog.position.description.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.persons.secondName.help"/></span>
+																<span class="help-block"><spring:message code="application.pages.catalog.position.description.help"/></span>
 																<i class="icon-user"></i>
 															</div>
 														</div>
 													</div>
-													
-													
-													<div class="form-group form-md-line-input">
-														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.fatherLastName"/> 
-														<span class="required">* </span>
-														</label>
-														<div class="col-md-10">
-															<div class="input-icon">
-																<input name="fatherLastName"  id="fatherLastName" type="text"  class="form-control" placeholder='<spring:message code="application.pages.admin.persons.fatherLastName.placeholder"/>'>
-																<div class="form-control-focus">
-																</div>																				
- 																<span class="help-block"><spring:message code="application.pages.admin.persons.fatherLastName.help"/></span> 
-															    <i class="fa fa-male"></i>
-															</div>
-														</div>
-													</div>
-													
-													
-													<div class="form-group form-md-line-input has-danger">
-														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.motherLastName"/>
-														<span class="required">* </span>
-														</label>
-														<div class="col-md-10">
-															<div class="input-icon">
-																<input id="motherLastName" name="motherLastName" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.motherLastName.placeholder"/>'>
-																<div class="form-control-focus">
-																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.persons.motherLastName.help"/></span>
-																<i class="fa fa-female"></i>
-															</div>
-														</div>
-													</div>	
-													
-													
-													<div class="form-group form-md-line-input has-danger">
-														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.telephone"/>
-														<span class="required">* </span>
-														</label>
-														<div class="col-md-10">
-															<div class="input-icon">
-																<input id="telephone" name="telephone" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.telephone.placeholder"/>'>
-																<div class="form-control-focus">
-																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.persons.telephone.help"/></span>
-																<i class="fa fa-tty"></i>
-															</div>
-														</div>
-													</div>	
-													
-													
-
-													
-													<div class="form-group form-md-line-input has-danger">
-														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.mobileTelepone"/>
-														<span class="required">* </span>
-														</label>
-														<div class="col-md-10">
-															<div class="input-icon">
-																<input id="mobileTelepone" name="mobileTelepone" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.mobileTelepone.placeholder"/>'>
-																<div class="form-control-focus">
-																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.persons.mobileTelepone.help"/></span>
-																<i class="fa fa-phone"></i>
-															</div>
-														</div>
-													</div>
-													
-													
-													
-													<div class="form-group form-md-line-input has-danger">
-														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.twitter"/>
-														<span class="required">* </span>
-														</label>
-														<div class="col-md-10">
-															<div class="input-icon">
-																<input id="twitter" name="twitter" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.twitter.placeholder"/>'>
-																<div class="form-control-focus">
-																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.persons.twitter.help"/></span>
-																<i class="fa fa-twitter on fa-square-o"></i>
-															</div>
-														</div>
-													</div>	
-													
-													<div class="form-group form-md-line-input has-danger">
-														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.facebook"/>
-														<span class="required">* </span>
-														</label>
-														<div class="col-md-10">
-															<div class="input-icon">
-																<input id="facebook" name="facebook" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.facebook.placeholder"/>'>
-																<div class="form-control-focus">
-																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.persons.facebook.help"/></span>
-																<i class="fa fa-facebook"></i>
-															</div>
-														</div>
-													</div>	
-													
-													
-													<div class="form-group form-md-line-input has-danger">
-														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.webSite"/>
-														<span class="required">* </span>
-														</label>
-														<div class="col-md-10">
-															<div class="input-icon">
-																<input id="webSite" name="webSite" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.webSite.placeholder"/>'>
-																<div class="form-control-focus">
-																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.persons.webSite.help"/></span>
-																<i class="fa fa-home"></i>
-															</div>
-														</div>
-													</div>	
-													
-													
-
-													
-													
-<!-- 													<div class="form-group"> -->
-<%-- 													   <label class="control-label col-md-2" for="form_control_1"><spring:message code="application.pages.admin.users.chat"/> --%>
-<!-- 													      <span class="required" aria-required="true"> * </span> -->
-<!-- 													   </label> -->
-<!-- 													      <div class="col-md-3"> -->
-<!--                                                           <div class="radio-list"> -->
-<!--                                                        <label> -->
-<!--                                                           <div class="radio"> -->
-<!--                                                              <span><input type="radio" data-title="Si" value="S" name="gender" > -->
-<!-- 															</span> -->
-<!-- 														</div> -->
-<!-- 														Si -->
-<!-- 												      </label> -->
-
-
-<!-- 													  <label> -->
-<!-- 													     <div class="radio"> -->
-<!-- 													        <span> -->
-<!-- 													        <input type="radio" data-title="No" value="N" name="gender"> -->
-<!-- 													        </span> -->
-<!-- 												         </div> -->
-<!-- 															No -->
-<!-- 															</label> -->
-<!-- 														</div> -->
-<!-- 														<div id="form_gender_error"> </div> -->
-<!-- 														</div> -->
-<!-- 														</div> -->
-												       
-												       																				
-											    	</div>
+																					       																				
+										        </div>
 											</div>
 
 						
 											<div class="tab-pane" id="tab2">
-												<h3 class="block">Dirección</h3>
-												
-<!-- 												<h4 class="form-section">Account</h4> -->
-												
+												<h3 class="block">Confirmación</h3>
+	
 													<div class="form-group form-md-line-input has-danger">
 														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.street"/>
 														<span class="required">* </span>
@@ -251,9 +104,7 @@
 															</div>
 														</div>
 													</div>	
-												
-<!-- 												<h4 class="form-section">Profile</h4> -->
-												
+
 												
 													<div class="form-group form-md-line-input has-danger">
 														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.number"/>
@@ -284,57 +135,7 @@
 																<i class="fa fa-home"></i>
 															</div>
 														</div>
-													</div>	
-													
-													
-				   								    <div class="form-group form-md-line-input has-danger">
-														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.city"/>
-														<span class="required">* </span>
-														</label>
-														<div class="col-md-10">
-															<div class="input-icon">
-																<input id="city" name="city" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.city.placeholder"/>'>
-																<div class="form-control-focus">
-																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.persons.city.help"/></span>
-																<i class="fa fa-home"></i>
-															</div>
-														</div>
-													</div>	
-													
-													
-													<div class="form-group form-md-line-input has-danger">
-														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.zipCode"/>
-														<span class="required">* </span>
-														</label>
-														<div class="col-md-10">
-															<div class="input-icon">
-																<input id="zipCode" name="zipCode" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.zipCode.placeholder"/>'>
-																<div class="form-control-focus">
-																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.persons.zipCode.help"/></span>
-																<i class="fa fa-home"></i>
-															</div>
-														</div>
-													</div>	
-													
-													
-													<div class="form-group form-md-line-input has-danger">
-														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.webSite"/>
-														<span class="required">* </span>
-														</label>
-														<div class="col-md-10">
-															<div class="input-icon">
-																<input id="webSite" name="webSite" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.webSite.placeholder"/>'>
-																<div class="form-control-focus">
-																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.persons.webSite.help"/></span>
-																<i class="fa fa-home"></i>
-															</div>
-														</div>
-													</div>	
-											
-											
+													</div>																									
 											</div>
 										</div>
 									</div>
@@ -346,10 +147,7 @@
 												<a href="javascript:;" class="btn blue button-next">
 												Continue <i class="m-icon-swapright m-icon-white"></i>
 												</a>
-<!-- 												<a href="javascript:;" class="btn green button-submit"> -->
-<!-- 												Submit <i class="m-icon-swapright m-icon-white"></i> -->
-<!-- 												</a> -->
-												<button type="button" class="btn green button-submit" id="submitRequestForm"><spring:message code="application.pages.cat.persons.crear"/></button>
+												<button type="button" class="btn green button-submit" id="submitRequestForm"><spring:message code="application.pages.catalog.position.crear"/></button>
 						
 											</div>
 										</div>

@@ -68,7 +68,7 @@
 										 ${positionItem.description}
 									</td>
 									<td>
-										 ${positionItem.active}
+										 ${positionItem.activo}
 									</td>
 									<td>
 										<span class="label label-sm label-success">
