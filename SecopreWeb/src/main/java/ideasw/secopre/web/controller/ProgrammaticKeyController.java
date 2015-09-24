@@ -6,6 +6,7 @@ import ideasw.secopre.web.controller.base.AuthController;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -26,13 +27,26 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller
 public class ProgrammaticKeyController extends AuthController {
-
+	
 	@RequestMapping(value = "oper/pk/list", method = { RequestMethod.GET,
 			RequestMethod.POST })
 	public String getList(ModelMap model, RedirectAttributes attributes) {
 		ProgrammaticKey pk = new ProgrammaticKey();
 		model.addAttribute("pkList", baseService.findAll(ProgrammaticKey.class));
 		model.addAttribute("pk", pk);
-		return SecopreConstans.MV_CAT_ENTRY;
+		return SecopreConstans.MV_CAT_PK;
+	}
+	
+	@RequestMapping(value = "oper/pk/add", method = RequestMethod.POST)
+	public String add(@ModelAttribute("pk") ProgrammaticKey pk, ModelMap model) {
+		try {
+			baseService.persist(pk);
+		} catch (Exception e) {
+			model.addAttribute(
+					"errors",
+					initErrors("Ocurrio un error al insertar el puesto:"
+							+ e.getMessage()));
+		}
+		return SecopreConstans.MV_CAT_PK;
 	}
 }

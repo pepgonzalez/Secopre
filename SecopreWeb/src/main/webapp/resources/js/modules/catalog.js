@@ -80,7 +80,7 @@ function initPositionValidations() {
 	});
 
 	var displayConfirm = function() {
-		$('#tab4 .form-control-static', form).each(
+		$('#tab2.form-control-static', form).each(
 				function() {
 					var input = $('[name="' + $(this).attr("data-display")
 							+ '"]', form);
