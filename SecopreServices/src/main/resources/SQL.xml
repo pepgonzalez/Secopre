@@ -18,11 +18,11 @@
 								   W.FIRST_STAGE_CFG,
 								   SCR.ROLE_ID,
 								   R.ROLENAME
-							  FROM SECOPRE.FORMALITY F,
-							  	   SECOPRE.WORKFLOW W,
-							  	   SECOPRE.STAGE_CONFIG_ROLE SCR,
-							  	   SECOPRE.ROLE R,
-							  	   SECOPRE.USER_ROLE UR
+							  FROM secopre.FORMALITY F,
+							  	   secopre.WORKFLOW W,
+							  	   secopre.STAGE_CONFIG_ROLE SCR,
+							  	   secopre.ROLE R,
+							  	   secopre.USER_ROLE UR
 							 WHERE F.WORKFLOW_ID = W.ID
 							   AND W.FIRST_STAGE_CFG = SCR.STAGE_CONFIG_ID
 							   AND SCR.ROLE_ID = R.ID
@@ -41,13 +41,13 @@
 							   ACTIVE, 
 							   AUTHORIZATION_ID,
 							   CODE
-					      FROM SECOPRE.FORMALITY WHERE ID = :formalityId
+					      FROM secopre.FORMALITY WHERE ID = :formalityId
 					]]>
 				</prop>		
 				
 				<prop key="INSERT_REQUEST_CONFIG">
 					<![CDATA[
-						INSERT INTO SECOPRE.REQUEST_CONFIG
+						INSERT INTO secopre.REQUEST_CONFIG
 						(REQUEST_ID, FORMALITY_ID, WORKFLOW_ID, LAST_UPDATE, ACTIVE, AUTHORIZATION_ID)
 						VALUES
 						(:requestId, :formalityId, :workFlowId, SYSDATE(), 1, :authorizationId)
@@ -57,7 +57,7 @@
 				<prop key="GET_NEXT_CONSECUTIVE">
 					<![CDATA[
 						SELECT (IFNULL(MAX(CONSECUTIVE), 0) + 1) AS CONSECUTIVE
-  						  FROM SECOPRE.REQUEST_HISTORY
+  						  FROM secopre.REQUEST_HISTORY
  						 WHERE REQUEST_ID = :requestId
 					]]>
 				</prop>	
@@ -65,9 +65,9 @@
 				<prop key="GET_REQUEST_FIRST_WORKFLOW_CONFIG">
 					<![CDATA[
 						 SELECT WC.*
-						   FROM SECOPRE.WORKFLOW_CONFIG WC,
-						   		SECOPRE.REQUEST_CONFIG RC,
-						   		SECOPRE.WORKFLOW W
+						   FROM secopre.WORKFLOW_CONFIG WC,
+						   		secopre.REQUEST_CONFIG RC,
+						   		secopre.WORKFLOW W
 						  WHERE RC.REQUEST_ID = :requestId
 						    AND WC.WF_CFG_CODE = :wfConfigCode
 						    AND WC.WORKFLOW_ID = RC.WORKFLOW_ID
@@ -78,7 +78,7 @@
 				
 				<prop key="INSERT_REQUEST_HISTORY">
 					<![CDATA[
-						 INSERT INTO SECOPRE.REQUEST_HISTORY
+						 INSERT INTO secopre.REQUEST_HISTORY
 						 (REQUEST_ID, CONSECUTIVE, WORKFLOW_CONFIG_ID, USER_ID, LAST_UPDATE, ACTIVE)
 						 VALUES
 						 (:requestId, :consecutive, :workFlowConfigId, :userId, SYSDATE(), 1)
@@ -102,19 +102,19 @@
 						 		SC.CAPTURE_FORM,
 						 		WC.STATUS_ID,
 						 		S.DESCRIPTION NEXT_DESCRIPTION
-						   FROM SECOPRE.REQUEST R,
-						   		SECOPRE.REQUEST_HISTORY RH,
-						   		SECOPRE.REQUEST_CONFIG RC,
-						   		SECOPRE.FORMALITY F,
-						   		SECOPRE.WORKFLOW_CONFIG WC,
-						   		SECOPRE.STAGE_CONFIG SC0,
-						   		SECOPRE.STAGE_CONFIG SC,
-						   		SECOPRE.PATH P,
-						   		SECOPRE.STATUS S,
-						   		SECOPRE.STAGE_CONFIG_ROLE SCR,
-						   		SECOPRE.USER_ROLE UR,
-						   		SECOPRE.USER U,
-						   		SECOPRE.STAGE ST
+						   FROM secopre.REQUEST R,
+						   		secopre.REQUEST_HISTORY RH,
+						   		secopre.REQUEST_CONFIG RC,
+						   		secopre.FORMALITY F,
+						   		secopre.WORKFLOW_CONFIG WC,
+						   		secopre.STAGE_CONFIG SC0,
+						   		secopre.STAGE_CONFIG SC,
+						   		secopre.PATH P,
+						   		secopre.STATUS S,
+						   		secopre.STAGE_CONFIG_ROLE SCR,
+						   		secopre.USER_ROLE UR,
+						   		secopre.USER U,
+						   		secopre.STAGE ST
 						  WHERE R.ID = RH.REQUEST_ID
 						    AND RH.ACTIVE = 1
 						    AND R.ID = RC.REQUEST_ID
@@ -136,8 +136,8 @@
 				<prop key="GET_REQUEST_WORKFLOW_CONFIG">
 					<![CDATA[
 						 SELECT WC.*
-						   FROM SECOPRE.WORKFLOW_CONFIG WC,
-						   		SECOPRE.REQUEST_CONFIG RC
+						   FROM secopre.WORKFLOW_CONFIG WC,
+						   		secopre.REQUEST_CONFIG RC
 						  WHERE RC.REQUEST_ID = :requestId
 						    AND WC.WF_CFG_CODE = :wfConfigCode
 						    AND WC.WORKFLOW_ID = RC.WORKFLOW_ID
@@ -147,7 +147,7 @@
 				
 				<prop key="INACTIVATE_ACTIVE_STAGE">
 					<![CDATA[
-						 UPDATE SECOPRE.REQUEST_HISTORY
+						 UPDATE secopre.REQUEST_HISTORY
 						    SET ACTIVE = 0
 						  WHERE REQUEST_ID = :requestId
 					]]>
@@ -161,8 +161,8 @@
 							   R.MOTHER_LAST_NAME,
 							   RD.MOVEMENT_NAME,
 							   RD.MOVEMENT_PRICE
-						  FROM SECOPRE.REQUEST R,
-						  	   SECOPRE.REQUEST_DETAIL RD
+						  FROM secopre.REQUEST R,
+						  	   secopre.REQUEST_DETAIL RD
 						 WHERE R.ID = :requestId
 						   AND R.ID = RD.REQUEST_ID
 					]]>
@@ -170,7 +170,7 @@
 				
 				<prop key="INSERT_OR_UPDATE_REQUEST_DETAIL">
 					<![CDATA[
-						INSERT INTO SECOPRE.REQUEST_DETAIL
+						INSERT INTO secopre.REQUEST_DETAIL
 						(REQUEST_ID, MOVEMENT_NAME, MOVEMENT_PRICE, ACTIVE, LAST_UPDATE)
 						VALUES
 						(:requestId, :movementName, :movementPrice, 1, SYSDATE())
@@ -183,7 +183,7 @@
 				<prop key="GET_REQUEST_CONFIG_BY_ID">
 					<![CDATA[
 						SELECT *
-						  FROM SECOPRE.REQUEST_CONFIG
+						  FROM secopre.REQUEST_CONFIG
 						 WHERE REQUEST_ID = :requestId
 					]]>
 				</prop>
@@ -191,8 +191,8 @@
 				<prop key="CAN_USER_AUTHORIZE">
 					<![CDATA[
 					SELECT COUNT(*) AS CAN_AUTHORIZE 
-					  FROM SECOPRE.AUTHORIZATION_CONFIG AC,
-					  	   SECOPRE.REL_USER_EMPLOYMENT RUE
+					  FROM secopre.AUTHORIZATION_CONFIG AC,
+					  	   secopre.REL_USER_EMPLOYMENT RUE
 					 WHERE AC.AUTHORIZATION_ID = :authorizationId
 					   AND AC.STAGE_CONFIG_ID = :stageConfigId
 					   AND AC.EMPLOYMENT_ID = RUE.EMPLOYMENT_ID
@@ -203,8 +203,8 @@
 				<prop key="IS_USER_AUTHORIZATION_SUPERUSER">
 					<![CDATA[
 						SELECT COUNT(*) AS IS_SUPER_USER
-						  FROM SECOPRE.AUTHORIZATION A,
-						  	   SECOPRE.USER_ROLE UR
+						  FROM secopre.AUTHORIZATION A,
+						  	   secopre.USER_ROLE UR
 						 WHERE A.ID = :authorizationId
 						   AND A.SUPER_USER_ROLE = UR.ROLE_ID
 						   AND UR.USER_ID = :userId	
@@ -214,8 +214,8 @@
 				<prop key="HAS_MORE_SIGNATURES">
 					<![CDATA[
 						SELECT COUNT(*) HAS_MORE_SIGNATURE 
-						  FROM SECOPRE.WORKFLOW_CONFIG WC,
-						  	   SECOPRE.REQUEST_CONFIG RC
+						  FROM secopre.WORKFLOW_CONFIG WC,
+						  	   secopre.REQUEST_CONFIG RC
 						 WHERE WC.WORKFLOW_ID = RC.WORKFLOW_ID
 						   AND RC.REQUEST_ID = :requestId
 						   AND WC.STAGE_CONFIG_ID = :stageConfigId

@@ -31,6 +31,8 @@ public class SecopreConstans {
 	public static final String MV_CAT_ENTRY = "auth/oper/entry/list";
 	public static final String MV_CAT_ENTRY_ADD = "auth/oper/entry/add";
 	
+	public static final String MV_CAT_PK = "auth/oper/pk/list";
+	public static final String MV_CAT_PK_ADD = "auth/oper/pk/add";
 	
 	//####Modulo de Catalogos####//
 	public static final String MV_CAT_PERSON = "auth/catalog/person/persons";
@@ -43,6 +45,7 @@ public class SecopreConstans {
 	public static final String MV_CAT_POSITION_ADD = "auth/catalog/position/add";			
 
 	public static final String MV_CAT_ADDRESS = "auth/catalog/address/list";
-	public static final String MV_CAT_ADDRESS_ADD = "auth/catalog/address/add";			
+	public static final String MV_CAT_ADDRESS_ADD = "auth/catalog/address/add";		
+	
 
 }

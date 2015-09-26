@@ -6,7 +6,7 @@
 					<div class="portlet box blue" id="form_wizard_1">
 						<div class="portlet-title">
 							<div class="caption">
-								<i class="fa fa-gift"></i> <spring:message code="application.pages.catalog.position.title"/> - <span class="step-title">
+								<i class="fa fa-gift"></i> <spring:message code="application.pages.catalog.programmaticKey.title"/> - <span class="step-title">
 								Paso 1 de 2 </span>
 							</div>
 							<div class="tools hidden-xs">
@@ -15,7 +15,7 @@
 							</div>
 						</div>
 						<div class="portlet-body form">
-							<form action="auth/cat/position/add" class="form-horizontal" id="submit_form"  modelAttribute="submit_form" method="POST"  novalidate="novalidate">
+							<form action="auth/oper/pk/add" class="form-horizontal" id="submit_form"  modelAttribute="submit_form" method="POST"  novalidate="novalidate">
 								<div class="form-wizard">
 									<div class="form-body">
 
@@ -25,7 +25,7 @@
 												<span class="number">
 												1 </span>
 												<span class="desc">
-												<i class="fa fa-check"></i> Puestos </span>
+												<i class="fa fa-check"></i> Clave Programatica </span>
 												</a>
 											</li>
 											<li>
@@ -49,35 +49,35 @@
 											<%@ include file="/WEB-INF/views/auth/common/alertForm.jsp"%>
 
 											<div class="tab-pane active" id="tab1">
-												<h3 class="block">Proporcionar Información de Puesto</h3>
+												<h3 class="block">Proporcionar Información de Clave Programatica</h3>
 												<div class="form-body">													
 													
 													
 													<div class="form-group form-md-line-input">
-														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.position.name"/>
+														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.programmaticKey.code"/>
 															<span class="required">* </span>
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input id="name" name="name" type="text" class="form-control" placeholder='<spring:message code="application.pages.catalog.position.name.placeholder"/>'>
+																<input id="code" name="code" type="text" class="form-control" placeholder='<spring:message code="application.pages.catalog.programmaticKey.code.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.catalog.position.name.help"/></span>
+																<span class="help-block"><spring:message code="application.pages.catalog.programmaticKey.code.help"/></span>
 																<i class="icon-user"></i>
 															</div>
 														</div>
 													</div>
 													
 													<div class="form-group form-md-line-input has-danger">
-														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.position.description"/>
+														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.programmaticKey.year"/>
 														<span class="required">* </span>
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input name="description"  id="description" type="text" class="form-control" placeholder='<spring:message code="application.pages.catalog.position.description.placeholder"/>'>
+																<input name="year"  id="year" type="text" class="form-control" placeholder='<spring:message code="application.pages.catalog.programmaticKey.year.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.catalog.position.description.help"/></span>
+																<span class="help-block"><spring:message code="application.pages.catalog.programmaticKey.year.help"/></span>
 																<i class="icon-user"></i>
 															</div>
 														</div>
@@ -94,18 +94,18 @@
 									            <h4 class="form-section">Puesto</h4>
 									            <div class="form-group">
 										            <label class="control-label col-md-3"><spring:message
-													code="application.pages.catalog.position.name" />
+													code="application.pages.catalog.programmaticKey.code" />
 													</label>
 										            <div class="col-md-4">
-											           <p class="form-control-static" data-display="name"></p>
+											           <p class="form-control-static" data-display="code"></p>
 										            </div>
 									            </div>
 									            <div class="form-group">
 										           <label class="control-label col-md-3"><spring:message
-													  code="application.pages.catalog.position.description" />
+													  code="application.pages.catalog.programmaticKey.year" />
 											       </label>
 										           <div class="col-md-4">
-											         <p class="form-control-static" data-display="description"></p>
+											         <p class="form-control-static" data-display="year"></p>
 										           </div>
 									            </div>							
 													
@@ -121,7 +121,7 @@
 												<a href="javascript:;" class="btn blue button-next">
 												Continue <i class="m-icon-swapright m-icon-white"></i>
 												</a>
-												<button type="button" class="btn green button-submit" id="submitRequestForm"><spring:message code="application.pages.catalog.position.crear"/></button>
+												<button type="button" class="btn green button-submit" id="submitRequestForm"><spring:message code="application.pages.catalog.programmaticKey.crear"/></button>
 						
 											</div>
 										</div>

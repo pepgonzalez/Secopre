@@ -7,7 +7,7 @@
 					<div class="portlet box grey-cascade">
 						<div class="portlet-title">
 							<div class="caption">
-								<i class="fa fa-globe"></i><spring:message code="application.pages.catalog.position.table.title"/>
+								<i class="fa fa-globe"></i><spring:message code="application.pages.catalog.entry.table.title"/>
 							</div>
 							<div class="tools">
 								<a href="javascript:;" class="collapse">
@@ -45,30 +45,32 @@
 									</div>
 								</div>
 							</div>
-							<table class="table table-striped table-bordered table-hover" id="PositionTable">
+							<table class="table table-striped table-bordered table-hover" id="EntryTable">
 							<thead>
 							<tr>
 								<th class="table-checkbox">
-									<input type="checkbox" class="group-checkable" data-set="#positionTable .checkboxes"/>
+									<input type="checkbox" class="group-checkable" data-set="#entryTable .checkboxes"/>
 								</th>
-								<th><spring:message code="application.pages.catalog.position.name"/></th>
-								<th><spring:message code="application.pages.catalog.position.description"/></th>
+								<th><spring:message code="application.pages.catalog.entry.code"/></th>
+								<th><spring:message code="application.pages.catalog.entry.name"/></th>
+								<th><spring:message code="application.pages.catalog.entry.description"/></th>
 								<th><spring:message code="application.active"/></th>
 								<th><spring:message code="application.actions"/></th>
 							</tr>
 							</thead>
 							<tbody>
-							<c:forEach items="${positionList}" var="positionItem">
+							<c:forEach items="${entryList}" var="entryItem">
 								<tr class="odd gradeX">
 									<td>
 										<input type="checkbox" class="checkboxes" value="1"/>
 									</td>
-									<td>${positionItem.name}</td>
+									<td>${entryItem.code}</td>
+									<td>${entryItem.name}</td>
 									<td>
-										 ${positionItem.description}
+										 ${entryItem.description}
 									</td>
 									<td>
-										 ${positionItem.activo}
+										 ${entryItem.activo}
 									</td>
 									<td>
 										<span class="label label-sm label-success">

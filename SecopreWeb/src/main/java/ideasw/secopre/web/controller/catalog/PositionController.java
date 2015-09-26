@@ -6,6 +6,7 @@ import ideasw.secopre.web.controller.base.AuthController;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -34,4 +35,19 @@ public class PositionController extends AuthController {
 		model.addAttribute("position", position);
 		return SecopreConstans.MV_CAT_POSITION;
 	}
+	
+	@RequestMapping(value = "cat/position/add", method = RequestMethod.POST)
+	public String add(@ModelAttribute("position") Position position, ModelMap model) {
+		try {
+			baseService.persist(position);
+		} catch (Exception e) {
+			model.addAttribute(
+					"errors",
+					initErrors("Ocurrio un error al insertar el puesto:"
+							+ e.getMessage()));
+		}
+		return SecopreConstans.MV_CAT_POSITION;
+	}
+	
+	
 }
