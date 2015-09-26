@@ -1,12 +1,11 @@
 package ideasw.secopre.service.impl.mapper;
 
+import ideasw.secopre.dto.RequestConfig;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
-
-import ideasw.secopre.dto.Request;
-import ideasw.secopre.dto.RequestConfig;
 
 public class RequestConfigMapper implements RowMapper<Object> {    
 	 

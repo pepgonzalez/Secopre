@@ -25,6 +25,7 @@ public class AccessNativeServiceBaseImpl {
 		return sql.getNamedParameterJdbcTemplate().update(q, params);
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public <E> List<E> queryForList(Class<E> dto, String q, SqlParameterSource params, RowMapper mapper){
 		return (List<E>) sql.getNamedParameterJdbcTemplate().query(q, params, mapper);
 	}

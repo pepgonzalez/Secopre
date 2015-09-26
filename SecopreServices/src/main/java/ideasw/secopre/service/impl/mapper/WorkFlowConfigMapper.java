@@ -1,12 +1,11 @@
 package ideasw.secopre.service.impl.mapper;
 
+import ideasw.secopre.dto.WorkFlowConfig;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
-
-import ideasw.secopre.dto.Formality;
-import ideasw.secopre.dto.WorkFlowConfig;
 
 public class WorkFlowConfigMapper implements RowMapper<Object> {    
 	 
