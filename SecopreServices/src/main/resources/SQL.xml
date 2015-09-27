@@ -32,6 +32,12 @@
 					]]>
 				</prop>	
 				
+				<prop key="GET_REQUEST_NEXT_CONSECUTIVE">
+					<![CDATA[
+						SELECT IFNULL( (MAX(id) + 1), 1) as CONSECUTIVE FROM secopre.REQUEST;
+					]]>
+				</prop>
+				
 				<prop key="GET_FORMALITY_BY_ID">
 					<![CDATA[
 						SELECT ID AS FORMALITY_ID,
@@ -88,7 +94,10 @@
 				<prop key="GET_FORMALITY_INBOX">
 					<![CDATA[
 						SELECT DISTINCT R.ID,
-						 		(CONCAT(R.FIRST_NAME, ' ', R.PARENT_LAST_NAME, ' ', R.MOTHER_LAST_NAME))AS NAME,
+						 		R.FOLIO,
+						 		R.JUSTIFICATION,
+						 		DIST.ID DISTRICT,
+						 		CONCAT('DTO-',DIST.NUMBER) DISTRICT_DESCRIPTION,
 						 		RC.FORMALITY_ID,
 						 		F.DESCRIPTION FORMALITY_DESCRIPTION,
 						 		RH.WORKFLOW_CONFIG_ID,
@@ -114,7 +123,8 @@
 						   		secopre.STAGE_CONFIG_ROLE SCR,
 						   		secopre.USER_ROLE UR,
 						   		secopre.USER U,
-						   		secopre.STAGE ST
+						   		secopre.STAGE ST,
+						   		secopre.DISTRICT DIST
 						  WHERE R.ID = RH.REQUEST_ID
 						    AND RH.ACTIVE = 1
 						    AND R.ID = RC.REQUEST_ID
@@ -129,6 +139,7 @@
 						    AND SC.ID = SCR.STAGE_CONFIG_ID
 						    AND SCR.ROLE_ID = UR.ROLE_ID
 						    AND UR.USER_ID = U.ID
+						    AND R.DISTRICT_ID = DIST.id
 						    AND U.ID = :userId
 					]]>
 				</prop>
@@ -165,6 +176,16 @@
 						  	   secopre.REQUEST_DETAIL RD
 						 WHERE R.ID = :requestId
 						   AND R.ID = RD.REQUEST_ID
+					]]>
+				</prop>
+				
+				<prop key="INSERT_OR_UPDATE_REQUEST">
+					<![CDATA[
+						INSERT INTO secopre.REQUEST
+						(ID, FOLIO, DISTRICT_ID, JUSTIFICATION, RESOURCE_PATH, LAST_UPDATE, ACTIVE)
+						VALUES
+						(:requestId, :folio, :districtId, :justification, :resourcePath,  SYSDATE(), 1)
+						ON DUPLICATE KEY UPDATE RESOURCE_PATH = VALUES(RESOURCE_PATH)
 					]]>
 				</prop>
 				

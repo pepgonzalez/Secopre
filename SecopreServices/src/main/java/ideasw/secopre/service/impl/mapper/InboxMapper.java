@@ -12,7 +12,10 @@ public class InboxMapper implements RowMapper<Object> {
 	public Inbox mapRow(ResultSet rs, int rowNum) throws SQLException {    
 		 Inbox inbox = new Inbox();
 		 	inbox.setRequestId(rs.getLong("ID"));
-		 	inbox.setName(rs.getString("NAME"));
+		 	inbox.setFolio(rs.getString("FOLIO"));
+		 	inbox.setJustification(rs.getString("JUSTIFICATION"));
+		 	inbox.setDistrictId(rs.getLong("DISTRICT"));
+		 	inbox.setDistrictDescription(rs.getString("DISTRICT_DESCRIPTION"));
 		 	inbox.setFormalityId(rs.getLong("FORMALITY_ID"));
 		 	inbox.setFormalityDescription(rs.getString("FORMALITY_DESCRIPTION"));
 		 	inbox.setWorkFlowConfigId(rs.getLong("WORKFLOW_CONFIG_ID"));

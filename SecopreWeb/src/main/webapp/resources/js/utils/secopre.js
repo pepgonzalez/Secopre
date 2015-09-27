@@ -86,6 +86,57 @@ function submitAjaxJQ(formId, targetId, after) {
 			});
 }
 
+
+function submitFileAjaxJQ(formId, targetId, after) {
+	var method = 'POST';
+	alert("enviando archivo");
+	var frm = $('#' + formId);
+	var action = frm.attr('action');
+	
+	
+	var dataDeForma = (frm !== undefined && frm !== null) ? frm.serialize(true) : null;
+	
+	console.log(dataDeForma);
+	
+	var header = $("meta[name='_csrf_header']").attr("content");
+	var token = $("meta[name='_csrf']").attr("content");
+
+	var path = context + '/' + action;
+		
+	blockPage();
+	$
+			.ajax({
+				type : method,
+				url : context + '/' + action,
+				data : dataDeForma,
+			    contentType: false,
+			    processData: false,
+			    beforeSend : function(xhr) {
+					xhr.setRequestHeader(header, token);
+				},
+				success : function(data) {
+					$("#" + targetId).html("");
+					$('#' + targetId).html(data);
+					// Mensaje Exito
+					showNotification('success',
+							'La operacion se realizo correctamente!!');
+				},
+				complete : function(jqXHR) {
+					if (after !== null) {
+						eval(after);
+					}
+					unblockPage();
+				},
+				error : function(xhr, ajaxOptions, thrownError) {
+					unblockPage();
+					// Mensaje error
+					showNotification('error',
+							'Ocurrio un error al ejecutar su peticion:'
+									+ thrownError);
+				}
+			});
+}
+
 /**
  * Funcion que permite enviar un formulario via AJAX y mediante POST
  * 

@@ -269,13 +269,11 @@ function initTramitePage() {
 				required : true,
 				min : 1
 			},
-			firstName : {
-				required : true
+			districtId : {
+				required: true,
+				min : 1
 			},
-			parentLastName : {
-				required : true
-			},
-			motherLastName : {
+			justification : {
 				required : true
 			}
 		},
@@ -535,6 +533,22 @@ function initFullCapture() {
 		alert("Finalizando captura y avanzando tramite");
 		requestForm.find('#nextStageValueCode').val("SOLCOMP");
 		submitAjaxJQ('requestForm', 'dashboard', '');
+	});
+}
+
+function initUpload() {
+	alert("Iniciando carga de archivos");
+
+	var requestForm = $('#requestForm');
+
+	$('#uploadFile').click(function(e) {
+		alert("Subiendo Archivo");
+		var file = requestForm.find('#file').val();
+		if(file.length <= 0){
+			alert("Seleccione un archivo");
+			return;
+		}
+		submitFileAjaxJQ('requestForm', 'dashboard', '');
 	});
 }
 

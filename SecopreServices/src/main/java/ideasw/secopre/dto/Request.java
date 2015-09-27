@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.web.multipart.MultipartFile;
+
 /**
  * Clase de estereotipo DTO para el manejo de informacion base de un tramite
  * {@link Formality}
@@ -15,13 +17,44 @@ public class Request {
 
 	//variables correspondientes a REQUEST
 	private Long requestId;
-	private String firstName;
-	private String parentLastName;
-	private String motherLastName;
+	private Long districtId;
+	private String justification;
+	private String folio;
+	private String resourcePath;
 	
-	//variables correspondientes a REQUEST_DETAIL
-	private String movementName;
-	private Float movementPrice;
+	//archivo
+	private MultipartFile file;
+	
+	public MultipartFile getFile() {
+		return file;
+	}
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
+	public String getResourcePath() {
+		return resourcePath;
+	}
+	public void setResourcePath(String resourcePath) {
+		this.resourcePath = resourcePath;
+	}
+	public Long getDistrictId() {
+		return districtId;
+	}
+	public void setDistrictId(Long districtId) {
+		this.districtId = districtId;
+	}
+	public String getJustification() {
+		return justification;
+	}
+	public void setJustification(String justification) {
+		this.justification = justification;
+	}
+	public String getFolio() {
+		return folio;
+	}
+	public void setFolio(String folio) {
+		this.folio = folio;
+	}
 
 	//variables de transporte
 	private String nextStageValueCode;
@@ -58,24 +91,6 @@ public class Request {
 	public void setRequestId(Long requestId) {
 		this.requestId = requestId;
 	}
-	public String getFirstName() {
-		return firstName;
-	}
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-	public String getParentLastName() {
-		return parentLastName;
-	}
-	public void setParentLastName(String parentLastName) {
-		this.parentLastName = parentLastName;
-	}
-	public String getMotherLastName() {
-		return motherLastName;
-	}
-	public void setMotherLastName(String motherLastName) {
-		this.motherLastName = motherLastName;
-	}
 	public String getNextStageValueCode() {
 		return nextStageValueCode;
 	}
@@ -88,22 +103,10 @@ public class Request {
 	public void setStageConfigId(Long stageConfigId) {
 		this.stageConfigId = stageConfigId;
 	}
-	public String getMovementName() {
-		return movementName;
-	}
-	public void setMovementName(String movementName) {
-		this.movementName = movementName;
-	}
-	public Float getMovementPrice() {
-		return movementPrice;
-	}
-	public void setMovementPrice(Float movementPrice) {
-		this.movementPrice = movementPrice;
-	}
 	
 	@Override
 	public String toString(){
-		return "{requestId: " + requestId + ",formalityId: " + formalityId + ",firstName: "+firstName+",parentLastName: "+parentLastName+", motherLastName: "+motherLastName;
+		return "{requestId: " + requestId + ",formalityId: " + formalityId + ",folio: "+folio+",districtId: "+districtId+", justification: "+justification;
 	}
 	
 	public static final String TABLE_NAME = "REQUEST";
@@ -111,9 +114,9 @@ public class Request {
 	
 	public Map<String, Object> getParams(){
 		Map<String, Object> parameters = new HashMap<String, Object>();
-	    parameters.put("FIRST_NAME", this.getFirstName());
-	    parameters.put("PARENT_LAST_NAME", this.getParentLastName());
-	    parameters.put("MOTHER_LAST_NAME", this.getMotherLastName());
+	    parameters.put("FOLIO", this.getFolio());
+	    parameters.put("DISTRICT_ID", this.getDistrictId());
+	    parameters.put("JUSTIFICATION", this.getJustification());
 	    parameters.put("LAST_UPDATE", new Date());
 	    parameters.put("ACTIVE", 1);
 	    return parameters;

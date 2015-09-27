@@ -48,8 +48,10 @@
 							<thead>
 							<tr>
 								<th>ID</th>
-								<th>Nombre</th>
-								<th>Tramite</th>
+								<th>Folio</th>
+								<th>Justificación</th>
+								<th>Distrito</th>
+								<th>Trámite</th>
 								<th>Siguiente Etapa</th>
 								<th>Acciones</th>
 							</tr>
@@ -59,7 +61,9 @@
 								<tr class="odd gradeX">
 
 									<td>${inboxItem.requestId}</td>
-									<td>${inboxItem.name}</td>
+									<td>${inboxItem.folio}</td>
+									<td>${inboxItem.justification}</td>
+									<td>${inboxItem.districtDescription}</td>
 									<td>${inboxItem.formalityDescription}</td>
 									<td>${inboxItem.nextDescription}</td>
 									<td>

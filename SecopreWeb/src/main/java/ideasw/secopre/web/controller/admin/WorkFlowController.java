@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -93,6 +95,44 @@ public class WorkFlowController extends AuthController{
 		
 		//avanzar de etapa
 		accessNativeService.invokeNextStage(requestForm, loggedUser.getId());
+
+		return "redirect:/auth/tram/list";
+	}
+	
+	@RequestMapping(value = "wf/upload/{requestId}/{stageConfigId}", method = { RequestMethod.GET })
+	public String showUploadForm(@PathVariable("requestId") Long requestId, 
+									   @PathVariable("stageConfigId") Long stageConfigId, 
+									   ModelMap model, RedirectAttributes attributes,  Principal principal) {
+		
+		System.out.println("showUploadForm");
+		Request requestForm = new Request();
+		
+		//requestForm = accessNativeService.getRequestById(requestId);
+		
+		requestForm.setStageConfigId(stageConfigId);
+		
+		model.addAttribute("requestForm", requestForm);
+		
+		return SecopreConstans.MV_TRAM_UPLOAD;
+	}
+	
+	@RequestMapping(value = "wf/upload", method = { RequestMethod.POST })
+	public String uploadFile(  @RequestParam("file") MultipartFile file, ModelMap model, RedirectAttributes attributes,  Principal principal) {
+		
+		System.out.println("uploadFile");
+				
+		boolean isEmpty = file.isEmpty();
+		
+		System.out.println("archivo vacio: " + isEmpty);
+		
+		if(isEmpty){
+			String fileName = file.getOriginalFilename();
+			System.out.println("fileName: " + fileName);
+		}		
+		//ser loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
+		
+		//avanzar de etapa
+		//accessNativeService.invokeNextStage(requestForm, loggedUser.getId());
 
 		return "redirect:/auth/tram/list";
 	}

@@ -3,6 +3,7 @@ package ideasw.secopre.web.controller.admin;
 import ideasw.secopre.dto.Formality;
 import ideasw.secopre.dto.Inbox;
 import ideasw.secopre.dto.Request;
+import ideasw.secopre.model.catalog.District;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.AccessNativeService;
 import ideasw.secopre.web.SecopreConstans;
@@ -39,9 +40,18 @@ public class TramiteController extends AuthController {
 		for (Formality f : formalities) {
 		   formalitiesMap.put(f.getFormalityId(), f.getDescription());
 		}
+		
+		//obtener los distritos
+		List<District> districtList = baseService.findAll(District.class);
+		HashMap<Long, String> districtsMap = new HashMap<Long, String>();
+		for(District district : districtList){
+			districtsMap.put(district.getId(), "DTO-" + district.getNumber());
+		}
+		
 		Request requestForm = new Request();
 		
 		model.addAttribute("formalities", formalitiesMap);
+		model.addAttribute("districts", districtsMap);
 		model.addAttribute("requestForm", requestForm);
 		
 		return SecopreConstans.MV_TRAM_ADD;
@@ -65,8 +75,17 @@ public class TramiteController extends AuthController {
 		
 		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
 		
-		Long id = accessNativeService.startFormality(requestForm, loggedUser.getId());
-		System.out.println(id);
+		System.out.println(requestForm);
+		
+		District district= baseService.findById(District.class, requestForm.getDistrictId());
+		Long requestId = accessNativeService.getRequestNextConsecutive();
+		
+		String folio = "DTO-" +  district.getNumber() + "/" + requestId;
+		
+		requestForm.setRequestId(requestId);
+		requestForm.setFolio(folio);
+		
+		accessNativeService.startFormality(requestForm, loggedUser.getId());
 		
 		return "redirect:/auth/tram/list";
 	}

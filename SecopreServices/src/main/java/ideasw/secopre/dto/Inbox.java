@@ -3,7 +3,11 @@ package ideasw.secopre.dto;
 public class Inbox {
 
 	private Long requestId;
-	private String name;
+	private String folio;
+	private String justification;
+	private Long districtId;
+	private String districtDescription;
+	private String resourcePath;
 	private Long formalityId;
 	private String formalityDescription;
 	private Long workFlowConfigId;
@@ -35,12 +39,6 @@ public class Inbox {
 	}
 	public void setRequestId(Long requestId) {
 		this.requestId = requestId;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
 	}
 	public Long getWorkFlowConfigId() {
 		return workFlowConfigId;
@@ -108,7 +106,36 @@ public class Inbox {
 	public void setNextDescription(String nextDescription) {
 		this.nextDescription = nextDescription;
 	}
-	
+	public String getFolio() {
+		return folio;
+	}
+	public void setFolio(String folio) {
+		this.folio = folio;
+	}
+	public String getJustification() {
+		return justification;
+	}
+	public void setJustification(String justification) {
+		this.justification = justification;
+	}
+	public Long getDistrictId() {
+		return districtId;
+	}
+	public void setDistrictId(Long districtId) {
+		this.districtId = districtId;
+	}
+	public String getResourcePath() {
+		return resourcePath;
+	}
+	public void setResourcePath(String resourcePath) {
+		this.resourcePath = resourcePath;
+	}
+	public String getDistrictDescription() {
+		return districtDescription;
+	}
+	public void setDistrictDescription(String districtDescription) {
+		this.districtDescription = districtDescription;
+	}	
 
 	public String getNextStageURL(){
 		String basePath =  (this.isCapture ? this.url + "/" + this.captureForm : this.url);
@@ -117,6 +144,6 @@ public class Inbox {
 	}
 	
 	public String getNextStageJSFunction(){
-		return (this.isAuthorization ? "initAuthorization()" : "initFullCapture()");
+		return (this.isAuthorization ? "initAuthorization()" : (this.isCapture ? "initFullCapture()" : (this.captureForm.equals("upload") ? "initUpload()" : "()")));
 	}
 }

@@ -43,8 +43,10 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	 * Proceso para inicio de tramite, inserta en REQUEST, REQUEST_CONFIG, REQUEST_HISTORY
 	 * */
 	public Long startFormality(Request request, Long userId) {
-		request.setRequestId(this.insertRequest(request));
-		this.insertOrUpdateRequestDetail(request);
+		
+		this.insertOrUpdateRequest(request);
+		
+		//this.insertOrUpdateRequestDetail(request);
 
 		Formality formality = this.getFormalityById(request.getFormalityId());
 		this.insertRequestConfig(request.getRequestId(), formality);
@@ -111,6 +113,11 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		return this.queryForObject(Integer.class, queryContainer.getSQL(SQLConstants.GET_NEXT_CONSECUTIVE), params);
 	}
 	
+	public Long getRequestNextConsecutive(){
+		SqlParameterSource params = new MapSqlParameterSource();
+		return this.queryForObject(Long.class, queryContainer.getSQL(SQLConstants.GET_REQUEST_NEXT_CONSECUTIVE), params);
+	}
+	
 	private int canUserAuthorize(Long authorizationId, Long stageConfigId, Long userId){
 		SqlParameterSource params = new MapSqlParameterSource()
 				.addValue("authorizationId", authorizationId)
@@ -155,11 +162,21 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		return this.insertAndReturnId(Request.TABLE_NAME, Request.PRIMARY_KEY, request.getParams());
 	}
 	
-	public int insertOrUpdateRequestDetail(Request request){
+	private int insertOrUpdateRequest(Request request){
 		SqlParameterSource params = new MapSqlParameterSource()
 				.addValue("requestId", request.getRequestId())
-				.addValue("movementName", request.getMovementName())
-				.addValue("movementPrice", request.getMovementPrice());
+				.addValue("folio", request.getFolio())
+				.addValue("districtId", request.getDistrictId())
+				.addValue("justification", request.getJustification())
+				.addValue("resourcePath", request.getResourcePath());
+		return this.insertOrUpdate(queryContainer.getSQL(SQLConstants.INSERT_OR_UPDATE_REQUEST), params);
+	}
+	
+	public int insertOrUpdateRequestDetail(Request request){
+		SqlParameterSource params = new MapSqlParameterSource()
+				.addValue("requestId", request.getRequestId());
+				//.addValue("movementName", request.getMovementName())
+				//.addValue("movementPrice", request.getMovementPrice());
 		return this.insertOrUpdate(queryContainer.getSQL(SQLConstants.INSERT_OR_UPDATE_REQUEST_DETAIL), params);
 	}
 	

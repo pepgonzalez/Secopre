@@ -23,4 +23,6 @@ public interface AccessNativeService {
 	public int insertOrUpdateRequestDetail(Request request);
 
 	Authorization getAuthorization(Request request, User user);
+	
+	public Long getRequestNextConsecutive();
 }
