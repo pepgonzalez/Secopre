@@ -28,7 +28,7 @@
 									<div class="form-group form-md-line-input">
 										<label class="col-md-12 control-label" for="justification" style="text-align:left;">Seleccione el archivo a subir:</label>
 										<div class="col-md-12">
-											<input type="file" name="file" id="file"/>
+											<input type="file" size="1" name="attachment" id="attachment" accept="*.doc,*.docx,*.pdf, *.xls, *.xlsx"/>
 											<div class="form-control-focus">
 											</div>
 											<span class="help-block">
