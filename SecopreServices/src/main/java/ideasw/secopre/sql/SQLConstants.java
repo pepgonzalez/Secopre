@@ -19,5 +19,6 @@ public class SQLConstants {
 	public static final String CAN_USER_AUTHORIZE = "CAN_USER_AUTHORIZE";
 	public static final String IS_USER_AUTHORIZATION_SUPERUSER = "IS_USER_AUTHORIZATION_SUPERUSER";
 	public static final String HAS_MORE_SIGNATURES = "HAS_MORE_SIGNATURES";
+	public static final String UPDATE_UPLOADED_FILE_IN_REQUEST = "UPDATE_UPLOADED_FILE_IN_REQUEST";
 
 }

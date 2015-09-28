@@ -69,6 +69,12 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		this.invokeNextStage(request.getRequestId(), request.getNextStageValueCode(), request.getStageConfigId(), userId);
 	}
 	
+	public int updateRequestUploadedFile(Long requestId, String uploadedFilePath){
+		SqlParameterSource namedParameters = new MapSqlParameterSource()
+		.addValue("requestId", requestId)
+		.addValue("uploadedFilePath", uploadedFilePath);
+		return this.queryForObject(Integer.class, queryContainer.getSQL(SQLConstants.UPDATE_UPLOADED_FILE_IN_REQUEST), params);
+	}
 	
 	
 	/*

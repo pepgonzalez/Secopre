@@ -93,6 +93,10 @@ function submitFileAjaxJQTest(formId, targetId, after){
   var oMyForm = new FormData();
   oMyForm.append("attachment", attachment.files[0]);
 
+  //se cargan las propiedades del request y el stageConfig actual
+    oMyForm.append("requestId", frm.find('#requestId').val());  
+    oMyForm.append("stageConfigId", frm.find('#stageConfigId').val());  
+
 	var header = $("meta[name='_csrf_header']").attr("content");
 	var token = $("meta[name='_csrf']").attr("content");
 

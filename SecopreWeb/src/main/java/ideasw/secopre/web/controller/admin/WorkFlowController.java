@@ -28,6 +28,8 @@ public class WorkFlowController extends AuthController {
 	@Autowired
 	private AccessNativeService accessNativeService;
 
+	private String basePath = "C:/SecopreResources/";
+
 	@RequestMapping(value = "wf/capture/{formalityCode}/{requestId}/{stageConfigId}", method = { RequestMethod.GET })
 	public String showMovementsCapture(
 			@PathVariable("requestId") Long requestId,
@@ -131,22 +133,30 @@ public class WorkFlowController extends AuthController {
 	}
 
 	@RequestMapping(value = "wf/upload", method = { RequestMethod.POST })
-	public String uploadFile(@RequestParam("attachment") MultipartFile attachment,
+	public String uploadFile(
+			@RequestParam("requestId") Long requestId,
+			@RequestParam("stageConfigId") Long stageConfigId,
+			@RequestParam("attachment") MultipartFile attachment,
 			ModelMap model, RedirectAttributes attributes, Principal principal) throws IOException {
 
 		System.out.println("uploadFile");
 
-		boolean isEmpty = attachment.isEmpty();
-
-		System.out.println("archivo vacio: " + isEmpty);
-
-		if (attachment != null && attachment.getBytes() != null
-				&& attachment.getOriginalFilename() != null
-				&& !StringUtils.isEmpty(attachment.getOriginalFilename())) {
-			String fileName = attachment.getOriginalFilename();
-			System.out.println("fileName: " + fileName);
-			System.out.println("bytes: " + attachment.getBytes());
+		if (attachment != null && attachment.getBytes() != null && attachment.getOriginalFilename() != null && !StringUtils.isEmpty(attachment.getOriginalFilename())) {
 			
+			String fileName = attachment.getOriginalFilename();
+			String finalPath = basePath + requestId + "/";
+
+			try{
+				attachment.transferTo(new File(finalPath));
+				finalPath += fileName;
+
+				int res = accessNativeService.updateRequestUploadedFile(requestId, finalPath);
+
+				//accessNativeService.invokeNextStage(requestForm, loggedUser.getId());				
+
+			}catch(Exception e){
+				System.out.println("Excepcion al guardar el archivo");
+			}
 		}
 		// ser loggedUser = baseService.findByProperty(User.class, "username",
 		// principal.getName()).get(0);
@@ -156,4 +166,19 @@ public class WorkFlowController extends AuthController {
 
 		return "redirect:/auth/tram/list";
 	}
+
+	@RequestMapping(value = "wf/download/{requestId}", method = RequestMethod.GET)
+	public void getFile(@PathVariable("requestId") Long requestId, HttpServletResponse response) {
+    try {
+      
+	  	Request request = accessNativeService.getRequestById(requestId);
+      	InputStream is = new FileInputStream(request.getResourcePath());
+      	org.apache.commons.io.IOUtils.copy(is, response.getOutputStream());
+      	response.flushBuffer();
+      	
+    } catch (IOException ex) {
+      	System.out.println("Ocurrio un error al intentar descargar el archivo" + ex.toString());
+    }
+
+}
 }
