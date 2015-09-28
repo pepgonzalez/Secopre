@@ -86,7 +86,31 @@ function submitAjaxJQ(formId, targetId, after) {
 			});
 }
 
+//using FormData() object
+function submitFileAjaxJQTest(formId, targetId, after){
+  var frm = $('#' + formId);
+  var action = frm.attr('action');
+  var oMyForm = new FormData();
+  oMyForm.append("attachment", attachment.files[0]);
 
+	var header = $("meta[name='_csrf_header']").attr("content");
+	var token = $("meta[name='_csrf']").attr("content");
+
+  $.ajax({
+	url : context + '/' + action,
+    data: oMyForm,
+    dataType: 'text',
+    processData: false,
+    contentType: false,
+    beforeSend : function(xhr) {
+		xhr.setRequestHeader(header, token);
+	},   
+    type: 'POST',
+    success: function(data){
+      $('#targetId').html(data);
+    }
+  });
+}
 function submitFileAjaxJQ(formId, targetId, after) {
 	var method = 'POST';
 	alert("enviando archivo");

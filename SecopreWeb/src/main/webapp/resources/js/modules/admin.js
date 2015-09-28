@@ -543,12 +543,13 @@ function initUpload() {
 
 	$('#uploadFile').click(function(e) {
 		alert("Subiendo Archivo");
-		var file = requestForm.find('#file').val();
+		var file = requestForm.find('#attachment').val();
 		if(file.length <= 0){
 			alert("Seleccione un archivo");
 			return;
 		}
-		submitFileAjaxJQ('requestForm', 'dashboard', '');
+		submitFileAjaxJQTest('requestForm', 'dashboard', '');
+//		submitFileAjaxJQ('requestForm', 'dashboard', '');
 	});
 }
 
