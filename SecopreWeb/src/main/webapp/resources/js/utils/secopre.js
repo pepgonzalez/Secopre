@@ -93,9 +93,15 @@ function submitFileAjaxJQTest(formId, targetId, after){
   var oMyForm = new FormData();
   oMyForm.append("attachment", attachment.files[0]);
 
+  var requestId = $('#requestId').val();
+  var stageConfigId = $('#stageConfigId').val();
+  
+  alert("requestId: " + requestId);
+  alert("stageConfigId: " + stageConfigId);
+  
   //se cargan las propiedades del request y el stageConfig actual
-    oMyForm.append("requestId", frm.find('#requestId').val());  
-    oMyForm.append("stageConfigId", frm.find('#stageConfigId').val());  
+    oMyForm.append("requestId", requestId);  
+    oMyForm.append("stageConfigId", stageConfigId);  
 
 	var header = $("meta[name='_csrf_header']").attr("content");
 	var token = $("meta[name='_csrf']").attr("content");
@@ -197,6 +203,35 @@ function sendRequestJQ(actionURL, targetId, after, method) {
 		},
 		type : method
 	});
+}
+
+function openResource(actionURL, targetId, after, method) {
+	method = method || "POST";
+	var header = $("meta[name='_csrf_header']").attr("content");
+	var token = $("meta[name='_csrf']").attr("content");
+	blockPage();
+	$.ajax({
+		url : context + '/' + actionURL,
+		beforeSend : function(xhr) {
+			xhr.setRequestHeader(header, token);
+		},
+		success : function(data) {
+			window.open(data.fileUrl);
+		},
+		complete : function(jqXHR) {
+			if (after !== null) {
+				eval(after);
+			}
+			unblockPage();
+		},
+		type : method
+	});
+}
+
+function openResourceNative(actionURL) {
+    var downloadUrl = actionURL;
+    // (optionally) provide the user with a message that the download is starting
+    window.location.href = downloadUrl;
 }
 
 function showNotification(notifType, notifMsg) {

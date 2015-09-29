@@ -1,5 +1,7 @@
 package ideasw.secopre.web;
 
+import java.io.File;
+
 public class SecopreConstans {
 	public static final String USER_IN_SESSION = "User_In_Session"; 
 	//####Constantes de vistas####//
@@ -27,7 +29,11 @@ public class SecopreConstans {
 	public static final String MV_TRAM_CAPTURE = "auth/tramite/capture";
 	public static final String MV_TRAM_AUTH = "auth/tramite/authorization";
 	public static final String MV_TRAM_UPLOAD = "auth/tramite/upload";
-
+	
+	//####Constantes de carga de archivos####//
+	public static final String SECOPRE_RESOURCES_WINDOWS_PATH = "C:"+File.separator+"SecopreResources";
+	public static final String DEFAULT_UPLOAD_FILE_NEXT_STAGE = "SOLCOMP";
+	
 	//####Modulo de Catalogos Operativos####//
 	public static final String MV_CAT_ENTRY = "auth/oper/entry/list";
 	public static final String MV_CAT_ENTRY_ADD = "auth/oper/entry/add";

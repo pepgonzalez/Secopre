@@ -21,6 +21,7 @@ public class Inbox {
 	private String captureForm;
 	private Long statusId;
 	private String nextDescription;
+	private boolean hasDocument;
 	
 	public Long getFormalityId() {
 		return formalityId;
@@ -145,5 +146,12 @@ public class Inbox {
 	
 	public String getNextStageJSFunction(){
 		return (this.isAuthorization ? "initAuthorization()" : (this.isCapture ? "initFullCapture()" : (this.captureForm.equals("upload") ? "initUpload()" : "()")));
+	}
+
+	public boolean getHasDocument() {
+		return (this.resourcePath != null && !(this.resourcePath.isEmpty()) && this.resourcePath.length() > 0);
+	}
+	public void setHasDocument(boolean hasDocument) {
+		this.hasDocument = hasDocument;
 	}
 }

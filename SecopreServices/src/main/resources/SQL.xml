@@ -10,7 +10,7 @@
 					<![CDATA[
 						UPDATE secopre.REQUEST
 						SET RESOURCE_PATH = :uploadedFilePath
-						WHERE ID = :requestId;
+						WHERE ID = :requestId
 					]]>
 				</prop>	
 						
@@ -104,6 +104,7 @@
 						SELECT DISTINCT R.ID,
 						 		R.FOLIO,
 						 		R.JUSTIFICATION,
+						 		R.RESOURCE_PATH,
 						 		DIST.ID DISTRICT,
 						 		CONCAT('DTO-',DIST.NUMBER) DISTRICT_DESCRIPTION,
 						 		RC.FORMALITY_ID,

@@ -26,7 +26,7 @@
 									
 									<!-- campos ocultos con propiedades del request -->
 									<input id="requestId" name="requestId" type="hidden" value="${requestForm.requestId}"/>
-									<input id="stageConfigId" name="stageConfigId" type="stageConfigId" value="${requestForm.stageConfigId}"/>
+									<input id="stageConfigId" name="stageConfigId" type="hidden" value="${requestForm.stageConfigId}"/>
 
 									<!-- justificacion -->
 									<div class="form-group form-md-line-input">

@@ -70,6 +70,11 @@
 										<a href="#" onclick="sendRequestJQ('${inboxItem.nextStageURL}','dashboard','${inboxItem.nextStageJSFunction}','GET');">
 											<span class="label label-sm label-success"> Ver </span>
 										</a>
+										<c:if test="${inboxItem.hasDocument}">
+											<a href="#" onclick="openResourceNative('wf/download/${inboxItem.requestId}','dashboard','()','GET');">
+											<span class="label label-sm label-success"> Mostrar Documento </span>
+										</a>
+										</c:if>
 									</td>
 								</tr>							
 							</c:forEach>

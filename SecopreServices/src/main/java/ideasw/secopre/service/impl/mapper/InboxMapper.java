@@ -14,6 +14,7 @@ public class InboxMapper implements RowMapper<Object> {
 		 	inbox.setRequestId(rs.getLong("ID"));
 		 	inbox.setFolio(rs.getString("FOLIO"));
 		 	inbox.setJustification(rs.getString("JUSTIFICATION"));
+		 	inbox.setResourcePath(rs.getString("RESOURCE_PATH"));
 		 	inbox.setDistrictId(rs.getLong("DISTRICT"));
 		 	inbox.setDistrictDescription(rs.getString("DISTRICT_DESCRIPTION"));
 		 	inbox.setFormalityId(rs.getLong("FORMALITY_ID"));

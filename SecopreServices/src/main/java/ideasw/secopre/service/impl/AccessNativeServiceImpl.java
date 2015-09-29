@@ -73,7 +73,7 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		SqlParameterSource namedParameters = new MapSqlParameterSource()
 		.addValue("requestId", requestId)
 		.addValue("uploadedFilePath", uploadedFilePath);
-		return this.queryForObject(Integer.class, queryContainer.getSQL(SQLConstants.UPDATE_UPLOADED_FILE_IN_REQUEST), params);
+		return this.insertOrUpdate(queryContainer.getSQL(SQLConstants.UPDATE_UPLOADED_FILE_IN_REQUEST), namedParameters);
 	}
 	
 	
