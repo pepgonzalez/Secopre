@@ -21,48 +21,15 @@ public class Request {
 	private String justification;
 	private String folio;
 	private String resourcePath;
-	
-	//archivo
-	private MultipartFile file;
-	
-	public MultipartFile getFile() {
-		return file;
-	}
-	public void setFile(MultipartFile file) {
-		this.file = file;
-	}
-	public String getResourcePath() {
-		return resourcePath;
-	}
-	public void setResourcePath(String resourcePath) {
-		this.resourcePath = resourcePath;
-	}
-	public Long getDistrictId() {
-		return districtId;
-	}
-	public void setDistrictId(Long districtId) {
-		this.districtId = districtId;
-	}
-	public String getJustification() {
-		return justification;
-	}
-	public void setJustification(String justification) {
-		this.justification = justification;
-	}
-	public String getFolio() {
-		return folio;
-	}
-	public void setFolio(String folio) {
-		this.folio = folio;
-	}
 
-	//variables de transporte
+	//variables correspondientes a REQUEST DETAIL
+
+
+	//variables de transporte y gestion de la forma
 	private String nextStageValueCode;
 	private Long stageConfigId;
 	private String formalityCode;
-	private Long formalityId;
-	
-	//variables de authorizacion
+	private Long formalityId;	
 	private boolean authorizationForm;
 		
 	public String getFormalityCode() {
@@ -102,6 +69,39 @@ public class Request {
 	}
 	public void setStageConfigId(Long stageConfigId) {
 		this.stageConfigId = stageConfigId;
+	}
+		//archivo
+	private MultipartFile file;
+	
+	public MultipartFile getFile() {
+		return file;
+	}
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
+	public String getResourcePath() {
+		return resourcePath;
+	}
+	public void setResourcePath(String resourcePath) {
+		this.resourcePath = resourcePath;
+	}
+	public Long getDistrictId() {
+		return districtId;
+	}
+	public void setDistrictId(Long districtId) {
+		this.districtId = districtId;
+	}
+	public String getJustification() {
+		return justification;
+	}
+	public void setJustification(String justification) {
+		this.justification = justification;
+	}
+	public String getFolio() {
+		return folio;
+	}
+	public void setFolio(String folio) {
+		this.folio = folio;
 	}
 	
 	@Override
