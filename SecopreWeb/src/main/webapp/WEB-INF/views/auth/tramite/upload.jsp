@@ -24,6 +24,10 @@
 									<!-- Se incluyen los DIV de alertamiento en formularios -->
 									<%@ include file="/WEB-INF/views/auth/common/alertForm.jsp"%>
 									
+									<!-- campos ocultos con propiedades del request -->
+									<input id="requestId" name="requestId" type="hidden" value="${requestForm.requestId}"/>
+									<input id="stageConfigId" name="stageConfigId" type="stageConfigId" value="${requestForm.stageConfigId}"/>
+
 									<!-- justificacion -->
 									<div class="form-group form-md-line-input">
 										<label class="col-md-12 control-label" for="justification" style="text-align:left;">Seleccione el archivo a subir:</label>

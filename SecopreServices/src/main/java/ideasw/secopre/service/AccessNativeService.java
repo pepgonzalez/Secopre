@@ -25,4 +25,6 @@ public interface AccessNativeService {
 	Authorization getAuthorization(Request request, User user);
 	
 	public Long getRequestNextConsecutive();
+
+	void updateRequestUploadedFile(Long requestId, String uploadedFilePath);
 }

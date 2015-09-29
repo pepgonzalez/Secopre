@@ -5,6 +5,14 @@
 	<bean id="queryContainer" class="ideasw.secopre.sql.QueryContainer">
 		<property name="queries">
 			<props>
+
+				<prop key="UPDATE_UPLOADED_FILE_IN_REQUEST">
+					<![CDATA[
+						UPDATE secopre.REQUEST
+						SET RESOURCE_PATH = :uploadedFilePath
+						WHERE ID = :requestId;
+					]]>
+				</prop>	
 						
 				<prop key="GET_FORMALITY_FROM_USER_ID">
 					<![CDATA[
@@ -167,15 +175,12 @@
 				<prop key="GET_REQUEST_BY_ID">
 					<![CDATA[
 						SELECT R.ID AS REQUEST_ID,
-							   R.FIRST_NAME,
-						       R.PARENT_LAST_NAME,
-							   R.MOTHER_LAST_NAME,
-							   RD.MOVEMENT_NAME,
-							   RD.MOVEMENT_PRICE
-						  FROM secopre.REQUEST R,
-						  	   secopre.REQUEST_DETAIL RD
+							   R.FOLIO,
+							   R.DISTRICT_ID,
+							   R.JUSTIFICATION,
+							   R.RESOURCE_PATH
+						  FROM secopre.REQUEST R
 						 WHERE R.ID = :requestId
-						   AND R.ID = RD.REQUEST_ID
 					]]>
 				</prop>
 				
