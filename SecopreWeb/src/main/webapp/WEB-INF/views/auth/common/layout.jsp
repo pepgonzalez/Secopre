@@ -119,17 +119,8 @@
 	<script src='<c:url value="/resources/js/global/ui-blockui.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/global/metronic.js"/>' type="text/javascript"></script>
 	
-	<!-- test
-	<script src='<c:url value="/resources/js/global/layout.js"/>' type="text/javascript"></script>
-	<script src='<c:url value="/resources/js/global/index3.js"/>' type="text/javascript"></script>
-	<script src='<c:url value="/resources/js/global/tasks.js"/>' type="text/javascript"></script>
-	 -->
-	 
-	 <!-- scripts de mapas 
-	 <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
-	 <script src='<c:url value="/resources/js/plugins/gmaps.min.js"/>' type="text/javascript"></script>
-	 <script src='<c:url value="/resources/js/global/maps-google.js"/>'  type="text/javascript"></script>
-	 -->
+	<!--plugin de js para slider-->
+	<script src='<c:url value="/resources/js/global/jquery.nouislider.all.js"/>' type="text/javascript"></script>
 	 
 	 <!-- scripts para chat -->
 	 <script src='<c:url value="/resources/js/global/layout4.js"/>' type="text/javascript"></script>

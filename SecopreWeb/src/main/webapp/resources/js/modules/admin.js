@@ -556,6 +556,36 @@ function initUpload() {
 function initFullCapture() {
 	alert("Iniciando captura completa");
 
+	var months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+	var currentMonth = parseInt(new Date().getMonth());
+
+	//se inicializa el controlador del slider
+	$("#sliderControl").noUiSlider({
+        connect: true,
+        behaviour: 'tap',
+		step:1,
+		//snap:true,
+        start: [currentMonth, 11],
+        range: {
+            'min': [currentMonth],
+            'max': [11]
+        }	
+    });
+
+	function myValue(value){
+		$(this).text(months[parseInt(value)]);
+	}
+
+	//SE ASOCIA EL VALOR DEL SLIDER A una propiedad de la forma
+	$("#sliderControl").Link('lower').to($('#initalMonthId'));
+	$("#sliderControl").Link('upper').to($('#finalMonthId'));
+
+	$("#sliderControl").Link('lower').to($('#lower-offset'), myValue);
+	$("#sliderControl").Link('upper').to($('#upper-offset'), myValue);
+
+
+	//FIN DE CONTROLADOR SLIDER
+
 	var requestForm = $('#requestForm');
 
 	$('#partialSave').click(function(e) {
