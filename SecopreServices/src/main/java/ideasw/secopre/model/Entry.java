@@ -43,10 +43,10 @@ public class Entry extends AuditEntity implements Persistible {
 	@Column(name = "CODE", nullable = false)
 	private Integer code;
 
-	@Column(name = "NAME", nullable = false, length = 150)
+	@Column(name = "NAME", nullable = false, length = 250)
 	private String name;
 
-	@Column(name = "DESCRIPTION", nullable = false, length = 150)
+	@Column(name = "DESCRIPTION", nullable = false, length = 250)
 	private String description;
 
 	@ManyToOne(cascade = CascadeType.ALL)
