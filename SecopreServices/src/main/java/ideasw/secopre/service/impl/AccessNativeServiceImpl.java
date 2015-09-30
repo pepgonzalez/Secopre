@@ -6,9 +6,13 @@ import ideasw.secopre.dto.Inbox;
 import ideasw.secopre.dto.Request;
 import ideasw.secopre.dto.RequestConfig;
 import ideasw.secopre.dto.WorkFlowConfig;
+import ideasw.secopre.enums.Month;
 import ideasw.secopre.enums.WorkFlowCode;
+import ideasw.secopre.model.Entry;
+import ideasw.secopre.model.ProgrammaticKey;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.AccessNativeService;
+import ideasw.secopre.service.BaseService;
 import ideasw.secopre.service.impl.mapper.FormalityMapper;
 import ideasw.secopre.service.impl.mapper.InboxMapper;
 import ideasw.secopre.service.impl.mapper.RequestConfigMapper;
@@ -16,8 +20,13 @@ import ideasw.secopre.service.impl.mapper.RequestMapper;
 import ideasw.secopre.service.impl.mapper.WorkFlowConfigMapper;
 import ideasw.secopre.sql.QueryContainer;
 import ideasw.secopre.sql.SQLConstants;
+import sun.util.calendar.BaseCalendar.Date;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -30,6 +39,9 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	@Autowired
 	QueryContainer queryContainer;
 
+	@Autowired
+	public BaseService baseService;
+	
 	@Override
 	/*
 	 * Obtiene todos los tramites disponibles que puede iniciar el usuario
@@ -229,6 +241,41 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		authorization.setMoreSignatures(this.hasMoreSignatures(request.getRequestId(), request.getStageConfigId()) > 0);
 		
 		return authorization;
+	}
+
+	@Override
+	public Map<Long, String> getProgramaticKeysMap() {
+		int year = Calendar.getInstance().get(Calendar.YEAR);
+		List<ProgrammaticKey> l = baseService.findByProperty(ProgrammaticKey.class, "year", year);
+		Map<Long, String> map = new HashMap<Long, String>();
+		for(ProgrammaticKey k : l){
+			map.put(k.getId(), k.getCode());
+		}
+		return map;
+	}
+
+	@Override
+	public Map<Long, String> getEntriesMap(Long programaticKey) {
+		List<Entry> l = new ArrayList<Entry>();
+		if(programaticKey.longValue() > 0){
+			l = baseService.findByProperty(Entry.class, "programmaticKey", baseService.findById(ProgrammaticKey.class, programaticKey));
+		}else{
+			l = baseService.findAll(Entry.class);
+		}
+		Map<Long, String> map = new HashMap<Long, String>();
+		for (Entry e : l){
+			map.put(e.getId(), e.getName());
+		}
+		return map;
+	}
+
+	@Override
+	public Map<Long, String> getMonthsMap() {
+		Map<Long, String> map = new HashMap<Long, String>();
+		for (Month mes : Month.values()){
+			map.put(mes.getId(), mes.name());
+		}
+		return map;
 	}
 
 }

@@ -1,25 +1,58 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
  
-<div class="form-group form-md-line-input">
-	<label class="col-md-2 control-label" for="movementName">Nombre del movimiento</label>
-	<div class="col-md-10">
-		<form:input path="movementName" type="text" id="movementName" class="form-control" readonly="${requestForm.authorizationForm}" />
-		<div class="form-control-focus">
+<div class="portlet-body">
+	<div class="table-toolbar">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="btn-group">
+					<button id="sample_editable_1_new" class="btn green" onclick="void(0);">Agregar Movimiento<i class="fa fa-plus"></i></button>
+				</div>
+			</div>
 		</div>
-		<span class="help-block">
-			<spring:message code="application.pages.tramite.add.notEmpty"/>
-		</span>
 	</div>
-</div>
-
-<div class="form-group form-md-line-input">
-	<label class="col-md-2 control-label" for="movementPrice">Precio del movimiento</label>
-	<div class="col-md-10">
-		<form:input path="movementPrice" type="text" id="movementPrice" class="form-control" readonly="${requestForm.authorizationForm}"/>
-		<div class="form-control-focus">
-		</div>
-		<span class="help-block">
-			<spring:message code="application.pages.tramite.add.notEmpty"/>
-		</span>
-	</div>
-</div>
+	<table class="table table-striped table-bordered table-hover" id="UserTable">
+		<thead>
+			<tr>
+				<th>Acciones</th>
+				<th>Llave Programatica</th>
+				<th>Partida</th>
+				<th>Mes Inicio</th>
+				<th>Mes Fin</th>
+				<th>Monto Mensual</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="odd gradeX" id="movementId">
+				<td>
+					Acciones
+				</td>
+				<td>
+					<form:select path="movements[0].programaticKeyId" id="programaticKeyId" class="form-control">
+						<form:option value="-1" label="Seleccione..."/>
+	    				<form:options items="${programaticKeys}" />
+					</form:select>
+				</td>
+				<td>
+					<form:select path="movements[0].entryId" id="entryId" class="form-control">
+						<form:option value="-1" label="Seleccione..."/>
+	    				<form:options items="${entries}" />
+					</form:select>
+				</td>
+				<td>
+					<form:select path="movements[0].initialMonthId" id="initialMonthId" class="form-control">
+						<form:option value="-1" label="Seleccione..."/>
+	    				<form:options items="${months}" />
+					</form:select>
+				</td>
+				<td>
+					<form:select path="movements[0].finalMonthId" id="finalMonthId" class="form-control">
+						<form:option value="-1" label="Seleccione..."/>
+	    				<form:options items="${months}" />
+					</form:select>
+				</td>
+				<td>
+					<form:input path="movements[0].monthAmount" id="monthAmount" class="form-control"/>
+				</td>
+			</tr>							
+		</tbody>
+	</table>

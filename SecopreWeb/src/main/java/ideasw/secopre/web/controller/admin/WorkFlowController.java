@@ -1,7 +1,9 @@
 package ideasw.secopre.web.controller.admin;
 
 import ideasw.secopre.dto.Authorization;
+import ideasw.secopre.dto.Movement;
 import ideasw.secopre.dto.Request;
+import ideasw.secopre.model.catalog.MovementType;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.AccessNativeService;
 import ideasw.secopre.web.SecopreConstans;
@@ -14,6 +16,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -51,7 +57,23 @@ public class WorkFlowController extends AuthController {
 
 		requestForm.setStageConfigId(stageConfigId);
 		requestForm.setFormalityCode(formalityCode);
+		
+		List<Movement> list = new ArrayList<Movement>();
+		list.add(new Movement());
+		
+		requestForm.setMovements(list);
+		
+		List<MovementType> movementTypes = baseService.findAll(MovementType.class);
+		
+		Map<Long, String> map = new HashMap<Long, String>();
+		for(MovementType mov : movementTypes){
+			map.put(mov.getId(), mov.getDescription());
+		}
 
+		model.addAttribute("movementTypes", map);
+		model.addAttribute("programaticKeys", accessNativeService.getProgramaticKeysMap());
+		model.addAttribute("entries", accessNativeService.getEntriesMap(-1L));
+		model.addAttribute("months", accessNativeService.getMonthsMap());
 		model.addAttribute("requestForm", requestForm);
 
 		return SecopreConstans.MV_TRAM_CAPTURE;

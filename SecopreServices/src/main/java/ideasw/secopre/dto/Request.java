@@ -2,6 +2,7 @@ package ideasw.secopre.dto;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -23,7 +24,8 @@ public class Request {
 	private String resourcePath;
 
 	//variables correspondientes a REQUEST DETAIL
-
+	private Long movementTypeId;
+	private List<Movement> movements;
 
 	//variables de transporte y gestion de la forma
 	private String nextStageValueCode;
@@ -120,6 +122,18 @@ public class Request {
 	    parameters.put("LAST_UPDATE", new Date());
 	    parameters.put("ACTIVE", 1);
 	    return parameters;
+	}
+	public Long getMovementTypeId() {
+		return movementTypeId;
+	}
+	public void setMovementTypeId(Long movementTypeId) {
+		this.movementTypeId = movementTypeId;
+	}
+	public List<Movement> getMovements() {
+		return movements;
+	}
+	public void setMovements(List<Movement> movements) {
+		this.movements = movements;
 	}
 	
 }

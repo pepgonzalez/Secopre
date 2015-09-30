@@ -1,6 +1,7 @@
 package ideasw.secopre.service;
 
 import java.util.List;
+import java.util.Map;
 
 import ideasw.secopre.dto.Authorization;
 import ideasw.secopre.dto.Formality;
@@ -27,4 +28,10 @@ public interface AccessNativeService {
 	public Long getRequestNextConsecutive();
 
 	int updateRequestUploadedFile(Long requestId, String uploadedFilePath);
+	
+	Map<Long, String> getProgramaticKeysMap();
+	
+	Map<Long, String> getEntriesMap(Long programaticKey);
+	
+	Map<Long, String> getMonthsMap();
 }
