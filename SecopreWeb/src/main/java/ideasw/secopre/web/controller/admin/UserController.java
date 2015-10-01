@@ -1,5 +1,6 @@
 package ideasw.secopre.web.controller.admin;
 
+import ideasw.secopre.dto.Request;
 import ideasw.secopre.model.security.Permission;
 import ideasw.secopre.model.security.Role;
 import ideasw.secopre.model.security.User;
@@ -9,6 +10,8 @@ import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
 
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,6 +23,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import ideasw.secopre.model.catalog.Person;
 
 /**
  * Controller principal encargada del modulo de administracion de
@@ -50,6 +55,20 @@ public class UserController extends AuthController {
 		model.addAttribute("user", user);
 		model.addAttribute("roles", baseService.findAll(Role.class));
 		model.addAttribute("permissions", baseService.findAll(Permission.class));
+		
+		List<Person> person = baseService.findAll(Person.class);
+		
+		HashMap<Long, String> personMap = new HashMap<Long, String>();
+		for (Person p : person) {
+			personMap.put(p.getId(),p.getName() );
+		}
+		
+		
+		Request requestForm = new Request();
+		
+		model.addAttribute("person", personMap);
+		model.addAttribute("requestForm", requestForm);
+		
 		return SecopreConstans.MV_ADM_USR;
 	}
 

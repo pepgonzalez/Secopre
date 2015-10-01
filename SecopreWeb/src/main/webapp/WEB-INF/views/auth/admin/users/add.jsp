@@ -106,6 +106,7 @@
 												</div>
 											</div>
 										</div>
+										
 										<div class="form-group form-md-line-input">
 											<label class="col-md-3 control-label" for="form_control_1"><spring:message
 													code="application.pages.admin.users.hasChatActive" /> <span
@@ -156,6 +157,21 @@
 												</div>
 											</div>
 										</div>
+										
+										<div class="form-group form-md-line-input">
+										<label class="col-md-3 control-label" for="id"><spring:message code="application.pages.admin.users.selectPerson"/></label>
+										<div class="col-md-4">
+												<form:select path="person" id="person" class="form-control">
+												   	<form:option value="-1" label="Seleccione..."/>
+	    											<form:options items="${person}" />
+												</form:select>
+												<div class="form-control-focus"></div>
+												<span class="help-block">
+													<spring:message code="application.pages.admin.users.selectPerson"/>
+												</span>
+										</div>
+										</div>
+										
 									</div>
 								</div>
 								<div class="tab-pane" id="tab2">
@@ -237,9 +253,9 @@
 							<div class="row">
 								<div class="col-md-offset-3 col-md-9">
 									<a href="javascript:;" class="btn default button-previous">
-										<i class="m-icon-swapleft"></i> Back
+										<i class="m-icon-swapleft"></i> <spring:message code="application.back"/>
 									</a> <a href="javascript:;" class="btn blue button-next">
-										Continue <i class="m-icon-swapright m-icon-white"></i>
+										<spring:message code="application.next"/> <i class="m-icon-swapright m-icon-white"></i>
 									</a> 
 									<button type="button" class="btn green button-submit" id="submitRequestForm"><spring:message code="application.pages.admin.users.crear"/></button>
 								</div>
