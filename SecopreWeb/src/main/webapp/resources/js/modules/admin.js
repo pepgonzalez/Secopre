@@ -577,11 +577,34 @@ function initFullCapture() {
 	}
 
 	//SE ASOCIA EL VALOR DEL SLIDER A una propiedad de la forma
-	$("#sliderControl").Link('lower').to($('#initalMonthId'));
+	$("#sliderControl").Link('lower').to($('#initialMonthId'));
 	$("#sliderControl").Link('upper').to($('#finalMonthId'));
 
 	$("#sliderControl").Link('lower').to($('#lower-offset'), myValue);
 	$("#sliderControl").Link('upper').to($('#upper-offset'), myValue);
+	
+	$("#sliderControl2").noUiSlider({
+        connect: true,
+        behaviour: 'tap',
+		step:1,
+		//snap:true,
+        start: [currentMonth, 11],
+        range: {
+            'min': [currentMonth],
+            'max': [11]
+        }	
+    });
+
+	function myValue(value){
+		$(this).text(months[parseInt(value)]);
+	}
+
+	//SE ASOCIA EL VALOR DEL SLIDER A una propiedad de la forma
+	$("#sliderControl2").Link('lower').to($('#initialMonthId'));
+	$("#sliderControl2").Link('upper').to($('#finalMonthId'));
+
+	$("#sliderControl2").Link('lower').to($('#lower-offset2'), myValue);
+	$("#sliderControl2").Link('upper').to($('#upper-offset2'), myValue);
 
 
 	//FIN DE CONTROLADOR SLIDER
