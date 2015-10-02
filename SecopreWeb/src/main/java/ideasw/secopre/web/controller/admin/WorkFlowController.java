@@ -58,10 +58,19 @@ public class WorkFlowController extends AuthController {
 		requestForm.setStageConfigId(stageConfigId);
 		requestForm.setFormalityCode(formalityCode);
 		
-		List<Movement> list = new ArrayList<Movement>();
-		list.add(new Movement());
+		Movement move = new Movement();
+		move.setProgramaticKeyId(1L);
+		move.setEntryId(1L);
+		move.setInitialMonthId(11L);
+		move.setFinalMonthId(12L);
+		move.setMonthAmount(100D);
 		
-		requestForm.setMovements(list);
+		List<Movement> l = new ArrayList<Movement>();
+		l.add(move);
+		
+		requestForm.setUpMovements(l);
+		requestForm.setDownMovements(l);
+		
 		
 		List<MovementType> movementTypes = baseService.findAll(MovementType.class);
 		

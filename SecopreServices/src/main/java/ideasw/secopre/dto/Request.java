@@ -1,5 +1,6 @@
 package ideasw.secopre.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +26,9 @@ public class Request {
 
 	//variables correspondientes a REQUEST DETAIL
 	private Long movementTypeId;
-	private List<Movement> movements;
+	private List<Movement> upMovements = new ArrayList<Movement>();
+	private List<Movement> downMovements = new ArrayList<Movement>();
+	
 
 	//variables de transporte y gestion de la forma
 	private String nextStageValueCode;
@@ -129,11 +132,16 @@ public class Request {
 	public void setMovementTypeId(Long movementTypeId) {
 		this.movementTypeId = movementTypeId;
 	}
-	public List<Movement> getMovements() {
-		return movements;
+	public List<Movement> getUpMovements() {
+		return upMovements;
 	}
-	public void setMovements(List<Movement> movements) {
-		this.movements = movements;
+	public void setUpMovements(List<Movement> upMovements) {
+		this.upMovements = upMovements;
 	}
-	
+	public List<Movement> getDownMovements() {
+		return downMovements;
+	}
+	public void setDownMovements(List<Movement> downMovements) {
+		this.downMovements = downMovements;
+	}
 }

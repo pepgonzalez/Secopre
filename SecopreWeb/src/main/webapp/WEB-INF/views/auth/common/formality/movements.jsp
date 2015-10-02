@@ -1,4 +1,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 
 <div class="portlet box green" id="addComponent">
 	<div class="portlet-title">
@@ -23,38 +26,50 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>
-							<a href="javascript:;" class="btn default btn-xs red"><i class="fa fa-times"></i></a>
-						</td>
-						<td>
-							<form:select path="movements[0].programaticKeyId" id="programaticKeyId" class="form-control input-small">
-								<form:option value="-1" label="Seleccione..."/>
-			    				<form:options items="${programaticKeys}" />
-							</form:select>
-						</td>
-						<td>
-							<form:select path="movements[0].entryId" id="entryId" class="form-control input-medium">
-								<form:option value="-1" label="Seleccione..."/>
-			    				<form:options items="${entries}" />
-							</form:select>
-						</td>
-						<td>
-							<div class="input-small" style="padding-top:8px;">
-								<div id="sliderControl"></div>
-							</div>
-						</td>
-						<td>
-							<div class="input-xsmall" style="padding-top:2px;">
-								<span id="lower-offset"></span>-<span id="upper-offset"></span>
-							</div>
-						<td>
-							<form:input path="movements[0].monthAmount" id="monthAmount" class="form-control input-small"/>
-						</td>
-		
-						<form:hidden path="movements[0].initialMonthId" id="initialMonthId" class="form-control"/>
-						<form:hidden path="movements[0].finalMonthId" id="finalMonthId" class="form-control"/>
-					</tr>
+				
+					<c:choose>
+					    <c:when test="${empty requestForm.upMovements}">
+					       <tr>
+					       		<td colspan="6">No hay Movimientos Capturados</td>
+					       <tr>
+					    </c:when>
+					    <c:otherwise>
+					        <c:forEach items="${requestForm.upMovements}" var="mov" varStatus="i">
+								<tr>
+									<td>
+										<a href="javascript:;" class="btn default btn-xs red"><i class="fa fa-times"></i></a>
+									</td>
+									<td>
+										<form:select path="upMovements[${i.index}].programaticKeyId" class="form-control input-small">
+											<form:option value="-1" label="Seleccione..."/>
+						    				<form:options items="${programaticKeys}" />
+										</form:select>
+									</td>
+									<td>
+										<form:select path="upMovements[${i.index}].entryId" class="form-control input-medium">
+											<form:option value="-1" label="Seleccione..."/>
+						    				<form:options items="${entries}" />
+										</form:select>
+									</td>
+									<td>
+										<div class="input-small" style="padding-top:8px;">
+											<div id="sliderControl"></div>
+										</div>
+									</td>
+									<td>
+										<div class="input-xsmall" style="padding-top:2px;">
+											<span id="lower-offset"></span>-<span id="upper-offset"></span>
+										</div>
+									<td>
+										<form:input path="upMovements[${i.index}].monthAmount" class="form-control input-small"/>
+									</td>
+					
+									<form:hidden path="upMovements[${i.index}].initialMonthId" class="form-control"/>
+									<form:hidden path="upMovements[${i.index}].finalMonthId" class="form-control"/>
+								</tr>
+							</c:forEach>
+					    </c:otherwise>
+					</c:choose> 
 				</tbody>
 			</table>
 		</div>
@@ -65,8 +80,6 @@
 		</div>
 	</div>
 </div>
-
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <div class="portlet box green" id="substractComponent">
 	<div class="portlet-title">
@@ -91,38 +104,44 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>
-							<a href="javascript:;" class="btn default btn-xs red"><i class="fa fa-times"></i></a>
-						</td>
-						<td>
-							<form:select path="movements[0].programaticKeyId" id="programaticKeyId" class="form-control input-small">
-								<form:option value="-1" label="Seleccione..."/>
-			    				<form:options items="${programaticKeys}" />
-							</form:select>
-						</td>
-						<td>
-							<form:select path="movements[0].entryId" id="entryId" class="form-control input-medium">
-								<form:option value="-1" label="Seleccione..."/>
-			    				<form:options items="${entries}" />
-							</form:select>
-						</td>
-						<td>
-							<div class="input-small" style="padding-top:8px;">
-								<div id="sliderControl"></div>
-							</div>
-						</td>
-						<td>
-							<div class="input-xsmall" style="padding-top:2px;">
-								<span id="lower-offset"></span>-<span id="upper-offset"></span>
-							</div>
-						<td>
-							<form:input path="movements[0].monthAmount" id="monthAmount" class="form-control input-small"/>
-						</td>
-		
-						<form:hidden path="movements[0].initialMonthId" id="initialMonthId" class="form-control"/>
-						<form:hidden path="movements[0].finalMonthId" id="finalMonthId" class="form-control"/>
-					</tr>
+					<%--  
+					<c:if test="${not empty request.downMovements}">
+						<c:forEach items="${request.downMovements}" var="mov" varStatus="i">
+							<tr>
+								<td>
+									<a href="javascript:;" class="btn default btn-xs red"><i class="fa fa-times"></i></a>
+								</td>
+								<td>
+									<form:select path="downMovements[i.index].programaticKeyId" class="form-control input-small">
+										<form:option value="-1" label="Seleccione..."/>
+					    				<form:options items="${programaticKeys}" />
+									</form:select>
+								</td>
+								<td>
+									<form:select path="downMovements[i.index].entryId" class="form-control input-medium">
+										<form:option value="-1" label="Seleccione..."/>
+					    				<form:options items="${entries}" />
+									</form:select>
+								</td>
+								<td>
+									<div class="input-small" style="padding-top:8px;">
+										<div id="sliderControl"></div>
+									</div>
+								</td>
+								<td>
+									<div class="input-xsmall" style="padding-top:2px;">
+										<span id="lower-offset"></span>-<span id="upper-offset"></span>
+									</div>
+								<td>
+									<form:input path="downMovements[i.index].monthAmount" class="form-control input-small"/>
+								</td>
+				
+								<form:hidden path="downMovements[i.index].initialMonthId" class="form-control"/>
+								<form:hidden path="downMovements[i.index].finalMonthId" class="form-control"/>
+							</tr>	
+						</c:forEach>
+					</c:if>
+					--%>
 				</tbody>
 			</table>
 		</div>

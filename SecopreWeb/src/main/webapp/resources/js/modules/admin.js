@@ -578,7 +578,7 @@ function initFullCapture() {
 		}
 	};
 	
-	movementController.reset();
+	//movementController.reset();
 	
 	alert("Iniciando captura completa");
 
@@ -631,13 +631,8 @@ function initFullCapture() {
 	
 	//Controlador tipo de movimiento
 	$("#movementTypeId").on("change", function (e) {
-	    var optionSelected = $("option:selected", this);
 	    var valueSelected = this.value;
-
-	    //alert("option selected: " + optionSelected +  ", valueSelected: " + valueSelected);
-
-	    movementController.update(parseInt(valueSelected));
-	    
+	    movementController.update(parseInt(valueSelected));    
 	});
 
 	//FIN DE CONTROLADOR SLIDER
