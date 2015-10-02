@@ -21,6 +21,7 @@ public class Inbox {
 	private String captureForm;
 	private Long statusId;
 	private String nextDescription;
+	@SuppressWarnings("unused")
 	private boolean hasDocument;
 	
 	public Long getFormalityId() {
