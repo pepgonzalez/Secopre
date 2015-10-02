@@ -1,6 +1,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<div class="portlet box green">
+<div class="portlet box green" id="addComponent">
 	<div class="portlet-title">
 		<div class="caption">
 			<i class="fa fa-cogs"></i>Ampliación Líquida
@@ -68,7 +68,7 @@
 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<div class="portlet box green">
+<div class="portlet box green" id="substractComponent">
 	<div class="portlet-title">
 		<div class="caption">
 			<i class="fa fa-cogs"></i>Reducción Líquida

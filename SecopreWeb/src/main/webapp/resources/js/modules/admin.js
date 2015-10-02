@@ -553,7 +553,33 @@ function initUpload() {
 	});
 }
 
+
+
+
 function initFullCapture() {
+	
+	var movementController = {
+		"upGrid":"#addComponent",
+		"downGrid":"#substractComponent",
+		"reset":function(){
+			$(this.upGrid).hide();
+			$(this.downGrid).hide();
+		},
+		"update":function(value){
+			this.reset();
+			if(value == 1){
+				$(this.upGrid).show();
+			}else if(value == 2){
+				$(this.downGrid).show();
+			}else if(value == 3){
+				$(this.upGrid).show();
+				$(this.downGrid).show();
+			}
+		}
+	};
+	
+	movementController.reset();
+	
 	alert("Iniciando captura completa");
 
 	var months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
@@ -595,10 +621,6 @@ function initFullCapture() {
         }	
     });
 
-	function myValue(value){
-		$(this).text(months[parseInt(value)]);
-	}
-
 	//SE ASOCIA EL VALOR DEL SLIDER A una propiedad de la forma
 	$("#sliderControl2").Link('lower').to($('#initialMonthId'));
 	$("#sliderControl2").Link('upper').to($('#finalMonthId'));
@@ -606,6 +628,17 @@ function initFullCapture() {
 	$("#sliderControl2").Link('lower').to($('#lower-offset2'), myValue);
 	$("#sliderControl2").Link('upper').to($('#upper-offset2'), myValue);
 
+	
+	//Controlador tipo de movimiento
+	$("#movementTypeId").on("change", function (e) {
+	    var optionSelected = $("option:selected", this);
+	    var valueSelected = this.value;
+
+	    //alert("option selected: " + optionSelected +  ", valueSelected: " + valueSelected);
+
+	    movementController.update(parseInt(valueSelected));
+	    
+	});
 
 	//FIN DE CONTROLADOR SLIDER
 
