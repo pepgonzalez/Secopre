@@ -24,6 +24,7 @@ import org.hibernate.envers.RelationTargetAuditMode;
 
 @Entity
 @Table(name = "DASHBOARD", indexes = { @Index(unique = true, name = "dashboard_ix", columnList = "id") })
+@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
 public class Dashboard extends AuditEntity implements Persistible {
 
 	/**

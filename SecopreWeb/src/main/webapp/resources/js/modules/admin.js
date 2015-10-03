@@ -518,34 +518,13 @@ function initPersonValidations() {
 function initTramiteListPage() {
 }
 
-function initFullCapture() {
-	alert("Iniciando captura completa");
-
-	var requestForm = $('#requestForm');
-
-	$('#partialSave').click(function(e) {
-		alert("haciendo guardado parcial");
-		requestForm.find('#nextStageValueCode').val("SOLPEND");
-		submitAjaxJQ('requestForm', 'dashboard', '');
-	});
-
-	$('#saveAndContinue').click(function(e) {
-		alert("Finalizando captura y avanzando tramite");
-		requestForm.find('#nextStageValueCode').val("SOLCOMP");
-		submitAjaxJQ('requestForm', 'dashboard', '');
-	});
-}
-
 function initUpload() {
-	alert("Iniciando carga de archivos");
 
 	var requestForm = $('#requestForm');
 
 	$('#uploadFile').click(function(e) {
-		alert("Subiendo Archivo");
 		var file = requestForm.find('#attachment').val();
 		if(file.length <= 0){
-			alert("Seleccione un archivo");
 			return;
 		}
 		submitFileAjaxJQTest('requestForm', 'dashboard', '');
@@ -553,89 +532,214 @@ function initUpload() {
 	});
 }
 
-
-
-
 function initFullCapture() {
 	
 	var movementController = {
-		"upGrid":"#addComponent",
-		"downGrid":"#substractComponent",
-		"reset":function(){
+		upGrid : "#addComponent",
+		downGrid : "#substractComponent",
+		slider : "#sliderControl",
+		reset : function(){
 			$(this.upGrid).hide();
 			$(this.downGrid).hide();
 		},
-		"update":function(value){
+		titles : {
+			al:"Ampliación Líquida",
+			rl:"Reducción Líquida",
+			ac:"Ampliación Compensada",
+			rc:"Reducción Compensada"
+		},
+		update : function(value){
 			this.reset();
-			if(value == 1){
-				$(this.upGrid).show();
-			}else if(value == 2){
-				$(this.downGrid).show();
-			}else if(value == 3){
-				$(this.upGrid).show();
-				$(this.downGrid).show();
+			
+			if(value > 0){
+				switch(value){
+				case 1:
+					this.showGrid(this.upGrid, this.titles.al);
+					break;
+				case 2:
+					this.showGrid(this.downGrid, this.titles.rl);
+					break;
+				case 3:
+					this.showGrid(this.upGrid, this.titles.ac);
+					this.showGrid(this.downGrid, this.titles.rc);
+				}
 			}
+		},
+		showGrid : function(grid, name){
+			var grd = $(grid);
+			grd.find(".caption").text(name);
+			grd.show();
+		},
+		getId : function(grid, idx, attr, escaped){
+			escaped = escaped || 1;
+			var list = (grid == this.upGrid ? "upMovements" : "downMovements");
+			return (escaped == 1 ? "#" : "") + list + idx + (escaped == 1 ? "\\." : ".") + attr;
+		},
+		getPath : function(grid, idx, attr){
+			var list = (grid == this.upGrid ? "upMovements" : "downMovements");
+			return "" + list + "[" + idx + "]." + attr;
+		},
+		updateTotal : function(grid, value, add){
+			var grd = $(grid);
+			var totalElement = grd.find("#upMovementsTotal");
+			var total = parseInt(totalElement.text());
+			total = (add ? total + value : total - value);
+			totalElement.text(total);
+			
+		},
+		linkComponent : function(grid){
+			var grd = $(grid);
+			
+			//si no existe el row de "sin elementos, se iteran los objetos"
+			if(grd.find("tbody #noMovs").length == 0){
+				var self = this;
+				
+				grd.find("tbody tr").each(function(idx, e){
+					var element = $(e);
+					var rowId = element.attr("id");					
+					var sliderControlId = self.slider + idx;
+							
+					var currentMonth = parseInt(new Date().getMonth());
+					var months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+					
+					var storedInitialMonth = parseInt(element.find(self.getId(grid, idx, "initialMonthId")).val());
+					var storedFinalMonth = parseInt(element.find(self.getId(grid, idx, "finalMonthId")).val());
+					var monthAmount = parseInt(element.find(self.getId(grid, idx, "monthAmount")).val());
+					
+					//iniciar slider
+					$(sliderControlId).noUiSlider({
+				        connect: true, behaviour: 'tap', step:1, start: [storedInitialMonth, 11],
+				        range: {
+				            'min': [(storedInitialMonth < currentMonth ? storedInitialMonth : currentMonth)],
+				            'max': [11]
+				        }	
+				    });
+				    
+					function myValue(value){
+						$(this).text(months[parseInt(value)]);
+					}
+
+					//SE ASOCIA EL VALOR DEL SLIDER A una propiedad de la forma
+					$(sliderControlId).Link('lower').to($(self.getId(grid, idx, "initialMonthId")));
+					$(sliderControlId).Link('upper').to($(self.getId(grid, idx, "finalMonthId")));
+
+					$(sliderControlId).Link('lower').to($( self.getId(grid, idx, "lower-offset")), myValue);
+					$(sliderControlId).Link('upper').to($( self.getId(grid, idx, "upper-offset")), myValue);
+					
+					//sumar el monto actual al total
+					var amount = ((storedFinalMonth - storedInitialMonth) + 1) * monthAmount;
+					self.updateTotal(grid, amount, true);
+					
+				});
+				
+			}else{
+				alert("no hay elementos en el componente");
+			}
+			
+			//evento para agregar movimientos
+			var addBtn = grd.find(".actions #addMov").on("click", function(){
+				
+				var nextIndex = self.getNextIndex(grd);
+				
+				if(nextIndex == 0){
+					grd.find("tbody #noMovs").remove();
+				}
+				
+				var nodo = self.activateTemplate("#movementRowTemplate");
+				var e = $(nodo);
+				
+				//accion
+				e.find("[data-name='action'] a").attr("id", "rmvIdx" + nextIndex);
+				
+				//llave programatica
+				e.find("[data-name='programaticKey'] select")
+					.attr("path", self.getPath(grid, nextIndex, "programaticKeyId"))
+					.attr("id", self.getId(grid, nextIndex, "programaticKeyId", 2))
+					.removeAttr("multiple");
+			
+				//entry
+				e.find("[data-name='entry'] select")
+				.attr("path", self.getPath(grid, nextIndex, "entryId"))
+				.attr("id", self.getId(grid, nextIndex, "entryId", 2))
+				.removeAttr("multiple");
+				
+				//sliderControl
+				e.find("[data-name='sliderControl'] #sliderControl").attr("id", "sliderControl"+ nextIndex);
+				
+				//lowerOffset
+				e.find("[data-name='lower-offset'] ").attr("id", self.getId(grid, nextIndex, "lower-offset", 2));
+				e.find("[data-name='upper-offset'] ").attr("id", self.getId(grid, nextIndex, "upper-offset", 2));
+				
+				//monthAmount
+				e.find("[data-name='monthAmount'] input")
+				.attr("path", self.getPath(grid, nextIndex, "monthAmount"))
+				.attr("id", self.getId(grid, nextIndex, "monthAmount", 2))
+				.removeAttr("value");
+				
+				//initialMonthId
+				e.find("[data-name='initialMonthId'] input")
+				.attr("path", self.getPath(grid, nextIndex, "initialMonthId"))
+				.attr("id", self.getId(grid, nextIndex, "initialMonthId", 2))
+				.removeAttr("value");
+				
+				//finalMonthId
+				e.find("[data-name='finalMonthId'] input")
+				.attr("path", self.getPath(grid, nextIndex, "finalMonthId"))
+				.attr("id", self.getId(grid, nextIndex, "finalMonthId", 2))
+				.removeAttr("value");
+				
+				grd.find("tbody").append(e);
+				
+				self.startSlider(self, nextIndex, parseInt(new Date().getMonth()), grid);
+			});
+			
+		},
+		startSlider : function(self, indice, initialMonth, grid){
+						
+			$(document).find("#sliderControl" + indice).noUiSlider({
+		        connect: true, behaviour: 'tap', step:1, start: [initialMonth, 11],
+		        range: {
+		            'min': [initialMonth],
+		            'max': [11]
+		        }	
+		    });
+			
+			var months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+			
+			function myValue(value){
+				$(this).text(months[parseInt(value)]);
+			}
+
+			$(document).find("#sliderControl"+indice).Link('lower').to($( self.getId(grid, indice, "initialMonthId")));
+			$(document).find("#sliderControl"+indice).Link('upper').to($( self.getId(grid, indice, "finalMonthId")));
+
+			$(document).find("#sliderControl"+indice).Link('lower').to($( self.getId(grid, indice, "lower-offset")), myValue);
+			$(document).find("#sliderControl"+indice).Link('upper').to($( self.getId(grid, indice, "upper-offset")), myValue);
+		},
+		startComponent : function(){
+			this.linkComponent(this.upGrid);
+		},
+		getNextIndex: function(grid){
+			var rowNoExiste = grid.find("tbody #noMovs").length;
+			var totalRows = grid.find("tbody tr").length;
+			if(totalRows == 1 && rowNoExiste == 1){
+				return 0;
+			}if(totalRows > 0 && rowNoExiste == 0){
+				return totalRows;
+			}
+		},
+		activateTemplate: function(id) {
+		    var t = document.querySelector(id);
+		    return document.importNode(t.content, true);
 		}
 	};
 	
-	//movementController.reset();
-	
-	alert("Iniciando captura completa");
-
-	var months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-	var currentMonth = parseInt(new Date().getMonth());
-
-	//se inicializa el controlador del slider
-	$("#sliderControl").noUiSlider({
-        connect: true,
-        behaviour: 'tap',
-		step:1,
-		//snap:true,
-        start: [currentMonth, 11],
-        range: {
-            'min': [currentMonth],
-            'max': [11]
-        }	
-    });
-
-	function myValue(value){
-		$(this).text(months[parseInt(value)]);
-	}
-
-	//SE ASOCIA EL VALOR DEL SLIDER A una propiedad de la forma
-	$("#sliderControl").Link('lower').to($('#initialMonthId'));
-	$("#sliderControl").Link('upper').to($('#finalMonthId'));
-
-	$("#sliderControl").Link('lower').to($('#lower-offset'), myValue);
-	$("#sliderControl").Link('upper').to($('#upper-offset'), myValue);
-	
-	$("#sliderControl2").noUiSlider({
-        connect: true,
-        behaviour: 'tap',
-		step:1,
-		//snap:true,
-        start: [currentMonth, 11],
-        range: {
-            'min': [currentMonth],
-            'max': [11]
-        }	
-    });
-
-	//SE ASOCIA EL VALOR DEL SLIDER A una propiedad de la forma
-	$("#sliderControl2").Link('lower').to($('#initialMonthId'));
-	$("#sliderControl2").Link('upper').to($('#finalMonthId'));
-
-	$("#sliderControl2").Link('lower').to($('#lower-offset2'), myValue);
-	$("#sliderControl2").Link('upper').to($('#upper-offset2'), myValue);
-
-	
 	//Controlador tipo de movimiento
 	$("#movementTypeId").on("change", function (e) {
-	    var valueSelected = this.value;
-	    movementController.update(parseInt(valueSelected));    
+	    movementController.update(parseInt(this.value));    
 	});
-
-	//FIN DE CONTROLADOR SLIDER
+	
+	movementController.startComponent();
 
 	var requestForm = $('#requestForm');
 

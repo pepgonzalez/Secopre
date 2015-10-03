@@ -61,16 +61,26 @@ public class WorkFlowController extends AuthController {
 		Movement move = new Movement();
 		move.setProgramaticKeyId(1L);
 		move.setEntryId(1L);
-		move.setInitialMonthId(11L);
-		move.setFinalMonthId(12L);
+		move.setInitialMonthId(10L);
+		move.setFinalMonthId(11L);
 		move.setMonthAmount(100D);
+		
+		Movement move2 = new Movement();
+		move2.setProgramaticKeyId(2L);
+		move2.setEntryId(2L);
+		move2.setInitialMonthId(9L);
+		move2.setFinalMonthId(11L);
+		move2.setMonthAmount(250D);
+		
 		
 		List<Movement> l = new ArrayList<Movement>();
 		l.add(move);
+		l.add(move2);
 		
 		requestForm.setUpMovements(l);
 		requestForm.setDownMovements(l);
 		
+		requestForm.setMovementTypeId(-1L);
 		
 		List<MovementType> movementTypes = baseService.findAll(MovementType.class);
 		
