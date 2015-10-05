@@ -25,6 +25,9 @@ public class Movement {
 	private Double monthAmount;
 	private Double totalAmount;
 	
+	private Integer removedElement = 0;
+	
+	
 	public Long getMovementTypeId() {
 		return movementTypeId;
 	}
@@ -72,6 +75,12 @@ public class Movement {
 	}
 	public void setTotalAmount(Double totalAmount) {
 		this.totalAmount = totalAmount;
+	}
+	public Integer getRemovedElement() {
+		return removedElement;
+	}
+	public void setRemovedElement(Integer removedElement) {
+		this.removedElement = removedElement;
 	}
 
 }

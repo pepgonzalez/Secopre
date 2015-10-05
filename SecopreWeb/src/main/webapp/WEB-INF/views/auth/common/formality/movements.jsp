@@ -35,9 +35,9 @@
 					    </c:when>
 					    <c:otherwise>
 					        <c:forEach items="${requestForm.upMovements}" var="mov" varStatus="i">
-								<tr id="row${i.index}">
-									<td>
-										<a href="javascript:;" class="btn default btn-xs red" id="rmvIdx${i}">
+								<tr data-name="rowContainer" id="row${i.index}">
+									<td data-name="deleteAction">
+										<a href="javascript:;" class="btn default btn-xs red" id="rmvIdx${i.index}">
 											<i class="fa fa-times"></i>
 										</a>
 									</td>
@@ -68,6 +68,7 @@
 					
 									<form:hidden path="upMovements[${i.index}].initialMonthId" class="form-control"/>
 									<form:hidden path="upMovements[${i.index}].finalMonthId" class="form-control"/>
+									<form:hidden path="upMovements[${i.index}].removedElement" class="form-control"/>
 								</tr>
 							</c:forEach>
 					    </c:otherwise>
@@ -189,5 +190,6 @@
 		</td>
 		<form:hidden path="upMovements" class="form-control" data-name="initialMonthId"/>
 		<form:hidden path="upMovements" class="form-control" data-name="finalMonthId"/>
+		<form:hidden path="upMovements" class="form-control" data-name="removedElement"/>
 	</tr>
 </template>

@@ -630,6 +630,13 @@ function initFullCapture() {
 					var amount = ((storedFinalMonth - storedInitialMonth) + 1) * monthAmount;
 					self.updateTotal(grid, amount, true);
 					
+					//asignar evento de eliminar al elemento
+					element.find("[data-name='deleteAction'] a").on("click", function(){
+						var row = $(this).parent().parent();
+						row.find(self.getId(grid, idx, "removedElement")).val("1");
+						row.hide();
+					});
+					
 				});
 				
 			}else{
@@ -686,6 +693,11 @@ function initFullCapture() {
 				e.find("[data-name='finalMonthId'] input")
 				.attr("path", self.getPath(grid, nextIndex, "finalMonthId"))
 				.attr("id", self.getId(grid, nextIndex, "finalMonthId", 2))
+				.removeAttr("value");
+				
+				e.find("[data-name='finalMonthId'] input")
+				.attr("path", self.getPath(grid, nextIndex, "removedElement"))
+				.attr("id", self.getId(grid, nextIndex, "removedElement", 2))
 				.removeAttr("value");
 				
 				grd.find("tbody").append(e);
