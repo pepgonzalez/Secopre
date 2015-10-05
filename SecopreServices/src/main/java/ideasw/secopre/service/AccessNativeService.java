@@ -8,6 +8,8 @@ import ideasw.secopre.dto.Formality;
 import ideasw.secopre.dto.Inbox;
 import ideasw.secopre.dto.Request;
 import ideasw.secopre.model.security.User;
+import ideasw.secopre.model.Entry;
+
 
 public interface AccessNativeService {
 	
@@ -32,6 +34,8 @@ public interface AccessNativeService {
 	Map<Long, String> getProgramaticKeysMap();
 	
 	Map<Long, String> getEntriesMap(Long programaticKey);
+
+	List<Entry> getEntries(Long programaticKey);
 	
 	Map<Long, String> getMonthsMap();
 }

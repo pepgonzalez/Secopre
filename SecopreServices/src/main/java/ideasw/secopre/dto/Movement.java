@@ -71,7 +71,8 @@ public class Movement {
 		this.monthAmount = monthAmount;
 	}
 	public Double getTotalAmount() {
-		return totalAmount;
+		int months = (this.finalMonthId.intValue() - this.initialMonthId.intValue()) + 1;
+		return this.monthAmount * months;
 	}
 	public void setTotalAmount(Double totalAmount) {
 		this.totalAmount = totalAmount;
@@ -81,6 +82,17 @@ public class Movement {
 	}
 	public void setRemovedElement(Integer removedElement) {
 		this.removedElement = removedElement;
+	}
+
+	public String toString(){
+		return "{movementTypeId: " + this.movementTypeId +
+		", removedElement: "  + this.removedElement +
+		", programaticKeyId: " + this.programaticKeyId + 
+		", entryId: " + this.entryId + 
+		", initialMonthId: " + this.initialMonthId + 
+		", finalMonthId: " + this.finalMonthId + 
+		", monthAmount: " + this.monthAmount + 
+		", totalAmount: " + this.getTotalAmount() + "}";
 	}
 
 }

@@ -104,20 +104,24 @@ public class WorkFlowController extends AuthController {
 			RedirectAttributes attributes, Principal principal) {
 
 		System.out.println("Guardando movimientos");
-		System.out.println("tipo de guardado: "
-				+ requestForm.getNextStageValueCode());
+		System.out.println("tipo de guardado: " + requestForm.getNextStageValueCode());
 		System.out.println("request: " + requestForm.getRequestId());
 		System.out.println("stageConfigId: " + requestForm.getStageConfigId());
 
-		User loggedUser = baseService.findByProperty(User.class, "username",
-				principal.getName()).get(0);
+		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
+
+		System.out.println("total de movimientos capturados: " + requestForm.getUpMovements().size());
+
+		for(Movements m : requestForm.getUpMovements()){
+			System.out.println(m);
+		}
 
 		// TODO implementacion para guardar informacion completa de tramite de
 		// movimiento
-		accessNativeService.insertOrUpdateRequestDetail(requestForm);
+		//accessNativeService.insertOrUpdateRequestDetail(requestForm);
 
 		// avanzar de etapa
-		accessNativeService.invokeNextStage(requestForm, loggedUser.getId());
+		//accessNativeService.invokeNextStage(requestForm, loggedUser.getId());
 
 		return "redirect:/auth/tram/list";
 	}

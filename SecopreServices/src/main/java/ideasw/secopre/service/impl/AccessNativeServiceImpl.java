@@ -255,6 +255,13 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	}
 
 	@Override
+	public List<Entry> getEntries(Long programaticKey) {
+		List<Entry> l = new ArrayList<Entry>();
+		l = baseService.findByProperty(Entry.class, "programmaticKey", baseService.findById(ProgrammaticKey.class, programaticKey));
+		return l;
+	}
+
+	@Override
 	public Map<Long, String> getEntriesMap(Long programaticKey) {
 		List<Entry> l = new ArrayList<Entry>();
 		if(programaticKey.longValue() > 0){

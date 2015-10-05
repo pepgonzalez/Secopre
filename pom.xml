@@ -46,7 +46,8 @@
 		<jackson-annotations-version>2.4.1</jackson-annotations-version>		
 		<commons-collections4-version>4.0</commons-collections4-version>
         <javax.mail.version>1.4.7</javax.mail.version>
-        <velocity.version>1.7</velocity.version>		
+        <velocity.version>1.7</velocity.version>	
+        <jackson.version>1.9.10</jackson.version>	
 	</properties>
 
 	<dependencyManagement>
@@ -238,7 +239,15 @@
                 <groupId>org.apache.velocity</groupId>
                 <artifactId>velocity</artifactId>
                 <version>${velocity.version}</version>
-            </dependency>				
+            </dependency>
+
+			<!-- json parser para spring-->
+			<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-mapper-asl</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>
