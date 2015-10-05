@@ -684,27 +684,39 @@ function initFullCapture() {
 				.removeAttr("value");
 				
 				//initialMonthId
-				e.find("[data-name='initialMonthId'] input")
+				e.find("[data-name='initialMonthId']")
 				.attr("path", self.getPath(grid, nextIndex, "initialMonthId"))
 				.attr("id", self.getId(grid, nextIndex, "initialMonthId", 2))
 				.removeAttr("value");
 				
 				//finalMonthId
-				e.find("[data-name='finalMonthId'] input")
+				e.find("[data-name='finalMonthId']")
 				.attr("path", self.getPath(grid, nextIndex, "finalMonthId"))
 				.attr("id", self.getId(grid, nextIndex, "finalMonthId", 2))
 				.removeAttr("value");
 				
-				e.find("[data-name='finalMonthId'] input")
+				//removedElement
+				e.find("[data-name='removedElement']")
 				.attr("path", self.getPath(grid, nextIndex, "removedElement"))
 				.attr("id", self.getId(grid, nextIndex, "removedElement", 2))
-				.removeAttr("value");
+				.attr("value","0");
 				
 				grd.find("tbody").append(e);
 				
 				self.startSlider(self, nextIndex, parseInt(new Date().getMonth()), grid);
+				
+				self.addRemoveEvent(self, grid, nextIndex);
 			});
 			
+		},
+		addRemoveEvent : function(self, grid, indice){
+			var a = $(document).find("#rmvIdx" + indice);
+			
+			a.on("click", function(){
+				var row = $(this).parent().parent();
+				row.find(self.getId(grid, indice, "removedElement")).val("1");
+				row.hide();
+			});
 		},
 		startSlider : function(self, indice, initialMonth, grid){
 						
