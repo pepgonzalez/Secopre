@@ -760,6 +760,20 @@ function initFullCapture() {
 		activateTemplate: function(id) {
 		    var t = document.querySelector(id);
 		    return document.importNode(t.content, true);
+		},
+		validate : function(){
+			console.log("Inicio de validacion de captura");
+			
+			//se valida que exista un tipo de movimiento seleccionado
+			var movementTypeSelect = $("#movementTypeId");
+			var movementTypeId = parseInt(movementTypeSelect.val());
+			console.log("tipo de movimiento: " + movementTypeId);
+			if (movementTypeId <= 0){
+				console.log("error tipo de mov");
+				movementTypeSelect.closest('[data-name="movementTypeContainer"]').addClass("has-error");
+				return false;
+			}
+			return true;
 		}
 	};
 	
@@ -774,8 +788,11 @@ function initFullCapture() {
 
 	$('#partialSave').click(function(e) {
 		alert("haciendo guardado parcial");
-		requestForm.find('#nextStageValueCode').val("SOLPEND");
-		submitAjaxJQ('requestForm', 'dashboard', '');
+		var isCorrect = movementController.validate();
+		if (isCorrect){
+			requestForm.find('#nextStageValueCode').val("SOLPEND");
+			submitAjaxJQ('requestForm', 'dashboard', '');
+		}
 	});
 
 	$('#saveAndContinue').click(function(e) {
