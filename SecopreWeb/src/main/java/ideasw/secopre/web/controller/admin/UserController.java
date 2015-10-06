@@ -10,6 +10,8 @@ import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ideasw.secopre.model.catalog.Person;
@@ -66,7 +69,7 @@ public class UserController extends AuthController {
 		
 		Request requestForm = new Request();
 		
-		model.addAttribute("person", personMap);
+		model.addAttribute("persons", personMap);
 		model.addAttribute("requestForm", requestForm);
 		
 		return SecopreConstans.MV_ADM_USR;
@@ -90,19 +93,37 @@ public class UserController extends AuthController {
 	}
 
 	@RequestMapping(value = "adm/usr/add", method = RequestMethod.POST)
-	public String add(@ModelAttribute("user") User user, ModelMap model) {
+	public String add(@ModelAttribute("user") User user, @RequestParam("roles") String role,@RequestParam("permissions") String permission,ModelMap model, RedirectAttributes attributes) {
+		
 		try {
 			user.setPassword(Encryption.encrypByBCrypt(user.getPassword()));
 			user.setActive(Boolean.TRUE);
+			
+			//Person p = baseService.findById(Person.class, Long.parseLong(person));
+			//user.setPerson(p);
+			
+			List<Role> authorities  = new ArrayList<Role>();
+			List<String> items = Arrays.asList(role.split("\\s*,\\s*"));
+			
+			for (String rolid : items) {
+				Role rol= baseService.findById(Role.class, Long.parseLong(rolid));
+				authorities.add(rol);
+			//	user.setAuthorities(authorities);
+			}
+			
+			
 			baseService.persist(user);
 		} catch (Exception e) {
 			model.addAttribute(
 					"errors",
 					initErrors("Ocurrio un error al insertar el usuario:"
 							+ e.getMessage()));
+			e.getStackTrace();
+			e.getCause();
 		}
 		return SecopreConstans.MV_ADM_USR;
 	}
+
 
 	@RequestMapping(value = "start" , method = RequestMethod.GET)
 	public String home(ModelMap model, Principal principal,

@@ -29,8 +29,14 @@
 	<link href='<c:url value="/resources/css/global/uniform.default.css"/>' rel="stylesheet" type="text/css">
 	<link href='<c:url value="/resources/css/global/bootstrap-switch.min.css"/>' rel="stylesheet" type="text/css">
 	<!-- END GLOBAL MANDATORY STYLES -->
+	
+	
+	
 	<!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
-
+	<!-- estilos para dropdowns -->
+	<link href='<c:url value="/resources/css/plugins/bootstrap-select.css"/>' rel="stylesheet" type="text/css"/>
+    <link href='<c:url value="/resources/css/plugins/select2.css"/>' rel="stylesheet" type="text/css"/>
+    
 	<!-- estilos para gestion de sliders -->
 	<link href='<c:url value="/resources/css/global/jquery.nouislider.min.css"/>' rel="stylesheet" type="text/css">
 	<link href='<c:url value="/resources/css/global/jquery.nouislider.pips.min.css"/>' rel="stylesheet" type="text/css">
@@ -105,8 +111,8 @@
 	<script src='<c:url value="/resources/js/plugins/jquery-ui.min.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/bootstrap.min.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/jquery.bootstrap.wizard.min.js"/>' type="text/javascript"></script>
-	<script src='<c:url value="/resources/js/plugins/components-dropdowns.js"/>' type="text/javascript"></script>
-	<script src='<c:url value="/resources/js/plugins/icheck.min.js"/>' type="text/javascript"></script>
+	
+<%-- 	<script src='<c:url value="/resources/js/plugins/icheck.min.js"/>' type="text/javascript"></script> --%>
 	
 	<script src='<c:url value="/resources/js/plugins/bootstrap-hover-dropdown.min.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/jquery.slimscroll.min.js"/>'type="text/javascript"></script>
@@ -134,7 +140,11 @@
 	<script src='<c:url value="/resources/js/global/quick-sidebar2.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/global/index3.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/global/tasks.js"/>' type="text/javascript"></script>
-	  
+	 
+	<script src='<c:url value="/resources/js/plugins/select2.min.js"/>' type="text/javascript"></script>
+	<script src='<c:url value="/resources/js/plugins/bootstrap-select.min.js"/>' type="text/javascript"></script>
+	<script src='<c:url value="/resources/js/plugins/components-dropdowns.js"/>' type="text/javascript"></script>
+	
 	 
 	<!-- END PAGE LEVEL SCRIPTS -->
 	<!-- BEGIN PAGE LEVEL CUSTOM SCRIPTS -->

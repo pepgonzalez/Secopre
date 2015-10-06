@@ -9,11 +9,13 @@ function initUserPage() {
 	initUserValidations();
 	$('#roles').multiSelect();
 	$('#permissions').multiSelect();
-	$('input').iCheck({
-		checkboxClass : 'icheckbox_square',
-		radioClass : 'iradio_square',
-		increaseArea : '20%' // optional
-	});
+//	$('input').iCheck({
+//		checkboxClass : 'icheckbox_square',
+//		radioClass : 'iradio_square',
+//		increaseArea : '20%' // optional
+//	});
+	
+	 $('select').select2();
 }
 
 function initUserList() {
@@ -83,6 +85,9 @@ function initUserValidations() {
 				required : true,
 				minlength : 6,
 				equalTo : "#password"
+			},
+			"person.id" : {
+				required : true
 			},
 			roles : "required",
 			permissions : "required"
