@@ -51,9 +51,10 @@
 								<th class="table-checkbox">
 									<input type="checkbox" class="group-checkable" data-set="#userTable .checkboxes"/>
 								</th>
-								<th><spring:message code="application.pages.admin.users.username"/></th>
-								<th><spring:message code="application.pages.admin.users.email"/></th>
-								<th><spring:message code="application.pages.admin.users.nickname"/></th>
+								<th><spring:message code="application.pages.admin.persons.name"/></th>
+								<th><spring:message code="application.pages.admin.persons.secondName"/></th>
+								<th><spring:message code="application.pages.admin.persons.fatherLastName"/></th>
+								<th><spring:message code="application.pages.admin.persons.motherLastName"/></th>
 								<th><spring:message code="application.pages.admin.users.active"/></th>
 								<th><spring:message code="application.actions"/></th>
 							</tr>
@@ -64,7 +65,9 @@
 									<td>
 										<input type="checkbox" class="checkboxes" value="1"/>
 									</td>
-									<td>${personItem.name}</td>
+									<td>
+									     ${personItem.name}
+									</td>
 									<td>
 										 ${personItem.secondName}
 									</td>
@@ -73,6 +76,9 @@
 									</td>
 									<td>
 										 ${personItem.motherLastName}
+									</td>
+										<td class="center">
+										 ${personItem.active}
 									</td>
 									<td>
 										<span class="label label-sm label-success">
