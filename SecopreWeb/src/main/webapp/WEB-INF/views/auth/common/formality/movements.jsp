@@ -55,7 +55,7 @@
 									</td>
 									<td>
 										<div class="input-small" style="padding-top:8px;">
-											<div id="sliderControl${i.index}"></div>
+											<div id="upSliderControl${i.index}"></div>
 										</div>
 									</td>
 									<td>
@@ -138,7 +138,7 @@
 									</td>
 									<td>
 										<div class="input-small" style="padding-top:8px;">
-											<div id="sliderControl${i.index}"></div>
+											<div id="downSliderControl${i.index}"></div>
 										</div>
 									</td>
 									<td>

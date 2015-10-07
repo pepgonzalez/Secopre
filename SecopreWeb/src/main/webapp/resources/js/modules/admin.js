@@ -537,7 +537,7 @@ function initFullCapture() {
 	var movementController = {
 		upGrid : "#addComponent",
 		downGrid : "#substractComponent",
-		slider : "#sliderControl",
+		slider : "SliderControl",
 		reset : function(){
 			$(this.upGrid).hide();
 			$(this.downGrid).hide();
@@ -587,6 +587,10 @@ function initFullCapture() {
 			totalElement.text(total);
 			
 		},
+		getSliderId : function(grid){
+			var direction = (grid == this.upGrid ? "up" : "down");
+			return "#" + direction + this.slider;
+		},
 		linkComponent : function(grid){
 			var grd = $(grid);
 			
@@ -597,7 +601,7 @@ function initFullCapture() {
 				grd.find("tbody tr").each(function(idx, e){
 					var element = $(e);
 					var rowId = element.attr("id");					
-					var sliderControlId = self.slider + idx;
+					var sliderControlId = self.getSliderId(grid) + idx;
 							
 					var currentMonth = parseInt(new Date().getMonth());
 					var months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
@@ -637,6 +641,22 @@ function initFullCapture() {
 						row.hide();
 					});
 					
+					//agregar evento al cambiar de llave programatica
+					element.find(self.getId(grid, idx, "programaticKeyId")).on("change", function (e) {
+					    alert("cambiando llave programatica");
+					    alert(this.value);
+					    self.apiCall('auth/API/get/entry/'+this.value, function(data){
+					    	var entrySelect = element.find(self.getId(grid, idx, "entryId"));
+					    	entrySelect.empty();
+					    	entrySelect.append('<option value="-1">Seleccione..</option>');
+					    	$.each(data, function(index, item){
+					    		entrySelect.append('<option value="' + item.id +'">' + item.name + '</option>');
+					    	});
+					    });
+					});
+										
+					//sendRequestJQ('auth/cat/person/list',
+					
 				});
 				
 			}else{
@@ -671,7 +691,7 @@ function initFullCapture() {
 				.removeAttr("multiple");
 				
 				//sliderControl
-				e.find("[data-name='sliderControl'] #sliderControl").attr("id", "sliderControl"+ nextIndex);
+				e.find("[data-name='sliderControl'] #sliderControl").attr("id", self.getSliderId(grid).substring(1) + nextIndex);
 				
 				//lowerOffset
 				e.find("[data-name='lower-offset'] ").attr("id", self.getId(grid, nextIndex, "lower-offset", 2));
@@ -720,7 +740,10 @@ function initFullCapture() {
 		},
 		startSlider : function(self, indice, initialMonth, grid){
 						
-			$(document).find("#sliderControl" + indice).noUiSlider({
+			var id = self.getSliderId(grid) + indice;
+			alert("id: " + id);
+			
+			$(document).find(id).noUiSlider({
 		        connect: true, behaviour: 'tap', step:1, start: [initialMonth, 11],
 		        range: {
 		            'min': [initialMonth],
@@ -734,14 +757,15 @@ function initFullCapture() {
 				$(this).text(months[parseInt(value)]);
 			}
 
-			$(document).find("#sliderControl"+indice).Link('lower').to($( self.getId(grid, indice, "initialMonthId")));
-			$(document).find("#sliderControl"+indice).Link('upper').to($( self.getId(grid, indice, "finalMonthId")));
+			$(document).find(id).Link('lower').to($( self.getId(grid, indice, "initialMonthId")));
+			$(document).find(id).Link('upper').to($( self.getId(grid, indice, "finalMonthId")));
 
-			$(document).find("#sliderControl"+indice).Link('lower').to($( self.getId(grid, indice, "lower-offset")), myValue);
-			$(document).find("#sliderControl"+indice).Link('upper').to($( self.getId(grid, indice, "upper-offset")), myValue);
+			$(document).find(id).Link('lower').to($( self.getId(grid, indice, "lower-offset")), myValue);
+			$(document).find(id).Link('upper').to($( self.getId(grid, indice, "upper-offset")), myValue);
 		},
 		startComponent : function(){
 			this.linkComponent(this.upGrid);
+			this.linkComponent(this.downGrid);
 		},
 		getNextIndex: function(grid){
 			var rowNoExiste = grid.find("tbody #noMovs").length;
@@ -755,6 +779,22 @@ function initFullCapture() {
 		activateTemplate: function(id) {
 		    var t = document.querySelector(id);
 		    return document.importNode(t.content, true);
+		},
+		apiCall: function(actionURL, callback) {
+			var method = "GET";
+			var header = $("meta[name='_csrf_header']").attr("content");
+			var token = $("meta[name='_csrf']").attr("content");
+			blockPage();
+			$.ajax({
+				url : context + '/' + actionURL,
+				beforeSend : function(xhr) {
+					xhr.setRequestHeader(header, token);
+				},
+				success : function(data) {
+					callback(data);
+					unblockPage();
+				}
+			});
 		}
 	};
 	

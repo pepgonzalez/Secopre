@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.util.AutoPopulatingList;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -26,8 +27,8 @@ public class Request {
 
 	//variables correspondientes a REQUEST DETAIL
 	private Long movementTypeId;
-	private List<Movement> upMovements = new ArrayList<Movement>();
-	private List<Movement> downMovements = new ArrayList<Movement>();
+	private List<Movement> upMovements = new AutoPopulatingList(Movement.class);
+	private List<Movement> downMovements = new AutoPopulatingList(Movement.class);
 	
 
 	//variables de transporte y gestion de la forma

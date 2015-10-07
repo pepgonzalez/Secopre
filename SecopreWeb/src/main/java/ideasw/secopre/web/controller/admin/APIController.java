@@ -46,7 +46,7 @@ public class APIController extends AuthController {
 
 	@RequestMapping(value = "API/get/entry/{programaticKey}", method = { RequestMethod.GET })
 	public @ResponseBody List<Entry> getEntriesByProgramaticKey(
-			@PathVariable("requestId") Long programaticKey,
+			@PathVariable("programaticKey") Long programaticKey,
 			ModelMap model, RedirectAttributes attributes, Principal principal) {
 
 			List<Entry> entryList = accessNativeService.getEntries(programaticKey);

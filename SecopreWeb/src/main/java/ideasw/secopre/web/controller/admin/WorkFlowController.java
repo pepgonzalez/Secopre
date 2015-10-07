@@ -65,17 +65,8 @@ public class WorkFlowController extends AuthController {
 		move.setFinalMonthId(11L);
 		move.setMonthAmount(100D);
 		
-		Movement move2 = new Movement();
-		move2.setProgramaticKeyId(2L);
-		move2.setEntryId(2L);
-		move2.setInitialMonthId(9L);
-		move2.setFinalMonthId(11L);
-		move2.setMonthAmount(250D);
-		
-		
 		List<Movement> l = new ArrayList<Movement>();
 		l.add(move);
-		l.add(move2);
 		
 		requestForm.setUpMovements(l);
 		requestForm.setDownMovements(l);
@@ -112,7 +103,7 @@ public class WorkFlowController extends AuthController {
 
 		System.out.println("total de movimientos capturados: " + requestForm.getUpMovements().size());
 
-		for(Movements m : requestForm.getUpMovements()){
+		for(Movement m : requestForm.getUpMovements()){
 			System.out.println(m);
 		}
 
