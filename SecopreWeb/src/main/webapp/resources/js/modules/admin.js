@@ -30,6 +30,7 @@ function initPersonPage() {
 	initPage('Person');
 	initPersonValidations();
 	$('#my_multi_select1').multiSelect();
+	$('select').select2();
 }
 
 function initPage(page) {
@@ -785,7 +786,7 @@ function initFullCapture() {
 		    var t = document.querySelector(id);
 		    return document.importNode(t.content, true);
 		},
-<<<<<<< HEAD
+
 		apiCall: function(actionURL, callback) {
 			var method = "GET";
 			var header = $("meta[name='_csrf_header']").attr("content");
