@@ -627,10 +627,14 @@ function initFullCapture() {
 					function myValue(value){
 						$(this).text(months[parseInt(value)]);
 					}
+					
+					function intValue(value){
+						return parseInt(value);
+					}
 
 					//SE ASOCIA EL VALOR DEL SLIDER A una propiedad de la forma
-					$(sliderControlId).Link('lower').to($(self.getId(grid, idx, "initialMonthId")));
-					$(sliderControlId).Link('upper').to($(self.getId(grid, idx, "finalMonthId")));
+					$(sliderControlId).Link('lower').to($(self.getId(grid, idx, "initialMonthId")), intValue);
+					$(sliderControlId).Link('upper').to($(self.getId(grid, idx, "finalMonthId")), intValue);
 
 					$(sliderControlId).Link('lower').to($( self.getId(grid, idx, "lower-offset")), myValue);
 					$(sliderControlId).Link('upper').to($( self.getId(grid, idx, "upper-offset")), myValue);
@@ -685,15 +689,20 @@ function initFullCapture() {
 				
 				//llave programatica
 				e.find("[data-name='programaticKey'] select")
-					.attr("path", self.getPath(grid, nextIndex, "programaticKeyId"))
+					.attr("name", self.getPath(grid, nextIndex, "programaticKeyId"))
 					.attr("id", self.getId(grid, nextIndex, "programaticKeyId", 2))
 					.removeAttr("multiple");
+				
+				e.find("[data-name='programaticKey']").find("input[type='hidden']").remove();
 			
 				//entry
 				e.find("[data-name='entry'] select")
-				.attr("path", self.getPath(grid, nextIndex, "entryId"))
+				.attr("name", self.getPath(grid, nextIndex, "entryId"))
 				.attr("id", self.getId(grid, nextIndex, "entryId", 2))
 				.removeAttr("multiple");
+				
+				e.find("[data-name='entry']").find("input[type='hidden']").remove();
+
 				
 				//sliderControl
 				e.find("[data-name='sliderControl'] #sliderControl").attr("id", self.getSliderId(grid).substring(1) + nextIndex);
@@ -704,33 +713,39 @@ function initFullCapture() {
 				
 				//monthAmount
 				e.find("[data-name='monthAmount'] input")
-				.attr("path", self.getPath(grid, nextIndex, "monthAmount"))
+				.attr("name", self.getPath(grid, nextIndex, "monthAmount"))
 				.attr("id", self.getId(grid, nextIndex, "monthAmount", 2))
 				.removeAttr("value");
 				
 				//initialMonthId
 				e.find("[data-name='initialMonthId']")
-				.attr("path", self.getPath(grid, nextIndex, "initialMonthId"))
+				.attr("name", self.getPath(grid, nextIndex, "initialMonthId"))
 				.attr("id", self.getId(grid, nextIndex, "initialMonthId", 2))
-				.removeAttr("value");
+				.attr("value","");
 				
 				//finalMonthId
 				e.find("[data-name='finalMonthId']")
-				.attr("path", self.getPath(grid, nextIndex, "finalMonthId"))
+				.attr("name", self.getPath(grid, nextIndex, "finalMonthId"))
 				.attr("id", self.getId(grid, nextIndex, "finalMonthId", 2))
-				.removeAttr("value");
+				.attr("value","");
 				
 				//removedElement
 				e.find("[data-name='removedElement']")
-				.attr("path", self.getPath(grid, nextIndex, "removedElement"))
+				.attr("name", self.getPath(grid, nextIndex, "removedElement"))
 				.attr("id", self.getId(grid, nextIndex, "removedElement", 2))
 				.attr("value","0");
+				
+				e.find("[data-name='movementTypeId']")
+				.attr("name", self.getPath(grid, nextIndex, "movementTypeId"))
+				.attr("id", self.getId(grid, nextIndex, "movementTypeId", 2))
+				.attr("value",(grid == self.upGrid ? "1" : "-1"));
 				
 				grd.find("tbody").append(e);
 				
 				self.startSlider(self, nextIndex, parseInt(new Date().getMonth()), grid);
 				
 				self.addRemoveEvent(self, grid, nextIndex);
+				
 			});
 			
 		},
@@ -761,12 +776,21 @@ function initFullCapture() {
 			function myValue(value){
 				$(this).text(months[parseInt(value)]);
 			}
+			
+			function intValue(value){
+				$(this).val(parseInt(value));
+			}
 
-			$(document).find(id).Link('lower').to($( self.getId(grid, indice, "initialMonthId")));
-			$(document).find(id).Link('upper').to($( self.getId(grid, indice, "finalMonthId")));
+			var initialMonthId = self.getId(grid, indice, "initialMonthId");
+			var finalMonthId = self.getId(grid, indice, "finalMonthId");
+			
+			alert("valores: " + initialMonthId + ", " + finalMonthId);
+			
+			$(document).find(id).Link('lower').to($(document).find(initialMonthId), intValue);
+			$(document).find(id).Link('upper').to($(document).find(finalMonthId), intValue);
 
-			$(document).find(id).Link('lower').to($( self.getId(grid, indice, "lower-offset")), myValue);
-			$(document).find(id).Link('upper').to($( self.getId(grid, indice, "upper-offset")), myValue);
+			$(document).find(id).Link('lower').to($(document).find(self.getId(grid, indice, "lower-offset")), myValue);
+			$(document).find(id).Link('upper').to($(document).find(self.getId(grid, indice, "upper-offset")), myValue);
 		},
 		startComponent : function(){
 			this.linkComponent(this.upGrid);
@@ -785,7 +809,6 @@ function initFullCapture() {
 		    var t = document.querySelector(id);
 		    return document.importNode(t.content, true);
 		},
-<<<<<<< HEAD
 		apiCall: function(actionURL, callback) {
 			var method = "GET";
 			var header = $("meta[name='_csrf_header']").attr("content");

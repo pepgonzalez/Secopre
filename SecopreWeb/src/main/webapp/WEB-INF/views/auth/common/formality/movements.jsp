@@ -69,6 +69,7 @@
 									<form:hidden path="upMovements[${i.index}].initialMonthId" class="form-control"/>
 									<form:hidden path="upMovements[${i.index}].finalMonthId" class="form-control"/>
 									<form:hidden path="upMovements[${i.index}].removedElement" class="form-control"/>
+									<form:hidden path="upMovements[${i.index}].movementTypeId" class="form-control"/>
 								</tr>
 							</c:forEach>
 					    </c:otherwise>
@@ -152,6 +153,7 @@
 									<form:hidden path="downMovements[${i.index}].initialMonthId" class="form-control"/>
 									<form:hidden path="downMovements[${i.index}].finalMonthId" class="form-control"/>
 									<form:hidden path="downMovements[${i.index}].removedElement" class="form-control"/>
+									<form:hidden path="downMovements[${i.index}].movementTypeId" class="form-control"/>
 								</tr>
 							</c:forEach>
 					    </c:otherwise>
@@ -179,13 +181,13 @@
 		<td data-name="programaticKey">
 			<form:select path="upMovements" class="form-control input-small">
 				<form:option value="-1" label="Seleccione..."/>
-	  				<form:options items="${programaticKeys}" />
+	  			<form:options items="${programaticKeys}" />
 			</form:select>
 		</td>
 		<td data-name="entry">
 			<form:select path="upMovements" class="form-control input-medium">
 				<form:option value="-1" label="Seleccione..."/>
-	  				<form:options items="${entries}" />
+	  			<form:options items="${entries}" />
 			</form:select>
 		</td>
 		<td data-name="sliderControl">
@@ -203,5 +205,6 @@
 		<form:hidden path="upMovements" class="form-control" data-name="initialMonthId"/>
 		<form:hidden path="upMovements" class="form-control" data-name="finalMonthId"/>
 		<form:hidden path="upMovements" class="form-control" data-name="removedElement"/>
+		<form:hidden path="upMovements" class="form-control" data-name="movementTypeId"/>
 	</tr>
 </template>

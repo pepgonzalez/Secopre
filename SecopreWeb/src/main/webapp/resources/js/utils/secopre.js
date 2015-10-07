@@ -49,6 +49,10 @@ function submitAjaxJQ(formId, targetId, after) {
 	
 	var x = (frm !== undefined && frm !== null) ? frm.serialize(true) : null;
 	
+	console.log("data----------------------------------------------------------");
+	console.log(x);
+	console.log("fin data------------------------------------------------------");
+	
 	var header = $("meta[name='_csrf_header']").attr("content");
 	var token = $("meta[name='_csrf']").attr("content");
 

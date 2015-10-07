@@ -27,8 +27,8 @@ public class Request {
 
 	//variables correspondientes a REQUEST DETAIL
 	private Long movementTypeId;
-	private List<Movement> upMovements = new AutoPopulatingList(Movement.class);
-	private List<Movement> downMovements = new AutoPopulatingList(Movement.class);
+	private List<Movement> upMovements = new ArrayList<Movement>();
+	private List<Movement> downMovements = new ArrayList<Movement>();
 	
 
 	//variables de transporte y gestion de la forma

@@ -20,8 +20,8 @@ public class Movement {
 	private String description;
 	private Long programaticKeyId;
 	private Long entryId;
-	private Long initialMonthId;
-	private Long finalMonthId;
+	private Integer initialMonthId;
+	private Integer finalMonthId;
 	private Double monthAmount;
 	private Double totalAmount;
 	
@@ -52,16 +52,16 @@ public class Movement {
 	public void setEntryId(Long entryId) {
 		this.entryId = entryId;
 	}
-	public Long getInitialMonthId() {
+	public Integer getInitialMonthId() {
 		return initialMonthId;
 	}
-	public void setInitialMonthId(Long initialMonthId) {
+	public void setInitialMonthId(Integer initialMonthId) {
 		this.initialMonthId = initialMonthId;
 	}
-	public Long getFinalMonthId() {
+	public Integer getFinalMonthId() {
 		return finalMonthId;
 	}
-	public void setFinalMonthId(Long finalMonthId) {
+	public void setFinalMonthId(Integer finalMonthId) {
 		this.finalMonthId = finalMonthId;
 	}
 	public Double getMonthAmount() {
@@ -71,8 +71,8 @@ public class Movement {
 		this.monthAmount = monthAmount;
 	}
 	public Double getTotalAmount() {
-		int months = (this.finalMonthId.intValue() - this.initialMonthId.intValue()) + 1;
-		return this.monthAmount * months;
+		//int months = (this.finalMonthId.intValue() - this.initialMonthId.intValue()) + 1;
+		return 0D;
 	}
 	public void setTotalAmount(Double totalAmount) {
 		this.totalAmount = totalAmount;
