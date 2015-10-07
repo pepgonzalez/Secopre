@@ -5,6 +5,7 @@ package ideasw.secopre.model.security;
 
 import ideasw.secopre.model.Dashboard;
 import ideasw.secopre.model.base.Persistible;
+import ideasw.secopre.model.catalog.Person;
 
 import java.util.Collection;
 import java.util.List;
@@ -21,6 +22,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
@@ -83,6 +85,10 @@ public class User implements Persistible, UserDetails {
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="DASHBOARD_ID")	
 	private Dashboard dashboard;
+	
+    @ManyToOne
+	@PrimaryKeyJoinColumn(name = "PERSON_ID", referencedColumnName = "ID")
+	private Person person;
 	
 	public String getAvatar() {
 		return avatar == null ? "avatar.png" : avatar;
@@ -292,5 +298,13 @@ public class User implements Persistible, UserDetails {
 	 */
 	public void setDashboard(Dashboard dashboard) {
 		this.dashboard = dashboard;
+	}
+
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
 	}
 }

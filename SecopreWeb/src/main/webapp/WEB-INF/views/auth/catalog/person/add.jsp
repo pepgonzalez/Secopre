@@ -342,13 +342,10 @@
 										<div class="row">
 											<div class="col-md-offset-3 col-md-9">
 												<a href="javascript:;" class="btn default button-previous">
-												<i class="m-icon-swapleft"></i> Back </a>
+												<i class="m-icon-swapleft"></i> <spring:message code="application.back"/> </a>
 												<a href="javascript:;" class="btn blue button-next">
-												Continue <i class="m-icon-swapright m-icon-white"></i>
+												<spring:message code="application.next"/> <i class="m-icon-swapright m-icon-white"></i>
 												</a>
-<!-- 												<a href="javascript:;" class="btn green button-submit"> -->
-<!-- 												Submit <i class="m-icon-swapright m-icon-white"></i> -->
-<!-- 												</a> -->
 												<button type="button" class="btn green button-submit" id="submitRequestForm"><spring:message code="application.pages.cat.persons.crear"/></button>
 						
 											</div>

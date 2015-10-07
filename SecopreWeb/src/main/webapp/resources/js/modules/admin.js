@@ -9,11 +9,13 @@ function initUserPage() {
 	initUserValidations();
 	$('#roles').multiSelect();
 	$('#permissions').multiSelect();
-	$('input').iCheck({
-		checkboxClass : 'icheckbox_square',
-		radioClass : 'iradio_square',
-		increaseArea : '20%' // optional
-	});
+//	$('input').iCheck({
+//		checkboxClass : 'icheckbox_square',
+//		radioClass : 'iradio_square',
+//		increaseArea : '20%' // optional
+//	});
+	
+	 $('select').select2();
 }
 
 function initUserList() {
@@ -83,6 +85,9 @@ function initUserValidations() {
 				required : true,
 				minlength : 6,
 				equalTo : "#password"
+			},
+			"person.id" : {
+				required : true
 			},
 			roles : "required",
 			permissions : "required"
@@ -780,6 +785,7 @@ function initFullCapture() {
 		    var t = document.querySelector(id);
 		    return document.importNode(t.content, true);
 		},
+<<<<<<< HEAD
 		apiCall: function(actionURL, callback) {
 			var method = "GET";
 			var header = $("meta[name='_csrf_header']").attr("content");
@@ -795,6 +801,20 @@ function initFullCapture() {
 					unblockPage();
 				}
 			});
+		},
+		validate : function(){
+			console.log("Inicio de validacion de captura");
+			
+			//se valida que exista un tipo de movimiento seleccionado
+			var movementTypeSelect = $("#movementTypeId");
+			var movementTypeId = parseInt(movementTypeSelect.val());
+			console.log("tipo de movimiento: " + movementTypeId);
+			if (movementTypeId <= 0){
+				console.log("error tipo de mov");
+				movementTypeSelect.closest('[data-name="movementTypeContainer"]').addClass("has-error");
+				return false;
+			}
+			return true;
 		}
 	};
 	
@@ -809,8 +829,11 @@ function initFullCapture() {
 
 	$('#partialSave').click(function(e) {
 		alert("haciendo guardado parcial");
-		requestForm.find('#nextStageValueCode').val("SOLPEND");
-		submitAjaxJQ('requestForm', 'dashboard', '');
+		var isCorrect = movementController.validate();
+		if (isCorrect){
+			requestForm.find('#nextStageValueCode').val("SOLPEND");
+			submitAjaxJQ('requestForm', 'dashboard', '');
+		}
 	});
 
 	$('#saveAndContinue').click(function(e) {

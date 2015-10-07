@@ -107,22 +107,29 @@
 											</div>
 										</div>
 										
-										<div class="form-group form-md-line-input">
-											<label class="col-md-3 control-label" for="form_control_1"><spring:message
+										<div class="form-group form-md-line-input has-danger">
+										   <label class="col-md-3 control-label" for="form_control_1"><spring:message
 													code="application.pages.admin.users.hasChatActive" /> <span
-												class="required">* </span> </label>
-											<div class="col-md-9">
-												<div class="input-group">
-													<span class="input-group-addon"> <i
+												class="required">* </span> 
+										   </label>
+										   <div class="col-md-9">
+										       <div class="input-group"> 
+										          <span class="input-group-addon"> <i
 														class="fa fa-weixin"></i>
-													</span> <input name="hasChatActive" id="hasChatActive" type="checkbox"
-														class="icheck" data-checkbox="icheckbox_minimal-grey">
-													<div class="form-control-focus"></div>
-													<span class="help-block"><spring:message
-															code="application.pages.admin.users.email.help" /></span>
-												</div>
-											</div>
-										</div>										
+												  </span>
+												  <div class="md-checkbox">
+											      <input name="hasChatActive" type="checkbox" class="md-check" id="checkbox1">
+											      <label for="checkbox1">
+											      <span class="inc"></span>
+											      <span class="check"></span>
+											      <span class="box"></span>
+											       </label>
+											      </div>
+											   </div>
+										   </div>
+										</div>
+										
+																			
 										<div class="form-group form-md-line-input has-danger">
 											<label class="col-md-3 control-label" for="form_control_1"><spring:message
 													code="application.pages.admin.users.password" /> <span
@@ -158,17 +165,24 @@
 											</div>
 										</div>
 										
-										<div class="form-group form-md-line-input">
-										<label class="col-md-3 control-label" for="id"><spring:message code="application.pages.admin.users.selectPerson"/></label>
+										<div class="form-group form-md-line-input has-danger">
+										<label class="col-md-3 control-label" for="form_control_1"><spring:message code="application.pages.admin.users.selectPerson"/>
+										   <span class="required">* </span> 
+										</label>
 										<div class="col-md-4">
-												<form:select path="person" id="person" class="form-control">
-												   	<form:option value="-1" label="Seleccione..."/>
-	    											<form:options items="${person}" />
+										   <div class="input-group">
+												<span class="input-group-addon"> 
+												  <i class="icon-user"></i>
+												</span> 
+												<form:select path="user.person.id"  name="person" class="form-control">
+												   <form:option value="" label="Seleccione..."/>
+	    										   <form:options items="${persons}" />
 												</form:select>
 												<div class="form-control-focus"></div>
 												<span class="help-block">
 													<spring:message code="application.pages.admin.users.selectPerson"/>
 												</span>
+										   </div>
 										</div>
 										</div>
 										
@@ -183,7 +197,7 @@
 										<div class="col-md-4">
 											<select multiple="multiple" class="multi-select" id="roles" name="roles">
 												<c:forEach items="${roles}" var="role">
-													<option>${role.rolename} </option>
+														<option value="${role.id}">${role.rolename} </option> 
 												</c:forEach>
 											</select>											
 										</div>
@@ -200,7 +214,7 @@
 										<div class="col-md-4">
 											<select multiple="multiple" class="multi-select" id="permissions" name="permissions">
 												<c:forEach items="${permissions}" var="permission">
-													<option>${permission.name} </option>
+													<option value="${permission.id}">${permission.name} </option>
 												</c:forEach>
 											</select>											
 										</div>
