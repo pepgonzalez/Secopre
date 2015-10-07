@@ -20,5 +20,8 @@ public class SQLConstants {
 	public static final String IS_USER_AUTHORIZATION_SUPERUSER = "IS_USER_AUTHORIZATION_SUPERUSER";
 	public static final String HAS_MORE_SIGNATURES = "HAS_MORE_SIGNATURES";
 	public static final String UPDATE_UPLOADED_FILE_IN_REQUEST = "UPDATE_UPLOADED_FILE_IN_REQUEST";
+	public static final String UPDATE_REQUEST_DETAIL = "UPDATE_REQUEST_DETAIL";
+	public static final String INSERT_REQUEST_DETAIL = "INSERT_REQUEST_DETAIL";
+	public static final String GET_REQUEST_DETAIL = "GET_REQUEST_DETAIL";
 
 }

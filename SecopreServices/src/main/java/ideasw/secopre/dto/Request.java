@@ -145,4 +145,14 @@ public class Request {
 	public void setDownMovements(List<Movement> downMovements) {
 		this.downMovements = downMovements;
 	}
+
+	public void setMovements(List<Movement> movs){
+		for(Movement m : movs){
+			if (m.getMovementTypeId() > 0){
+				this.upMovements.add(m);
+			}else{
+				this.downMovements.add(m);
+			}
+		}
+	}
 }

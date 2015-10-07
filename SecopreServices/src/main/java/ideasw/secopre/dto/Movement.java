@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class Movement {
 	
 	//variables correspondientes al tipo de tramite de movimientos
+	private Long requestDetailId;
 	private Long movementTypeId;
 	private String description;
 	private Long programaticKeyId;
@@ -27,7 +28,12 @@ public class Movement {
 	
 	private Integer removedElement = 0;
 	
-	
+	public Long getRequestDetailId() {
+		return requestDetailId;
+	}
+	public void setRequestDetailId(Long requestDetailId) {
+		this.requestDetailId = requestDetailId;
+	}
 	public Long getMovementTypeId() {
 		return movementTypeId;
 	}
@@ -93,6 +99,22 @@ public class Movement {
 		", finalMonthId: " + this.finalMonthId + 
 		", monthAmount: " + this.monthAmount + 
 		", totalAmount: " + this.getTotalAmount() + "}";
+	}
+
+	public static final String TABLE_NAME = "REQUEST_DETAIL";
+	public static final String PRIMARY_KEY = "ID";
+
+	public Map<String, Object> getParams(Long requestId){
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("REQUEST_ID", requestId);
+	    parameters.put("PROGRAMATIC_KEY_ID", this.programaticKeyId);
+	    parameters.put("ENTRY_ID", this.entryId);
+	    parameters.put("INITIAL_MONTH", this.initialMonthId);
+	    parameters.put("FINAL_MONTH", this.finalMonthId);
+	    parameters.put("MONTH_AMOUNT", this.monthAmount);
+	    parameters.put("TOTAL_AMOUNT", this.getTotalAmount());
+	    parameters.put("ACTIVE", 1);
+	    return parameters;
 	}
 
 }
