@@ -31,7 +31,7 @@
 										<form:hidden path="stageConfigId" />
 										<form:hidden path="nextStageValueCode" id="nextStageValueCode" />
 										
-										<div class="form-group form-md-line-input">
+										<div data-name="movementTypeContainer" class="form-group form-md-line-input">
 											<label class="col-md-2 control-label" for="movementTypeId">Seleccione el tipo de movimiento</label>
 											<div class="col-md-4">
 												<form:select path="movementTypeId" id="movementTypeId" class="form-control">
