@@ -30,6 +30,7 @@ function initPersonPage() {
 	initPage('Person');
 	initPersonValidations();
 	$('#my_multi_select1').multiSelect();
+	$('select').select2();
 }
 
 function initPage(page) {

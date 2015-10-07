@@ -1,6 +1,12 @@
 package ideasw.secopre.web.controller.catalog;
 
+import java.util.HashMap;
+import java.util.List;
+
+import ideasw.secopre.dto.Request;
+import ideasw.secopre.model.base.PersonBase;
 import ideasw.secopre.model.catalog.Person;
+import ideasw.secopre.model.catalog.State;
 import ideasw.secopre.model.security.Permission;
 import ideasw.secopre.model.security.Role;
 import ideasw.secopre.service.AccessService;
@@ -42,6 +48,21 @@ public class PersonController extends AuthController {
 		model.addAttribute("person", person);
 		model.addAttribute("roles", baseService.findAll(Role.class));
 		model.addAttribute("permissions", baseService.findAll(Permission.class));
+		List<State> state = baseService.findAll(State.class);
+		
+		HashMap<Long, String> stateMap = new HashMap<Long, String>();
+		for (State e : state) {
+			stateMap.put(e.getId(),e.getName() );
+		}
+		
+		
+		Request requestForm = new Request();
+		
+		model.addAttribute("states", stateMap);
+		model.addAttribute("requestForm", requestForm);
+		
+		
+		
 		return SecopreConstans.MV_CAT_PERSON;
 	}
 	
