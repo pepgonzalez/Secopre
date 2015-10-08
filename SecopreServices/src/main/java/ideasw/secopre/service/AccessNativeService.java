@@ -23,6 +23,8 @@ public interface AccessNativeService {
 	
 	Request getRequestById(Long requestId);
 	
+	Request getRequestAndDetailById(Long requestId);
+	
 	public int insertOrUpdateRequestDetail(Request request);
 
 	Authorization getAuthorization(Request request, User user);

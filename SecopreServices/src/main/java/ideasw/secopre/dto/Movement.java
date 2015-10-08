@@ -78,8 +78,8 @@ public class Movement {
 		this.monthAmount = monthAmount;
 	}
 	public Double getTotalAmount() {
-		//int months = (this.finalMonthId.intValue() - this.initialMonthId.intValue()) + 1;
-		return 0D;
+		int months = (this.finalMonthId.intValue() - this.initialMonthId.intValue()) + 1;
+		return this.monthAmount * months;
 	}
 	public void setTotalAmount(Double totalAmount) {
 		this.totalAmount = totalAmount;
@@ -108,12 +108,14 @@ public class Movement {
 	public Map<String, Object> getParams(Long requestId){
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("REQUEST_ID", requestId);
+		parameters.put("MOVEMENT_TYPE_ID", this.movementTypeId);
 	    parameters.put("PROGRAMATIC_KEY_ID", this.programaticKeyId);
 	    parameters.put("ENTRY_ID", this.entryId);
 	    parameters.put("INITIAL_MONTH", this.initialMonthId);
 	    parameters.put("FINAL_MONTH", this.finalMonthId);
 	    parameters.put("MONTH_AMOUNT", this.monthAmount);
 	    parameters.put("TOTAL_AMOUNT", this.getTotalAmount());
+	    parameters.put("CREATION_DATE", new Date());
 	    parameters.put("ACTIVE", 1);
 	    return parameters;
 	}

@@ -803,9 +803,14 @@ function initFullCapture() {
 			$(document).find(id).Link('lower').to($(document).find(self.getId(grid, indice, "lower-offset")), myValue);
 			$(document).find(id).Link('upper').to($(document).find(self.getId(grid, indice, "upper-offset")), myValue);
 		},
-		startComponent : function(){
+		startComponent : function(){			
 			this.linkComponent(this.upGrid);
 			this.linkComponent(this.downGrid);
+			
+			//si no hay movementType Seleccionado, ocultamos los grids
+			if(parseInt($("#movementTypeId").val()) < 0){
+				this.reset();
+			}
 		},
 		getNextIndex: function(grid){
 			var rowNoExiste = grid.find("tbody #noMovs").length;
@@ -838,18 +843,70 @@ function initFullCapture() {
 			});
 		},
 		validate : function(){
+			var self = this;
+			var validator = {
+				//valida el tipo de movimiento
+				movementType : function(movementType){
+					if (parseInt(movementType.val()) <= 0){
+						console.log("error tipo de mov");
+						movementType.closest('[data-name="movementTypeContainer"]').addClass("has-error");
+						return false;
+					}
+					return true;
+				},
+				validateGrid : function(movementTypeId){
+					switch(movementTypeId){
+					case 1:
+						alert("validando 1 " + self.upGrid);
+						var res = this.validateComponent(self.upGrid);
+						alert("resultado de validacion: " + res);
+						break;
+					case 2:
+						alert("validando 2 " +  self.downGrid);
+						break;
+					case 3:
+						alert("validando 3 " + self.upGrid);
+						break;
+					}
+					return false;
+				},
+				validateComponent: function(gridId){
+					var grid = $(gridId);
+					var totalRows = grid.find("tbody tr:not(#noMovs)").length;
+					if (totalRows <= 0){
+						console.log("sin movimientos capturados en componente");
+						return false;
+					}
+					//iteracion para procesar cada una de las filas
+					
+					var ok = true;
+					grid.find("tbody tr:not(#noMovs)").each(function(idx, e){
+						var row = $(e);
+						var programaticKey = row.find("[data-name='programaticKey'] select");
+						var entry = row.find("[data-name='entry'] select");
+						
+						if (parseInt(programaticKey.val()) <= 0){
+							console.log("programatic key not selected");
+							programaticKey.closest("[data-name='programaticKey']").addClass("has-error");
+							ok = false;
+						}
+						if (parseInt(entry.val()) <= 0){
+							console.log("entry key not selected");
+							entry.closest("[data-name='entry']").addClass("has-error");
+							ok = false;
+						}
+					});
+					return ok;
+				}
+			};
+			
 			console.log("Inicio de validacion de captura");
 			
-			//se valida que exista un tipo de movimiento seleccionado
-			var movementTypeSelect = $("#movementTypeId");
-			var movementTypeId = parseInt(movementTypeSelect.val());
-			console.log("tipo de movimiento: " + movementTypeId);
-			if (movementTypeId <= 0){
-				console.log("error tipo de mov");
-				movementTypeSelect.closest('[data-name="movementTypeContainer"]').addClass("has-error");
-				return false;
+			var movementType = $("#movementTypeId");
+			
+			if(validator.movementType(movementType)){
+				validator.validateGrid(parseInt(movementType.val()));
 			}
-			return true;
 		}
 	};
 	

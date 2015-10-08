@@ -179,7 +179,8 @@
 							   R.FOLIO,
 							   R.DISTRICT_ID,
 							   R.JUSTIFICATION,
-							   R.RESOURCE_PATH
+							   R.RESOURCE_PATH,
+							   R.MOVEMENT_TYPE_ID
 						  FROM secopre.REQUEST R
 						 WHERE R.ID = :requestId
 					]]>
@@ -188,10 +189,11 @@
 				<prop key="INSERT_OR_UPDATE_REQUEST">
 					<![CDATA[
 						INSERT INTO secopre.REQUEST
-						(ID, FOLIO, DISTRICT_ID, JUSTIFICATION, RESOURCE_PATH, LAST_UPDATE, ACTIVE)
+						(ID, FOLIO, DISTRICT_ID, JUSTIFICATION, RESOURCE_PATH, MOVEMENT_TYPE_ID, LAST_UPDATE, ACTIVE)
 						VALUES
-						(:requestId, :folio, :districtId, :justification, :resourcePath,  SYSDATE(), 1)
-						ON DUPLICATE KEY UPDATE RESOURCE_PATH = VALUES(RESOURCE_PATH)
+						(:requestId, :folio, :districtId, :justification, :resourcePath, :movementTypeId,  SYSDATE(), 1)
+						ON DUPLICATE KEY UPDATE RESOURCE_PATH = VALUES(RESOURCE_PATH),
+												MOVEMENT_TYPE_ID = VALUES(MOVEMENT_TYPE_ID)
 					]]>
 				</prop>
 

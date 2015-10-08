@@ -188,12 +188,18 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 				.addValue("folio", request.getFolio())
 				.addValue("districtId", request.getDistrictId())
 				.addValue("justification", request.getJustification())
+				.addValue("movementTypeId", request.getMovementTypeId())
 				.addValue("resourcePath", request.getResourcePath());
 		return this.insertOrUpdate(queryContainer.getSQL(SQLConstants.INSERT_OR_UPDATE_REQUEST), params);
 	}
 	
 	public int insertOrUpdateRequestDetail(Request request){
 
+		Request baseRequest = this.getRequestById(request.getRequestId());
+		baseRequest.setMovementTypeId(request.getMovementTypeId());
+		
+		this.insertOrUpdateRequest(baseRequest);
+		
 		this.insertMovementList(request.getUpMovements(), request.getRequestId());
 		this.insertMovementList(request.getDownMovements(), request.getRequestId());
 		return 0;
@@ -239,6 +245,13 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 
 	@Override
 	public Request getRequestById(Long requestId) {
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("requestId", requestId);
+		List<Request> list = this.queryForList(Request.class, queryContainer.getSQL(SQLConstants.GET_REQUEST_BY_ID), namedParameters, new RequestMapper());
+		Request r =  list.get(0);
+		return r;
+	}
+	
+	public Request getRequestAndDetailById(Long requestId) {
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("requestId", requestId);
 		List<Request> list = this.queryForList(Request.class, queryContainer.getSQL(SQLConstants.GET_REQUEST_BY_ID), namedParameters, new RequestMapper());
 		Request r =  list.get(0);

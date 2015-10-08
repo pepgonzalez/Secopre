@@ -55,27 +55,16 @@ public class WorkFlowController extends AuthController {
 		System.out.println("showMovementsCapture");
 		Request requestForm = new Request();
 
-		requestForm = accessNativeService.getRequestById(requestId);
+		requestForm = accessNativeService.getRequestAndDetailById(requestId);
 
 		requestForm.setStageConfigId(stageConfigId);
 		requestForm.setFormalityCode(formalityCode);
-		
-		/*
-		Movement move = new Movement();
-		move.setProgramaticKeyId(1L);
-		move.setEntryId(1L);
-		move.setInitialMonthId(10);
-		move.setFinalMonthId(11);
-		move.setMonthAmount(100D);
-		move.setMovementTypeId(1L);
-		
-		List<Movement> l = new ArrayList<Movement>();
-		l.add(move);
-		
-		requestForm.setUpMovements(l);
-		requestForm.setDownMovements(l);
-		*/
-		requestForm.setMovementTypeId(-1L);
+				
+		if (requestForm.getMovementTypeId() != null && requestForm.getMovementTypeId().intValue() > 0){
+			requestForm.setMovementTypeId(requestForm.getMovementTypeId());
+		}else{
+			requestForm.setMovementTypeId(-1L);
+		}
 		
 		List<MovementType> movementTypes = baseService.findAll(MovementType.class);
 		
