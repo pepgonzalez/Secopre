@@ -91,7 +91,8 @@ function initUserValidations() {
 				required : true
 			},
 			roles : "required",
-			permissions : "required"
+			permissions : "required",
+			gender : "required"
 		},
 
 		invalidHandler : function(event, validator) { // display error alert
@@ -108,6 +109,22 @@ function initUserValidations() {
 			icon.attr("data-original-title", error.text()).tooltip({
 				'container' : 'body'
 			});
+			
+			 if (element.parent(".input-group").size() > 0) {
+                 error.insertAfter(element.parent(".input-group"));
+             } else if (element.attr("data-error-container")) { 
+                 error.appendTo(element.attr("data-error-container"));
+             } else if (element.parents('.radio-list').size() > 0) { 
+                 error.appendTo(element.parents('.radio-list').attr("data-error-container"));
+             } else if (element.parents('.radio-inline').size() > 0) { 
+                 error.appendTo(element.parents('.radio-inline').attr("data-error-container"));
+             } else if (element.parents('.checkbox-list').size() > 0) {
+                 error.appendTo(element.parents('.checkbox-list').attr("data-error-container"));
+             } else if (element.parents('.checkbox-inline').size() > 0) { 
+                 error.appendTo(element.parents('.checkbox-inline').attr("data-error-container"));
+             } else {
+                 error.insertAfter(element); // for other inputs, just perform default behavior
+             }
 		},
 
 		highlight : function(element) { // hightlight error inputs

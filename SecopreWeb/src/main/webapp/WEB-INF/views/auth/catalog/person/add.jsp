@@ -68,7 +68,6 @@
 													
 													<div class="form-group form-md-line-input has-danger">
 														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.secondName"/>
-														<span class="required">* </span>
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
@@ -112,7 +111,40 @@
 															</div>
 														</div>
 													</div>	
-													
+															
+													<div class="form-group form-md-line-input has-danger">
+													<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.gender"/>
+										  			<span class="required">* </span> 
+												    </label>
+													   <div class="col-md-4">
+													      <div class="input-group">
+																<span class="input-group-addon"> 
+																  <i class="icon-user"></i>
+																</span> 
+										                            <div class="md-radio-inline">
+																				<div class="md-radio">
+																					<input type="radio" value="M" class="md-radiobtn" name="gender" id="gender1">
+																					<label for="gender1">
+																					<span></span>
+																					<span class="check"></span>
+																					<span class="box"></span>
+																					<spring:message code="application.pages.admin.persons.gender1"/>
+																					 </label>
+																				</div>
+																				<div class="md-radio">
+																					<input type="radio" value="F" class="md-radiobtn" name="gender" id="gender2">
+																					<label for="gender2">
+																					<span></span>
+																					<span class="check"></span>
+																					<span class="box"></span>
+																					<spring:message code="application.pages.admin.persons.gender2"/>
+																					</label>
+																				</div>
+																			</div>
+																<div class="form-control-focus"></div>
+												          </div>
+													   </div>
+												    </div>
 													
 													<div class="form-group form-md-line-input has-danger">
 														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.telephone"/>
@@ -146,7 +178,6 @@
 													
 													<div class="form-group form-md-line-input has-danger">
 														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.twitter"/>
-														<span class="required">* </span>
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
@@ -161,7 +192,6 @@
 													
 													<div class="form-group form-md-line-input has-danger">
 														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.facebook"/>
-														<span class="required">* </span>
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
@@ -176,7 +206,6 @@
 													
 													<div class="form-group form-md-line-input has-danger">
 														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.webSite"/>
-														<span class="required">* </span>
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
@@ -187,49 +216,13 @@
 																<i class="fa fa-home"></i>
 															</div>
 														</div>
-													</div>	
-													
-													
-
-													
-													
-<!-- 													<div class="form-group"> -->
-<%-- 													   <label class="control-label col-md-2" for="form_control_1"><spring:message code="application.pages.admin.users.chat"/> --%>
-<!-- 													      <span class="required" aria-required="true"> * </span> -->
-<!-- 													   </label> -->
-<!-- 													      <div class="col-md-3"> -->
-<!--                                                           <div class="radio-list"> -->
-<!--                                                        <label> -->
-<!--                                                           <div class="radio"> -->
-<!--                                                              <span><input type="radio" data-title="Si" value="S" name="gender" > -->
-<!-- 															</span> -->
-<!-- 														</div> -->
-<!-- 														Si -->
-<!-- 												      </label> -->
-
-
-<!-- 													  <label> -->
-<!-- 													     <div class="radio"> -->
-<!-- 													        <span> -->
-<!-- 													        <input type="radio" data-title="No" value="N" name="gender"> -->
-<!-- 													        </span> -->
-<!-- 												         </div> -->
-<!-- 															No -->
-<!-- 															</label> -->
-<!-- 														</div> -->
-<!-- 														<div id="form_gender_error"> </div> -->
-<!-- 														</div> -->
-<!-- 														</div> -->
-												       
-												       																				
+													</div>	 																				
 											    	</div>
 											</div>
 
 						
 											<div class="tab-pane" id="tab2">
 												<h3 class="block">Dirección</h3>
-												
-<!-- 												<h4 class="form-section">Account</h4> -->
 												
 													<div class="form-group form-md-line-input has-danger">
 														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.street"/>
@@ -291,24 +284,10 @@
 														</div>
 													</div>	
 													
-<!-- 							     					<div class="form-group form-md-line-input has-danger"> -->
-<%-- 														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.state"/> --%>
-<!-- 														<span class="required">* </span> -->
-<!-- 														</label> -->
-<!-- 														<div class="col-md-10"> -->
-<!-- 															<div class="input-icon"> -->
-<%-- 																<input id="state" name="state" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.state.placeholder"/>'> --%>
-<!-- 																<div class="form-control-focus"> -->
-<!-- 																</div> -->
-<%-- 																<span class="help-block"><spring:message code="application.pages.admin.persons.state.help"/></span> --%>
-<!-- 																<i class="fa fa-home"></i> -->
-<!-- 															</div> -->
-<!-- 														</div> -->
-<!-- 													</div>	 -->
 													
 													
 													<div class="form-group form-md-line-input has-danger">
-													<label class="col-md-3 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.state"/>
+													<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.state"/>
 										  			<span class="required">* </span> 
 												    </label>
 													   <div class="col-md-4">
