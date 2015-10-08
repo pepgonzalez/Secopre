@@ -194,16 +194,51 @@
 						ON DUPLICATE KEY UPDATE RESOURCE_PATH = VALUES(RESOURCE_PATH)
 					]]>
 				</prop>
+
+				<prop key="INSERT_REQUEST_DETAIL">
+					<![CDATA[
+						INSERT INTO secopre.REQUEST_DETAIL
+						(id, REQUEST_ID, MOVEMENT_TYPE_ID, PROGRAMATIC_KEY_ID, ENTRY_ID, INITIAL_MONTH, FINAL_MONTH, MONTH_AMOUNT, TOTAL_AMOUNT, CREATION_DATE, ACTIVE)
+						VALUES
+						(:requestDetailId, :requestId, :movementTypeId, :programaticKeyId, :entryId, :initialMonth, :finalMonth, :monthAmount, :totalAmount, sysdate(), 1)
+					]]>
+				</prop>
+
+				<prop key="UPDATE_REQUEST_DETAIL">
+					<![CDATA[
+						UPDATE secopre.REQUEST_DETAIL
+						SET PROGRAMATIC_KEY_ID = :programaticKeyId,
+							ENTRY_ID = :entryId,
+							INITIAL_MONTH = :initialMonth,
+							FINAL_MONTH = :finalMonth,
+							MONTH_AMOUNT = :monthAmount,
+							TOTAL_AMOUNT = :totalAmount,
+							LAST_UPDATE = SYSDATE()
+						where id = :requestDetailId
+					]]>
+				</prop>
+
+				<prop key="GET_REQUEST_DETAIL">
+					<![CDATA[
+						SELECT * FROM secopre.REQUEST_DETAIL
+						where REQUEST_ID = :requestId
+					]]>
+				</prop>
 				
 				<prop key="INSERT_OR_UPDATE_REQUEST_DETAIL">
 					<![CDATA[
 						INSERT INTO secopre.REQUEST_DETAIL
-						(REQUEST_ID, MOVEMENT_NAME, MOVEMENT_PRICE, ACTIVE, LAST_UPDATE)
+						(id, REQUEST_ID, MOVEMENT_TYPE_ID, PROGRAMATIC_KEY_ID, ENTRY_ID, INITIAL_MONTH, FINAL_MONTH, MONTH_AMOUNT, TOTAL_AMOUNT, CREATION_DATE, ACTIVE)
 						VALUES
-						(:requestId, :movementName, :movementPrice, 1, SYSDATE())
-						ON DUPLICATE KEY UPDATE MOVEMENT_NAME = VALUES(MOVEMENT_NAME),
- 												MOVEMENT_PRICE = VALUES(MOVEMENT_PRICE),
-						       					LAST_UPDATE = VALUES(LAST_UPDATE)
+						(:requestDetailId, :requestId, :movementTypeId, :programaticKeyId, :entryId, :initialMonth, :finalMonth, :monthAmount, :totalAmount, sysdate(), 1)
+						ON DUPLICATE KEY UPDATE 
+							PROGRAMATIC_KEY_ID = VALUES(PROGRAMATIC_KEY_ID),
+							ENTRY_ID = VALUES(ENTRY_ID),
+							INITIAL_MONTH = VALUES(INITIAL_MONTH),
+							FINAL_MONTH = VALUES(FINAL_MONTH),
+							MONTH_AMOUNT = VALUES(MONTH_AMOUNT),
+							TOTAL_AMOUNT = VALUES(TOTAL_AMOUNT),
+							LAST_UPDATE = SYSDATE()
 					]]>
 				</prop>
 				

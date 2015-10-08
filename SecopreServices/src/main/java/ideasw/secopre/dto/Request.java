@@ -27,8 +27,8 @@ public class Request {
 
 	//variables correspondientes a REQUEST DETAIL
 	private Long movementTypeId;
-	private List<Movement> upMovements = new AutoPopulatingList(Movement.class);
-	private List<Movement> downMovements = new AutoPopulatingList(Movement.class);
+	private List<Movement> upMovements = new ArrayList<Movement>();
+	private List<Movement> downMovements = new ArrayList<Movement>();
 	
 
 	//variables de transporte y gestion de la forma
@@ -144,5 +144,15 @@ public class Request {
 	}
 	public void setDownMovements(List<Movement> downMovements) {
 		this.downMovements = downMovements;
+	}
+
+	public void setMovements(List<Movement> movs){
+		for(Movement m : movs){
+			if (m.getMovementTypeId() > 0){
+				this.upMovements.add(m);
+			}else{
+				this.downMovements.add(m);
+			}
+		}
 	}
 }

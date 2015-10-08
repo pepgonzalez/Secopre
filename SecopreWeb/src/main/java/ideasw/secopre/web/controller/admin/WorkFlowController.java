@@ -27,6 +27,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,19 +60,21 @@ public class WorkFlowController extends AuthController {
 		requestForm.setStageConfigId(stageConfigId);
 		requestForm.setFormalityCode(formalityCode);
 		
+		/*
 		Movement move = new Movement();
 		move.setProgramaticKeyId(1L);
 		move.setEntryId(1L);
-		move.setInitialMonthId(10L);
-		move.setFinalMonthId(11L);
+		move.setInitialMonthId(10);
+		move.setFinalMonthId(11);
 		move.setMonthAmount(100D);
+		move.setMovementTypeId(1L);
 		
 		List<Movement> l = new ArrayList<Movement>();
 		l.add(move);
 		
 		requestForm.setUpMovements(l);
 		requestForm.setDownMovements(l);
-		
+		*/
 		requestForm.setMovementTypeId(-1L);
 		
 		List<MovementType> movementTypes = baseService.findAll(MovementType.class);
@@ -91,9 +95,13 @@ public class WorkFlowController extends AuthController {
 
 	@RequestMapping(value = "wf/capture/{movementCode}", method = { RequestMethod.POST })
 	public String saveMovements(
-			@ModelAttribute("requestForm") Request requestForm, ModelMap model,
+			@ModelAttribute("requestForm") Request requestForm, 
+			BindingResult result,
+			ModelMap model,
 			RedirectAttributes attributes, Principal principal) {
 
+		
+		
 		System.out.println("Guardando movimientos");
 		System.out.println("tipo de guardado: " + requestForm.getNextStageValueCode());
 		System.out.println("request: " + requestForm.getRequestId());
@@ -101,15 +109,19 @@ public class WorkFlowController extends AuthController {
 
 		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
 
-		System.out.println("total de movimientos capturados: " + requestForm.getUpMovements().size());
-
+		//System.out.println("total de movimientos capturados: " + requestForm.getUpMovements().size());
+		
+		for(ObjectError e :result.getAllErrors()){
+			System.out.println("Error: " + e.getDefaultMessage());
+		};
+		
 		for(Movement m : requestForm.getUpMovements()){
 			System.out.println(m);
 		}
 
 		// TODO implementacion para guardar informacion completa de tramite de
 		// movimiento
-		//accessNativeService.insertOrUpdateRequestDetail(requestForm);
+		accessNativeService.insertOrUpdateRequestDetail(requestForm);
 
 		// avanzar de etapa
 		//accessNativeService.invokeNextStage(requestForm, loggedUser.getId());
