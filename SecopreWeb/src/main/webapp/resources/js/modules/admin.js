@@ -557,6 +557,10 @@ function initUpload() {
 
 function initFullCapture() {
 	
+	$('.numbersOnly').keyup(function () { 
+		this.value = this.value.replace(/[^0-9\.]/g,'');
+	});
+
 	var movementController = {
 		upGrid : "#addComponent",
 		downGrid : "#substractComponent",
@@ -623,7 +627,11 @@ function initFullCapture() {
 				
 				grd.find("tbody tr").each(function(idx, e){
 					var element = $(e);
-					var rowId = element.attr("id");					
+					var rowId = element.attr("id");	
+
+					self.startSlider(self, idx, parseInt(new Date().getMonth()), grid);		
+
+					/*		
 					var sliderControlId = self.getSliderId(grid) + idx;
 							
 					var currentMonth = parseInt(new Date().getMonth());
@@ -656,7 +664,9 @@ function initFullCapture() {
 
 					$(sliderControlId).Link('lower').to($( self.getId(grid, idx, "lower-offset")), myValue);
 					$(sliderControlId).Link('upper').to($( self.getId(grid, idx, "upper-offset")), myValue);
-					
+					*/
+
+
 					//sumar el monto actual al total
 					var amount = ((storedFinalMonth - storedInitialMonth) + 1) * monthAmount;
 					self.updateTotal(grid, amount, true);
@@ -668,7 +678,10 @@ function initFullCapture() {
 						row.hide();
 					});
 					
+
+					self.addOnChangeEvent(self, grid, idx);
 					//agregar evento al cambiar de llave programatica
+					/*
 					element.find(self.getId(grid, idx, "programaticKeyId")).on("change", function (e) {
 					    alert("cambiando llave programatica");
 					    alert(this.value);
@@ -681,6 +694,7 @@ function initFullCapture() {
 					    	});
 					    });
 					});
+					*/
 										
 					//sendRequestJQ('auth/cat/person/list',
 					
@@ -736,7 +750,7 @@ function initFullCapture() {
 				e.find("[data-name='monthAmount'] input")
 				.attr("name", self.getPath(grid, nextIndex, "monthAmount"))
 				.attr("id", self.getId(grid, nextIndex, "monthAmount", 2))
-				.removeAttr("value");
+				.attr("value", "0");
 				
 				//initialMonthId
 				e.find("[data-name='initialMonthId']")
@@ -770,12 +784,28 @@ function initFullCapture() {
 				
 				self.startSlider(self, nextIndex, parseInt(new Date().getMonth()), grid);
 				
+				self.addOnChangeEvent(self, grid, nextIndex);
+
 				self.addRemoveEvent(self, grid, nextIndex);
 				
 				grd.find("tbody #noMovs").remove();
 				
 			});
 			
+		},
+		addOnChangeEvent:function(self, grid, indice){
+			$(document).find(self.getId(grid, indice, "programaticKeyId")).on("change", function (e) {
+			    alert("cambiando llave programatica");
+			    alert(this.value);
+			    self.apiCall('auth/API/get/entry/'+this.value, function(data){
+			    	var entrySelect = $(document).find(self.getId(grid, indice, "entryId"));
+			    	entrySelect.empty();
+			    	entrySelect.append('<option value="-1">Seleccione..</option>');
+			    	$.each(data, function(index, item){
+			    		entrySelect.append('<option value="' + item.id +'">' + item.name + '</option>');
+			    	});
+			    });
+			});
 		},
 		addRemoveEvent : function(self, grid, indice){
 			var a = $(document).find("#rmvIdx" + indice);

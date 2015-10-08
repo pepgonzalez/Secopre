@@ -63,7 +63,7 @@
 											<span id="upMovements${i.index}.lower-offset"></span>-<span id="upMovements${i.index}.upper-offset"></span>
 										</div>
 									<td>
-										<form:input path="upMovements[${i.index}].monthAmount" class="form-control input-small"/>
+										<form:input path="upMovements[${i.index}].monthAmount" class="form-control input-small numbersOnly"/>
 									</td>
 					
 									<form:hidden path="upMovements[${i.index}].initialMonthId" class="form-control"/>
@@ -148,7 +148,7 @@
 											<span id="downMovements${i.index}.lower-offset"></span>-<span id="downMovements${i.index}.upper-offset"></span>
 										</div>
 									<td>
-										<form:input path="downMovements[${i.index}].monthAmount" class="form-control input-small"/>
+										<form:input path="downMovements[${i.index}].monthAmount" class="form-control input-small numbersOnly"/>
 									</td>
 					
 									<form:hidden path="downMovements[${i.index}].initialMonthId" class="form-control"/>
@@ -202,7 +202,7 @@
 				<span data-name="lower-offset"></span>-<span data-name="upper-offset"></span>
 			</div>
 		<td data-name="monthAmount">
-			<form:input path="upMovements" class="form-control input-small"/>
+			<form:input path="upMovements" class="form-control input-small numbersOnly"/>
 		</td>
 		<form:hidden path="upMovements" class="form-control" data-name="initialMonthId"/>
 		<form:hidden path="upMovements" class="form-control" data-name="finalMonthId"/>
