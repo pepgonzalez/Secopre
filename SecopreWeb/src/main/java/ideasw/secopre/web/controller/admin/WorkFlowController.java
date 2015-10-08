@@ -60,6 +60,7 @@ public class WorkFlowController extends AuthController {
 		requestForm.setStageConfigId(stageConfigId);
 		requestForm.setFormalityCode(formalityCode);
 		
+		/*
 		Movement move = new Movement();
 		move.setProgramaticKeyId(1L);
 		move.setEntryId(1L);
@@ -73,7 +74,7 @@ public class WorkFlowController extends AuthController {
 		
 		requestForm.setUpMovements(l);
 		requestForm.setDownMovements(l);
-		
+		*/
 		requestForm.setMovementTypeId(-1L);
 		
 		List<MovementType> movementTypes = baseService.findAll(MovementType.class);
@@ -120,7 +121,7 @@ public class WorkFlowController extends AuthController {
 
 		// TODO implementacion para guardar informacion completa de tramite de
 		// movimiento
-		//accessNativeService.insertOrUpdateRequestDetail(requestForm);
+		accessNativeService.insertOrUpdateRequestDetail(requestForm);
 
 		// avanzar de etapa
 		//accessNativeService.invokeNextStage(requestForm, loggedUser.getId());

@@ -599,10 +599,10 @@ function initFullCapture() {
 		},
 		linkComponent : function(grid){
 			var grd = $(grid);
+			var self = this;
 			
 			//si no existe el row de "sin elementos, se iteran los objetos"
 			if(grd.find("tbody #noMovs").length == 0){
-				var self = this;
 				
 				grd.find("tbody tr").each(function(idx, e){
 					var element = $(e);
@@ -671,12 +671,15 @@ function initFullCapture() {
 				
 			}else{
 				alert("no hay elementos en el componente");
+				grd.find("tbody tr:not(#noMovs)").remove();
 			}
 			
 			//evento para agregar movimientos
 			var addBtn = grd.find(".actions #addMov").on("click", function(){
 				
 				var nextIndex = self.getNextIndex(grd);
+				
+				alert("next index: " + nextIndex);
 				
 				if(nextIndex == 0){
 					grd.find("tbody #noMovs").remove();
@@ -741,11 +744,18 @@ function initFullCapture() {
 				.attr("id", self.getId(grid, nextIndex, "movementTypeId", 2))
 				.attr("value",(grid == self.upGrid ? "1" : "-1"));
 				
+				e.find("[data-name='requestDetailId']")
+				.attr("name", self.getPath(grid, nextIndex, "requestDetailId"))
+				.attr("id", self.getId(grid, nextIndex, "requestDetailId", 2))
+				.attr("value","-1");
+				
 				grd.find("tbody").append(e);
 				
 				self.startSlider(self, nextIndex, parseInt(new Date().getMonth()), grid);
 				
 				self.addRemoveEvent(self, grid, nextIndex);
+				
+				grd.find("tbody #noMovs").remove();
 				
 			});
 			
@@ -800,6 +810,7 @@ function initFullCapture() {
 		getNextIndex: function(grid){
 			var rowNoExiste = grid.find("tbody #noMovs").length;
 			var totalRows = grid.find("tbody tr").length;
+			alert("funcion get next index: rowNoExiste: " + rowNoExiste + ", totalRows:" + totalRows );
 			if(totalRows == 1 && rowNoExiste == 1){
 				return 0;
 			}if(totalRows > 0 && rowNoExiste == 0){

@@ -70,6 +70,7 @@
 									<form:hidden path="upMovements[${i.index}].finalMonthId" class="form-control"/>
 									<form:hidden path="upMovements[${i.index}].removedElement" class="form-control"/>
 									<form:hidden path="upMovements[${i.index}].movementTypeId" class="form-control"/>
+									<form:hidden path="upMovements[${i.index}].requestDetailId" class="form-control"/>
 								</tr>
 							</c:forEach>
 					    </c:otherwise>
@@ -154,6 +155,7 @@
 									<form:hidden path="downMovements[${i.index}].finalMonthId" class="form-control"/>
 									<form:hidden path="downMovements[${i.index}].removedElement" class="form-control"/>
 									<form:hidden path="downMovements[${i.index}].movementTypeId" class="form-control"/>
+									<form:hidden path="downMovements[${i.index}].requestDetailId" class="form-control"/>
 								</tr>
 							</c:forEach>
 					    </c:otherwise>
@@ -206,5 +208,6 @@
 		<form:hidden path="upMovements" class="form-control" data-name="finalMonthId"/>
 		<form:hidden path="upMovements" class="form-control" data-name="removedElement"/>
 		<form:hidden path="upMovements" class="form-control" data-name="movementTypeId"/>
+		<form:hidden path="upMovements" class="form-control" data-name="requestDetailId"/>
 	</tr>
 </template>

@@ -17,6 +17,7 @@ public class Movement {
 	
 	//variables correspondientes al tipo de tramite de movimientos
 	private Long requestDetailId;
+	private Long requestId;
 	private Long movementTypeId;
 	private String description;
 	private Long programaticKeyId;
@@ -115,6 +116,12 @@ public class Movement {
 	    parameters.put("TOTAL_AMOUNT", this.getTotalAmount());
 	    parameters.put("ACTIVE", 1);
 	    return parameters;
+	}
+	public Long getRequestId() {
+		return requestId;
+	}
+	public void setRequestId(Long requestId) {
+		this.requestId = requestId;
 	}
 
 }

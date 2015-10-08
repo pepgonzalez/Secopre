@@ -3,6 +3,7 @@ package ideasw.secopre.service.impl;
 import ideasw.secopre.dto.Authorization;
 import ideasw.secopre.dto.Formality;
 import ideasw.secopre.dto.Inbox;
+import ideasw.secopre.dto.Movement;
 import ideasw.secopre.dto.Request;
 import ideasw.secopre.dto.RequestConfig;
 import ideasw.secopre.dto.WorkFlowConfig;
@@ -193,33 +194,35 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	
 	public int insertOrUpdateRequestDetail(Request request){
 
-		this.insertMovementList(request.getUpMovements(), request.getId());
-		this.insertMovementList(request.getDownMovements(), request.getId())
+		this.insertMovementList(request.getUpMovements(), request.getRequestId());
+		this.insertMovementList(request.getDownMovements(), request.getRequestId());
+		return 0;
 	}
 
-	private void insertMovementList(List<Movement> list, request, Long requestId){
+	private void insertMovementList(List<Movement> list, Long requestId){
 		for(Movement m : list){
-
-			if(m.getRequestDetailId <= 0){
-
-				Long id =  this.insertAndReturnId(Movement.TABLE_NAME, Movement.PRIMARY_KEY, m.getParams());
-				m.setRequestDetailId(id);
-
-			}else{
-
-				//se hace el update
-				SqlParameterSource params = new MapSqlParameterSource()
-				.addValue("requestDetailId", m.getRequestDetailId())
-				.addValue("requestId", requestId)
-				.addValue("movementTypeId", m.getMovementTypeId())
-				.addValue("programaticKeyId", m.getProgramaticKeyId())
-				.addValue("entryId", m.getEntryId())
-				.addValue("initialMonth", m.getInitialMonthId())
-				.addValue("finalMonth", m.getFinalMonthId())
-				.addValue("monthAmount", m.getMonthAmount())
-				.addValue("totalAmount", m.getTotalAmount());
-
-				return this.insertOrUpdate(queryContainer.getSQL(SQLConstants.UPDATE_REQUEST_DETAIL), params);
+			if(m.getRemovedElement() == 0){
+				if(m.getRequestDetailId() <= 0){
+	
+					Long id =  this.insertAndReturnId(Movement.TABLE_NAME, Movement.PRIMARY_KEY, m.getParams(requestId));
+					m.setRequestDetailId(id);
+	
+				}else{
+	
+					//se hace el update
+					SqlParameterSource params = new MapSqlParameterSource()
+					.addValue("requestDetailId", m.getRequestDetailId())
+					.addValue("requestId", requestId)
+					.addValue("movementTypeId", m.getMovementTypeId())
+					.addValue("programaticKeyId", m.getProgramaticKeyId())
+					.addValue("entryId", m.getEntryId())
+					.addValue("initialMonth", m.getInitialMonthId())
+					.addValue("finalMonth", m.getFinalMonthId())
+					.addValue("monthAmount", m.getMonthAmount())
+					.addValue("totalAmount", m.getTotalAmount());
+	
+					this.insertOrUpdate(queryContainer.getSQL(SQLConstants.UPDATE_REQUEST_DETAIL), params);
+				}
 			}
 		}
 	}
@@ -246,6 +249,7 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	public List<Movement> getRequestDetailByRequestId(Long requestId){
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("requestId", requestId);
 		List<Movement> list = this.queryForList(Movement.class, queryContainer.getSQL(SQLConstants.GET_REQUEST_DETAIL), namedParameters, new MovementMapper());	
+		return list;
 	}
 	
 	public RequestConfig getRequestConfigById(Long requestId){
