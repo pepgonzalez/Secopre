@@ -566,20 +566,30 @@ function initFullCapture() {
 		upGrid : "#addComponent",
 		downGrid : "#substractComponent",
 		slider : "SliderControl",
+		
+		/* funcion que oculta los grids */
 		reset : function(){
 			$(this.upGrid).hide();
 			$(this.downGrid).hide();
 		},
+		
+		/* funcion que elimina todos los registros del grid */
 		clean : function(grid){
 			$(grid).find("tbody tr").remove();
 			$(grid).find("tbody").html('<tr id="noMovs"><td colspan="6">No hay Movimientos Capturados</td><tr>');
 		},
-		titles : {
-			al:"Ampliación Líquida",
-			rl:"Reducción Líquida",
-			ac:"Ampliación Compensada",
-			rc:"Reducción Compensada"
+		
+		/* titulos en función del tipo de movimiento seleccionado */
+		titles : { al:"Ampliación Líquida", rl:"Reducción Líquida", ac:"Ampliación Compensada", rc:"Reducción Compensada"},
+		
+		/* funcion que muestra y actualiza el titulo del grid */
+		showGrid : function(grid, name){
+			var grd = $(grid);
+			grd.find(".caption").text(name);
+			grd.show();
 		},
+		
+		/* funcion para mostrar el grid con el titulo correspondiente en funcion del tipo de movimiento */
 		update : function(value){
 			this.reset();
 			
@@ -595,14 +605,11 @@ function initFullCapture() {
 					case 3:
 						this.showGrid(this.upGrid, this.titles.ac);
 						this.showGrid(this.downGrid, this.titles.rc);
+						break;
 				}
 			}
 		},
-		showGrid : function(grid, name){
-			var grd = $(grid);
-			grd.find(".caption").text(name);
-			grd.show();
-		},
+		
 		getId : function(grid, idx, attr, escaped){
 			escaped = escaped || 1;
 			var list = (grid == this.upGrid ? "upMovements" : "downMovements");
@@ -637,41 +644,6 @@ function initFullCapture() {
 
 					self.startSlider(self, idx, parseInt(new Date().getMonth()), grid);		
 
-					/*		
-					var sliderControlId = self.getSliderId(grid) + idx;
-							
-					var currentMonth = parseInt(new Date().getMonth());
-					var months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-					
-					var storedInitialMonth = parseInt(element.find(self.getId(grid, idx, "initialMonthId")).val());
-					var storedFinalMonth = parseInt(element.find(self.getId(grid, idx, "finalMonthId")).val());
-					var monthAmount = parseInt(element.find(self.getId(grid, idx, "monthAmount")).val());
-					
-					//iniciar slider
-					$(sliderControlId).noUiSlider({
-				        connect: true, behaviour: 'tap', step:1, start: [storedInitialMonth, 11],
-				        range: {
-				            'min': [(storedInitialMonth < currentMonth ? storedInitialMonth : currentMonth)],
-				            'max': [11]
-				        }	
-				    });
-				    
-					function myValue(value){
-						$(this).text(months[parseInt(value)]);
-					}
-					
-					function intValue(value){
-						return parseInt(value);
-					}
-
-					//SE ASOCIA EL VALOR DEL SLIDER A una propiedad de la forma
-					$(sliderControlId).Link('lower').to($(self.getId(grid, idx, "initialMonthId")), intValue);
-					$(sliderControlId).Link('upper').to($(self.getId(grid, idx, "finalMonthId")), intValue);
-
-					$(sliderControlId).Link('lower').to($( self.getId(grid, idx, "lower-offset")), myValue);
-					$(sliderControlId).Link('upper').to($( self.getId(grid, idx, "upper-offset")), myValue);
-					*/
-
 					var storedInitialMonth = parseInt(element.find(self.getId(grid, idx, "initialMonthId")).val());
 					var storedFinalMonth = parseInt(element.find(self.getId(grid, idx, "finalMonthId")).val());
 					var monthAmount = parseInt(element.find(self.getId(grid, idx, "monthAmount")).val());
@@ -687,30 +659,11 @@ function initFullCapture() {
 						row.hide();
 					});
 					
-
+					//asignar eventos de cambio
 					self.addOnChangeEvent(self, grid, idx, "programaticKeyId",true);
 					self.addOnChangeEvent(self, grid, idx, "entryId",false);
 					
-					self.updateAmounts(self, grid, idx, "monthAmount");
-					
-					//agregar evento al cambiar de llave programatica
-					/*
-					element.find(self.getId(grid, idx, "programaticKeyId")).on("change", function (e) {
-					    alert("cambiando llave programatica");
-					    alert(this.value);
-					    self.apiCall('auth/API/get/entry/'+this.value, function(data){
-					    	var entrySelect = element.find(self.getId(grid, idx, "entryId"));
-					    	entrySelect.empty();
-					    	entrySelect.append('<option value="-1">Seleccione..</option>');
-					    	$.each(data, function(index, item){
-					    		entrySelect.append('<option value="' + item.id +'">' + item.name + '</option>');
-					    	});
-					    });
-					});
-					*/
-										
-					//sendRequestJQ('auth/cat/person/list',
-					
+					self.updateAmounts(self, grid, idx, "monthAmount");					
 				});
 				
 			}else{
@@ -720,9 +673,7 @@ function initFullCapture() {
 			//evento para agregar movimientos
 			var addBtn = grd.find(".actions #addMov").on("click", function(){
 				
-				var nextIndex = self.getNextIndex(grd);
-				
-				//alert("next index: " + nextIndex);
+				var nextIndex = self.getNextIndex(grd);				
 				
 				if(nextIndex == 0){
 					grd.find("tbody #noMovs").remove();
@@ -739,7 +690,6 @@ function initFullCapture() {
 					.attr("name", self.getPath(grid, nextIndex, "programaticKeyId"))
 					.attr("id", self.getId(grid, nextIndex, "programaticKeyId", 2))
 					.removeAttr("multiple");
-				
 				e.find("[data-name='programaticKey']").find("input[type='hidden']").remove();
 			
 				//entry
@@ -747,10 +697,8 @@ function initFullCapture() {
 				.attr("name", self.getPath(grid, nextIndex, "entryId"))
 				.attr("id", self.getId(grid, nextIndex, "entryId", 2))
 				.removeAttr("multiple");
-				
 				e.find("[data-name='entry']").find("input[type='hidden']").remove();
 
-				
 				//sliderControl
 				e.find("[data-name='sliderControl'] #sliderControl").attr("id", self.getSliderId(grid).substring(1) + nextIndex);
 				
@@ -795,47 +743,13 @@ function initFullCapture() {
 				grd.find("tbody").append(e);
 				
 				self.startSlider(self, nextIndex, parseInt(new Date().getMonth()), grid);
-				
 				self.addOnChangeEvent(self, grid, nextIndex,"programaticKeyId",true);
-				
 				self.addOnChangeEvent(self, grid, nextIndex,"entryId",false);
-				
-
 				self.addRemoveEvent(self, grid, nextIndex);
-
-				
-				/*
-				var ma = $(document).find(self.getId(grid, nextIndex, "monthAmount"));
-				ma.keyup(function(){
-				    this.value = this.value.replace(/[^0-9\.]/g,'');
-				});
-				ma.blur(function(){
-					var finalMonth = $(self.getId(grid, nextIndex, "finalMonthId"));
-					var initialMonth = $(self.getId(grid, nextIndex, "initialMonthId"));
-					
-					var campos
-					
-					if ( this.value.length > 0){
-						console.log("campo no vacio: " + this.value);
-						var m1 = parseInt(finalMonth.val());
-						var m2 = parseInt(initialMonth.val());					
-						var total = ((m1-m2) + 1) * this.value;					
-						console.log("monto total: " + total);
-						self.updateTotal(grid, total, true);
-						if (parseInt(this.value) > 0){
-							self.removeClassError(self.getId(grid, nextIndex, "monthAmount"));
-						}
-					}else{
-						console.log("campo vacio");
-					}
-				});
-				*/
 				self.updateAmounts(self, grid, nextIndex, "monthAmount");
 				
-				grd.find("tbody #noMovs").remove();
-				
+				//grd.find("tbody #noMovs").remove();
 			});
-			
 		},
 		updateAmounts : function(self, grid, nextIndex, element){
 			var ma = $(document).find(self.getId(grid, nextIndex, element));
@@ -895,32 +809,26 @@ function initFullCapture() {
 		},
 		startSlider : function(self, indice, initialMonth, grid){
 						
-			var id = self.getSliderId(grid) + indice;
-			//alert("id: " + id);
-			
+			var id = self.getSliderId(grid) + indice;			
 			$(document).find(id).noUiSlider({
-		        connect: true, behaviour: 'tap', step:1, start: [initialMonth, 11],
+		        connect: tru	e, behaviour: 'tap', step:1, start: [initialMonth, 11],
 		        range: {
 		            'min': [initialMonth],
 		            'max': [11]
 		        }	
 		    });
-			
-			var months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-			
+
+			var months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];			
 			function myValue(value){
 				$(this).text(months[parseInt(value)]);
-			}
-			
+			}		
 			function intValue(value){
 				$(this).val(parseInt(value));
 			}
-
+			
 			var initialMonthId = self.getId(grid, indice, "initialMonthId");
 			var finalMonthId = self.getId(grid, indice, "finalMonthId");
-			
-			//alert("valores: " + initialMonthId + ", " + finalMonthId);
-			
+						
 			$(document).find(id).Link('lower').to($(document).find(initialMonthId), intValue);
 			$(document).find(id).Link('upper').to($(document).find(finalMonthId), intValue);
 
