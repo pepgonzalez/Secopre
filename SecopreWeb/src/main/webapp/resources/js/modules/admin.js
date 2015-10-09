@@ -557,7 +557,8 @@ function initUpload() {
 
 function initFullCapture() {
 	
-	$('.numbersOnly').keyup(function () { 
+	$(document).find('.numbersOnly').keyup(function () { 
+		console.log("pique");
 		this.value = this.value.replace(/[^0-9\.]/g,'');
 	});
 
@@ -569,6 +570,10 @@ function initFullCapture() {
 			$(this.upGrid).hide();
 			$(this.downGrid).hide();
 		},
+		clean : function(grid){
+			$(grid).find("tbody tr").remove();
+			$(grid).find("tbody").html('<tr id="noMovs"><td colspan="6">No hay Movimientos Capturados</td><tr>');
+		},
 		titles : {
 			al:"Ampliación Líquida",
 			rl:"Reducción Líquida",
@@ -579,16 +584,17 @@ function initFullCapture() {
 			this.reset();
 			
 			if(value > 0){
+				$(document).find("#movementTypeId").closest('[data-name="movementTypeContainer"]').removeClass("has-error");
 				switch(value){
-				case 1:
-					this.showGrid(this.upGrid, this.titles.al);
-					break;
-				case 2:
-					this.showGrid(this.downGrid, this.titles.rl);
-					break;
-				case 3:
-					this.showGrid(this.upGrid, this.titles.ac);
-					this.showGrid(this.downGrid, this.titles.rc);
+					case 1:
+						this.showGrid(this.upGrid, this.titles.al);
+						break;
+					case 2:
+						this.showGrid(this.downGrid, this.titles.rl);
+						break;
+					case 3:
+						this.showGrid(this.upGrid, this.titles.ac);
+						this.showGrid(this.downGrid, this.titles.rc);
 				}
 			}
 		},
@@ -666,6 +672,9 @@ function initFullCapture() {
 					$(sliderControlId).Link('upper').to($( self.getId(grid, idx, "upper-offset")), myValue);
 					*/
 
+					var storedInitialMonth = parseInt(element.find(self.getId(grid, idx, "initialMonthId")).val());
+					var storedFinalMonth = parseInt(element.find(self.getId(grid, idx, "finalMonthId")).val());
+					var monthAmount = parseInt(element.find(self.getId(grid, idx, "monthAmount")).val());
 
 					//sumar el monto actual al total
 					var amount = ((storedFinalMonth - storedInitialMonth) + 1) * monthAmount;
@@ -679,7 +688,11 @@ function initFullCapture() {
 					});
 					
 
-					self.addOnChangeEvent(self, grid, idx);
+					self.addOnChangeEvent(self, grid, idx, "programaticKeyId",true);
+					self.addOnChangeEvent(self, grid, idx, "entryId",false);
+					
+					self.updateAmounts(self, grid, idx, "monthAmount");
+					
 					//agregar evento al cambiar de llave programatica
 					/*
 					element.find(self.getId(grid, idx, "programaticKeyId")).on("change", function (e) {
@@ -701,7 +714,6 @@ function initFullCapture() {
 				});
 				
 			}else{
-				alert("no hay elementos en el componente");
 				grd.find("tbody tr:not(#noMovs)").remove();
 			}
 			
@@ -710,7 +722,7 @@ function initFullCapture() {
 				
 				var nextIndex = self.getNextIndex(grd);
 				
-				alert("next index: " + nextIndex);
+				//alert("next index: " + nextIndex);
 				
 				if(nextIndex == 0){
 					grd.find("tbody #noMovs").remove();
@@ -784,28 +796,93 @@ function initFullCapture() {
 				
 				self.startSlider(self, nextIndex, parseInt(new Date().getMonth()), grid);
 				
-				self.addOnChangeEvent(self, grid, nextIndex);
+				self.addOnChangeEvent(self, grid, nextIndex,"programaticKeyId",true);
+				
+				self.addOnChangeEvent(self, grid, nextIndex,"entryId",false);
+				
 
 				self.addRemoveEvent(self, grid, nextIndex);
+
+				
+				/*
+				var ma = $(document).find(self.getId(grid, nextIndex, "monthAmount"));
+				ma.keyup(function(){
+				    this.value = this.value.replace(/[^0-9\.]/g,'');
+				});
+				ma.blur(function(){
+					var finalMonth = $(self.getId(grid, nextIndex, "finalMonthId"));
+					var initialMonth = $(self.getId(grid, nextIndex, "initialMonthId"));
+					
+					var campos
+					
+					if ( this.value.length > 0){
+						console.log("campo no vacio: " + this.value);
+						var m1 = parseInt(finalMonth.val());
+						var m2 = parseInt(initialMonth.val());					
+						var total = ((m1-m2) + 1) * this.value;					
+						console.log("monto total: " + total);
+						self.updateTotal(grid, total, true);
+						if (parseInt(this.value) > 0){
+							self.removeClassError(self.getId(grid, nextIndex, "monthAmount"));
+						}
+					}else{
+						console.log("campo vacio");
+					}
+				});
+				*/
+				self.updateAmounts(self, grid, nextIndex, "monthAmount");
 				
 				grd.find("tbody #noMovs").remove();
 				
 			});
 			
 		},
-		addOnChangeEvent:function(self, grid, indice){
-			$(document).find(self.getId(grid, indice, "programaticKeyId")).on("change", function (e) {
-			    alert("cambiando llave programatica");
-			    alert(this.value);
-			    self.apiCall('auth/API/get/entry/'+this.value, function(data){
-			    	var entrySelect = $(document).find(self.getId(grid, indice, "entryId"));
-			    	entrySelect.empty();
-			    	entrySelect.append('<option value="-1">Seleccione..</option>');
-			    	$.each(data, function(index, item){
-			    		entrySelect.append('<option value="' + item.id +'">' + item.name + '</option>');
-			    	});
-			    });
+		updateAmounts : function(self, grid, nextIndex, element){
+			var ma = $(document).find(self.getId(grid, nextIndex, element));
+			ma.keyup(function(){
+			    this.value = this.value.replace(/[^0-9\.]/g,'');
 			});
+			ma.blur(function(){
+				var finalMonth = $(self.getId(grid, nextIndex, "finalMonthId"));
+				var initialMonth = $(self.getId(grid, nextIndex, "initialMonthId"));
+								
+				if ( this.value.length > 0){
+					console.log("campo no vacio: " + this.value);
+					var m1 = parseInt(finalMonth.val());
+					var m2 = parseInt(initialMonth.val());					
+					var total = ((m1-m2) + 1) * this.value;					
+					console.log("monto total: " + total);
+					self.updateTotal(grid, total, true);
+					if (parseInt(this.value) > 0){
+						self.removeClassError(self.getId(grid, nextIndex, "monthAmount"));
+					}
+				}else{
+					console.log("campo vacio");
+				}
+			});
+		},
+		addOnChangeEvent:function(self, grid, indice, element, ajaxCall){
+			var id = self.getId(grid, indice, element);
+			$(document).find(id).on("change", function (e) {
+			    
+				if(ajaxCall){
+					self.apiCall('auth/API/get/entry/'+this.value, function(data){
+				    	var entrySelect = $(document).find(self.getId(grid, indice, "entryId"));
+				    	entrySelect.empty();
+				    	entrySelect.append('<option value="-1">Seleccione..</option>');
+				    	$.each(data, function(index, item){
+				    		entrySelect.append('<option value="' + item.id +'">' + item.name + '</option>');
+				    	});
+				    });
+				}
+			    
+				if(parseInt(this.value) > 0){
+			    	self.removeClassError(id);
+			    }
+			});
+		},
+		removeClassError:function(id){
+			$(id).closest(".has-error").removeClass("has-error");
 		},
 		addRemoveEvent : function(self, grid, indice){
 			var a = $(document).find("#rmvIdx" + indice);
@@ -819,7 +896,7 @@ function initFullCapture() {
 		startSlider : function(self, indice, initialMonth, grid){
 						
 			var id = self.getSliderId(grid) + indice;
-			alert("id: " + id);
+			//alert("id: " + id);
 			
 			$(document).find(id).noUiSlider({
 		        connect: true, behaviour: 'tap', step:1, start: [initialMonth, 11],
@@ -842,7 +919,7 @@ function initFullCapture() {
 			var initialMonthId = self.getId(grid, indice, "initialMonthId");
 			var finalMonthId = self.getId(grid, indice, "finalMonthId");
 			
-			alert("valores: " + initialMonthId + ", " + finalMonthId);
+			//alert("valores: " + initialMonthId + ", " + finalMonthId);
 			
 			$(document).find(id).Link('lower').to($(document).find(initialMonthId), intValue);
 			$(document).find(id).Link('upper').to($(document).find(finalMonthId), intValue);
@@ -862,7 +939,7 @@ function initFullCapture() {
 		getNextIndex: function(grid){
 			var rowNoExiste = grid.find("tbody #noMovs").length;
 			var totalRows = grid.find("tbody tr").length;
-			alert("funcion get next index: rowNoExiste: " + rowNoExiste + ", totalRows:" + totalRows );
+			//alert("funcion get next index: rowNoExiste: " + rowNoExiste + ", totalRows:" + totalRows );
 			if(totalRows == 1 && rowNoExiste == 1){
 				return 0;
 			}if(totalRows > 0 && rowNoExiste == 0){
@@ -895,7 +972,7 @@ function initFullCapture() {
 				//valida el tipo de movimiento
 				movementType : function(movementType){
 					if (parseInt(movementType.val()) <= 0){
-						console.log("error tipo de mov");
+						this.notif("error", "Seleccione un tipo de movimiento");
 						movementType.closest('[data-name="movementTypeContainer"]').addClass("has-error");
 						return false;
 					}
@@ -904,23 +981,31 @@ function initFullCapture() {
 				validateGrid : function(movementTypeId){
 					switch(movementTypeId){
 					case 1:
-						alert("validando 1 " + self.upGrid);
+						//alert("validando 1 " + self.upGrid);
 						var res = this.validateComponent(self.upGrid);
-						alert("resultado de validacion: " + res);
-						break;
+						if(res){	
+							this.notif("success","Validación completa");
+						}
+						//alert("resultado de validacion: " + res);
+						return res;
 					case 2:
-						alert("validando 2 " +  self.downGrid);
-						break;
+						//alert("validando 2 " +  self.downGrid);
+						var res = this.validateComponent(self.downGrid);
+						if(res){	
+							this.notif("success","Validación completa");
+						}
+						return res;
 					case 3:
-						alert("validando 3 " + self.upGrid);
+						//alert("validando 3 " + self.upGrid);
+						console.log("validacion 3");
 						break;
 					}
-					return false;
 				},
 				validateComponent: function(gridId){
 					var grid = $(gridId);
 					var totalRows = grid.find("tbody tr:not(#noMovs)").length;
 					if (totalRows <= 0){
+						this.notif("error","debe capturar al menos un movimiento");
 						console.log("sin movimientos capturados en componente");
 						return false;
 					}
@@ -931,6 +1016,7 @@ function initFullCapture() {
 						var row = $(e);
 						var programaticKey = row.find("[data-name='programaticKey'] select");
 						var entry = row.find("[data-name='entry'] select");
+						var amount = row.find("[data-name='monthAmount'] input");
 						
 						if (parseInt(programaticKey.val()) <= 0){
 							console.log("programatic key not selected");
@@ -942,8 +1028,19 @@ function initFullCapture() {
 							entry.closest("[data-name='entry']").addClass("has-error");
 							ok = false;
 						}
+						if (amount.val().length == 0 || parseInt(amount.val()) <= 0){
+							console.log("amount invalid");
+							amount.closest("[data-name='monthAmount']").addClass("has-error");
+							ok = false;
+						}
 					});
+					if(!ok){
+						this.notif("error","Capture la información faltante");
+					}
 					return ok;
+				},
+				notif : function(type, msg){
+					window.showNotification(type, msg);
 				}
 			};
 			
@@ -951,18 +1048,29 @@ function initFullCapture() {
 			
 			var movementType = $("#movementTypeId");
 			
-			if(validator.movementType(movementType)){
-				validator.validateGrid(parseInt(movementType.val()));
+			
+			var result = validator.movementType(movementType);
+			if(result){
+				result = validator.validateGrid(parseInt(movementType.val()));
+				return result;
 			}
+			return result;
 		}
 	};
 	
 	//Controlador tipo de movimiento
 	$("#movementTypeId").on("change", function (e) {
-	    movementController.update(parseInt(this.value));    
+		movementController.clean(movementController.upGrid);
+		movementController.clean(movementController.downGrid);
+	    movementController.update(parseInt(this.value));
+	    $(movementController.upGrid).find('tbody tr:not(#noMovs)').remove();
+	    $(movementController.downGrid).find('tbody tr:not(#noMovs)').remove();
 	});
 	
 	movementController.startComponent();
+	
+	//se carga el movimiento seleccionado
+	movementController.update(parseInt($("#movementTypeId").val()));
 
 	var requestForm = $('#requestForm');
 

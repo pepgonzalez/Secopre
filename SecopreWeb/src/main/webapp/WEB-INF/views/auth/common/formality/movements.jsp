@@ -29,9 +29,7 @@
 				
 					<c:choose>
 					    <c:when test="${empty requestForm.upMovements}">
-					       <tr id="noMovs">
-					       		<td colspan="6">No hay Movimientos Capturados</td>
-					       <tr>
+					       <tr id="noMovs"><td colspan="6">No hay Movimientos Capturados</td><tr>
 					    </c:when>
 					    <c:otherwise>
 					        <c:forEach items="${requestForm.upMovements}" var="mov" varStatus="i">
@@ -41,19 +39,19 @@
 											<i class="fa fa-times"></i>
 										</a>
 									</td>
-									<td>
+									<td data-name="programaticKey">
 										<form:select path="upMovements[${i.index}].programaticKeyId" class="form-control input-small">
 											<form:option value="-1" label="Seleccione..."/>
 						    				<form:options items="${programaticKeys}" />
 										</form:select>
 									</td>
-									<td>
+									<td data-name="entry">
 										<form:select path="upMovements[${i.index}].entryId" class="form-control input-medium">
 											<form:option value="-1" label="Seleccione..."/>
 						    				<form:options items="${entries}" />
 										</form:select>
 									</td>
-									<td>
+									<td data-name="sliderControl">
 										<div class="input-small" style="padding-top:8px;">
 											<div id="upSliderControl${i.index}"></div>
 										</div>
@@ -62,15 +60,15 @@
 										<div class="input-xsmall" style="padding-top:2px;">
 											<span id="upMovements${i.index}.lower-offset"></span>-<span id="upMovements${i.index}.upper-offset"></span>
 										</div>
-									<td>
+									<td data-name="monthAmount">
 										<form:input path="upMovements[${i.index}].monthAmount" class="form-control input-small numbersOnly"/>
 									</td>
 					
-									<form:hidden path="upMovements[${i.index}].initialMonthId" class="form-control"/>
-									<form:hidden path="upMovements[${i.index}].finalMonthId" class="form-control"/>
-									<form:hidden path="upMovements[${i.index}].removedElement" class="form-control"/>
-									<form:hidden path="upMovements[${i.index}].movementTypeId" class="form-control"/>
-									<form:hidden path="upMovements[${i.index}].requestDetailId" class="form-control"/>
+									<form:hidden path="upMovements[${i.index}].initialMonthId" class="form-control" data-name="initialMonthId"/>
+									<form:hidden path="upMovements[${i.index}].finalMonthId" class="form-control" data-name="finalMonthId"/>
+									<form:hidden path="upMovements[${i.index}].removedElement" class="form-control" data-name="removedElement"/>
+									<form:hidden path="upMovements[${i.index}].movementTypeId" class="form-control" data-name="movementTypeId"/>
+									<form:hidden path="upMovements[${i.index}].requestDetailId" class="form-control" data-name="requestDetailId"/>
 								</tr>
 							</c:forEach>
 					    </c:otherwise>
@@ -126,19 +124,19 @@
 											<i class="fa fa-times"></i>
 										</a>
 									</td>
-									<td>
+									<td data-name="programaticKey">
 										<form:select path="downMovements[${i.index}].programaticKeyId" class="form-control input-small">
 											<form:option value="-1" label="Seleccione..."/>
 						    				<form:options items="${programaticKeys}" />
 										</form:select>
 									</td>
-									<td>
+									<td data-name="entry">
 										<form:select path="downMovements[${i.index}].entryId" class="form-control input-medium">
 											<form:option value="-1" label="Seleccione..."/>
 						    				<form:options items="${entries}" />
 										</form:select>
 									</td>
-									<td>
+									<td data-name="sliderControl">
 										<div class="input-small" style="padding-top:8px;">
 											<div id="downSliderControl${i.index}"></div>
 										</div>
@@ -147,15 +145,15 @@
 										<div class="input-xsmall" style="padding-top:2px;">
 											<span id="downMovements${i.index}.lower-offset"></span>-<span id="downMovements${i.index}.upper-offset"></span>
 										</div>
-									<td>
+									<td data-name="monthAmount">
 										<form:input path="downMovements[${i.index}].monthAmount" class="form-control input-small numbersOnly"/>
 									</td>
 					
-									<form:hidden path="downMovements[${i.index}].initialMonthId" class="form-control"/>
-									<form:hidden path="downMovements[${i.index}].finalMonthId" class="form-control"/>
-									<form:hidden path="downMovements[${i.index}].removedElement" class="form-control"/>
-									<form:hidden path="downMovements[${i.index}].movementTypeId" class="form-control"/>
-									<form:hidden path="downMovements[${i.index}].requestDetailId" class="form-control"/>
+									<form:hidden path="downMovements[${i.index}].initialMonthId" class="form-control" data-name="initialMonthId"/>
+									<form:hidden path="downMovements[${i.index}].finalMonthId" class="form-control" data-name="finalMonthId"/>
+									<form:hidden path="downMovements[${i.index}].removedElement" class="form-control" data-name="removedElement"/>
+									<form:hidden path="downMovements[${i.index}].movementTypeId" class="form-control" data-name="movementTypeId"/>
+									<form:hidden path="downMovements[${i.index}].requestDetailId" class="form-control" data-name="requestDetailId"/>
 								</tr>
 							</c:forEach>
 					    </c:otherwise>
