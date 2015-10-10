@@ -113,7 +113,7 @@ public class WorkFlowController extends AuthController {
 		accessNativeService.insertOrUpdateRequestDetail(requestForm);
 
 		// avanzar de etapa
-		//accessNativeService.invokeNextStage(requestForm, loggedUser.getId());
+		accessNativeService.invokeNextStage(requestForm, loggedUser.getId());
 
 		return "redirect:/auth/tram/list";
 	}
@@ -129,7 +129,8 @@ public class WorkFlowController extends AuthController {
 				principal.getName()).get(0);
 
 		Request requestForm = new Request();
-		requestForm = accessNativeService.getRequestById(requestId);
+		
+		requestForm = accessNativeService.getRequestAndDetailById(requestId);
 		requestForm.setStageConfigId(stageConfigId);
 		requestForm.setAuthorizationForm(true);
 
@@ -138,6 +139,17 @@ public class WorkFlowController extends AuthController {
 				requestForm, loggedUser);
 		System.out.println(authorization);
 
+		List<MovementType> movementTypes = baseService.findAll(MovementType.class);
+		
+		Map<Long, String> map = new HashMap<Long, String>();
+		for(MovementType mov : movementTypes){
+			map.put(mov.getId(), mov.getDescription());
+		}
+
+		model.addAttribute("movementTypes", map);
+		model.addAttribute("programaticKeys", accessNativeService.getProgramaticKeysMap());
+		model.addAttribute("entries", accessNativeService.getEntriesMap(-1L));
+		model.addAttribute("months", accessNativeService.getMonthsMap());
 		model.addAttribute("requestForm", requestForm);
 		model.addAttribute("authorization", authorization);
 

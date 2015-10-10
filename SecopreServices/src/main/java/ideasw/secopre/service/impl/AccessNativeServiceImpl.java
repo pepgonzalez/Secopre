@@ -65,7 +65,7 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		Formality formality = this.getFormalityById(request.getFormalityId());
 		this.insertRequestConfig(request.getRequestId(), formality);
 		
-		this.invokeNextStage(request.getRequestId(), WorkFlowCode.SOLCOMP.name() , -1L,  userId);
+		this.invokeNextStage(request.getRequestId(), WorkFlowCode.SOLCOMP.name() , -1L,  userId, request.getComments());
 		
 		return request.getRequestId();
 	}
@@ -80,7 +80,7 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	
 	
 	public void invokeNextStage(Request request, Long userId){
-		this.invokeNextStage(request.getRequestId(), request.getNextStageValueCode(), request.getStageConfigId(), userId);
+		this.invokeNextStage(request.getRequestId(), request.getNextStageValueCode(), request.getStageConfigId(), userId, request.getComments());
 	}
 	
 	public int updateRequestUploadedFile(Long requestId, String uploadedFilePath){
@@ -94,17 +94,17 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	/*
 	 * Proceso para avanzar un tramite de etapa
 	 * */
-	private void invokeNextStage(Long requestId, String valueCode, Long stageConfigId,  Long userId){
+	private void invokeNextStage(Long requestId, String valueCode, Long stageConfigId,  Long userId, String comments){
 			
 		int consecutive = this.getNextConsecutive(requestId);
 	
 		if(consecutive == 1){
 			WorkFlowConfig transition = this.getRequestFirstWorkFlowConfig(requestId, valueCode).get(0);
-			this.insertTransition(requestId, transition, consecutive, userId);
+			this.insertTransition(requestId, transition, consecutive, userId, comments);
 		}else{
 			WorkFlowConfig transition = this.getRequestWorkFlowConfig(requestId, valueCode, stageConfigId).get(0);
 			this.inactivateActiveStage(requestId);
-			this.insertTransition(requestId, transition, consecutive, userId);
+			this.insertTransition(requestId, transition, consecutive, userId, comments);
 		}
 	}
 	
@@ -200,45 +200,39 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		
 		this.insertOrUpdateRequest(baseRequest);
 		
+		int clean = this.cleanRequestDetail(request.getRequestId());
+		
 		this.insertMovementList(request.getUpMovements(), request.getRequestId());
 		this.insertMovementList(request.getDownMovements(), request.getRequestId());
+		
 		return 0;
 	}
 
+	private int cleanRequestDetail(Long requestId){
+		SqlParameterSource params = new MapSqlParameterSource()
+				.addValue("requestId", requestId);
+		return this.insertOrUpdate(queryContainer.getSQL(SQLConstants.CLEAN_REQUEST_DETAIL), params);
+	}
 	private void insertMovementList(List<Movement> list, Long requestId){
+				
 		for(Movement m : list){
+			
+			//si no es un elemento eliminado
 			if(m.getRemovedElement() == 0){
-				if(m.getRequestDetailId() <= 0){
-	
-					Long id =  this.insertAndReturnId(Movement.TABLE_NAME, Movement.PRIMARY_KEY, m.getParams(requestId));
-					m.setRequestDetailId(id);
-	
-				}else{
-	
-					//se hace el update
-					SqlParameterSource params = new MapSqlParameterSource()
-					.addValue("requestDetailId", m.getRequestDetailId())
-					.addValue("requestId", requestId)
-					.addValue("movementTypeId", m.getMovementTypeId())
-					.addValue("programaticKeyId", m.getProgramaticKeyId())
-					.addValue("entryId", m.getEntryId())
-					.addValue("initialMonth", m.getInitialMonthId())
-					.addValue("finalMonth", m.getFinalMonthId())
-					.addValue("monthAmount", m.getMonthAmount())
-					.addValue("totalAmount", m.getTotalAmount());
-	
-					this.insertOrUpdate(queryContainer.getSQL(SQLConstants.UPDATE_REQUEST_DETAIL), params);
-				}
+				//inserta de nuevo el registro
+				Long id =  this.insertAndReturnId(Movement.TABLE_NAME, Movement.PRIMARY_KEY, m.getParams(requestId));
+				m.setRequestDetailId(id);
 			}
 		}
 	}
 	
-	private int insertTransition(Long requestId, WorkFlowConfig config, int consecutive, Long userId){
+	private int insertTransition(Long requestId, WorkFlowConfig config, int consecutive, Long userId, String comments){
 		SqlParameterSource params = new MapSqlParameterSource()
 				.addValue("requestId", requestId)
 				.addValue("consecutive", consecutive)
 				.addValue("workFlowConfigId",config.getWorkFlowConfigId())
-				.addValue("userId", userId);
+				.addValue("userId", userId)
+				.addValue("comments", comments);
 		
 		return this.insertOrUpdate(queryContainer.getSQL(SQLConstants.INSERT_REQUEST_HISTORY), params);
 	}

@@ -30,6 +30,11 @@ public class Request {
 	private List<Movement> upMovements = new ArrayList<Movement>();
 	private List<Movement> downMovements = new ArrayList<Movement>();
 	
+	//suma de ambos
+	private List<Movement> movements = new ArrayList<Movement>();
+	
+	private String comments;
+	
 
 	//variables de transporte y gestion de la forma
 	private String nextStageValueCode;
@@ -147,6 +152,7 @@ public class Request {
 	}
 
 	public void setMovements(List<Movement> movs){
+		this.movements = movs;
 		for(Movement m : movs){
 			if (m.getMovementTypeId() > 0){
 				this.upMovements.add(m);
@@ -154,5 +160,15 @@ public class Request {
 				this.downMovements.add(m);
 			}
 		}
+	}
+	
+	public List<Movement> getMovements(){
+		return this.movements;
+	}
+	public String getComments() {
+		return comments;
+	}
+	public void setComments(String comments) {
+		this.comments = comments;
 	}
 }
