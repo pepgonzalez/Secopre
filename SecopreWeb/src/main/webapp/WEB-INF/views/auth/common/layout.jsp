@@ -29,7 +29,19 @@
 	<link href='<c:url value="/resources/css/global/uniform.default.css"/>' rel="stylesheet" type="text/css">
 	<link href='<c:url value="/resources/css/global/bootstrap-switch.min.css"/>' rel="stylesheet" type="text/css">
 	<!-- END GLOBAL MANDATORY STYLES -->
+	
+	
+	
 	<!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
+	<!-- estilos para dropdowns -->
+	<link href='<c:url value="/resources/css/plugins/bootstrap-select.css"/>' rel="stylesheet" type="text/css"/>
+    <link href='<c:url value="/resources/css/plugins/select2.css"/>' rel="stylesheet" type="text/css"/>
+    
+	<!-- estilos para gestion de sliders -->
+	<link href='<c:url value="/resources/css/global/jquery.nouislider.min.css"/>' rel="stylesheet" type="text/css">
+	<link href='<c:url value="/resources/css/global/jquery.nouislider.pips.min.css"/>' rel="stylesheet" type="text/css">
+	
+
 	<link href='<c:url value="/resources/css/plugins/daterangepicker-bs3.css"/>' rel="stylesheet" type="text/css"/>
 	<link href='<c:url value="/resources/css/plugins/fullcalendar.min.css"/>' rel="stylesheet" type="text/css"/>
 	<link href='<c:url value="/resources/css/plugins/morris.css"/>' rel="stylesheet" type="text/css"/>
@@ -53,6 +65,7 @@
 	<link href='<c:url value="/resources/css/plugins/toastr.min.css"/>' rel="stylesheet" type="text/css"/>
 	<link href='<c:url value="/resources/css/plugins/introjs.min.css"/>' rel="stylesheet" type="text/css"/>
 	<link href='<c:url value="/resources/css/secopre.css"/>' rel="stylesheet" type="text/css"/>
+	<link href='<c:url value="/resources/css/plugins/all.css"/>' rel="stylesheet" type="text/css"/>
 	<!-- END PAGE CUSTOM STYLES -->	
 	<link rel="shortcut icon" href='<c:url value="/resources/img/favicon.ico"/>' type="image/vnd.microsoft.icon"/> 
 
@@ -99,6 +112,7 @@
 	<script src='<c:url value="/resources/js/plugins/bootstrap.min.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/jquery.bootstrap.wizard.min.js"/>' type="text/javascript"></script>
 	
+<%-- 	<script src='<c:url value="/resources/js/plugins/icheck.min.js"/>' type="text/javascript"></script> --%>
 	
 	<script src='<c:url value="/resources/js/plugins/bootstrap-hover-dropdown.min.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/jquery.slimscroll.min.js"/>'type="text/javascript"></script>
@@ -117,17 +131,8 @@
 	<script src='<c:url value="/resources/js/global/ui-blockui.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/global/metronic.js"/>' type="text/javascript"></script>
 	
-	<!-- test
-	<script src='<c:url value="/resources/js/global/layout.js"/>' type="text/javascript"></script>
-	<script src='<c:url value="/resources/js/global/index3.js"/>' type="text/javascript"></script>
-	<script src='<c:url value="/resources/js/global/tasks.js"/>' type="text/javascript"></script>
-	 -->
-	 
-	 <!-- scripts de mapas 
-	 <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
-	 <script src='<c:url value="/resources/js/plugins/gmaps.min.js"/>' type="text/javascript"></script>
-	 <script src='<c:url value="/resources/js/global/maps-google.js"/>'  type="text/javascript"></script>
-	 -->
+	<!--plugin de js para slider-->
+	<script src='<c:url value="/resources/js/global/jquery.nouislider.all.js"/>' type="text/javascript"></script>
 	 
 	 <!-- scripts para chat -->
 	 <script src='<c:url value="/resources/js/global/layout4.js"/>' type="text/javascript"></script>
@@ -135,7 +140,11 @@
 	<script src='<c:url value="/resources/js/global/quick-sidebar2.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/global/index3.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/global/tasks.js"/>' type="text/javascript"></script>
-	  
+	 
+	<script src='<c:url value="/resources/js/plugins/select2.min.js"/>' type="text/javascript"></script>
+	<script src='<c:url value="/resources/js/plugins/bootstrap-select.min.js"/>' type="text/javascript"></script>
+	<script src='<c:url value="/resources/js/plugins/components-dropdowns.js"/>' type="text/javascript"></script>
+	
 	 
 	<!-- END PAGE LEVEL SCRIPTS -->
 	<!-- BEGIN PAGE LEVEL CUSTOM SCRIPTS -->
@@ -151,6 +160,7 @@
 	<script src='<c:url value="/resources/js/utils/secopre.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/demo/table-managed.js"/>' type="text/javascript"></script>	
 	<script src='<c:url value="/resources/js/modules/admin.js"/>' type="text/javascript"></script>	
+	<script src='<c:url value="/resources/js/modules/catalog.js"/>' type="text/javascript"></script>	
 	
 	<!-- END PAGE LEVEL CUSTOM SCRIPTS -->
 	

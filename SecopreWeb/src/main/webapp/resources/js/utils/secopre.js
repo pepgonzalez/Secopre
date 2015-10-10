@@ -42,25 +42,26 @@ function unblockPage() {
  *            el id del div donde se inyectara el HTML producido por la peticion
  */
 function submitAjaxJQ(formId, targetId, after) {
+	var method = 'POST';
 	var frm = $('#' + formId);
 	var action = frm.attr('action');
 	
 	
 	var x = (frm !== undefined && frm !== null) ? frm.serialize(true) : null;
 	
-	alert(x);
-
+	console.log("data----------------------------------------------------------");
+	console.log(x);
+	console.log("fin data------------------------------------------------------");
+	
 	var header = $("meta[name='_csrf_header']").attr("content");
 	var token = $("meta[name='_csrf']").attr("content");
 
 	var path = context + '/' + action;
-	
-	alert("haciendo submit POST a: " + path);
-	
+		
 	blockPage();
 	$
 			.ajax({
-				type : "POST",
+				type : method,
 				url : context + '/' + action,
 				data : (frm !== undefined && frm !== null) ? frm.serialize(true) : null,
 				beforeSend : function(xhr) {
@@ -70,7 +71,91 @@ function submitAjaxJQ(formId, targetId, after) {
 					$("#" + targetId).html("");
 					$('#' + targetId).html(data);
 					// Mensaje Exito
-					alert(data.message);
+					showNotification('success',
+							'La operacion se realizo correctamente!!');
+				},
+				complete : function(jqXHR) {
+					if (after !== null) {
+						eval(after);
+					}
+					unblockPage();
+				},
+				error : function(xhr, ajaxOptions, thrownError) {
+					unblockPage();
+					// Mensaje error
+					showNotification('error',
+							'Ocurrio un error al ejecutar su peticion:'
+									+ thrownError);
+				}
+			});
+}
+
+//using FormData() object
+function submitFileAjaxJQTest(formId, targetId, after){
+  var frm = $('#' + formId);
+  var action = frm.attr('action');
+  var oMyForm = new FormData();
+  oMyForm.append("attachment", attachment.files[0]);
+
+  var requestId = $('#requestId').val();
+  var stageConfigId = $('#stageConfigId').val();
+  
+  alert("requestId: " + requestId);
+  alert("stageConfigId: " + stageConfigId);
+  
+  //se cargan las propiedades del request y el stageConfig actual
+    oMyForm.append("requestId", requestId);  
+    oMyForm.append("stageConfigId", stageConfigId);  
+
+	var header = $("meta[name='_csrf_header']").attr("content");
+	var token = $("meta[name='_csrf']").attr("content");
+
+  $.ajax({
+	url : context + '/' + action,
+    data: oMyForm,
+    dataType: 'text',
+    processData: false,
+    contentType: false,
+    beforeSend : function(xhr) {
+		xhr.setRequestHeader(header, token);
+	},   
+    type: 'POST',
+    success: function(data){
+      $('#targetId').html(data);
+    }
+  });
+}
+function submitFileAjaxJQ(formId, targetId, after) {
+	var method = 'POST';
+	alert("enviando archivo");
+	var frm = $('#' + formId);
+	var action = frm.attr('action');
+	
+	
+	var dataDeForma = (frm !== undefined && frm !== null) ? frm.serialize(true) : null;
+	
+	console.log(dataDeForma);
+	
+	var header = $("meta[name='_csrf_header']").attr("content");
+	var token = $("meta[name='_csrf']").attr("content");
+
+	var path = context + '/' + action;
+		
+	blockPage();
+	$
+			.ajax({
+				type : method,
+				url : context + '/' + action,
+				data : dataDeForma,
+			    contentType: false,
+			    processData: false,
+			    beforeSend : function(xhr) {
+					xhr.setRequestHeader(header, token);
+				},
+				success : function(data) {
+					$("#" + targetId).html("");
+					$('#' + targetId).html(data);
+					// Mensaje Exito
 					showNotification('success',
 							'La operacion se realizo correctamente!!');
 				},
@@ -100,7 +185,8 @@ function submitAjaxJQ(formId, targetId, after) {
  * @param after:
  *            funcion JS que sera evaluada al finalizar la peticion
  */
-function sendRequestJQ(actionURL, targetId, after) {
+function sendRequestJQ(actionURL, targetId, after, method) {
+	method = method || "POST";
 	var header = $("meta[name='_csrf_header']").attr("content");
 	var token = $("meta[name='_csrf']").attr("content");
 	blockPage();
@@ -119,8 +205,54 @@ function sendRequestJQ(actionURL, targetId, after) {
 			}
 			unblockPage();
 		},
-		type : 'POST'
+		type : method
 	});
+}
+
+function apiCall(actionURL, callback) {
+	method = method || "POST";
+	var header = $("meta[name='_csrf_header']").attr("content");
+	var token = $("meta[name='_csrf']").attr("content");
+	blockPage();
+	$.ajax({
+		url : context + '/' + actionURL,
+		beforeSend : function(xhr) {
+			xhr.setRequestHeader(header, token);
+		},
+		success : function(data) {
+			callback(data);
+			unblockPage();
+		}
+	});
+}
+
+function openResource(actionURL, targetId, after, method) {
+	method = method || "POST";
+	var header = $("meta[name='_csrf_header']").attr("content");
+	var token = $("meta[name='_csrf']").attr("content");
+	blockPage();
+	$.ajax({
+		url : context + '/' + actionURL,
+		beforeSend : function(xhr) {
+			xhr.setRequestHeader(header, token);
+		},
+		success : function(data) {
+			window.open(data.fileUrl);
+		},
+		complete : function(jqXHR) {
+			if (after !== null) {
+				eval(after);
+			}
+			unblockPage();
+		},
+		type : method
+	});
+}
+
+function openResourceNative(actionURL) {
+    var downloadUrl = actionURL;
+    // (optionally) provide the user with a message that the download is starting
+    window.location.href = downloadUrl;
 }
 
 function showNotification(notifType, notifMsg) {

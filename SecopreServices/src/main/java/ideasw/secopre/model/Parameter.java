@@ -1,4 +1,6 @@
-package ideasw.secopre.model.base;
+package ideasw.secopre.model;
+
+import ideasw.secopre.model.base.Persistible;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,11 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "POSITION", indexes = { @Index(unique = true, name = "position_ix", columnList = "id") })
-public class Position extends AuditEntity implements Persistible {
+@Table(name = "PARAMETER", indexes = { @Index(unique = true, name = "parameter_ix", columnList = "id") })
+public class Parameter implements Persistible {
 	/**
 	 * 
 	 */
@@ -21,14 +22,10 @@ public class Position extends AuditEntity implements Persistible {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "DESCRIPTION")
-	@Size(max = 100)
-	private String description;
-
-	@Column(name = "NAME")
-	@Size(max = 50)
+	@Column(name = "NAME", nullable = false, length = 100)
 	private String name;
 
+	
 	/**
 	 * @return the id
 	 */
@@ -42,21 +39,6 @@ public class Position extends AuditEntity implements Persistible {
 	 */
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	/**
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 * @param description
-	 *            the description to set
-	 */
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	/**

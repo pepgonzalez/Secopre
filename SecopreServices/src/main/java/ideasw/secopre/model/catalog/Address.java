@@ -1,4 +1,4 @@
-package ideasw.secopre.model;
+package ideasw.secopre.model.catalog;
 
 import ideasw.secopre.model.base.AuditEntity;
 import ideasw.secopre.model.base.Persistible;
@@ -34,6 +34,8 @@ public class Address extends AuditEntity implements Persistible {
 	private String state;
 	@Column(name = "CITY", unique = true, length = 50)
 	private String city;
+	@Column(name = "COLONY", unique = true, length = 50)
+	private String colony;
 	@Column(name = "ZIP_CODE", nullable = false, length = 5)
 	private String zipCode;
 
@@ -140,6 +142,14 @@ public class Address extends AuditEntity implements Persistible {
 	 */
 	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
+	}
+
+	public String getColony() {
+		return colony;
+	}
+
+	public void setColony(String colony) {
+		this.colony = colony;
 	}
 
 }

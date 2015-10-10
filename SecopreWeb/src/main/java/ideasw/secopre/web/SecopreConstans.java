@@ -1,5 +1,7 @@
 package ideasw.secopre.web;
 
+import java.io.File;
+
 public class SecopreConstans {
 	public static final String USER_IN_SESSION = "User_In_Session"; 
 	//####Constantes de vistas####//
@@ -24,6 +26,33 @@ public class SecopreConstans {
 	//####Modulo de Tramites####//
 	public static final String MV_TRAM_ADD = "auth/tramite/add";
 	public static final String MV_TRAM_LIST = "auth/tramite/list";
-		
+	public static final String MV_TRAM_CAPTURE = "auth/tramite/capture";
+	public static final String MV_TRAM_AUTH = "auth/tramite/authorization";
+	public static final String MV_TRAM_UPLOAD = "auth/tramite/upload";
 	
+	//####Constantes de carga de archivos####//
+	public static final String SECOPRE_RESOURCES_WINDOWS_PATH = "C:"+File.separator+"SecopreResources";
+	public static final String DEFAULT_UPLOAD_FILE_NEXT_STAGE = "SOLCOMP";
+	
+	//####Modulo de Catalogos Operativos####//
+	public static final String MV_CAT_ENTRY = "auth/oper/entry/list";
+	public static final String MV_CAT_ENTRY_ADD = "auth/oper/entry/add";
+	
+	public static final String MV_CAT_PK = "auth/oper/pk/list";
+	public static final String MV_CAT_PK_ADD = "auth/oper/pk/add";
+	
+	//####Modulo de Catalogos####//
+	public static final String MV_CAT_PERSON = "auth/catalog/person/persons";
+	public static final String MV_CAT_PERSON_ADD = "auth/catalog/person/add";
+
+	public static final String MV_CAT_DISTRICT = "auth/catalog/district/district";
+	public static final String MV_CAT_DISTRICT_ADD = "auth/catalog/district/add";		
+
+	public static final String MV_CAT_POSITION = "auth/catalog/position/position";
+	public static final String MV_CAT_POSITION_ADD = "auth/catalog/position/add";			
+
+	public static final String MV_CAT_ADDRESS = "auth/catalog/address/list";
+	public static final String MV_CAT_ADDRESS_ADD = "auth/catalog/address/add";		
+	
+
 }

@@ -1,5 +1,6 @@
 package ideasw.secopre.web.controller.admin;
 
+import ideasw.secopre.dto.Request;
 import ideasw.secopre.model.security.Permission;
 import ideasw.secopre.model.security.Role;
 import ideasw.secopre.model.security.User;
@@ -9,6 +10,10 @@ import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,7 +24,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import ideasw.secopre.model.catalog.Person;
 
 /**
  * Controller principal encargada del modulo de administracion de
@@ -37,7 +45,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  *
  */
 @Controller
-public class UsuarioController extends AuthController {
+public class UserController extends AuthController {
 
 	@Autowired
 	private AccessService accessService;
@@ -50,6 +58,20 @@ public class UsuarioController extends AuthController {
 		model.addAttribute("user", user);
 		model.addAttribute("roles", baseService.findAll(Role.class));
 		model.addAttribute("permissions", baseService.findAll(Permission.class));
+		
+		List<Person> person = baseService.findAll(Person.class);
+		
+		HashMap<Long, String> personMap = new HashMap<Long, String>();
+		for (Person p : person) {
+			personMap.put(p.getId(),p.getName() );
+		}
+		
+		
+		Request requestForm = new Request();
+		
+		model.addAttribute("persons", personMap);
+		model.addAttribute("requestForm", requestForm);
+		
 		return SecopreConstans.MV_ADM_USR;
 	}
 
@@ -71,18 +93,37 @@ public class UsuarioController extends AuthController {
 	}
 
 	@RequestMapping(value = "adm/usr/add", method = RequestMethod.POST)
-	public String add(@ModelAttribute("user") User user, ModelMap model) {
+	public String add(@ModelAttribute("user") User user, @RequestParam("roles") String role,@RequestParam("permissions") String permission,ModelMap model, RedirectAttributes attributes) {
+		
 		try {
 			user.setPassword(Encryption.encrypByBCrypt(user.getPassword()));
+			user.setActive(Boolean.TRUE);
+			
+			//Person p = baseService.findById(Person.class, Long.parseLong(person));
+			//user.setPerson(p);
+			
+			List<Role> authorities  = new ArrayList<Role>();
+			List<String> items = Arrays.asList(role.split("\\s*,\\s*"));
+			
+			for (String rolid : items) {
+				Role rol= baseService.findById(Role.class, Long.parseLong(rolid));
+				authorities.add(rol);
+			//	user.setAuthorities(authorities);
+			}
+			
+			
 			baseService.persist(user);
 		} catch (Exception e) {
 			model.addAttribute(
 					"errors",
 					initErrors("Ocurrio un error al insertar el usuario:"
 							+ e.getMessage()));
+			e.getStackTrace();
+			e.getCause();
 		}
-		return "redirect:" + SecopreConstans.MV_ADM_USR_LIST;
+		return SecopreConstans.MV_ADM_USR;
 	}
+
 
 	@RequestMapping(value = "start" , method = RequestMethod.GET)
 	public String home(ModelMap model, Principal principal,

@@ -1,7 +1,7 @@
 package ideasw.secopre.model.base;
 
 import ideasw.secopre.enums.Gender;
-import ideasw.secopre.model.Address;
+import ideasw.secopre.model.catalog.Address;
 
 import javax.persistence.Column;
 import javax.persistence.EnumType;
@@ -257,6 +257,14 @@ public class PersonBase extends AuditEntity {
 	 */
 	public void setWebSite(String webSite) {
 		this.webSite = webSite;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 
 }

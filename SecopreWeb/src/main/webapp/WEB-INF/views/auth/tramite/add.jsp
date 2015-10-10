@@ -27,44 +27,40 @@
 									
 									<div class="form-group form-md-line-input">
 										<label class="col-md-2 control-label" for="formalityId"><spring:message code="application.pages.tramite.add.select"/></label>
-										<div class="col-md-10">
-											<form:select path="formalityId" id="formalityId" class="form-control">
-											   	<form:option value="-1" label="Seleccione..."/>
-    											<form:options items="${formalities}" />
-											</form:select>
+										<div class="col-md-4">
+												<form:select path="formalityId" id="formalityId" class="form-control">
+												   	<form:option value="-1" label="Seleccione..."/>
+	    											<form:options items="${formalities}" />
+												</form:select>
+												<div class="form-control-focus"></div>
+												<span class="help-block">
+													<spring:message code="application.pages.tramite.add.selectFormality"/>
+												</span>
+										</div>
+										
+										<label class="col-md-2 control-label" for="districtId"><spring:message code="application.pages.tramite.add.distric"/></label>
+										<div class="col-md-4">
+												<form:select path="districtId" id="districtId" class="form-control">
+												   	<form:option value="-1" label="Seleccione..."/>
+	    											<form:options items="${districts}" />
+												</form:select>
+												<div class="form-control-focus"></div>
+												<span class="help-block">
+													<spring:message code="application.pages.tramite.add.selectFormality"/>
+												</span>
 										</div>
 									</div>
 									
-									<!-- campo de nombre de usuario -->
+									<!-- justificacion -->
 									<div class="form-group form-md-line-input">
-										<label class="col-md-2 control-label" for="firstName"><spring:message code="application.pages.tramite.add.firstName"/></label>
-										<div class="col-md-10">
-											<form:input path="firstName" type="text" id="firstName" class="form-control" />
+										<label class="col-md-12 control-label" for="justification" style="text-align:left;"><spring:message code="application.pages.tramite.add.justification"/></label>
+										<div class="col-md-12">
+											<form:textarea path="justification" id="justification" class="form-control" rows="2" />
 											<div class="form-control-focus">
 											</div>
-											<span class="help-block">Campo 1</span>
-										</div>
-									</div>
-									
-									<!-- campo de apellido paterno -->
-									<div class="form-group form-md-line-input">
-										<label class="col-md-2 control-label" for="parentLastName"><spring:message code="application.pages.tramite.add.parentLastName"/></label>
-										<div class="col-md-10">
-											<form:input path="parentLastName" type="text" id="parentLastName" class="form-control" />
-											<div class="form-control-focus">
-											</div>
-											<span class="help-block">Campo 2</span>
-										</div>
-									</div>
-									
-									<!-- campo de apellido materno -->
-									<div class="form-group form-md-line-input">
-										<label class="col-md-2 control-label" for="motherLastName"><spring:message code="application.pages.tramite.add.parentLastName"/></label>
-										<div class="col-md-10">
-											<form:input path="motherLastName" type="text" id="motherLastName" class="form-control" />
-											<div class="form-control-focus">
-											</div>
-											<span class="help-block">Campo 3</span>
+											<span class="help-block">
+												<spring:message code="application.pages.tramite.add.notEmpty"/>
+											</span>
 										</div>
 									</div>
 								
@@ -74,7 +70,7 @@
 									<div class="row">
 										<div class="col-md-offset-2 col-md-10">
 											<button type="button" class="btn default"><spring:message code="application.back"/></button>
-											<button type="button" class="" id="submitRequestForm"><spring:message code="application.pages.tramite.add.crear"/></button>
+											<button type="button" class="btn green" id="submitRequestForm"><spring:message code="application.pages.tramite.add.crear"/></button>
 										</div>
 									</div>
 								</div>
