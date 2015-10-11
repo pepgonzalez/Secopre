@@ -3,7 +3,7 @@
 			<div class="page-head">
 				<!-- BEGIN PAGE TITLE -->
 				<div class="page-title">
-					<h1>Administracion<small>Personas</small></h1>
+					<h1>Administracion<small> Personas</small></h1>
 				</div>
 			</div>
 			<!-- END PAGE HEAD -->

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import ideasw.secopre.dto.Request;
-import ideasw.secopre.model.base.PersonBase;
+import ideasw.secopre.model.catalog.Address;
 import ideasw.secopre.model.catalog.Person;
 import ideasw.secopre.model.catalog.State;
 import ideasw.secopre.model.security.Permission;
@@ -44,10 +44,13 @@ public class PersonController extends AuthController {
 			RequestMethod.POST })
 	public String getPersonList(ModelMap model, RedirectAttributes attributes) {
 		Person person = new Person();
+		Address address = new Address();
 		model.addAttribute("personList", baseService.findAll(Person.class));
 		model.addAttribute("person", person);
 		model.addAttribute("roles", baseService.findAll(Role.class));
 		model.addAttribute("permissions", baseService.findAll(Permission.class));
+		model.addAttribute("address", address);
+		
 		List<State> state = baseService.findAll(State.class);
 		
 		HashMap<Long, String> stateMap = new HashMap<Long, String>();
@@ -67,8 +70,10 @@ public class PersonController extends AuthController {
 	}
 	
 	@RequestMapping(value = "cat/person/add", method = RequestMethod.POST)
-	public String add(@ModelAttribute("person") Person person, ModelMap model) {
+	public String add(@ModelAttribute("person") Person person,@ModelAttribute("address") Address address , ModelMap model) {
 		try {
+			baseService.persist(address);
+			person.setAddress(address);
 			baseService.persist(person);
 		} catch (Exception e) {
 			model.addAttribute(

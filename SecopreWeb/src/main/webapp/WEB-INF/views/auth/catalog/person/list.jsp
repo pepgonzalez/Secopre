@@ -7,7 +7,7 @@
 					<div class="portlet box grey-cascade">
 						<div class="portlet-title">
 							<div class="caption">
-								<i class="fa fa-globe"></i><spring:message code="application.pages.admin.users.table.title"/>
+								<i class="fa fa-globe"></i><spring:message code="application.pages.admin.persons.title"/>
 							</div>
 							<div class="tools">
 								<a href="javascript:;" class="collapse">
@@ -45,11 +45,11 @@
 									</div>
 								</div>
 							</div>
-							<table class="table table-striped table-bordered table-hover" id="UserTable">
+							<table class="table table-striped table-bordered table-hover" id="PersonTable">
 							<thead>
 							<tr>
 								<th class="table-checkbox">
-									<input type="checkbox" class="group-checkable" data-set="#userTable .checkboxes"/>
+									<input type="checkbox" class="group-checkable" data-set="#personTable .checkboxes"/>
 								</th>
 								<th><spring:message code="application.pages.admin.persons.name"/></th>
 								<th><spring:message code="application.pages.admin.persons.secondName"/></th>
@@ -77,12 +77,13 @@
 									<td>
 										 ${personItem.motherLastName}
 									</td>
-										<td class="center">
-										 ${personItem.active}
+									<td>
+										 ${personItem.activo}
 									</td>
 									<td>
 										<span class="label label-sm label-success">
 										Approved </span>
+										
 									</td>
 								</tr>							
 							</c:forEach>

@@ -123,7 +123,7 @@
 																</span> 
 										                            <div class="md-radio-inline">
 																				<div class="md-radio">
-																					<input type="radio" value="M" class="md-radiobtn" name="gender" id="gender1">
+																					<input type="radio" value="MASCULINO" class="md-radiobtn" name="gender" id="gender1">
 																					<label for="gender1">
 																					<span></span>
 																					<span class="check"></span>
@@ -132,7 +132,7 @@
 																					 </label>
 																				</div>
 																				<div class="md-radio">
-																					<input type="radio" value="F" class="md-radiobtn" name="gender" id="gender2">
+																					<input type="radio" value="FEMENINO" class="md-radiobtn" name="gender" id="gender2">
 																					<label for="gender2">
 																					<span></span>
 																					<span class="check"></span>
@@ -295,7 +295,7 @@
 																<span class="input-group-addon"> 
 																  <i class="icon-user"></i>
 																</span> 
-																<form:select path="person.address.state"  name="state" class="form-control">
+																<form:select path="address.stateDTO.id"  name="state" class="form-control">
 																   <form:option value="" label="Seleccione..."/>
 					    										   <form:options items="${states}" />
 																</form:select>

@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -38,6 +40,11 @@ public class Address extends AuditEntity implements Persistible {
 	private String colony;
 	@Column(name = "ZIP_CODE", nullable = false, length = 5)
 	private String zipCode;
+	
+	@ManyToOne
+	@PrimaryKeyJoinColumn(name = "STATE_ID", referencedColumnName = "ID")
+	private State stateDTO;
+	
 
 	/**
 	 * @return the id
@@ -150,6 +157,14 @@ public class Address extends AuditEntity implements Persistible {
 
 	public void setColony(String colony) {
 		this.colony = colony;
+	}
+
+	public State getStateDTO() {
+		return stateDTO;
+	}
+
+	public void setStateDTO(State stateDTO) {
+		this.stateDTO = stateDTO;
 	}
 
 }

@@ -23,7 +23,7 @@ public class PersonBase extends AuditEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	
 	@Column(name = "RFC",nullable = true, length = 13)
 	private String rfc;
 
@@ -266,5 +266,6 @@ public class PersonBase extends AuditEntity {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
+
 
 }
