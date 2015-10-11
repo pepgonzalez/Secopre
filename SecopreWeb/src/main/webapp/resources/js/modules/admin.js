@@ -539,6 +539,9 @@ function initPersonValidations() {
 }
 
 function initTramiteListPage() {
+	console.log("iniciando listado");
+	$('#formalityList').DataTable();
+	console.log("finalizando tabla");
 }
 
 function initUpload() {

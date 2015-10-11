@@ -44,7 +44,7 @@
 									</div>
 								</div>
 							</div>
-							<table class="table table-striped table-bordered table-hover" id="UserTable">
+							<table class="table table-striped table-bordered table-hover" id="formalityList">
 							<thead>
 							<tr>
 								<th>ID</th>
@@ -57,27 +57,27 @@
 							</tr>
 							</thead>
 							<tbody>
-							<c:forEach items="${inboxList}" var="inboxItem">
-								<tr class="odd gradeX">
-
-									<td>${inboxItem.requestId}</td>
-									<td>${inboxItem.folio}</td>
-									<td>${inboxItem.justification}</td>
-									<td>${inboxItem.districtDescription}</td>
-									<td>${inboxItem.formalityDescription}</td>
-									<td>${inboxItem.nextDescription}</td>
-									<td>
-										<a href="#" onclick="sendRequestJQ('${inboxItem.nextStageURL}','dashboard','${inboxItem.nextStageJSFunction}','GET');">
-											<span class="label label-sm label-success"> Ver </span>
-										</a>
-										<c:if test="${inboxItem.hasDocument}">
-											<a href="#" onclick="openResourceNative('wf/download/${inboxItem.requestId}','dashboard','()','GET');">
-											<span class="label label-sm label-success"> Mostrar Documento </span>
-										</a>
-										</c:if>
-									</td>
-								</tr>							
-							</c:forEach>
+								<c:forEach items="${inboxList}" var="inboxItem">
+									<tr class="odd gradeX">
+	
+										<td>${inboxItem.requestId}</td>
+										<td>${inboxItem.folio}</td>
+										<td>${inboxItem.justification}</td>
+										<td>${inboxItem.districtDescription}</td>
+										<td>${inboxItem.formalityDescription}</td>
+										<td>${inboxItem.nextDescription}</td>
+										<td>
+											<a href="#" onclick="sendRequestJQ('${inboxItem.nextStageURL}','dashboard','${inboxItem.nextStageJSFunction}','GET');">
+												<span class="label label-sm label-success"> Ver </span>
+											</a>
+											<c:if test="${inboxItem.hasDocument}">
+												<a href="#" onclick="openResourceNative('wf/download/${inboxItem.requestId}','dashboard','()','GET');">
+												<span class="label label-sm label-success"> Mostrar Documento </span>
+											</a>
+											</c:if>
+										</td>
+									</tr>							
+								</c:forEach>
 							</tbody>
 							</table>
 						</div>
