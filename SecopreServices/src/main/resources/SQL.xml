@@ -14,6 +14,12 @@
 					]]>
 				</prop>	
 						
+				<prop key="CLEAN_REQUEST_DETAIL">
+					<![CDATA[
+						DELETE FROM secopre.REQUEST_DETAIL WHERE REQUEST_ID = :requestId
+					]]>
+				</prop>	
+						
 				<prop key="GET_FORMALITY_FROM_USER_ID">
 					<![CDATA[
 						SELECT DISTINCT (T.ID) AS FORMALITY_ID, T.F_DESC AS DESCRIPTION, T.WORKFLOW_ID, T.AUTHORIZATION_ID, T.CODE FROM (
@@ -93,9 +99,9 @@
 				<prop key="INSERT_REQUEST_HISTORY">
 					<![CDATA[
 						 INSERT INTO secopre.REQUEST_HISTORY
-						 (REQUEST_ID, CONSECUTIVE, WORKFLOW_CONFIG_ID, USER_ID, LAST_UPDATE, ACTIVE)
+						 (REQUEST_ID, CONSECUTIVE, WORKFLOW_CONFIG_ID, USER_ID, LAST_UPDATE, ACTIVE, COMMENTS)
 						 VALUES
-						 (:requestId, :consecutive, :workFlowConfigId, :userId, SYSDATE(), 1)
+						 (:requestId, :consecutive, :workFlowConfigId, :userId, SYSDATE(), 1, :comments)
 					]]>
 				</prop>
 				
@@ -117,7 +123,7 @@
 						 		P.URL,
 						 		SC.IS_CAPTURE,
 						 		SC.IS_AUTHORIZATION,
-						 		SC.CAPTURE_FORM,
+						 		ifnull(SC.CAPTURE_FORM,'') CAPTURE_FORM,
 						 		WC.STATUS_ID,
 						 		S.DESCRIPTION NEXT_DESCRIPTION
 						   FROM secopre.REQUEST R,

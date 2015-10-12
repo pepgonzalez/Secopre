@@ -539,6 +539,9 @@ function initPersonValidations() {
 }
 
 function initTramiteListPage() {
+	console.log("iniciando listado");
+	$('#formalityList').DataTable();
+	console.log("finalizando tabla");
 }
 
 function initUpload() {
@@ -555,14 +558,8 @@ function initUpload() {
 	});
 }
 
-function initFullCapture() {
-	
-	$(document).find('.numbersOnly').keyup(function () { 
-		console.log("pique");
-		this.value = this.value.replace(/[^0-9\.]/g,'');
-	});
 
-	var movementController = {
+var movementController = {
 		upGrid : "#addComponent",
 		downGrid : "#substractComponent",
 		slider : "SliderControl",
@@ -619,12 +616,27 @@ function initFullCapture() {
 			var list = (grid == this.upGrid ? "upMovements" : "downMovements");
 			return "" + list + "[" + idx + "]." + attr;
 		},
-		updateTotal : function(grid, value, add){
+		updateTotal : function(self, grid){
 			var grd = $(grid);
-			var totalElement = grd.find("#upMovementsTotal");
-			var total = parseInt(totalElement.text());
-			total = (add ? total + value : total - value);
-			totalElement.text(total);
+			var totalId = (grid === self.upGrid ? "#upMovementsTotal" : "#downMovementsTotal");
+			
+			var gridTotal = 0;
+			
+			//iteracion sobre las filas
+			grd.find("tbody tr:not(#noMovs)").each(function(idx, e){
+				var row = $(e);
+				var isRemovedRow = row.find("[data-name='removedElement']").val();
+				
+				//solo considera las filas no eliminadas
+				if(parseInt(isRemovedRow) == 0){
+					var totalAmount = row.find("[data-name='totalAmount']");
+					if (totalAmount.val().length > 0){
+						gridTotal += parseFloat(totalAmount.val());
+					}
+				}
+			});
+			console.log("actualizando monto total del grid: " +  gridTotal);
+			grd.find(totalId).html((gridTotal));
 			
 		},
 		getSliderId : function(grid){
@@ -643,28 +655,17 @@ function initFullCapture() {
 					var rowId = element.attr("id");	
 
 					self.startSlider(self, idx, parseInt(new Date().getMonth()), grid);		
-
-					var storedInitialMonth = parseInt(element.find(self.getId(grid, idx, "initialMonthId")).val());
-					var storedFinalMonth = parseInt(element.find(self.getId(grid, idx, "finalMonthId")).val());
-					var monthAmount = parseInt(element.find(self.getId(grid, idx, "monthAmount")).val());
-
-					//sumar el monto actual al total
-					var amount = ((storedFinalMonth - storedInitialMonth) + 1) * monthAmount;
-					self.updateTotal(grid, amount, true);
-					
-					//asignar evento de eliminar al elemento
-					element.find("[data-name='deleteAction'] a").on("click", function(){
-						var row = $(this).parent().parent();
-						row.find(self.getId(grid, idx, "removedElement")).val("1");
-						row.hide();
-					});
+					self.addRemoveEvent(self, grid, idx);
 					
 					//asignar eventos de cambio
 					self.addOnChangeEvent(self, grid, idx, "programaticKeyId",true);
 					self.addOnChangeEvent(self, grid, idx, "entryId",false);
 					
-					self.updateAmounts(self, grid, idx, "monthAmount");					
+					self.updateAmounts(self, grid, idx, "monthAmount");	
+
 				});
+				
+				self.updateTotal(self, grid);
 				
 			}else{
 				grd.find("tbody tr:not(#noMovs)").remove();
@@ -740,6 +741,11 @@ function initFullCapture() {
 				.attr("id", self.getId(grid, nextIndex, "requestDetailId", 2))
 				.attr("value","-1");
 				
+				e.find("[data-name='totalAmount']")
+				.attr("name", self.getPath(grid, nextIndex, "totalAmount"))
+				.attr("id", self.getId(grid, nextIndex, "totalAmount", 2))
+				.attr("value","0");
+				
 				grd.find("tbody").append(e);
 				
 				self.startSlider(self, nextIndex, parseInt(new Date().getMonth()), grid);
@@ -748,7 +754,7 @@ function initFullCapture() {
 				self.addRemoveEvent(self, grid, nextIndex);
 				self.updateAmounts(self, grid, nextIndex, "monthAmount");
 				
-				//grd.find("tbody #noMovs").remove();
+				grd.find("tbody #noMovs").remove();
 			});
 		},
 		updateAmounts : function(self, grid, nextIndex, element){
@@ -759,20 +765,31 @@ function initFullCapture() {
 			ma.blur(function(){
 				var finalMonth = $(self.getId(grid, nextIndex, "finalMonthId"));
 				var initialMonth = $(self.getId(grid, nextIndex, "initialMonthId"));
-								
+				
+				var total = 0;
 				if ( this.value.length > 0){
 					console.log("campo no vacio: " + this.value);
 					var m1 = parseInt(finalMonth.val());
 					var m2 = parseInt(initialMonth.val());					
-					var total = ((m1-m2) + 1) * this.value;					
+					total = ((m1-m2) + 1) * this.value;					
 					console.log("monto total: " + total);
-					self.updateTotal(grid, total, true);
+					
 					if (parseInt(this.value) > 0){
 						self.removeClassError(self.getId(grid, nextIndex, "monthAmount"));
 					}
+					
 				}else{
-					console.log("campo vacio");
+					console.log("campo vacio, seteando cero");
 				}
+				
+				//guardamos el monto total en total amount
+				console.log("seteando total a totalAmount: " + total);
+				$(self.getId(grid, nextIndex, "totalAmount")).val(total);
+				
+				//se invoca update para actualizar los totales del grid
+				console.log("actualizando total de componente");
+				self.updateTotal(self, grid);
+				
 			});
 		},
 		addOnChangeEvent:function(self, grid, indice, element, ajaxCall){
@@ -799,19 +816,31 @@ function initFullCapture() {
 			$(id).closest(".has-error").removeClass("has-error");
 		},
 		addRemoveEvent : function(self, grid, indice){
-			var a = $(document).find("#rmvIdx" + indice);
+			var a = $(grid).find("[data-name='deleteAction'] a");
 			
 			a.on("click", function(){
 				var row = $(this).parent().parent();
 				row.find(self.getId(grid, indice, "removedElement")).val("1");
+		
 				row.hide();
+				self.updateTotal(self, grid);
+				
+				var filteredRows = $(grid).find("tbody tr:not(#noMovs)").filter(function(){
+					var flag = $(this).find("[data-name='removedElement']");
+					return (parseInt(flag.val()) <= 0);
+				});
+				
+				if (filteredRows.length == 0){
+					$(grid).find("tbody").html('<tr id="noMovs"><td colspan="6">No hay Movimientos Capturados</td><tr>');
+				}
+				
 			});
 		},
 		startSlider : function(self, indice, initialMonth, grid){
 						
 			var id = self.getSliderId(grid) + indice;			
 			$(document).find(id).noUiSlider({
-		        connect: tru	e, behaviour: 'tap', step:1, start: [initialMonth, 11],
+		        connect: true, behaviour: 'tap', step:1, start: [initialMonth, 11],
 		        range: {
 		            'min': [initialMonth],
 		            'max': [11]
@@ -889,12 +918,10 @@ function initFullCapture() {
 				validateGrid : function(movementTypeId){
 					switch(movementTypeId){
 					case 1:
-						//alert("validando 1 " + self.upGrid);
 						var res = this.validateComponent(self.upGrid);
 						if(res){	
 							this.notif("success","Validación completa");
 						}
-						//alert("resultado de validacion: " + res);
 						return res;
 					case 2:
 						//alert("validando 2 " +  self.downGrid);
@@ -904,15 +931,41 @@ function initFullCapture() {
 						}
 						return res;
 					case 3:
-						//alert("validando 3 " + self.upGrid);
-						console.log("validacion 3");
-						break;
+						var resUp = this.validateComponent(self.upGrid);
+						var resDown = this.validateComponent(self.downGrid);
+						if (resUp && resDown){
+							//validar que totales den cero
+							self.updateTotal(self, self.upGrid);
+							self.updateTotal(self, self.downGrid);
+							
+							var movAlza = parseFloat($(document).find("#upMovementsTotal").text());
+							var movBaja = parseFloat($(document).find("#downMovementsTotal").text());
+							
+							console.log("total de movs a la alza: " + movAlza);
+							console.log("total de movs a la baja: " + movBaja);
+							
+							if ((movAlza - movBaja) != 0){
+								this.notif("error","la suma de los movimientos de aumento y disminución deben resultar 0.");
+								return false;
+							}else{
+								this.notif("success","Validación completa en ambos grids");
+							}	
+						}
+						return (resUp && resDown);
 					}
 				},
 				validateComponent: function(gridId){
 					var grid = $(gridId);
 					var totalRows = grid.find("tbody tr:not(#noMovs)").length;
-					if (totalRows <= 0){
+					console.log("total global de filas sin contar nomovs: " +  totalRows);
+					
+					var filteredRows = grid.find("tbody tr:not(#noMovs)").filter(function(){
+						var flag = $(this).find("[data-name='removedElement']");
+						return (parseInt(flag.val()) <= 0);
+					});
+					console.log("total de filas sin contar no rows ni eliminadas: " + filteredRows.length);
+					
+					if (filteredRows.length <= 0){
 						this.notif("error","debe capturar al menos un movimiento");
 						console.log("sin movimientos capturados en componente");
 						return false;
@@ -920,7 +973,8 @@ function initFullCapture() {
 					//iteracion para procesar cada una de las filas
 					
 					var ok = true;
-					grid.find("tbody tr:not(#noMovs)").each(function(idx, e){
+					//grid.find("tbody tr:not(#noMovs)").each(function(idx, e){
+					filteredRows.each(function(idx, e){
 						var row = $(e);
 						var programaticKey = row.find("[data-name='programaticKey'] select");
 						var entry = row.find("[data-name='entry'] select");
@@ -965,6 +1019,16 @@ function initFullCapture() {
 			return result;
 		}
 	};
+
+
+function initFullCapture() {
+	
+	$(document).find('.numbersOnly').keyup(function () { 
+		console.log("pique");
+		this.value = this.value.replace(/[^0-9\.]/g,'');
+	});
+
+	//var movementController = {};
 	
 	//Controlador tipo de movimiento
 	$("#movementTypeId").on("change", function (e) {
@@ -993,20 +1057,36 @@ function initFullCapture() {
 
 	$('#saveAndContinue').click(function(e) {
 		alert("Finalizando captura y avanzando tramite");
-		requestForm.find('#nextStageValueCode').val("SOLCOMP");
-		submitAjaxJQ('requestForm', 'dashboard', '');
+		var isCorrect = movementController.validate();
+		if (isCorrect){
+			requestForm.find('#nextStageValueCode').val("SOLCOMP");
+			submitAjaxJQ('requestForm', 'dashboard', '');
+		}
 	});
 }
 
 function initAuthorization() {
 	alert("Iniciando autorizacion");
+	
+	$(document).find("input").attr("readonly","true");
+	$(document).find("select").attr("readonly","true");
 
+	movementController.startComponent();
+	
+	$(document).find("[data-name='sliderControl']").hide();
+	$(document).find("[data-name='deleteAction']").html("");
+	$(document).find("[data-name='monthLabels']").attr("colspan","2");
+	
 	var requestForm = $('#requestForm');
 
 	$('#cancelFormality').click(function(e) {
 		alert("Cancelando Tramite");
-		requestForm.find('#nextStageValueCode').val("CANCELAR");
-		submitAjaxJQ('requestForm', 'dashboard', '');
+		if($("#comments").val().length > 0){
+			requestForm.find('#nextStageValueCode').val("CANCELAR");
+			submitAjaxJQ('requestForm', 'dashboard', '');
+		}else{
+			window.showNotification("error", "capture comentarios de cancelacion");
+		}
 	});
 
 	$('#authorizateFormality').click(function(e) {

@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ideasw.secopre.model.catalog.Address;
 import ideasw.secopre.model.catalog.Person;
 
 /**
@@ -54,10 +55,12 @@ public class UserController extends AuthController {
 			RequestMethod.POST })
 	public String getUserList(ModelMap model, RedirectAttributes attributes) {
 		User user = new User();
+		Address address = new Address();
 		model.addAttribute("userList", baseService.findAll(User.class));
 		model.addAttribute("user", user);
 		model.addAttribute("roles", baseService.findAll(Role.class));
 		model.addAttribute("permissions", baseService.findAll(Permission.class));
+		model.addAttribute("address", address);
 		
 		List<Person> person = baseService.findAll(Person.class);
 		

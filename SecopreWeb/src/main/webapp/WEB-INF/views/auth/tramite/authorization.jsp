@@ -29,46 +29,33 @@
 									<form:hidden path="nextStageValueCode" id="nextStageValueCode" />
 									
 									<!-- campo de nombre de usuario -->
-									<div class="form-group form-md-line-input">
-										<label class="col-md-2 control-label" for="firstName"><spring:message code="application.pages.tramite.add.firstName"/></label>
-										<div class="col-md-10">
-											<form:input path="firstName" type="text" id="firstName" class="form-control" readonly="${requestForm.authorizationForm}"/>
-											<div class="form-control-focus">
+									<div data-name="movementTypeContainer" class="form-group form-md-line-input">
+											<label class="col-md-2 control-label" for="movementTypeId">Seleccione el tipo de movimiento</label>
+											<div class="col-md-4">
+												<form:select path="movementTypeId" id="movementTypeId" class="form-control">
+												   	<form:option value="-1" label="Seleccione..."/>
+	    											<form:options items="${movementTypes}" />
+												</form:select>
+												<div class="form-control-focus"></div>
+												<span class="help-block">
+													Debe seleccionar un tipo de movimiento
+												</span>
 											</div>
-											<span class="help-block">
-												<spring:message code="application.pages.tramite.add.notEmpty"/>
-											</span>
 										</div>
-									</div>
-									
-									<!-- campo de apellido paterno -->
-									<div class="form-group form-md-line-input">
-										<label class="col-md-2 control-label" for="parentLastName"><spring:message code="application.pages.tramite.add.parentLastName"/></label>
-										<div class="col-md-10">
-											<form:input path="parentLastName" type="text" id="parentLastName" class="form-control" readonly="${requestForm.authorizationForm}"/>
-											<div class="form-control-focus">
-											</div>
-											<span class="help-block">
-												<spring:message code="application.pages.tramite.add.notEmpty"/>
-											</span>
-										</div>
-									</div>
-									
-									<!-- campo de apellido materno -->
-									<div class="form-group form-md-line-input">
-										<label class="col-md-2 control-label" for="motherLastName"><spring:message code="application.pages.tramite.add.parentLastName"/></label>
-										<div class="col-md-10">
-											<form:input path="motherLastName" type="text" id="motherLastName" class="form-control" readonly="${requestForm.authorizationForm}"/>
-											<div class="form-control-focus">
-											</div>
-											<span class="help-block">
-												<spring:message code="application.pages.tramite.add.notEmpty"/>
-											</span>
-										</div>
-									</div>
 									
 									<jsp:include page="/WEB-INF/views/auth/common/formality/${authorization.formalityCode}.jsp" flush="true"/>
 									
+									<div class="form-group form-md-line-input">
+										<label class="col-md-12 control-label" for="comments" style="text-align:left;">Comentarios:</label>
+										<div class="col-md-12">
+											<form:textarea path="comments" id="comments" class="form-control" rows="2" />
+											<div class="form-control-focus">
+											</div>
+											<span class="help-block">
+												<spring:message code="application.pages.tramite.add.notEmpty"/>
+											</span>
+										</div>
+									</div>
 								
 								</div>
 								

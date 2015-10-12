@@ -174,7 +174,7 @@
 												<span class="input-group-addon"> 
 												  <i class="icon-user"></i>
 												</span> 
-												<form:select path="user.person.id"  name="person" class="form-control">
+												<form:select path="address.stateDTO.id"  name="person" class="form-control">
 												   <form:option value="" label="Seleccione..."/>
 	    										   <form:options items="${persons}" />
 												</form:select>

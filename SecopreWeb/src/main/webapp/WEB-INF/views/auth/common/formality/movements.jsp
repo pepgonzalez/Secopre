@@ -56,7 +56,7 @@
 											<div id="upSliderControl${i.index}"></div>
 										</div>
 									</td>
-									<td>
+									<td data-name="monthLabels">
 										<div class="input-xsmall" style="padding-top:2px;">
 											<span id="upMovements${i.index}.lower-offset"></span>-<span id="upMovements${i.index}.upper-offset"></span>
 										</div>
@@ -65,6 +65,7 @@
 									</td>
 					
 									<form:hidden path="upMovements[${i.index}].initialMonthId" class="form-control" data-name="initialMonthId"/>
+									<form:hidden path="upMovements[${i.index}].totalAmount" class="form-control" data-name="totalAmount"/>
 									<form:hidden path="upMovements[${i.index}].finalMonthId" class="form-control" data-name="finalMonthId"/>
 									<form:hidden path="upMovements[${i.index}].removedElement" class="form-control" data-name="removedElement"/>
 									<form:hidden path="upMovements[${i.index}].movementTypeId" class="form-control" data-name="movementTypeId"/>
@@ -141,7 +142,7 @@
 											<div id="downSliderControl${i.index}"></div>
 										</div>
 									</td>
-									<td>
+									<td data-name="monthLabels">
 										<div class="input-xsmall" style="padding-top:2px;">
 											<span id="downMovements${i.index}.lower-offset"></span>-<span id="downMovements${i.index}.upper-offset"></span>
 										</div>
@@ -150,6 +151,7 @@
 									</td>
 					
 									<form:hidden path="downMovements[${i.index}].initialMonthId" class="form-control" data-name="initialMonthId"/>
+									<form:hidden path="downMovements[${i.index}].totalAmount" class="form-control" data-name="totalAmount"/>
 									<form:hidden path="downMovements[${i.index}].finalMonthId" class="form-control" data-name="finalMonthId"/>
 									<form:hidden path="downMovements[${i.index}].removedElement" class="form-control" data-name="removedElement"/>
 									<form:hidden path="downMovements[${i.index}].movementTypeId" class="form-control" data-name="movementTypeId"/>
@@ -173,7 +175,7 @@
 <!-- row template para agregar registros -->
 <template id="movementRowTemplate">
 	<tr data-name="rowContainer">
-		<td data-name="action">
+		<td data-name="deleteAction">
 			<a href="javascript:;" class="btn default btn-xs red">
 				<i class="fa fa-times"></i>
 			</a>
@@ -195,7 +197,7 @@
 				<div id="sliderControl"></div>
 			</div>
 		</td>
-		<td>
+		<td data-name="monthLabels">
 			<div class="input-xsmall" style="padding-top:2px;">
 				<span data-name="lower-offset"></span>-<span data-name="upper-offset"></span>
 			</div>
@@ -207,5 +209,6 @@
 		<form:hidden path="upMovements" class="form-control" data-name="removedElement"/>
 		<form:hidden path="upMovements" class="form-control" data-name="movementTypeId"/>
 		<form:hidden path="upMovements" class="form-control" data-name="requestDetailId"/>
+		<form:hidden path="upMovements" class="form-control" data-name="totalAmount"/>
 	</tr>
 </template>
