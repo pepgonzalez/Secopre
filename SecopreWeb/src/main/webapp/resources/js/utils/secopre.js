@@ -49,9 +49,9 @@ function submitAjaxJQ(formId, targetId, after) {
 	
 	var x = (frm !== undefined && frm !== null) ? frm.serialize(true) : null;
 	
-	console.log("data----------------------------------------------------------");
-	console.log(x);
-	console.log("fin data------------------------------------------------------");
+	//console.log("data----------------------------------------------------------");
+	//console.log(x);
+	//console.log("fin data------------------------------------------------------");
 	
 	var header = $("meta[name='_csrf_header']").attr("content");
 	var token = $("meta[name='_csrf']").attr("content");
@@ -100,8 +100,8 @@ function submitFileAjaxJQTest(formId, targetId, after){
   var requestId = $('#requestId').val();
   var stageConfigId = $('#stageConfigId').val();
   
-  alert("requestId: " + requestId);
-  alert("stageConfigId: " + stageConfigId);
+  //alert("requestId: " + requestId);
+  //alert("stageConfigId: " + stageConfigId);
   
   //se cargan las propiedades del request y el stageConfig actual
     oMyForm.append("requestId", requestId);  
@@ -110,6 +110,7 @@ function submitFileAjaxJQTest(formId, targetId, after){
 	var header = $("meta[name='_csrf_header']").attr("content");
 	var token = $("meta[name='_csrf']").attr("content");
 
+	blockPage();
   $.ajax({
 	url : context + '/' + action,
     data: oMyForm,
@@ -121,7 +122,9 @@ function submitFileAjaxJQTest(formId, targetId, after){
 	},   
     type: 'POST',
     success: function(data){
-      $('#targetId').html(data);
+    	$("#" + targetId).html("");
+		$('#' + targetId).html(data);
+		unblockPage();
     }
   });
 }
@@ -200,7 +203,7 @@ function sendRequestJQ(actionURL, targetId, after, method) {
 			$('#' + targetId).html(data);
 		},
 		complete : function(jqXHR) {
-			if (after !== null) {
+			if (after !== null && after.length > 2) {
 				eval(after);
 			}
 			unblockPage();

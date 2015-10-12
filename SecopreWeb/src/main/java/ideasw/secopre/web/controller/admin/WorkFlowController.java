@@ -43,7 +43,7 @@ public class WorkFlowController extends AuthController {
 	@Autowired
 	private AccessNativeService accessNativeService;
 
-	private String basePath = "C:" + File.separator+"SecopreResources" + File.separator;
+	private String basePath = "C:" + File.separator+ "SecopreResources" + File.separator;
 
 	@RequestMapping(value = "wf/capture/{formalityCode}/{requestId}/{stageConfigId}", method = { RequestMethod.GET })
 	public String showMovementsCapture(
@@ -184,7 +184,7 @@ public class WorkFlowController extends AuthController {
 		requestForm.setStageConfigId(stageConfigId);
 
 		model.addAttribute("requestForm", requestForm);
-
+		System.out.println("mostrando formulario de carga de archivo");
 		return SecopreConstans.MV_TRAM_UPLOAD;
 	}
 
@@ -197,23 +197,34 @@ public class WorkFlowController extends AuthController {
 		if (attachment != null && attachment.getBytes() != null && attachment.getOriginalFilename() != null && !StringUtils.isEmpty(attachment.getOriginalFilename())) {
 			
 			try{
+				
+			String operativeSystem = System.getProperty("os.name").toLowerCase();
+			System.out.println("Sistema operativo actual: " + operativeSystem);
+			
+			String rootPath = "";
+			
+			if (operativeSystem.indexOf("nix") >= 0 || operativeSystem.indexOf("nux") >= 0 || operativeSystem.indexOf("aix") > 0 ){
+				rootPath = SecopreConstans.SECOPRE_RESOURCES_LINUX_PATH;
+			}else{
+				rootPath = SecopreConstans.SECOPRE_RESOURCES_WINDOWS_PATH;
+			}
 
 			//se valida si el directorio base existe
-			File baseDirectory = new File(SecopreConstans.SECOPRE_RESOURCES_WINDOWS_PATH);
+			File baseDirectory = new File(rootPath);
 			if (!baseDirectory.exists()) {
 				System.out.println("creando directorio base");
 				baseDirectory.mkdir();
 			}
 			
 			//se valida si existe el folder del request
-			File requestDirectory = new File(SecopreConstans.SECOPRE_RESOURCES_WINDOWS_PATH + File.separator + requestId);
+			File requestDirectory = new File(rootPath + File.separator + requestId);
 			if (!requestDirectory.exists()) {
 				System.out.println("creando directorio de folio");
 				requestDirectory.mkdir();
 			}
 		
 			//se guarda el archivo
-			String documentPath = SecopreConstans.SECOPRE_RESOURCES_WINDOWS_PATH + File.separator + requestId + File.separator + attachment.getOriginalFilename();
+			String documentPath = rootPath + File.separator + requestId + File.separator + attachment.getOriginalFilename();
 			File file = new File(documentPath);
 			if (!file.exists()) {
 				file.createNewFile();
