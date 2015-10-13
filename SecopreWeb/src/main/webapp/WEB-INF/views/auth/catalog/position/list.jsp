@@ -71,8 +71,23 @@
 										 ${positionItem.activo}
 									</td>
 									<td>
-										<span class="label label-sm label-success">
-										Approved </span>
+<%-- 										<a href="#" onclick="sendRequestJQ('auth/cat/position/edit?id=${positionItem.id}' ,'dashboard','editPositionCat()');"> --%>
+<%-- 												<span class="label label-sm label-success"> <spring:message code="application.edit"/> </span> --%>
+<!-- 										</a> -->
+										
+										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/cat/position/edit?id=${positionItem.id}' ,'dashboard','editPositionCat()');">
+										 <i class="fa fa-edit xs"></i>
+										</button>
+										
+										<button id="btndelete"  type="button" class="btn delete btn-danger btn-xs" onclick="borrarRegistro('auth/cat/position/delete?id=${positionItem.id}','dashboard','initPositionList()');"   >
+										<i class="fa fa-trash"></i> 
+										</button>
+										
+<%-- 										<a href="#" class="btn delete" onclick="sendRequestJQ('auth/cat/position/delete?id=${positionItem.id}' ,'dashboard','initPositionList()');"> --%>
+<%-- 												<span class="label label-xs label-danger"> <spring:message code="application.delete"/> </span> --%>
+												
+<!-- 										</a> -->
+										
 									</td>
 								</tr>							
 							</c:forEach>

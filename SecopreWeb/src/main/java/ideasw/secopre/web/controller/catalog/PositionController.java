@@ -1,5 +1,7 @@
 package ideasw.secopre.web.controller.catalog;
 
+import java.security.Principal;
+
 import ideasw.secopre.model.catalog.Position;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
@@ -9,6 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -36,10 +39,35 @@ public class PositionController extends AuthController {
 		return SecopreConstans.MV_CAT_POSITION;
 	}
 	
+	@RequestMapping(value = "cat/position/edit", method = { RequestMethod.GET,
+			RequestMethod.POST })
+	public String edit( ModelMap model, RedirectAttributes attributes, @RequestParam("id") Long id ) {
+		Position position = baseService.findById(Position.class , id);
+		//model.addAttribute("positionList", baseService.findAll(Position.class));
+		model.addAttribute("position", position);
+		return SecopreConstans.MV_CAT_POSITION;
+	}
+	
 	@RequestMapping(value = "cat/position/add", method = RequestMethod.POST)
-	public String add(@ModelAttribute("position") Position position, ModelMap model) {
+	public String add(@ModelAttribute("position") Position position, ModelMap model,  @RequestParam("id") Long id ) {
 		try {
-			baseService.persist(position);
+			baseService.save(position);
+		} catch (Exception e) {
+			model.addAttribute(
+					"errors",
+					initErrors("Ocurrio un error al insertar el puesto:"
+							+ e.getMessage()));
+		}
+		return SecopreConstans.MV_CAT_POSITION;
+	}
+	
+	@RequestMapping(value = "cat/position/delete", method = RequestMethod.POST)
+	public String delete(ModelMap model,  @RequestParam("id") Long id ) {
+		try {
+			Position position = baseService.findById(Position.class , id);
+			if (position!=null){
+				baseService.remove(position);
+			}
 		} catch (Exception e) {
 			model.addAttribute(
 					"errors",

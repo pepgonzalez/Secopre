@@ -15,7 +15,7 @@
 							</div>
 						</div>
 						<div class="portlet-body form">
-							<form action="auth/cat/position/add" class="form-horizontal" id="submit_form"  modelAttribute="submit_form" method="POST"  novalidate="novalidate">
+							<form action="auth/cat/position/add?id=${position.id}" class="form-horizontal" id="submit_form"  modelAttribute="submit_form" method="POST"  novalidate="novalidate">
 								<div class="form-wizard">
 									<div class="form-body">
 
@@ -59,7 +59,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input id="name" name="name" type="text" class="form-control" placeholder='<spring:message code="application.pages.catalog.position.name.placeholder"/>'>
+																<input id="name" name="name" type="text" value="${position.name}" class="form-control" placeholder='<spring:message code="application.pages.catalog.position.name.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.catalog.position.name.help"/></span>
@@ -74,7 +74,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input name="description"  id="description" type="text" class="form-control" placeholder='<spring:message code="application.pages.catalog.position.description.placeholder"/>'>
+																<input name="description"  id="description" type="text" value="${position.description}" class="form-control" placeholder='<spring:message code="application.pages.catalog.position.description.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.catalog.position.description.help"/></span>

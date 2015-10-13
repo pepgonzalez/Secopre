@@ -33,7 +33,29 @@ function initPersonPage() {
 	$('select').select2();
 }
 
+function borrarRegistro(url, workarea, nextfunction){
+
+	  
+	bootbox.confirm("Se borrar\u00E1 el registro. \u00BFDesea Continuar?",function(result) {
+       if(result){ sendRequestJQ(url,workarea,nextfunction);}
+    }); 
+}
+
 function initPage(page) {
+	 bootbox.setDefaults({
+          /**
+           * @optional String
+           * @default: en
+           * which locale settings to use to translate the three
+           * standard button labels: OK, CONFIRM, CANCEL
+           */
+          locale: "es"
+    });
+//	 $('button.btn.delete').click(function(){
+//         bootbox.confirm("Se borrar\u00E1 el registro. \u00BFDesea Continuar?",function(result) {
+//         }); 
+//     });
+	
 	$('#' + page + 'Table').DataTable();
 	$('#add_' + page).hide();
 	$('button.btn.green').click(function() {

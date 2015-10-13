@@ -3,8 +3,34 @@ function initPositionCat() {
 	initPositionValidations();
 }
 
+function editPositionCat() {
+	editPage('Position');
+	initPositionValidations();
+}
+
 function initPositionList() {
 	sendRequestJQ('auth/cat/position/list', 'dashboard', 'initPositionCat()');
+}
+
+function editPage(page) {
+	//$('#' + page + 'Table').DataTable();
+	$('#add_' + page).show();
+	$('#list_' + page).hide();
+//	$('button.btn.green').click(function() {
+//		$('#add_' + page).show();
+//		$('#list_' + page).hide();
+//	});
+//	$('button.btn.default').click(function() {
+//		$('#add_' + page).hide();
+//		$('#list_' + page).show();
+//	});
+//	$('button.btn.blue').click(
+//			function() {
+//				console.log("submit boton blue");
+//				submitAjaxJQ(page + 'Form', 'dashboard', 'initPage('
+//						+ page + ');');
+//			});
+
 }
 
 
@@ -22,11 +48,11 @@ function initPositionValidations() {
 		focusInvalid : false, // do not focus the last invalid input
 		rules : {
 			name : {
-				minlength : 6,
+				maxlength : 50,
 				required : true
 			},
 			description : {
-				minlength : 6,
+				maxlength : 100,
 				required : true
 			}
 		},
@@ -80,7 +106,7 @@ function initPositionValidations() {
 	});
 
 	var displayConfirm = function() {
-		$('#tab2.form-control-static', form).each(
+		$('#tab2 .form-control-static', form).each(
 				function() {
 					var input = $('[name="' + $(this).attr("data-display")
 							+ '"]', form);
