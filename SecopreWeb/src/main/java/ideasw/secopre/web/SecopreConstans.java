@@ -38,7 +38,7 @@ public class SecopreConstans {
 	public static final String DEFAULT_UPLOAD_FILE_NEXT_STAGE = "SOLCOMP";
 	
 	//####Modulo de Catalogos Operativos####//
-	public static final String MV_CAT_ENTRY = "auth/oper/entry/list";
+	public static final String MV_CAT_ENTRY = "auth/oper/entry/entry";
 	public static final String MV_CAT_ENTRY_ADD = "auth/oper/entry/add";
 	
 	public static final String MV_CAT_PK = "auth/oper/pk/programmaticKey";

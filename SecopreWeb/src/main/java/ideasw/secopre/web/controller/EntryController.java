@@ -1,14 +1,20 @@
 package ideasw.secopre.web.controller;
 
+import java.util.HashMap;
+import java.util.List;
+
 import ideasw.secopre.model.Entry;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
+import ideasw.secopre.model.ProgrammaticKey;
+import ideasw.secopre.model.catalog.Address;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -31,8 +37,21 @@ public class EntryController extends AuthController {
 			RequestMethod.POST })
 	public String getList(ModelMap model, RedirectAttributes attributes) {
 		Entry entry = new Entry();
+		ProgrammaticKey programmaticKey = new ProgrammaticKey();
 		model.addAttribute("entryList", baseService.findAll(Entry.class));
 		model.addAttribute("entry", entry);
+		
+		List<ProgrammaticKey> pks = baseService.findAll(ProgrammaticKey.class);
+		
+		HashMap<Long, String> pkMap = new HashMap<Long, String>();
+		for (ProgrammaticKey p : pks) {
+			pkMap.put(p.getId(),p.getCode());
+		}
+
+		model.addAttribute("pks", pkMap);
+		model.addAttribute("programmaticKey", programmaticKey);
+
+		
 		return SecopreConstans.MV_CAT_ENTRY;
 	}
 	
@@ -46,6 +65,31 @@ public class EntryController extends AuthController {
 					initErrors("Ocurrio un error al insertar el puesto:"
 							+ e.getMessage()));
 		}
+		return SecopreConstans.MV_CAT_ENTRY;
+	}
+	
+	@RequestMapping(value = "cat/entry/delete", method = RequestMethod.POST)
+	public String delete(ModelMap model,  @RequestParam("id") Long id ) {
+		try {
+			Entry entry = baseService.findById(Entry.class , id);
+			if (entry!=null){
+				baseService.remove(entry);
+			}
+		} catch (Exception e) {
+			model.addAttribute(
+					"errors",
+					initErrors("Ocurrio un error al insertar la Partida:"
+							+ e.getMessage()));
+		}
+		return SecopreConstans.MV_CAT_ENTRY;
+	}
+	
+	
+	@RequestMapping(value = "cat/entry/edit", method = { RequestMethod.GET,
+			RequestMethod.POST })
+	public String edit( ModelMap model, RedirectAttributes attributes, @RequestParam("id") Long id ) {
+		Entry entry = baseService.findById(Entry.class , id);
+		model.addAttribute("entry", entry);
 		return SecopreConstans.MV_CAT_ENTRY;
 	}
 }

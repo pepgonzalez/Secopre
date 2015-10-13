@@ -1,6 +1,5 @@
 package ideasw.secopre.web.controller.catalog;
 
-import java.security.Principal;
 
 import ideasw.secopre.model.catalog.Position;
 import ideasw.secopre.web.SecopreConstans;

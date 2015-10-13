@@ -1,7 +1,6 @@
 package ideasw.secopre.web.controller;
 
 import ideasw.secopre.model.ProgrammaticKey;
-import ideasw.secopre.model.catalog.Position;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
 

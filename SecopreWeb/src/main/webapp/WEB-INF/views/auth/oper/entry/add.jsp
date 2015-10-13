@@ -49,7 +49,7 @@
 											<%@ include file="/WEB-INF/views/auth/common/alertForm.jsp"%>
 
 											<div class="tab-pane active" id="tab1">
-												<h3 class="block">Proporcionar Información de Ingresos</h3>
+												<h3 class="block">Proporcionar Información de Entradas</h3>
 												<div class="form-body">													
 
 													<div class="form-group form-md-line-input">
@@ -96,6 +96,25 @@
 															</div>
 														</div>
 													</div>
+													
+													<div class="form-group form-md-line-input has-danger">
+													<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.entry.pk"/>
+										  			<span class="required">* </span> 
+												    </label>
+													   <div class="col-md-4">
+													      <div class="input-group">
+																<span class="input-group-addon"> 
+																  <i class="icon-user"></i>
+																</span> 
+																<form:select path="programmaticKey.id"  name="pk" class="form-control">
+																   <form:option value="" label="Seleccione..."/>
+					    										   <form:options items="${pks}" />
+																</form:select>
+																<div class="form-control-focus"></div>
+												          </div>
+													   </div>
+												    </div>
+													
 																					       																				
 										        </div>
 											</div>
@@ -139,9 +158,9 @@
 										<div class="row">
 											<div class="col-md-offset-3 col-md-9">
 												<a href="javascript:;" class="btn default button-previous">
-												<i class="m-icon-swapleft"></i> Back </a>
+												<i class="m-icon-swapleft"></i> <spring:message code="application.back"/> </a>
 												<a href="javascript:;" class="btn blue button-next">
-												Continue <i class="m-icon-swapright m-icon-white"></i>
+												<spring:message code="application.next"/> <i class="m-icon-swapright m-icon-white"></i>
 												</a>
 												<button type="button" class="btn green button-submit" id="submitRequestForm"><spring:message code="application.pages.catalog.entry.crear"/></button>
 						

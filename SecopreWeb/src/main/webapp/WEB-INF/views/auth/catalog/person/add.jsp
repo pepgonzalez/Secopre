@@ -295,9 +295,9 @@
 																<span class="input-group-addon"> 
 																  <i class="icon-user"></i>
 																</span> 
-																<form:select path="address.stateDTO.id"  name="state" class="form-control">
+																<form:select path="address.stateDTO.id"  name="pks" class="form-control">
 																   <form:option value="" label="Seleccione..."/>
-					    										   <form:options items="${states}" />
+					    										   <form:options items="${pks}" />
 																</form:select>
 																<div class="form-control-focus"></div>
 												          </div>
