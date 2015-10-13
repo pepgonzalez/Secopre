@@ -123,6 +123,7 @@
 						 		P.URL,
 						 		SC.IS_CAPTURE,
 						 		SC.IS_AUTHORIZATION,
+						 		IFNULL(SC.IS_END_WORKFLOW, 0) IS_END_WORKFLOW,
 						 		ifnull(SC.CAPTURE_FORM,'') CAPTURE_FORM,
 						 		WC.STATUS_ID,
 						 		S.DESCRIPTION NEXT_DESCRIPTION
@@ -292,6 +293,36 @@
 						   AND WC.WF_CFG_CODE = 'SIGFIRMA'
 					]]>
 				</prop>
+				
+				<prop key="GET_REQUEST_HISTORY">
+					<![CDATA[
+						SELECT H.REQUEST_ID,
+							   H.CONSECUTIVE,
+							   S1.DESCRIPTION ETAPA_INICiAL,
+							   S2.DESCRIPTION SIGUIENTE_ETAPA,
+							   S.DESCRIPTION ESTATUS,
+							   H.LAST_UPDATE FECHA_CREACION,
+							   H.COMMENTS,
+							   U.USERNAME
+						FROM secopre.REQUEST_HISTORY H,
+							 secopre.WORKFLOW_CONFIG W,
+							 secopre.STAGE_CONFIG SC1,
+							 secopre.STAGE_CONFIG SC2,
+							 secopre.STAGE S1,
+							 secopre.STAGE S2,
+							 secopre.STATUS S,
+							 secopre.USER U
+						where H.REQUEST_ID = :requestId
+						AND H.WORKFLOW_CONFIG_ID = W.ID
+						AND W.STAGE_CONFIG_ID = SC1.ID
+						AND W.NEXT_STAGE_CONFIG = SC2.ID
+						AND SC1.STAGE_ID = S1.ID
+						AND SC2.STAGE_ID = S2.ID
+						AND W.STATUS_ID = S.ID
+						AND H.USER_ID = U.ID
+					]]>
+				</prop>
+	
 	
 			</props>				
 		</property>

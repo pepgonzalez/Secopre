@@ -67,9 +67,19 @@
 										<td>${inboxItem.formalityDescription}</td>
 										<td>${inboxItem.nextDescription}</td>
 										<td>
-											<a href="#" onclick="sendRequestJQ('${inboxItem.nextStageURL}','dashboard','${inboxItem.nextStageJSFunction}','GET');">
-												<span class="label label-sm label-success"> Ver </span>
-											</a>
+										
+											<c:if test="${inboxItem.requestFinished == false}">
+												<a href="#" onclick="sendRequestJQ('${inboxItem.nextStageURL}','dashboard','${inboxItem.nextStageJSFunction}','GET');">
+													<span class="label label-sm label-success"> Ver </span>
+												</a>
+											</c:if>
+											
+											<c:if test="${inboxItem.requestFinished == true}">
+												<a href="#" onclick="showDataHistory('${inboxItem.requestId}')">
+													<span class="label label-sm label-success"> Historia del folio </span>
+												</a>
+											</c:if>
+											
 											<c:if test="${inboxItem.hasDocument}">
 												<a href="#" onclick="openResourceNative('wf/download/${inboxItem.requestId}','dashboard','()','GET');">
 												<span class="label label-sm label-success"> Mostrar Documento </span>

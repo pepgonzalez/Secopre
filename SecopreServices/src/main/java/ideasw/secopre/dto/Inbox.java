@@ -18,6 +18,7 @@ public class Inbox {
 	private String url;
 	private boolean isCapture;
 	private boolean isAuthorization;
+	private boolean requestFinished;
 	private String captureForm;
 	private Long statusId;
 	private String nextDescription;
@@ -154,5 +155,11 @@ public class Inbox {
 	}
 	public void setHasDocument(boolean hasDocument) {
 		this.hasDocument = hasDocument;
+	}
+	public boolean getRequestFinished() {
+		return requestFinished;
+	}
+	public void setRequestFinished(boolean requestFinished) {
+		this.requestFinished = requestFinished;
 	}
 }

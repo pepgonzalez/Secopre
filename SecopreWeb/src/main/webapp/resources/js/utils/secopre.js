@@ -213,7 +213,7 @@ function sendRequestJQ(actionURL, targetId, after, method) {
 }
 
 function apiCall(actionURL, callback) {
-	method = method || "POST";
+	var method = method || "POST";
 	var header = $("meta[name='_csrf_header']").attr("content");
 	var token = $("meta[name='_csrf']").attr("content");
 	blockPage();

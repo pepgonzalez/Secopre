@@ -540,8 +540,27 @@ function initPersonValidations() {
 
 function initTramiteListPage() {
 	console.log("iniciando listado");
-	$('#formalityList').DataTable();
+	$('#formalityList').DataTable({
+        "language": {
+            "lengthMenu": "_MENU_ Registros por pagina",
+            "zeroRecords": "No existen registros",
+            "info": "Mostrando pagina _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay registros disponibles",
+            "infoFiltered": "(filtered from _MAX_ total records)"
+        }
+    });
 	console.log("finalizando tabla");
+}
+
+function showDataHistory(requestId){
+	
+	apiCall("auth/wf/requestDetail/" + requestId, function(data){
+		bootbox.dialog({
+	        message: data,
+	        title: "Historial del folio"	    
+	    }).find(".modal-dialog").css({"width":"70%"});
+	});
+	console.log("fin");
 }
 
 function initUpload() {
