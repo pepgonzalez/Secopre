@@ -3,14 +3,14 @@
 			<div class="page-head">
 				<!-- BEGIN PAGE TITLE -->
 				<div class="page-title">
-					<h1>Catalogos<small>Puestos</small></h1>
+					<h1>Catalogos<small> Puestos</small></h1>
 				</div>
 			</div>
 			<!-- END PAGE HEAD -->
 			<!-- BEGIN PAGE BREADCRUMB -->
 			<ul class="page-breadcrumb breadcrumb">
 				<li>
-					<a href="javascript:;">Catalogos</a><i class="fa fa-circle"></i>
+					<a href="javascript:;">Catálogos</a><i class="fa fa-circle"></i>
 				</li>
 				<li class="active">
 					 Puestos
