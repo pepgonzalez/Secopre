@@ -41,7 +41,7 @@ public class SecopreConstans {
 	public static final String MV_CAT_ENTRY = "auth/oper/entry/list";
 	public static final String MV_CAT_ENTRY_ADD = "auth/oper/entry/add";
 	
-	public static final String MV_CAT_PK = "auth/oper/pk/list";
+	public static final String MV_CAT_PK = "auth/oper/pk/programmaticKey";
 	public static final String MV_CAT_PK_ADD = "auth/oper/pk/add";
 	
 	//####Modulo de Catalogos####//

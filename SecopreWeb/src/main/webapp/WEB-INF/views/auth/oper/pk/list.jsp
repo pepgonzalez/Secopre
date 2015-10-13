@@ -21,7 +21,7 @@
 								<div class="row">
 									<div class="col-md-6">
 										<div class="btn-group">
-											<button id="sample_editable_1_new" class="btn green">
+											<button id="agregar_pk" class="btn green">
 											<spring:message code="application.add"/> <i class="fa fa-plus"></i>
 											</button>
 										</div>
@@ -58,7 +58,7 @@
 							</tr>
 							</thead>
 							<tbody>
-							<c:forEach items="${programmaticKeyList}" var="programmaticKeyItem">
+							<c:forEach items="${pkList}" var="programmaticKeyItem">
 								<tr class="odd gradeX">
 									<td>
 										<input type="checkbox" class="checkboxes" value="1"/>
@@ -71,8 +71,13 @@
 										 ${programmaticKeyItem.activo}
 									</td>
 									<td>
-										<span class="label label-sm label-success">
-										Approved </span>
+										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/oper/pk/edit?id=${programmaticKeyItem.id}' ,'dashboard','editPositionCat()');">
+										 <i class="fa fa-edit xs"></i>
+										</button>
+										
+										<button id="btndelete"  type="button" class="btn delete btn-danger btn-xs" onclick="borrarRegistro('auth/oper/pk/delete?id=${programmaticKeyItem.id}','dashboard','initPositionList()');"   >
+										<i class="fa fa-trash"></i> 
+										</button>
 									</td>
 								</tr>							
 							</c:forEach>

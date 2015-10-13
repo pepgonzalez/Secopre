@@ -1,6 +1,7 @@
 package ideasw.secopre.web.controller;
 
 import ideasw.secopre.model.ProgrammaticKey;
+import ideasw.secopre.model.catalog.Position;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
 
@@ -9,6 +10,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -45,6 +47,31 @@ public class ProgrammaticKeyController extends AuthController {
 			model.addAttribute(
 					"errors",
 					initErrors("Ocurrio un error al insertar el puesto:"
+							+ e.getMessage()));
+		}
+		return SecopreConstans.MV_CAT_PK;
+	}
+	
+	@RequestMapping(value = "oper/pk/edit", method = { RequestMethod.GET,
+			RequestMethod.POST })
+	public String edit( ModelMap model, RedirectAttributes attributes, @RequestParam("id") Long id ) {
+		ProgrammaticKey pk = baseService.findById(ProgrammaticKey.class , id);
+		//model.addAttribute("positionList", baseService.findAll(Position.class));
+		model.addAttribute("pk", pk);
+		return SecopreConstans.MV_CAT_PK;
+	}
+	
+	@RequestMapping(value = "oper/pk/delete", method = RequestMethod.POST)
+	public String delete(ModelMap model,  @RequestParam("id") Long id ) {
+		try {
+			ProgrammaticKey pk = baseService.findById(ProgrammaticKey.class , id);
+			if (pk!=null){
+				baseService.remove(pk);
+			}
+		} catch (Exception e) {
+			model.addAttribute(
+					"errors",
+					initErrors("Ocurrio un error al insertar la clave programática:"
 							+ e.getMessage()));
 		}
 		return SecopreConstans.MV_CAT_PK;

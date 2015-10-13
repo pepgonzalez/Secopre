@@ -25,7 +25,7 @@
 												<span class="number">
 												1 </span>
 												<span class="desc">
-												<i class="fa fa-check"></i> Clave Programatica </span>
+												<i class="fa fa-check"></i> Clave Programática </span>
 												</a>
 											</li>
 											<li>
@@ -49,7 +49,7 @@
 											<%@ include file="/WEB-INF/views/auth/common/alertForm.jsp"%>
 
 											<div class="tab-pane active" id="tab1">
-												<h3 class="block">Proporcionar Información de Clave Programatica</h3>
+												<h3 class="block">Proporcionar Información de Clave Programática</h3>
 												<div class="form-body">													
 													
 													
@@ -117,9 +117,9 @@
 										<div class="row">
 											<div class="col-md-offset-3 col-md-9">
 												<a href="javascript:;" class="btn default button-previous">
-												<i class="m-icon-swapleft"></i> Back </a>
+												<i class="m-icon-swapleft"></i> <spring:message code="application.back"/> </a>
 												<a href="javascript:;" class="btn blue button-next">
-												Continue <i class="m-icon-swapright m-icon-white"></i>
+												<spring:message code="application.next"/> <i class="m-icon-swapright m-icon-white"></i>
 												</a>
 												<button type="button" class="btn green button-submit" id="submitRequestForm"><spring:message code="application.pages.catalog.programmaticKey.crear"/></button>
 						

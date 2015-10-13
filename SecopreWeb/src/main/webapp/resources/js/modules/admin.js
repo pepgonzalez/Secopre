@@ -51,11 +51,7 @@ function initPage(page) {
            */
           locale: "es"
     });
-//	 $('button.btn.delete').click(function(){
-//         bootbox.confirm("Se borrar\u00E1 el registro. \u00BFDesea Continuar?",function(result) {
-//         }); 
-//     });
-	
+
 	$('#' + page + 'Table').DataTable();
 	$('#add_' + page).hide();
 	$('button.btn.green').click(function() {
