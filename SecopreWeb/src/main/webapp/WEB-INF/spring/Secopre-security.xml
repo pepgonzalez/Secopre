@@ -12,7 +12,7 @@
 		<security:form-login 
 			login-page="/login"
 			default-target-url="/auth/start" 
-			authentication-failure-url="/login?error"
+			authentication-failure-url="/login?error=1"
 			username-parameter="username" 
 			password-parameter="password" 
 			authentication-success-handler-ref="authenticationSuccessHandler"

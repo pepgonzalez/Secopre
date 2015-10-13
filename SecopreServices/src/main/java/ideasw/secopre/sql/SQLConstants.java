@@ -24,5 +24,6 @@ public class SQLConstants {
 	public static final String UPDATE_REQUEST_DETAIL = "UPDATE_REQUEST_DETAIL";
 	public static final String INSERT_REQUEST_DETAIL = "INSERT_REQUEST_DETAIL";
 	public static final String GET_REQUEST_DETAIL = "GET_REQUEST_DETAIL";
+	public static final String GET_REQUEST_HISTORY = "GET_REQUEST_HISTORY";
 
 }

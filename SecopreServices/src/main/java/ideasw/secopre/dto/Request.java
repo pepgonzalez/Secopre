@@ -33,6 +33,9 @@ public class Request {
 	//suma de ambos
 	private List<Movement> movements = new ArrayList<Movement>();
 	
+	//historia
+	private List<RequestHistory> requestHistory = new ArrayList<RequestHistory>();
+	
 	private String comments;
 	
 
@@ -170,5 +173,11 @@ public class Request {
 	}
 	public void setComments(String comments) {
 		this.comments = comments;
+	}
+	public List<RequestHistory> getRequestHistory() {
+		return requestHistory;
+	}
+	public void setRequestHistory(List<RequestHistory> requestHistory) {
+		this.requestHistory = requestHistory;
 	}
 }

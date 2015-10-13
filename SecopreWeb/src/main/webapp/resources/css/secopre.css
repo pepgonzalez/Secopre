@@ -63,3 +63,8 @@ p.advertencia, p.error, p.exito, p.aviso{ font-size: 12px; margin-top: 5px; }
 	font-size: 14px;
     font-weight: 300;	
 }
+
+.specificWidth{
+	width:70%!important;
+	border:solid red 1px;
+}

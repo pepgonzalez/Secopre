@@ -145,8 +145,6 @@
 	<script src='<c:url value="/resources/js/plugins/bootstrap-select.min.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/components-dropdowns.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/ui-alert-dialog-api.js"/>' type="text/javascript"></script>
-	<script src='<c:url value="/resources/js/plugins/bootbox.min.js"/>' type="text/javascript"></script>
-	
 	
 	 
 	<!-- END PAGE LEVEL SCRIPTS -->
@@ -157,7 +155,8 @@
 	<script src='<c:url value="/resources/js/plugins/dataTables.bootstrap.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/jquery.multi-select.js"/>' type="text/javascript"></script>		
 	<script src='<c:url value="/resources/js/plugins/intro.min.js"/>' type="text/javascript"></script>
-	<script src='<c:url value="/resources/js/plugins/toastr.min.js"/>' type="text/javascript"></script>		
+	<script src='<c:url value="/resources/js/plugins/toastr.min.js"/>' type="text/javascript"></script>
+	<script src='<c:url value="/resources/js/plugins/bootbox.min.js"/>' type="text/javascript"></script>		
 	
 	<script src='<c:url value="/resources/js/utils/secopreUtils.js"/>' type="text/javascript"></script>	
 	<script src='<c:url value="/resources/js/utils/secopre.js"/>' type="text/javascript"></script>
@@ -188,6 +187,3 @@
 </body>
 <!-- END BODY -->
 </html>	
-		
-		
-		

@@ -29,6 +29,8 @@ public class SecopreConstans {
 	public static final String MV_TRAM_CAPTURE = "auth/tramite/capture";
 	public static final String MV_TRAM_AUTH = "auth/tramite/authorization";
 	public static final String MV_TRAM_UPLOAD = "auth/tramite/upload";
+	public static final String MV_TRAM_HISTORY = "auth/tramite/history";
+	
 	
 	//####Constantes de carga de archivos####//
 	public static final String SECOPRE_RESOURCES_WINDOWS_PATH = "C:"+File.separator+"SecopreResources";

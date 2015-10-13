@@ -6,6 +6,7 @@ import ideasw.secopre.dto.Inbox;
 import ideasw.secopre.dto.Movement;
 import ideasw.secopre.dto.Request;
 import ideasw.secopre.dto.RequestConfig;
+import ideasw.secopre.dto.RequestHistory;
 import ideasw.secopre.dto.WorkFlowConfig;
 import ideasw.secopre.enums.Month;
 import ideasw.secopre.enums.WorkFlowCode;
@@ -17,6 +18,7 @@ import ideasw.secopre.service.BaseService;
 import ideasw.secopre.service.impl.mapper.FormalityMapper;
 import ideasw.secopre.service.impl.mapper.InboxMapper;
 import ideasw.secopre.service.impl.mapper.RequestConfigMapper;
+import ideasw.secopre.service.impl.mapper.RequestHistoryMapper;
 import ideasw.secopre.service.impl.mapper.RequestMapper;
 import ideasw.secopre.service.impl.mapper.MovementMapper;
 import ideasw.secopre.service.impl.mapper.WorkFlowConfigMapper;
@@ -76,6 +78,11 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	public List<Inbox> getInboxByUserId(Long userId){
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("userId", userId);	
 		return this.queryForList(Inbox.class, queryContainer.getSQL(SQLConstants.GET_FORMALITY_INBOX), namedParameters, new InboxMapper());
+	}
+	
+	public List<RequestHistory> getRequestHistory(Long requestId){
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("requestId", requestId);	
+		return this.queryForList(RequestHistory.class, queryContainer.getSQL(SQLConstants.GET_REQUEST_HISTORY), namedParameters, new RequestHistoryMapper());
 	}
 	
 	

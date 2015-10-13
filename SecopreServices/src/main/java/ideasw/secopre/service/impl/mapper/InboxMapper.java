@@ -27,6 +27,7 @@ public class InboxMapper implements RowMapper<Object> {
 		 	inbox.setUrl(rs.getString("URL"));
 		 	inbox.setCapture(rs.getBoolean("IS_CAPTURE"));
 		 	inbox.setAuthorization(rs.getBoolean("IS_AUTHORIZATION"));
+		 	inbox.setRequestFinished((rs.getInt("IS_END_WORKFLOW") == 1));
 		 	inbox.setCaptureForm(rs.getString("CAPTURE_FORM"));
 		 	inbox.setStatusId(rs.getLong("STATUS_ID"));
 		 	inbox.setNextDescription(rs.getString("NEXT_DESCRIPTION"));

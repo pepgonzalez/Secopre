@@ -3,6 +3,7 @@ package ideasw.secopre.web.controller.admin;
 import ideasw.secopre.dto.Authorization;
 import ideasw.secopre.dto.Movement;
 import ideasw.secopre.dto.Request;
+import ideasw.secopre.dto.RequestHistory;
 import ideasw.secopre.model.catalog.MovementType;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.AccessNativeService;
@@ -267,5 +268,23 @@ public class WorkFlowController extends AuthController {
       	System.out.println("Ocurrio un error al intentar descargar el archivo" + ex.toString());
     }
 
-}
+	}
+	
+	@RequestMapping(value = "wf/requestDetail/{requestId}", method = { RequestMethod.GET })
+	public String getRequestDetail(@PathVariable("requestId") Long requestId,
+			ModelMap model,
+			RedirectAttributes attributes, Principal principal) {
+
+		System.out.println("getRequestDetail");
+		Request requestForm = new Request();
+
+		List<RequestHistory> requestHistory = accessNativeService.getRequestHistory(requestId);
+		
+		requestForm.setRequestHistory(requestHistory);
+
+
+		model.addAttribute("requestForm", requestForm);
+		System.out.println("mostrando historial del tramite");
+		return SecopreConstans.MV_TRAM_HISTORY;
+	}
 }
