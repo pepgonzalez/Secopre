@@ -3,11 +3,11 @@ package ideasw.secopre.web.controller;
 import java.util.HashMap;
 import java.util.List;
 
+import ideasw.secopre.enums.AccountingType;
 import ideasw.secopre.model.Entry;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
 import ideasw.secopre.model.ProgrammaticKey;
-import ideasw.secopre.model.catalog.Address;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -47,11 +47,18 @@ public class EntryController extends AuthController {
 		for (ProgrammaticKey p : pks) {
 			pkMap.put(p.getId(),p.getCode());
 		}
+		
+	
 
+		model.addAttribute("accountingTypes", AccountingType.values());
 		model.addAttribute("pks", pkMap);
 		model.addAttribute("programmaticKey", programmaticKey);
+	
+		
+		
 
 		
+	
 		return SecopreConstans.MV_CAT_ENTRY;
 	}
 	

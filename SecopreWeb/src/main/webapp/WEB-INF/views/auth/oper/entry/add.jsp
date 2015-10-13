@@ -114,6 +114,25 @@
 												          </div>
 													   </div>
 												    </div>
+												    
+												    <div class="form-group form-md-line-input has-danger">
+													<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.entry.accountingType"/>
+										  			<span class="required">* </span> 
+												    </label>
+													   <div class="col-md-4">
+													      <div class="input-group">
+																<span class="input-group-addon"> 
+																  <i class="icon-user"></i>
+																</span> 																
+																<form:select path="entry.accountingType"  name="accountingType" class="form-control">
+												                    <form:option value="" label="Seleccione..."/>
+												                    <form:options items="${accountingTypes}" />
+												                </form:select>
+						
+																<div class="form-control-focus"></div>
+												          </div>
+													   </div>
+												    </div>
 													
 																					       																				
 										        </div>
