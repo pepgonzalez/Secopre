@@ -51,8 +51,15 @@ function initPage(page) {
            */
           locale: "es"
     });
-
-	$('#' + page + 'Table').DataTable();
+	$('#' + page + 'Table').DataTable({
+			 "language": {
+		            "lengthMenu": "_MENU_ Registros por pagina",
+		            "zeroRecords": "No existen registros",
+		            "info": "Mostrando pagina _PAGE_ de _PAGES_",
+		            "infoEmpty": "No hay registros disponibles",
+		            "infoFiltered": "(filtered from _MAX_ total records)"
+		        }	
+	 });
 	$('#add_' + page).hide();
 	$('button.btn.green').click(function() {
 		$('#add_' + page).show();

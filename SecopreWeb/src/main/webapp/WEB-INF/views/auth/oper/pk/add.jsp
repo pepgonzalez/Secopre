@@ -91,7 +91,7 @@
 												<h3 class="block">Confirmación</h3>
 	
 												
-									            <h4 class="form-section">Puesto</h4>
+									            <h4 class="form-section">Clave Programática</h4>
 									            <div class="form-group">
 										            <label class="control-label col-md-3"><spring:message
 													code="application.pages.catalog.programmaticKey.code" />

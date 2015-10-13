@@ -3,7 +3,7 @@
 			<div class="page-head">
 				<!-- BEGIN PAGE TITLE -->
 				<div class="page-title">
-					<h1>Catalogos<small>Agrupador de Paridas Contables</small></h1>
+					<h1>Catálogos<small>  Claves Programáticas</small></h1>
 				</div>
 			</div>
 			<!-- END PAGE HEAD -->
@@ -13,7 +13,7 @@
 					<a href="javascript:;">Catalogos</a><i class="fa fa-circle"></i>
 				</li>
 				<li class="active">
-					 Agrupador de Paridas Contables
+					 Claves Programáticas
 				</li>
 			</ul>
 			<!-- END PAGE BREADCRUMB -->
