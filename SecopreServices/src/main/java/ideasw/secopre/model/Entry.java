@@ -50,7 +50,8 @@ public class Entry extends AuditEntity implements Persistible {
 	@Column(name = "DESCRIPTION", nullable = false, length = 250)
 	private String description;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	//(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "PROGRAMMATIC_ID", nullable = false, updatable = false)
 	private ProgrammaticKey programmaticKey;
 	
@@ -63,7 +64,7 @@ public class Entry extends AuditEntity implements Persistible {
 	@Enumerated(EnumType.STRING)
 	private AccountingType accountingType;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "ENTRY_CONCEPT_ID")
 	private Entry concept;
 
