@@ -74,7 +74,7 @@ function initEntryValidations() {
 				maxlength : 100,
 				required : true
 			},
-			id : {
+			"programmaticKey.id" : {
 				required : true
 			},
 			accountingType : {

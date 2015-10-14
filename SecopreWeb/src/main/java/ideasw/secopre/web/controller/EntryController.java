@@ -56,6 +56,8 @@ public class EntryController extends AuthController {
 		try {
 			baseService.persist(entry); 
 		} catch (Exception e) {
+			e.getStackTrace();
+			e.printStackTrace();
 			model.addAttribute(
 					"errors",
 					initErrors("Ocurrio un error al insertar el puesto:"
