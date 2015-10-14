@@ -3,7 +3,10 @@ package ideasw.secopre.web.controller.catalog;
 import java.util.HashMap;
 import java.util.List;
 
+import ideasw.secopre.enums.Gender;
 import ideasw.secopre.dto.Request;
+import ideasw.secopre.model.Entry;
+import ideasw.secopre.model.ProgrammaticKey;
 import ideasw.secopre.model.catalog.Address;
 import ideasw.secopre.model.catalog.Person;
 import ideasw.secopre.model.catalog.State;
@@ -19,6 +22,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -50,6 +54,7 @@ public class PersonController extends AuthController {
 		model.addAttribute("roles", baseService.findAll(Role.class));
 		model.addAttribute("permissions", baseService.findAll(Permission.class));
 		model.addAttribute("address", address);
+		model.addAttribute("gender",  Gender.values());
 		
 		List<State> state = baseService.findAll(State.class);
 		
@@ -81,6 +86,42 @@ public class PersonController extends AuthController {
 					initErrors("Ocurrio un error al insertar el usuario:"
 							+ e.getMessage()));
 		}
+		return SecopreConstans.MV_CAT_PERSON;
+	}
+	
+	@RequestMapping(value = "cat/person/delete", method = RequestMethod.POST)
+	public String delete(ModelMap model,  @RequestParam("id") Long id ) {
+		try {
+			Person person = baseService.findById(Person.class , id);
+			if (person!=null){
+				baseService.remove(person);
+			}
+		} catch (Exception e) {
+			model.addAttribute(
+					"errors",
+					initErrors("Ocurrio un error al eliminar la persona:"
+							+ e.getMessage()));
+		}
+		return SecopreConstans.MV_CAT_PERSON;
+	}
+	
+	
+	@RequestMapping(value = "cat/person/edit", method = { RequestMethod.GET,
+			RequestMethod.POST })
+	public String edit( ModelMap model, RedirectAttributes attributes, @RequestParam("id") Long id ) {
+		Person person = baseService.findById(Person.class , id);
+		model.addAttribute("person", person);
+		model.addAttribute("address", person.getAddress());
+		
+        List<State> state = baseService.findAll(State.class);
+		HashMap<Long, String> stateMap = new HashMap<Long, String>();
+		for (State e : state) {
+			stateMap.put(e.getId(),e.getName() );
+		}
+		model.addAttribute("states", stateMap);
+		model.addAttribute("gender",  Gender.values());
+		
+		
 		return SecopreConstans.MV_CAT_PERSON;
 	}
 

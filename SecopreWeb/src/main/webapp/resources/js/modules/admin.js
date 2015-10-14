@@ -402,8 +402,13 @@ function initPersonValidations() {
 			},
 			twitter : {},
 			facebook : {},
-			webSite : {}
-
+			webSite : {},
+			"stateDTO.id" : {
+				required : true
+			},
+			gender : {
+				required : true
+			}
 		},
 
 		invalidHandler : function(event, validator) { // display error alert
@@ -455,7 +460,7 @@ function initPersonValidations() {
 	});
 
 	var displayConfirm = function() {
-		$('#tab4 .form-control-static', form).each(
+		$('#tab3 .form-control-static', form).each(
 				function() {
 					var input = $('[name="' + $(this).attr("data-display")
 							+ '"]', form);

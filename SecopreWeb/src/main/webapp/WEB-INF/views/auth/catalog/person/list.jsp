@@ -81,11 +81,11 @@
 										 ${personItem.activo}
 									</td>
 									<td>
-										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/cat/person/edit?id=${userItem.id}' ,'dashboard','editPersonPage()');">
+										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/cat/person/edit?id=${personItem.id}' ,'dashboard','editPersonPage()');">
 										 <i class="fa fa-edit xs"></i>
 										</button>
 										
-										<button id="btndelete"  type="button" class="btn delete btn-danger btn-xs" onclick="borrarRegistro('auth/cat/person/delete?id=${userItem.id}','dashboard','initPersonList()');"   >
+										<button id="btndelete"  type="button" class="btn delete btn-danger btn-xs" onclick="borrarRegistro('auth/cat/person/delete?id=${personItem.id}','dashboard','initPersonList()');"   >
 										<i class="fa fa-trash"></i> 
 										</button>
 									</td>

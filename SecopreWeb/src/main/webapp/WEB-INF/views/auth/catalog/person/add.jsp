@@ -33,7 +33,15 @@
 												<span class="number">
 												2 </span>
 												<span class="desc">
-												<i class="fa fa-check"></i>Direccion </span>
+												<i class="fa fa-check"></i>Dirección </span>
+												</a>
+											</li>
+											<li>
+												<a href="#tab3" data-toggle="tab" class="step">
+												<span class="number">
+												3 </span>
+												<span class="desc">
+												<i class="fa fa-check"></i>Confirmación </span>
 												</a>
 											</li>
 											
@@ -111,19 +119,20 @@
 															</div>
 														</div>
 													</div>	
+													
 															
 													<div class="form-group form-md-line-input has-danger">
 													<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.gender"/>
 										  			<span class="required">* </span> 
 												    </label>
 													   <div class="col-md-4">
-													      <div class="input-group">
-																<span class="input-group-addon"> 
-																  <i class="icon-user"></i>
-																</span> 
+													      <div class="input-icon">
+<!-- 																<span class="input-group-addon">  -->
+<!-- 																  <i class="icon-user"></i> -->
+<!-- 																</span>  -->
 										                            <div class="md-radio-inline">
 																				<div class="md-radio">
-																					<input type="radio" value="MASCULINO" class="md-radiobtn" name="gender" id="gender1">
+																				    <form:radiobutton path="person.gender" id="gender1" value="MASCULINO" class="md-radiobtn" name="gender"/>
 																					<label for="gender1">
 																					<span></span>
 																					<span class="check"></span>
@@ -132,7 +141,7 @@
 																					 </label>
 																				</div>
 																				<div class="md-radio">
-																					<input type="radio" value="FEMENINO" class="md-radiobtn" name="gender" id="gender2">
+																				    <form:radiobutton path="person.gender" id="gender2" value="FEMENINO" class="md-radiobtn" name="gender"/>
 																					<label for="gender2">
 																					<span></span>
 																					<span class="check"></span>
@@ -142,6 +151,8 @@
 																				</div>
 																			</div>
 																<div class="form-control-focus"></div>
+																<span class="help-block"><spring:message code="application.pages.admin.persons.motherLastName.help"/></span>
+																<i class="icon-user"></i>
 												          </div>
 													   </div>
 												    </div>
@@ -295,9 +306,9 @@
 																<span class="input-group-addon"> 
 																  <i class="icon-user"></i>
 																</span> 
-																<form:select path="address.stateDTO.id"  name="pks" class="form-control">
+																<form:select path="address.stateDTO.id"  name="state" class="form-control">
 																   <form:option value="" label="Seleccione..."/>
-					    										   <form:options items="${pks}" />
+					    										   <form:options items="${states}" />
 																</form:select>
 																<div class="form-control-focus"></div>
 												          </div>
@@ -318,7 +329,166 @@
 															</div>
 														</div>
 													</div>	
+											</div>
+											
+											
+											<div class="tab-pane" id="tab3">
+												<h3 class="block">Confirmación</h3>
+	
+												
+									            <h4 class="form-section">Datos Generales</h4>
+									            <div class="form-group">
+										            <label class="control-label col-md-3"><spring:message
+													code="application.pages.admin.persons.name" />
+													</label>
+										            <div class="col-md-4">
+											           <p class="form-control-static" data-display="name"></p>
+										            </div>
+									            </div>
+									            
+									            <div class="form-group">
+										           <label class="control-label col-md-3"><spring:message
+													  code="application.pages.admin.persons.secondName" />
+											       </label>
+										           <div class="col-md-4">
+											         <p class="form-control-static" data-display="secondName"></p>
+										           </div>
+									            </div>	
+									            
+									            
+									            <div class="form-group">
+										           <label class="control-label col-md-3"><spring:message
+													  code="application.pages.admin.persons.fatherLastName" />
+											       </label>
+										           <div class="col-md-4">
+											         <p class="form-control-static" data-display="fatherLastName"></p>
+										           </div>
+									            </div>		
+									            
+									            
+									            <div class="form-group">
+										           <label class="control-label col-md-3"><spring:message
+													  code="application.pages.admin.persons.motherLastName" />
+											       </label>
+										           <div class="col-md-4">
+											         <p class="form-control-static" data-display="motherLastName"></p>
+										           </div>
+									            </div>		
+									            
+									            <div class="form-group">
+										           <label class="control-label col-md-3"><spring:message
+													  code="application.pages.admin.persons.gender" />
+											       </label>
+										           <div class="col-md-4">
+											         <p class="form-control-static" data-display="gender"></p>
+										           </div>
+									            </div>		
+									            
+									            <div class="form-group">
+										           <label class="control-label col-md-3"><spring:message
+													  code="application.pages.admin.persons.telephone" />
+											       </label>
+										           <div class="col-md-4">
+											         <p class="form-control-static" data-display="telephone"></p>
+										           </div>
+									            </div>	
+									            
+									            
+									            <div class="form-group">
+										           <label class="control-label col-md-3"><spring:message
+													  code="application.pages.admin.persons.mobileTelepone" />
+											       </label>
+										           <div class="col-md-4">
+											         <p class="form-control-static" data-display="mobileTelepone"></p>
+										           </div>
+									            </div>	
+									            
+									            <div class="form-group">
+										           <label class="control-label col-md-3"><spring:message
+													  code="application.pages.admin.persons.twitter" />
+											       </label>
+										           <div class="col-md-4">
+											         <p class="form-control-static" data-display="twitter"></p>
+										           </div>
+									            </div>										            									            									            					
 													
+													
+									            <div class="form-group">
+										           <label class="control-label col-md-3"><spring:message
+													  code="application.pages.admin.persons.facebook" />
+											       </label>
+										           <div class="col-md-4">
+											         <p class="form-control-static" data-display="facebook"></p>
+										           </div>
+									            </div>	
+									            
+									            													
+									            <div class="form-group">
+										           <label class="control-label col-md-3"><spring:message
+													  code="application.pages.admin.persons.webSite" />
+											       </label>
+										           <div class="col-md-4">
+											         <p class="form-control-static" data-display="webSite"></p>
+										           </div>
+									            </div>	
+									            
+  												<h4 class="form-section">Dirección</h4>
+									            <div class="form-group">
+										            <label class="control-label col-md-3"><spring:message
+													code="application.pages.admin.persons.street" />
+													</label>
+										            <div class="col-md-4">
+											           <p class="form-control-static" data-display="street"></p>
+										            </div>
+									            </div>
+									            
+									            <div class="form-group">
+										           <label class="control-label col-md-3"><spring:message
+													  code="application.pages.admin.persons.number" />
+											       </label>
+										           <div class="col-md-4">
+											         <p class="form-control-static" data-display="number"></p>
+										           </div>
+									            </div>	
+									            
+									            
+									            <div class="form-group">
+										           <label class="control-label col-md-3"><spring:message
+													  code="application.pages.admin.persons.colony" />
+											       </label>
+										           <div class="col-md-4">
+											         <p class="form-control-static" data-display="colony"></p>
+										           </div>
+									            </div>		
+									            
+									            
+									            <div class="form-group">
+										           <label class="control-label col-md-3"><spring:message
+													  code="application.pages.admin.persons.city" />
+											       </label>
+										           <div class="col-md-4">
+											         <p class="form-control-static" data-display="city"></p>
+										           </div>
+									            </div>		
+									            
+									            <div class="form-group">
+										           <label class="control-label col-md-3"><spring:message
+													  code="application.pages.admin.persons.state" />
+											       </label>
+										           <div class="col-md-4">
+											         <p class="form-control-static" data-display="stateDTO.id"></p>
+										           </div>
+									            </div>		
+									            
+									            <div class="form-group">
+										           <label class="control-label col-md-3"><spring:message
+													  code="application.pages.admin.persons.zipCode" />
+											       </label>
+										           <div class="col-md-4">
+											         <p class="form-control-static" data-display="zipCode"></p>
+										           </div>
+									            </div>										            
+																						
 											</div>
 										</div>
 									</div>
