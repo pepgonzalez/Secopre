@@ -33,9 +33,14 @@ function initPersonPage() {
 	$('select').select2();
 }
 
-function borrarRegistro(url, workarea, nextfunction){
+function editPersonPage() {
+	editPage('Person');
+	initPersonValidations();
+	$('#my_multi_select1').multiSelect();
+	$('select').select2();
+}
 
-	  
+function borrarRegistro(url, workarea, nextfunction){
 	bootbox.confirm("Se borrar\u00E1 el registro. \u00BFDesea Continuar?",function(result) {
        if(result){ sendRequestJQ(url,workarea,nextfunction);}
     }); 
