@@ -15,7 +15,7 @@
 							</div>
 						</div>
 						<div class="portlet-body form">
-							<form action="auth/oper/pk/add" class="form-horizontal" id="submit_form"  modelAttribute="submit_form" method="POST"  novalidate="novalidate">
+							<form action="auth/oper/pk/add?id=${pk.id}" class="form-horizontal" id="submit_form"  modelAttribute="submit_form" method="POST"  novalidate="novalidate">
 								<div class="form-wizard">
 									<div class="form-body">
 
@@ -59,7 +59,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input id="code" name="code" type="text" class="form-control" placeholder='<spring:message code="application.pages.catalog.programmaticKey.code.placeholder"/>'>
+																<input id="code" name="code" type="text" class="form-control"  value="${pk.code}"   placeholder='<spring:message code="application.pages.catalog.programmaticKey.code.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.catalog.programmaticKey.code.help"/></span>
@@ -74,7 +74,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input name="year"  id="year" type="text" class="form-control" placeholder='<spring:message code="application.pages.catalog.programmaticKey.year.placeholder"/>'>
+																<input name="year"  id="year" type="text" value="${pk.year}"  class="form-control" placeholder='<spring:message code="application.pages.catalog.programmaticKey.year.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.catalog.programmaticKey.year.help"/></span>

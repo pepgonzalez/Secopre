@@ -71,11 +71,11 @@
 										 ${programmaticKeyItem.activo}
 									</td>
 									<td>
-										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/oper/pk/edit?id=${programmaticKeyItem.id}' ,'dashboard','editPositionCat()');">
+										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/oper/pk/edit?id=${programmaticKeyItem.id}' ,'dashboard','editProgrammaticKeyCat()');">
 										 <i class="fa fa-edit xs"></i>
 										</button>
 										
-										<button id="btndelete"  type="button" class="btn delete btn-danger btn-xs" onclick="borrarRegistro('auth/oper/pk/delete?id=${programmaticKeyItem.id}','dashboard','initPositionList()');"   >
+										<button id="btndelete"  type="button" class="btn delete btn-danger btn-xs" onclick="borrarRegistro('auth/oper/pk/delete?id=${programmaticKeyItem.id}','dashboard','initProgrammaticKeyList()');"   >
 										<i class="fa fa-trash"></i> 
 										</button>
 									</td>

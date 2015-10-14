@@ -54,7 +54,7 @@ public class EntryController extends AuthController {
 	@RequestMapping(value = "oper/entry/add", method = RequestMethod.POST)
 	public String add(@ModelAttribute("entry") Entry entry ,ModelMap model) {
 		try {
-			baseService.persist(entry); 
+			baseService.save(entry); 
 		} catch (Exception e) {
 			e.getStackTrace();
 			e.printStackTrace();
@@ -87,7 +87,16 @@ public class EntryController extends AuthController {
 			RequestMethod.POST })
 	public String edit( ModelMap model, RedirectAttributes attributes, @RequestParam("id") Long id ) {
 		Entry entry = baseService.findById(Entry.class , id);
+		
+	    List<ProgrammaticKey> programmaticKeyList = baseService.findAll(ProgrammaticKey.class);
+		
+		HashMap<Long, String> pkMap = new HashMap<Long, String>();
+		for (ProgrammaticKey p : programmaticKeyList) {
+			pkMap.put(p.getId(),p.getCode());
+		}
+		model.addAttribute("pks", pkMap);
 		model.addAttribute("entry", entry);
+		
 		return SecopreConstans.MV_CAT_ENTRY;
 	}
 }

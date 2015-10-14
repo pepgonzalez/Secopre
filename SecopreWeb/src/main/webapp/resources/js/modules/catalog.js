@@ -63,15 +63,16 @@ function initEntryValidations() {
 		focusInvalid : false, // do not focus the last invalid input
 		rules : {
 			code : {
-				maxlength : 5,
-				required : true
+				maxlength : 11,
+				required : true,
+				number : true
 			},
 			name : {
-				maxlength : 100,
+				maxlength : 250,
 				required : true
 			},
 			description : {
-				maxlength : 100,
+				maxlength : 250,
 				required : true
 			},
 			"programmaticKey.id" : {

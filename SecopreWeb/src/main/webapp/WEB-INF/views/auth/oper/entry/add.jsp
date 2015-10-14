@@ -15,7 +15,7 @@
 							</div>
 						</div>
 						<div class="portlet-body form">
-							<form action="auth/oper/entry/add" class="form-horizontal" id="submit_form"  modelAttribute="submit_form" method="POST"  novalidate="novalidate">
+							<form action="auth/oper/entry/add?id=${entry.id}" class="form-horizontal" id="submit_form"  modelAttribute="submit_form" method="POST"  novalidate="novalidate">
 								<div class="form-wizard">
 									<div class="form-body">
 
@@ -58,7 +58,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input id="code" name="code" type="text" class="form-control" placeholder='<spring:message code="application.pages.catalog.entry.code.placeholder"/>'>
+																<form:textarea path="entry.code" id="code" name="code" value="${entry.code}" class="form-control" rows="1" />
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.catalog.entry.code.help"/></span>
@@ -73,7 +73,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input id="name" name="name" type="text" class="form-control" placeholder='<spring:message code="application.pages.catalog.entry.name.placeholder"/>'>
+															    <form:textarea path="entry.name" id="name" name="name" value="${entry.name}" class="form-control" rows="2" />
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.catalog.entry.name.help"/></span>
@@ -88,7 +88,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input name="description"  id="description" type="text" class="form-control" placeholder='<spring:message code="application.pages.catalog.entry.description.placeholder"/>'>
+																<form:textarea path="entry.description" id="description" name="description" value="${entry.description}" class="form-control" rows="2" />
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.catalog.entry.description.help"/></span>
@@ -106,7 +106,7 @@
 																<span class="input-group-addon"> 
 																  <i class="icon-user"></i>
 																</span> 
-																<form:select path="entry.programmaticKey.id"  name="pks" class="form-control">
+																<form:select path="entry.programmaticKey.id"  value="${entry.programmaticKey.id}"  name="programmaticKey.id" class="form-control">
 																   <form:option value="" label="Seleccione..."/>
 					    										   <form:options items="${pks}" />
 																</form:select>
@@ -174,7 +174,7 @@
 													  code="application.pages.catalog.entry.pk" />
 											       </label>
 										           <div class="col-md-4">
-											         <p class="form-control-static" data-display="pks"></p>
+											         <p class="form-control-static" data-display="programmaticKey.id"></p>
 										           </div>
 									            </div>		
 									            
