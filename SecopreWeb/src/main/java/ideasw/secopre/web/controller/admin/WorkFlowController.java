@@ -209,27 +209,43 @@ public class WorkFlowController extends AuthController {
 			}else{
 				rootPath = SecopreConstans.SECOPRE_RESOURCES_WINDOWS_PATH;
 			}
+			System.out.println("root seleccionado: " + rootPath);
 
 			//se valida si el directorio base existe
 			File baseDirectory = new File(rootPath);
 			if (!baseDirectory.exists()) {
 				System.out.println("creando directorio base");
 				baseDirectory.mkdir();
+				baseDirectory.setExecutable(true);
+				baseDirectory.setWritable(true);
+				baseDirectory.setReadable(true);
+			}else{
+				System.out.println("Directorio ya existe");
 			}
 			
 			//se valida si existe el folder del request
-			File requestDirectory = new File(rootPath + File.separator + requestId);
+			String requestFolder = rootPath + File.separator + requestId;
+			
+			System.out.println("creando directorio de folio: " + requestFolder);
+			File requestDirectory = new File(requestFolder);
 			if (!requestDirectory.exists()) {
 				System.out.println("creando directorio de folio");
 				requestDirectory.mkdir();
+				requestDirectory.setExecutable(true);
+				requestDirectory.setWritable(true);
+				requestDirectory.setReadable(true);
 			}
 		
 			//se guarda el archivo
 			String documentPath = rootPath + File.separator + requestId + File.separator + attachment.getOriginalFilename();
-			File file = new File(documentPath);
+			
+			System.out.println("creando documento: " + documentPath);
+
+			File file = new File(requestDirectory, attachment.getOriginalFilename());
 			if (!file.exists()) {
 				file.createNewFile();
 			}
+			System.out.println("directorio creado");
 			FileOutputStream outputStream = new FileOutputStream(file);
 			
 			outputStream.write(attachment.getBytes());
@@ -247,6 +263,7 @@ public class WorkFlowController extends AuthController {
 			accessNativeService.invokeNextStage(request, loggedUser.getId());	
 			}catch(Exception ex){
 				System.out.println("Ocurrio un error durante el guardado del documento: " + ex.getMessage());
+				System.out.println(ex);
 			}
 
 		}

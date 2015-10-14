@@ -591,6 +591,7 @@ function showDataHistory(requestId){
 function initUpload() {
 
 	var requestForm = $('#requestForm');
+	alert("iniciando subida der archivo");
 
 	$('#uploadFile').click(function(e) {
 		var file = requestForm.find('#attachment').val();
