@@ -106,7 +106,7 @@
 																<span class="input-group-addon"> 
 																  <i class="icon-user"></i>
 																</span> 
-																<form:select path="programmaticKey.id"  name="pk" class="form-control">
+																<form:select path="entry.programmaticKey.id"  name="pks" class="form-control">
 																   <form:option value="" label="Seleccione..."/>
 					    										   <form:options items="${pks}" />
 																</form:select>
@@ -143,7 +143,7 @@
 												<h3 class="block">Confirmación</h3>
 	
 												
-									            <h4 class="form-section">Ingreso</h4>
+									            <h4 class="form-section">Entradas</h4>
 									            <div class="form-group">
 										            <label class="control-label col-md-3"><spring:message
 													code="application.pages.catalog.entry.code" />
@@ -167,7 +167,25 @@
 										           <div class="col-md-4">
 											         <p class="form-control-static" data-display="description"></p>
 										           </div>
-									            </div>							
+									            </div>		
+									            
+									               <div class="form-group">
+										           <label class="control-label col-md-3"><spring:message
+													  code="application.pages.catalog.entry.pk" />
+											       </label>
+										           <div class="col-md-4">
+											         <p class="form-control-static" data-display="pks"></p>
+										           </div>
+									            </div>		
+									            
+									                    <div class="form-group">
+										           <label class="control-label col-md-3"><spring:message
+													  code="application.pages.catalog.entry.accountingType" />
+											       </label>
+										           <div class="col-md-4">
+											         <p class="form-control-static" data-display="accountingType"></p>
+										           </div>
+									            </div>					
 													
 																								
 											</div>

@@ -74,9 +74,12 @@ function initEntryValidations() {
 				maxlength : 100,
 				required : true
 			},
-			"pk.id" : {
+			id : {
 				required : true
 			},
+			accountingType : {
+				required : true
+			}
 		},
 
 		invalidHandler : function(event, validator) { // display error alert

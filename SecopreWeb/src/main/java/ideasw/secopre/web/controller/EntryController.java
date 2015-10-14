@@ -8,7 +8,6 @@ import ideasw.secopre.model.Entry;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
 import ideasw.secopre.model.ProgrammaticKey;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -37,35 +36,25 @@ public class EntryController extends AuthController {
 			RequestMethod.POST })
 	public String getList(ModelMap model, RedirectAttributes attributes) {
 		Entry entry = new Entry();
-		ProgrammaticKey programmaticKey = new ProgrammaticKey();
 		model.addAttribute("entryList", baseService.findAll(Entry.class));
 		model.addAttribute("entry", entry);
-		
-		List<ProgrammaticKey> pks = baseService.findAll(ProgrammaticKey.class);
+		List<ProgrammaticKey> programmaticKeyList = baseService.findAll(ProgrammaticKey.class);
 		
 		HashMap<Long, String> pkMap = new HashMap<Long, String>();
-		for (ProgrammaticKey p : pks) {
+		for (ProgrammaticKey p : programmaticKeyList) {
 			pkMap.put(p.getId(),p.getCode());
 		}
-		
-	
 
 		model.addAttribute("accountingTypes", AccountingType.values());
 		model.addAttribute("pks", pkMap);
-		model.addAttribute("programmaticKey", programmaticKey);
-	
-		
-		
-
-		
 	
 		return SecopreConstans.MV_CAT_ENTRY;
 	}
 	
 	@RequestMapping(value = "oper/entry/add", method = RequestMethod.POST)
-	public String add(@ModelAttribute("entry") Entry entry, ModelMap model) {
+	public String add(@ModelAttribute("entry") Entry entry ,ModelMap model) {
 		try {
-			baseService.persist(entry);
+			baseService.persist(entry); 
 		} catch (Exception e) {
 			model.addAttribute(
 					"errors",

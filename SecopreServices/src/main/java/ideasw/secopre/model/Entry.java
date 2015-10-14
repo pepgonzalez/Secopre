@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 /**
@@ -52,6 +53,11 @@ public class Entry extends AuditEntity implements Persistible {
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "PROGRAMMATIC_ID", nullable = false, updatable = false)
 	private ProgrammaticKey programmaticKey;
+	
+
+//    @ManyToOne
+//	@PrimaryKeyJoinColumn(name = "PROGRAMMATIC_ID", referencedColumnName = "ID")
+//	private ProgrammaticKey programmaticKey;
 
 	@Column(name = "ACCOUNTING_TYPE")
 	@Enumerated(EnumType.STRING)
