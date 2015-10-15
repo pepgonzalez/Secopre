@@ -14,35 +14,94 @@ import ideasw.secopre.model.Entry;
 
 public interface AccessNativeService {
 	
+	/*
+	 * Metodo que retorna todas los tramites disponibles a inicializar por el usuario
+	 * param user - Usuario en cuestion
+	 * return List<Formality> - Listado de tramites disponibles
+	 */
 	List<Formality> getFormalityAvailableByUser(User user);
 	
+	/*
+	 * Metodo transaccional para inicial el tramite del folio
+	 * param request - Objeto con informacion de nuevo tramite
+	 * param userId - Id de usuario que inicializa el tramite
+	 */
 	Long startFormality(Request request, Long userId);
 	
+	/*
+	 * Metodo para obtener todos los tramites en tuberia que puede tratar el folio
+	 * param userId - Identificador del usuario
+	 */
 	List<Inbox> getInboxByUserId(Long userId);
 	
+	/*
+	 * Metodo transaccional para avanzar un folio de etapa
+	 * param requestForm - Informacion del folio que se esta avanzando de etapa
+	 * param userId - Identificador del usuario que avanza la etapa
+	 */
 	void invokeNextStage(Request requestForm,  Long userId);
 	
+	/*
+	 * Metodo para obtener el siguiente consecutivo para la creacion de un tramite
+	 * return Long requestId - nuevo id del tramite
+	 */
+	Long getRequestNextConsecutive();
+	
+	/*
+	 * Metodo para obtener la informacion general del tramite
+	 * param requestId - identificador del tramite
+	 * return request - objeto con la informacion general del tramite
+	 */
 	Request getRequestById(Long requestId);
 	
+	/*
+	 * Metodo para obtener la informacion general del tramite, y los registros de movimientos capturados
+	 * param requestId - Id del tramite
+	 * return request - objeto con la informacion general del tramite
+	 */
 	Request getRequestAndDetailById(Long requestId);
 	
-	public int insertOrUpdateRequestDetail(Request request);
-
-	Authorization getAuthorization(Request request, User user);
+	/*
+	 * Metodo para obtener la historia del folio
+	 * param requestId - Id del folio
+	 * return List<RequestHistory> - listado de etapas por las que paso el tramite
+	 */
+	List<RequestHistory> getRequestHistory(Long requestId);
 	
-	public Long getRequestNextConsecutive();
+	/*
+	 * Metodo que actualiza la informacion de detalle de un folio
+	 * param request - objeto con la informacion del tramite
+	 */
+	int insertOrUpdateRequestDetail(Request request);
 
+	/*
+	 * Metodo para actualizar la ruta absoluta del documento anexo carga al tramite por el sistema
+	 * requestId - Id del tramite
+	 * uploadedFilePath - Ruta absoluta del directorio
+	 */
 	int updateRequestUploadedFile(Long requestId, String uploadedFilePath);
 	
-	Map<Long, String> getProgramaticKeysMap();
+	/*
+	 * Metodo que obtiene la configuracion de la etapa actual de autorizacion de un folio
+	 */
+	Authorization getAuthorization(Request request, User user);
 	
-	Map<Long, String> getEntriesMap(Long programaticKey);
-	
-	Map<Long, String> getMovementTypesMap();
-
+	/*
+	 * Metodos accesores de catalogos requeridos en pantallas de captura
+	 */
+	 
+	/* Listado de Partidas en base a llave programatica*/
 	List<Entry> getEntries(Long programaticKey);
 	
-	Map<Long, String> getMonthsMap();
+	/* Listado de llaves programaticas a modo de Mapa */
+	Map<Long, String> getProgramaticKeysMap();
 	
-	public List<RequestHistory> getRequestHistory(Long requestId);
+	/* Listado de partidas a modo de mapa */
+	Map<Long, String> getEntriesMap(Long programaticKey);
+	
+	/* Listado de tipos de movimiento a modo de mapa */
+	Map<Long, String> getMovementTypesMap();
+	
+	/* Listado de meses a modo de Mapa */
+	Map<Long, String> getMonthsMap();
 }
