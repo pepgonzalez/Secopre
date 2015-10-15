@@ -22,6 +22,14 @@ function initUserList() {
 	sendRequestJQ('auth/adm/usr/list', 'dashboard', 'initUserPage()');
 }
 
+function editUserPage() {
+	editPage('User');
+	initUserValidations();
+	$('#roles').multiSelect();
+	$('#permissions').multiSelect();
+	$('select').select2();
+}
+
 function initPersonList() {
 	sendRequestJQ('auth/cat/person/list', 'dashboard', 'initPersonPage()');
 }
