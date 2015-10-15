@@ -5,8 +5,6 @@ import java.util.List;
 
 import ideasw.secopre.enums.Gender;
 import ideasw.secopre.dto.Request;
-import ideasw.secopre.model.Entry;
-import ideasw.secopre.model.ProgrammaticKey;
 import ideasw.secopre.model.catalog.Address;
 import ideasw.secopre.model.catalog.Person;
 import ideasw.secopre.model.catalog.State;
@@ -75,11 +73,12 @@ public class PersonController extends AuthController {
 	}
 	
 	@RequestMapping(value = "cat/person/add", method = RequestMethod.POST)
-	public String add(@ModelAttribute("person") Person person,@ModelAttribute("address") Address address , ModelMap model) {
+	public String add(@ModelAttribute("person") Person person,@ModelAttribute("address") Address address, @RequestParam("addressid") Long addressid  , ModelMap model) {
 		try {
-			baseService.persist(address);
+			address.setId(addressid);
+			baseService.save(address);
 			person.setAddress(address);
-			baseService.persist(person);
+			baseService.save(person);
 		} catch (Exception e) {
 			model.addAttribute(
 					"errors",

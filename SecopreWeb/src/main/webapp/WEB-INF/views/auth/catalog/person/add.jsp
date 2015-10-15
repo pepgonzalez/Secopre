@@ -15,7 +15,7 @@
 							</div>
 						</div>
 						<div class="portlet-body form">
-							<form action="auth/cat/person/add" class="form-horizontal" id="submit_form"  modelAttribute="submit_form" method="POST"  novalidate="novalidate">
+							<form action="auth/cat/person/add?id=${person.id}&addressid=${address.id}" class="form-horizontal" id="submit_form"  modelAttribute="submit_form" method="POST"  novalidate="novalidate">
 								<div class="form-wizard">
 									<div class="form-body">
 
@@ -65,7 +65,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input id="name" name="name" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.name.placeholder"/>'>
+																<input id="name" name="name" value="${person.name}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.name.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.admin.persons.name.help"/></span>
@@ -79,7 +79,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input name="secondName"  id="secondName" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.secondName.placeholder"/>'>
+																<input name="secondName"  id="secondName" value="${person.secondName}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.secondName.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.admin.persons.secondName.help"/></span>
@@ -95,7 +95,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input name="fatherLastName"  id="fatherLastName" type="text"  class="form-control" placeholder='<spring:message code="application.pages.admin.persons.fatherLastName.placeholder"/>'>
+																<input name="fatherLastName"  id="fatherLastName" value="${person.fatherLastName}" type="text"  class="form-control" placeholder='<spring:message code="application.pages.admin.persons.fatherLastName.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>																				
  																<span class="help-block"><spring:message code="application.pages.admin.persons.fatherLastName.help"/></span> 
@@ -111,7 +111,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input id="motherLastName" name="motherLastName" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.motherLastName.placeholder"/>'>
+																<input id="motherLastName" name="motherLastName" value="${person.motherLastName}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.motherLastName.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.admin.persons.motherLastName.help"/></span>
@@ -132,7 +132,7 @@
 <!-- 																</span>  -->
 										                            <div class="md-radio-inline">
 																				<div class="md-radio">
-																				    <form:radiobutton path="person.gender" id="gender1" value="MASCULINO" class="md-radiobtn" name="gender"/>
+																				    <form:radiobutton path="person.gender"  id="gender1" value="MASCULINO" class="md-radiobtn" name="gender"/>
 																					<label for="gender1">
 																					<span></span>
 																					<span class="check"></span>
@@ -163,7 +163,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input id="telephone" name="telephone" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.telephone.placeholder"/>'>
+																<input id="telephone" name="telephone" value="${person.telephone}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.telephone.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.admin.persons.telephone.help"/></span>
@@ -178,7 +178,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input id="mobileTelepone" name="mobileTelepone" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.mobileTelepone.placeholder"/>'>
+																<input id="mobileTelepone" name="mobileTelepone" value="${person.mobileTelepone}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.mobileTelepone.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.admin.persons.mobileTelepone.help"/></span>
@@ -192,7 +192,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input id="twitter" name="twitter" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.twitter.placeholder"/>'>
+																<input id="twitter" name="twitter" value="${person.twitter}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.twitter.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.admin.persons.twitter.help"/></span>
@@ -206,7 +206,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input id="facebook" name="facebook" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.facebook.placeholder"/>'>
+																<input id="facebook" name="facebook" value="${person.facebook}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.facebook.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.admin.persons.facebook.help"/></span>
@@ -220,7 +220,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input id="webSite" name="webSite" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.webSite.placeholder"/>'>
+																<input id="webSite" name="webSite" value="${person.webSite}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.webSite.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.admin.persons.webSite.help"/></span>
@@ -241,7 +241,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input id="street" name="street" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.street.placeholder"/>'>
+																<input id="street" name="street" value="${address.street}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.street.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.admin.persons.street.help"/></span>
@@ -256,7 +256,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input id="number" name="number" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.number.placeholder"/>'>
+																<input id="number" name="number" value="${address.number}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.number.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.admin.persons.number.help"/></span>
@@ -271,7 +271,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input id="colony" name="colony" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.colony.placeholder"/>'>
+																<input id="colony" name="colony"  value="${address.colony}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.colony.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.admin.persons.colony.help"/></span>
@@ -286,7 +286,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input id="city" name="city" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.city.placeholder"/>'>
+																<input id="city" name="city" value="${address.city}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.city.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.admin.persons.city.help"/></span>
@@ -321,7 +321,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input id="zipCode" name="zipCode" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.zipCode.placeholder"/>'>
+																<input id="zipCode" name="zipCode" value="${address.zipCode}"  type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.zipCode.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.admin.persons.zipCode.help"/></span>
