@@ -76,7 +76,6 @@ function initPage(page) {
 	});
 	$('button.btn.blue').click(
 			function() {
-				console.log("submit boton blue");
 				submitAjaxJQ(page + 'Form', 'dashboard', 'initPage('
 						+ page + ');');
 			});
@@ -574,7 +573,6 @@ function initPersonValidations() {
 }
 
 function initTramiteListPage() {
-	console.log("iniciando listado");
 	$('#formalityList').DataTable({
         "language": {
             "lengthMenu": "_MENU_ Registros por pagina",
@@ -584,7 +582,6 @@ function initTramiteListPage() {
             "infoFiltered": "(filtered from _MAX_ total records)"
         }
     });
-	console.log("finalizando tabla");
 }
 
 function showDataHistory(requestId){
@@ -595,7 +592,6 @@ function showDataHistory(requestId){
 	        title: "Historial del folio"	    
 	    }).find(".modal-dialog").css({"width":"70%"});
 	});
-	console.log("fin");
 }
 
 function initUpload() {
@@ -690,7 +686,6 @@ var movementController = {
 					}
 				}
 			});
-			console.log("actualizando monto total del grid: " +  gridTotal);
 			grd.find(totalId).html((gridTotal));
 			
 		},
@@ -823,26 +818,20 @@ var movementController = {
 				
 				var total = 0;
 				if ( this.value.length > 0){
-					console.log("campo no vacio: " + this.value);
 					var m1 = parseInt(finalMonth.val());
 					var m2 = parseInt(initialMonth.val());					
 					total = ((m1-m2) + 1) * this.value;					
-					console.log("monto total: " + total);
 					
 					if (parseInt(this.value) > 0){
 						self.removeClassError(self.getId(grid, nextIndex, "monthAmount"));
 					}
 					
-				}else{
-					console.log("campo vacio, seteando cero");
 				}
 				
 				//guardamos el monto total en total amount
-				console.log("seteando total a totalAmount: " + total);
 				$(self.getId(grid, nextIndex, "totalAmount")).val(total);
 				
 				//se invoca update para actualizar los totales del grid
-				console.log("actualizando total de componente");
 				self.updateTotal(self, grid);
 				
 			});
@@ -996,9 +985,6 @@ var movementController = {
 							var movAlza = parseFloat($(document).find("#upMovementsTotal").text());
 							var movBaja = parseFloat($(document).find("#downMovementsTotal").text());
 							
-							console.log("total de movs a la alza: " + movAlza);
-							console.log("total de movs a la baja: " + movBaja);
-							
 							if ((movAlza - movBaja) != 0){
 								this.notif("error","la suma de los movimientos de aumento y disminución deben resultar 0.");
 								return false;
@@ -1012,17 +998,14 @@ var movementController = {
 				validateComponent: function(gridId){
 					var grid = $(gridId);
 					var totalRows = grid.find("tbody tr:not(#noMovs)").length;
-					console.log("total global de filas sin contar nomovs: " +  totalRows);
 					
 					var filteredRows = grid.find("tbody tr:not(#noMovs)").filter(function(){
 						var flag = $(this).find("[data-name='removedElement']");
 						return (parseInt(flag.val()) <= 0);
 					});
-					console.log("total de filas sin contar no rows ni eliminadas: " + filteredRows.length);
 					
 					if (filteredRows.length <= 0){
 						this.notif("error","debe capturar al menos un movimiento");
-						console.log("sin movimientos capturados en componente");
 						return false;
 					}
 					//iteracion para procesar cada una de las filas
@@ -1036,17 +1019,14 @@ var movementController = {
 						var amount = row.find("[data-name='monthAmount'] input");
 						
 						if (parseInt(programaticKey.val()) <= 0){
-							console.log("programatic key not selected");
 							programaticKey.closest("[data-name='programaticKey']").addClass("has-error");
 							ok = false;
 						}
 						if (parseInt(entry.val()) <= 0){
-							console.log("entry key not selected");
 							entry.closest("[data-name='entry']").addClass("has-error");
 							ok = false;
 						}
 						if (amount.val().length == 0 || parseInt(amount.val()) <= 0){
-							console.log("amount invalid");
 							amount.closest("[data-name='monthAmount']").addClass("has-error");
 							ok = false;
 						}
@@ -1060,11 +1040,8 @@ var movementController = {
 					window.showNotification(type, msg);
 				}
 			};
-			
-			console.log("Inicio de validacion de captura");
-			
+						
 			var movementType = $("#movementTypeId");
-			
 			
 			var result = validator.movementType(movementType);
 			if(result){
@@ -1079,7 +1056,6 @@ var movementController = {
 function initFullCapture() {
 	
 	$(document).find('.numbersOnly').keyup(function () { 
-		console.log("pique");
 		this.value = this.value.replace(/[^0-9\.]/g,'');
 	});
 

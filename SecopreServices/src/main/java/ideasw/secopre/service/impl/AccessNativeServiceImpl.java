@@ -12,6 +12,7 @@ import ideasw.secopre.enums.Month;
 import ideasw.secopre.enums.WorkFlowCode;
 import ideasw.secopre.model.Entry;
 import ideasw.secopre.model.ProgrammaticKey;
+import ideasw.secopre.model.catalog.MovementType;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.AccessNativeService;
 import ideasw.secopre.service.BaseService;
@@ -332,6 +333,16 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		Map<Long, String> map = new HashMap<Long, String>();
 		for (Month mes : Month.values()){
 			map.put(mes.getId(), mes.name());
+		}
+		return map;
+	}
+
+	@Override
+	public Map<Long, String> getMovementTypesMap() {
+		List<MovementType> movementTypes = baseService.findAll(MovementType.class);	
+		Map<Long, String> map = new HashMap<Long, String>();
+		for(MovementType mov : movementTypes){
+			map.put(mov.getId(), mov.getDescription());
 		}
 		return map;
 	}

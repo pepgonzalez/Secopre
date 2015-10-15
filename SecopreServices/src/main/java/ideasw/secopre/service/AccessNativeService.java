@@ -37,6 +37,8 @@ public interface AccessNativeService {
 	Map<Long, String> getProgramaticKeysMap();
 	
 	Map<Long, String> getEntriesMap(Long programaticKey);
+	
+	Map<Long, String> getMovementTypesMap();
 
 	List<Entry> getEntries(Long programaticKey);
 	
