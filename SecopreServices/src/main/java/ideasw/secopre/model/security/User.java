@@ -101,7 +101,7 @@ public class User implements Persistible, UserDetails {
 	// bi-directional many-to-one association to Userrole
     @NotAudited
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
-    @ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @ManyToMany(cascade=CascadeType.MERGE, fetch=FetchType.EAGER)
     @JoinTable(name = "USER_ROLE",
         joinColumns = {@JoinColumn(name="USER_ID")},
         inverseJoinColumns = {@JoinColumn(name="ROLE_ID")}

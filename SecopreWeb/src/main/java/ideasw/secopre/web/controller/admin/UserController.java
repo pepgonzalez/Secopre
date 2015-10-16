@@ -111,17 +111,18 @@ public class UserController extends AuthController {
 			for (String rolid : items) {
 				Role rol= baseService.findById(Role.class, Long.parseLong(rolid));
 				authorities.add(rol);
-			//	user.setAuthorities(authorities);
+				user.setAuthorities(authorities);
 			}
 			
 			
-			baseService.persist(user);
+			baseService.save(user);
 		} catch (Exception e) {
 			model.addAttribute(
 					"errors",
 					initErrors("Ocurrio un error al insertar el usuario:"
 							+ e.getMessage()));
 			e.getStackTrace();
+			e.printStackTrace();
 			e.getCause();
 		}
 		return SecopreConstans.MV_ADM_USR;
@@ -143,4 +144,49 @@ public class UserController extends AuthController {
 
 		return SecopreConstans.AUTH_INDEX;
 	}
+	
+	
+	@RequestMapping(value = "adm/usr/delete", method = RequestMethod.POST)
+	public String delete(ModelMap model,  @RequestParam("id") Long id ) {
+		try {
+			User user = baseService.findById(User.class , id);
+			if (user!=null){
+				baseService.remove(user);
+			}
+		} catch (Exception e) {
+			model.addAttribute(
+					"errors",
+					initErrors("Ocurrio un error al eliminar el Usuario:"
+							+ e.getMessage()));
+		}
+		return SecopreConstans.MV_ADM_USR;
+	}
+	
+	
+	@RequestMapping(value = "adm/usr/edit", method = { RequestMethod.GET,
+			RequestMethod.POST })
+	public String edit( ModelMap model, RedirectAttributes attributes, @RequestParam("id") Long id ) {
+		User user = baseService.findById(User.class , id);
+		model.addAttribute("user", user);
+		
+		model.addAttribute("userList", baseService.findAll(User.class));
+		model.addAttribute("roles", baseService.findAll(Role.class));
+		model.addAttribute("permissions", baseService.findAll(Permission.class));
+	
+		List<Person> person = baseService.findAll(Person.class);
+		
+		HashMap<Long, String> personMap = new HashMap<Long, String>();
+		for (Person p : person) {
+			personMap.put(p.getId(),p.getName() );
+		}
+	
+		model.addAttribute("persons", personMap);
+
+		return SecopreConstans.MV_ADM_USR;
+	}
+
+	
+	
+	
+	
 }

@@ -52,6 +52,7 @@ public interface AccessNativeService {
 	 * param requestId - identificador del tramite
 	 * return request - objeto con la informacion general del tramite
 	 */
+
 	Request getRequestById(Long requestId);
 	
 	/*
@@ -72,6 +73,7 @@ public interface AccessNativeService {
 	 * Metodo que actualiza la informacion de detalle de un folio
 	 * param request - objeto con la informacion del tramite
 	 */
+
 	int insertOrUpdateRequestDetail(Request request);
 
 	/*
@@ -80,6 +82,8 @@ public interface AccessNativeService {
 	 * uploadedFilePath - Ruta absoluta del directorio
 	 */
 	int updateRequestUploadedFile(Long requestId, String uploadedFilePath);
+
+	Authorization getAuthorization(Request request, User user);
 	
 	/*
 	 * Metodo que obtiene la configuracion de la etapa actual de autorizacion de un folio
