@@ -16,33 +16,34 @@ public interface AccessNativeService {
 	
 	List<Formality> getFormalityAvailableByUser(User user);
 	
-	Long startFormality(Request request, Long userId);
-	
 	List<Inbox> getInboxByUserId(Long userId);
 	
+	Long startFormality(Request request, Long userId);
+	
 	void invokeNextStage(Request requestForm,  Long userId);
+	
+	Long getRequestNextConsecutive();
 	
 	Request getRequestById(Long requestId);
 	
 	Request getRequestAndDetailById(Long requestId);
 	
-	public int insertOrUpdateRequestDetail(Request request);
-
-	Authorization getAuthorization(Request request, User user);
+	List<RequestHistory> getRequestHistory(Long requestId);
 	
-	public Long getRequestNextConsecutive();
+	int insertOrUpdateRequestDetail(Request request);
 
 	int updateRequestUploadedFile(Long requestId, String uploadedFilePath);
+
+	Authorization getAuthorization(Request request, User user);
 	
 	Map<Long, String> getProgramaticKeysMap();
 	
 	Map<Long, String> getEntriesMap(Long programaticKey);
 	
 	Map<Long, String> getMovementTypesMap();
+	
+	Map<Long, String> getMonthsMap();
 
 	List<Entry> getEntries(Long programaticKey);
 	
-	Map<Long, String> getMonthsMap();
-	
-	public List<RequestHistory> getRequestHistory(Long requestId);
 }
