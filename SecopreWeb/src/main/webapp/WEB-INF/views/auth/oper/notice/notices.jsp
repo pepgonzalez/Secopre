@@ -3,7 +3,7 @@
 			<div class="page-head">
 				<!-- BEGIN PAGE TITLE -->
 				<div class="page-title">
-					<h1>Catalogos<small> Partidas</small></h1>
+					<h1>Catalogos<small> Avisos</small></h1>
 				</div>
 			</div>
 			<!-- END PAGE HEAD -->
@@ -13,22 +13,22 @@
 					<a href="javascript:;">Catalogos</a><i class="fa fa-circle"></i>
 				</li>
 				<li class="active">
-					  Partidas
+					  Avisos
 				</li>
 			</ul>
 			<!-- END PAGE BREADCRUMB -->
 
-			<!-- FORMULARIO AGREGAR PARTIDAS-->
-			<div id="add_Entry">
-				<%@ include file="/WEB-INF/views/auth/oper/entry/add.jsp"%>
+			<!-- FORMULARIO AGREGAR AVISOS-->
+			<div id="add_Notice">
+				<%@ include file="/WEB-INF/views/auth/oper/notice/add.jsp"%>
 			</div>
-			<!-- TERMINA FORMULARIO AGREGAR PARTIDAS -->
+			<!-- TERMINA FORMULARIO AGREGAR AVISOS -->
 			
-			<!-- LISTA PUESTOS -->
-			<div id="list_Entry">
-				<%@ include file="/WEB-INF/views/auth/oper/entry/list.jsp"%>
+			<!-- LISTA AVISOS -->
+			<div id="list_Notice">
+				<%@ include file="/WEB-INF/views/auth/oper/notice/list.jsp"%>
 			</div>
-			<!-- TERMINA LISTA PARTIDAS -->			
+			<!-- TERMINA LISTA AVISOS -->			
 
 	
 	

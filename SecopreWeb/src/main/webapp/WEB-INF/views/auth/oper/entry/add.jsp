@@ -25,7 +25,7 @@
 												<span class="number">
 												1 </span>
 												<span class="desc">
-												<i class="fa fa-check"></i> Ingreso </span>
+												<i class="fa fa-check"></i> Partidas </span>
 												</a>
 											</li>
 											<li>
@@ -49,7 +49,7 @@
 											<%@ include file="/WEB-INF/views/auth/common/alertForm.jsp"%>
 
 											<div class="tab-pane active" id="tab1">
-												<h3 class="block">Proporcionar Información de Entradas</h3>
+												<h3 class="block">Proporcionar Información de Partidas</h3>
 												<div class="form-body">													
 
 													<div class="form-group form-md-line-input">

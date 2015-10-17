@@ -15,7 +15,7 @@
 							</div>
 						</div>
 						<div class="portlet-body form">
-							<form action="auth/adm/menu/add?id=${menu.id}" class="form-horizontal" id="submit_form"  modelAttribute="submit_form" method="POST"  novalidate="novalidate">
+							<form action="auth/oper/notice/add?id=${notice.id}" class="form-horizontal" id="submit_form"  modelAttribute="submit_form" method="POST"  novalidate="novalidate">
 								<div class="form-wizard">
 									<div class="form-body">
 
@@ -25,7 +25,7 @@
 												<span class="number">
 												1 </span>
 												<span class="desc">
-												<i class="fa fa-check"></i> Puestos </span>
+												<i class="fa fa-check"></i> Aviso </span>
 												</a>
 											</li>
 											<li>
@@ -49,39 +49,23 @@
 											<%@ include file="/WEB-INF/views/auth/common/alertForm.jsp"%>
 
 											<div class="tab-pane active" id="tab1">
-												<h3 class="block">Proporcionar Información de Menu</h3>
+												<h3 class="block">Proporcionar Información de Avisos</h3>
 												<div class="form-body">													
-													
-													
+
 													<div class="form-group form-md-line-input">
-														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.menu.name"/>
+														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.notie.year"/>
 															<span class="required">* </span>
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input id="name" name="name" type="text" value="${menu.name}" class="form-control" placeholder='<spring:message code="application.pages.catalog.position.name.placeholder"/>'>
+																<form:textarea path=".yearnotice" id="year" name="year" value="${notice.year}" class="form-control" rows="1" />
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.menu.name.help"/></span>
+																<span class="help-block"><spring:message code="application.pages.catalog.notice.year.help"/></span>
 																<i class="icon-user"></i>
 															</div>
 														</div>
-													</div>
-													
-													<div class="form-group form-md-line-input has-danger">
-														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.menu.description"/>
-														<span class="required">* </span>
-														</label>
-														<div class="col-md-10">
-															<div class="input-icon">
-																<input name="description"  id="description" type="text" value="${menu.description}" class="form-control" placeholder='<spring:message code="application.pages.catalog.position.description.placeholder"/>'>
-																<div class="form-control-focus">
-																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.menu.description.help"/></span>
-																<i class="icon-user"></i>
-															</div>
-														</div>
-													</div>
+													</div>													
 																					       																				
 										        </div>
 											</div>
@@ -91,24 +75,16 @@
 												<h3 class="block">Confirmación</h3>
 	
 												
-									            <h4 class="form-section">Menu</h4>
+									            <h4 class="form-section">Avisos</h4>
 									            <div class="form-group">
 										            <label class="control-label col-md-3"><spring:message
-													code="application.pages.admin.menu.name" />
+													code="application.pages.catalog.notice.year" />
 													</label>
 										            <div class="col-md-4">
-											           <p class="form-control-static" data-display="name"></p>
+											           <p class="form-control-static" data-display="year"></p>
 										            </div>
 									            </div>
-									            <div class="form-group">
-										           <label class="control-label col-md-3"><spring:message
-													  code="application.pages.admin.menu.description" />
-											       </label>
-										           <div class="col-md-4">
-											         <p class="form-control-static" data-display="description"></p>
-										           </div>
-									            </div>							
-													
+					            
 																								
 											</div>
 										</div>
@@ -121,7 +97,7 @@
 												<a href="javascript:;" class="btn blue button-next">
 												<spring:message code="application.next"/> <i class="m-icon-swapright m-icon-white"></i>
 												</a>
-												<button type="button" class="btn green button-submit" id="submitRequestForm"><spring:message code="application.pages.admin.menu.crear"/></button>
+												<button type="button" class="btn green button-submit" id="submitRequestForm"><spring:message code="application.pages.catalog.notice.crear"/></button>
 						
 											</div>
 										</div>
