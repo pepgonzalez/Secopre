@@ -65,6 +65,5 @@ public class SecopreConstans {
 	
 	public static final String MV_CAT_NOTICE = "auth/catalog/notice/notice";
 	public static final String MV_CAT_NOTICE_ADD = "auth/catalog/notice/add";	
-	
-
+		
 }
