@@ -6,6 +6,7 @@ import ideasw.secopre.dto.Request;
 import ideasw.secopre.model.catalog.District;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.AccessNativeService;
+import ideasw.secopre.service.BaseService;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
 
@@ -26,6 +27,9 @@ public class TramiteController extends AuthController {
 
 	@Autowired
 	private AccessNativeService accessNativeService;
+	
+	@Autowired
+	private BaseService baseService;
 	
 	@RequestMapping(value = "tram/add", method = { RequestMethod.GET })
 	public String showFormalityForm(ModelMap model, RedirectAttributes attributes,  Principal principal) {

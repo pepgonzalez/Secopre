@@ -83,8 +83,6 @@ public interface AccessNativeService {
 	 */
 	int updateRequestUploadedFile(Long requestId, String uploadedFilePath);
 
-	Authorization getAuthorization(Request request, User user);
-	
 	/*
 	 * Metodo que obtiene la configuracion de la etapa actual de autorizacion de un folio
 	 */
