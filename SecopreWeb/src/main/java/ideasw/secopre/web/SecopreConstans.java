@@ -23,6 +23,11 @@ public class SecopreConstans {
 	//####Modulo Administracion Permisos####//
 	public static final String MV_ADM_PERMISSION = "auth/admin/config/perm/perms";
 	
+	//####Modulo Administracion Menus####//
+	public static final String MV_ADM_MENU_LIST = "auth/admin/config/menu/list";
+	public static final String MV_ADM_MENU = "auth/admin/config/menu/menus";
+	
+	
 	//####Modulo de Tramites####//
 	public static final String MV_TRAM_ADD = "auth/tramite/add";
 	public static final String MV_TRAM_LIST = "auth/tramite/list";

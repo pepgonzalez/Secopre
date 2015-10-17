@@ -1,0 +1,76 @@
+package ideasw.secopre.web.controller.admin;
+import ideasw.secopre.model.security.Menu;
+import ideasw.secopre.web.SecopreConstans;
+import ideasw.secopre.web.controller.base.AuthController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+/**
+ * Controller principal encargada de administrar el catalogo de Menus,
+ * 
+ * El {@link RequestMapping} se compone de 3 paths principales que son
+ * <ul>
+ * <li>cat: Indica que esta en el modulo de catalogos</li>
+ * <li>position: Indica que la configuracion pertenece a Puestos</li>
+ * <li>auth: Indica que el modulo esta protegido por autorizacion</li>
+ * </ul>
+ * 
+ * @author jesus.gallardos@gmail.com
+ *
+ */
+@Controller
+public class MenuController extends AuthController {
+
+	@RequestMapping(value = "adm/menu/list", method = { RequestMethod.GET,
+			RequestMethod.POST })
+	public String getList(ModelMap model, RedirectAttributes attributes) {
+		Menu menu = new Menu();
+		model.addAttribute("menuList", baseService.findAll(Menu.class));
+		model.addAttribute("menu", menu);
+		return SecopreConstans.MV_ADM_MENU;
+	}
+	
+	@RequestMapping(value = "adm/menu/edit", method = { RequestMethod.GET,
+			RequestMethod.POST })
+	public String edit( ModelMap model, RedirectAttributes attributes, @RequestParam("id") Long id ) {
+		Menu menu = baseService.findById(Menu.class , id);
+		model.addAttribute("menu", menu);
+		return SecopreConstans.MV_ADM_MENU;
+	}
+	
+	@RequestMapping(value = "adm/menu/add", method = RequestMethod.POST)
+	public String add(@ModelAttribute("menu") Menu menu, ModelMap model,  @RequestParam("id") Long id ) {
+		try {
+			baseService.save(menu);
+		} catch (Exception e) {
+			model.addAttribute(
+					"errors",
+					initErrors("Ocurrio un error al insertar el menu:"
+							+ e.getMessage()));
+		}
+		return SecopreConstans.MV_ADM_MENU;
+	}
+	
+	@RequestMapping(value = "adm/menu/delete", method = RequestMethod.POST)
+	public String delete(ModelMap model,  @RequestParam("id") Long id ) {
+		try {
+			Menu menu = baseService.findById(Menu.class , id);
+			if (menu!=null){
+				baseService.remove(menu);
+			}
+		} catch (Exception e) {
+			model.addAttribute(
+					"errors",
+					initErrors("Ocurrio un error al insertar el menu:"
+							+ e.getMessage()));
+		}
+		return SecopreConstans.MV_ADM_MENU;
+	}
+	
+	
+}
