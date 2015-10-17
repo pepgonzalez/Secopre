@@ -1,7 +1,12 @@
 package ideasw.secopre.web.controller.admin;
+import java.util.HashMap;
+import java.util.List;
+
 import ideasw.secopre.model.security.Menu;
+import ideasw.secopre.model.security.Path;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,8 +35,20 @@ public class MenuController extends AuthController {
 			RequestMethod.POST })
 	public String getList(ModelMap model, RedirectAttributes attributes) {
 		Menu menu = new Menu();
+	    Path path = new Path();
 		model.addAttribute("menuList", baseService.findAll(Menu.class));
 		model.addAttribute("menu", menu);
+		model.addAttribute("path", path); 
+		
+		List<Menu> parent = baseService.findAll(Menu.class);
+		
+		HashMap<Long, String> parentMap = new HashMap<Long, String>();
+		for (Menu p : parent) {
+			parentMap.put(p.getId(),p.getName() );
+		}
+		model.addAttribute("parents", parentMap);
+		
+		
 		return SecopreConstans.MV_ADM_MENU;
 	}
 	
@@ -44,9 +61,13 @@ public class MenuController extends AuthController {
 	}
 	
 	@RequestMapping(value = "adm/menu/add", method = RequestMethod.POST)
-	public String add(@ModelAttribute("menu") Menu menu, ModelMap model,  @RequestParam("id") Long id ) {
+	public String add(@ModelAttribute("menu") Menu menu,@ModelAttribute("path") Path path, @RequestParam("pathid") Long pathid, ModelMap model,  @RequestParam("id") Long id ) {
 		try {
 			baseService.save(menu);
+			path.setId(pathid);
+			path.setMenu(menu);
+			baseService.save(path);
+			
 		} catch (Exception e) {
 			model.addAttribute(
 					"errors",

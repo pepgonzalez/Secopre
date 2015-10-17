@@ -15,18 +15,18 @@ function initPositionList() {
 function initMenuCat() {
 	initPage('Menu');
 	initMenuValidations();
+	 $('select').select2();
 }
 
 function editMenuCat() {
 	editPage('Menu');
 	initMenuValidations();
+	 $('select').select2();
 }
 
 function initMenuList() {
 	sendRequestJQ('auth/adm/menu/list', 'dashboard', 'initMenuCat()');
 }
-
-
 
 function initProgrammaticKeyCat() {
 	initPage('ProgrammaticKey');
@@ -287,23 +287,32 @@ function initMenuValidations() {
 		// message class
 		focusInvalid : false, // do not focus the last invalid input
 		rules : {
-			code : {
-				maxlength : 11,
-				required : true,
-				number : true
+			icon : {
+				maxlength : 10,
+				required : true
 			},
 			name : {
-				maxlength : 250,
+				maxlength : 50,
 				required : true
 			},
 			description : {
-				maxlength : 250,
+				maxlength : 100,
 				required : true
 			},
-			"programmaticKey.id" : {
+			cssClass : {
+				maxlength : 50,
 				required : true
 			},
-			accountingType : {
+			jsFunction : {
+				maxlength : 50,
+				required : true
+			},
+			order : {
+				maxlength : 10,
+				number : true,
+				required : true
+			},
+			parentId : {
 				required : true
 			}
 		},
