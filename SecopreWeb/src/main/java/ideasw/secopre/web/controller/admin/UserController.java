@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import ideasw.secopre.model.catalog.Address;
 import ideasw.secopre.model.catalog.Person;
 
 /**
@@ -55,12 +54,10 @@ public class UserController extends AuthController {
 			RequestMethod.POST })
 	public String getUserList(ModelMap model, RedirectAttributes attributes) {
 		User user = new User();
-		Address address = new Address();
 		model.addAttribute("userList", baseService.findAll(User.class));
 		model.addAttribute("user", user);
 		model.addAttribute("roles", baseService.findAll(Role.class));
 		model.addAttribute("permissions", baseService.findAll(Permission.class));
-		model.addAttribute("address", address);
 		
 		List<Person> person = baseService.findAll(Person.class);
 		
@@ -68,8 +65,7 @@ public class UserController extends AuthController {
 		for (Person p : person) {
 			personMap.put(p.getId(),p.getName() );
 		}
-		
-		
+
 		Request requestForm = new Request();
 		
 		model.addAttribute("persons", personMap);
@@ -101,9 +97,11 @@ public class UserController extends AuthController {
 		try {
 			user.setPassword(Encryption.encrypByBCrypt(user.getPassword()));
 			user.setActive(Boolean.TRUE);
+			if (user.getHasChatActive()){
+				user.setHasChatActive(Boolean.TRUE);	
+			}
 			
-			//Person p = baseService.findById(Person.class, Long.parseLong(person));
-			//user.setPerson(p);
+		
 			
 			List<Role> authorities  = new ArrayList<Role>();
 			List<String> items = Arrays.asList(role.split("\\s*,\\s*"));
@@ -113,7 +111,6 @@ public class UserController extends AuthController {
 				authorities.add(rol);
 				user.setAuthorities(authorities);
 			}
-			
 			
 			baseService.save(user);
 		} catch (Exception e) {
@@ -170,17 +167,20 @@ public class UserController extends AuthController {
 		model.addAttribute("user", user);
 		
 		model.addAttribute("userList", baseService.findAll(User.class));
-		model.addAttribute("roles", baseService.findAll(Role.class));
+	
 		model.addAttribute("permissions", baseService.findAll(Permission.class));
 	
+		//Listado de Personas
 		List<Person> person = baseService.findAll(Person.class);
-		
 		HashMap<Long, String> personMap = new HashMap<Long, String>();
 		for (Person p : person) {
 			personMap.put(p.getId(),p.getName() );
 		}
-	
 		model.addAttribute("persons", personMap);
+		
+		//Listado de Roles
+		List<Role> authorities  = (List<Role>) user.getAuthorities();
+		model.addAttribute("roles", authorities);
 
 		return SecopreConstans.MV_ADM_USR;
 	}

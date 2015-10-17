@@ -61,7 +61,7 @@
 													<span class="input-group-addon"> 
 														<i class="icon-user"></i>
 													</span> 
-													<input id="username" name="username" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.users.username.placeholder"/>'>
+													<input id="username" name="username" type="text" value="${user.username}" class="form-control" placeholder='<spring:message code="application.pages.admin.users.username.placeholder"/>'>
 													<div class="form-control-focus"></div>
 													<span class="help-block">
 														<spring:message code="application.pages.admin.users.username.help" />
@@ -78,7 +78,7 @@
 												<div class="input-group">
 													<span class="input-group-addon"> <i
 														class="icon-user"></i>
-													</span> <input id="nickname" name="nickname" type="text"
+													</span> <input id="nickname" name="nickname" type="text" value="${user.nickname}"
 														class="form-control"
 														placeholder='<spring:message code="application.pages.admin.users.nickname.placeholder"/>'>
 													<div class="form-control-focus"></div>
@@ -97,7 +97,7 @@
 													<span class="input-group-addon">
 														<i class="fa fa-envelope"></i>
 													</span> 
-													<input name="email" id="email" type="email" class="form-control" placeholder='<spring:message code="application.pages.admin.users.email"/>'>
+													<input name="email" id="email" type="email" value="${user.email}" class="form-control" placeholder='<spring:message code="application.pages.admin.users.email"/>'>
 													<div class="form-control-focus">
 													</div>
 													<span class="help-block">
@@ -118,8 +118,8 @@
 														class="fa fa-weixin"></i>
 												  </span>
 												  <div class="md-checkbox">
-											      <input name="hasChatActive" type="checkbox" class="md-check" id="checkbox1">
-											      <label for="checkbox1">
+											      <input type="checkbox" class="md-check" id="hasChatActive" name="hasChatActive">
+											      <label for="hasChatActive">
 											      <span class="inc"></span>
 											      <span class="check"></span>
 											      <span class="box"></span>
@@ -138,7 +138,7 @@
 												<div class="input-group">
 													<span class="input-group-addon"> <i
 														class="fa fa-key"></i>
-													</span> <input id="password" name="password" type="password"
+													</span> <input id="password" name="password" value="${user.password}" type="password"
 														class="form-control"
 														placeholder='<spring:message code="application.pages.admin.users.password.placeholder"/>'>
 													<div class="form-control-focus"></div>
@@ -155,8 +155,7 @@
 												<div class="input-group">
 													<span class="input-group-addon"> <i
 														class="fa fa-key"></i>
-													</span> <input id="rpassword" name="rpassword" type="password"
-														class="form-control"
+													</span> <input id="rpassword" name="rpassword" type="password" value="${user.password}" class="form-control"
 														placeholder='<spring:message code="application.pages.admin.users.password.placeholder"/>'>
 													<div class="form-control-focus"></div>
 													<span class="help-block"><spring:message
@@ -174,7 +173,7 @@
 												<span class="input-group-addon"> 
 												  <i class="icon-user"></i>
 												</span> 
-												<form:select path="address.stateDTO.id"  name="person" class="form-control">
+												<form:select path="user.person.id"  name="person" class="form-control">
 												   <form:option value="" label="Seleccione..."/>
 	    										   <form:options items="${persons}" />
 												</form:select>
@@ -189,7 +188,7 @@
 									</div>
 								</div>
 								<div class="tab-pane" id="tab2">
-									<h3 class="block">Seelccione los Roles</h3>
+									<h3 class="block">Seleccione los Roles</h3>
 									<div class="form-group">
 										<label class="control-label col-md-3">Roles<span
 											class="required"> * </span>
