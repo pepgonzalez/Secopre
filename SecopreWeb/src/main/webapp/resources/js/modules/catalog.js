@@ -16,11 +16,13 @@ function initPositionList() {
 function initDistrictCat() {
 	initPage('District');
 	initDistrictValidations();
+	 $('select').select2();
 }
 
 function editDistrictCat() {
 	editPage('District');
 	initDistrictValidations();
+	 $('select').select2();
 }
 
 function initDistrictList() {
@@ -126,25 +128,40 @@ function initDistrictValidations() {
 		// message class
 		focusInvalid : false, // do not focus the last invalid input
 		rules : {
-			code : {
-				maxlength : 11,
+			number : {
+				maxlength : 10,
+				required : true
+			},
+			"state.id" : {
+				required : true
+			},
+			email : {
 				required : true,
-				number : true
+				email : true
 			},
-			name : {
-				maxlength : 250,
+			telephone : {
 				required : true
 			},
-			description : {
-				maxlength : 250,
+			street : {
 				required : true
 			},
-			"programmaticKey.id" : {
+			number : {
 				required : true
 			},
-			accountingType : {
+			colony : {
 				required : true
-			}
+			},
+			city : {
+				required : true
+			},
+			"stateDTO.id" : {
+				required : true
+			},
+			zipCode : {
+				required : true,
+				number : true,
+				maxlength : 5
+			},
 		},
 
 		invalidHandler : function(event, validator) { // display error alert
@@ -196,7 +213,7 @@ function initDistrictValidations() {
 	});
 
 	var displayConfirm = function() {
-		$('#tab2 .form-control-static', form).each(
+		$('#tab3 .form-control-static', form).each(
 				function() {
 					var input = $('[name="' + $(this).attr("data-display")
 							+ '"]', form);
