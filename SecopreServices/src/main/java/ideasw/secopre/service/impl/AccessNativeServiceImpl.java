@@ -11,11 +11,15 @@ import ideasw.secopre.dto.WorkFlowConfig;
 import ideasw.secopre.enums.Month;
 import ideasw.secopre.enums.WorkFlowCode;
 import ideasw.secopre.model.Entry;
+import ideasw.secopre.model.EntryDistrict;
 import ideasw.secopre.model.ProgrammaticKey;
+import ideasw.secopre.model.catalog.District;
 import ideasw.secopre.model.catalog.MovementType;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.AccessNativeService;
+import ideasw.secopre.service.AccessService;
 import ideasw.secopre.service.BaseService;
+import ideasw.secopre.service.impl.mapper.EntryMapper;
 import ideasw.secopre.service.impl.mapper.FormalityMapper;
 import ideasw.secopre.service.impl.mapper.InboxMapper;
 import ideasw.secopre.service.impl.mapper.RequestConfigMapper;
@@ -345,6 +349,35 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 			map.put(mov.getId(), mov.getDescription());
 		}
 		return map;
+	}
+
+	
+	/*Metodo que retorna todas las partidas asociadas a la llave programatica y que tengan presupuesto asignado en el distrito seleccionado*/
+	@Override	
+	public List<Entry> getEntries(Long districtId, Long programaticKeyId) {
+
+		SqlParameterSource namedParameters = new MapSqlParameterSource()
+				.addValue("programaticKeyId", programaticKeyId)
+				.addValue("districtId", districtId);
+		List<Entry> list = this.queryForList(Entry.class, queryContainer.getSQL(SQLConstants.GET_VALID_ENTRIES), namedParameters, new EntryMapper());	
+		return list;
+
+	}
+
+	@Override
+	public EntryDistrict getEntryBalance(Long districtId, Long entryId, Long month) {
+		
+		Map<String, Object> propertiesMap = new HashMap<String, Object>();
+		propertiesMap.put("district", baseService.findById(District.class, districtId));
+		propertiesMap.put("entry", baseService.findById(Entry.class, entryId));
+		propertiesMap.put("month", month);
+		
+		List<EntryDistrict> list = baseService.findByProperties(EntryDistrict.class, propertiesMap);
+		EntryDistrict entry = (list.size() > 0 ? list.get(0) : null);
+		if(entry != null){
+			entry.setMonthString(this.getMonthsMap().get(entry.getMonth() + 1));
+		}
+		return entry;
 	}
 
 }

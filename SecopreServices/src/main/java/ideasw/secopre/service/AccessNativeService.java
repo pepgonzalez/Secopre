@@ -10,6 +10,7 @@ import ideasw.secopre.dto.Request;
 import ideasw.secopre.dto.RequestHistory;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.model.Entry;
+import ideasw.secopre.model.EntryDistrict;
 
 
 public interface AccessNativeService {
@@ -95,6 +96,9 @@ public interface AccessNativeService {
 	/* Listado de Partidas en base a llave programatica*/
 	List<Entry> getEntries(Long programaticKey);
 	
+	/* Listado de Partidas en base a llave programatica y distrito*/
+	List<Entry> getEntries(Long district, Long programaticKey);
+	
 	/* Listado de llaves programaticas a modo de Mapa */
 	Map<Long, String> getProgramaticKeysMap();
 	
@@ -106,4 +110,7 @@ public interface AccessNativeService {
 	
 	/* Listado de meses a modo de Mapa */
 	Map<Long, String> getMonthsMap();
+	
+	/* Obtener informacion de partida*/
+	EntryDistrict getEntryBalance(Long districtId, Long entryId, Long month);
 }

@@ -821,15 +821,41 @@ var movementController = {
 			    this.value = this.value.replace(/[^0-9\.]/g,'');
 			});
 			ma.blur(function(){
-				var finalMonth = $(self.getId(grid, nextIndex, "finalMonthId"));
-				var initialMonth = $(self.getId(grid, nextIndex, "initialMonthId"));
+				var finalMonth = parseInt($(self.getId(grid, nextIndex, "finalMonthId")).val());
+				var initialMonth = parseInt($(self.getId(grid, nextIndex, "initialMonthId")).val());
+				
+				var districtId = parseInt($("#districtId").val());
+				var entryId = parseInt($(self.getId(grid, nextIndex, "entryId")).val());
 				
 				var total = 0;
 				if ( this.value.length > 0){
-					var m1 = parseInt(finalMonth.val());
-					var m2 = parseInt(initialMonth.val());					
-					total = ((m1-m2) + 1) * this.value;					
 					
+					//por cada mes, se pregunta si tiene saldo suficiente
+					
+					var isValidMovement = true;
+					for(var i = initialMonth; i <= finalMonth; i++){
+						
+						//debo preguntar por el distrito, partida y mes
+						self.apiCall("auth/API/get/movOk/" + districtId + "/" + entryId + "/" + i + "/" + this.value, function(data){
+							console.log("consulta movimiento valido");
+							console.log(data);
+							if (data.result <= 0){
+								isValidMovement = false;
+								window.showNotification("error", data.msg);
+							} 
+						});
+					}
+					
+					if(!isValidMovement){
+						this.closest("[data-name='monthAmount']").addClass("has-error");
+						return;
+					}
+					
+					
+					//se calcula el monto total del movimiento
+					total = ((finalMonth - initialMonth) + 1) * this.value;					
+					
+					//si el monto es mayor a cero, se elimina el error
 					if (parseInt(this.value) > 0){
 						self.removeClassError(self.getId(grid, nextIndex, "monthAmount"));
 					}
@@ -849,7 +875,12 @@ var movementController = {
 			$(document).find(id).on("change", function (e) {
 			    
 				if(ajaxCall){
-					self.apiCall('auth/API/get/entry/'+this.value, function(data){
+					
+					//preguntamos el id del distrito
+					var districtId = $("#districtId").val();
+					
+					self.apiCall('auth/API/get/entry/' + this.value + "/" + districtId , function(data){
+						console.log(data);
 				    	var entrySelect = $(document).find(self.getId(grid, indice, "entryId"));
 				    	entrySelect.empty();
 				    	entrySelect.append('<option value="-1">Seleccione..</option>');

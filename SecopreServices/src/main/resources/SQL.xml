@@ -323,6 +323,17 @@
 					]]>
 				</prop>
 	
+				<prop key="GET_VALID_ENTRIES">
+					<![CDATA[
+						SELECT E.ID, E.NAME 
+						  FROM secopre.ENTRY E
+						  JOIN (SELECT DISTINCT DISTRICT_ID, ENTRY_ID 
+						          FROM secopre.ENTRYDISTRICT ED 
+						         WHERE ED.DISTRICT_ID = :districtId ) T
+						    ON E.ID = T.ENTRY_ID
+						   AND E.PROGRAMMATIC_ID = :programaticKeyId
+					]]>
+				</prop>
 	
 			</props>				
 		</property>
