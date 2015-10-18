@@ -222,7 +222,16 @@
 										           <div class="col-md-4">
 											         <p class="form-control-static" data-display="parentId"></p>
 										           </div>
-									            </div>											            							            	
+									            </div>		
+									            
+									             <div class="form-group">
+										           <label class="control-label col-md-3"><spring:message
+													  code="application.pages.admin.menu.url" />
+											       </label>
+										           <div class="col-md-4">
+											         <p class="form-control-static" data-display="url"></p>
+										           </div>
+									            </div>										            							            	
 	
 	
 																								

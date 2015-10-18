@@ -304,7 +304,7 @@ function initMenuValidations() {
 				required : true
 			},
 			jsFunction : {
-				maxlength : 50,
+				maxlength : 100,
 				required : true
 			},
 			order : {
