@@ -37,7 +37,7 @@ public class DistrictController extends AuthController {
 		return SecopreConstans.MV_CAT_DISTRICT;
 	}
 	
-	@RequestMapping(value = "cat/distrcit/add", method = RequestMethod.POST)
+	@RequestMapping(value = "cat/district/add", method = RequestMethod.POST)
 	public String add(@ModelAttribute("district") District district,ModelMap model) {
 		try {
 			baseService.save(district);
