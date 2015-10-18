@@ -1,5 +1,7 @@
 package ideasw.secopre.web;
 
+import ideasw.secopre.web.controller.SecopreCache;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +43,6 @@ public class InitConfig {
      */
     private void initConstants() throws Exception{
     	cache.getAlldistricts();
-    	
+    	cache.getAllStates();
     }
 }

@@ -64,7 +64,7 @@ function initPage(page) {
            */
           locale: "es"
     });
-	$('#' + page + 'Table').DataTable({
+	$('#' + page + 'Table').DataTable({		
 			 "language": {
 		            "lengthMenu": "_MENU_ Registros por pagina",
 		            "zeroRecords": "No existen registros",
@@ -88,6 +88,7 @@ function initPage(page) {
 						+ page + ');');
 			});
 
+	
 }
 function initUserValidations() {
 

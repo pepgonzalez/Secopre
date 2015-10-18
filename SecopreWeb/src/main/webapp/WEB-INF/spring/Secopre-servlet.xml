@@ -55,4 +55,8 @@ http://www.springframework.org/schema/jee/spring-jee.xsd">
 		<property name="suffix" value=".jsp"></property>
 		<property name="order" value="1" />
 	</bean>
+
+    <!-- Declara bean para configuracion inicial -->
+    <bean name="secopreCache" init-method="onInit"
+        class="ideasw.secopre.web.controller.SecopreCache" />
 </beans>
