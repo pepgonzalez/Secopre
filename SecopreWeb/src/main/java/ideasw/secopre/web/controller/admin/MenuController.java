@@ -68,7 +68,11 @@ public class MenuController extends AuthController {
 			path.setMenu(menu);
 			baseService.save(path);
 			
+			
+			
 		} catch (Exception e) {
+			e.getStackTrace();
+			e.printStackTrace();
 			model.addAttribute(
 					"errors",
 					initErrors("Ocurrio un error al insertar el menu:"
