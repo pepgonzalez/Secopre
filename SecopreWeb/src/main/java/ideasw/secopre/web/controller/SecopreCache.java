@@ -1,6 +1,7 @@
-package ideasw.secopre.web;
+package ideasw.secopre.web.controller;
 
 import ideasw.secopre.model.catalog.District;
+import ideasw.secopre.model.catalog.State;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.BaseService;
 
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
@@ -20,13 +22,43 @@ import org.springframework.stereotype.Component;
  *
  */
 @Component
+@Scope("singleton")
 public class SecopreCache {
 
+	
 	@Autowired
 	public BaseService baseService;
 
 	private static List<District> allDistricts = null;
 	private static Map<User, List<District>> districtByUser = new HashMap<User, List<District>>();
+	private static List<State> allStates = null;
+	private static Map<Long, String> allStateMap = new HashMap<Long, String>();
+
+	/**
+	 * Metodo que ejecuta la configuracion de las constantes que utilizara
+	 * secopre
+	 */
+	public void onInit() {
+    	getAlldistricts();
+    	getAllStates();
+		
+	}
+	public List<State> getAllStates() {
+		if (allStates == null) {
+			allStates = baseService.findAll(State.class);
+		}
+		return allStates;
+	}
+
+	public Map<Long, String> getAllStatesMap() {
+		if (allStateMap.isEmpty()) {
+
+			for (State state : getAllStates()) {
+				allStateMap.put(state.getId(), state.getName());
+			}
+		}
+		return allStateMap;
+	}
 
 	public List<District> getAlldistricts() {
 		if (allDistricts == null) {
@@ -35,8 +67,7 @@ public class SecopreCache {
 		return allDistricts;
 	}
 
-	public List<District> getDistrictsByUser(User user,
-			boolean forceUpdate) {
+	public List<District> getDistrictsByUser(User user, boolean forceUpdate) {
 		List<District> listByUser = null;
 
 		if (forceUpdate || !districtByUser.containsKey(user)) {

@@ -7,7 +7,7 @@
 					<div class="portlet box grey-cascade">
 						<div class="portlet-title">
 							<div class="caption">
-								<i class="fa fa-globe"></i><spring:message code="application.pages.admin.users.table.title"/>
+								<i class="fa fa-globe"></i><spring:message code="application.pages.catalog.district.title"/>
 							</div>
 							<div class="tools">
 								<a href="javascript:;" class="collapse">
@@ -38,50 +38,58 @@
 													<a href="javascript:;"><spring:message code="application.export.pdf"/></a>
 												</li>
 												<li>
-													<a  id="exportToXLS"href="javascript:;"><spring:message code="application.export.excel"/></a>
+													<a href="javascript:;"><spring:message code="application.export.excel"/></a>
 												</li>
 											</ul>
 										</div>
 									</div>
 								</div>
 							</div>
-
-							<table class="table table-striped table-bordered table-hover" id="UserTable">
+							<table class="table table-striped table-bordered table-hover" id="DistrictTable">
 							<thead>
 							<tr>
 								<th class="table-checkbox">
-									<input type="checkbox" class="group-checkable" data-set="#userTable .checkboxes"/>
+									<input type="checkbox" class="group-checkable" data-set="#districtTable .checkboxes"/>
 								</th>
-								<th><spring:message code="application.pages.admin.users.username"/></th>
-								<th><spring:message code="application.pages.admin.users.email"/></th>
-								<th><spring:message code="application.pages.admin.users.nickname"/></th>
-								<th><spring:message code="application.pages.admin.users.active"/></th>
+								<th><spring:message code="application.pages.catalog.district.number"/></th>
+								<th><spring:message code="application.pages.catalog.district.state"/></th>
+								<th><spring:message code="application.pages.catalog.district.address"/></th>
+								<th><spring:message code="application.pages.catalog.district.email"/></th>
+								<th><spring:message code="application.pages.catalog.district.telephone"/></th>
+								<th><spring:message code="application.pages.catalog.district.active"/></th>
 								<th><spring:message code="application.actions"/></th>
 							</tr>
 							</thead>
 							<tbody>
-							<c:forEach items="${userList}" var="userItem">
+							<c:forEach items="${districtList}" var="districtItem">
 								<tr class="odd gradeX">
 									<td>
 										<input type="checkbox" class="checkboxes" value="1"/>
 									</td>
-									<td>${userItem.username}</td>
 									<td>
-										<a href="mailto:${userItem.email}">
-										${userItem.email}</a>
+									     ${districtItem.number}
 									</td>
 									<td>
-										 ${userItem.nickname}
-									</td>
-									<td class="center">
-										 ${userItem.active}
+										 ${districtItem.email}
 									</td>
 									<td>
-										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/adm/usr/edit?id=${userItem.id}' ,'dashboard','editUserPage()');">
+										 ${districtItem.telephone}
+									</td>
+									<td>
+										 ${districtItem.email}
+									</td>
+									<td>
+										 ${districtItem.email}
+									</td>
+									<td>
+										 ${districtItem.activo}
+									</td>
+									<td>
+										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/cat/district/edit?id=${districtItem.id}' ,'dashboard','editDistrictCat()');">
 										 <i class="fa fa-edit xs"></i>
 										</button>
 										
-										<button id="btndelete"  type="button" class="btn delete btn-danger btn-xs" onclick="borrarRegistro('auth/adm/usr/delete?id=${userItem.id}','dashboard','initUserList()');"   >
+										<button id="btndelete"  type="button" class="btn delete btn-danger btn-xs" onclick="borrarRegistro('auth/cat/district/delete?id=${districtItem.id}','dashboard','initDistrictList()');"   >
 										<i class="fa fa-trash"></i> 
 										</button>
 									</td>
@@ -89,7 +97,6 @@
 							</c:forEach>
 							</tbody>
 							</table>
-
 						</div>
 					</div>
 					<!-- END EXAMPLE TABLE PORTLET-->

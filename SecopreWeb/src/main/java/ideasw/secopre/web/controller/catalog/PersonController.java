@@ -12,6 +12,7 @@ import ideasw.secopre.model.security.Permission;
 import ideasw.secopre.model.security.Role;
 import ideasw.secopre.service.AccessService;
 import ideasw.secopre.web.SecopreConstans;
+import ideasw.secopre.web.controller.SecopreCache;
 import ideasw.secopre.web.controller.base.AuthController;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,9 @@ public class PersonController extends AuthController {
 	@Autowired
 	private AccessService accessService;
 
+	@Autowired
+	private SecopreCache secopreCahe; 
+	
 	@RequestMapping(value = "cat/person/list", method = { RequestMethod.GET,
 			RequestMethod.POST })
 	public String getPersonList(ModelMap model, RedirectAttributes attributes) {
@@ -53,18 +57,10 @@ public class PersonController extends AuthController {
 		model.addAttribute("permissions", baseService.findAll(Permission.class));
 		model.addAttribute("address", address);
 		model.addAttribute("gender",  Gender.values());
-		
-		List<State> state = baseService.findAll(State.class);
-		
-		HashMap<Long, String> stateMap = new HashMap<Long, String>();
-		for (State e : state) {
-			stateMap.put(e.getId(),e.getName() );
-		}
-		
-		
+				
 		Request requestForm = new Request();
 		
-		model.addAttribute("states", stateMap);
+		model.addAttribute("states", secopreCahe.getAllStatesMap());
 		model.addAttribute("requestForm", requestForm);
 		
 		

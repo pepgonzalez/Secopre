@@ -1,7 +1,7 @@
 package ideasw.secopre.model.catalog;
 
-import ideasw.secopre.model.UserByDistrict;
 import ideasw.secopre.model.base.Persistible;
+import ideasw.secopre.model.security.User;
 
 import java.util.List;
 
@@ -14,9 +14,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
+import org.hibernate.envers.RelationTargetAuditMode;
 
 @Entity
 @Table(name = "DISTRICT", indexes = { @Index(unique = true, name = "district_ix", columnList = "id") })
@@ -47,9 +52,16 @@ public class District implements Persistible {
 	@Column(name = "TELEPHONE", nullable = false, length = 50)
 	private String telephone;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "district")
-	private List<UserByDistrict> users;
-
+	
+    @NotAudited
+    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+    @ManyToMany(cascade=CascadeType.MERGE, fetch=FetchType.EAGER)
+    @JoinTable(name = "DISTRICT_USER",
+        joinColumns = {@JoinColumn(name="DISTRICT_ID")},
+        inverseJoinColumns = {@JoinColumn(name="USER_ID")}
+    )
+    private List<User> users;
+    
 	/**
 	 * @return the id
 	 */
@@ -143,14 +155,14 @@ public class District implements Persistible {
 	/**
 	 * @return the users
 	 */
-	public List<UserByDistrict> getUsers() {
+	public List<User> getUsers() {
 		return users;
 	}
 
 	/**
 	 * @param users the users to set
 	 */
-	public void setUsers(List<UserByDistrict> users) {
+	public void setUsers(List<User> users) {
 		this.users = users;
 	}
 
