@@ -10,23 +10,23 @@
 			<!-- BEGIN PAGE BREADCRUMB -->
 			<ul class="page-breadcrumb breadcrumb">
 				<li>
-					<a href="javascript:;">Administracion</a><i class="fa fa-circle"></i>
+					<a href="javascript:;">Catalogos </a><i class="fa fa-circle"></i>
 				</li>
 				<li class="active">
-					 Personas
+					 Distritos
 				</li>
 			</ul>
 			<!-- END PAGE BREADCRUMB -->
 
 			<!-- FORMULARIO AGREGAR PERSONAS -->
-			<div id="add_Person">
-				<%@ include file="/WEB-INF/views/auth/catalog/person/add.jsp"%>
+			<div id="add_District">
+				<%@ include file="/WEB-INF/views/auth/catalog/district/add.jsp"%>
 			</div>
 			<!-- TERMINA FORMULARIO AGREGAR PERSONAS -->
 			
 			<!-- LISTA USUARIOS -->
-			<div id="list_Person">
-				<%@ include file="/WEB-INF/views/auth/catalog/person/list.jsp"%>
+			<div id="list_District">
+				<%@ include file="/WEB-INF/views/auth/catalog/district/list.jsp"%>
 			</div>
 			<!-- TERMINA LISTA PERSONAS -->			
 
