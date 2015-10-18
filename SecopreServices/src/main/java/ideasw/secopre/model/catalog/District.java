@@ -1,5 +1,6 @@
 package ideasw.secopre.model.catalog;
 
+import ideasw.secopre.model.base.AuditEntity;
 import ideasw.secopre.model.base.Persistible;
 import ideasw.secopre.model.security.User;
 
@@ -25,7 +26,7 @@ import org.hibernate.envers.RelationTargetAuditMode;
 
 @Entity
 @Table(name = "DISTRICT", indexes = { @Index(unique = true, name = "district_ix", columnList = "id") })
-public class District implements Persistible {
+public class District extends AuditEntity implements Persistible {
 	/**
 	 * 
 	 */

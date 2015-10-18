@@ -70,19 +70,19 @@
 									     ${districtItem.number}
 									</td>
 									<td>
+										 ${districtItem.state.name}
+									</td>
+									<td>
+										 ${districtItem.address.street}
+									</td>
+									<td>
 										 ${districtItem.email}
 									</td>
 									<td>
 										 ${districtItem.telephone}
 									</td>
 									<td>
-										 ${districtItem.email}
-									</td>
-									<td>
-										 ${districtItem.email}
-									</td>
-									<td>
-										 ${districtItem.email}
+										 ${districtItem.activo}
 									</td>
 									<td>
 										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/cat/district/edit?id=${districtItem.id}' ,'dashboard','editDistrictCat()');">
