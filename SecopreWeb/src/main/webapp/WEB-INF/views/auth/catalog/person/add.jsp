@@ -127,9 +127,7 @@
 												    </label>
 													   <div class="col-md-4">
 													      <div class="input-icon">
-<!-- 																<span class="input-group-addon">  -->
-<!-- 																  <i class="icon-user"></i> -->
-<!-- 																</span>  -->
+
 										                            <div class="md-radio-inline">
 																				<div class="md-radio">
 																				    <form:radiobutton path="person.gender"  id="gender1" value="MASCULINO" class="md-radiobtn" name="gender"/>
