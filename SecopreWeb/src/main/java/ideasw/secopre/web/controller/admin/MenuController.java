@@ -1,6 +1,7 @@
 package ideasw.secopre.web.controller.admin;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ideasw.secopre.model.security.Menu;
 import ideasw.secopre.model.security.Path;
@@ -57,6 +58,23 @@ public class MenuController extends AuthController {
 	public String edit( ModelMap model, RedirectAttributes attributes, @RequestParam("id") Long id ) {
 		Menu menu = baseService.findById(Menu.class , id);
 		model.addAttribute("menu", menu);
+	
+		
+		List<Menu> parent = baseService.findAll(Menu.class);
+		
+		HashMap<Long, String> parentMap = new HashMap<Long, String>();
+		for (Menu p : parent) {
+			parentMap.put(p.getId(),p.getName() );
+		}
+		model.addAttribute("parents", parentMap);
+			
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("menu.id", menu.getId());
+		List<Path> pathList  = baseService.findByProperties(Path.class, parameters);
+		for (Path path : pathList) {
+			model.addAttribute("path", path);
+		}
+		
 		return SecopreConstans.MV_ADM_MENU;
 	}
 	

@@ -25,5 +25,8 @@ public class SQLConstants {
 	public static final String INSERT_REQUEST_DETAIL = "INSERT_REQUEST_DETAIL";
 	public static final String GET_REQUEST_DETAIL = "GET_REQUEST_DETAIL";
 	public static final String GET_REQUEST_HISTORY = "GET_REQUEST_HISTORY";
+	
+	//obtiene todas las partidas asociadas a un llave programatica con saldo disponible
+	public static final String GET_VALID_ENTRIES = "GET_VALID_ENTRIES";
 
 }

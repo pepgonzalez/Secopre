@@ -38,7 +38,7 @@ public class EntryDistrict implements Persistible {
 	private Double annualAmount;
 
 	@Column(name = "MONTH", columnDefinition = "Decimal(10,2)")
-	private Double month;
+	private Long month;
 
 	@Column(name = "BUDGET_AMOUNT", columnDefinition = "Decimal(10,2)")
 	private Double budgetAmount;
@@ -46,9 +46,16 @@ public class EntryDistrict implements Persistible {
 	@Column(name = "BUDGET_AMOUNT_ASSIGN", columnDefinition = "Decimal(10,2)")
 	private Double budgetAmountAssign;
 	
+	@Column(name = "COMMITTED_AMOUNT", columnDefinition = "Decimal(10,2)")
+	private Double committedAmount;
+	
+	
 	@Column(name = "LAST_UPDATE_DATE", columnDefinition = "Datetime")
 	private Date lastUpdateDate;
 
+	private boolean validMovement;
+	private String monthString;
+	
 	public Long getId() {
 		return id;
 	}
@@ -81,11 +88,11 @@ public class EntryDistrict implements Persistible {
 		this.annualAmount = annualAmount;
 	}
 
-	public Double getMonth() {
+	public Long getMonth() {
 		return month;
 	}
 
-	public void setMonth(Double month) {
+	public void setMonth(Long month) {
 		this.month = month;
 	}
 
@@ -103,6 +110,38 @@ public class EntryDistrict implements Persistible {
 
 	public void setBudgetAmountAssign(Double budgetAmountAssign) {
 		this.budgetAmountAssign = budgetAmountAssign;
+	}
+
+	public Double getCommittedAmount() {
+		return committedAmount;
+	}
+
+	public void setCommittedAmount(Double committed_amount) {
+		this.committedAmount = committed_amount;
+	}
+
+	public Date getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+
+	public void setLastUpdateDate(Date lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
+	}
+
+	public boolean isValidMovement(Double amount) {
+		return ((this.budgetAmountAssign - this.committedAmount ) >= amount);
+	}
+
+	public void setValidMovement(boolean validMovement) {
+		this.validMovement = validMovement;
+	}
+
+	public String getMonthString() {
+		return monthString;
+	}
+
+	public void setMonthString(String monthString) {
+		this.monthString = monthString;
 	}
 
 }
