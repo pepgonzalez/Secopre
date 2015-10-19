@@ -77,10 +77,14 @@ public class WorkFlowController extends AuthController {
 
 		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
 		
-		accessNativeService.insertOrUpdateRequestDetail(requestForm);
-		accessNativeService.invokeNextStage(requestForm, loggedUser.getId());
-
-		return SecopreConstans.MV_TRAM_LIST_REDIRECT;
+		try{
+			accessNativeService.insertOrUpdateRequestDetail(requestForm);
+			accessNativeService.invokeNextStage(requestForm, loggedUser.getId());
+			return SecopreConstans.MV_TRAM_LIST_REDIRECT;
+		}catch(Exception ex){
+			System.out.println(ex);
+			return SecopreConstans.MV_TRAM_LIST_REDIRECT;
+		}
 	}
 
 	/*

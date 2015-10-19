@@ -77,21 +77,26 @@ public class TramiteController extends AuthController {
 	@RequestMapping(value = "tram/add", method = { RequestMethod.POST })
 	public String addFormality(@ModelAttribute("requestForm") Request requestForm, ModelMap model, RedirectAttributes attributes,  Principal principal) {
 		
-		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
-		
-		System.out.println(requestForm);
-		
-		District district= baseService.findById(District.class, requestForm.getDistrictId());
-		Long requestId = accessNativeService.getRequestNextConsecutive();
-		
-		String folio = "DTO-" +  district.getNumber() + "/" + requestId;
-		
-		requestForm.setRequestId(requestId);
-		requestForm.setFolio(folio);
-		
-		accessNativeService.startFormality(requestForm, loggedUser.getId());
-		
-		return "redirect:/auth/tram/list";
+		try{
+			User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
+			
+			System.out.println(requestForm);
+			
+			District district= baseService.findById(District.class, requestForm.getDistrictId());
+			Long requestId = accessNativeService.getRequestNextConsecutive();
+			
+			String folio = "DTO-" +  district.getNumber() + "/" + requestId;
+			
+			requestForm.setRequestId(requestId);
+			requestForm.setFolio(folio);
+			
+			accessNativeService.startFormality(requestForm, loggedUser.getId());
+			
+			return "redirect:/auth/tram/list";
+		}catch(Exception ex){
+			System.out.println(ex);
+			return "redirect:/auth/tram/list";
+		}
 	}
 	
 }
