@@ -59,7 +59,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input id="dueDate" name="dueDate" type="text" class="form-control"  value="${dueDate.dueDate}"   placeholder='<spring:message code="application.pages.param.dueDate.placeholder"/>'>
+																<input id="dueDate" name="dueDate" type="text" class="form-control form-control-inline input-medium date-picker"  value="${dueDate.dueDate}"   placeholder='<spring:message code="application.pages.param.dueDate.dueDate.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.param.dueDate.dueDate.help"/></span>
@@ -68,13 +68,15 @@
 														</div>
 													</div>
 													
+
+													
 													<div class="form-group form-md-line-input has-danger">
-														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.param.dueDate.dueDate"/>
+														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.param.dueDate.maxBlockDate"/>
 														<span class="required">* </span>
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input name="maxBlockDate"  id="maxBlockDate" type="text" value="${dueDate.maxBlockDate}"  class="form-control" placeholder='<spring:message code="application.pages.param.dueDate.maxBlockDate.placeholder"/>'>
+																<input name="maxBlockDate"  id="maxBlockDate" type="text" value="${dueDate.maxBlockDate}"  class="form-control form-control-inline input-medium date-picker" placeholder='<spring:message code="application.pages.param.dueDate.maxBlockDate.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.param.dueDate.maxBlockDate.help"/></span>
@@ -121,7 +123,7 @@
 												<a href="javascript:;" class="btn blue button-next">
 												<spring:message code="application.next"/> <i class="m-icon-swapright m-icon-white"></i>
 												</a>
-												<button type="button" class="btn green button-submit" id="submitRequestForm"><spring:message code="application.pages.catalog.programmaticKey.crear"/></button>
+												<button type="button" class="btn green button-submit" id="submitRequestForm"><spring:message code="application.pages.param.dueDate.crear"/></button>
 						
 											</div>
 										</div>

@@ -37,6 +37,8 @@
 	<link href='<c:url value="/resources/css/plugins/bootstrap-select.css"/>' rel="stylesheet" type="text/css"/>
     <link href='<c:url value="/resources/css/plugins/select2.css"/>' rel="stylesheet" type="text/css"/>
     
+    <link href='<c:url value="/resources/css/plugins/bootstrap-datepicker.min.css"/>' rel="stylesheet" type="text/css"/>
+    
 	<!-- estilos para gestion de sliders -->
 	<link href='<c:url value="/resources/css/global/jquery.nouislider.min.css"/>' rel="stylesheet" type="text/css">
 	<link href='<c:url value="/resources/css/global/jquery.nouislider.pips.min.css"/>' rel="stylesheet" type="text/css">
@@ -120,6 +122,8 @@
 	<script src='<c:url value="/resources/js/plugins/jquery.cokie.min.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/jquery.uniform.min.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/bootstrap-switch.min.js"/>' type="text/javascript"></script>
+    <script src='<c:url value="/resources/js/plugins/bootstrap-datepicker.min.js"/>' type="text/javascript"></script>
+	
 	<!-- END CORE PLUGINS -->
 	<!-- BEGIN PAGE LEVEL PLUGINS -->
 	<!-- IMPORTANT! fullcalendar depends on jquery-ui.min.js for drag anddrop support -->

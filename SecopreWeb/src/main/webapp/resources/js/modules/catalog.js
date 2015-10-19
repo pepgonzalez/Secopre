@@ -1,11 +1,21 @@
 function initDueDateCat() {
 	initPage('DueDate');
 	initDueDateValidations();
+    $('#dueDate').datepicker({
+    });
+    $('#maxBlockDate').datepicker({
+    });
+
+
 }
 
 function editDueDateCat() {
 	editPage('DueDate');
 	initDueDateValidations();
+	 $('#dueDate').datepicker({
+	    });
+	  $('#maxBlockDate').datepicker({
+	    });
 }
 
 function initDueDateList() {
@@ -142,40 +152,12 @@ function initDueDateValidations() {
 		// message class
 		focusInvalid : false, // do not focus the last invalid input
 		rules : {
-			number : {
-				maxlength : 10,
+			maxBlockDate : {
 				required : true
 			},
-			"state.id" : {
+			dueDate : {
 				required : true
-			},
-			email : {
-				required : true,
-				email : true
-			},
-			telephone : {
-				required : true
-			},
-			street : {
-				required : true
-			},
-			number : {
-				required : true
-			},
-			colony : {
-				required : true
-			},
-			city : {
-				required : true
-			},
-			"stateDTO.id" : {
-				required : true
-			},
-			zipCode : {
-				required : true,
-				number : true,
-				maxlength : 5
-			},
+			}
 		},
 
 		invalidHandler : function(event, validator) { // display error alert
