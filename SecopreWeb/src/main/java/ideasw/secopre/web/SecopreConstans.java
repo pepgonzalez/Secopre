@@ -64,8 +64,8 @@ public class SecopreConstans {
 	public static final String MV_CAT_ADDRESS = "auth/catalog/address/list";
 	public static final String MV_CAT_ADDRESS_ADD = "auth/catalog/address/add";		
 	
-	public static final String MV_CAT_NOTICE = "auth/catalog/notice/notice";
-	public static final String MV_CAT_NOTICE_ADD = "auth/catalog/notice/add";	
+	public static final String MV_CAT_NOTICE = "auth/oper/notice/notices";
+	public static final String MV_CAT_NOTICE_ADD = "auth/oper/notice/add";	
 	
 	//####Modulo de Catalogos Parametricos####//
 	public static final String MV_CAT_DUEDATE = "auth/param/dueDate/dueDate";

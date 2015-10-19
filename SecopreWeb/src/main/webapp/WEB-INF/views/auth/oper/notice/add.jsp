@@ -6,7 +6,7 @@
 					<div class="portlet box blue" id="form_wizard_1">
 						<div class="portlet-title">
 							<div class="caption">
-								<i class="fa fa-gift"></i> <spring:message code="application.pages.catalog.position.title"/> - <span class="step-title">
+								<i class="fa fa-gift"></i> <spring:message code="application.pages.catalog.notice.title"/> - <span class="step-title">
 								Paso 1 de 2 </span>
 							</div>
 							<div class="tools hidden-xs">
@@ -15,7 +15,7 @@
 							</div>
 						</div>
 						<div class="portlet-body form">
-							<form action="auth/oper/notice/add?id=${notice.id}" class="form-horizontal" id="submit_form"  modelAttribute="submit_form" method="POST"  novalidate="novalidate">
+							<form action="auth/oper/notice/add" class="form-horizontal" id="submit_form"  modelAttribute="submit_form" method="POST"  novalidate="novalidate">
 								<div class="form-wizard">
 									<div class="form-body">
 
@@ -53,20 +53,66 @@
 												<div class="form-body">													
 
 													<div class="form-group form-md-line-input">
-														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.notie.year"/>
+														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.notice.registerDate"/>
 															<span class="required">* </span>
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<form:textarea path=".yearnotice" id="year" name="year" value="${notice.year}" class="form-control" rows="1" />
+																<input id="registerDate" name="registerDate" type="text" class="form-control form-control-inline input-medium date-picker"  value="${notice.registerDate}"   placeholder='<spring:message code="application.pages.catalog.notice.registerDate.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.catalog.notice.year.help"/></span>
+																<span class="help-block"><spring:message code="application.pages.catalog.notice.registerDate.help"/></span>
 																<i class="icon-user"></i>
 															</div>
 														</div>
-													</div>													
-																					       																				
+													</div>
+													
+													<div class="form-group form-md-line-input">
+														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.notice.displayDate"/>
+															<span class="required">* </span>
+														</label>
+														<div class="col-md-10">
+															<div class="input-icon">
+																<input id="displayDate" name="displayDate" type="text" class="form-control form-control-inline input-medium date-picker"  value="${notice.displayDate}"   placeholder='<spring:message code="application.pages.catalog.notice.displayDate.placeholder"/>'>
+																<div class="form-control-focus">
+																</div>
+																<span class="help-block"><spring:message code="application.pages.catalog.notice.displayDate.help"/></span>
+																<i class="icon-user"></i>
+															</div>
+														</div>
+													</div>
+													
+													<div class="form-group form-md-line-input">
+														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.notice.notice"/>
+															<span class="required">* </span>
+														</label>
+														<div class="col-md-10">
+															<div class="input-icon">
+																<form:textarea path="notice" id="notice" name="notice" value="${notice.notice}" class="form-control" rows="1" />
+																<div class="form-control-focus">
+																</div>
+																<span class="help-block"><spring:message code="application.pages.catalog.notice.notice.help"/></span>
+																<i class="icon-user"></i>
+															</div>
+														</div>
+													</div>	
+			
+												    <div class="form-group">
+															<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.notice.district"/>
+															<span class="required"> * </span>
+															</label>
+															<div class="col-md-4">
+																<select multiple="multiple" class="multi-select" id="districts" name="districts">
+																	<c:forEach items="${districts}" var="district">
+																			<option value="${district.id}">${district.number} </option> 
+																	</c:forEach>
+																</select>											
+															</div>
+													</div>
+														
+													
+													
+																																												       																				
 										        </div>
 											</div>
 
@@ -78,14 +124,41 @@
 									            <h4 class="form-section">Avisos</h4>
 									            <div class="form-group">
 										            <label class="control-label col-md-3"><spring:message
-													code="application.pages.catalog.notice.year" />
+													code="application.pages.catalog.notice.registerDate" />
 													</label>
 										            <div class="col-md-4">
-											           <p class="form-control-static" data-display="year"></p>
+											           <p class="form-control-static" data-display="registerDate"></p>
 										            </div>
 									            </div>
 					            
-																								
+									            <div class="form-group">
+										            <label class="control-label col-md-3"><spring:message
+													code="application.pages.catalog.notice.displayDate" />
+													</label>
+										            <div class="col-md-4">
+											           <p class="form-control-static" data-display="displayDate"></p>
+										            </div>
+									            </div>
+									            
+									            <div class="form-group">
+										            <label class="control-label col-md-3"><spring:message
+													code="application.pages.catalog.notice.notice" />
+													</label>
+										            <div class="col-md-4">
+											           <p class="form-control-static" data-display="notice"></p>
+										            </div>
+									            </div>
+									            
+									            <div class="form-group">
+										            <label class="control-label col-md-3"><spring:message
+													code="application.pages.catalog.notice.district" />
+													</label>
+										            <div class="col-md-4">
+											           <p class="form-control-static" data-display="districts"></p>
+										            </div>
+									            </div>									            
+									            
+									            									          																								
 											</div>
 										</div>
 									</div>

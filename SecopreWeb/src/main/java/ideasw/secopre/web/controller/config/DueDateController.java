@@ -1,7 +1,6 @@
 package ideasw.secopre.web.controller.config;
 
 import ideasw.secopre.model.DueDate;
-import ideasw.secopre.model.ProgrammaticKey;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
 
@@ -42,6 +41,7 @@ public class DueDateController extends AuthController {
 	@RequestMapping(value = "param/dueDate/add", method = RequestMethod.POST)
 	public String add(@ModelAttribute("dueDate") DueDate dueDate, ModelMap model) {
 		try {
+			dueDate.setActivo(Boolean.TRUE);
 			baseService.persist(dueDate);
 		} catch (Exception e) {
 			model.addAttribute(
