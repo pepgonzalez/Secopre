@@ -10,6 +10,7 @@ import ideasw.secopre.dto.RequestHistory;
 import ideasw.secopre.dto.WorkFlowConfig;
 import ideasw.secopre.enums.Month;
 import ideasw.secopre.enums.WorkFlowCode;
+import ideasw.secopre.exception.EntryDistrictException;
 import ideasw.secopre.model.Entry;
 import ideasw.secopre.model.EntryDistrict;
 import ideasw.secopre.model.ProgrammaticKey;
@@ -41,6 +42,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl implements AccessNativeService{
@@ -63,7 +65,7 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	/*
 	 * Proceso para inicio de tramite, inserta en REQUEST, REQUEST_CONFIG, REQUEST_HISTORY
 	 * */
-	public Long startFormality(Request request, Long userId) {
+	public Long startFormality(Request request, Long userId) throws Exception {
 		
 		this.insertOrUpdateRequest(request);
 		
@@ -205,17 +207,20 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		return this.insertOrUpdate(queryContainer.getSQL(SQLConstants.INSERT_OR_UPDATE_REQUEST), params);
 	}
 	
-	public int insertOrUpdateRequestDetail(Request request){
+	@Transactional(readOnly = false, rollbackFor=EntryDistrictException.class)
+	public int insertOrUpdateRequestDetail(Request request) throws Exception{
 
 		Request baseRequest = this.getRequestById(request.getRequestId());
 		baseRequest.setMovementTypeId(request.getMovementTypeId());
+		request.setDistrictId(baseRequest.getDistrictId());
 		
 		this.insertOrUpdateRequest(baseRequest);
 		
+		//se limpian los movimientos actuales
 		int clean = this.cleanRequestDetail(request.getRequestId());
 		
-		this.insertMovementList(request.getUpMovements(), request.getRequestId());
-		this.insertMovementList(request.getDownMovements(), request.getRequestId());
+		this.insertMovementList(request.getUpMovements(), request);
+		this.insertMovementList(request.getDownMovements(), request);
 		
 		return 0;
 	}
@@ -225,14 +230,35 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 				.addValue("requestId", requestId);
 		return this.insertOrUpdate(queryContainer.getSQL(SQLConstants.CLEAN_REQUEST_DETAIL), params);
 	}
-	private void insertMovementList(List<Movement> list, Long requestId){
+	
+	
+	private void insertMovementList(List<Movement> list, Request request) throws Exception{
 				
 		for(Movement m : list){
 			
 			//si no es un elemento eliminado
 			if(m.getRemovedElement() == 0){
+				
+				//se afectan a las partidas correspondientes
+				if(m.getMovementTypeId().intValue() < 0){
+					
+					//en los movimientos de disminucion se compromete el saldo
+					for(int i = m.getInitialMonthId(); i <= m.getFinalMonthId(); i++){
+						
+						//Se obtiene el balance actual de la partida distrito mes
+						EntryDistrict entry = this.getEntryBalance(request.getDistrictId(), m.getEntryId(), new Long(i));
+						if (entry == null){
+							throw new EntryDistrictException(request.getDistrictId(), m.getEntryId(), new Long(i), m.getMonthAmount());
+						}
+						//TODO validar los montos de nuevo y modificar saldo comprometido
+						
+					}
+					
+				}
+				
+				
 				//inserta de nuevo el registro
-				Long id =  this.insertAndReturnId(Movement.TABLE_NAME, Movement.PRIMARY_KEY, m.getParams(requestId));
+				Long id =  this.insertAndReturnId(Movement.TABLE_NAME, Movement.PRIMARY_KEY, m.getParams(request.getRequestId()));
 				m.setRequestDetailId(id);
 			}
 		}

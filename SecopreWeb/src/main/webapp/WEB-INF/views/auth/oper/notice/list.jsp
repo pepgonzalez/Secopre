@@ -51,7 +51,9 @@
 								<th class="table-checkbox">
 									<input type="checkbox" class="group-checkable" data-set="#noticeTable .checkboxes"/>
 								</th>
-								<th><spring:message code="application.pages.catalog.notice.year"/></th>
+								<th><spring:message code="application.pages.catalog.notice.registerDate"/></th>
+								<th><spring:message code="application.pages.catalog.notice.displayDate"/></th>
+								<th><spring:message code="application.pages.catalog.notice.notice"/></th>
 								<th><spring:message code="application.active"/></th>
 								<th><spring:message code="application.actions"/></th>
 							</tr>
@@ -62,16 +64,24 @@
 									<td>
 										<input type="checkbox" class="checkboxes" value="1"/>
 									</td>
-									<td>${noticeItem.year}</td>
+									<td>
+									     ${noticeItem.registerDate}
+									</td>
+									<td>
+										 ${noticeItem.displayDate}
+									</td>
+									<td>
+										 ${noticeItem.notice}
+									</td>																		
 									<td>
 										 ${noticeItem.activo}
 									</td>
 									<td>
-										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/cat/notice/edit?id=${noticeItem.id}' ,'dashboard','editNoticeCat()');">
+										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/oper/notice/edit?id=${noticeItem.id}' ,'dashboard','editNoticeCat()');">
 										 <i class="fa fa-edit xs"></i>
 										</button>
 										
-										<button id="btndelete"  type="button" class="btn delete btn-danger btn-xs" onclick="borrarRegistro('auth/cat/notice/delete?id=${noticeItem.id}','dashboard','initNoticeList()');"   >
+										<button id="btndelete"  type="button" class="btn delete btn-danger btn-xs" onclick="borrarRegistro('auth/oper/notice/delete?id=${noticeItem.id}','dashboard','initNoticeList()');"   >
 										<i class="fa fa-trash"></i> 
 										</button>
 									</td>

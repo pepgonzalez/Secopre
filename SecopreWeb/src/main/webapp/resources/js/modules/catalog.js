@@ -1,11 +1,21 @@
 function initDueDateCat() {
 	initPage('DueDate');
 	initDueDateValidations();
+    $('#dueDate').datepicker({
+    });
+    $('#maxBlockDate').datepicker({
+    });
+
+
 }
 
 function editDueDateCat() {
 	editPage('DueDate');
 	initDueDateValidations();
+	 $('#dueDate').datepicker({
+	    });
+	  $('#maxBlockDate').datepicker({
+	    });
 }
 
 function initDueDateList() {
@@ -112,12 +122,22 @@ function initNoticeCat() {
 	initPage('Notice');
 	initNoticeValidations();
 	 $('select').select2();
+	    $('#registerDate').datepicker({
+	    });
+	    $('#displayDate').datepicker({
+	    });
+	    $('#districts').multiSelect();
 }
 
 function editNoticeCat() {
 	editPage('Notice');
 	initNoticeValidations();
 	 $('select').select2();
+	    $('#registerDate').datepicker({
+	    });
+	    $('#displayDate').datepicker({
+	    });
+	    $('#districts').multiSelect();
 }
 
 function initNoticeList() {
@@ -142,40 +162,12 @@ function initDueDateValidations() {
 		// message class
 		focusInvalid : false, // do not focus the last invalid input
 		rules : {
-			number : {
-				maxlength : 10,
+			maxBlockDate : {
 				required : true
 			},
-			"state.id" : {
+			dueDate : {
 				required : true
-			},
-			email : {
-				required : true,
-				email : true
-			},
-			telephone : {
-				required : true
-			},
-			street : {
-				required : true
-			},
-			number : {
-				required : true
-			},
-			colony : {
-				required : true
-			},
-			city : {
-				required : true
-			},
-			"stateDTO.id" : {
-				required : true
-			},
-			zipCode : {
-				required : true,
-				number : true,
-				maxlength : 5
-			},
+			}
 		},
 
 		invalidHandler : function(event, validator) { // display error alert
@@ -555,25 +547,17 @@ function initNoticeValidations() {
 		// message class
 		focusInvalid : false, // do not focus the last invalid input
 		rules : {
-			code : {
-				maxlength : 11,
-				required : true,
-				number : true
+			registerDate : {
+				required : true
 			},
-			name : {
+			displayDate : {
+				required : true
+			},
+			notice : {
 				maxlength : 250,
 				required : true
 			},
-			description : {
-				maxlength : 250,
-				required : true
-			},
-			"programmaticKey.id" : {
-				required : true
-			},
-			accountingType : {
-				required : true
-			}
+			dists : "required"
 		},
 
 		invalidHandler : function(event, validator) { // display error alert

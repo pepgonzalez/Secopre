@@ -50,7 +50,7 @@ public class SecopreConstans {
 	public static final String MV_CAT_PK = "auth/oper/pk/programmaticKey";
 	public static final String MV_CAT_PK_ADD = "auth/oper/pk/add";
 	
-	//####Modulo de Catalogos####//
+	
 	public static final String MV_CAT_PERSON = "auth/catalog/person/persons";
 	public static final String MV_CAT_PERSON_ADD = "auth/catalog/person/add";
 
@@ -64,7 +64,13 @@ public class SecopreConstans {
 	public static final String MV_CAT_ADDRESS = "auth/catalog/address/list";
 	public static final String MV_CAT_ADDRESS_ADD = "auth/catalog/address/add";		
 	
-	public static final String MV_CAT_NOTICE = "auth/catalog/notice/notice";
-	public static final String MV_CAT_NOTICE_ADD = "auth/catalog/notice/add";	
+	public static final String MV_CAT_NOTICE = "auth/oper/notice/notices";
+	public static final String MV_CAT_NOTICE_ADD = "auth/oper/notice/add";	
+	
+	//####Modulo de Catalogos Parametricos####//
+	public static final String MV_CAT_DUEDATE = "auth/param/dueDate/dueDate";
+	public static final String MV_CAT_DUEDATE_ADD = "auth/param/dueDate/add";	
+	
+	
 		
 }

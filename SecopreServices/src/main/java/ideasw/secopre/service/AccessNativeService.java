@@ -27,7 +27,7 @@ public interface AccessNativeService {
 	 * param request - Objeto con informacion de nuevo tramite
 	 * param userId - Id de usuario que inicializa el tramite
 	 */
-	Long startFormality(Request request, Long userId);
+	Long startFormality(Request request, Long userId) throws Exception;
 	
 	/*
 	 * Metodo para obtener todos los tramites en tuberia que puede tratar el folio
@@ -75,7 +75,7 @@ public interface AccessNativeService {
 	 * param request - objeto con la informacion del tramite
 	 */
 
-	int insertOrUpdateRequestDetail(Request request);
+	int insertOrUpdateRequestDetail(Request request) throws Exception;
 
 	/*
 	 * Metodo para actualizar la ruta absoluta del documento anexo carga al tramite por el sistema

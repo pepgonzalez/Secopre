@@ -1,11 +1,17 @@
 package ideasw.secopre.web.controller;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import ideasw.secopre.model.Notice;
-import ideasw.secopre.model.catalog.Position;
+import ideasw.secopre.model.catalog.District;
 import ideasw.secopre.web.SecopreConstans;
+import ideasw.secopre.web.controller.SecopreCache;
 import ideasw.secopre.web.controller.base.AuthController;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,29 +35,47 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller
 public class NoticeController extends AuthController {
+	
+	@Autowired
+	private SecopreCache secopreCahe; 
 
-	@RequestMapping(value = "cat/notice/list", method = { RequestMethod.GET,
+	@RequestMapping(value = "oper/notice/list", method = { RequestMethod.GET,
 			RequestMethod.POST })
 	public String getList(ModelMap model, RedirectAttributes attributes) {
 		Notice notice = new Notice();
 		model.addAttribute("noticeList", baseService.findAll(Notice.class));
 		model.addAttribute("notice", notice);
+		model.addAttribute("districts", secopreCahe.getAlldistricts());
 		return SecopreConstans.MV_CAT_NOTICE;
 	}
 	
-	@RequestMapping(value = "cat/notice/edit", method = { RequestMethod.GET,
+	@RequestMapping(value = "oper/notice/edit", method = { RequestMethod.GET,
 			RequestMethod.POST })
 	public String edit( ModelMap model, RedirectAttributes attributes, @RequestParam("id") Long id ) {
 		Notice notice = baseService.findById(Notice.class , id);
 		model.addAttribute("notice", notice);
+		
+		model.addAttribute("districts", secopreCahe.getAlldistricts());
+		
 		return SecopreConstans.MV_CAT_NOTICE;
 	}
 	
-	@RequestMapping(value = "cat/notice/add", method = RequestMethod.POST)
-	public String add(@ModelAttribute("notice") Position notice, ModelMap model,  @RequestParam("id") Long id ) {
+	@RequestMapping(value = "oper/notice/add", method = RequestMethod.POST)
+	public String add(@ModelAttribute("notice") Notice notice,@RequestParam("districts") String district ,ModelMap model) {
 		try {
+			
+			List<District> distritList  = new ArrayList<District>();
+			List<String> items = Arrays.asList(district.split("\\s*,\\s*"));
+			
+			for (String distrid : items) {
+				District distr= baseService.findById(District.class, Long.parseLong(distrid));
+				distritList.add(distr);
+				notice.setDistrs(distritList);
+			}		
 			baseService.save(notice);
 		} catch (Exception e) {
+			e.getStackTrace();
+			e.printStackTrace();
 			model.addAttribute(
 					"errors",
 					initErrors("Ocurrio un error al insertar el aviso:"
