@@ -6,7 +6,7 @@
 					<div class="portlet box blue" id="form_wizard_1">
 						<div class="portlet-title">
 							<div class="caption">
-								<i class="fa fa-gift"></i> <spring:message code="application.pages.admin.district.title"/> - <span class="step-title">
+								<i class="fa fa-gift"></i> <spring:message code="application.pages.catalog.district.title"/> - <span class="step-title">
 								Paso 1 de 3 </span>
 							</div>
 							<div class="tools hidden-xs">
@@ -15,7 +15,7 @@
 							</div>
 						</div>
 						<div class="portlet-body form">
-							<form action="auth/cat/district/add?id=${district.id}" class="form-horizontal" id="submit_form"  modelAttribute="submit_form" method="POST"  novalidate="novalidate">
+							<form action="auth/cat/district/add?id=${district.id}&addressid=${address.id}" class="form-horizontal" id="submit_form"  modelAttribute="submit_form" method="POST"  novalidate="novalidate">
 								<div class="form-wizard">
 									<div class="form-body">
 
@@ -33,7 +33,7 @@
 												<span class="number">
 												2 </span>
 												<span class="desc">
-												<i class="fa fa-check"></i>Usuarios </span>
+												<i class="fa fa-check"></i>Direccion </span>
 												</a>
 											</li>
 											<li>
@@ -93,7 +93,7 @@
 												    </div>
 													
 													<div class="form-group form-md-line-input has-danger">
-														<label class="col-md-3 control-label" for="form_control_1">
+														<label class="col-md-2 control-label" for="form_control_1">
 															<spring:message code="application.pages.catalog.district.email" />
 															<span class="required">*</span>
 														</label>
@@ -139,7 +139,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input id="district.street" name="district.street" value="${district.street}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.street.placeholder"/>'>
+																<input id="address.street" name="street" value="${address.street}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.street.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.admin.persons.street.help"/></span>
@@ -154,7 +154,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input id="district.number" name="district.number" value="${district.number}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.number.placeholder"/>'>
+																<input id="address.number" name="number" value="${address.number}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.number.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.admin.persons.number.help"/></span>
@@ -169,7 +169,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input id="district.colony" name="district.colony"  value="${district.colony}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.colony.placeholder"/>'>
+																<input id="address.colony" name="colony"  value="${address.colony}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.colony.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.admin.persons.colony.help"/></span>
@@ -184,7 +184,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input id="district.city" name="district.city" value="${district.city}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.city.placeholder"/>'>
+																<input id="address.city" name="city" value="${address.city}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.city.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.admin.persons.city.help"/></span>
@@ -204,7 +204,7 @@
 																<span class="input-group-addon"> 
 																  <i class="icon-user"></i>
 																</span> 
-																<form:select path="district.state.id"  name="district.state" class="form-control">
+																<form:select path="address.stateDTO.id"  name="state" class="form-control">
 																   <form:option value="" label="Seleccione..."/>
 					    										   <form:options items="${states}" />
 																</form:select>
@@ -219,7 +219,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input id="district.zipCode" name="district.zipCode" value="${district.zipCode}"  type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.zipCode.placeholder"/>'>
+																<input id="address.zipCode" name="zipCode" value="${address.zipCode}"  type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.zipCode.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.admin.persons.zipCode.help"/></span>

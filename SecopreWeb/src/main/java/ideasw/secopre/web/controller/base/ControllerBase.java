@@ -1,6 +1,7 @@
 package ideasw.secopre.web.controller.base;
 
 import ideasw.secopre.service.BaseService;
+import ideasw.secopre.web.controller.SecopreCache;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -26,6 +27,9 @@ public class ControllerBase {
 
 	@Autowired
 	public BaseService baseService;
+	
+	@Autowired
+	public SecopreCache secopreCache;
 
 	private Locale locale = LocaleContextHolder.getLocale();
 
