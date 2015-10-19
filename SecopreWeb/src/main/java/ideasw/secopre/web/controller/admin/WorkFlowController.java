@@ -18,6 +18,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -33,6 +35,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class WorkFlowController extends AuthController {
+
+	static final Logger LOG = LoggerFactory
+			.getLogger(WorkFlowController.class);
 
 	@Autowired
 	private AccessNativeService accessNativeService;
@@ -77,10 +82,14 @@ public class WorkFlowController extends AuthController {
 
 		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
 		
-		accessNativeService.insertOrUpdateRequestDetail(requestForm);
-		accessNativeService.invokeNextStage(requestForm, loggedUser.getId());
-
-		return SecopreConstans.MV_TRAM_LIST_REDIRECT;
+		try{
+			accessNativeService.insertOrUpdateRequestDetail(requestForm);
+			accessNativeService.invokeNextStage(requestForm, loggedUser.getId());
+			return SecopreConstans.MV_TRAM_LIST_REDIRECT;
+		}catch(Exception ex){
+			System.out.println(ex);
+			return SecopreConstans.MV_TRAM_LIST_REDIRECT;
+		}
 	}
 
 	/*
@@ -172,7 +181,7 @@ public class WorkFlowController extends AuthController {
 				
 				String requestFolder = rootPath + File.separator + requestId;
 				
-				System.out.println("creando directorio de folio: " + requestFolder);
+				LOG.debug("creando directorio de folio: " + requestFolder);
 				File requestDirectory = new File(requestFolder);
 				if (!requestDirectory.exists()) {
 					requestDirectory.mkdir();
@@ -205,8 +214,8 @@ public class WorkFlowController extends AuthController {
 				accessNativeService.invokeNextStage(request, loggedUser.getId());	
 			
 			}catch(Exception ex){
-				System.out.println("Ocurrio un error durante el guardado del documento: " + ex.getMessage());
-				System.out.println(ex);
+				LOG.error("Ocurrio un error durante el guardado del documento",ex);
+				LOG.debug("Ocurrio un error durante el guardado del documento: " + ex.getMessage());
 			}
 
 		}
@@ -230,7 +239,7 @@ public class WorkFlowController extends AuthController {
       	response.flushBuffer();
       	
     } catch (IOException ex) {
-      	System.out.println("Ocurrio un error al intentar descargar el archivo" + ex.toString());
+      	LOG.debug("Ocurrio un error al intentar descargar el archivo" + ex.toString());
     }
 
 	}
