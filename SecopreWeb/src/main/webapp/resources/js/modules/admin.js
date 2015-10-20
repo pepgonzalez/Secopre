@@ -831,34 +831,53 @@ var movementController = {
 				var total = 0;
 				if ( this.value.length > 0){
 					
-					//por cada mes, se pregunta si tiene saldo suficiente
+					//se valida si el tipo de movimiento es de disminucion
+					var movementType = parseInt($(self.getId(grid, nextIndex, "movementTypeId")).val())
 					
-					var isValidMovement = true;
-					for(var i = initialMonth; i <= finalMonth; i++){
+					if(movementType < 0){
+						//por cada mes, se pregunta si tiene saldo suficiente
+						var isValidMovement = true;
 						
-						//debo preguntar por el distrito, partida y mes
-						self.apiCall("auth/API/get/movOk/" + districtId + "/" + entryId + "/" + i + "/" + this.value, function(data){
-							console.log("consulta movimiento valido");
-							console.log(data);
-							if (data.result <= 0){
-								isValidMovement = false;
-								window.showNotification("error", data.msg);
-							} 
-						});
+						function updateFlag(value){
+							isValidMovement = value;
+						}
+						
+						function continueProcess(){
+							alert("validando resultado");
+							if(!isValidMovement){
+								alert("movimiento invalido");
+								$(this).closest("[data-name='monthAmount']").addClass("has-error");
+								return;
+							}else{
+								endProcess();
+							}
+						}
+						
+						for(var i = initialMonth; i <= finalMonth; i++){
+							
+							//debo preguntar por el distrito, partida y mes
+							self.apiCall("auth/API/get/movOk/" + districtId + "/" + entryId + "/" + i + "/" + this.value, function(data){
+								console.log("consulta movimiento valido");
+								console.log(data);
+								if (data.result <= 0){
+									updateFlag(false);
+									window.showNotification("error", data.msg);
+								} 
+								if(i == finalMonth){
+									continueProcess();
+								}
+							});
+						}
 					}
 					
-					if(!isValidMovement){
-						this.closest("[data-name='monthAmount']").addClass("has-error");
-						return;
-					}
-					
-					
-					//se calcula el monto total del movimiento
-					total = ((finalMonth - initialMonth) + 1) * this.value;					
-					
-					//si el monto es mayor a cero, se elimina el error
-					if (parseInt(this.value) > 0){
-						self.removeClassError(self.getId(grid, nextIndex, "monthAmount"));
+					function endProcess(){
+						//se calcula el monto total del movimiento
+						total = ((finalMonth - initialMonth) + 1) * this.value;					
+						
+						//si el monto es mayor a cero, se elimina el error
+						if (parseInt(this.value) > 0){
+							self.removeClassError(self.getId(grid, nextIndex, "monthAmount"));
+						}
 					}
 					
 				}
