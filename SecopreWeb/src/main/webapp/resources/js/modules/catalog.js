@@ -2,8 +2,14 @@ function initDueDateCat() {
 	initPage('DueDate');
 	initDueDateValidations();
     $('#dueDate').datepicker({
+    	  format: 'mm/dd/yyyy',
+    	  autoclose: true,
+    	  language: 'es'
     });
     $('#maxBlockDate').datepicker({
+    	  format: 'mm/dd/yyyy',
+    	  autoclose: true,
+    	  language: 'es'
     });
 
 
@@ -13,8 +19,14 @@ function editDueDateCat() {
 	editPage('DueDate');
 	initDueDateValidations();
 	 $('#dueDate').datepicker({
+		  format: 'mm/dd/yyyy',
+		  autoclose: true,
+		  language: 'es'
 	    });
 	  $('#maxBlockDate').datepicker({
+		  format: 'mm/dd/yyyy',
+		  autoclose: true,
+		  language: 'es'
 	    });
 }
 
@@ -123,10 +135,13 @@ function initNoticeCat() {
 	initNoticeValidations();
 	 $('select').select2();
 	    $('#registerDate').datepicker({
+	    	  autoclose: true
 	    });
 	    $('#displayDate').datepicker({
+	    	  autoclose: true
 	    });
-	    $('#districts').multiSelect();
+	    $('#districts').multiSelect({ includeSelectAllOption: true});
+	    
 }
 
 function editNoticeCat() {
@@ -134,8 +149,10 @@ function editNoticeCat() {
 	initNoticeValidations();
 	 $('select').select2();
 	    $('#registerDate').datepicker({
+	    	 autoclose: true
 	    });
 	    $('#displayDate').datepicker({
+	    	 autoclose: true
 	    });
 	    $('#districts').multiSelect();
 }
