@@ -1,11 +1,19 @@
 package ideasw.secopre.model;
 
+import javax.persistence.Transient;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import ideasw.secopre.model.base.AuditEntity;
 import ideasw.secopre.model.base.Persistible;
 import ideasw.secopre.model.catalog.District;
+
+
+
+
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -25,6 +33,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 import org.hibernate.envers.RelationTargetAuditMode;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 
@@ -55,8 +64,14 @@ public class Notice extends AuditEntity implements Persistible {
 	@Temporal(TemporalType.DATE)
 	private Date displayDate;
 	
+	@Transient
+	private String registerDateStr;
+	
+	@Transient
+	private String displayDateStr;
+	
 	@Column(name = "NOTICE", nullable = false)
-	private String notice;
+	private String noticeInfo;
 	
 	// bi-directional many-to-one association 
 
@@ -101,13 +116,6 @@ public class Notice extends AuditEntity implements Persistible {
 		this.displayDate = displayDate;
 	}
 
-	public String getNotice() {
-		return notice;
-	}
-
-	public void setNotice(String notice) {
-		this.notice = notice;
-	}
 
 	public List<District> getDistrs() {
 		return distrs;
@@ -115,6 +123,49 @@ public class Notice extends AuditEntity implements Persistible {
 
 	public void setDistrs(List<District> distrs) {
 		this.distrs = distrs;
+	}
+
+	public String getNoticeInfo() {
+		return noticeInfo;
+	}
+
+	public void setNoticeInfo(String noticeInfo) {
+		this.noticeInfo = noticeInfo;
+	}
+
+	public String getRegisterDateStr() {
+		 SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+			String registerDateStr = sdf.format(this.registerDate ); 
+			return registerDateStr;
+	}
+
+	public void setRegisterDateStr(String registerDateStr) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		try {
+			Date registerDate = sdf.parse(registerDateStr);
+			this.setRegisterDate(registerDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public String getDisplayDateStr() {
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		String displayDateStr = sdf.format(this.displayDate ); 
+		return displayDateStr;
+
+	}
+
+	public void setDisplayDateStr(String displayDateStr) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		try {
+			Date displayDate = sdf.parse(displayDateStr);
+			this.setDisplayDate(displayDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 

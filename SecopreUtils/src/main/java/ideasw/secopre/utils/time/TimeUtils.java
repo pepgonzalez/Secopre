@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 public class TimeUtils {
 	static final Logger LOG = LoggerFactory.getLogger(TimeUtils.class);
 	public static final String COMPLETE_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+	public static final String CUSTOM_SIMPLE_DATE_FORMAT = "yyyy/MM/dd";
 	public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
 	public static final String CUSTOM_COMPLETE_DATE_FORMAT = "dd-MMM-yy',' HH:mm 'hrs.'";
 	public static final SimpleDateFormat completeDateFormat = new SimpleDateFormat(

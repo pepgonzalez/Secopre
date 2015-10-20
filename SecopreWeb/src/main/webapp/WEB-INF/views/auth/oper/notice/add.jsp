@@ -15,7 +15,7 @@
 							</div>
 						</div>
 						<div class="portlet-body form">
-							<form action="auth/oper/notice/add" class="form-horizontal" id="submit_form"  modelAttribute="submit_form" method="POST"  novalidate="novalidate">
+							<form action="auth/oper/notice/add?id=${notice.id}" class="form-horizontal" id="submit_form"  modelAttribute="submit_form" method="POST"  novalidate="novalidate">
 								<div class="form-wizard">
 									<div class="form-body">
 
@@ -58,7 +58,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input id="registerDate" name="registerDate" type="text" class="form-control form-control-inline input-medium date-picker"  value="${notice.registerDate}"   placeholder='<spring:message code="application.pages.catalog.notice.registerDate.placeholder"/>'>
+																<input id="registerDateStr" name="registerDateStr" type="text" class="form-control form-control-inline input-medium date-picker"  value="${notice.registerDate}"   placeholder='<spring:message code="application.pages.catalog.notice.registerDate.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.catalog.notice.registerDate.help"/></span>
@@ -73,7 +73,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input id="displayDate" name="displayDate" type="text" class="form-control form-control-inline input-medium date-picker"  value="${notice.displayDate}"   placeholder='<spring:message code="application.pages.catalog.notice.displayDate.placeholder"/>'>
+																<input id="displayDateStr" name="displayDateStr"  type="text" class="form-control form-control-inline input-medium date-picker"  value="${notice.displayDate}"   placeholder='<spring:message code="application.pages.catalog.notice.displayDate.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.catalog.notice.displayDate.help"/></span>
@@ -88,7 +88,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<form:textarea path="notice" id="notice" name="notice" value="${notice.notice}" class="form-control" rows="1" />
+																<form:textarea path="notice.noticeInfo" id="noticeInfo" name="noticeInfo" value="${notice.noticeInfo}" class="form-control" rows="1" />
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.catalog.notice.notice.help"/></span>
@@ -127,7 +127,7 @@
 													code="application.pages.catalog.notice.registerDate" />
 													</label>
 										            <div class="col-md-4">
-											           <p class="form-control-static" data-display="registerDate"></p>
+											           <p class="form-control-static" data-display="registerDateStr"></p>
 										            </div>
 									            </div>
 					            
@@ -136,7 +136,7 @@
 													code="application.pages.catalog.notice.displayDate" />
 													</label>
 										            <div class="col-md-4">
-											           <p class="form-control-static" data-display="displayDate"></p>
+											           <p class="form-control-static" data-display="displayDateStr"></p>
 										            </div>
 									            </div>
 									            
@@ -145,7 +145,7 @@
 													code="application.pages.catalog.notice.notice" />
 													</label>
 										            <div class="col-md-4">
-											           <p class="form-control-static" data-display="notice"></p>
+											           <p class="form-control-static" data-display="noticeInfo"></p>
 										            </div>
 									            </div>
 									            

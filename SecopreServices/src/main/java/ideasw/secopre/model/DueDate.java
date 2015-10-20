@@ -3,6 +3,8 @@ package ideasw.secopre.model;
 import ideasw.secopre.model.base.AuditEntity;
 import ideasw.secopre.model.base.Persistible;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -14,6 +16,7 @@ import javax.persistence.Index;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /**
  * Clase que modela las fechas corte dentro de la aplicacion Secopre
@@ -37,10 +40,16 @@ public class DueDate extends AuditEntity implements Persistible {
 	@Column(name = "DUE_DATE", nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date dueDate;
+	
+	@Transient
+	private String dueDateStr;
 
 	@Column(name = "MAX_BLOCK_DATE", nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date maxBlockDate;
+	
+	@Transient
+	private String maxBlockDateStr;
 
 	/**
 	 * @return the id
@@ -84,7 +93,48 @@ public class DueDate extends AuditEntity implements Persistible {
 	 *            the maxBlockDate to set
 	 */
 	public void setMaxBlockDate(Date maxBlockDate) {
-		this.maxBlockDate = maxBlockDate;
+      this.maxBlockDate = maxBlockDate;
+	}
+
+	public String getDueDateStr() {
+		String dueDateStr=null;
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		if(this.dueDate!=null){
+	    dueDateStr  = sdf.format(this.dueDate ); 
+		}
+	    return dueDateStr;
+		
+	}
+
+	public void setDueDateStr(String dueDateStr) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		try {
+			Date dueDate = sdf.parse(dueDateStr);
+			this.setDueDate(dueDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public String getMaxBlockDateStr() {
+		String maxBlockDateStr=null;
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		if(this.maxBlockDate != null)
+	    {maxBlockDateStr  = sdf.format(this.maxBlockDate ); 
+	    }
+		return maxBlockDateStr;
+	}
+
+	public void setMaxBlockDateStr(String maxBlockDateStr) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		try {
+			Date maxBlockDate = sdf.parse(maxBlockDateStr);
+			this.setMaxBlockDate(maxBlockDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

@@ -1,15 +1,13 @@
 function initDueDateCat() {
 	initPage('DueDate');
 	initDueDateValidations();
-    $('#dueDate').datepicker({
-    	  format: 'mm/dd/yyyy',
-    	  autoclose: true,
-    	  language: 'es'
+    $('#dueDateStr').datepicker({
+    	  format: 'dd/mm/yyyy',
+    	  autoclose: true
     });
-    $('#maxBlockDate').datepicker({
-    	  format: 'mm/dd/yyyy',
-    	  autoclose: true,
-    	  language: 'es'
+    $('#maxBlockDateStr').datepicker({
+    	  format: 'dd/mm/yyyy',
+    	  autoclose: true
     });
 
 
@@ -18,15 +16,13 @@ function initDueDateCat() {
 function editDueDateCat() {
 	editPage('DueDate');
 	initDueDateValidations();
-	 $('#dueDate').datepicker({
-		  format: 'mm/dd/yyyy',
-		  autoclose: true,
-		  language: 'es'
+	 $('#dueDateStr').datepicker({
+		  format: 'dd/mm/yyyy',
+		  autoclose: true
 	    });
-	  $('#maxBlockDate').datepicker({
-		  format: 'mm/dd/yyyy',
-		  autoclose: true,
-		  language: 'es'
+	  $('#maxBlockDateStr').datepicker({
+		  format: 'dd/mm/yyyy',
+		  autoclose: true
 	    });
 }
 
@@ -134,11 +130,13 @@ function initNoticeCat() {
 	initPage('Notice');
 	initNoticeValidations();
 	 $('select').select2();
-	    $('#registerDate').datepicker({
-	    	  autoclose: true
+	    $('#registerDateStr').datepicker({
+	    	  autoclose: true,
+	    	  format : 'yyyy-mm-dd'
 	    });
-	    $('#displayDate').datepicker({
-	    	  autoclose: true
+	    $('#displayDateStr').datepicker({
+	    	  autoclose: true,
+	    	  format : 'yyyy-mm-dd'
 	    });
 	    $('#districts').multiSelect({ includeSelectAllOption: true});
 	    
@@ -148,11 +146,13 @@ function editNoticeCat() {
 	editPage('Notice');
 	initNoticeValidations();
 	 $('select').select2();
-	    $('#registerDate').datepicker({
-	    	 autoclose: true
+	    $('#registerDateStr').datepicker({
+	    	 autoclose: true,
+	    	 format : 'yyyy-mm-dd'
 	    });
-	    $('#displayDate').datepicker({
-	    	 autoclose: true
+	    $('#displayDateStr').datepicker({
+	    	 autoclose: true,
+	    	 format : 'yyyy-mm-dd'
 	    });
 	    $('#districts').multiSelect();
 }
@@ -179,10 +179,10 @@ function initDueDateValidations() {
 		// message class
 		focusInvalid : false, // do not focus the last invalid input
 		rules : {
-			maxBlockDate : {
+			maxBlockDateStr : {
 				required : true
 			},
-			dueDate : {
+			dueDateStr : {
 				required : true
 			}
 		},
@@ -564,17 +564,17 @@ function initNoticeValidations() {
 		// message class
 		focusInvalid : false, // do not focus the last invalid input
 		rules : {
-			registerDate : {
+			registerDateStr : {
 				required : true
 			},
-			displayDate : {
+			displayDateStr : {
 				required : true
 			},
-			notice : {
+			noticeInfo : {
 				maxlength : 250,
 				required : true
 			},
-			dists : "required"
+			districts : "required"
 		},
 
 		invalidHandler : function(event, validator) { // display error alert

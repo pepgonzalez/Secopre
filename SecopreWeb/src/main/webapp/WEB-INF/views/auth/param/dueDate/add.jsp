@@ -51,40 +51,48 @@
 											<div class="tab-pane active" id="tab1">
 												<h3 class="block">Proporcionar Información de Fecha de Corte</h3>
 												<div class="form-body">													
-													
-													
-													<div class="form-group form-md-line-input">
+																									
+													<div class="form-group form-md">
 														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.param.dueDate.dueDate"/>
-															<span class="required">* </span>
+														<span class="required">* </span>
 														</label>
-														<div class="col-md-10">
-															<div class="input-icon">
-																<input id="dueDate" name="dueDate" type="text" class="form-control form-control-inline input-medium date-picker"  value="${dueDate.dueDate}"   placeholder='<spring:message code="application.pages.param.dueDate.dueDate.placeholder"/>'>
+														<div class="col-md-4">
+<!-- 															<div class="input-icon"> -->
+                                                                <div data-date-format="dd/mm/yyyy" class="input-group date date-picker">
+																 <div class="input-group-addon">
+															        <span class="fa fa-calendar"></span>
+															    </div>
+																<input name="dueDateStr"  id="dueDateStr"  type="text" value="${dueDate.dueDateStr}" class="form-control">
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.param.dueDate.dueDate.help"/></span>
-																<i class="icon-user"></i>
-															</div>
+																</div>
+																<span id="datepicker-error" class="help-block help-block-error"></span>
+																<span class="help-block">
+																<spring:message code="application.pages.param.dueDate.dueDate.help"/>
+																</span>														
 														</div>
-													</div>
-													
-
-													
-													<div class="form-group form-md-line-input has-danger">
+													</div>	
+																	
+													<div class="form-group form-md">
 														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.param.dueDate.maxBlockDate"/>
 														<span class="required">* </span>
 														</label>
-														<div class="col-md-10">
-															<div class="input-icon">
-																<input name="maxBlockDate"  id="maxBlockDate" type="text" value="${dueDate.maxBlockDate}"  class="form-control form-control-inline input-medium date-picker" placeholder='<spring:message code="application.pages.param.dueDate.maxBlockDate.placeholder"/>'>
+														<div class="col-md-4">
+<!-- 															<div class="input-icon"> -->
+                                                                <div data-date-format="dd/mm/yyyy" class="input-group date date-picker">
+																 <div class="input-group-addon">
+															        <span class="fa fa-calendar"></span>
+															    </div>
+																<input name="maxBlockDateStr"  id="maxBlockDateStr"  type="text" value="${dueDate.maxBlockDateStr}" class="form-control">
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.param.dueDate.maxBlockDate.help"/></span>
-																<i class="icon-user"></i>
-															</div>
+																</div>
+																<span id="datepicker-error" class="help-block help-block-error"></span>
+																<span class="help-block">
+																<spring:message code="application.pages.param.dueDate.maxBlockDate.help"/>
+																</span>														
 														</div>
-													</div>
-																					       																				
+													</div>																				       																				
 										        </div>
 											</div>
 
@@ -99,7 +107,7 @@
 													code="application.pages.param.dueDate.dueDate" />
 													</label>
 										            <div class="col-md-4">
-											           <p class="form-control-static" data-display="dueDate"></p>
+											           <p class="form-control-static" data-display="dueDateStr"></p>
 										            </div>
 									            </div>
 									            <div class="form-group">
@@ -107,7 +115,7 @@
 													  code="application.pages.param.dueDate.maxBlockDate" />
 											       </label>
 										           <div class="col-md-4">
-											         <p class="form-control-static" data-display="maxBlockDate"></p>
+											         <p class="form-control-static" data-display="maxBlockDateStr"></p>
 										           </div>
 									            </div>							
 													

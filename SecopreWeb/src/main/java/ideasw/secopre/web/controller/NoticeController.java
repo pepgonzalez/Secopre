@@ -1,8 +1,11 @@
 package ideasw.secopre.web.controller;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import ideasw.secopre.model.Notice;
@@ -54,8 +57,21 @@ public class NoticeController extends AuthController {
 	public String edit( ModelMap model, RedirectAttributes attributes, @RequestParam("id") Long id ) {
 		Notice notice = baseService.findById(Notice.class , id);
 		model.addAttribute("notice", notice);
-		
 		model.addAttribute("districts", secopreCahe.getAlldistricts());
+//		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//		try {
+//			Date d = sdf.parse(notice.getRegisterDate().toString());
+//			sdf.applyPattern("yyyy/MM/dd");
+//			String newDateString = sdf.format(d);
+//			
+//			notice.setRegisterDate(formatter.parse(newDateString)); 
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+
 		
 		return SecopreConstans.MV_CAT_NOTICE;
 	}
@@ -71,6 +87,7 @@ public class NoticeController extends AuthController {
 				District distr= baseService.findById(District.class, Long.parseLong(distrid));
 				distritList.add(distr);
 				notice.setDistrs(distritList);
+				notice.setActivo(Boolean.TRUE);
 			}		
 			baseService.save(notice);
 		} catch (Exception e) {
@@ -84,7 +101,7 @@ public class NoticeController extends AuthController {
 		return SecopreConstans.MV_CAT_NOTICE;
 	}
 	
-	@RequestMapping(value = "cat/notice/delete", method = RequestMethod.POST)
+	@RequestMapping(value = "oper/notice/delete", method = RequestMethod.POST)
 	public String delete(ModelMap model,  @RequestParam("id") Long id ) {
 		try {
 			Notice notice = baseService.findById(Notice.class , id);

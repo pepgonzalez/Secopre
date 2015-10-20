@@ -71,7 +71,7 @@
 										 ${noticeItem.displayDate}
 									</td>
 									<td>
-										 ${noticeItem.notice}
+										 ${noticeItem.noticeInfo}
 									</td>																		
 									<td>
 										 ${noticeItem.activo}

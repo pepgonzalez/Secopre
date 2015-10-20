@@ -64,10 +64,10 @@
 										<input type="checkbox" class="checkboxes" value="1"/>
 									</td>
 									<td>
-									     ${dueDateItem.dueDate}
+									     ${dueDateItem.dueDateStr}
 									</td>
 									<td>
-										 ${dueDateItem.maxBlockDate}
+										 ${dueDateItem.maxBlockDateStr}
 									</td>
 									<td>
 										 ${dueDateItem.activo}
