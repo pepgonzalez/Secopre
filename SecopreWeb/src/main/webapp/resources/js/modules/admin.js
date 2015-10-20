@@ -1128,7 +1128,8 @@ function initFullCapture() {
 
 	$('#saveAndContinue').click(function(e) {
 		alert("Finalizando captura y avanzando tramite");
-		var isCorrect = movementController.validate();
+		//var isCorrect = movementController.validate();
+		var isCorrect = true;
 		if (isCorrect){
 			requestForm.find('#nextStageValueCode').val("SOLCOMP");
 			submitAjaxJQ('requestForm', 'dashboard', '');

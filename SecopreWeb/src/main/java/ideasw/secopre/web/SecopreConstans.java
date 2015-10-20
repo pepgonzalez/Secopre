@@ -36,6 +36,7 @@ public class SecopreConstans {
 	public static final String MV_TRAM_UPLOAD = "auth/tramite/upload";
 	public static final String MV_TRAM_HISTORY = "auth/tramite/history";
 	public static final String MV_TRAM_LIST_REDIRECT = "redirect:/auth/tram/list";
+	public static final String MV_TRAM_EXCEPTION = "auth/tramite/exception";
 	
 	
 	//####Constantes de carga de archivos####//

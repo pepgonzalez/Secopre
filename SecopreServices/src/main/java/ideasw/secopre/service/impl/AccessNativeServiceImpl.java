@@ -38,6 +38,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -52,6 +54,8 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 
 	@Autowired
 	public BaseService baseService;
+	
+	static final Logger LOG = LoggerFactory.getLogger(AccessNativeServiceImpl.class);
 	
 	@Override
 	/*
@@ -214,14 +218,22 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		baseRequest.setMovementTypeId(request.getMovementTypeId());
 		request.setDistrictId(baseRequest.getDistrictId());
 		
+		LOG.info("Actualizando request");
 		this.insertOrUpdateRequest(baseRequest);
+		LOG.info("Request Actualizado");
+		
 		
 		//se limpian los movimientos actuales
+		LOG.info("Limpiando detalle de movimientos");
 		int clean = this.cleanRequestDetail(request.getRequestId());
+		LOG.info("Detalle de movimientos eliminado");
 		
-		this.insertMovementList(request.getUpMovements(), request);
+		LOG.info("Insertando movimientos de disminucion");
 		this.insertMovementList(request.getDownMovements(), request);
-		
+		LOG.info("Movimientos de disminucion terminado");
+		LOG.info("Insertando movimientos de amplicacion");
+		this.insertMovementList(request.getUpMovements(), request);
+		LOG.info("Movimientos de ampliacion terminado");
 		return 0;
 	}
 
@@ -234,12 +246,14 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	
 	private void insertMovementList(List<Movement> list, Request request) throws Exception{
 				
+		LOG.info("Cantidad de movimientos a actualizar: " + list.size());
+		LOG.info("Tipo de guardado: " + request.getNextStageValueCode());
 		for(Movement m : list){
 			
 			//si no es un elemento eliminado
 			if(m.getRemovedElement() == 0){
 				
-				//se afectan a las partidas correspondientes
+				//se afectan a las partidas
 				if(m.getMovementTypeId().intValue() < 0){
 					
 					//en los movimientos de disminucion se compromete el saldo
@@ -250,8 +264,18 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 						if (entry == null){
 							throw new EntryDistrictException(request.getDistrictId(), m.getEntryId(), new Long(i), m.getMonthAmount());
 						}
-						//TODO validar los montos de nuevo y modificar saldo comprometido
-						
+						//TODO validar los montos de nuevo y modificar saldo comprometido si es finalizar captura
+						if (request.getNextStageValueCode().equals("SOLCOMP")){
+							if((entry.getBudgetAmountAssign() - entry.getCommittedAmount()) < m.getMonthAmount()){
+								throw new EntryDistrictException(entry.getDistrict().getNumber(), entry.getEntry().getDescription(), 
+																entry.getMonthString(), (entry.getBudgetAmountAssign() - entry.getCommittedAmount()), m.getMonthAmount());
+							}	
+							
+							//se actualiza el movimiento
+							LOG.info("Actualizando saldo comprometido a partida");
+							entry.setCommittedAmount(entry.getCommittedAmount() + m.getMonthAmount());
+							baseService.update(entry);
+						}
 					}
 					
 				}

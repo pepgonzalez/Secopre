@@ -14,8 +14,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
@@ -78,7 +80,7 @@ public class WorkFlowController extends AuthController {
 	 * param requestForm - Objeto con el listado de movimientos capturados 
 	 * */
 	@RequestMapping(value = "wf/capture/{movementCode}", method = { RequestMethod.POST })
-	public String saveMovements(@ModelAttribute("requestForm") Request requestForm, BindingResult result, ModelMap model, RedirectAttributes attributes, Principal principal) {
+	public String saveMovements(@ModelAttribute("requestForm") Request requestForm, BindingResult result, ModelMap model, RedirectAttributes attributes, Principal principal, HttpServletRequest request) {
 
 		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
 		
@@ -86,9 +88,15 @@ public class WorkFlowController extends AuthController {
 			accessNativeService.insertOrUpdateRequestDetail(requestForm);
 			accessNativeService.invokeNextStage(requestForm, loggedUser.getId());
 			return SecopreConstans.MV_TRAM_LIST_REDIRECT;
+		
 		}catch(Exception ex){
-			System.out.println(ex);
-			return SecopreConstans.MV_TRAM_LIST_REDIRECT;
+			LOG.error(ex.getMessage());
+			List<String> errors = new ArrayList<String>();
+			errors.add(ex.getMessage());
+			
+			model.addAttribute("errors", errors);
+			model.addAttribute("nextAction", "sendRequestJQ('auth/tram/list','dashboard','initTramiteListPage()','GET');");
+			return SecopreConstans.MV_TRAM_EXCEPTION;
 		}
 	}
 
