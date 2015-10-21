@@ -638,12 +638,15 @@ var movementController = {
 		},
 		
 		/* titulos en función del tipo de movimiento seleccionado */
-		titles : { al:"Ampliación Líquida", rl:"Reducción Líquida", ac:"Ampliación Compensada", rc:"Reducción Compensada"},
+		titles : { al:'<i class="fa fa-cogs"></i>Ampliaci&oacute;n L&iacute;quida', 
+			       rl:'<i class="fa fa-cogs"></i>Reducci&oacute;n L&iacute;quida', 
+			       ac:'<i class="fa fa-cogs"></i>Ampliaci&oacute;n Compensada', 
+			       rc:'<i class="fa fa-cogs"></i>Reducci&oacute;n Compensada'},
 		
 		/* funcion que muestra y actualiza el titulo del grid */
 		showGrid : function(grid, name){
 			var grd = $(grid);
-			grd.find(".caption").text(name);
+			grd.find(".caption").html(name);
 			grd.show();
 		},
 		
@@ -836,6 +839,9 @@ var movementController = {
 				var that = this;
 				
 				function updateTotalAmounts(){
+					
+					//ma.formatCurrency();
+					
 					//se calcula el monto total del movimiento
 					total = ((finalMonth - initialMonth) + 1) * that.value;					
 					
@@ -879,6 +885,7 @@ var movementController = {
 					       if(!isValidMovement){
 					    	   ma.closest("[data-name='monthAmount']").addClass("has-error");
 					    	   ma.val("0");
+					    	   updateTotalAmounts();
 					    	   window.unblockPage();
 					    	   return;
 					       }
