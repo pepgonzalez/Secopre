@@ -83,3 +83,27 @@ VALUES
 (11, -1, sysdate(), 1);
 
 COMMIT;
+
+/* query para obtener toda la configuracion del flujo */
+
+SELECT W.DESCRIPTION,
+	   SC1.ID,
+	   S1.DESCRIPTION,
+	   WC.WF_CFG_CODE,
+	   SC2.ID,
+	   S1.DESCRIPTION,
+	   S.DESCRIPTION
+  FROM secopre.WORKFLOW_CONFIG WC,
+  	   secopre.WORKFLOW W,
+  	   secopre.STAGE_CONFIG SC1,
+  	   secopre.STAGE S1,
+  	   secopre.STAGE_CONFIG SC2,
+  	   secopre.STAGE S2,
+  	   secopre.STATUS S
+  	   WHERE W.ID = 2
+   AND WC.WORKFLOW_ID = W.ID
+   AND WC.STAGE_CONFIG_ID = SC1.ID
+   AND SC1.STAGE_ID = S1.ID
+   AND WC.NEXT_STAGE_CONFIG = SC2.ID
+   AND SC2.STAGE_ID = S2.ID
+   AND WC.STATUS_ID = S.ID
