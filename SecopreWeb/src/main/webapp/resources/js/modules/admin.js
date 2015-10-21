@@ -634,6 +634,7 @@ var movementController = {
 		clean : function(grid){
 			$(grid).find("tbody tr").remove();
 			$(grid).find("tbody").html('<tr id="noMovs"><td colspan="6">No hay Movimientos Capturados</td><tr>');
+			this.updateTotal(this, grid, true);
 		},
 		
 		/* titulos en función del tipo de movimiento seleccionado */
@@ -676,25 +677,28 @@ var movementController = {
 			var list = (grid == this.upGrid ? "upMovements" : "downMovements");
 			return "" + list + "[" + idx + "]." + attr;
 		},
-		updateTotal : function(self, grid){
+		updateTotal : function(self, grid, turnDownIteration){
+			turnDownIteration = turnDownIteration || false;
 			var grd = $(grid);
 			var totalId = (grid === self.upGrid ? "#upMovementsTotal" : "#downMovementsTotal");
 			
 			var gridTotal = 0;
 			
-			//iteracion sobre las filas
-			grd.find("tbody tr:not(#noMovs)").each(function(idx, e){
-				var row = $(e);
-				var isRemovedRow = row.find("[data-name='removedElement']").val();
-				
-				//solo considera las filas no eliminadas
-				if(parseInt(isRemovedRow) == 0){
-					var totalAmount = row.find("[data-name='totalAmount']");
-					if (totalAmount.val().length > 0){
-						gridTotal += parseFloat(totalAmount.val());
+			if(!turnDownIteration){
+				//iteracion sobre las filas
+				grd.find("tbody tr:not(#noMovs)").each(function(idx, e){
+					var row = $(e);
+					var isRemovedRow = row.find("[data-name='removedElement']").val();
+					
+					//solo considera las filas no eliminadas
+					if(parseInt(isRemovedRow) == 0){
+						var totalAmount = row.find("[data-name='totalAmount']");
+						if (totalAmount.val().length > 0){
+							gridTotal += parseFloat(totalAmount.val());
+						}
 					}
-				}
-			});
+				});
+			}
 			grd.find(totalId).html((gridTotal));
 			
 		},
@@ -822,71 +826,71 @@ var movementController = {
 			    this.value = this.value.replace(/[^0-9\.]/g,'');
 			});
 			ma.blur(function(){
+				
 				var finalMonth = parseInt($(self.getId(grid, nextIndex, "finalMonthId")).val());
 				var initialMonth = parseInt($(self.getId(grid, nextIndex, "initialMonthId")).val());
-				
 				var districtId = parseInt($("#districtId").val());
 				var entryId = parseInt($(self.getId(grid, nextIndex, "entryId")).val());
 				
 				var total = 0;
-				if ( this.value.length > 0){
+				var that = this;
+				
+				function updateTotalAmounts(){
+					//se calcula el monto total del movimiento
+					total = ((finalMonth - initialMonth) + 1) * that.value;					
 					
-					//se valida si el tipo de movimiento es de disminucion
-					var movementType = parseInt($(self.getId(grid, nextIndex, "movementTypeId")).val())
-					
-					if(movementType < 0){
-						//por cada mes, se pregunta si tiene saldo suficiente
-						var isValidMovement = true;
-						
-						function updateFlag(value){
-							isValidMovement = value;
-						}
-						
-						function continueProcess(){
-							alert("validando resultado");
-							if(!isValidMovement){
-								alert("movimiento invalido");
-								$(this).closest("[data-name='monthAmount']").addClass("has-error");
-								return;
-							}else{
-								endProcess();
-							}
-						}
-						
-						for(var i = initialMonth; i <= finalMonth; i++){
-							
-							//debo preguntar por el distrito, partida y mes
-							self.apiCall("auth/API/get/movOk/" + districtId + "/" + entryId + "/" + i + "/" + this.value, function(data){
-								console.log("consulta movimiento valido");
-								console.log(data);
-								if (data.result <= 0){
-									updateFlag(false);
-									window.showNotification("error", data.msg);
-								} 
-								if(i == finalMonth){
-									continueProcess();
-								}
-							});
-						}
+					//si el monto es mayor a cero, se elimina el error
+					if (parseInt(this.value) > 0){
+						self.removeClassError(self.getId(grid, nextIndex, "monthAmount"));
 					}
 					
-					function endProcess(){
-						//se calcula el monto total del movimiento
-						total = ((finalMonth - initialMonth) + 1) * this.value;					
-						
-						//si el monto es mayor a cero, se elimina el error
-						if (parseInt(this.value) > 0){
-							self.removeClassError(self.getId(grid, nextIndex, "monthAmount"));
-						}
-					}
+					//guardamos el monto total en total amount	
+					$(self.getId(grid, nextIndex, "totalAmount")).val(total);
 					
+					//se invoca update para actualizar los totales del grid
+					self.updateTotal(self, grid);
 				}
 				
-				//guardamos el monto total en total amount
-				$(self.getId(grid, nextIndex, "totalAmount")).val(total);
-				
-				//se invoca update para actualizar los totales del grid
-				self.updateTotal(self, grid);
+				//si se capturó algo
+				if ( this.value.length > 0){
+					
+					var movementType = parseInt($(self.getId(grid, nextIndex, "movementTypeId")).val());
+					var calls = [];
+					
+					//si es un movimiento de reduccion
+					if(movementType < 0){
+						
+						//por cada mes, arma la llamada de validacion de montos
+						var isValidMovement = true;
+						for(var i = initialMonth; i <= finalMonth; i++){
+							var call = window.getPromise("auth/API/get/movOk/" + districtId + "/" + entryId + "/" + i + "/" + this.value, 
+									function(data){
+										if (data.result <= 0){
+											isValidMovement = false;
+											window.showNotification("error", data.msg);
+										} 
+									});
+							calls.push(call);
+						}
+						
+						//se bloquea la pantalla y se ejecutan las promesas
+						window.blockPage();
+						jQuery.when.apply(null, calls).done(function(){
+					       if(!isValidMovement){
+					    	   ma.closest("[data-name='monthAmount']").addClass("has-error");
+					    	   ma.val("0");
+					    	   window.unblockPage();
+					    	   return;
+					       }
+					       unblockPage();
+					       updateTotalAmounts();
+						});
+						
+					}else{
+						//si es un movimiento a la alza no valido montos solo actualizo
+						updateTotalAmounts();
+					}
+				}
 				
 			});
 		},

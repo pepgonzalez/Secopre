@@ -229,6 +229,20 @@ function apiCall(actionURL, callback) {
 	});
 }
 
+function getPromise(actionURL, callback){
+	var method = method || "POST";
+	var header = $("meta[name='_csrf_header']").attr("content");
+	var token = $("meta[name='_csrf']").attr("content");
+	var promise = $.ajax({
+		url : context + '/' + actionURL,
+		beforeSend : function(xhr) { xhr.setRequestHeader(header, token);},
+		success : function(data) {
+			callback(data);
+		}
+	});
+	return promise;
+}
+
 function openResource(actionURL, targetId, after, method) {
 	method = method || "POST";
 	var header = $("meta[name='_csrf_header']").attr("content");
