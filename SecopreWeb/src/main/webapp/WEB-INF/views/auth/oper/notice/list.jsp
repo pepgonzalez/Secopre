@@ -72,10 +72,23 @@
 									</td>
 									<td>
 										 ${noticeItem.noticeInfo}
-									</td>																		
+									</td>	
+									
 									<td>
-										 ${noticeItem.activo}
-									</td>
+									<c:choose>
+									    <c:when test="${noticeItem.activo}">
+									   
+									        Activo
+									    
+									    </c:when>    
+									    <c:otherwise>
+									      
+									        Inactivo 
+									       
+									    </c:otherwise>
+									</c:choose>	
+									</td>		
+
 									<td>
 										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/oper/notice/edit?id=${noticeItem.id}' ,'dashboard','editNoticeCat()');">
 										 <i class="fa fa-edit xs"></i>
@@ -84,7 +97,23 @@
 										<button id="btndelete"  type="button" class="btn delete btn-danger btn-xs" onclick="borrarRegistro('auth/oper/notice/delete?id=${noticeItem.id}','dashboard','initNoticeList()');"   >
 										<i class="fa fa-trash"></i> 
 										</button>
-									</td>
+
+									    <c:choose>
+									       <c:when test="${noticeItem.activo}">
+									          <button id="btn_edit"  type="button" class="btn edit-xs btn-warning btn-xs" onclick="changeStatus('auth/oper/notice/changeStatus?id=${noticeItem.id}&activo=${!noticeItem.activo}' ,'dashboard','initNoticeList()');">
+										      <i class="fa fa-minus-square xs"></i>
+										      </button>
+									       </c:when>    
+									       <c:otherwise>
+									          <button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="changeStatus('auth/oper/notice/changeStatus?id=${noticeItem.id}&activo=${!noticeItem.activo}' ,'dashboard','initNoticeList()');">
+										      <i class="fa fa-check-square xs"></i>
+										      </button> 
+									       
+									       </c:otherwise>
+									    </c:choose>	
+									</td>		
+									
+									
 								</tr>							
 							</c:forEach>
 							</tbody>

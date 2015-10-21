@@ -1481,4 +1481,15 @@ function initPositionValidations() {
 			submitAjaxJQ('submit_form', 'dashboard', 'initPositionList()');
 		}
 	});
+	
+
+	
+}
+
+
+
+function changeStatus(url, workarea, nextfunction){
+	bootbox.confirm("Se cambiar\u00E1 el estatus. \u00BFDesea Continuar?",function(result) {
+       if(result){ sendRequestJQ(url,workarea,nextfunction);}
+    }); 
 }
