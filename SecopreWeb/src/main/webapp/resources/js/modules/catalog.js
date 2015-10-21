@@ -132,11 +132,11 @@ function initNoticeCat() {
 	 $('select').select2();
 	    $('#registerDateStr').datepicker({
 	    	  autoclose: true,
-	    	  format : 'yyyy-mm-dd'
+	    	  format: 'dd/mm/yyyy',
 	    });
 	    $('#displayDateStr').datepicker({
 	    	  autoclose: true,
-	    	  format : 'yyyy-mm-dd'
+	    	  format: 'dd/mm/yyyy',
 	    });
 	    $('#districts').multiSelect({ includeSelectAllOption: true});
 	    
@@ -148,11 +148,11 @@ function editNoticeCat() {
 	 $('select').select2();
 	    $('#registerDateStr').datepicker({
 	    	 autoclose: true,
-	    	 format : 'yyyy-mm-dd'
+	    	 format: 'dd/mm/yyyy',
 	    });
 	    $('#displayDateStr').datepicker({
 	    	 autoclose: true,
-	    	 format : 'yyyy-mm-dd'
+	    	 format: 'dd/mm/yyyy',
 	    });
 	    $('#districts').multiSelect();
 }

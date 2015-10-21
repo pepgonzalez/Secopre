@@ -56,8 +56,8 @@ public class DueDateController extends AuthController {
 			RequestMethod.POST })
 	public String edit( ModelMap model, RedirectAttributes attributes, @RequestParam("id") Long id ) {
 		DueDate dueDate = baseService.findById(DueDate.class , id);
-		String dueDateStr = dueDate.getDueDateStr();
-		dueDate.setDueDateStr(dueDateStr);
+//		String dueDateStr = dueDate.getDueDateStr();
+//		dueDate.setDueDateStr(dueDateStr);
 		model.addAttribute("dueDate", dueDate);
 		return SecopreConstans.MV_CAT_DUEDATE;
 	}

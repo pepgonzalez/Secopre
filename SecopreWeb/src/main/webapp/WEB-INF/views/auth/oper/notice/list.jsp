@@ -65,10 +65,10 @@
 										<input type="checkbox" class="checkboxes" value="1"/>
 									</td>
 									<td>
-									     ${noticeItem.registerDate}
+									     ${noticeItem.registerDateStr}
 									</td>
 									<td>
-										 ${noticeItem.displayDate}
+										 ${noticeItem.displayDateStr}
 									</td>
 									<td>
 										 ${noticeItem.noticeInfo}

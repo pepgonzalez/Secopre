@@ -134,13 +134,17 @@ public class Notice extends AuditEntity implements Persistible {
 	}
 
 	public String getRegisterDateStr() {
-		 SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-			String registerDateStr = sdf.format(this.registerDate ); 
-			return registerDateStr;
+		 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		 String registerDateStr = null;
+		 if(this.registerDate!=null)
+		 {
+		 registerDateStr = sdf.format(this.registerDate); 
+		 }
+		 return registerDateStr;
 	}
 
 	public void setRegisterDateStr(String registerDateStr) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		try {
 			Date registerDate = sdf.parse(registerDateStr);
 			this.setRegisterDate(registerDate);
@@ -151,14 +155,16 @@ public class Notice extends AuditEntity implements Persistible {
 	}
 
 	public String getDisplayDateStr() {
-	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-		String displayDateStr = sdf.format(this.displayDate ); 
+	    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		String displayDateStr = null;
+		if(this.displayDate!=null)
+		{displayDateStr = sdf.format(this.displayDate ); }
 		return displayDateStr;
 
 	}
 
 	public void setDisplayDateStr(String displayDateStr) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		try {
 			Date displayDate = sdf.parse(displayDateStr);
 			this.setDisplayDate(displayDate);

@@ -51,36 +51,49 @@
 											<div class="tab-pane active" id="tab1">
 												<h3 class="block">Proporcionar Información de Avisos</h3>
 												<div class="form-body">													
-
-													<div class="form-group form-md-line-input">
-														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.notice.registerDate"/>
-															<span class="required">* </span>
-														</label>
-														<div class="col-md-10">
-															<div class="input-icon">
-																<input id="registerDateStr" name="registerDateStr" type="text" class="form-control form-control-inline input-medium date-picker"  value="${notice.registerDate}"   placeholder='<spring:message code="application.pages.catalog.notice.registerDate.placeholder"/>'>
-																<div class="form-control-focus">
-																</div>
-																<span class="help-block"><spring:message code="application.pages.catalog.notice.registerDate.help"/></span>
-																<i class="icon-user"></i>
-															</div>
-														</div>
-													</div>
 													
-													<div class="form-group form-md-line-input">
-														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.notice.displayDate"/>
-															<span class="required">* </span>
+													<div class="form-group form-md">
+														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.notice.registerDate"/>
+														<span class="required">* </span>
 														</label>
-														<div class="col-md-10">
-															<div class="input-icon">
-																<input id="displayDateStr" name="displayDateStr"  type="text" class="form-control form-control-inline input-medium date-picker"  value="${notice.displayDate}"   placeholder='<spring:message code="application.pages.catalog.notice.displayDate.placeholder"/>'>
+														<div class="col-md-4">
+<!-- 															<div class="input-icon"> -->
+                                                                <div data-date-format="dd/mm/yyyy" class="input-group date date-picker">
+																 <div class="input-group-addon">
+															        <span class="fa fa-calendar"></span>
+															    </div>
+																<input name="registerDateStr"  id="registerDateStr"  type="text" value="${notice.registerDateStr}" class="form-control">
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.catalog.notice.displayDate.help"/></span>
-																<i class="icon-user"></i>
-															</div>
+																</div>
+																<span id="datepicker-error" class="help-block help-block-error"></span>
+																<span class="help-block">
+																<spring:message code="application.pages.catalog.notice.registerDate.help"/>
+																</span>														
 														</div>
-													</div>
+													</div>	
+													
+													<div class="form-group form-md">
+														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.notice.displayDate"/>
+														<span class="required">* </span>
+														</label>
+														<div class="col-md-4">
+<!-- 															<div class="input-icon"> -->
+                                                                <div data-date-format="dd/mm/yyyy" class="input-group date date-picker">
+																 <div class="input-group-addon">
+															        <span class="fa fa-calendar"></span>
+															    </div>
+																<input name="displayDateStr"  id="displayDateStr"  type="text" value="${notice.displayDateStr}" class="form-control">
+																<div class="form-control-focus">
+																</div>
+																</div>
+																<span id="datepicker-error" class="help-block help-block-error"></span>
+																<span class="help-block">
+																<spring:message code="application.pages.catalog.notice.displayDate.help"/>
+																</span>														
+														</div>
+													</div>	
+													
 													
 													<div class="form-group form-md-line-input">
 														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.notice.notice"/>

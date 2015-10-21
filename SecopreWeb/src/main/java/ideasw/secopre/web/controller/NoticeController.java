@@ -58,21 +58,7 @@ public class NoticeController extends AuthController {
 		Notice notice = baseService.findById(Notice.class , id);
 		model.addAttribute("notice", notice);
 		model.addAttribute("districts", secopreCahe.getAlldistricts());
-//		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-//		try {
-//			Date d = sdf.parse(notice.getRegisterDate().toString());
-//			sdf.applyPattern("yyyy/MM/dd");
-//			String newDateString = sdf.format(d);
-//			
-//			notice.setRegisterDate(formatter.parse(newDateString)); 
-//		} catch (ParseException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
 
-		
 		return SecopreConstans.MV_CAT_NOTICE;
 	}
 	
