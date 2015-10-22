@@ -334,6 +334,12 @@
 						   AND E.PROGRAMMATIC_ID = :programaticKeyId
 					]]>
 				</prop>
+				
+				<prop key="GET_STAGE_CONFIG_BY_ID">
+					<![CDATA[
+						SELECT SC.* FROM secopre.STAGE_CONFIG SC WHERE id = :stageConfigId
+					]]>
+				</prop>
 	
 			</props>				
 		</property>

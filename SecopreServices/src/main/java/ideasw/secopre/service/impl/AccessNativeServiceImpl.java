@@ -7,6 +7,7 @@ import ideasw.secopre.dto.Movement;
 import ideasw.secopre.dto.Request;
 import ideasw.secopre.dto.RequestConfig;
 import ideasw.secopre.dto.RequestHistory;
+import ideasw.secopre.dto.StageConfig;
 import ideasw.secopre.dto.WorkFlowConfig;
 import ideasw.secopre.enums.Month;
 import ideasw.secopre.enums.WorkFlowCode;
@@ -121,10 +122,76 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 			this.insertTransition(requestId, transition, consecutive, userId, comments);
 		}else{
 			WorkFlowConfig transition = this.getRequestWorkFlowConfig(requestId, valueCode, stageConfigId).get(0);
+			
+			//validar si la siguiente etapa es operacion o cancelacion del tramite
+			StageConfig next = this.getStageConfigById(transition.getNextStageConfig());
+			LOG.info("Siguiente etapa:" + next);
+			
+			//si es etapa de cancelacion, se da rollback a los movimientos a la baja
+			if(next.getIsCanceled()){
+				//por cada movimiento a la baja, se resta el monto distrito-partida-mes, al saldo comprometido
+				this.runCancelation(requestId);
+			}
+			
+			//si la siguiente etapa es de tramite finalizado, opera los movimientos
+			if(next.getIsOperated()){
+				//por cada movimiento a la alza, se suma el monto al distrito-patida-mes, al saldo acumulado
+				//por cada movimiento a la baja, se resta el monto al distrito-partido-mes, al saldo comprometido y al saldo acumulado
+				this.runOperation(requestId);
+			}
+			
+			//operar o modificar monto comprometido si aplica
+			
 			this.inactivateActiveStage(requestId);
 			this.insertTransition(requestId, transition, consecutive, userId, comments);
 		}
 	}
+	
+	
+	private void runCancelation(Long requestId){
+		//se obtiene el detalle del folio
+		Request request = this.getRequestAndDetailById(requestId);
+		for(Movement mov : request.getDownMovements()){
+			//iteracion sobre los meses del movimiento
+			for(int i= mov.getInitialMonthId(); i<= mov.getFinalMonthId();i++){
+				EntryDistrict entry = this.getEntryBalance(request.getDistrictId(), mov.getEntryId(), new Long(i));
+				entry.setCommittedAmount((entry.getCommittedAmount() - mov.getMonthAmount()));
+				baseService.update(entry);
+			}
+		}	
+	}
+	
+	private void runOperation(Long requestId){
+		//se obtiene el detalle del folio
+		Request request = this.getRequestAndDetailById(requestId);
+		
+		//se realizan las disminuciones
+		for(Movement mov : request.getDownMovements()){
+			//iteracion sobre los meses del movimiento
+			for(int i= mov.getInitialMonthId(); i<= mov.getFinalMonthId();i++){
+				EntryDistrict entry = this.getEntryBalance(request.getDistrictId(), mov.getEntryId(), new Long(i));
+				entry.setCommittedAmount((entry.getCommittedAmount() - mov.getMonthAmount()));
+				entry.setBudgetAmountAssign((entry.getBudgetAmountAssign() - mov.getMonthAmount()));
+				baseService.update(entry);
+			}
+		}	
+		
+		// se realizan los movimientos a la alza
+		for(Movement mov : request.getUpMovements()){
+			//iteracion sobre los meses del movimiento
+			for(int i= mov.getInitialMonthId(); i<= mov.getFinalMonthId();i++){
+				EntryDistrict entry = this.getEntryBalance(request.getDistrictId(), mov.getEntryId(), new Long(i));
+				entry.setBudgetAmountAssign((entry.getBudgetAmountAssign() + mov.getMonthAmount()));
+				baseService.update(entry);
+			}
+		}	
+	}
+	
+	private StageConfig getStageConfigById(Long stageConfigId){
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("stageConfigId", stageConfigId);	
+		return this.queryForList(StageConfig.class, queryContainer.getSQL(SQLConstants.GET_STAGE_CONFIG_BY_ID), namedParameters, new WorkFlowConfigMapper()).get(0);
+	}
+	
 	
 	
 	/*----------------------------------------------------------------------------------------------------------
