@@ -65,12 +65,15 @@ public class NoticeController extends AuthController {
 	@RequestMapping(value = "oper/notice/changeStatus", method = { RequestMethod.GET,
 			RequestMethod.POST })
 	public String changeStatus( ModelMap model, RedirectAttributes attributes, @RequestParam("id") Long id,@RequestParam("activo") Boolean activo  ) {
-		Notice notice = baseService.findById(Notice.class , id);
-		notice.setActivo(activo);
+		Notice noticeEdit = baseService.findById(Notice.class , id);
+		noticeEdit.setActivo(activo);
+		baseService.save(noticeEdit);
+		
+		Notice notice = new Notice();
 		model.addAttribute("noticeList", baseService.findAll(Notice.class));
 		model.addAttribute("notice", notice);
 		model.addAttribute("districts", secopreCahe.getAlldistricts());
-		baseService.save(notice);
+
 		return SecopreConstans.MV_CAT_NOTICE;
 	}
 	
@@ -86,7 +89,8 @@ public class NoticeController extends AuthController {
 				distritList.add(distr);
 				notice.setDistrs(distritList);
 				notice.setActivo(Boolean.TRUE);
-			}		
+			}	
+			notice.setActivo(Boolean.TRUE);
 			baseService.save(notice);
 		} catch (Exception e) {
 			e.getStackTrace();

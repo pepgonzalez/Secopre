@@ -76,10 +76,23 @@
 									</td>
 									<td>
 										 ${personItem.motherLastName}
-									</td>
+									</td>									
+									
 									<td>
-										 ${personItem.activo}
-									</td>
+									<c:choose>
+									    <c:when test="${personItem.activo}">
+									   
+									        Activo
+									    
+									    </c:when>    
+									    <c:otherwise>
+									      
+									        Inactivo 
+									       
+									    </c:otherwise>
+									</c:choose>	
+									</td>		
+
 									<td>
 										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/cat/person/edit?id=${personItem.id}' ,'dashboard','editPersonPage()');">
 										 <i class="fa fa-edit xs"></i>
@@ -88,7 +101,22 @@
 										<button id="btndelete"  type="button" class="btn delete btn-danger btn-xs" onclick="borrarRegistro('auth/cat/person/delete?id=${personItem.id}','dashboard','initPersonList()');"   >
 										<i class="fa fa-trash"></i> 
 										</button>
-									</td>
+
+									    <c:choose>
+									       <c:when test="${personItem.activo}">
+									          <button id="btn_edit"  type="button" class="btn edit-xs btn-warning btn-xs" onclick="changeStatus('auth/cat/person/changeStatus?id=${personItem.id}&activo=${!personItem.activo}' ,'dashboard','initPersonList()');">
+										      <i class="fa fa-minus-square xs"></i>
+										      </button>
+									       </c:when>    
+									       <c:otherwise>
+									          <button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="changeStatus('auth/cat/person/changeStatus?id=${personItem.id}&activo=${!personItem.activo}' ,'dashboard','initPersonList()');">
+										      <i class="fa fa-check-square xs"></i>
+										      </button> 
+									       
+									       </c:otherwise>
+									    </c:choose>	
+									</td>									
+									
 								</tr>							
 							</c:forEach>
 							</tbody>

@@ -142,7 +142,6 @@ public class UserController extends AuthController {
 		return SecopreConstans.AUTH_INDEX;
 	}
 	
-	
 	@RequestMapping(value = "adm/usr/delete", method = RequestMethod.POST)
 	public String delete(ModelMap model,  @RequestParam("id") Long id ) {
 		try {
@@ -158,7 +157,6 @@ public class UserController extends AuthController {
 		}
 		return SecopreConstans.MV_ADM_USR;
 	}
-	
 	
 	@RequestMapping(value = "adm/usr/edit", method = { RequestMethod.GET,
 			RequestMethod.POST })
@@ -184,9 +182,26 @@ public class UserController extends AuthController {
 
 		return SecopreConstans.MV_ADM_USR;
 	}
-
 	
-	
-	
-	
+	@RequestMapping(value = "adm/usr/changeStatus", method = { RequestMethod.GET,
+			RequestMethod.POST })
+	public String changeStatus( ModelMap model, RedirectAttributes attributes, @RequestParam("id") Long id,@RequestParam("activo") Boolean activo  ) {
+		User userEdit = baseService.findById(User.class , id);
+		userEdit.setActive(activo);
+		baseService.save(userEdit);
+		User user = new User();
+		model.addAttribute("userList", baseService.findAll(User.class));
+		model.addAttribute("user", user);
+		model.addAttribute("roles", baseService.findAll(Role.class));
+		model.addAttribute("permissions", baseService.findAll(Permission.class));
+		
+		List<Person> person = baseService.findAll(Person.class);
+		
+		HashMap<Long, String> personMap = new HashMap<Long, String>();
+		for (Person p : person) {
+			personMap.put(p.getId(),p.getName() );
+		}
+		model.addAttribute("persons", personMap);
+		return SecopreConstans.MV_ADM_USR;
+	}
 }

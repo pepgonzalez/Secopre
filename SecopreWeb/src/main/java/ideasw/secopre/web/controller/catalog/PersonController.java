@@ -74,6 +74,7 @@ public class PersonController extends AuthController {
 			address.setId(addressid);
 			baseService.save(address);
 			person.setAddress(address);
+			person.setActivo(Boolean.TRUE);
 			baseService.save(person);
 		} catch (Exception e) {
 			model.addAttribute(
@@ -117,6 +118,24 @@ public class PersonController extends AuthController {
 		model.addAttribute("gender",  Gender.values());
 		
 		
+		return SecopreConstans.MV_CAT_PERSON;
+	}
+	
+	@RequestMapping(value = "cat/person/changeStatus", method = { RequestMethod.GET,
+			RequestMethod.POST })
+	public String changeStatus( ModelMap model, RedirectAttributes attributes, @RequestParam("id") Long id,@RequestParam("activo") Boolean activo  ) {
+		Person personEdit = baseService.findById(Person.class , id);
+		personEdit.setActivo(activo);
+		baseService.save(personEdit);
+		Person person = new Person();
+		Address address = new Address();
+		model.addAttribute("personList", baseService.findAll(Person.class));
+		model.addAttribute("person", person);
+		model.addAttribute("roles", baseService.findAll(Role.class));
+		model.addAttribute("permissions", baseService.findAll(Permission.class));
+		model.addAttribute("address", address);
+		model.addAttribute("gender",  Gender.values());
+		model.addAttribute("states", secopreCahe.getAllStatesMap());
 		return SecopreConstans.MV_CAT_PERSON;
 	}
 

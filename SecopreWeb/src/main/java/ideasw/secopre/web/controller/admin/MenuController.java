@@ -3,8 +3,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ideasw.secopre.model.catalog.Person;
 import ideasw.secopre.model.security.Menu;
 import ideasw.secopre.model.security.Path;
+import ideasw.secopre.model.security.Permission;
+import ideasw.secopre.model.security.Role;
+import ideasw.secopre.model.security.User;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
 
@@ -112,6 +116,28 @@ public class MenuController extends AuthController {
 					initErrors("Ocurrio un error al insertar el menu:"
 							+ e.getMessage()));
 		}
+		return SecopreConstans.MV_ADM_MENU;
+	}
+	
+	@RequestMapping(value = "adm/menu/changeStatus", method = { RequestMethod.GET,
+			RequestMethod.POST })
+	public String changeStatus( ModelMap model, RedirectAttributes attributes, @RequestParam("id") Long id,@RequestParam("activo") Boolean activo  ) {
+		Menu menuEdit = baseService.findById(Menu.class , id);
+		menuEdit.setActive(activo);
+		baseService.save(menuEdit);
+		
+		Menu menu = new Menu();
+	    Path path = new Path();
+		model.addAttribute("menuList", baseService.findAll(Menu.class));
+		model.addAttribute("menu", menu);
+		model.addAttribute("path", path); 
+		List<Menu> parent = baseService.findAll(Menu.class);
+		
+		HashMap<Long, String> parentMap = new HashMap<Long, String>();
+		for (Menu p : parent) {
+			parentMap.put(p.getId(),p.getName() );
+		}
+		model.addAttribute("parents", parentMap);
 		return SecopreConstans.MV_ADM_MENU;
 	}
 	

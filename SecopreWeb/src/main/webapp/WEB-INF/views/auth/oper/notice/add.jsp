@@ -60,16 +60,16 @@
 <!-- 															<div class="input-icon"> -->
                                                                 <div data-date-format="dd/mm/yyyy" class="input-group date date-picker">
 																 <div class="input-group-addon">
-															        <span class="fa fa-calendar"></span>
-															    </div>
-																<input name="registerDateStr"  id="registerDateStr"  type="text" value="${notice.registerDateStr}" class="form-control">
-																<div class="form-control-focus">
-																</div>
-																</div>
-																<span id="datepicker-error" class="help-block help-block-error"></span>
-																<span class="help-block">
-																<spring:message code="application.pages.catalog.notice.registerDate.help"/>
-																</span>														
+																    <span class="fa fa-calendar"></span>
+																    </div>
+																	<input name="registerDateStr"  id="registerDateStr"  type="text" value="${notice.registerDateStr}" class="form-control">
+																	<div class="form-control-focus"></div>
+																</div> 
+ 																<span class="help-block">
+ 																<spring:message code="application.pages.catalog.notice.registerDate.help"/> 
+																</span>		
+																<span class="help-block help-block-error"></span>	
+																									
 														</div>
 													</div>	
 													
@@ -107,7 +107,7 @@
 																<div class="form-control-focus">
 																</div>
 																<span class="help-block"><spring:message code="application.pages.catalog.notice.notice.help"/></span>
-																<span class="help-block-error"><spring:message code="application.pages.catalog.notice.notice.help"/></span>
+																<span class="help-block-error"></span>
 																
 																<i class="icon-user"></i>
 															</div>

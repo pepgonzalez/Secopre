@@ -66,10 +66,22 @@
 									<td>${menuItem.name}</td>
 									<td>
 										 ${menuItem.description}
-									</td>
+									</td>					
 									<td>
-										 ${menuItem.active}
-									</td>
+									<c:choose>
+									    <c:when test="${menuItem.active}">
+									   
+									        Activo
+									    
+									    </c:when>    
+									    <c:otherwise>
+									      
+									        Inactivo 
+									       
+									    </c:otherwise>
+									</c:choose>	
+									</td>		
+
 									<td>
 										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/adm/menu/edit?id=${menuItem.id}' ,'dashboard','editMenuCat()');">
 										 <i class="fa fa-edit xs"></i>
@@ -77,8 +89,29 @@
 										
 										<button id="btndelete"  type="button" class="btn delete btn-danger btn-xs" onclick="borrarRegistro('auth/adm/menu/delete?id=${menuItem.id}','dashboard','initMenuList()');"   >
 										<i class="fa fa-trash"></i> 
-										</button>	
-									</td>
+										</button>
+
+									    <c:choose>
+									       <c:when test="${menuItem.active}">
+									          <button id="btn_edit"  type="button" class="btn edit-xs btn-warning btn-xs" onclick="changeStatus('auth/adm/menu/changeStatus?id=${menuItem.id}&activo=${!menuItem.active}' ,'dashboard','initMenuList()');">
+										      <i class="fa fa-minus-square xs"></i>
+										      </button>
+									       </c:when>    
+									       <c:otherwise>
+									          <button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="changeStatus('auth/adm/menu/changeStatus?id=${menuItem.id}&activo=${!menuItem.active}' ,'dashboard','initMenuList()');">
+										      <i class="fa fa-check-square xs"></i>
+										      </button> 
+									       
+									       </c:otherwise>
+									    </c:choose>	
+									</td>										
+									
+									
+									
+									
+									
+									
+									
 								</tr>							
 							</c:forEach>
 							</tbody>
