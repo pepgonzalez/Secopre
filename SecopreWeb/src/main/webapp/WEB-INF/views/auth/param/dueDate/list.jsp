@@ -69,9 +69,22 @@
 									<td>
 										 ${dueDateItem.maxBlockDateStr}
 									</td>
+
 									<td>
-										 ${dueDateItem.activo}
-									</td>
+									<c:choose>
+									    <c:when test="${dueDateItem.activo}">
+									   
+									        Activo
+									    
+									    </c:when>    
+									    <c:otherwise>
+									      
+									        Inactivo 
+									       
+									    </c:otherwise>
+									</c:choose>	
+									</td>		
+
 									<td>
 										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/param/dueDate/edit?id=${dueDateItem.id}' ,'dashboard','editDueDateCat()');">
 										 <i class="fa fa-edit xs"></i>
@@ -80,7 +93,26 @@
 										<button id="btndelete"  type="button" class="btn delete btn-danger btn-xs" onclick="borrarRegistro('auth/param/dueDate/delete?id=${dueDateItem.id}','dashboard','initDueDateList()');"   >
 										<i class="fa fa-trash"></i> 
 										</button>
-									</td>
+
+									    <c:choose>
+									       <c:when test="${dueDateItem.activo}">
+									          <button id="btn_edit"  type="button" class="btn edit-xs btn-warning btn-xs" onclick="changeStatus('auth/param/dueDate/changeStatus?id=${dueDateItem.id}&activo=${!dueDateItem.activo}' ,'dashboard','initDueDateList()');">
+										      <i class="fa fa-minus-square xs"></i>
+										      </button>
+									       </c:when>    
+									       <c:otherwise>
+									          <button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="changeStatus('auth/param/dueDate/changeStatus?id=${dueDateItem.id}&activo=${!dueDateItem.activo}' ,'dashboard','initDueDateList()');">
+										      <i class="fa fa-check-square xs"></i>
+										      </button> 
+									       
+									       </c:otherwise>
+									    </c:choose>	
+									</td>		
+									
+									
+									
+									
+									
 								</tr>							
 							</c:forEach>
 							</tbody>

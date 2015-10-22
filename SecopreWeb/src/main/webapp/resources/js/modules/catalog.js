@@ -132,11 +132,11 @@ function initNoticeCat() {
 	 $('select').select2();
 	    $('#registerDateStr').datepicker({
 	    	  autoclose: true,
-	    	  format: 'dd/mm/yyyy',
+	    	  format: 'dd/mm/yyyy'
 	    });
 	    $('#displayDateStr').datepicker({
 	    	  autoclose: true,
-	    	  format: 'dd/mm/yyyy',
+	    	  format: 'dd/mm/yyyy'
 	    });
 	    $('#districts').multiSelect({ includeSelectAllOption: true});
 	    
@@ -171,6 +171,8 @@ function initDueDateValidations() {
 	var form = $('#submit_form');
 	var error = $('.alert-danger', form);
 	var success = $('.alert-success', form);
+	
+
 
 	form.validate({
 		doNotHideMessage : true,
@@ -180,13 +182,15 @@ function initDueDateValidations() {
 		focusInvalid : false, // do not focus the last invalid input
 		rules : {
 			maxBlockDateStr : {
-				required : true
+				required : true,
+				australianDate : true
 			},
 			dueDateStr : {
-				required : true
+				required : true,
+				australianDate : true
 			}
 		},
-
+		
 		invalidHandler : function(event, validator) { // display error alert
 			// on form submit
 			success.hide();
@@ -234,6 +238,14 @@ function initDueDateValidations() {
 			form[0].submit(); // submit the form
 		}
 	});
+	
+	$.validator.addMethod(
+		    "australianDate",
+		    function(value, element) {
+		        // put your own logic here, this is just a (crappy) example
+		        return value.match(/^\d\d?\/\d\d?\/\d\d\d\d$/);
+		    }
+		);
 
 	var displayConfirm = function() {
 		$('#tab2 .form-control-static', form).each(
@@ -565,10 +577,12 @@ function initNoticeValidations() {
 		focusInvalid : false, // do not focus the last invalid input
 		rules : {
 			registerDateStr : {
-				required : true
+				required : true,
+				australianDate : true
 			},
 			displayDateStr : {
-				required : true
+				required : true,
+				australianDate : true
 			},
 			noticeInfo : {
 				maxlength : 250,
@@ -576,7 +590,17 @@ function initNoticeValidations() {
 			},
 			districts : "required"
 		},
-
+		 messages: {  
+			 registerDateStr:   {  
+                     required: "Campo requerido",
+                     australianDate: "El formato debe ser dd/mm/yyyy"
+             },
+             noticeInfo: {
+            	     required: "Campo requerido",
+            	     maxlength: "La longitud máxima del campo es de 250 caracteres"
+             }
+		 },
+		 
 		invalidHandler : function(event, validator) { // display error alert
 			// on form submit
 			success.hide();
@@ -624,6 +648,15 @@ function initNoticeValidations() {
 			form[0].submit(); // submit the form
 		}
 	});
+	
+	
+	$.validator.addMethod(
+		    "australianDate",
+		    function(value, element) {
+		        // put your own logic here, this is just a (crappy) example
+		        return value.match(/^\d\d?\/\d\d?\/\d\d\d\d$/);
+		    }
+		);
 
 	var displayConfirm = function() {
 		$('#tab2 .form-control-static', form).each(

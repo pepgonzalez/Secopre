@@ -1,6 +1,7 @@
 package ideasw.secopre.web.controller.config;
 
 import ideasw.secopre.model.DueDate;
+import ideasw.secopre.model.Notice;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
 
@@ -75,6 +76,17 @@ public class DueDateController extends AuthController {
 					initErrors("Ocurrio un error al insertar la fecha de corte:"
 							+ e.getMessage()));
 		}
+		return SecopreConstans.MV_CAT_DUEDATE;
+	}
+	
+	@RequestMapping(value = "param/dueDate/changeStatus", method = { RequestMethod.GET,
+			RequestMethod.POST })
+	public String changeStatus( ModelMap model, RedirectAttributes attributes, @RequestParam("id") Long id,@RequestParam("activo") Boolean activo  ) {
+		DueDate dueDate = baseService.findById(DueDate.class , id);
+		dueDate.setActivo(activo);
+		model.addAttribute("dueDateList", baseService.findAll(Notice.class));
+		model.addAttribute("dueDate", dueDate);
+		baseService.save(dueDate);
 		return SecopreConstans.MV_CAT_DUEDATE;
 	}
 }
