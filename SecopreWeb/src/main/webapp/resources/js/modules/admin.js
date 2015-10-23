@@ -606,11 +606,11 @@ function showDataHistory(requestId){
 function initUpload() {
 
 	var requestForm = $('#requestForm');
-	alert("iniciando subida der archivo");
 
 	$('#uploadFile').click(function(e) {
 		var file = requestForm.find('#attachment').val();
 		if(file.length <= 0){
+			window.showNotification("error", "Debe seleccionar un archivo para continuar");
 			return;
 		}
 		submitFileAjaxJQTest('requestForm', 'dashboard', '');
@@ -911,8 +911,7 @@ var movementController = {
 					var districtId = $("#districtId").val();
 					
 					self.apiCall('auth/API/get/entry/' + this.value + "/" + districtId , function(data){
-						console.log(data);
-				    	var entrySelect = $(document).find(self.getId(grid, indice, "entryId"));
+						var entrySelect = $(document).find(self.getId(grid, indice, "entryId"));
 				    	entrySelect.empty();
 				    	entrySelect.append('<option value="-1">Seleccione..</option>');
 				    	$.each(data, function(index, item){
@@ -989,13 +988,20 @@ var movementController = {
 		},
 		getNextIndex: function(grid){
 			var rowNoExiste = grid.find("tbody #noMovs").length;
-			var totalRows = grid.find("tbody tr").length;
+			//var totalRows = grid.find("tbody tr").length;
+			
+			var totalRows = grid.find("tbody tr:not(#noMovs)").filter(function(){
+				var flag = $(this).find("[data-name='removedElement']");
+				return (parseInt(flag.val()) <= 0);
+			}).length;
+			
 			//alert("funcion get next index: rowNoExiste: " + rowNoExiste + ", totalRows:" + totalRows );
-			if(totalRows == 1 && rowNoExiste == 1){
-				return 0;
-			}if(totalRows > 0 && rowNoExiste == 0){
-				return totalRows;
-			}
+			//if(totalRows == 1 && rowNoExiste == 1){
+			//	return 0;
+			//}if(totalRows > 0 && rowNoExiste == 0){
+			//	return totalRows;
+			//}
+			return totalRows;
 		},
 		activateTemplate: function(id) {
 		    var t = document.querySelector(id);
@@ -1148,7 +1154,7 @@ function initFullCapture() {
 	var requestForm = $('#requestForm');
 
 	$('#partialSave').click(function(e) {
-		alert("haciendo guardado parcial");
+		//alert("haciendo guardado parcial");
 		var isCorrect = movementController.validate();
 		if (isCorrect){
 			requestForm.find('#nextStageValueCode').val("SOLPEND");
@@ -1157,7 +1163,7 @@ function initFullCapture() {
 	});
 
 	$('#saveAndContinue').click(function(e) {
-		alert("Finalizando captura y avanzando tramite");
+		//alert("Finalizando captura y avanzando tramite");
 		//var isCorrect = movementController.validate();
 		var isCorrect = true;
 		if (isCorrect){
@@ -1168,7 +1174,7 @@ function initFullCapture() {
 }
 
 function initAuthorization() {
-	alert("Iniciando autorizacion");
+	//alert("Iniciando autorizacion");
 	
 	$(document).find("input").attr("readonly","true");
 	$(document).find("select").attr("readonly","true");
@@ -1179,10 +1185,21 @@ function initAuthorization() {
 	$(document).find("[data-name='deleteAction']").html("");
 	$(document).find("[data-name='monthLabels']").attr("colspan","2");
 	
+	var tipoMov = parseInt($(document).find("#movementTypeId").val());
+	//alert("tipo de movimiento: " + tipoMov);
+	
+	if(tipoMov == 1){
+		$("#substractComponent").hide();
+	}
+	if(tipoMov == 2){
+		$("#addComponent").hide();
+	}
+	
+	
 	var requestForm = $('#requestForm');
 
 	$('#cancelFormality').click(function(e) {
-		alert("Cancelando Tramite");
+		//alert("Cancelando Tramite");
 		if($("#comments").val().length > 0){
 			requestForm.find('#nextStageValueCode').val("CANCELAR");
 			submitAjaxJQ('requestForm', 'dashboard', '');
@@ -1192,13 +1209,13 @@ function initAuthorization() {
 	});
 
 	$('#authorizateFormality').click(function(e) {
-		alert("autorizando Tramite");
+		//alert("autorizando Tramite");
 		requestForm.find('#nextStageValueCode').val("SIGFIRMA");
 		submitAjaxJQ('requestForm', 'dashboard', '');
 	});
 
 	$('#finishFormality').click(function(e) {
-		alert("autorizando Tramite y finalizar");
+		//alert("autorizando Tramite y finalizar");
 		requestForm.find('#nextStageValueCode').val("CONTINUAR");
 		submitAjaxJQ('requestForm', 'dashboard', '');
 	});

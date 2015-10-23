@@ -21,6 +21,7 @@ import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.AccessNativeService;
 import ideasw.secopre.service.AccessService;
 import ideasw.secopre.service.BaseService;
+import ideasw.secopre.service.impl.mapper.DistrictMapper;
 import ideasw.secopre.service.impl.mapper.EntryMapper;
 import ideasw.secopre.service.impl.mapper.FormalityMapper;
 import ideasw.secopre.service.impl.mapper.InboxMapper;
@@ -504,6 +505,11 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		propertiesMap.put("entry", baseService.findById(Entry.class, entryId));
 		
 		List<EntryDistrict> list = baseService.findByProperties(EntryDistrict.class, propertiesMap);
+		return list;
+	}
+	
+	public List<District> getValidDistricts(){
+		List<District> list = this.queryForList(District.class, queryContainer.getSQL(SQLConstants.GET_VALID_DISTRICTS), new MapSqlParameterSource(), new DistrictMapper());	
 		return list;
 	}
 

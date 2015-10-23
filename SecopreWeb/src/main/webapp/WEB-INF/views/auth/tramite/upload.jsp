@@ -32,7 +32,7 @@
 									<div class="form-group form-md-line-input">
 										<label class="col-md-12 control-label" for="justification" style="text-align:left;">Seleccione el archivo a subir:</label>
 										<div class="col-md-12">
-											<input type="file" size="1" name="attachment" id="attachment" accept="*.doc,*.docx,*.pdf, *.xls, *.xlsx"/>
+											<input type="file" size="1" name="attachment" id="attachment" accept="*.doc,*.docx,*.pdf, *.xls, *.xlsx" class="btn default"/>
 											<div class="form-control-focus">
 											</div>
 											<span class="help-block">
@@ -46,7 +46,7 @@
 								<div class="form-actions margin-top-10">
 									<div class="row">
 										<div class="col-md-offset-2 col-md-10">
-											<button type="button" class="btn default"><spring:message code="application.back"/></button>
+											<button type="button" class="btn default" onclick="sendRequestJQ('auth/tram/list','dashboard','initTramiteListPage()','GET');"><spring:message code="application.back"/></button>
 											<button type="button" class="btn green fileinput-button" id="uploadFile"><i class="fa fa-plus"></i>Subir Archivo</button>
 										</div>
 									</div>

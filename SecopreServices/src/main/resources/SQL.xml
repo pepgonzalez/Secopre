@@ -343,7 +343,17 @@
 						SELECT SC.* FROM secopre.STAGE_CONFIG SC WHERE id = :stageConfigId
 					]]>
 				</prop>
-	
+				
+				
+				<prop key="GET_VALID_DISTRICTS">
+					<![CDATA[
+						SELECT D.ID, CONCAT('DTO-',D.NUMBER) AS DESCRIPTION
+							FROM secopre.DISTRICT D JOIN
+							(SELECT DISTINCT(ED.DISTRICT_ID) FROM secopre.ENTRYDISTRICT ED) T
+							ON (D.ID = T.DISTRICT_ID)
+					]]>
+				</prop>
+					
 			</props>				
 		</property>
 	</bean>

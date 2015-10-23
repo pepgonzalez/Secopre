@@ -46,10 +46,10 @@ public class TramiteController extends AuthController {
 		}
 		
 		//obtener los distritos
-		List<District> districtList = baseService.findAll(District.class);
+		List<District> districtList = accessNativeService.getValidDistricts();
 		HashMap<Long, String> districtsMap = new HashMap<Long, String>();
 		for(District district : districtList){
-			districtsMap.put(district.getId(), "DTO-" + district.getNumber());
+			districtsMap.put(district.getId(), district.getNumber());
 		}
 		
 		Request requestForm = new Request();

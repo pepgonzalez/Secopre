@@ -130,14 +130,14 @@ function submitFileAjaxJQTest(formId, targetId, after){
 }
 function submitFileAjaxJQ(formId, targetId, after) {
 	var method = 'POST';
-	alert("enviando archivo");
+	//alert("enviando archivo");
 	var frm = $('#' + formId);
 	var action = frm.attr('action');
 	
 	
 	var dataDeForma = (frm !== undefined && frm !== null) ? frm.serialize(true) : null;
 	
-	console.log(dataDeForma);
+	//console.log(dataDeForma);
 	
 	var header = $("meta[name='_csrf_header']").attr("content");
 	var token = $("meta[name='_csrf']").attr("content");

@@ -11,6 +11,7 @@ import ideasw.secopre.dto.RequestHistory;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.model.Entry;
 import ideasw.secopre.model.EntryDistrict;
+import ideasw.secopre.model.catalog.District;
 
 
 public interface AccessNativeService {
@@ -116,4 +117,7 @@ public interface AccessNativeService {
 	
 	/*Metodo para obtener el balance anual de una partida-distrito*/
 	List<EntryDistrict> getAnnualEntryBalance(Long districtId, Long entryId);
+	
+	/*Metodo para obtener solamente los tramites con presupuesto asignado en entry district*/
+	List<District> getValidDistricts();
 }
