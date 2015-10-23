@@ -81,18 +81,46 @@
 									<td>
 										 ${districtItem.telephone}
 									</td>
+				                    
+				                    <td>
+									<c:choose>
+									    <c:when test="${districtItem.activo}">
+									   
+									        Activo
+									    
+									    </c:when>    
+									    <c:otherwise>
+									      
+									        Inactivo 
+									       
+									    </c:otherwise>
+									</c:choose>	
+									</td>		
+
 									<td>
-										 ${districtItem.activo}
-									</td>
-									<td>
-										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/cat/district/edit?id=${districtItem.id}' ,'dashboard','editDistrictCat()');">
+										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/cat/district/edit?id=${districtItem.id}' ,'dashboard','initDistrictCat()');">
 										 <i class="fa fa-edit xs"></i>
 										</button>
 										
 										<button id="btndelete"  type="button" class="btn delete btn-danger btn-xs" onclick="borrarRegistro('auth/cat/district/delete?id=${districtItem.id}','dashboard','initDistrictList()');"   >
 										<i class="fa fa-trash"></i> 
 										</button>
-									</td>
+
+									    <c:choose>
+									       <c:when test="${districtItem.activo}">
+									          <button id="btn_edit"  type="button" class="btn edit-xs btn-warning btn-xs" onclick="changeStatus('auth/cat/district/changeStatus?id=${districtItem.id}&activo=${!districtItem.activo}' ,'dashboard','initDistrictList()');">
+										      <i class="fa fa-minus-square xs"></i>
+										      </button>
+									       </c:when>    
+									       <c:otherwise>
+									          <button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="changeStatus('auth/cat/district/changeStatus?id=${districtItem.id}&activo=${!districtItem.activo}' ,'dashboard','initDistrictList()');">
+										      <i class="fa fa-check-square xs"></i>
+										      </button> 
+									       
+									       </c:otherwise>
+									    </c:choose>	
+									</td>			
+
 								</tr>							
 							</c:forEach>
 							</tbody>

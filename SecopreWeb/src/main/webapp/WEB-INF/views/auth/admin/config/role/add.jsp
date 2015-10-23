@@ -29,15 +29,15 @@
 								<!-- Se incluyen los DIV de alertamiento en formularios -->
 									<%@ include file="/WEB-INF/views/auth/common/alertForm.jsp"%>						
 									<div class="form-group form-md-line-input">
-										<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.roles.name"/>
+										<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.roles.rolename"/>
 											<span class="required">* </span>
 										</label>
 										<div class="col-md-10">
 											<div class="input-icon">
-												<input required id="rolename"  name="rolename" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.roles.name.placeholder"/>'>
+												<input required id="rolename"  name="rolename" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.roles.rolename.placeholder"/>'>
 												<div class="form-control-focus">
 												</div>
-												<span class="help-block"><spring:message code="application.pages.admin.roles.name.help"/></span>
+												<span class="help-block"><spring:message code="application.pages.admin.roles.rolename.help"/></span>
 												<i class="icon-user"></i>
 											</div>
 										</div>

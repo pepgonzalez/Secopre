@@ -122,7 +122,7 @@ public class UserController extends AuthController {
 			e.printStackTrace();
 			e.getCause();
 		}
-		return SecopreConstans.MV_ADM_USR;
+		return SecopreConstans.MV_ADM_USR_LIST;
 	}
 
 
@@ -180,7 +180,7 @@ public class UserController extends AuthController {
 		List<Role> authorities  = (List<Role>) user.getAuthorities();
 		model.addAttribute("roles", authorities);
 
-		return SecopreConstans.MV_ADM_USR;
+		return SecopreConstans.MV_ADM_USR_ADD;
 	}
 	
 	@RequestMapping(value = "adm/usr/changeStatus", method = { RequestMethod.GET,
@@ -202,6 +202,6 @@ public class UserController extends AuthController {
 			personMap.put(p.getId(),p.getName() );
 		}
 		model.addAttribute("persons", personMap);
-		return SecopreConstans.MV_ADM_USR;
+		return SecopreConstans.MV_ADM_USR_LIST;
 	}
 }

@@ -49,7 +49,7 @@ public class PositionController extends AuthController {
 		Position position = baseService.findById(Position.class , id);
 		//model.addAttribute("positionList", baseService.findAll(Position.class));
 		model.addAttribute("position", position);
-		return SecopreConstans.MV_CAT_POSITION;
+		return SecopreConstans.MV_CAT_POSITION_ADD;
 	}
 	
 	@RequestMapping(value = "cat/position/add", method = RequestMethod.POST)
@@ -62,7 +62,7 @@ public class PositionController extends AuthController {
 					initErrors("Ocurrio un error al insertar el puesto:"
 							+ e.getMessage()));
 		}
-		return SecopreConstans.MV_CAT_POSITION;
+		return SecopreConstans.MV_CAT_POSITION_LIST;
 	}
 	
 	@RequestMapping(value = "cat/position/delete", method = RequestMethod.POST)
@@ -78,7 +78,7 @@ public class PositionController extends AuthController {
 					initErrors("Ocurrio un error al insertar el puesto:"
 							+ e.getMessage()));
 		}
-		return SecopreConstans.MV_CAT_POSITION;
+		return SecopreConstans.MV_CAT_POSITION_LIST;
 	}
 	
 	@RequestMapping(value = "cat/position/changeStatus", method = { RequestMethod.GET,
@@ -91,7 +91,7 @@ public class PositionController extends AuthController {
 		Position position = new Position();
 		model.addAttribute("positionList", baseService.findAll(Position.class));
 		model.addAttribute("position", position);
-		return SecopreConstans.MV_CAT_POSITION;
+		return SecopreConstans.MV_CAT_POSITION_LIST;
 	}
 	
 	

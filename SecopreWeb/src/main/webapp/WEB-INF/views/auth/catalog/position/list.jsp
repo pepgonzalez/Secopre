@@ -68,27 +68,43 @@
 										 ${positionItem.description}
 									</td>
 									<td>
-										 ${positionItem.activo}
-									</td>
+									<c:choose>
+									    <c:when test="${positionItem.activo}">
+									   
+									        Activo
+									    
+									    </c:when>    
+									    <c:otherwise>
+									      
+									        Inactivo 
+									       
+									    </c:otherwise>
+									</c:choose>	
+									</td>		
+
 									<td>
-<%-- 										<a href="#" onclick="sendRequestJQ('auth/cat/position/edit?id=${positionItem.id}' ,'dashboard','editPositionCat()');"> --%>
-<%-- 												<span class="label label-sm label-success"> <spring:message code="application.edit"/> </span> --%>
-<!-- 										</a> -->
-										
-										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/cat/position/edit?id=${positionItem.id}' ,'dashboard','editPositionCat()');">
+										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/cat/position/edit?id=${positionItem.id}' ,'dashboard','initPositionCat()');">
 										 <i class="fa fa-edit xs"></i>
 										</button>
 										
 										<button id="btndelete"  type="button" class="btn delete btn-danger btn-xs" onclick="borrarRegistro('auth/cat/position/delete?id=${positionItem.id}','dashboard','initPositionList()');"   >
 										<i class="fa fa-trash"></i> 
 										</button>
-										
-<%-- 										<a href="#" class="btn delete" onclick="sendRequestJQ('auth/cat/position/delete?id=${positionItem.id}' ,'dashboard','initPositionList()');"> --%>
-<%-- 												<span class="label label-xs label-danger"> <spring:message code="application.delete"/> </span> --%>
-												
-<!-- 										</a> -->
-										
-									</td>
+
+									    <c:choose>
+									       <c:when test="${positionItem.activo}">
+									          <button id="btn_edit"  type="button" class="btn edit-xs btn-warning btn-xs" onclick="changeStatus('auth/cat/position/changeStatus?id=${positionItem.id}&activo=${!positionItem.activo}' ,'dashboard','initPositionList()');">
+										      <i class="fa fa-minus-square xs"></i>
+										      </button>
+									       </c:when>    
+									       <c:otherwise>
+									          <button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="changeStatus('auth/cat/position/changeStatus?id=${positionItem.id}&activo=${!positionItem.activo}' ,'dashboard','initPositionList()');">
+										      <i class="fa fa-check-square xs"></i>
+										      </button> 
+									       
+									       </c:otherwise>
+									    </c:choose>	
+									</td>												
 								</tr>							
 							</c:forEach>
 							</tbody>

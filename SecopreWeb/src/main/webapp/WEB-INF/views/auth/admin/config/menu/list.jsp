@@ -83,7 +83,7 @@
 									</td>		
 
 									<td>
-										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/adm/menu/edit?id=${menuItem.id}' ,'dashboard','editMenuCat()');">
+										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/adm/menu/edit?id=${menuItem.id}' ,'dashboard','initMenuCat()');">
 										 <i class="fa fa-edit xs"></i>
 										</button>
 										
@@ -105,12 +105,6 @@
 									       </c:otherwise>
 									    </c:choose>	
 									</td>										
-									
-									
-									
-									
-									
-									
 									
 								</tr>							
 							</c:forEach>

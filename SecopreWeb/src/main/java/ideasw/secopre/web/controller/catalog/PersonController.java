@@ -82,7 +82,7 @@ public class PersonController extends AuthController {
 					initErrors("Ocurrio un error al insertar el usuario:"
 							+ e.getMessage()));
 		}
-		return SecopreConstans.MV_CAT_PERSON;
+		return SecopreConstans.MV_CAT_PERSON_LIST;
 	}
 	
 	@RequestMapping(value = "cat/person/delete", method = RequestMethod.POST)
@@ -98,7 +98,7 @@ public class PersonController extends AuthController {
 					initErrors("Ocurrio un error al eliminar la persona:"
 							+ e.getMessage()));
 		}
-		return SecopreConstans.MV_CAT_PERSON;
+		return SecopreConstans.MV_CAT_PERSON_LIST;
 	}
 	
 	
@@ -118,7 +118,7 @@ public class PersonController extends AuthController {
 		model.addAttribute("gender",  Gender.values());
 		
 		
-		return SecopreConstans.MV_CAT_PERSON;
+		return SecopreConstans.MV_CAT_PERSON_ADD;
 	}
 	
 	@RequestMapping(value = "cat/person/changeStatus", method = { RequestMethod.GET,
@@ -136,7 +136,7 @@ public class PersonController extends AuthController {
 		model.addAttribute("address", address);
 		model.addAttribute("gender",  Gender.values());
 		model.addAttribute("states", secopreCahe.getAllStatesMap());
-		return SecopreConstans.MV_CAT_PERSON;
+		return SecopreConstans.MV_CAT_PERSON_LIST;
 	}
 
 

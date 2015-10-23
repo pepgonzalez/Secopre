@@ -59,7 +59,7 @@ public class NoticeController extends AuthController {
 		model.addAttribute("notice", notice);
 		model.addAttribute("districts", secopreCahe.getAlldistricts());
 
-		return SecopreConstans.MV_CAT_NOTICE;
+		return SecopreConstans.MV_CAT_NOTICE_ADD;
 	}
 	
 	@RequestMapping(value = "oper/notice/changeStatus", method = { RequestMethod.GET,
@@ -74,7 +74,7 @@ public class NoticeController extends AuthController {
 		model.addAttribute("notice", notice);
 		model.addAttribute("districts", secopreCahe.getAlldistricts());
 
-		return SecopreConstans.MV_CAT_NOTICE;
+		return SecopreConstans.MV_CAT_NOTICE_LIST;
 	}
 	
 	@RequestMapping(value = "oper/notice/add", method = RequestMethod.POST)
@@ -100,7 +100,7 @@ public class NoticeController extends AuthController {
 					initErrors("Ocurrio un error al insertar el aviso:"
 							+ e.getMessage()));
 		}
-		return SecopreConstans.MV_CAT_NOTICE;
+		return SecopreConstans.MV_CAT_NOTICE_LIST;
 	}
 	
 	@RequestMapping(value = "oper/notice/delete", method = RequestMethod.POST)
@@ -116,7 +116,7 @@ public class NoticeController extends AuthController {
 					initErrors("Ocurrio un error al insertar el aviso:"
 							+ e.getMessage()));
 		}
-		return SecopreConstans.MV_CAT_NOTICE;
+		return SecopreConstans.MV_CAT_NOTICE_LIST;
 	}
 	
 	

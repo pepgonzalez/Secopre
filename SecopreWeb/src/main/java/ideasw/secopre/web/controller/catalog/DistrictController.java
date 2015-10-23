@@ -76,14 +76,14 @@ public class DistrictController extends AuthController {
 					initErrors("Ocurrio un error al insertar el Distrito:"
 							+ e.getMessage()));
 		}
-		return SecopreConstans.MV_CAT_DISTRICT;
+		return SecopreConstans.MV_CAT_DISTRICT_LIST;
 	}
 	
 	@RequestMapping(value = "cat/district/edit", method = { RequestMethod.GET,
 			RequestMethod.POST })
 	public String edit( ModelMap model, RedirectAttributes attributes, @RequestParam("id") Long id ) {
 		District district = baseService.findById(District.class , id);
-		return SecopreConstans.MV_CAT_DISTRICT;
+		return SecopreConstans.MV_CAT_DISTRICT_ADD;
 	}
 	
 	@RequestMapping(value = "cat/district/delete", method = RequestMethod.POST)
@@ -99,7 +99,7 @@ public class DistrictController extends AuthController {
 					initErrors("Ocurrio un error al insertar el menu:"
 							+ e.getMessage()));
 		}
-		return SecopreConstans.MV_CAT_DISTRICT;
+		return SecopreConstans.MV_CAT_DISTRICT_LIST;
 	}
 	
 	@RequestMapping(value = "cat/district/changeStatus", method = { RequestMethod.GET,
@@ -121,7 +121,7 @@ public class DistrictController extends AuthController {
 		
 		model.addAttribute("states", secopreCahe.getAllStatesMap());
 		
-		return SecopreConstans.MV_CAT_DISTRICT;
+		return SecopreConstans.MV_CAT_DISTRICT_LIST;
 	}
 	
 }

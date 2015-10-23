@@ -65,7 +65,7 @@ public class EntryController extends AuthController {
 					initErrors("Ocurrio un error al insertar el puesto:"
 							+ e.getMessage()));
 		}
-		return SecopreConstans.MV_CAT_ENTRY;
+		return SecopreConstans.MV_CAT_ENTRY_LIST;
 	}
 	
 	@RequestMapping(value = "cat/entry/delete", method = RequestMethod.POST)
@@ -81,7 +81,7 @@ public class EntryController extends AuthController {
 					initErrors("Ocurrio un error al insertar la Partida:"
 							+ e.getMessage()));
 		}
-		return SecopreConstans.MV_CAT_ENTRY;
+		return SecopreConstans.MV_CAT_ENTRY_LIST;
 	}
 	
 	
@@ -99,7 +99,7 @@ public class EntryController extends AuthController {
 		model.addAttribute("pks", pkMap);
 		model.addAttribute("entry", entry);
 		
-		return SecopreConstans.MV_CAT_ENTRY;
+		return SecopreConstans.MV_CAT_ENTRY_ADD;
 	}
 	
 	@RequestMapping(value = "cat/entry/changeStatus", method = { RequestMethod.GET,
@@ -119,6 +119,6 @@ public class EntryController extends AuthController {
 		model.addAttribute("accountingTypes", AccountingType.values());
 		model.addAttribute("pks", pkMap);
 	
-		return SecopreConstans.MV_CAT_ENTRY;
+		return SecopreConstans.MV_CAT_ENTRY_LIST;
 	}
 }

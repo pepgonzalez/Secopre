@@ -49,7 +49,7 @@ public class ProgrammaticKeyController extends AuthController {
 					initErrors("Ocurrio un error al insertar el puesto:"
 							+ e.getMessage()));
 		}
-		return SecopreConstans.MV_CAT_PK;
+		return SecopreConstans.MV_CAT_PK_LIST;
 	}
 	
 	@RequestMapping(value = "oper/pk/edit", method = { RequestMethod.GET,
@@ -58,7 +58,7 @@ public class ProgrammaticKeyController extends AuthController {
 		ProgrammaticKey pk = baseService.findById(ProgrammaticKey.class , id);
 		//model.addAttribute("positionList", baseService.findAll(Position.class));
 		model.addAttribute("pk", pk);
-		return SecopreConstans.MV_CAT_PK;
+		return SecopreConstans.MV_CAT_PK_LIST;
 	}
 	
 	@RequestMapping(value = "oper/pk/delete", method = RequestMethod.POST)
@@ -74,7 +74,7 @@ public class ProgrammaticKeyController extends AuthController {
 					initErrors("Ocurrio un error al insertar la clave programática:"
 							+ e.getMessage()));
 		}
-		return SecopreConstans.MV_CAT_PK;
+		return SecopreConstans.MV_CAT_PK_LIST;
 	}
 	
 	@RequestMapping(value = "oper/pk/changeStatus", method = { RequestMethod.GET,
@@ -87,6 +87,6 @@ public class ProgrammaticKeyController extends AuthController {
 		ProgrammaticKey pk = new ProgrammaticKey();
 		model.addAttribute("pkList", baseService.findAll(ProgrammaticKey.class));
 		model.addAttribute("pk", pk);
-		return SecopreConstans.MV_CAT_PK;
+		return SecopreConstans.MV_CAT_PK_LIST;
 	}
 }

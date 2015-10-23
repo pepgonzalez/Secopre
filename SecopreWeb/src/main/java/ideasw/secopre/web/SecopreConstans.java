@@ -12,8 +12,9 @@ public class SecopreConstans {
 	public static final String MV_403 = "403";
 	
 	//####Modulo Administracion Usuarios####//
-	public static final String MV_ADM_USR_LIST = "auth/admin/usr/list";
+	public static final String MV_ADM_USR_LIST = "auth/admin/users/list";
 	public static final String MV_ADM_USR = "auth/admin/users/users";
+	public static final String MV_ADM_USR_ADD = "auth/admin/users/add";
 	public static final String MV_ADM_DIR = "auth/admin/dir/directory";
 	
 	//####Modulo Administracion Roles####//
@@ -26,6 +27,7 @@ public class SecopreConstans {
 	//####Modulo Administracion Menus####//
 	public static final String MV_ADM_MENU_LIST = "auth/admin/config/menu/list";
 	public static final String MV_ADM_MENU = "auth/admin/config/menu/menus";
+	public static final String MV_ADM_MENU_ADD = "auth/admin/config/menu/add";
 	
 	
 	//####Modulo de Tramites####//
@@ -47,26 +49,31 @@ public class SecopreConstans {
 	//####Modulo de Catalogos Operativos####//
 	public static final String MV_CAT_ENTRY = "auth/oper/entry/entry";
 	public static final String MV_CAT_ENTRY_ADD = "auth/oper/entry/add";
+	public static final String MV_CAT_ENTRY_LIST = "auth/oper/entry/list";
 	
 	public static final String MV_CAT_PK = "auth/oper/pk/programmaticKey";
 	public static final String MV_CAT_PK_ADD = "auth/oper/pk/add";
+	public static final String MV_CAT_PK_LIST = "auth/oper/pk/list";
 	
 	
 	public static final String MV_CAT_PERSON = "auth/catalog/person/persons";
 	public static final String MV_CAT_PERSON_ADD = "auth/catalog/person/add";
+	public static final String MV_CAT_PERSON_LIST = "auth/catalog/person/list";
 
 	public static final String MV_CAT_DISTRICT = "auth/catalog/district/district";
 	public static final String MV_CAT_DISTRICT_ADD = "auth/catalog/district/add";	
 	public static final String MV_CAT_DISTRICT_LIST = "auth/catalog/district/list";
 
 	public static final String MV_CAT_POSITION = "auth/catalog/position/position";
-	public static final String MV_CAT_POSITION_ADD = "auth/catalog/position/add";			
+	public static final String MV_CAT_POSITION_ADD = "auth/catalog/position/add";
+	public static final String MV_CAT_POSITION_LIST = "auth/catalog/position/list";
 
 	public static final String MV_CAT_ADDRESS = "auth/catalog/address/list";
 	public static final String MV_CAT_ADDRESS_ADD = "auth/catalog/address/add";		
 	
 	public static final String MV_CAT_NOTICE = "auth/oper/notice/notices";
-	public static final String MV_CAT_NOTICE_ADD = "auth/oper/notice/add";	
+	public static final String MV_CAT_NOTICE_ADD = "auth/oper/notice/add";
+	public static final String MV_CAT_NOTICE_LIST = "auth/oper/notice/list";
 	
 	//####Modulo de Catalogos Parametricos####//
 	public static final String MV_CAT_DUEDATE = "auth/param/dueDate/dueDate";

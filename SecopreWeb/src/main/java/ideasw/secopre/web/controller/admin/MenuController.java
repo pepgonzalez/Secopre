@@ -79,7 +79,7 @@ public class MenuController extends AuthController {
 			model.addAttribute("path", path);
 		}
 		
-		return SecopreConstans.MV_ADM_MENU;
+		return SecopreConstans.MV_ADM_MENU_ADD;
 	}
 	
 	@RequestMapping(value = "adm/menu/add", method = RequestMethod.POST)
@@ -100,7 +100,7 @@ public class MenuController extends AuthController {
 					initErrors("Ocurrio un error al insertar el menu:"
 							+ e.getMessage()));
 		}
-		return SecopreConstans.MV_ADM_MENU;
+		return SecopreConstans.MV_ADM_MENU_LIST;
 	}
 	
 	@RequestMapping(value = "adm/menu/delete", method = RequestMethod.POST)
@@ -116,7 +116,7 @@ public class MenuController extends AuthController {
 					initErrors("Ocurrio un error al insertar el menu:"
 							+ e.getMessage()));
 		}
-		return SecopreConstans.MV_ADM_MENU;
+		return SecopreConstans.MV_ADM_MENU_LIST;
 	}
 	
 	@RequestMapping(value = "adm/menu/changeStatus", method = { RequestMethod.GET,
@@ -138,7 +138,7 @@ public class MenuController extends AuthController {
 			parentMap.put(p.getId(),p.getName() );
 		}
 		model.addAttribute("parents", parentMap);
-		return SecopreConstans.MV_ADM_MENU;
+		return SecopreConstans.MV_ADM_MENU_LIST;
 	}
 	
 	

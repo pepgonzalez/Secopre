@@ -94,7 +94,7 @@
 									</td>		
 
 									<td>
-										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/cat/person/edit?id=${personItem.id}' ,'dashboard','editPersonPage()');">
+										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/cat/person/edit?id=${personItem.id}' ,'dashboard','initPersonPage()');">
 										 <i class="fa fa-edit xs"></i>
 										</button>
 										

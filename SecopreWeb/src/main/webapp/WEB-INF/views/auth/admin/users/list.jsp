@@ -92,7 +92,7 @@
 									</td>		
 
 									<td>
-										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/adm/usr/edit?id=${userItem.id}' ,'dashboard','editUserPage()');">
+										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/adm/usr/edit?id=${userItem.id}' ,'dashboard','initUserPage()');">
 										 <i class="fa fa-edit xs"></i>
 										</button>
 										
