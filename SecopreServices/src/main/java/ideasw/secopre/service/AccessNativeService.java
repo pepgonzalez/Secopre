@@ -113,4 +113,7 @@ public interface AccessNativeService {
 	
 	/* Obtener informacion de partida*/
 	EntryDistrict getEntryBalance(Long districtId, Long entryId, Long month);
+	
+	/*Metodo para obtener el balance anual de una partida-distrito*/
+	List<EntryDistrict> getAnnualEntryBalance(Long districtId, Long entryId);
 }

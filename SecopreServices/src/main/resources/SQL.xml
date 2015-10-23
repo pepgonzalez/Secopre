@@ -123,7 +123,10 @@
 						 		P.URL,
 						 		SC.IS_CAPTURE,
 						 		SC.IS_AUTHORIZATION,
-						 		IFNULL(SC.IS_END_WORKFLOW, 0) IS_END_WORKFLOW,
+						 		(CASE WHEN((SC.IS_CANCELED) OR (SC.IS_OPERATED))
+						 		   THEN 1 
+						 		   ELSE 0 
+						 		END) AS IS_END_WORKFLOW,
 						 		ifnull(SC.CAPTURE_FORM,'') CAPTURE_FORM,
 						 		WC.STATUS_ID,
 						 		S.DESCRIPTION NEXT_DESCRIPTION

@@ -27,6 +27,7 @@ import ideasw.secopre.service.impl.mapper.InboxMapper;
 import ideasw.secopre.service.impl.mapper.RequestConfigMapper;
 import ideasw.secopre.service.impl.mapper.RequestHistoryMapper;
 import ideasw.secopre.service.impl.mapper.RequestMapper;
+import ideasw.secopre.service.impl.mapper.StageConfigMapper;
 import ideasw.secopre.service.impl.mapper.MovementMapper;
 import ideasw.secopre.service.impl.mapper.WorkFlowConfigMapper;
 import ideasw.secopre.sql.QueryContainer;
@@ -189,7 +190,7 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	
 	private StageConfig getStageConfigById(Long stageConfigId){
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("stageConfigId", stageConfigId);	
-		return this.queryForList(StageConfig.class, queryContainer.getSQL(SQLConstants.GET_STAGE_CONFIG_BY_ID), namedParameters, new WorkFlowConfigMapper()).get(0);
+		return this.queryForList(StageConfig.class, queryContainer.getSQL(SQLConstants.GET_STAGE_CONFIG_BY_ID), namedParameters, new StageConfigMapper()).get(0);
 	}
 	
 	
@@ -495,6 +496,15 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 			entry.setMonthString(this.getMonthsMap().get(entry.getMonth() + 1));
 		}
 		return entry;
+	}
+	
+	public List<EntryDistrict> getAnnualEntryBalance(Long districtId, Long entryId){
+		Map<String, Object> propertiesMap = new HashMap<String, Object>();
+		propertiesMap.put("district", baseService.findById(District.class, districtId));
+		propertiesMap.put("entry", baseService.findById(Entry.class, entryId));
+		
+		List<EntryDistrict> list = baseService.findByProperties(EntryDistrict.class, propertiesMap);
+		return list;
 	}
 
 }
