@@ -19,13 +19,13 @@
 			<!-- END PAGE BREADCRUMB -->
 
 			<!-- FORMULARIO AGREGAR ROLES -->
-			<div id="add_roles">
+			<div id="add_Role">
 				<%@ include file="/WEB-INF/views/auth/admin/config/role/add.jsp"%>
 			</div>
 			<!-- TERMINA FORMULARIO AGREGAR ROLES -->
 			
 			<!-- LISTA ROLES -->
-			<div id="list_roles">
+			<div id="list_Role">
 				<%@ include file="/WEB-INF/views/auth/admin/config/role/list.jsp"%>
 			</div>
 			<!-- TERMINA LISTA ROLES -->			
