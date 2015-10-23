@@ -9,35 +9,14 @@ function initDueDateCat() {
     	  format: 'dd/mm/yyyy',
     	  autoclose: true
     });
-
-
-}
-
-function editDueDateCat() {
-	editPage('DueDate');
-	initDueDateValidations();
-	 $('#dueDateStr').datepicker({
-		  format: 'dd/mm/yyyy',
-		  autoclose: true
-	    });
-	  $('#maxBlockDateStr').datepicker({
-		  format: 'dd/mm/yyyy',
-		  autoclose: true
-	    });
 }
 
 function initDueDateList() {
 	sendRequestJQ('auth/param/dueDate/list', 'dashboard', 'initDueDateCat()');
 }
 
-
 function initPositionCat() {
 	initPage('Position');
-	initPositionValidations();
-}
-
-function editPositionCat() {
-	editPage('Position');
 	initPositionValidations();
 }
 
@@ -52,25 +31,13 @@ function initDistrictCat() {
 	 $('select').select2();
 }
 
-function editDistrictCat() {
-	editPage('District');
-	initDistrictValidations();
-	 $('select').select2();
-}
-
 function initDistrictList() {
 	sendRequestJQ('auth/cat/district/list', 'dashboard', 'initDistrictCat()');
 }
 
 
-
 function initPositionCat() {
 	initPage('Position');
-	initPositionValidations();
-}
-
-function editPositionCat() {
-	editPage('Position');
 	initPositionValidations();
 }
 
@@ -84,12 +51,6 @@ function initMenuCat() {
 	 $('select').select2();
 }
 
-function editMenuCat() {
-	editPage('Menu');
-	initMenuValidations();
-	 $('select').select2();
-}
-
 function initMenuList() {
 	sendRequestJQ('auth/adm/menu/list', 'dashboard', 'initMenuCat()');
 }
@@ -99,28 +60,15 @@ function initProgrammaticKeyCat() {
 	initProgrammaticKeyValidations();
 }
 
-function editProgrammaticKeyCat() {
-	editPage('ProgrammaticKey');
-	initProgrammaticKeyValidations();
-}
-
 function initProgrammaticKeyList() {
 	sendRequestJQ('auth/oper/pk/list', 'dashboard', 'initProgrammaticKeyCat()');
 }
-
 
 function initEntryCat() {
 	initPage('Entry');
 	initEntryValidations();
 	 $('select').select2();
 }
-
-function editEntryCat() {
-	editPage('Entry');
-	initEntryValidations();
-	 $('select').select2();
-}
-
 function initEntryList() {
 	sendRequestJQ('auth/oper/entry/list', 'dashboard', 'initEntryCat()');
 }
@@ -142,28 +90,8 @@ function initNoticeCat() {
 	    
 }
 
-function editNoticeCat() {
-	editPage('Notice');
-	initNoticeValidations();
-	 $('select').select2();
-	    $('#registerDateStr').datepicker({
-	    	 autoclose: true,
-	    	 format: 'dd/mm/yyyy',
-	    });
-	    $('#displayDateStr').datepicker({
-	    	 autoclose: true,
-	    	 format: 'dd/mm/yyyy',
-	    });
-	    $('#districts').multiSelect();
-}
-
 function initNoticeList() {
 	sendRequestJQ('auth/oper/notice/list', 'dashboard', 'initNoticeCat()');
-}
-
-function editPage(page) {
-	$('#add_' + page).show();
-	$('#list_' + page).hide();
 }
 
 function initDueDateValidations() {

@@ -71,6 +71,7 @@ public class SecopreConstans {
 	//####Modulo de Catalogos Parametricos####//
 	public static final String MV_CAT_DUEDATE = "auth/param/dueDate/dueDate";
 	public static final String MV_CAT_DUEDATE_ADD = "auth/param/dueDate/add";	
+	public static final String MV_CAT_DUEDATE_LIST = "auth/param/dueDate/list";	
 	
 	
 		

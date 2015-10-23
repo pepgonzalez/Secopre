@@ -1,6 +1,7 @@
 package ideasw.secopre.web.controller;
 
 import ideasw.secopre.model.ProgrammaticKey;
+import ideasw.secopre.model.catalog.Position;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
 
@@ -73,6 +74,19 @@ public class ProgrammaticKeyController extends AuthController {
 					initErrors("Ocurrio un error al insertar la clave programática:"
 							+ e.getMessage()));
 		}
+		return SecopreConstans.MV_CAT_PK;
+	}
+	
+	@RequestMapping(value = "oper/pk/changeStatus", method = { RequestMethod.GET,
+			RequestMethod.POST })
+	public String changeStatus( ModelMap model, RedirectAttributes attributes, @RequestParam("id") Long id,@RequestParam("activo") Boolean activo  ) {
+		ProgrammaticKey pkEdit = baseService.findById(ProgrammaticKey.class , id);
+		pkEdit.setActivo(activo);
+		baseService.save(pkEdit);
+		
+		ProgrammaticKey pk = new ProgrammaticKey();
+		model.addAttribute("pkList", baseService.findAll(ProgrammaticKey.class));
+		model.addAttribute("pk", pk);
 		return SecopreConstans.MV_CAT_PK;
 	}
 }

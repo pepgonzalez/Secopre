@@ -1,7 +1,12 @@
 package ideasw.secopre.web.controller.catalog;
 
 
+import java.util.HashMap;
+import java.util.List;
+
 import ideasw.secopre.model.catalog.Position;
+import ideasw.secopre.model.security.Menu;
+import ideasw.secopre.model.security.Path;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
 
@@ -73,6 +78,19 @@ public class PositionController extends AuthController {
 					initErrors("Ocurrio un error al insertar el puesto:"
 							+ e.getMessage()));
 		}
+		return SecopreConstans.MV_CAT_POSITION;
+	}
+	
+	@RequestMapping(value = "cat/position/changeStatus", method = { RequestMethod.GET,
+			RequestMethod.POST })
+	public String changeStatus( ModelMap model, RedirectAttributes attributes, @RequestParam("id") Long id,@RequestParam("activo") Boolean activo  ) {
+		Position positionEdit = baseService.findById(Position.class , id);
+		positionEdit.setActivo(activo);
+		baseService.save(positionEdit);
+		
+		Position position = new Position();
+		model.addAttribute("positionList", baseService.findAll(Position.class));
+		model.addAttribute("position", position);
 		return SecopreConstans.MV_CAT_POSITION;
 	}
 	

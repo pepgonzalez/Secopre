@@ -49,7 +49,7 @@ public class DueDateController extends AuthController {
 					initErrors("Ocurrio un error al insertar la fecha de corte:"
 							+ e.getMessage()));
 		}
-		return SecopreConstans.MV_CAT_DUEDATE;
+		return SecopreConstans.MV_CAT_DUEDATE_LIST;
 	}
 	
 	@RequestMapping(value = "param/dueDate/edit", method = { RequestMethod.GET,
@@ -59,7 +59,7 @@ public class DueDateController extends AuthController {
 //		String dueDateStr = dueDate.getDueDateStr();
 //		dueDate.setDueDateStr(dueDateStr);
 		model.addAttribute("dueDate", dueDate);
-		return SecopreConstans.MV_CAT_DUEDATE;
+		return SecopreConstans.MV_CAT_DUEDATE_ADD;
 	}
 	
 	@RequestMapping(value = "param/dueDate/delete", method = RequestMethod.POST)
@@ -75,7 +75,7 @@ public class DueDateController extends AuthController {
 					initErrors("Ocurrio un error al insertar la fecha de corte:"
 							+ e.getMessage()));
 		}
-		return SecopreConstans.MV_CAT_DUEDATE;
+		return SecopreConstans.MV_CAT_DUEDATE_LIST;
 	}
 	
 	@RequestMapping(value = "param/dueDate/changeStatus", method = { RequestMethod.GET,
@@ -84,9 +84,10 @@ public class DueDateController extends AuthController {
 		DueDate dueDateEdit = baseService.findById(DueDate.class , id);
 		dueDateEdit.setActivo(activo);
 		baseService.save(dueDateEdit);
-		DueDate dueDate = new DueDate();
-		model.addAttribute("dueDateList", baseService.findAll(DueDate.class));
-		model.addAttribute("dueDate", dueDate);
-		return SecopreConstans.MV_CAT_DUEDATE;
+		
+//		DueDate dueDate = new DueDate();
+//		model.addAttribute("dueDateList", baseService.findAll(DueDate.class));
+//		model.addAttribute("dueDate", dueDate);
+		return SecopreConstans.MV_CAT_DUEDATE_LIST;
 	}
 }
