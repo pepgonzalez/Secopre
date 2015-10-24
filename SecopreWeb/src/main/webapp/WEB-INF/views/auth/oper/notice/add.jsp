@@ -51,13 +51,11 @@
 											<div class="tab-pane active" id="tab1">
 												<h3 class="block">Proporcionar Información de Avisos</h3>
 												<div class="form-body">													
-													
 													<div class="form-group form-md">
 														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.notice.registerDate"/>
 														<span class="required">* </span>
 														</label>
 														<div class="col-md-4">
-<!-- 															<div class="input-icon"> -->
                                                                 <div data-date-format="dd/mm/yyyy" class="input-group date date-picker">
 																 <div class="input-group-addon">
 																    <span class="fa fa-calendar"></span>
@@ -65,11 +63,9 @@
 																	<input name="registerDateStr"  id="registerDateStr"  type="text" value="${notice.registerDateStr}" class="form-control">
 																	<div class="form-control-focus"></div>
 																</div> 
- 																<span class="help-block">
+ 																<span id = "registerDateStr-error" class="help-block help-block-error">
  																<spring:message code="application.pages.catalog.notice.registerDate.help"/> 
-																</span>		
-																<span class="help-block help-block-error"></span>	
-																									
+																</span>															
 														</div>
 													</div>	
 													
@@ -87,9 +83,7 @@
 																<div class="form-control-focus">
 																</div>
 																</div>
-																<span id="datepicker-error" class="help-block help-block-error"></span>
-																<span class="help-block-error"></span>	
-																<span class="help-block">
+																<span id="displayDateStr-error" class="help-block help-block-error">
 																<spring:message code="application.pages.catalog.notice.displayDate.help"/>
 																</span>	
 																													
@@ -106,9 +100,8 @@
 																<form:textarea path="notice.noticeInfo" id="noticeInfo" name="noticeInfo" value="${notice.noticeInfo}" class="form-control" rows="1" />
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.catalog.notice.notice.help"/></span>
-																<span class="help-block-error"></span>
-																
+																<span id="noticeInfo-error" class="help-block help-block-error"><spring:message code="application.pages.catalog.notice.notice.help"/>
+																</span>
 																<i class="icon-user"></i>
 															</div>
 														</div>

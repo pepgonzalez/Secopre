@@ -118,11 +118,9 @@ function initDueDateValidations() {
 		},
 		messages : {
 			maxBlockDateStr : {
-				required : "Este campos es requerido",
 				australianDate : "El formato de fecha es de dd/mm/yyyy"
 			},
 			dueDateStr : {
-				required : "Este campos es requerido",
 				australianDate : "El formato de fecha es de dd/mm/yyyy"
 			}
 		},

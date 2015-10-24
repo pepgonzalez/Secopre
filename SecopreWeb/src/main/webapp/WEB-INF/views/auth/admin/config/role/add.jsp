@@ -43,6 +43,7 @@
 								<div class="tab-pane active" id="tab1">
 									<h3 class="block">Proporcionar datos del Rol</h3>
 									<div class="form-body">
+									
 									<div class="form-group form-md-line-input has-danger">
 									   <label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.programmaticKey.code"/>
 									   <span class="required">* </span>
@@ -56,7 +57,8 @@
  												<i class="icon-user"></i> 
 											 </div>
 									     </div>
-									  </div>										
+									  </div>
+									  										
 									</div>
 								</div>
 

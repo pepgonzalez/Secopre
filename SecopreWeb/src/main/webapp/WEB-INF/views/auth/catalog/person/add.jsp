@@ -68,7 +68,9 @@
 																<input id="name" name="name" value="${person.name}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.name.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.persons.name.help"/></span>
+																<span id="name-error" class="help-block help-block-error">
+																<spring:message code="application.pages.admin.persons.name.help"/>
+																</span>
 																<i class="icon-user"></i>
 															</div>
 														</div>
@@ -82,14 +84,14 @@
 																<input name="secondName"  id="secondName" value="${person.secondName}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.secondName.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.persons.secondName.help"/></span>
+																<span id="secondName-error" class="help-block help-block-error"><spring:message code="application.pages.admin.persons.secondName.help"/></span>
 																<i class="icon-user"></i>
 															</div>
 														</div>
 													</div>
 													
 													
-													<div class="form-group form-md-line-input">
+													<div class="form-group form-md-line-input has-danger">
 														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.fatherLastName"/> 
 														<span class="required">* </span>
 														</label>
@@ -98,7 +100,7 @@
 																<input name="fatherLastName"  id="fatherLastName" value="${person.fatherLastName}" type="text"  class="form-control" placeholder='<spring:message code="application.pages.admin.persons.fatherLastName.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>																				
- 																<span class="help-block"><spring:message code="application.pages.admin.persons.fatherLastName.help"/></span> 
+ 																<span id="fatherLastName-error" class="help-block help-block-error"><spring:message code="application.pages.admin.persons.fatherLastName.help"/></span> 
 															    <i class="fa fa-male"></i>
 															</div>
 														</div>
@@ -114,7 +116,7 @@
 																<input id="motherLastName" name="motherLastName" value="${person.motherLastName}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.motherLastName.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.persons.motherLastName.help"/></span>
+																<span id = "motherLastName-error" class="help-block help-block-error"><spring:message code="application.pages.admin.persons.motherLastName.help"/></span>
 																<i class="fa fa-female"></i>
 															</div>
 														</div>
@@ -126,8 +128,6 @@
 										  			<span class="required">* </span> 
 												    </label>
 													   <div class="col-md-4">
-													      <div class="input-icon">
-
 										                            <div class="md-radio-inline">
 																				<div class="md-radio">
 																				    <form:radiobutton path="person.gender"  id="gender1" value="MASCULINO" class="md-radiobtn" name="gender"/>
@@ -149,10 +149,8 @@
 																				</div>
 																			</div>
 																<div class="form-control-focus"></div>
-																<span class="help-block"><spring:message code="application.pages.admin.persons.motherLastName.help"/></span>
-																<i class="icon-user"></i>
+																<span id="gender-error" class="help-block help-block-error"><spring:message code="application.pages.admin.persons.motherLastName.help"/></span>
 												          </div>
-													   </div>
 												    </div>
 													
 													<div class="form-group form-md-line-input has-danger">
@@ -164,7 +162,7 @@
 																<input id="telephone" name="telephone" value="${person.telephone}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.telephone.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.persons.telephone.help"/></span>
+																<span id="telephone-error" class="help-block help-block-error"><spring:message code="application.pages.admin.persons.telephone.help"/></span>
 																<i class="fa fa-tty"></i>
 															</div>
 														</div>
@@ -179,8 +177,8 @@
 																<input id="mobileTelepone" name="mobileTelepone" value="${person.mobileTelepone}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.mobileTelepone.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.persons.mobileTelepone.help"/></span>
-																<i class="fa fa-phone"></i>
+																<span id="mobileTelepone-error" class="help-block help-block-error"><spring:message code="application.pages.admin.persons.mobileTelepone.help"/></span>
+																<i class="icon-phone"></i>
 															</div>
 														</div>
 													</div>
@@ -193,7 +191,7 @@
 																<input id="twitter" name="twitter" value="${person.twitter}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.twitter.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.persons.twitter.help"/></span>
+																<span id="twitter-error" class="help-block help-block-error"><spring:message code="application.pages.admin.persons.twitter.help"/></span>
 																<i class="fa fa-twitter on fa-square-o"></i>
 															</div>
 														</div>

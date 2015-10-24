@@ -113,12 +113,6 @@ function initRoleValidations() {
 				required : true
 			}
 		},
-	    messages : {
-	    	rolename : {
-				maxlength : "Longitud máxima, 50 caracteres",
-				required : "Campo requerido"
-			}
-	    },
 
 		invalidHandler : function(event, validator) { // display error alert
 			// on form submit
@@ -602,24 +596,34 @@ function initPersonValidations() {
 		// ignore : "", // validate all fields including form hidden input
 		rules : {
 			name : {
-				required : true
+				required : true,
+				maxlength : 30
 			},
-			secondName : {},
+			secondName : {
+				maxlength : 30
+			},
 			fatherLastName : {
-				required : true
+				required : true,
+				maxlength : 30
 			},
 			motherLastName : {
-				required : true
+				required : true,
+				maxlength : 30
 			},
 			telephone : {
-				required : true
+				required : true,
+				matches:"[0-9\-\(\)\s]+",
+				minlength:10, 
+				maxlength:10
 			},
 			mobileTelepone : {
-				required : true
+				matches:"[0-9\-\(\)\s]+",
+				minlength:10, 
+				maxlength:10
 			},
 			twitter : {},
 			facebook : {},
-			webSite : {},
+			webSite : {url: true},
 			"stateDTO.id" : {
 				required : true
 			},
