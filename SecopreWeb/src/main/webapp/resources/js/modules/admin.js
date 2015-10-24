@@ -611,13 +611,13 @@ function initPersonValidations() {
 				maxlength : 30
 			},
 			telephone : {
+				phone : true,
 				required : true,
-				matches:"[0-9\-\(\)\s]+",
 				minlength:10, 
 				maxlength:10
 			},
 			mobileTelepone : {
-				matches:"[0-9\-\(\)\s]+",
+				phone : true,
 				minlength:10, 
 				maxlength:10
 			},
@@ -679,6 +679,20 @@ function initPersonValidations() {
 			form[0].submit(); // submit the form
 		}
 	});
+	
+	$.validator.addMethod(
+		    "telephone",
+		    function(value, element) {
+		        // put your own logic here, this is just a (crappy) example
+		        return value.match(/^\d\d?\/\d\d?\/\d\d\d\d$/); "[0-9\-\(\)\s]+"
+		    }
+		);
+
+	$.validator.addMethod("phone", function(phone_number, element) {
+	    phone_number = phone_number.replace(/\s+/g, ""); 
+		return this.optional(element) || phone_number.length > 9 &&
+			phone_number.match(/^(1-?)?(\([2-9]\d{2}\)|[2-9]\d{2})-?[2-9]\d{2}-?\d{4}$/);
+	}, "Especifica un telefono valido");
 
 	var displayConfirm = function() {
 		$('#tab3 .form-control-static', form).each(

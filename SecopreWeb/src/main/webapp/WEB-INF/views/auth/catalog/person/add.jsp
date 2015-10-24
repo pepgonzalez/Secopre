@@ -219,7 +219,7 @@
 																<input id="webSite" name="webSite" value="${person.webSite}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.webSite.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.persons.webSite.help"/></span>
+																<span id="webSite-error" class="help-block help-block-error"><spring:message code="application.pages.admin.persons.webSite.help"/></span>
 																<i class="fa fa-home"></i>
 															</div>
 														</div>
