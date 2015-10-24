@@ -629,7 +629,24 @@ function initPersonValidations() {
 			},
 			gender : {
 				required : true
-			}
+			},
+			street : {
+				required : true,
+				maxlength : 30
+			},
+			number : {
+				required : true,
+				maxlength : 30
+			},
+			city : {
+				required : true,
+				maxlength : 30
+			},
+			zipCode : {
+				required : true,
+				maxlength : 5,
+				number : true
+			}	
 		},
 
 		invalidHandler : function(event, validator) { // display error alert
