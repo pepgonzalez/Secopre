@@ -100,8 +100,6 @@ function initDueDateValidations() {
 	var error = $('.alert-danger', form);
 	var success = $('.alert-success', form);
 	
-
-
 	form.validate({
 		doNotHideMessage : true,
 		errorElement : 'span', // default input error message container
@@ -116,6 +114,16 @@ function initDueDateValidations() {
 			dueDateStr : {
 				required : true,
 				australianDate : true
+			}
+		},
+		messages : {
+			maxBlockDateStr : {
+				required : "Este campos es requerido",
+				australianDate : "El formato de fecha es de dd/mm/yyyy"
+			},
+			dueDateStr : {
+				required : "Este campos es requerido",
+				australianDate : "El formato de fecha es de dd/mm/yyyy"
 			}
 		},
 		
@@ -526,6 +534,13 @@ function initNoticeValidations() {
              noticeInfo: {
             	     required: "Campo requerido",
             	     maxlength: "La longitud máxima del campo es de 250 caracteres"
+             },
+             displayDateStr:   {  
+                 	required: "Campo requerido",
+                 	australianDate: "El formato debe ser dd/mm/yyyy"
+             },
+             districts:   {  
+              	required: "Campo requerido"
              }
 		 },
 		 

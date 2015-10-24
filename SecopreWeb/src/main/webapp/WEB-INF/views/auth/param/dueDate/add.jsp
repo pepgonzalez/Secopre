@@ -59,15 +59,14 @@
 														<div class="col-md-4">
 <!-- 															<div class="input-icon"> -->
                                                                 <div data-date-format="dd/mm/yyyy" class="input-group date date-picker">
-																 <div class="input-group-addon">
+																<div class="input-group-addon">
 															        <span class="fa fa-calendar"></span>
 															    </div>
 																<input name="dueDateStr"  id="dueDateStr"  type="text" value="${dueDate.dueDateStr}" class="form-control">
 																<div class="form-control-focus">
 																</div>
 																</div>
-																<span id="datepicker-error" class="help-block help-block-error"></span>
-																<span class="help-block">
+																<span id="datepicker-error" class="help-block help-block-error">
 																<spring:message code="application.pages.param.dueDate.dueDate.help"/>
 																</span>														
 														</div>
@@ -87,8 +86,7 @@
 																<div class="form-control-focus">
 																</div>
 																</div>
-																<span id="datepicker-error" class="help-block help-block-error"></span>
-																<span class="help-block">
+																<span id="datepicker-error" class="help-block help-block-error">
 																<spring:message code="application.pages.param.dueDate.maxBlockDate.help"/>
 																</span>														
 														</div>
