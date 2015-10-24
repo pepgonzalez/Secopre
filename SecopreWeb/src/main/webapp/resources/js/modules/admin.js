@@ -807,6 +807,15 @@ function showDataHistory(requestId){
 	});
 }
 
+function showEntryAmount(district, programaticKey, entry){
+	apiCall("auth/wf/entryAmounts/" + district + "/" + programaticKey + "/" + entry, function(data){
+		bootbox.dialog({
+	        message: data,
+	        title: "Totales Distrito - Llave Programatica - Partida"	    
+	    }).find(".modal-dialog").css({"width":"70%"});
+	});
+}
+
 function initUpload() {
 
 	var requestForm = $('#requestForm');
@@ -926,6 +935,7 @@ var movementController = {
 
 					self.startSlider(self, idx, parseInt(new Date().getMonth()), grid);		
 					self.addRemoveEvent(self, grid, idx);
+					self.addInfoEvent(self, grid, idx);
 					
 					//asignar eventos de cambio
 					self.addOnChangeEvent(self, grid, idx, "programaticKeyId",true);
@@ -954,7 +964,8 @@ var movementController = {
 				var e = $(nodo);
 				
 				//accion
-				e.find("[data-name='action'] a").attr("id", "rmvIdx" + nextIndex);
+				e.find("[data-name='deleteAction'] #rowDeleteButton").attr("id", "rmvIdx" + nextIndex);
+				e.find("[data-name='deleteAction'] #rowInfoButton").attr("id", "infoIdx" + nextIndex);
 				
 				//llave programatica
 				e.find("[data-name='programaticKey'] select")
@@ -1022,6 +1033,7 @@ var movementController = {
 				self.addOnChangeEvent(self, grid, nextIndex,"programaticKeyId",true);
 				self.addOnChangeEvent(self, grid, nextIndex,"entryId",false);
 				self.addRemoveEvent(self, grid, nextIndex);
+				self.addInfoEvent(self, grid, nextIndex);
 				self.updateAmounts(self, grid, nextIndex, "monthAmount");
 				
 				grd.find("tbody #noMovs").remove();
@@ -1133,7 +1145,7 @@ var movementController = {
 			$(id).closest(".has-error").removeClass("has-error");
 		},
 		addRemoveEvent : function(self, grid, indice){
-			var a = $(grid).find("[data-name='deleteAction'] a");
+			var a = $(grid).find("[data-name='deleteAction']").find("#rmvIdx"+indice);
 			
 			a.on("click", function(){
 				var row = $(this).parent().parent();
@@ -1149,6 +1161,26 @@ var movementController = {
 				
 				if (filteredRows.length == 0){
 					$(grid).find("tbody").html('<tr id="noMovs"><td colspan="6">No hay Movimientos Capturados</td><tr>');
+				}
+				
+			});
+		},
+		addInfoEvent : function(self, grid, indice){
+			var a = $(grid).find("[data-name='deleteAction']").find("#infoIdx"+indice);
+			
+			a.on("click", function(){
+				var row = $(this).parent().parent();
+				
+				var programaticKey = row.find(self.getId(grid, indice, "programaticKeyId")).val();
+				var entry = row.find(self.getId(grid, indice, "entryId")).val();
+				var district = $("#districtId").val();
+				
+				//alert("valores: " + programaticKey+ ", partida: " + entry + ", distrito: " + district);
+				
+				if(parseInt(entry) <= 0){
+					window.showNotification("error", "Debe Seleccionar una partida para ver el detalle");
+				}else{
+					window.showEntryAmount(district, programaticKey, entry);
 				}
 				
 			});

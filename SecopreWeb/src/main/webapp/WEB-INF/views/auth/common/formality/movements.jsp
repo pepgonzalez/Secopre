@@ -34,11 +34,13 @@
 					    <c:otherwise>
 					        <c:forEach items="${requestForm.upMovements}" var="mov" varStatus="i">
 								<tr data-name="rowContainer" id="row${i.index}">
-									<td data-name="deleteAction">
-										<a href="javascript:;" class="btn default btn-xs red" id="rmvIdx${i.index}">
-											<i class="fa fa-times"></i>
-										</a>
+									
+									<td data-name="deleteAction" class="buttonColumn">
+  										<a href="javascript:;" class="btn default btn-xs red" id="rmvIdx${i.index}"><i class="fa fa-times"></i></a>
+  										<a href="javascript:;" class="btn grey-cascade btn-xs default lastButton" id="infoIdx${i.index}"><i class="fa fa-info-circle"></i></a>
 									</td>
+									
+									
 									<td data-name="programaticKey">
 										<form:select path="upMovements[${i.index}].programaticKeyId" class="form-control input-small">
 											<form:option value="-1" label="Seleccione..."/>
@@ -120,11 +122,12 @@
 					    <c:otherwise>
 					        <c:forEach items="${requestForm.downMovements}" var="mov" varStatus="i">
 								<tr data-name="rowContainer" id="row${i.index}">
-									<td data-name="deleteAction">
-										<a href="javascript:;" class="btn default btn-xs red" id="rmvIdx${i.index}">
-											<i class="fa fa-times"></i>
-										</a>
+									
+									<td data-name="deleteAction" class="buttonColumn">
+  										<a href="javascript:;" class="btn default btn-xs red" id="rmvIdx${i.index}"><i class="fa fa-times"></i></a>
+  										<a href="javascript:;" class="btn grey-cascade btn-xs default lastButton" id="infoIdx${i.index}"><i class="fa fa-info-circle"></i></a>
 									</td>
+									
 									<td data-name="programaticKey">
 										<form:select path="downMovements[${i.index}].programaticKeyId" class="form-control input-small">
 											<form:option value="-1" label="Seleccione..."/>
@@ -175,11 +178,14 @@
 <!-- row template para agregar registros -->
 <template id="movementRowTemplate">
 	<tr data-name="rowContainer">
-		<td data-name="deleteAction">
-			<a href="javascript:;" class="btn default btn-xs red">
-				<i class="fa fa-times"></i>
-			</a>
+	
+		<td data-name="deleteAction" class="buttonColumn">
+  			<a href="javascript:;" class="btn default btn-xs red" id="rowDeleteButton"><i class="fa fa-times"></i></a>
+  			<a href="javascript:;" class="btn grey-cascade btn-xs default lastButton" id="rowInfoButton"><i class="fa fa-info-circle"></i></a>
 		</td>
+		
+		
+		
 		<td data-name="programaticKey">
 			<form:select path="upMovements" class="form-control input-small">
 				<form:option value="-1" label="Seleccione..."/>

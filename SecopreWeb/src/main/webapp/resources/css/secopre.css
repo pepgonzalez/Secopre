@@ -68,3 +68,11 @@ p.advertencia, p.error, p.exito, p.aviso{ font-size: 12px; margin-top: 5px; }
 	width:70%!important;
 	border:solid red 1px;
 }
+
+.buttonColumn{
+	padding:15px 2px;
+	min-width:100px;
+}
+.lastButton{
+	margin-right:1px;
+}

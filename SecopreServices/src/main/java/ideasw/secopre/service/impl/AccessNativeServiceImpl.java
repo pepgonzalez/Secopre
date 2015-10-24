@@ -505,6 +505,9 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		propertiesMap.put("entry", baseService.findById(Entry.class, entryId));
 		
 		List<EntryDistrict> list = baseService.findByProperties(EntryDistrict.class, propertiesMap);
+		for(EntryDistrict entry :list){
+			entry.setMonthString(this.getMonthsMap().get(entry.getMonth() + 1));
+		}
 		return list;
 	}
 	

@@ -3,6 +3,7 @@ package ideasw.secopre.web.controller.admin;
 import ideasw.secopre.dto.Authorization;
 import ideasw.secopre.dto.Request;
 import ideasw.secopre.dto.RequestHistory;
+import ideasw.secopre.model.EntryDistrict;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.AccessNativeService;
 import ideasw.secopre.web.SecopreConstans;
@@ -265,5 +266,19 @@ public class WorkFlowController extends AuthController {
 
 		model.addAttribute("requestForm", requestForm);
 		return SecopreConstans.MV_TRAM_HISTORY;
+	}
+	
+	/*Metodo para obtener el detalle distrito - llave programatica - mes */
+	@RequestMapping(value = "wf/entryAmounts/{district}/{programaticKey}/{entry}", method = { RequestMethod.GET })
+	public String getAmountsDetail(@PathVariable("district") Long districtId,
+								   @PathVariable("programaticKey") Long programaticKeyId, 
+								   @PathVariable("entry") Long entryId, 
+								   ModelMap model, RedirectAttributes attributes, Principal principal) {
+
+		List<EntryDistrict> entryDistrictBalance = accessNativeService.getAnnualEntryBalance(districtId, entryId);
+		
+		LOG.info("total de registros para distrito: " + districtId + ", partida: " + entryId + ": " + entryDistrictBalance.size());
+		model.addAttribute("entryDistrictBalance", entryDistrictBalance);
+		return SecopreConstans.MV_TRAM_BALANCE;
 	}
 }
