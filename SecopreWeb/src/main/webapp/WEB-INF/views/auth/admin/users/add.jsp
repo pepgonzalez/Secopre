@@ -57,15 +57,13 @@
 												<span class="required">*</span>
 											</label>
 											<div class="col-md-9">
-												<div class="input-group">
-													<span class="input-group-addon"> 
-														<i class="icon-user"></i>
-													</span> 
+												<div class="input-icon">
 													<input id="username" name="username" type="text" value="${user.username}" class="form-control" placeholder='<spring:message code="application.pages.admin.users.username.placeholder"/>'>
 													<div class="form-control-focus"></div>
-													<span class="help-block">
+													<span id=username-error class="help-block help-block-error">
 														<spring:message code="application.pages.admin.users.username.help" />
 													</span>
+													<i class="icon-user"></i>
 												</div>
 											</div>
 										</div>
@@ -75,34 +73,32 @@
 													code="application.pages.admin.users.nickname" /> <span
 												class="required">* </span> </label>
 											<div class="col-md-9">
-												<div class="input-group">
-													<span class="input-group-addon"> <i
-														class="icon-user"></i>
-													</span> <input id="nickname" name="nickname" type="text" value="${user.nickname}"
+												<div class="input-icon">
+													<input id="nickname" name="nickname" type="text" value="${user.nickname}"
 														class="form-control"
 														placeholder='<spring:message code="application.pages.admin.users.nickname.placeholder"/>'>
 													<div class="form-control-focus"></div>
-													<span class="help-block"><spring:message
+													<span id=nickname-error class="help-block help-block-error"><spring:message
 															code="application.pages.admin.users.nickname.help" /></span>
+													<i class="icon-user"></i>
 												</div>
 											</div>
 										</div>
+										
 										<div class="form-group form-md-line-input">
 											<label class="col-md-3 control-label" for="form_control_1">
 												<spring:message code="application.pages.admin.users.email" />
 												<span class="required">*</span>
 											</label>
 											<div class="col-md-9">
-												<div class="input-group">
-													<span class="input-group-addon">
-														<i class="fa fa-envelope"></i>
-													</span> 
+												<div class="input-icon">
 													<input name="email" id="email" type="email" value="${user.email}" class="form-control" placeholder='<spring:message code="application.pages.admin.users.email"/>'>
 													<div class="form-control-focus">
 													</div>
-													<span class="help-block">
+													<span id="email-error" class="help-block help-block-error">
 														<spring:message code="application.pages.admin.users.email.help" />
 													</span>
+													<i class="fa fa-envelope"></i>
 												</div>
 											</div>
 										</div>
@@ -135,31 +131,31 @@
 													code="application.pages.admin.users.password" /> <span
 												class="required">* </span> </label>
 											<div class="col-md-9">
-												<div class="input-group">
-													<span class="input-group-addon"> <i
-														class="fa fa-key"></i>
-													</span> <input id="password" name="password" value="${user.password}" type="password"
+												<div class="input-icon">
+													<input id="password" name="password" value="${user.password}" type="password"
 														class="form-control"
 														placeholder='<spring:message code="application.pages.admin.users.password.placeholder"/>'>
 													<div class="form-control-focus"></div>
-													<span class="help-block"><spring:message
-															code="application.pages.admin.users.password.help" /></span>
+													<span id="password-error" class="help-block help-block-error"><spring:message
+															code="application.pages.admin.users.password.help" />
+													</span>
+													<i class="fa fa-key"></i>
 												</div>
 											</div>
 										</div>
+										
 										<div class="form-group form-md-line-input has-danger">
 											<label class="col-md-3 control-label" for="form_control_1"><spring:message
 													code="application.pages.admin.users.password" /> <span
 												class="required">* </span> </label>
 											<div class="col-md-9">
-												<div class="input-group">
-													<span class="input-group-addon"> <i
-														class="fa fa-key"></i>
-													</span> <input id="rpassword" name="rpassword" type="password" value="${user.password}" class="form-control"
+												<div class="input-icon">
+													<input id="rpassword" name="rpassword" type="password" value="${user.password}" class="form-control"
 														placeholder='<spring:message code="application.pages.admin.users.password.placeholder"/>'>
 													<div class="form-control-focus"></div>
-													<span class="help-block"><spring:message
+													<span id="rpassword-error" class="help-block help-block-error"><spring:message
 															code="application.pages.admin.users.password.help" /></span>
+												    <i class="fa fa-key"></i>
 												</div>
 											</div>
 										</div>
@@ -169,18 +165,16 @@
 										   <span class="required">* </span> 
 										</label>
 										<div class="col-md-4">
-										   <div class="input-group">
-												<span class="input-group-addon"> 
-												  <i class="icon-user"></i>
-												</span> 
+										   <div class="input-icon">
 												<form:select path="user.person.id"  name="person" class="form-control">
 												   <form:option value="" label="Seleccione..."/>
 	    										   <form:options items="${persons}" />
 												</form:select>
 												<div class="form-control-focus"></div>
-												<span class="help-block">
+												<span id="person-error" class="help-block help-block-error">
 													<spring:message code="application.pages.admin.users.selectPerson"/>
 												</span>
+												 <i class="icon-user"></i>
 										   </div>
 										</div>
 										</div>
