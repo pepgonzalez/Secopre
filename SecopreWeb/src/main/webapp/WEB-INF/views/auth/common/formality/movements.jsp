@@ -33,7 +33,7 @@
 					    </c:when>
 					    <c:otherwise>
 					        <c:forEach items="${requestForm.upMovements}" var="mov" varStatus="i">
-								<tr data-name="rowContainer" id="row${i.index}">
+								<tr data-name="rowContainer" id="row${i.index}" data-rowNumber="${i.index}">
 									
 									<td data-name="deleteAction" class="buttonColumn">
   										<a href="javascript:;" class="btn default btn-xs red" id="rmvIdx${i.index}"><i class="fa fa-times"></i></a>
@@ -121,7 +121,7 @@
 					    </c:when>
 					    <c:otherwise>
 					        <c:forEach items="${requestForm.downMovements}" var="mov" varStatus="i">
-								<tr data-name="rowContainer" id="row${i.index}">
+								<tr data-name="rowContainer" id="row${i.index}" data-rowNumber="${i.index}">
 									
 									<td data-name="deleteAction" class="buttonColumn">
   										<a href="javascript:;" class="btn default btn-xs red" id="rmvIdx${i.index}"><i class="fa fa-times"></i></a>
