@@ -219,7 +219,7 @@
 																<input id="webSite" name="webSite" value="${person.webSite}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.webSite.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.persons.webSite.help"/></span>
+																<span id="webSite-error" class="help-block help-block-error"><spring:message code="application.pages.admin.persons.webSite.help"/></span>
 																<i class="fa fa-home"></i>
 															</div>
 														</div>
@@ -240,7 +240,7 @@
 																<input id="street" name="street" value="${address.street}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.street.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.persons.street.help"/></span>
+																<span id="street-error" class="help-block help-block-error"><spring:message code="application.pages.admin.persons.street.help"/></span>
 																<i class="fa fa-home"></i>
 															</div>
 														</div>
@@ -255,7 +255,7 @@
 																<input id="number" name="number" value="${address.number}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.number.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.persons.number.help"/></span>
+																<span id="number-error" class="help-block help-block-error"><spring:message code="application.pages.admin.persons.number.help"/></span>
 																<i class="fa fa-home"></i>
 															</div>
 														</div>
@@ -270,7 +270,7 @@
 																<input id="colony" name="colony"  value="${address.colony}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.colony.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.persons.colony.help"/></span>
+																<span id="colony-error" class="help-block help-block-error"><spring:message code="application.pages.admin.persons.colony.help"/></span>
 																<i class="fa fa-home"></i>
 															</div>
 														</div>
@@ -285,7 +285,7 @@
 																<input id="city" name="city" value="${address.city}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.city.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.persons.city.help"/></span>
+																<span id="city-error" class="help-block help-block-error"><spring:message code="application.pages.admin.persons.city.help"/></span>
 																<i class="fa fa-home"></i>
 															</div>
 														</div>
@@ -320,7 +320,7 @@
 																<input id="zipCode" name="zipCode" value="${address.zipCode}"  type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.zipCode.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.persons.zipCode.help"/></span>
+																<span id="zipCode-error" class="help-block help-block-error"><spring:message code="application.pages.admin.persons.zipCode.help"/></span>
 																<i class="fa fa-home"></i>
 															</div>
 														</div>
