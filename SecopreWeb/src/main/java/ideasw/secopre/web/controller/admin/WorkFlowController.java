@@ -163,10 +163,11 @@ public class WorkFlowController extends AuthController {
 	 * param attachment		- Archivo seleccionado por el usuario
 	 * */
 	@RequestMapping(value = "wf/upload", method = { RequestMethod.POST })
-	public String uploadFile(@RequestParam("requestId") Long requestId, @RequestParam("stageConfigId") Long stageConfigId,
-			@RequestParam("attachment") MultipartFile attachment, ModelMap model, RedirectAttributes attributes, Principal principal) throws IOException {
-
-
+	public String uploadFile(@RequestParam("requestId") Long requestId, 
+							 @RequestParam("stageConfigId") Long stageConfigId,
+							 @RequestParam("attachment") MultipartFile attachment, 
+							 ModelMap model, RedirectAttributes attributes, Principal principal) throws IOException {
+		
 		if (attachment != null && attachment.getBytes() != null && attachment.getOriginalFilename() != null && !StringUtils.isEmpty(attachment.getOriginalFilename())) {
 			
 			try{
