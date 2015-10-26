@@ -166,13 +166,8 @@ public class WorkFlowController extends AuthController {
 	public String uploadFile(@RequestParam("requestId") Long requestId, 
 							 @RequestParam("stageConfigId") Long stageConfigId,
 							 @RequestParam("attachment") MultipartFile attachment, 
-							 BindingResult bindResult,
 							 ModelMap model, RedirectAttributes attributes, Principal principal) throws IOException {
 		
-		LOG.info("Inicio de carga de archivo");
-		
-		LOG.info("Tiene errores: " + bindResult.hasErrors());
-
 		if (attachment != null && attachment.getBytes() != null && attachment.getOriginalFilename() != null && !StringUtils.isEmpty(attachment.getOriginalFilename())) {
 			
 			try{

@@ -405,6 +405,10 @@ var movementController = {
 	startSlider : function(self, indice, initialMonth, grid){
 					
 		var id = self.getSliderId(grid) + indice;			
+		
+		var rowSlider = document.getElementById(id);
+		
+		
 		$(document).find(id).noUiSlider({
 	        connect: true, behaviour: 'tap', step:1, start: [initialMonth, 11],
 	        range: {
@@ -412,6 +416,11 @@ var movementController = {
 	            'max': [11]
 	        }	
 	    });
+		
+		//evento
+		$(document).find(id).on('change', function(){
+			$(self.getId(grid, indice, "monthAmount")).blur();
+		});
 
 		var months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];			
 		function myValue(value){
@@ -441,19 +450,11 @@ var movementController = {
 	},
 	getNextIndex: function(grid){
 		var rowNoExiste = grid.find("tbody #noMovs").length;
-		//var totalRows = grid.find("tbody tr").length;
 		
 		var totalRows = grid.find("tbody tr:not(#noMovs)").filter(function(){
 			var flag = $(this).find("[data-name='removedElement']");
 			return (parseInt(flag.val()) <= 0);
-		}).length;
-		
-		//alert("funcion get next index: rowNoExiste: " + rowNoExiste + ", totalRows:" + totalRows );
-		//if(totalRows == 1 && rowNoExiste == 1){
-		//	return 0;
-		//}if(totalRows > 0 && rowNoExiste == 0){
-		//	return totalRows;
-		//}
+		}).length;		
 		return totalRows;
 	},
 	activateTemplate: function(id) {

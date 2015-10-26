@@ -863,7 +863,7 @@ function initUpload() {
 			return;
 		}
 		var size = parseInt($("#attachment")[0].files[0].size);
-		if (size > 10000){
+		if (size > 100000){
 			window.showNotification("error", "El archivo seleccionado excede el limite de 100Kb permitido. Peso de archivo seleccionado: "+ size / 1000 + " Kb.");
 			return; 
 		}
