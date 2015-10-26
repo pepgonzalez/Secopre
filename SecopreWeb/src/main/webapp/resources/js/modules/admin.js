@@ -857,10 +857,17 @@ function initUpload() {
 
 	$('#uploadFile').click(function(e) {
 		var file = requestForm.find('#attachment').val();
+		
 		if(file.length <= 0){
 			window.showNotification("error", "Debe seleccionar un archivo para continuar");
 			return;
 		}
+		var size = parseInt($("#attachment")[0].files[0].size);
+		if (size > 10000){
+			window.showNotification("error", "El archivo seleccionado excede el limite de 100Kb permitido. Peso de archivo seleccionado: "+ size / 1000 + " Kb.");
+			return; 
+		}
+		
 		submitFileAjaxJQTest('requestForm', 'dashboard', '');
 //		submitFileAjaxJQ('requestForm', 'dashboard', '');
 	});
