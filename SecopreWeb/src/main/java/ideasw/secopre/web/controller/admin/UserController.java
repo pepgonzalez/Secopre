@@ -84,6 +84,11 @@ public class UserController extends AuthController {
 	public String getUser(ModelMap model, Principal principal) {
 		return null;
 	}
+	
+	@RequestMapping(value = "adm/usr/checkUsername", method = RequestMethod.GET, produces="text/plain")
+		public String checkUsername(ModelMap model,Principal principal) {
+        return Boolean.TRUE.toString();
+	}
 
 	@RequestMapping(value = "adm/usr/{username}/delete", method = RequestMethod.POST)
 	public String delete(@PathVariable String username, ModelMap model,
