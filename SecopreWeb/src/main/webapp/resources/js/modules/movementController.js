@@ -118,7 +118,7 @@ var movementController = {
 			self.addMovementRow(self, grid, false);
 		});
 	},
-	addMovementRow : function(self, grid, isComplementary){	
+	addMovementRow : function(self, grid, isComplementary, data){	
 		console.log("agregando movimiento");
 		var grd = $(grid);
 		var nextIndex = self.getNextIndex(grd);				
@@ -179,10 +179,23 @@ var movementController = {
 		if(isComplementary){
 			//se oculta lo que no debe ir, o se desabilita
 			e.find("[data-name='deleteAction'] a").hide();
-			e.find("[data-name='programaticKey'] select").val("1").attr("disabled", "true");
+			e.find("[data-name='programaticKey'] select").val(data.programaticKey).attr("disabled", "true");
+			
+			var entryData = self.getEntriesByProgramaticKeyAndDistrict(data.programaticKey);
+			
+			var entrySelect = e.find(self.getId(grid, indice, "entryId"));
+			entrySelect.empty();
+			entrySelect.append('<option value="-1">Seleccione..</option>');
+			$.each(data, function(index, item){
+				if ( parseInt(item.id) != data.entryId){
+					entrySelect.append('<option value="' + item.id +'">' + item.name + '</option>');
+				}
+			});
 			e.find("[data-name='sliderControl']").hide();
 			e.find("[data-name='monthLabels']").attr("colspan","2");
-			e.find("[data-name='monthAmount'] input").val("1").attr("disabled", "true");
+			e.find("[data-name='initialMonthId']").val(data.initialMonth);
+			e.find("[data-name='finalMonthId']").val(data.finalMonthId);
+			e.find("[data-name='monthAmount'] input").val(data.monthAmount).attr("disabled", "true");
 		}
 		
 		grd.find("tbody").append(e);
@@ -194,7 +207,32 @@ var movementController = {
 		self.addInfoEvent(self, grid, nextIndex);
 		self.updateAmounts(self, grid, nextIndex, "monthAmount");
 		
+		if(isComplementary){
+			//se dispara la actualizacion de montos
+			e.find("[data-name='monthAmount'] input").val(data.monthAmount).blur();
+		}
 		grd.find("tbody #noMovs").remove();
+	},
+	getRowData : function(self, grid, index){
+			var finalMonth = parseInt($(self.getId(grid, index, "finalMonthId")).val());
+			var initialMonth = parseInt($(self.getId(grid, index, "initialMonthId")).val());
+			var entryId = parseInt($(self.getId(grid, index, "entryId")).val());
+			var programaticKeyId = parseInt($(self.getId(grid, index, "programaticKeyId")).val());
+			var monthAmount = parseFloat($(self.getId(grid, index, "monthAmount")).val());
+			var data = {}
+			data.programaticKeyId = programaticKey;
+			data.entryId = entryId;
+			data.initialMonth = initialMonth;
+			data.finalMonth = finalMonth;
+			data.monthAmount = monthAmount;
+			return data;
+	},
+	blockRow : function(self, grid, nextIndex){
+		$(self.getId(grid, index, "programaticKeyId")).attr("disabled", "true");
+		$(self.getId(grid, index, "entryId")).attr("disabled", "true");
+		$(self.getId(grid, index, "monthAmount")).attr("disabled", "true");
+		var sliderId = self.getSliderId(grid) + nextIndex;
+		$(sliderId).hide();
 	},
 	updateAmounts : function(self, grid, nextIndex, element){
 		var ma = $(document).find(self.getId(grid, nextIndex, element));
@@ -235,10 +273,13 @@ var movementController = {
 			
 			function addCompensatedMovement(){
 				if(parseInt($("#movementTypeId").val()) == 3){
-					alert("movimiento compensado, agregando amplicacion compensada");
-					self.addMovementRow(self, self.upGrid, true);
-				}else{
-					alert("No es un movimiento compensado");
+					//se obtiene la informacion de la fila base
+					var data = self.getRowData(self, grid, nextIndex);
+					//se replica el movimiento complementario
+					self.addMovementRow(self, self.upGrid, true, data);
+					
+					//se bloquea la version actual
+					self.blockRow(self, grid, nextIndex);
 				}
 			}
 			
@@ -347,6 +388,15 @@ var movementController = {
 				//preguntamos el id del distrito
 				var districtId = $("#districtId").val();
 				
+				var data = self.getEntriesByProgramaticKeyAndDistrict(this.value);
+				var entrySelect = $(document).find(self.getId(grid, indice, "entryId"));
+			    entrySelect.empty();
+			    entrySelect.append('<option value="-1">Seleccione..</option>');
+				$.each(data, function(index, item){
+					entrySelect.append('<option value="' + item.id +'">' + item.name + '</option>');
+				});
+				
+				/*
 				self.apiCall('auth/API/get/entry/' + this.value + "/" + districtId , function(data){
 					var entrySelect = $(document).find(self.getId(grid, indice, "entryId"));
 			    	entrySelect.empty();
@@ -355,11 +405,26 @@ var movementController = {
 			    		entrySelect.append('<option value="' + item.id +'">' + item.name + '</option>');
 			    	});
 			    });
+				*/
 			}
 		    
 			if(parseInt(this.value) > 0){
 		    	self.removeClassError(id);
 		    }
+		});
+	},
+	getEntriesByProgramaticKeyAndDistrict: function(programaticKeyId){
+	
+		var districtId = $("#districtId").val();
+
+		//clousure
+		function returnMethod(data){
+			return data;
+		}
+		
+		//se ejecuta el ajax
+		self.apiCall('auth/API/get/entry/' + programaticKeyId + "/" + districtId , function(data){
+			returnMethod(data);
 		});
 	},
 	removeClassError:function(id){
