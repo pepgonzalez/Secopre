@@ -406,12 +406,12 @@ function initUserValidations() {
 		    "check_username",
 		    function(value, element) {
 		    	var result ="";
-		    	apiCall("auth/adm/usr/checkUsername2", function(data){
-		    	   alert("dentro"+data.result);
+		    	apiCall("auth/adm/usr/checkUsername2/" + value, function(data){
+		    	 //  alert("dentro"+data.result);
 		    	   result=data.result;
 		    	});
 		    	
-		    	alert("fuera"+result);
+		    	//alert("fuera"+result);
 		    	return true;
 		    }
 		);
