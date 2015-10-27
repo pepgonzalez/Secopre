@@ -120,4 +120,7 @@ public interface AccessNativeService {
 	
 	/*Metodo para obtener solamente los tramites con presupuesto asignado en entry district*/
 	List<District> getValidDistricts();
+	
+	/*Metodo para validar si un username ya existe*/
+	int isUsernameValid(String username);
 }

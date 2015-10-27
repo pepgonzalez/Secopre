@@ -407,12 +407,12 @@ function initUserValidations() {
 		    function(value, element) {
 		    	var result ="";
 		    	apiCall("auth/adm/usr/checkUsername2", function(data){
-		    	   alert(data.result);
+		    	   alert("dentro"+data.result);
 		    	   result=data.result;
 		    	});
 		    	
-		    	alert(result);
-		    	return false;
+		    	alert("fuera"+result);
+		    	return true;
 		    }
 		);
 	

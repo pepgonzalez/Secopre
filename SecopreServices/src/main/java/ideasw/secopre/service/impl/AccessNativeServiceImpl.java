@@ -515,5 +515,13 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		List<District> list = this.queryForList(District.class, queryContainer.getSQL(SQLConstants.GET_VALID_DISTRICTS), new MapSqlParameterSource(), new DistrictMapper());	
 		return list;
 	}
+	
+	public int isUsernameValid(String username){
+		SqlParameterSource params = new MapSqlParameterSource()
+				.addValue("username", username);
+		
+		return this.queryForObject(Integer.class, queryContainer.getSQL(SQLConstants.IS_USERNAME_VALID), params);
+				
+	}
 
 }

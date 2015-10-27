@@ -353,6 +353,15 @@
 							ON (D.ID = T.DISTRICT_ID)
 					]]>
 				</prop>
+				
+				<prop key="IS_USERNAME_VALID">
+					<![CDATA[
+						SELECT COUNT(1) AS EXISTE
+  						  FROM secopre.USER
+                         WHERE USERNAME = :username
+                           AND ACTIVE = 1
+					]]>
+				</prop>	
 					
 			</props>				
 		</property>

@@ -5,6 +5,7 @@ import ideasw.secopre.model.EntryDistrict;
 import ideasw.secopre.model.security.Permission;
 import ideasw.secopre.model.security.Role;
 import ideasw.secopre.model.security.User;
+import ideasw.secopre.service.AccessNativeService;
 import ideasw.secopre.service.AccessService;
 import ideasw.secopre.utils.encryption.Encryption;
 import ideasw.secopre.web.SecopreConstans;
@@ -52,6 +53,9 @@ public class UserController extends AuthController {
 
 	@Autowired
 	private AccessService accessService;
+	
+	@Autowired
+	private AccessNativeService accessNativeService;
 
 	@RequestMapping(value = "adm/usr/list", method = { RequestMethod.GET,
 			RequestMethod.POST })
@@ -213,11 +217,12 @@ public class UserController extends AuthController {
 		return SecopreConstans.MV_ADM_USR_LIST;
 	}
 	
-	@RequestMapping(value = "adm/usr/checkUsername2", method= {RequestMethod.GET})
-	public @ResponseBody Map<String, Object> checkUsername2(){
-	//	EntryDistrict balance = accessNativeService.getEntryBalance(districtId, entryId, month);
+	@RequestMapping(value = "adm/usr/checkUsername2/{username}", method= {RequestMethod.GET})
+	public @ResponseBody Map<String, Object> checkUsername2(@PathVariable("username") String username){
 		Map<String, Object> returnObject = new HashMap<String, Object>();
-		returnObject.put("result", -1);
+		
+		int result = accessNativeService.isUsernameValid(username);
+		returnObject.put("result", result);
 		return returnObject;
 	}
 	
