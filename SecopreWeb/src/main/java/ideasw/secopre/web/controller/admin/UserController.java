@@ -1,6 +1,7 @@
 package ideasw.secopre.web.controller.admin;
 
 import ideasw.secopre.dto.Request;
+import ideasw.secopre.model.EntryDistrict;
 import ideasw.secopre.model.security.Permission;
 import ideasw.secopre.model.security.Role;
 import ideasw.secopre.model.security.User;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ideasw.secopre.model.catalog.Person;
@@ -209,4 +212,14 @@ public class UserController extends AuthController {
 		model.addAttribute("persons", personMap);
 		return SecopreConstans.MV_ADM_USR_LIST;
 	}
+	
+	@RequestMapping(value = "adm/usr/changeStatus2", method= {RequestMethod.GET})
+	public @ResponseBody Map<String, Object> changeStatus2(){
+	//	EntryDistrict balance = accessNativeService.getEntryBalance(districtId, entryId, month);
+		Map<String, Object> returnObject = new HashMap<String, Object>();
+		returnObject.put("result", -1);
+		return returnObject;
+	}
+	
+	
 }

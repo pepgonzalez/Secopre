@@ -304,7 +304,8 @@ function initUserValidations() {
 		rules : {
 			username : {
 				minlength : 6,
-				required : true
+				required : true,
+				check_username : true
 			},
 			nickname : {
 				minlength : 6,
@@ -394,6 +395,19 @@ function initUserValidations() {
 			form[0].submit(); // submit the form
 		}
 	});
+	
+	
+	$.validator.addMethod(
+		    "check_username",
+		    function(value, element) {
+		    	apiCall("auth/adm/usr/checkUsername2" + requestId, function(data){
+		    	   alert(data.result);
+		    	});
+		    	return true;
+		    }
+		);
+	
+   
 
 	var displayConfirm = function() {
 		$('#tab4 .form-control-static', form).each(
