@@ -213,8 +213,8 @@ public class UserController extends AuthController {
 		return SecopreConstans.MV_ADM_USR_LIST;
 	}
 	
-	@RequestMapping(value = "adm/usr/changeStatus2", method= {RequestMethod.GET})
-	public @ResponseBody Map<String, Object> changeStatus2(){
+	@RequestMapping(value = "adm/usr/checkUsername2", method= {RequestMethod.GET})
+	public @ResponseBody Map<String, Object> checkUsername2(){
 	//	EntryDistrict balance = accessNativeService.getEntryBalance(districtId, entryId, month);
 		Map<String, Object> returnObject = new HashMap<String, Object>();
 		returnObject.put("result", -1);

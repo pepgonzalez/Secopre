@@ -331,6 +331,11 @@ function initUserValidations() {
 			permissions : "required",
 			gender : "required"
 		},
+	    messages : {
+	    	username : {
+	    		check_username : "Por favor, escriba otro username. Ya existe"
+		}
+	   },
 
 		invalidHandler : function(event, validator) { // display error alert
 			// on form submit
@@ -400,10 +405,14 @@ function initUserValidations() {
 	$.validator.addMethod(
 		    "check_username",
 		    function(value, element) {
-		    	apiCall("auth/adm/usr/checkUsername2" + requestId, function(data){
+		    	var result ="";
+		    	apiCall("auth/adm/usr/checkUsername2", function(data){
 		    	   alert(data.result);
+		    	   result=data.result;
 		    	});
-		    	return true;
+		    	
+		    	alert(result);
+		    	return false;
 		    }
 		);
 	
