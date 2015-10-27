@@ -115,91 +115,86 @@ var movementController = {
 		
 		//evento para agregar movimientos
 		var addBtn = grd.find(".actions #addMov").on("click", function(){
-			
-			var nextIndex = self.getNextIndex(grd);				
-			
-			if(nextIndex == 0){
-				grd.find("tbody #noMovs").remove();
-			}
-			
-			var e = $(self.activateTemplate("#movementRowTemplate"));
-			
-			//accion
-			e.find("tr").attr("id","row"+nextIndex).attr("data-rowNumber", nextIndex);
-			e.find("[data-name='deleteAction'] #rowDeleteButton").attr("id", "rmvIdx" + nextIndex);
-			e.find("[data-name='deleteAction'] #rowInfoButton").attr("id", "infoIdx" + nextIndex);
-			
-			//llave programatica
-			e.find("[data-name='programaticKey'] select")
-				.attr("name", self.getPath(grid, nextIndex, "programaticKeyId"))
-				.attr("id", self.getId(grid, nextIndex, "programaticKeyId", 2))
-				.removeAttr("multiple");
-			e.find("[data-name='programaticKey']").find("input[type='hidden']").remove();
-		
-			//entry
-			e.find("[data-name='entry'] select")
-			.attr("name", self.getPath(grid, nextIndex, "entryId"))
-			.attr("id", self.getId(grid, nextIndex, "entryId", 2))
-			.removeAttr("multiple");
-			e.find("[data-name='entry']").find("input[type='hidden']").remove();
-
-			//sliderControl
-			e.find("[data-name='sliderControl'] #sliderControl").attr("id", self.getSliderId(grid).substring(1) + nextIndex);
-			
-			//lowerOffset
-			e.find("[data-name='lower-offset'] ").attr("id", self.getId(grid, nextIndex, "lower-offset", 2));
-			e.find("[data-name='upper-offset'] ").attr("id", self.getId(grid, nextIndex, "upper-offset", 2));
-			
-			//monthAmount
-			e.find("[data-name='monthAmount'] input")
-			.attr("name", self.getPath(grid, nextIndex, "monthAmount"))
-			.attr("id", self.getId(grid, nextIndex, "monthAmount", 2))
-			.attr("value", "0");
-			
-			//initialMonthId
-			e.find("[data-name='initialMonthId']")
-			.attr("name", self.getPath(grid, nextIndex, "initialMonthId"))
-			.attr("id", self.getId(grid, nextIndex, "initialMonthId", 2))
-			.attr("value","");
-			
-			//finalMonthId
-			e.find("[data-name='finalMonthId']")
-			.attr("name", self.getPath(grid, nextIndex, "finalMonthId"))
-			.attr("id", self.getId(grid, nextIndex, "finalMonthId", 2))
-			.attr("value","");
-			
-			//removedElement
-			e.find("[data-name='removedElement']")
-			.attr("name", self.getPath(grid, nextIndex, "removedElement"))
-			.attr("id", self.getId(grid, nextIndex, "removedElement", 2))
-			.attr("value","0");
-			
-			e.find("[data-name='movementTypeId']")
-			.attr("name", self.getPath(grid, nextIndex, "movementTypeId"))
-			.attr("id", self.getId(grid, nextIndex, "movementTypeId", 2))
-			.attr("value",(grid == self.upGrid ? "1" : "-1"));
-			
-			e.find("[data-name='requestDetailId']")
-			.attr("name", self.getPath(grid, nextIndex, "requestDetailId"))
-			.attr("id", self.getId(grid, nextIndex, "requestDetailId", 2))
-			.attr("value","-1");
-			
-			e.find("[data-name='totalAmount']")
-			.attr("name", self.getPath(grid, nextIndex, "totalAmount"))
-			.attr("id", self.getId(grid, nextIndex, "totalAmount", 2))
-			.attr("value","0");
-			
-			grd.find("tbody").append(e);
-			
-			self.startSlider(self, nextIndex, parseInt(new Date().getMonth()), grid);
-			self.addOnChangeEvent(self, grid, nextIndex,"programaticKeyId",true);
-			self.addOnChangeEvent(self, grid, nextIndex,"entryId",false);
-			self.addRemoveEvent(self, grid, nextIndex);
-			self.addInfoEvent(self, grid, nextIndex);
-			self.updateAmounts(self, grid, nextIndex, "monthAmount");
-			
-			grd.find("tbody #noMovs").remove();
+			self.addMovementRow(self, grid, false);
 		});
+	},
+	addMovementRow : function(self, grid, isComplementary){	
+		console.log("agregando movimiento");
+		var grd = $(grid);
+		var nextIndex = self.getNextIndex(grd);				
+		
+		if(nextIndex == 0){
+			grd.find("tbody #noMovs").remove();
+		}
+		
+		var e = $(self.activateTemplate("#movementRowTemplate"));
+		
+		//accion
+		e.find("tr").attr("id","row"+nextIndex).attr("data-rowNumber", nextIndex);
+		e.find("[data-name='deleteAction'] #rowDeleteButton").attr("id", "rmvIdx" + nextIndex);
+		e.find("[data-name='deleteAction'] #rowInfoButton").attr("id", "infoIdx" + nextIndex);
+		
+		//llave programatica
+		e.find("[data-name='programaticKey'] select").attr("name", self.getPath(grid, nextIndex, "programaticKeyId"))
+			.attr("id", self.getId(grid, nextIndex, "programaticKeyId", 2)).removeAttr("multiple");
+		e.find("[data-name='programaticKey']").find("input[type='hidden']").remove();
+	
+		//entry
+		e.find("[data-name='entry'] select").attr("name", self.getPath(grid, nextIndex, "entryId")).attr("id", self.getId(grid, nextIndex, "entryId", 2))
+		.removeAttr("multiple");
+		e.find("[data-name='entry']").find("input[type='hidden']").remove();
+
+		//sliderControl
+		e.find("[data-name='sliderControl'] #sliderControl").attr("id", self.getSliderId(grid).substring(1) + nextIndex);
+		
+		//lowerOffset
+		e.find("[data-name='lower-offset'] ").attr("id", self.getId(grid, nextIndex, "lower-offset", 2));
+		e.find("[data-name='upper-offset'] ").attr("id", self.getId(grid, nextIndex, "upper-offset", 2));
+		
+		//monthAmount
+		e.find("[data-name='monthAmount'] input").attr("name", self.getPath(grid, nextIndex, "monthAmount"))
+		.attr("id", self.getId(grid, nextIndex, "monthAmount", 2)).attr("value", "0");
+		
+		//initialMonthId
+		e.find("[data-name='initialMonthId']").attr("name", self.getPath(grid, nextIndex, "initialMonthId"))
+		.attr("id", self.getId(grid, nextIndex, "initialMonthId", 2)).attr("value","");
+		
+		//finalMonthId
+		e.find("[data-name='finalMonthId']").attr("name", self.getPath(grid, nextIndex, "finalMonthId"))
+		.attr("id", self.getId(grid, nextIndex, "finalMonthId", 2)).attr("value","");
+		
+		//removedElement
+		e.find("[data-name='removedElement']").attr("name", self.getPath(grid, nextIndex, "removedElement"))
+		.attr("id", self.getId(grid, nextIndex, "removedElement", 2)).attr("value","0");
+		
+		e.find("[data-name='movementTypeId']").attr("name", self.getPath(grid, nextIndex, "movementTypeId"))
+		.attr("id", self.getId(grid, nextIndex, "movementTypeId", 2)).attr("value",(grid == self.upGrid ? "1" : "-1"));
+		
+		e.find("[data-name='requestDetailId']").attr("name", self.getPath(grid, nextIndex, "requestDetailId"))
+		.attr("id", self.getId(grid, nextIndex, "requestDetailId", 2)).attr("value","-1");
+		
+		e.find("[data-name='totalAmount']").attr("name", self.getPath(grid, nextIndex, "totalAmount"))
+		.attr("id", self.getId(grid, nextIndex, "totalAmount", 2)).attr("value","0");
+		
+		if(isComplementary){
+			//se oculta lo que no debe ir, o se desabilita
+			e.find("[data-name='deleteAction'] a").hide();
+			e.find("[data-name='programaticKey'] select").val("1").attr("disabled", "true");
+			e.find("[data-name='sliderControl']").hide();
+			e.find("[data-name='monthLabels']").attr("colspan","2");
+			e.find("[data-name='monthAmount'] input").val("1").attr("disabled", "true");
+		}
+		
+		grd.find("tbody").append(e);
+		
+		self.startSlider(self, nextIndex, parseInt(new Date().getMonth()), grid);
+		self.addOnChangeEvent(self, grid, nextIndex,"programaticKeyId",true);
+		self.addOnChangeEvent(self, grid, nextIndex,"entryId",false);
+		self.addRemoveEvent(self, grid, nextIndex);
+		self.addInfoEvent(self, grid, nextIndex);
+		self.updateAmounts(self, grid, nextIndex, "monthAmount");
+		
+		grd.find("tbody #noMovs").remove();
 	},
 	updateAmounts : function(self, grid, nextIndex, element){
 		var ma = $(document).find(self.getId(grid, nextIndex, element));
@@ -236,6 +231,15 @@ var movementController = {
 				
 				//se invoca update para actualizar los totales del grid
 				self.updateTotal(self, grid);
+			}
+			
+			function addCompensatedMovement(){
+				if(parseInt($("#movementTypeId").val()) == 3){
+					alert("movimiento compensado, agregando amplicacion compensada");
+					self.addMovementRow(self, self.upGrid, true);
+				}else{
+					alert("No es un movimiento compensado");
+				}
 			}
 			
 			if(entryId < 0 || programaticKeyId < 0){
@@ -289,6 +293,7 @@ var movementController = {
 				       }
 				       unblockPage();
 				       updateTotalAmounts();
+				       addCompensatedMovement();
 					});
 					
 				}else{
