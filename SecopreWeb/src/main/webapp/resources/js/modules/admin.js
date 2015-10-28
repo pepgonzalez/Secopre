@@ -911,6 +911,11 @@ function initFullCapture() {
 	    movementController.update(parseInt(this.value));
 	    $(movementController.upGrid).find('tbody tr:not(#noMovs)').remove();
 	    $(movementController.downGrid).find('tbody tr:not(#noMovs)').remove();
+	    
+	    if(movementController.isCompensatedMovement()){
+	    	$(movementController.upGrid).find("#addMov").hide();
+	    }
+	    
 	});
 	
 	movementController.startComponent();

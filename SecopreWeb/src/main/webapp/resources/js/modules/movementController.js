@@ -179,23 +179,14 @@ var movementController = {
 		if(isComplementary){
 			//se oculta lo que no debe ir, o se desabilita
 			e.find("[data-name='deleteAction'] a").hide();
-			e.find("[data-name='programaticKey'] select").val(data.programaticKey).attr("disabled", "true");
+			e.find("[data-name='programaticKey'] select").val(data.programaticKeyId).attr("readonly", "true");
 			
-			var entryData = self.getEntriesByProgramaticKeyAndDistrict(data.programaticKey);
-			
-			var entrySelect = e.find(self.getId(grid, indice, "entryId"));
-			entrySelect.empty();
-			entrySelect.append('<option value="-1">Seleccione..</option>');
-			$.each(data, function(index, item){
-				if ( parseInt(item.id) != data.entryId){
-					entrySelect.append('<option value="' + item.id +'">' + item.name + '</option>');
-				}
-			});
 			e.find("[data-name='sliderControl']").hide();
 			e.find("[data-name='monthLabels']").attr("colspan","2");
 			e.find("[data-name='initialMonthId']").val(data.initialMonth);
 			e.find("[data-name='finalMonthId']").val(data.finalMonthId);
-			e.find("[data-name='monthAmount'] input").val(data.monthAmount).attr("disabled", "true");
+			e.find("[data-name='monthAmount'] input").val(data.monthAmount).attr("readonly", "true");
+	
 		}
 		
 		grd.find("tbody").append(e);
@@ -206,11 +197,28 @@ var movementController = {
 		self.addRemoveEvent(self, grid, nextIndex);
 		self.addInfoEvent(self, grid, nextIndex);
 		self.updateAmounts(self, grid, nextIndex, "monthAmount");
-		
+	
 		if(isComplementary){
+			//se filtra
+			self.getEntriesByProgramaticKeyAndDistrict(data.programaticKeyId, function(response){
+				
+				var entrySelect = $(document).find(self.getId(grid, nextIndex, "entryId"));
+				
+				entrySelect.empty();
+				entrySelect.append('<option value="-1">Seleccione..</option>');
+				$.each(response, function(index, item){
+					console.log("iterando registro");
+					if ( parseInt(item.id) != parseInt(data.entryId)){
+						entrySelect.append('<option value="' + item.id +'">' + item.name + '</option>');
+					}
+				});
+			});
 			//se dispara la actualizacion de montos
-			e.find("[data-name='monthAmount'] input").val(data.monthAmount).blur();
+			$(self.getId(grid, nextIndex, "monthAmount")).blur();
+			
 		}
+		
+		
 		grd.find("tbody #noMovs").remove();
 	},
 	getRowData : function(self, grid, index){
@@ -220,18 +228,20 @@ var movementController = {
 			var programaticKeyId = parseInt($(self.getId(grid, index, "programaticKeyId")).val());
 			var monthAmount = parseFloat($(self.getId(grid, index, "monthAmount")).val());
 			var data = {}
-			data.programaticKeyId = programaticKey;
+			data.programaticKeyId = programaticKeyId;
 			data.entryId = entryId;
 			data.initialMonth = initialMonth;
 			data.finalMonth = finalMonth;
 			data.monthAmount = monthAmount;
+			console.log("objeto data:");
+			console.log(data);
 			return data;
 	},
-	blockRow : function(self, grid, nextIndex){
-		$(self.getId(grid, index, "programaticKeyId")).attr("disabled", "true");
-		$(self.getId(grid, index, "entryId")).attr("disabled", "true");
-		$(self.getId(grid, index, "monthAmount")).attr("disabled", "true");
-		var sliderId = self.getSliderId(grid) + nextIndex;
+	blockRow : function(self, grid, index){
+		$(self.getId(grid, index, "programaticKeyId")).attr("readonly", "true");
+		$(self.getId(grid, index, "entryId")).attr("readonly", "true");
+		$(self.getId(grid, index, "monthAmount")).attr("readonly", "true");
+		var sliderId = self.getSliderId(grid) + index;
 		$(sliderId).hide();
 	},
 	updateAmounts : function(self, grid, nextIndex, element){
@@ -379,21 +389,60 @@ var movementController = {
 		//alert("total de registros asociados a la partida ya existentes: " + filteredRows.length);
 		return total;
 	},
+	getCurrentEntries: function(grid, index){
+		var currentEntries = [];
+		var filteredRows = $(grid).find("tbody tr:not(#noMovs)").filter(function(){
+			var flag = $(this).find("[data-name='removedElement']");
+			var rowNumber = parseInt($(this).attr("data-rownumber"));
+			return ( (parseInt(flag.val()) <= 0) && (index != rowNumber));
+		});
+		
+		console.log("total de filas activas: " + filteredRows.length);
+		
+		filteredRows.each(function(idx, e){
+			var row = $(e);
+			var entry = parseInt(row.find("[data-name='entry'] select").val());
+			currentEntries.push(entry);
+		});
+		return currentEntries;
+	},
 	addOnChangeEvent:function(self, grid, indice, element, ajaxCall){
 		var id = self.getId(grid, indice, element);
 		$(document).find(id).on("change", function (e) {
+			
+			var currentEntries = [];
+			if( (self.isCompensatedMovement()) && (grid == self.downGrid)){
+				currentEntries = self.getCurrentEntries(grid, indice);
+				console.log("total de partidas actuales");
+				console.log(currentEntries);
+			}
 		    
 			if(ajaxCall){
 				
 				//preguntamos el id del distrito
 				var districtId = $("#districtId").val();
 				
-				var data = self.getEntriesByProgramaticKeyAndDistrict(this.value);
-				var entrySelect = $(document).find(self.getId(grid, indice, "entryId"));
-			    entrySelect.empty();
-			    entrySelect.append('<option value="-1">Seleccione..</option>');
-				$.each(data, function(index, item){
-					entrySelect.append('<option value="' + item.id +'">' + item.name + '</option>');
+				var data = self.getEntriesByProgramaticKeyAndDistrict(this.value, function(data){
+					
+					var entrySelect = $(document).find(self.getId(grid, indice, "entryId"));
+				    entrySelect.empty();
+				    entrySelect.append('<option value="-1">Seleccione..</option>');
+					$.each(data, function(index, item){
+						if(currentEntries.length > 0){
+							var existe = false;
+							for(var i = 0; i < currentEntries.length; i++){
+								if(currentEntries[i] == item.id){
+									existe = true;
+									break;
+								}
+							}
+							if(!existe){
+								entrySelect.append('<option value="' + item.id +'">' + item.name + '</option>');
+							}
+						}else{
+							entrySelect.append('<option value="' + item.id +'">' + item.name + '</option>');
+						}
+					});
 				});
 				
 				/*
@@ -413,13 +462,14 @@ var movementController = {
 		    }
 		});
 	},
-	getEntriesByProgramaticKeyAndDistrict: function(programaticKeyId){
-	
+	getEntriesByProgramaticKeyAndDistrict: function(programaticKeyId, callback){
+		console.log("llave programatica: " + programaticKeyId);
 		var districtId = $("#districtId").val();
 
 		//clousure
 		function returnMethod(data){
-			return data;
+			console.log("total de partidas encontradas: " + data.length);
+			callback(data);
 		}
 		
 		//se ejecuta el ajax
@@ -431,26 +481,38 @@ var movementController = {
 		//alert("eliminando clase error de id: " + id);
 		$(id).closest(".has-error").removeClass("has-error");
 	},
+	removeRow : function(self, grid, indice){
+		var a = $(grid).find("[data-name='deleteAction']").find("#rmvIdx"+indice);
+		
+		var row = a.parent().parent();
+		row.find(self.getId(grid, indice, "removedElement")).val("1");
+
+		row.hide();
+		self.updateTotal(self, grid);
+		
+		var filteredRows = $(grid).find("tbody tr:not(#noMovs)").filter(function(){
+			var flag = $(this).find("[data-name='removedElement']");
+			return (parseInt(flag.val()) <= 0);
+		});
+		
+		if (filteredRows.length == 0){
+			$(grid).find("tbody").html('<tr id="noMovs"><td colspan="6">No hay Movimientos Capturados</td><tr>');
+		}
+	},
 	addRemoveEvent : function(self, grid, indice){
 		var a = $(grid).find("[data-name='deleteAction']").find("#rmvIdx"+indice);
 		
 		a.on("click", function(){
-			var row = $(this).parent().parent();
-			row.find(self.getId(grid, indice, "removedElement")).val("1");
-	
-			row.hide();
-			self.updateTotal(self, grid);
+			self.removeRow(self, grid, indice);
 			
-			var filteredRows = $(grid).find("tbody tr:not(#noMovs)").filter(function(){
-				var flag = $(this).find("[data-name='removedElement']");
-				return (parseInt(flag.val()) <= 0);
-			});
-			
-			if (filteredRows.length == 0){
-				$(grid).find("tbody").html('<tr id="noMovs"><td colspan="6">No hay Movimientos Capturados</td><tr>');
-			}
-			
+			if((self.isCompensatedMovement()) && (grid == self.downGrid)){
+				self.removeRow(self, self.upGrid, indice);
+			}		
 		});
+	},
+	isCompensatedMovement : function(){
+		var mt = parseInt($("#movementTypeId").val());
+		return (mt == 3);
 	},
 	addInfoEvent : function(self, grid, indice){
 		var a = $(grid).find("[data-name='deleteAction']").find("#infoIdx"+indice);
@@ -517,6 +579,44 @@ var movementController = {
 		if(parseInt($("#movementTypeId").val()) < 0){
 			this.reset();
 		}
+		
+		//si es movimiento compensado, hacer bloqueos correspondientes:
+		if(this.isCompensatedMovement()){
+			this.blockCompensatedData();
+		}
+	},
+	blockCompensatedData: function(){
+		//downgrid, se bloquean los rows
+		
+		var self = this;
+		var totalRows = $(this.downGrid).find("tbody tr:not(#noMovs)").filter(function(){
+			var flag = $(this).find("[data-name='removedElement']");
+			return (parseInt(flag.val()) <= 0);
+		}).length;		
+		
+		for(var i = 0; i < totalRows; i++){
+			self.blockRow(self, self.downGrid, i);
+		}
+		
+		//upGrid
+		
+		var upRows = $(this.upGrid).find("tbody tr:not(#noMovs)").filter(function(){
+			var flag = $(this).find("[data-name='removedElement']");
+			return (parseInt(flag.val()) <= 0);
+		});
+		
+		upRows.each(function(idx, r){
+			var e = $(r);
+			e.find("[data-name='deleteAction'] a").hide();
+			e.find("[data-name='programaticKey'] select").attr("readonly", "true");
+			
+			e.find("[data-name='sliderControl']").hide();
+			e.find("[data-name='monthLabels']").attr("colspan","2");
+			e.find("[data-name='initialMonthId']");
+			e.find("[data-name='finalMonthId']");
+			e.find("[data-name='monthAmount'] input").attr("readonly", "true");			
+		});
+		
 	},
 	getNextIndex: function(grid){
 		var rowNoExiste = grid.find("tbody #noMovs").length;
