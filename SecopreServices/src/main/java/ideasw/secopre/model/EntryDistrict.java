@@ -33,7 +33,7 @@ public class EntryDistrict extends AuditEntity implements Persistible {
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "ENTRY_ID", nullable = false, updatable = false)
 	private Entry entry;
-	
+
 	@Column(name = "ANNUAL_AMOUNT", columnDefinition = "Decimal(10,2)")
 	private Double annualAmount;
 
@@ -46,14 +46,13 @@ public class EntryDistrict extends AuditEntity implements Persistible {
 	@Column(name = "COMMITTED_AMOUNT", columnDefinition = "Decimal(10,2)")
 	private Double committedAmount;
 
-	
 	@Column(name = "MONTH")
 	private Long month;
 
 	@Transient
 	private boolean validMovement;
 
-	@Transient	
+	@Transient
 	private String monthString;
 
 	public Long getId() {
@@ -136,4 +135,7 @@ public class EntryDistrict extends AuditEntity implements Persistible {
 		this.monthString = monthString;
 	}
 
+	public boolean isValidMovement(Double amount) {
+		return ((this.budgetAmountAssign - this.committedAmount) >= amount);
+	}
 }
