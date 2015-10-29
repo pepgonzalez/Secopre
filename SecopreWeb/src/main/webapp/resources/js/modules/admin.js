@@ -896,7 +896,7 @@ function initUpload() {
 	});
 }
 
-function initFullCapture() {
+function movementsCapture() {
 	
 	$(document).find('.numbersOnly').keyup(function () { 
 		this.value = this.value.replace(/[^0-9\.]/g,'');
@@ -935,9 +935,7 @@ function initFullCapture() {
 	});
 
 	$('#saveAndContinue').click(function(e) {
-		//alert("Finalizando captura y avanzando tramite");
-		//var isCorrect = movementController.validate();
-		var isCorrect = true;
+		var isCorrect = movementController.validate();
 		if (isCorrect){
 			requestForm.find('#nextStageValueCode').val("SOLCOMP");
 			submitAjaxJQ('requestForm', 'dashboard', '');
@@ -990,5 +988,40 @@ function initAuthorization() {
 		//alert("autorizando Tramite y finalizar");
 		requestForm.find('#nextStageValueCode').val("CONTINUAR");
 		submitAjaxJQ('requestForm', 'dashboard', '');
+	});
+}
+
+
+
+function expenseCapture() {
+	
+	$(document).find('.numbersOnly').keyup(function () { 
+		this.value = this.value.replace(/[^0-9\.]/g,'');
+	});
+
+	//var movementController = {};
+	
+	expenseController.startComponent();
+	
+	//se carga el movimiento seleccionado
+	//expenseController.update(parseInt($("#movementTypeId").val()));
+
+	var requestForm = $('#requestForm');
+
+	$('#partialSave').click(function(e) {
+		//alert("haciendo guardado parcial");
+		var isCorrect = expenseController.validate();
+		if (isCorrect){
+			requestForm.find('#nextStageValueCode').val("SOLPEND");
+			submitAjaxJQ('requestForm', 'dashboard', '');
+		}
+	});
+
+	$('#saveAndContinue').click(function(e) {
+		var isCorrect = movementController.validate();
+		if (isCorrect){
+			requestForm.find('#nextStageValueCode').val("SOLCOMP");
+			submitAjaxJQ('requestForm', 'dashboard', '');
+		}
 	});
 }

@@ -120,9 +120,11 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		int consecutive = this.getNextConsecutive(requestId);
 	
 		if(consecutive == 1){
+			LOG.info("Insertanto etapa inicial " + consecutive);
 			WorkFlowConfig transition = this.getRequestFirstWorkFlowConfig(requestId, valueCode).get(0);
 			this.insertTransition(requestId, transition, consecutive, userId, comments);
 		}else{
+			LOG.info("Insertando consecutivo de etapa: " + consecutive);
 			WorkFlowConfig transition = this.getRequestWorkFlowConfig(requestId, valueCode, stageConfigId).get(0);
 			
 			//validar si la siguiente etapa es operacion o cancelacion del tramite

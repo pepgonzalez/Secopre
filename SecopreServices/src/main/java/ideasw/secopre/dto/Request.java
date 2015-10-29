@@ -44,6 +44,9 @@ public class Request {
 	private String formalityCode;
 	private Long formalityId;	
 	private boolean authorizationForm;
+	
+	//variable para gastos
+	private String certifiedAccount;
 		
 	public String getFormalityCode() {
 		return formalityCode;
@@ -178,5 +181,11 @@ public class Request {
 	}
 	public void setRequestHistory(List<RequestHistory> requestHistory) {
 		this.requestHistory = requestHistory;
+	}
+	public String getCertifiedAccount() {
+		return certifiedAccount;
+	}
+	public void setCertifiedAccount(String certifiedAccount) {
+		this.certifiedAccount = certifiedAccount;
 	}
 }

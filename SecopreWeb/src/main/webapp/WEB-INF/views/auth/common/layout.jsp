@@ -169,6 +169,7 @@
 	<script src='<c:url value="/resources/js/utils/secopre.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/demo/table-managed.js"/>' type="text/javascript"></script>	
 	<script src='<c:url value="/resources/js/modules/movementController.js"/>' type="text/javascript"></script>	
+	<script src='<c:url value="/resources/js/modules/expenseController.js"/>' type="text/javascript"></script>	
 	<script src='<c:url value="/resources/js/modules/admin.js"/>' type="text/javascript"></script>	
 	<script src='<c:url value="/resources/js/modules/catalog.js"/>' type="text/javascript"></script>	
 	
