@@ -199,11 +199,12 @@
 				<prop key="INSERT_OR_UPDATE_REQUEST">
 					<![CDATA[
 						INSERT INTO secopre.REQUEST
-						(ID, FOLIO, DISTRICT_ID, JUSTIFICATION, RESOURCE_PATH, MOVEMENT_TYPE_ID, LAST_UPDATE, ACTIVE)
+						(ID, FOLIO, DISTRICT_ID, JUSTIFICATION, RESOURCE_PATH, MOVEMENT_TYPE_ID, LAST_UPDATE, ACTIVE, CERTIFIED_ACCOUNT)
 						VALUES
-						(:requestId, :folio, :districtId, :justification, :resourcePath, :movementTypeId,  SYSDATE(), 1)
+						(:requestId, :folio, :districtId, :justification, :resourcePath, :movementTypeId,  SYSDATE(), 1, :certifiedAccount)
 						ON DUPLICATE KEY UPDATE RESOURCE_PATH = VALUES(RESOURCE_PATH),
-												MOVEMENT_TYPE_ID = VALUES(MOVEMENT_TYPE_ID)
+												MOVEMENT_TYPE_ID = VALUES(MOVEMENT_TYPE_ID),
+												CERTIFIED_ACCOUNT = VALUES(CERTIFIED_ACCOUNT)
 					]]>
 				</prop>
 
@@ -240,9 +241,9 @@
 				<prop key="INSERT_OR_UPDATE_REQUEST_DETAIL">
 					<![CDATA[
 						INSERT INTO secopre.REQUEST_DETAIL
-						(id, REQUEST_ID, MOVEMENT_TYPE_ID, PROGRAMATIC_KEY_ID, ENTRY_ID, INITIAL_MONTH, FINAL_MONTH, MONTH_AMOUNT, TOTAL_AMOUNT, CREATION_DATE, ACTIVE, CERTIFIED_ACCOUNT)
+						(id, REQUEST_ID, MOVEMENT_TYPE_ID, PROGRAMATIC_KEY_ID, ENTRY_ID, INITIAL_MONTH, FINAL_MONTH, MONTH_AMOUNT, TOTAL_AMOUNT, CREATION_DATE, ACTIVE)
 						VALUES
-						(:requestDetailId, :requestId, :movementTypeId, :programaticKeyId, :entryId, :initialMonth, :finalMonth, :monthAmount, :totalAmount, sysdate(), 1, :certifiedAccount)
+						(:requestDetailId, :requestId, :movementTypeId, :programaticKeyId, :entryId, :initialMonth, :finalMonth, :monthAmount, :totalAmount, sysdate(), 1)
 						ON DUPLICATE KEY UPDATE 
 							PROGRAMATIC_KEY_ID = VALUES(PROGRAMATIC_KEY_ID),
 							ENTRY_ID = VALUES(ENTRY_ID),
@@ -250,8 +251,7 @@
 							FINAL_MONTH = VALUES(FINAL_MONTH),
 							MONTH_AMOUNT = VALUES(MONTH_AMOUNT),
 							TOTAL_AMOUNT = VALUES(TOTAL_AMOUNT),
-							LAST_UPDATE = SYSDATE(),
-							CERTIFIED_ACCOUNT = VALUES(CERTIFIED_ACCOUNT)
+							LAST_UPDATE = SYSDATE()
 					]]>
 				</prop>
 				
