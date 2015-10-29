@@ -47,6 +47,9 @@ public class Request {
 	
 	//variable para gastos
 	private String certifiedAccount;
+
+	//variable para mostrar el nombre del tramite dinamico en capturas completas
+	private String formalityName;
 		
 	public String getFormalityCode() {
 		return formalityCode;
@@ -187,5 +190,11 @@ public class Request {
 	}
 	public void setCertifiedAccount(String certifiedAccount) {
 		this.certifiedAccount = certifiedAccount;
+	}
+	public String getFormalityName() {
+		return formalityName;
+	}
+	public void setFormalityName(String formalityName) {
+		this.formalityName = formalityName;
 	}
 }

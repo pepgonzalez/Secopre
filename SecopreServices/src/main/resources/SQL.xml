@@ -240,9 +240,9 @@
 				<prop key="INSERT_OR_UPDATE_REQUEST_DETAIL">
 					<![CDATA[
 						INSERT INTO secopre.REQUEST_DETAIL
-						(id, REQUEST_ID, MOVEMENT_TYPE_ID, PROGRAMATIC_KEY_ID, ENTRY_ID, INITIAL_MONTH, FINAL_MONTH, MONTH_AMOUNT, TOTAL_AMOUNT, CREATION_DATE, ACTIVE)
+						(id, REQUEST_ID, MOVEMENT_TYPE_ID, PROGRAMATIC_KEY_ID, ENTRY_ID, INITIAL_MONTH, FINAL_MONTH, MONTH_AMOUNT, TOTAL_AMOUNT, CREATION_DATE, ACTIVE, CERTIFIED_ACCOUNT)
 						VALUES
-						(:requestDetailId, :requestId, :movementTypeId, :programaticKeyId, :entryId, :initialMonth, :finalMonth, :monthAmount, :totalAmount, sysdate(), 1)
+						(:requestDetailId, :requestId, :movementTypeId, :programaticKeyId, :entryId, :initialMonth, :finalMonth, :monthAmount, :totalAmount, sysdate(), 1, :certifiedAccount)
 						ON DUPLICATE KEY UPDATE 
 							PROGRAMATIC_KEY_ID = VALUES(PROGRAMATIC_KEY_ID),
 							ENTRY_ID = VALUES(ENTRY_ID),
@@ -250,7 +250,8 @@
 							FINAL_MONTH = VALUES(FINAL_MONTH),
 							MONTH_AMOUNT = VALUES(MONTH_AMOUNT),
 							TOTAL_AMOUNT = VALUES(TOTAL_AMOUNT),
-							LAST_UPDATE = SYSDATE()
+							LAST_UPDATE = SYSDATE(),
+							CERTIFIED_ACCOUNT = VALUES(CERTIFIED_ACCOUNT)
 					]]>
 				</prop>
 				

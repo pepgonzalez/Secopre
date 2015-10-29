@@ -278,7 +278,8 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 				.addValue("districtId", request.getDistrictId())
 				.addValue("justification", request.getJustification())
 				.addValue("movementTypeId", request.getMovementTypeId())
-				.addValue("resourcePath", request.getResourcePath());
+				.addValue("resourcePath", request.getResourcePath())
+				.addValue("certifiedAccount", request.getCertifiedAccount());
 		return this.insertOrUpdate(queryContainer.getSQL(SQLConstants.INSERT_OR_UPDATE_REQUEST), params);
 	}
 	
@@ -287,6 +288,7 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 
 		Request baseRequest = this.getRequestById(request.getRequestId());
 		baseRequest.setMovementTypeId(request.getMovementTypeId());
+		baseRequest.setCertifiedAccount(request.getCertifiedAccount());
 		request.setDistrictId(baseRequest.getDistrictId());
 		
 		LOG.info("Actualizando request");
@@ -383,6 +385,15 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		List<Request> list = this.queryForList(Request.class, queryContainer.getSQL(SQLConstants.GET_REQUEST_BY_ID), namedParameters, new RequestMapper());
 		Request r =  list.get(0);
 		r.setMovements(this.getRequestDetailByRequestId(requestId));
+
+		//se obtiene requestConfig
+		RequestConfig config = this.getRequestConfigById(request.getRequestId());
+
+		Formality formality =  getFormalityById(config.getFormalityId());
+		String formalityName = formality.getDescription();
+
+		r.setFormalityName(formalityName);
+
 		return r;
 	}
 
