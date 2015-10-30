@@ -387,7 +387,7 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		r.setMovements(this.getRequestDetailByRequestId(requestId));
 
 		//se obtiene requestConfig
-		RequestConfig config = this.getRequestConfigById(request.getRequestId());
+		RequestConfig config = this.getRequestConfigById(r.getRequestId());
 
 		Formality formality =  getFormalityById(config.getFormalityId());
 		String formalityName = formality.getDescription();

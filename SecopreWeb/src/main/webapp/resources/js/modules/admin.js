@@ -1008,8 +1008,9 @@ function expenseCapture() {
 
 	var requestForm = $('#requestForm');
 
-	$('#partialSave').click(function(e) {
-		//alert("haciendo guardado parcial");
+	alert("agregando evento guardado parcial");
+	$(document).find('#partialSave').on("click", function(e) {
+		alert("haciendo guardado parcial");
 		var isCorrect = expenseController.validate();
 		if (isCorrect){
 			requestForm.find('#nextStageValueCode').val("SOLPEND");
@@ -1017,11 +1018,14 @@ function expenseCapture() {
 		}
 	});
 
-	$('#saveAndContinue').click(function(e) {
-		var isCorrect = movementController.validate();
+	alert("agregando evento finalizado captura");
+	$(document).find('#saveAndContinue').on("click", function(e) {
+		alert("finalizando captura");
+		var isCorrect = expenseController.validate();
 		if (isCorrect){
 			requestForm.find('#nextStageValueCode').val("SOLCOMP");
 			submitAjaxJQ('requestForm', 'dashboard', '');
 		}
 	});
+	alert("fin");
 }
