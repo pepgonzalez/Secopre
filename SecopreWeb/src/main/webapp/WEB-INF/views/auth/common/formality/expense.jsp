@@ -53,19 +53,19 @@
 									</td>
 									
 									<td data-name="programaticKey">
-										<form:select path="downMovements[${i.index}].programaticKeyId" class="form-control input-small">
+										<form:select path="downMovements[${i.index}].programaticKeyId" class="form-control">
 											<form:option value="-1" label="Seleccione..."/>
 						    				<form:options items="${programaticKeys}" />
 										</form:select>
 									</td>
 									<td data-name="entry">
-										<form:select path="downMovements[${i.index}].entryId" class="form-control input-medium">
+										<form:select path="downMovements[${i.index}].entryId" class="form-control">
 											<form:option value="-1" label="Seleccione..."/>
 						    				<form:options items="${entries}" />
 										</form:select>
 									</td>
 									<td data-name="monthAmount">
-										<form:input path="downMovements[${i.index}].monthAmount" class="form-control input-small numbersOnly"/>
+										<form:input path="downMovements[${i.index}].monthAmount" class="form-control numbersOnly"/>
 									</td>
 					
 									<form:hidden path="downMovements[${i.index}].initialMonthId" class="form-control" data-name="initialMonthId"/>
@@ -99,31 +99,20 @@
   			<a href="javascript:;" class="btn grey-cascade btn-xs default lastButton" id="rowInfoButton"><i class="fa fa-info-circle"></i></a>
 		</td>
 		
-		
-		
 		<td data-name="programaticKey">
-			<form:select path="upMovements" class="form-control input-small">
+			<form:select path="upMovements" class="form-control">
 				<form:option value="-1" label="Seleccione..."/>
 	  			<form:options items="${programaticKeys}" />
 			</form:select>
 		</td>
 		<td data-name="entry">
-			<form:select path="upMovements" class="form-control input-medium">
+			<form:select path="upMovements" class="form-control">
 				<form:option value="-1" label="Seleccione..."/>
-	  			<form:options items="${entries}" />
 			</form:select>
 		</td>
-		<td data-name="sliderControl">
-			<div class="input-small" style="padding-top:8px;">
-				<div id="sliderControl"></div>
-			</div>
-		</td>
-		<td data-name="monthLabels">
-			<div class="input-xsmall" style="padding-top:2px;">
-				<span data-name="lower-offset"></span>-<span data-name="upper-offset"></span>
-			</div>
+		
 		<td data-name="monthAmount">
-			<form:input path="upMovements" class="form-control input-small numbersOnly"/>
+			<form:input path="upMovements" class="form-control numbersOnly"/>
 		</td>
 		<form:hidden path="upMovements" class="form-control" data-name="initialMonthId"/>
 		<form:hidden path="upMovements" class="form-control" data-name="finalMonthId"/>

@@ -156,7 +156,7 @@
 						    AND SC.PATH_ID = P.ID
 						    AND WC.STATUS_ID = S.ID
 						    AND SC.ID = SCR.STAGE_CONFIG_ID
-						    AND SCR.ROLE_ID = UR.ROLE_ID
+						    AND (SCR.ROLE_ID = UR.ROLE_ID OR SCR.ROLE_ID = -1)
 						    AND UR.USER_ID = U.ID
 						    AND R.DISTRICT_ID = DIST.id
 						    AND U.ID = :userId

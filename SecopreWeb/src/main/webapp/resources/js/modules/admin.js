@@ -1008,7 +1008,6 @@ function expenseCapture() {
 
 	var requestForm = $('#requestForm');
 
-	alert("agregando evento guardado parcial");
 	$(document).find('#partialSave').on("click", function(e) {
 		alert("haciendo guardado parcial");
 		var isCorrect = expenseController.validate();
@@ -1018,7 +1017,6 @@ function expenseCapture() {
 		}
 	});
 
-	alert("agregando evento finalizado captura");
 	$(document).find('#saveAndContinue').on("click", function(e) {
 		alert("finalizando captura");
 		var isCorrect = expenseController.validate();
@@ -1027,5 +1025,4 @@ function expenseCapture() {
 			submitAjaxJQ('requestForm', 'dashboard', '');
 		}
 	});
-	alert("fin");
 }
