@@ -32,8 +32,6 @@
 						<th></th>
 						<th>Llave Programatica</th>
 						<th>Partida</th>
-						<th>Rango meses</th>
-						<th></th>
 						<th>Monto Mensual</th>
 					</tr>
 				</thead>
@@ -66,15 +64,6 @@
 						    				<form:options items="${entries}" />
 										</form:select>
 									</td>
-									<td data-name="sliderControl">
-										<div class="input-small" style="padding-top:8px;">
-											<div id="downSliderControl${i.index}"></div>
-										</div>
-									</td>
-									<td data-name="monthLabels">
-										<div class="input-xsmall" style="padding-top:2px;">
-											<span id="downMovements${i.index}.lower-offset"></span>-<span id="downMovements${i.index}.upper-offset"></span>
-										</div>
 									<td data-name="monthAmount">
 										<form:input path="downMovements[${i.index}].monthAmount" class="form-control input-small numbersOnly"/>
 									</td>

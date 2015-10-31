@@ -97,18 +97,18 @@ var expenseController = {
 				var element = $(e);
 				var rowId = element.attr("id");	
 
-				self.startSlider(self, idx, parseInt(new Date().getMonth()), grid);		
+				//self.startSlider(self, idx, parseInt(new Date().getMonth()), grid);		
 				self.addRemoveEvent(self, grid, idx);
 				self.addInfoEvent(self, grid, idx);
 				
 				//asignar eventos de cambio
 				self.addOnChangeEvent(self, grid, idx, "programaticKeyId",true);
 				self.addOnChangeEvent(self, grid, idx, "entryId",false);	
-				self.updateAmounts(self, grid, idx, "monthAmount");	
+				self.updateAmounts(self, grid, idx, "monthAmount");
+				
 			});
 			
 			self.updateTotal(self, grid);
-			
 		}else{
 			grd.find("tbody tr:not(#noMovs)").remove();
 		}
@@ -190,8 +190,9 @@ var expenseController = {
 		}
 		
 		grd.find("tbody").append(e);
+		e.find("[data-name='monthLabels']").hide();
 		
-		self.startSlider(self, nextIndex, parseInt(new Date().getMonth()), grid);
+		//self.startSlider(self, nextIndex, parseInt(new Date().getMonth()), grid);
 		self.addOnChangeEvent(self, grid, nextIndex,"programaticKeyId",true);
 		self.addOnChangeEvent(self, grid, nextIndex,"entryId",false);
 		self.addRemoveEvent(self, grid, nextIndex);
@@ -218,6 +219,9 @@ var expenseController = {
 			
 		}
 		
+		//se oculta el slider
+		var id = self.getSliderId(grid) + nextIndex;	
+		$(document).find(id).hide();
 		
 		grd.find("tbody #noMovs").remove();
 	},
@@ -542,7 +546,7 @@ var expenseController = {
 		
 		
 		$(document).find(id).noUiSlider({
-	        connect: true, behaviour: 'tap', step:1, start: [initialMonth, 11],
+	        connect: true, behaviour: 'tap', step:1, start: [initialMonth, initialMonth],
 	        range: {
 	            'min': [initialMonth],
 	            'max': [11]
@@ -572,18 +576,7 @@ var expenseController = {
 		$(document).find(id).Link('upper').to($(document).find(self.getId(grid, indice, "upper-offset")), myValue);
 	},
 	startComponent : function(){			
-		this.linkComponent(this.upGrid);
 		this.linkComponent(this.downGrid);
-		
-		//si no hay movementType Seleccionado, ocultamos los grids
-		if(parseInt($("#movementTypeId").val()) < 0){
-			this.reset();
-		}
-		
-		//si es movimiento compensado, hacer bloqueos correspondientes:
-		if(this.isCompensatedMovement()){
-			this.blockCompensatedData();
-		}
 	},
 	blockCompensatedData: function(){
 		//downgrid, se bloquean los rows
