@@ -1,20 +1,18 @@
 package ideasw.secopre.web.controller.admin;
-
 import ideasw.secopre.model.security.Role;
 import ideasw.secopre.service.AccessService;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
 
-import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -48,17 +46,6 @@ public class RoleController extends AuthController {
 		return SecopreConstans.MV_ADM_ROLE;
 	}
 
-	@RequestMapping(value = "adm/role", method = RequestMethod.PUT)
-	public String getUser(ModelMap model, Principal principal) {
-		return null;
-	}
-
-	@RequestMapping(value = "adm/role/{rolename}/delete", method = RequestMethod.POST)
-	public String delete(@PathVariable String rolename, ModelMap model,
-			Principal principal) {
-		return null;
-	}
-
 	@RequestMapping(value = "adm/role/add", method = RequestMethod.POST)
 	public String add(@ModelAttribute("role") Role role, ModelMap model) {
 		try {
@@ -66,9 +53,50 @@ public class RoleController extends AuthController {
 		} catch (Exception e) {
 			model.addAttribute(
 					"errors",
-					initErrors("Ocurrio un error al insertar el rol:"
+					initErrors("Ocurrio un error al insertar el rol:"                    
 							+ e.getMessage()));
 		}
-		return "redirect:" + SecopreConstans.MV_LIST;
+		return SecopreConstans.MV_ADM_ROLE_LIST;
 	}
+	
+	@RequestMapping(value = "adm/role/delete", method = RequestMethod.POST)
+	public String delete(ModelMap model,  @RequestParam("id") Long id ) {
+		try {
+			Role role = baseService.findById(Role.class , id);
+			if (role!=null){
+				baseService.remove(role);
+			}
+		} catch (Exception e) {
+			model.addAttribute(
+					"errors",
+					initErrors("Ocurrio un error al eliminar la persona:"
+							+ e.getMessage()));
+		}
+		return SecopreConstans.MV_ADM_ROLE_LIST;
+	}
+	
+	
+	@RequestMapping(value = "adm/role/edit", method = { RequestMethod.GET,
+			RequestMethod.POST })
+	public String edit( ModelMap model, RedirectAttributes attributes, @RequestParam("id") Long id ) {
+		Role role = baseService.findById(Role.class , id);
+		List<Role> roleList = baseService.findAll(Role.class);
+		model.addAttribute("roleList", roleList);
+		model.addAttribute("role", role);
+		return SecopreConstans.MV_ADM_ROLE_ADD;
+	}
+	
+	@RequestMapping(value = "adm/role/changeStatus", method = { RequestMethod.GET,
+			RequestMethod.POST })
+	public String changeStatus( ModelMap model, RedirectAttributes attributes, @RequestParam("id") Long id,@RequestParam("activo") Boolean activo  ) {
+		Role roleEdit = baseService.findById(Role.class , id);
+		roleEdit.setActive(activo);
+		baseService.save(roleEdit);
+		
+		return SecopreConstans.MV_ADM_ROLE_LIST;
+	}
+	
+	
+	
+	
 }

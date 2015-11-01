@@ -26,7 +26,7 @@
 									</span>
 								</a></li>
 								
-								<li><a href="#tab4" data-toggle="tab" class="step"> <span
+								<li><a href="#tab2" data-toggle="tab" class="step"> <span
 										class="number"> 2 </span> <span class="desc"> <i
 											class="fa fa-check"></i> Confirmación
 									</span>
@@ -45,7 +45,7 @@
 									<div class="form-body">
 									
 									<div class="form-group form-md-line-input has-danger">
-									   <label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.programmaticKey.code"/>
+									   <label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.roles.rolename"/>
 									   <span class="required">* </span>
 									   </label>
 									   <div class="col-md-10">

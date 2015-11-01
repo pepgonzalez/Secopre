@@ -18,11 +18,14 @@ public class SecopreConstans {
 	public static final String MV_ADM_DIR = "auth/admin/dir/directory";
 	
 	//####Modulo Administracion Roles####//
-	public static final String MV_LIST = "list";
+	public static final String MV_ADM_ROLE_LIST = "auth/admin/config/role/list";
 	public static final String MV_ADM_ROLE = "auth/admin/config/role/roles";
+	public static final String MV_ADM_ROLE_ADD = "auth/admin/config/role/add";
 
 	//####Modulo Administracion Permisos####//
 	public static final String MV_ADM_PERMISSION = "auth/admin/config/perm/perms";
+	public static final String MV_ADM_PERMISSION_LIST = "auth/admin/config/perm/list";
+	public static final String MV_ADM_PERMISSION_ADD = "auth/admin/config/perm/add";
 	
 	//####Modulo Administracion Menus####//
 	public static final String MV_ADM_MENU_LIST = "auth/admin/config/menu/list";

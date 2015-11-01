@@ -84,7 +84,7 @@
 										 <i class="fa fa-edit xs"></i>
 										</button>
 										
-										<button id="btndelete"  type="button" class="btn delete btn-danger btn-xs" onclick="borrarRegistro('auth/adm/role//delete?id=${roleItem.id}','dashboard','initRoleList');"   >
+										<button id="btndelete"  type="button" class="btn delete btn-danger btn-xs" onclick="borrarRegistro('auth/adm/role/delete?id=${roleItem.id}','dashboard','initRoleList');"   >
 										<i class="fa fa-trash"></i> 
 										</button>
 

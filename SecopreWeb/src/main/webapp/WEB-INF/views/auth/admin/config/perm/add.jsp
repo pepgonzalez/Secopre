@@ -1,59 +1,98 @@
 	<%@ include file="/WEB-INF/views/auth/common/springTags.jsp"%>
-			<!-- INICIA DIV DE FORM DE ROLES -->			
-			<div class="row" style="display: inline;">
-				<div class="col-md-12">
-					<!-- BEGIN SAMPLE FORM PORTLET-->
-					<div class="portlet light">
-						<div class="portlet-title">
-							<div class="caption font-green-haze">
-								<i class="icon-settings font-green-haze"></i>
-								<span class="caption-subject bold uppercase"><spring:message code="application.pages.admin.roles.title"/></span>
-							</div>
-							<div class="actions">
-								<a class="btn btn-circle btn-icon-only blue" href="javascript:;">
-								<i class="icon-cloud-upload"></i>
-								</a>
-								<a class="btn btn-circle btn-icon-only green" href="javascript:;">
-								<i class="icon-wrench"></i>
-								</a>
-								<a class="btn btn-circle btn-icon-only red" href="javascript:;">
-								<i class="icon-trash"></i>
-								</a>
-								<a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title="">
-								</a>
-							</div>
-						</div>
-						<div class="portlet-body form">
-							<form:form cssClass="form-horizontal" id="PermForm" commandName="permission" action="auth/adm/perm/add">
-								<div class="form-body">
-								<!-- Se incluyen los DIV de alertamiento en formularios -->
-									<%@ include file="/WEB-INF/views/auth/common/alertForm.jsp"%>						
-									<div class="form-group form-md-line-input">
-										<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.roles.name"/>
-											<span class="required">* </span>
-										</label>
-										<div class="col-md-10">
-											<div class="input-icon">
-												<input required id="rolename"  name="rolename" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.roles.name.placeholder"/>'>
-												<div class="form-control-focus">
-												</div>
-												<span class="help-block"><spring:message code="application.pages.admin.roles.name.help"/></span>
-												<i class="icon-user"></i>
-											</div>
-										</div>
-									</div>								
-								</div>
-								<div class="form-actions margin-top-10">
-									<div class="row">
-										<div class="col-md-offset-2 col-md-10">
-											<button type="button" class="btn default"><spring:message code="application.back"/></button>
-											<button type="button" class="btn blue"><spring:message code="application.submit"/></button>
-										</div>
-									</div>
-								</div>
-							</form:form>
-						</div>
-					</div>
-					<!-- END SAMPLE FORM PORTLET-->
+
+<!-- BEGIN PAGE CONTENT-->
+<div class="row">
+	<div class="col-md-12">
+		<div class="portlet box blue" id="form_wizard_1">
+			<div class="portlet-title">
+				<div class="caption">
+					<i class="fa fa-gift"></i>
+					<spring:message code="application.pages.admin.perm.title" />
+					- <span class="step-title"> Paso 1 de 2 </span>
+				</div>
+				<div class="tools hidden-xs">
+					<a href="javascript:;" class="collapse"> </a>
 				</div>
 			</div>
+			<div class="portlet-body form">
+				<form action="auth/adm/perm/add" class="form-horizontal" id="submit_form"
+					method="POST" novalidate="novalidate">
+					<div class="form-wizard">
+						<div class="form-body">
+							<ul class="nav nav-pills nav-justified steps">
+								<li><a href="#tab1" data-toggle="tab" class="step"> <span
+										class="number"> 1 </span> <span class="desc"> <i
+											class="fa fa-check"></i> Captura de Permisos
+									</span>
+								</a></li>
+								
+								<li><a href="#tab2" data-toggle="tab" class="step"> <span
+										class="number"> 2 </span> <span class="desc"> <i
+											class="fa fa-check"></i> Confirmación
+									</span>
+								</a></li>
+							</ul>
+							<div id="bar" class="progress progress-striped"
+								role="progressbar">
+								<div class="progress-bar progress-bar-success"></div>
+							</div>
+							<div class="tab-content">
+								<!-- Se incluyen los DIV de alertamiento en formularios -->
+								<%@ include file="/WEB-INF/views/auth/common/alertForm.jsp"%>
+
+								<div class="tab-pane active" id="tab1">
+									<h3 class="block">Proporcionar datos del Permiso</h3>
+									<div class="form-body">
+									
+									<div class="form-group form-md-line-input has-danger">
+									   <label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.perm.name"/>
+									   <span class="required">* </span>
+									   </label>
+									   <div class="col-md-10">
+									      <div class="input-icon">
+										     <input id="name" name="name" type="text" class="form-control"  value="${perm.name}"   placeholder='<spring:message code="application.pages.admin.perm.name.placeholder"/>'>
+											    <div class="form-control-focus">
+												</div>
+												<span id="name-error" class="help-block help-block-error"> <spring:message code="application.pages.admin.perm.name.help"/>  </span>															
+ 												<i class="icon-user"></i> 
+											 </div>
+									     </div>
+									  </div>
+									  										
+									</div>
+								</div>
+
+								<div class="tab-pane" id="tab2">
+									<h3 class="block">Confirmación</h3>
+									<h4 class="form-section">Permiso</h4>
+									<div class="form-group">
+										<label class="control-label col-md-3"><spring:message
+													code="application.pages.admin.perm.name" /></label>
+										<div class="col-md-4">
+											<p class="form-control-static" data-display="name"></p>
+										</div>
+									</div>										
+								</div>
+							</div>
+						</div>
+						<div class="form-actions">
+							<div class="row">
+								<div class="col-md-offset-3 col-md-9">
+									<a href="javascript:;" class="btn default button-previous">
+										<i class="m-icon-swapleft"></i> <spring:message code="application.back"/>
+									</a> <a href="javascript:;" class="btn blue button-next">
+										<spring:message code="application.next"/> <i class="m-icon-swapright m-icon-white"></i>
+									</a> 
+									<button type="button" class="btn green button-submit" id="submitRequestForm"><spring:message code="application.pages.admin.perm.crear"/></button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END PAGE CONTENT-->
+	
+
