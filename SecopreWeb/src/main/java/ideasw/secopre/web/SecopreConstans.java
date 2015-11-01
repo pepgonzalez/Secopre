@@ -41,6 +41,9 @@ public class SecopreConstans {
 	public static final String MV_TRAM_LIST_REDIRECT = "redirect:/auth/tram/list";
 	public static final String MV_TRAM_EXCEPTION = "auth/tramite/exception";
 	
+	//####Modulo de reportes
+	public static final String MV_REPORT_LIST = "auth/report/list";
+	
 	
 	//####Constantes de carga de archivos####//
 	public static final String SECOPRE_RESOURCES_WINDOWS_PATH = "C:"+File.separator+"SecopreResources";

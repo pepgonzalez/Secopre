@@ -6,6 +6,7 @@ import java.util.Map;
 import ideasw.secopre.dto.Authorization;
 import ideasw.secopre.dto.Formality;
 import ideasw.secopre.dto.Inbox;
+import ideasw.secopre.dto.Report;
 import ideasw.secopre.dto.Request;
 import ideasw.secopre.dto.RequestHistory;
 import ideasw.secopre.model.security.User;
@@ -89,6 +90,11 @@ public interface AccessNativeService {
 	 * Metodo que obtiene la configuracion de la etapa actual de autorizacion de un folio
 	 */
 	Authorization getAuthorization(Request request, User user);
+
+	/*
+	 * Metodo que obtiene el listado de reportes disponibles para un usuario
+	 */
+	List<Report> getReportList(User user);
 	
 	/*
 	 * Metodos accesores de catalogos requeridos en pantallas de captura

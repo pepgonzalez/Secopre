@@ -30,5 +30,7 @@ public class SQLConstants {
 	//obtiene todas las partidas asociadas a un llave programatica con saldo disponible
 	public static final String GET_VALID_ENTRIES = "GET_VALID_ENTRIES";
 	public static final String IS_USERNAME_VALID = "IS_USERNAME_VALID";
-
+	//reportes
+	public static final String GET_REPORT_LIST = "GET_REPORT_LIST";
+	
 }

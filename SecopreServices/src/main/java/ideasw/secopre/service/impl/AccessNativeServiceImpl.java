@@ -4,6 +4,7 @@ import ideasw.secopre.dto.Authorization;
 import ideasw.secopre.dto.Formality;
 import ideasw.secopre.dto.Inbox;
 import ideasw.secopre.dto.Movement;
+import ideasw.secopre.dto.Report;
 import ideasw.secopre.dto.Request;
 import ideasw.secopre.dto.RequestConfig;
 import ideasw.secopre.dto.RequestHistory;
@@ -30,6 +31,7 @@ import ideasw.secopre.service.impl.mapper.RequestHistoryMapper;
 import ideasw.secopre.service.impl.mapper.RequestMapper;
 import ideasw.secopre.service.impl.mapper.StageConfigMapper;
 import ideasw.secopre.service.impl.mapper.MovementMapper;
+import ideasw.secopre.service.impl.mapper.ReportMapper;
 import ideasw.secopre.service.impl.mapper.WorkFlowConfigMapper;
 import ideasw.secopre.sql.QueryContainer;
 import ideasw.secopre.sql.SQLConstants;
@@ -535,6 +537,12 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		
 		return this.queryForObject(Integer.class, queryContainer.getSQL(SQLConstants.IS_USERNAME_VALID), params);
 				
+	}
+	
+	public List<Report> getReportList(User user){
+		SqlParameterSource namedParameters = new MapSqlParameterSource()
+				.addValue("userId", user.getId());
+		return this.queryForList(Report.class, queryContainer.getSQL(SQLConstants.GET_REPORT_LIST), namedParameters, new ReportMapper());
 	}
 
 }

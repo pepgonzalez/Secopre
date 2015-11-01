@@ -1226,3 +1226,8 @@ function expenseCapture() {
 		}
 	});
 }
+
+
+function initReports(){
+	console.log("iniciando listado de reportes");
+}
