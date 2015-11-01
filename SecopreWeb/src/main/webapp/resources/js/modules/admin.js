@@ -915,7 +915,7 @@ function initUpload() {
 	});
 }
 
-function initFullCapture() {
+function movementsCapture() {
 	
 	$(document).find('.numbersOnly').keyup(function () { 
 		this.value = this.value.replace(/[^0-9\.]/g,'');
@@ -930,6 +930,11 @@ function initFullCapture() {
 	    movementController.update(parseInt(this.value));
 	    $(movementController.upGrid).find('tbody tr:not(#noMovs)').remove();
 	    $(movementController.downGrid).find('tbody tr:not(#noMovs)').remove();
+	    
+	    if(movementController.isCompensatedMovement()){
+	    	$(movementController.upGrid).find("#addMov").hide();
+	    }
+	    
 	});
 	
 	movementController.startComponent();
@@ -949,9 +954,7 @@ function initFullCapture() {
 	});
 
 	$('#saveAndContinue').click(function(e) {
-		//alert("Finalizando captura y avanzando tramite");
-		//var isCorrect = movementController.validate();
-		var isCorrect = true;
+		var isCorrect = movementController.validate();
 		if (isCorrect){
 			requestForm.find('#nextStageValueCode').val("SOLCOMP");
 			submitAjaxJQ('requestForm', 'dashboard', '');
@@ -1004,5 +1007,41 @@ function initAuthorization() {
 		//alert("autorizando Tramite y finalizar");
 		requestForm.find('#nextStageValueCode').val("CONTINUAR");
 		submitAjaxJQ('requestForm', 'dashboard', '');
+	});
+}
+
+
+
+function expenseCapture() {
+	
+	$(document).find('.numbersOnly').keyup(function () { 
+		this.value = this.value.replace(/[^0-9\.]/g,'');
+	});
+
+	//var movementController = {};
+	
+	expenseController.startComponent();
+	
+	//se carga el movimiento seleccionado
+	//expenseController.update(parseInt($("#movementTypeId").val()));
+
+	var requestForm = $('#requestForm');
+
+	$(document).find('#partialSave').on("click", function(e) {
+		alert("haciendo guardado parcial");
+		var isCorrect = expenseController.validate();
+		if (isCorrect){
+			requestForm.find('#nextStageValueCode').val("SOLPEND");
+			submitAjaxJQ('requestForm', 'dashboard', '');
+		}
+	});
+
+	$(document).find('#saveAndContinue').on("click", function(e) {
+		alert("finalizando captura");
+		var isCorrect = expenseController.validate();
+		if (isCorrect){
+			requestForm.find('#nextStageValueCode').val("SOLCOMP");
+			submitAjaxJQ('requestForm', 'dashboard', '');
+		}
 	});
 }
