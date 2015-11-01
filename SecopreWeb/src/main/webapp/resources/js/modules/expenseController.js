@@ -1,5 +1,5 @@
 
-var movementController = {
+var expenseController = {
 	upGrid : "#addComponent",
 	downGrid : "#substractComponent",
 	slider : "SliderControl",
@@ -18,7 +18,7 @@ var movementController = {
 	},
 	
 	/* titulos en función del tipo de movimiento seleccionado */
-	titles : { al:'<i class="fa fa-cogs"></i>Ampliaci&oacute;n L&iacute;quida',rl:'<i class="fa fa-cogs"></i>Reducci&oacute;n L&iacute;quida', 
+	titles : { al:'<i class="fa fa-cogs"></i>Ampliaci&oacute;n L&iacute;quida',rl:'<i class="fa fa-cogs"></i>Gastos', 
 		       ac:'<i class="fa fa-cogs"></i>Ampliaci&oacute;n Compensada', rc:'<i class="fa fa-cogs"></i>Reducci&oacute;n Compensada'},
 	
 	/* funcion que muestra y actualiza el titulo del grid */
@@ -97,18 +97,18 @@ var movementController = {
 				var element = $(e);
 				var rowId = element.attr("id");	
 
-				self.startSlider(self, idx, parseInt(new Date().getMonth()), grid);		
+				//self.startSlider(self, idx, parseInt(new Date().getMonth()), grid);		
 				self.addRemoveEvent(self, grid, idx);
 				self.addInfoEvent(self, grid, idx);
 				
 				//asignar eventos de cambio
 				self.addOnChangeEvent(self, grid, idx, "programaticKeyId",true);
 				self.addOnChangeEvent(self, grid, idx, "entryId",false);	
-				self.updateAmounts(self, grid, idx, "monthAmount");	
+				self.updateAmounts(self, grid, idx, "monthAmount");
+				
 			});
 			
 			self.updateTotal(self, grid);
-			
 		}else{
 			grd.find("tbody tr:not(#noMovs)").remove();
 		}
@@ -119,7 +119,6 @@ var movementController = {
 		});
 	},
 	addMovementRow : function(self, grid, isComplementary, data){	
-		console.log("agregando movimiento");
 		var grd = $(grid);
 		var nextIndex = self.getNextIndex(grd);				
 		
@@ -144,24 +143,19 @@ var movementController = {
 		.removeAttr("multiple");
 		e.find("[data-name='entry']").find("input[type='hidden']").remove();
 
-		//sliderControl
-		e.find("[data-name='sliderControl'] #sliderControl").attr("id", self.getSliderId(grid).substring(1) + nextIndex);
-		
-		//lowerOffset
-		e.find("[data-name='lower-offset'] ").attr("id", self.getId(grid, nextIndex, "lower-offset", 2));
-		e.find("[data-name='upper-offset'] ").attr("id", self.getId(grid, nextIndex, "upper-offset", 2));
-		
 		//monthAmount
 		e.find("[data-name='monthAmount'] input").attr("name", self.getPath(grid, nextIndex, "monthAmount"))
 		.attr("id", self.getId(grid, nextIndex, "monthAmount", 2)).attr("value", "0");
 		
+		var currentMonth = parseInt(new Date().getMonth());
+		
 		//initialMonthId
 		e.find("[data-name='initialMonthId']").attr("name", self.getPath(grid, nextIndex, "initialMonthId"))
-		.attr("id", self.getId(grid, nextIndex, "initialMonthId", 2)).attr("value","");
+		.attr("id", self.getId(grid, nextIndex, "initialMonthId", 2)).attr("value", currentMonth);
 		
 		//finalMonthId
 		e.find("[data-name='finalMonthId']").attr("name", self.getPath(grid, nextIndex, "finalMonthId"))
-		.attr("id", self.getId(grid, nextIndex, "finalMonthId", 2)).attr("value","");
+		.attr("id", self.getId(grid, nextIndex, "finalMonthId", 2)).attr("value",currentMonth);
 		
 		//removedElement
 		e.find("[data-name='removedElement']").attr("name", self.getPath(grid, nextIndex, "removedElement"))
@@ -175,50 +169,16 @@ var movementController = {
 		
 		e.find("[data-name='totalAmount']").attr("name", self.getPath(grid, nextIndex, "totalAmount"))
 		.attr("id", self.getId(grid, nextIndex, "totalAmount", 2)).attr("value","0");
-		
-		if(isComplementary){
-			//se oculta lo que no debe ir, o se desabilita
-			e.find("[data-name='deleteAction'] a").hide();
-			e.find("[data-name='programaticKey'] select").val(data.programaticKeyId).attr("readonly", "true");
-			
-			e.find("[data-name='sliderControl']").hide();
-			e.find("[data-name='monthLabels']").attr("colspan","2");
-			e.find("[data-name='initialMonthId']").val(data.initialMonth);
-			e.find("[data-name='finalMonthId']").val(data.finalMonthId);
-			e.find("[data-name='monthAmount'] input").val(data.monthAmount).attr("readonly", "true");
-	
-		}
-		
+				
 		grd.find("tbody").append(e);
 		
-		self.startSlider(self, nextIndex, parseInt(new Date().getMonth()), grid);
+		//self.startSlider(self, nextIndex, parseInt(new Date().getMonth()), grid);
 		self.addOnChangeEvent(self, grid, nextIndex,"programaticKeyId",true);
 		self.addOnChangeEvent(self, grid, nextIndex,"entryId",false);
 		self.addRemoveEvent(self, grid, nextIndex);
 		self.addInfoEvent(self, grid, nextIndex);
 		self.updateAmounts(self, grid, nextIndex, "monthAmount");
-	
-		if(isComplementary){
-			//se filtra
-			self.getEntriesByProgramaticKeyAndDistrict(data.programaticKeyId, function(response){
 				
-				var entrySelect = $(document).find(self.getId(grid, nextIndex, "entryId"));
-				
-				entrySelect.empty();
-				entrySelect.append('<option value="-1">Seleccione..</option>');
-				$.each(response, function(index, item){
-					console.log("iterando registro");
-					if ( parseInt(item.id) != parseInt(data.entryId)){
-						entrySelect.append('<option value="' + item.id +'">' + item.name + '</option>');
-					}
-				});
-			});
-			//se dispara la actualizacion de montos
-			$(self.getId(grid, nextIndex, "monthAmount")).blur();
-			
-		}
-		
-		
 		grd.find("tbody #noMovs").remove();
 	},
 	getRowData : function(self, grid, index){
@@ -265,7 +225,6 @@ var movementController = {
 			var that = this;
 			
 			function updateTotalAmounts(){
-				//alert("actualizando montos totales");
 				//se calcula el monto total del movimiento
 				total = ((finalMonth - initialMonth) + 1) * that.value;					
 				
@@ -319,8 +278,6 @@ var movementController = {
 						var totalGrid = self.obtenerTotalDePartidaPorMesEnGrid(self, grid, entryId, i, rowNumber);
 						var totalActual = parseFloat(this.value);
 						
-						//alert("total por grid: " + totalGrid);
-						//alert("total actual " + totalActual);
 						var montoTotal = totalGrid + totalActual;
 						var call = window.getPromise("auth/API/get/movOk/" + districtId + "/" + entryId + "/" + i + "/" + montoTotal, 
 								function(data){
@@ -360,9 +317,7 @@ var movementController = {
 		});
 	},
 	obtenerTotalDePartidaPorMesEnGrid: function(self, grid, entryId, monthId, rowNumber ){
-		
-		//alert("grid: " + grid + ", partida: " + entryId + ", mes: " + monthId + "rowNumber: " + rowNumber);
-		
+				
 		//todas las partidas que no soy yo, y que son de la misma partida
 		var filteredRows = $(grid).find("tbody tr:not(#noMovs)").filter(function(){
 			var row = $(this);
@@ -371,9 +326,7 @@ var movementController = {
 			var mesInicial = parseInt(row.find("[data-name='initialMonthId']").val());
 			var mesFinal  = parseInt(row.find("[data-name='finalMonthId']").val());
 			var monthEntry = parseInt(row.find("[data-name='entry'] select").val());
-			
-			//alert("Datos de fila: esRegistroEliminado:" + esRegistroEliminado + ", indice:" + indice + ", rowNumber: "+ indice +", mesInicial: " + mesInicial + ", mes final: " + mesFinal + ", entryId:" + monthEntry);
-			
+						
 			if (esRegistroEliminado <= 0 && (mesInicial <= monthId) && (mesFinal >= monthId ) && (rowNumber != indice) && (entryId == monthEntry)){
 				return true;
 			}else{
@@ -386,7 +339,6 @@ var movementController = {
 			total += parseFloat($(this).find("[data-name='monthAmount'] input").val());
 		});
 		
-		//alert("total de registros asociados a la partida ya existentes: " + filteredRows.length);
 		return total;
 	},
 	getCurrentEntries: function(grid, index){
@@ -410,13 +362,8 @@ var movementController = {
 		var id = self.getId(grid, indice, element);
 		$(document).find(id).on("change", function (e) {
 			
-			var currentEntries = [];
-			if( (self.isCompensatedMovement()) && (grid == self.downGrid)){
-				currentEntries = self.getCurrentEntries(grid, indice);
-				console.log("total de partidas actuales");
-				console.log(currentEntries);
-			}
-		    
+			var currentEntries = self.getCurrentEntries(grid, indice);
+			
 			if(ajaxCall){
 				
 				//preguntamos el id del distrito
@@ -443,18 +390,14 @@ var movementController = {
 							entrySelect.append('<option value="' + item.id +'">' + item.name + '</option>');
 						}
 					});
+					
+					//same todos los options que tiene el combo despues del filtro
+					var partidasSinSeleccione = entrySelect.find("option:not([value='-1'])").length;
+					
+					if(partidasSinSeleccione == 0){
+						window.showNotification("error", "No existen partidas disponibles asociadas a la partida");
+					}
 				});
-				
-				/*
-				self.apiCall('auth/API/get/entry/' + this.value + "/" + districtId , function(data){
-					var entrySelect = $(document).find(self.getId(grid, indice, "entryId"));
-			    	entrySelect.empty();
-			    	entrySelect.append('<option value="-1">Seleccione..</option>');
-			    	$.each(data, function(index, item){
-			    		entrySelect.append('<option value="' + item.id +'">' + item.name + '</option>');
-			    	});
-			    });
-				*/
 			}
 		    
 			if(parseInt(this.value) > 0){
@@ -478,7 +421,6 @@ var movementController = {
 		});
 	},
 	removeClassError:function(id){
-		//alert("eliminando clase error de id: " + id);
 		$(id).closest(".has-error").removeClass("has-error");
 	},
 	removeRow : function(self, grid, indice){
@@ -523,9 +465,7 @@ var movementController = {
 			var programaticKey = row.find(self.getId(grid, indice, "programaticKeyId")).val();
 			var entry = row.find(self.getId(grid, indice, "entryId")).val();
 			var district = $("#districtId").val();
-			
-			//alert("valores: " + programaticKey+ ", partida: " + entry + ", distrito: " + district);
-			
+						
 			if(parseInt(entry) <= 0){
 				window.showNotification("error", "Debe Seleccionar una partida para ver el detalle");
 			}else{
@@ -542,7 +482,7 @@ var movementController = {
 		
 		
 		$(document).find(id).noUiSlider({
-	        connect: true, behaviour: 'tap', step:1, start: [initialMonth, 11],
+	        connect: true, behaviour: 'tap', step:1, start: [initialMonth, initialMonth],
 	        range: {
 	            'min': [initialMonth],
 	            'max': [11]
@@ -572,18 +512,7 @@ var movementController = {
 		$(document).find(id).Link('upper').to($(document).find(self.getId(grid, indice, "upper-offset")), myValue);
 	},
 	startComponent : function(){			
-		this.linkComponent(this.upGrid);
 		this.linkComponent(this.downGrid);
-		
-		//si no hay movementType Seleccionado, ocultamos los grids
-		if(parseInt($("#movementTypeId").val()) < 0){
-			this.reset();
-		}
-		
-		//si es movimiento compensado, hacer bloqueos correspondientes:
-		if(this.isCompensatedMovement()){
-			this.blockCompensatedData();
-		}
 	},
 	blockCompensatedData: function(){
 		//downgrid, se bloquean los rows
@@ -650,15 +579,6 @@ var movementController = {
 	validate : function(){
 		var self = this;
 		var validator = {
-			//valida el tipo de movimiento
-			movementType : function(movementType){
-				if (parseInt(movementType.val()) <= 0){
-					this.notif("error", "Seleccione un tipo de movimiento");
-					movementType.closest('[data-name="movementTypeContainer"]').addClass("has-error");
-					return false;
-				}
-				return true;
-			},
 			validateGrid : function(movementTypeId){
 				switch(movementTypeId){
 				case 1:
@@ -668,7 +588,6 @@ var movementController = {
 					}
 					return res;
 				case 2:
-					//alert("validando 2 " +  self.downGrid);
 					var res = this.validateComponent(self.downGrid);
 					if(res){	
 						this.notif("success","Validación completa");
@@ -741,13 +660,8 @@ var movementController = {
 			}
 		};
 					
-		var movementType = $("#movementTypeId");
-		
-		var result = validator.movementType(movementType);
-		if(result){
-			result = validator.validateGrid(parseInt(movementType.val()));
-			return result;
-		}
+		var movementType = 2;	
+		var result = validator.validateGrid(movementType);
 		return result;
 	}
 };

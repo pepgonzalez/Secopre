@@ -44,6 +44,12 @@ public class Request {
 	private String formalityCode;
 	private Long formalityId;	
 	private boolean authorizationForm;
+	
+	//variable para gastos
+	private String certifiedAccount;
+
+	//variable para mostrar el nombre del tramite dinamico en capturas completas
+	private String formalityName;
 		
 	public String getFormalityCode() {
 		return formalityCode;
@@ -178,5 +184,17 @@ public class Request {
 	}
 	public void setRequestHistory(List<RequestHistory> requestHistory) {
 		this.requestHistory = requestHistory;
+	}
+	public String getCertifiedAccount() {
+		return certifiedAccount;
+	}
+	public void setCertifiedAccount(String certifiedAccount) {
+		this.certifiedAccount = certifiedAccount;
+	}
+	public String getFormalityName() {
+		return formalityName;
+	}
+	public void setFormalityName(String formalityName) {
+		this.formalityName = formalityName;
 	}
 }

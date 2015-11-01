@@ -2,6 +2,21 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<!-- caja de opcione de tipo de movimiento -->
+<div data-name="movementTypeContainer" class="form-group form-md-line-input">
+	<label class="col-md-2 control-label" for="movementTypeId">Seleccione el tipo de movimiento</label>
+	<div class="col-md-4">
+		<form:select path="movementTypeId" id="movementTypeId" class="form-control">
+		   	<form:option value="-1" label="Seleccione..."/>
+						<form:options items="${movementTypes}" />
+		</form:select>
+		<div class="form-control-focus"></div>
+		<span class="help-block">
+			Debe seleccionar un tipo de movimiento
+		</span>
+	</div>
+</div>
+
 <!-- grid de movimientos de disminucion -->
 <div class="portlet box green" id="substractComponent">
 	<div class="portlet-title">

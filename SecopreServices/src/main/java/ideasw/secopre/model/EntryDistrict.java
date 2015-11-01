@@ -1,9 +1,8 @@
 package ideasw.secopre.model;
 
+import ideasw.secopre.model.base.AuditEntity;
 import ideasw.secopre.model.base.Persistible;
 import ideasw.secopre.model.catalog.District;
-
-import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,10 +12,11 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "ENTRYDISTRICT", indexes = { @Index(unique = true, name = "entrydistrict_ix", columnList = "id") })
-public class EntryDistrict implements Persistible {
+public class EntryDistrict extends AuditEntity implements Persistible {
 
 	/**
     *
@@ -33,29 +33,28 @@ public class EntryDistrict implements Persistible {
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "ENTRY_ID", nullable = false, updatable = false)
 	private Entry entry;
-	
+
 	@Column(name = "ANNUAL_AMOUNT", columnDefinition = "Decimal(10,2)")
 	private Double annualAmount;
-
-	@Column(name = "MONTH", columnDefinition = "Decimal(10,2)")
-	private Long month;
 
 	@Column(name = "BUDGET_AMOUNT", columnDefinition = "Decimal(10,2)")
 	private Double budgetAmount;
 
 	@Column(name = "BUDGET_AMOUNT_ASSIGN", columnDefinition = "Decimal(10,2)")
 	private Double budgetAmountAssign;
-	
+
 	@Column(name = "COMMITTED_AMOUNT", columnDefinition = "Decimal(10,2)")
 	private Double committedAmount;
-	
-	
-	@Column(name = "LAST_UPDATE_DATE", columnDefinition = "Datetime")
-	private Date lastUpdateDate;
 
+	@Column(name = "MONTH")
+	private Long month;
+
+	@Transient
 	private boolean validMovement;
+
+	@Transient
 	private String monthString;
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -88,14 +87,6 @@ public class EntryDistrict implements Persistible {
 		this.annualAmount = annualAmount;
 	}
 
-	public Long getMonth() {
-		return month;
-	}
-
-	public void setMonth(Long month) {
-		this.month = month;
-	}
-
 	public Double getBudgetAmount() {
 		return budgetAmount;
 	}
@@ -116,20 +107,20 @@ public class EntryDistrict implements Persistible {
 		return committedAmount;
 	}
 
-	public void setCommittedAmount(Double committed_amount) {
-		this.committedAmount = committed_amount;
+	public void setCommittedAmount(Double committedAmount) {
+		this.committedAmount = committedAmount;
 	}
 
-	public Date getLastUpdateDate() {
-		return lastUpdateDate;
+	public Long getMonth() {
+		return month;
 	}
 
-	public void setLastUpdateDate(Date lastUpdateDate) {
-		this.lastUpdateDate = lastUpdateDate;
+	public void setMonth(Long month) {
+		this.month = month;
 	}
 
-	public boolean isValidMovement(Double amount) {
-		return ((this.budgetAmountAssign - this.committedAmount ) >= amount);
+	public boolean isValidMovement() {
+		return validMovement;
 	}
 
 	public void setValidMovement(boolean validMovement) {
@@ -144,4 +135,7 @@ public class EntryDistrict implements Persistible {
 		this.monthString = monthString;
 	}
 
+	public boolean isValidMovement(Double amount) {
+		return ((this.budgetAmountAssign - this.committedAmount) >= amount);
+	}
 }

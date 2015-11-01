@@ -156,7 +156,7 @@
 						    AND SC.PATH_ID = P.ID
 						    AND WC.STATUS_ID = S.ID
 						    AND SC.ID = SCR.STAGE_CONFIG_ID
-						    AND SCR.ROLE_ID = UR.ROLE_ID
+						    AND (SCR.ROLE_ID = UR.ROLE_ID OR SCR.ROLE_ID = -1)
 						    AND UR.USER_ID = U.ID
 						    AND R.DISTRICT_ID = DIST.id
 						    AND U.ID = :userId
@@ -199,11 +199,12 @@
 				<prop key="INSERT_OR_UPDATE_REQUEST">
 					<![CDATA[
 						INSERT INTO secopre.REQUEST
-						(ID, FOLIO, DISTRICT_ID, JUSTIFICATION, RESOURCE_PATH, MOVEMENT_TYPE_ID, LAST_UPDATE, ACTIVE)
+						(ID, FOLIO, DISTRICT_ID, JUSTIFICATION, RESOURCE_PATH, MOVEMENT_TYPE_ID, LAST_UPDATE, ACTIVE, CERTIFIED_ACCOUNT)
 						VALUES
-						(:requestId, :folio, :districtId, :justification, :resourcePath, :movementTypeId,  SYSDATE(), 1)
+						(:requestId, :folio, :districtId, :justification, :resourcePath, :movementTypeId,  SYSDATE(), 1, :certifiedAccount)
 						ON DUPLICATE KEY UPDATE RESOURCE_PATH = VALUES(RESOURCE_PATH),
-												MOVEMENT_TYPE_ID = VALUES(MOVEMENT_TYPE_ID)
+												MOVEMENT_TYPE_ID = VALUES(MOVEMENT_TYPE_ID),
+												CERTIFIED_ACCOUNT = VALUES(CERTIFIED_ACCOUNT)
 					]]>
 				</prop>
 

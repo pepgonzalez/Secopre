@@ -1,6 +1,7 @@
 package ideasw.secopre.web.controller.admin;
 
 import ideasw.secopre.dto.Authorization;
+import ideasw.secopre.dto.Movement;
 import ideasw.secopre.dto.Request;
 import ideasw.secopre.dto.RequestHistory;
 import ideasw.secopre.model.EntryDistrict;
@@ -81,15 +82,27 @@ public class WorkFlowController extends AuthController {
 	 * param requestForm - Objeto con el listado de movimientos capturados 
 	 * */
 	@RequestMapping(value = "wf/capture/{movementCode}", method = { RequestMethod.POST })
-	public String saveMovements(@ModelAttribute("requestForm") Request requestForm, BindingResult result, ModelMap model, RedirectAttributes attributes, Principal principal, HttpServletRequest request) {
+	public String saveMovements(@ModelAttribute("requestForm") Request requestForm, BindingResult result, ModelMap model, 
+			RedirectAttributes attributes, Principal principal, HttpServletRequest request) throws Exception{
 
 		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
 		
-		try{
+		LOG.info("Alza");
+		for(Movement m : requestForm.getUpMovements()){
+			LOG.info(m.toString());
+		}
+		
+		LOG.info("baja");
+		for(Movement m : requestForm.getDownMovements()){
+			LOG.info(m.toString());
+		}
+		
+		//try{
 			accessNativeService.insertOrUpdateRequestDetail(requestForm);
 			accessNativeService.invokeNextStage(requestForm, loggedUser.getId());
 			return SecopreConstans.MV_TRAM_LIST_REDIRECT;
 		
+		/*
 		}catch(Exception ex){
 			LOG.error(ex.getMessage());
 			List<String> errors = new ArrayList<String>();
@@ -99,6 +112,7 @@ public class WorkFlowController extends AuthController {
 			model.addAttribute("nextAction", "sendRequestJQ('auth/tram/list','dashboard','initTramiteListPage()','GET');");
 			return SecopreConstans.MV_TRAM_EXCEPTION;
 		}
+		*/
 	}
 
 	/*
