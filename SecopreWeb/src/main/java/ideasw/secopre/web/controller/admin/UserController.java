@@ -70,7 +70,7 @@ public class UserController extends AuthController {
 		
 		HashMap<Long, String> personMap = new HashMap<Long, String>();
 		for (Person p : person) {
-			personMap.put(p.getId(),p.getName() );
+			personMap.put(p.getId(),p.getName().concat(" ").concat(p.getSecondName().concat(" ").concat(p.getFatherLastName().concat(" ").concat(p.getMotherLastName()))) );
 		}
 
 		Request requestForm = new Request();
