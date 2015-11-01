@@ -401,21 +401,40 @@ function initUserValidations() {
 		}
 	});
 	
+	var validator;
 	
+	var apiCallUnblock = function(actionURL, callback) {
+		var method = method || "POST";
+		var header = $("meta[name='_csrf_header']").attr("content");
+		var token = $("meta[name='_csrf']").attr("content");
+		$.ajax({
+			url : context + '/' + actionURL,
+			beforeSend : function(xhr) {
+				xhr.setRequestHeader(header, token);
+			},
+			success : function(data) {
+				callback(data);
+				
+			}
+		});
+	};
+
 	$.validator.addMethod(
 		    "check_username",
 		    function(value, element) {
-		    	var result ="";
-		    	apiCall("auth/adm/usr/checkUsername2/" + value, function(data){
-		    	 //  alert("dentro"+data.result);
-		    	   result=data.result;
+		    	apiCallUnblock("auth/adm/usr/checkUsername2/" + value, function(data){
+					
+					result=data.result;
+					if (result==0){
+						validator = true;
+		    		}else{
+		    			validator = false;
+		    		}	
 		    	});
 		    	
-		    	//alert("fuera"+result);
-		    	return true;
-		    }
-		);
-	
+		    return validator;	
+		    	
+		    });
    
 
 	var displayConfirm = function() {
