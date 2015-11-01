@@ -125,7 +125,12 @@ public class Request {
 	
 	@Override
 	public String toString(){
-		return "{requestId: " + requestId + ",formalityId: " + formalityId + ",folio: "+folio+",districtId: "+districtId+", justification: "+justification;
+		return "{requestId: " + requestId + 
+				",formalityId: " + formalityId + 
+				",folio: " + folio + 
+				",districtId: " + districtId + 
+				", justification: "+ justification + 
+				", certifiedAccount: " + certifiedAccount + "}";
 	}
 	
 	public static final String TABLE_NAME = "REQUEST";

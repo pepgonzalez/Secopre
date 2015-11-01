@@ -17,6 +17,7 @@ public class RequestMapper implements RowMapper<Object> {
 		 request.setJustification(rs.getString("JUSTIFICATION"));
 		 request.setResourcePath(rs.getString("RESOURCE_PATH"));
 		 request.setMovementTypeId(rs.getLong("MOVEMENT_TYPE_ID"));
+		 request.setCertifiedAccount(rs.getString("CERTIFIED_ACCOUNT"));
 		 //request.setFirstName(rs.getString("FIRST_NAME"));
 		 //request.setParentLastName(rs.getString("PARENT_LAST_NAME"));
 		 //request.setMotherLastName(rs.getString("MOTHER_LAST_NAME"));

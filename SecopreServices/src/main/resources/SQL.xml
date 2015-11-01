@@ -190,7 +190,8 @@
 							   R.DISTRICT_ID,
 							   R.JUSTIFICATION,
 							   R.RESOURCE_PATH,
-							   R.MOVEMENT_TYPE_ID
+							   R.MOVEMENT_TYPE_ID,
+							   R.CERTIFIED_ACCOUNT
 						  FROM secopre.REQUEST R
 						 WHERE R.ID = :requestId
 					]]>

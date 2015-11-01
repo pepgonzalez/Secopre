@@ -29,22 +29,6 @@
 									<form:hidden path="nextStageValueCode" id="nextStageValueCode" />
 									<form:hidden path="movementTypeId" id="movementTypeId" />
 									
-									
-									<!-- campo de nombre de usuario -->
-									<div data-name="movementTypeContainer" class="form-group form-md-line-input">
-											<label class="col-md-2 control-label" for="movementTypeId">Seleccione el tipo de movimiento</label>
-											<div class="col-md-4">
-												<form:select path="movementTypeId" id="movementTypeId" class="form-control">
-												   	<form:option value="-1" label="Seleccione..."/>
-	    											<form:options items="${movementTypes}" />
-												</form:select>
-												<div class="form-control-focus"></div>
-												<span class="help-block">
-													Debe seleccionar un tipo de movimiento
-												</span>
-											</div>
-										</div>
-									
 									<jsp:include page="/WEB-INF/views/auth/common/formality/${authorization.formalityCode}.jsp" flush="true"/>
 									
 									<div class="form-group form-md-line-input">

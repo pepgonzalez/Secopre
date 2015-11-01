@@ -128,6 +128,8 @@ public class WorkFlowController extends AuthController {
 		Request requestForm = accessNativeService.getRequestAndDetailById(requestId);
 		requestForm.setStageConfigId(stageConfigId);
 		requestForm.setAuthorizationForm(true);
+		
+		LOG.info("Request: " + requestForm);
 
 		// se obtienen valores de authorizacion
 		Authorization authorization = accessNativeService.getAuthorization(requestForm, loggedUser);
