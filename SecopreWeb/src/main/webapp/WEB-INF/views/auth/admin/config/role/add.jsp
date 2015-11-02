@@ -15,7 +15,7 @@
 				</div>
 			</div>
 			<div class="portlet-body form">
-				<form action="auth/adm/role/add" class="form-horizontal" id="submit_form"
+				<form action="auth/adm/role/add?id=${role.id}" class="form-horizontal" id="submit_form"
 					method="POST" novalidate="novalidate">
 					<div class="form-wizard">
 						<div class="form-body">

@@ -80,22 +80,22 @@
 									</td>		
 
 									<td>
-										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/adm/role/edit?id=${roleItem.id}' ,'dashboard','initRolePage');">
+										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/adm/role/edit?id=${roleItem.id}' ,'dashboard','initRolePage()');">
 										 <i class="fa fa-edit xs"></i>
 										</button>
 										
-										<button id="btndelete"  type="button" class="btn delete btn-danger btn-xs" onclick="borrarRegistro('auth/adm/role/delete?id=${roleItem.id}','dashboard','initRoleList');"   >
+										<button id="btndelete"  type="button" class="btn delete btn-danger btn-xs" onclick="borrarRegistro('auth/adm/role/delete?id=${roleItem.id}','dashboard','initRoleList()');"   >
 										<i class="fa fa-trash"></i> 
 										</button>
 
 									    <c:choose>
 									       <c:when test="${roleItem.active}">
-									          <button id="btn_edit"  type="button" class="btn edit-xs btn-warning btn-xs" onclick="changeStatus('auth/adm/role/changeStatus?id=${roleItem.id}&activo=${!roleItem.active}' ,'dashboard','initRoleList');">
+									          <button id="btn_edit"  type="button" class="btn edit-xs btn-warning btn-xs" onclick="changeStatus('auth/adm/role/changeStatus?id=${roleItem.id}&activo=${!roleItem.active}' ,'dashboard','initRoleList()');">
 										      <i class="fa fa-minus-square xs"></i>
 										      </button>
 									       </c:when>    
 									       <c:otherwise>
-									          <button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="changeStatus('auth/adm/role/changeStatus?id=${userItem.id}&activo=${!userItem.active}' ,'dashboard','initRoleList');">
+									          <button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="changeStatus('auth/adm/role/changeStatus?id=${roleItem.id}&activo=${!roleItem.active}' ,'dashboard','initRoleList()');">
 										      <i class="fa fa-check-square xs"></i>
 										      </button> 
 									       

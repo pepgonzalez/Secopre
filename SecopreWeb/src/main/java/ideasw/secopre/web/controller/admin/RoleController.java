@@ -49,7 +49,10 @@ public class RoleController extends AuthController {
 	@RequestMapping(value = "adm/role/add", method = RequestMethod.POST)
 	public String add(@ModelAttribute("role") Role role, ModelMap model) {
 		try {
-			baseService.persist(role);
+			if(role.getId() == null)
+			role.setActive(Boolean.TRUE);
+			
+			baseService.save(role);
 		} catch (Exception e) {
 			model.addAttribute(
 					"errors",
