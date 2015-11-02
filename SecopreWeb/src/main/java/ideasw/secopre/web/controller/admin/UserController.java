@@ -186,7 +186,7 @@ public class UserController extends AuthController {
 		List<Role> authorities  = (List<Role>) user.getAuthorities();
 		model.addAttribute("roles", authorities);
 
-		return SecopreConstans.MV_ADM_USR_ADD;
+		return SecopreConstans.MV_ADM_USR_EDIT;
 	}
 	
 	@RequestMapping(value = "adm/usr/changeStatus", method = { RequestMethod.GET,

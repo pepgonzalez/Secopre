@@ -14,6 +14,7 @@ public class SecopreConstans {
 	//####Modulo Administracion Usuarios####//
 	public static final String MV_ADM_USR_LIST = "auth/admin/users/list";
 	public static final String MV_ADM_USR = "auth/admin/users/users";
+	public static final String MV_ADM_USR_EDIT = "auth/admin/users/edit";
 	public static final String MV_ADM_USR_ADD = "auth/admin/users/add";
 	public static final String MV_ADM_DIR = "auth/admin/dir/directory";
 	
