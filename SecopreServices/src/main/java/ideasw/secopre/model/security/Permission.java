@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -40,9 +41,12 @@ public class Permission implements Persistible {
 	@Size(max = 50)
 	private String name;	
 	
-	@ManyToOne(cascade = CascadeType.ALL)
-	private Path path;
+//	@ManyToOne(cascade = CascadeType.MERGE)
+//	private Path path;
 	
+	@ManyToOne
+	@PrimaryKeyJoinColumn(name = "PATH_ID", referencedColumnName = "ID")
+	private Path path;
 
 	/**
 	 * @return the id

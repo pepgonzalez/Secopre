@@ -1,6 +1,7 @@
 function initPermPage() {
 	initPage('Perm');
 	initPermValidations();
+	$('select').select2();
 }
 
 function initPermList() {
@@ -10,6 +11,7 @@ sendRequestJQ('auth/adm/perm/list', 'dashboard', 'initPermPage()');
 function initRolePage() {
 	initPage('Role');
 	initRoleValidations();
+	$('select').select2();
 }
 
 function initRoleList() {
@@ -292,8 +294,11 @@ function initPermValidations() {
 		focusInvalid : false, // do not focus the last invalid input
 		// ignore : "", // validate all fields including form hidden input
 		rules : {
-			rolename : {
+			name : {
 				maxlength : 50,
+				required : true
+			},
+			"path.id" : {
 				required : true
 			}
 		},

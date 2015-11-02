@@ -15,7 +15,7 @@
 				</div>
 			</div>
 			<div class="portlet-body form">
-				<form action="auth/adm/perm/add" class="form-horizontal" id="submit_form"
+				<form action="auth/adm/perm/add?id=${permission.id}" class="form-horizontal" id="submit_form"
 					method="POST" novalidate="novalidate">
 					<div class="form-wizard">
 						<div class="form-body">
@@ -50,7 +50,7 @@
 									   </label>
 									   <div class="col-md-10">
 									      <div class="input-icon">
-										     <input id="name" name="name" type="text" class="form-control"  value="${perm.name}"   placeholder='<spring:message code="application.pages.admin.perm.name.placeholder"/>'>
+										     <input id="name" name="name" type="text" class="form-control"  value="${permission.name}"   placeholder='<spring:message code="application.pages.admin.perm.name.placeholder"/>'>
 											    <div class="form-control-focus">
 												</div>
 												<span id="name-error" class="help-block help-block-error"> <spring:message code="application.pages.admin.perm.name.help"/>  </span>															
@@ -60,6 +60,28 @@
 									  </div>
 									  										
 									</div>
+								
+								
+								
+								<div class="form-group form-md-line-input has-danger">
+										<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.perm.path"/>
+										   <span class="required">* </span> 
+										</label>
+										<div class="col-md-4">
+										   <div class="input-icon">
+												<form:select path="permission.path.id"  name="path" class="form-control">
+												   <form:option value="" label="Seleccione..."/>
+	    										   <form:options items="${paths}" />
+												</form:select>
+												<div class="form-control-focus"></div>
+												<span id="path-error" class="help-block help-block-error">
+													<spring:message code="application.pages.admin.perm.path.help"/>
+												</span>
+												 <i class="icon-user"></i>
+										   </div>
+										</div>
+								</div>
+								
 								</div>
 
 								<div class="tab-pane" id="tab2">
@@ -71,8 +93,25 @@
 										<div class="col-md-4">
 											<p class="form-control-static" data-display="name"></p>
 										</div>
-									</div>										
+									</div>	
+									
+									<div class="form-group">
+										<label class="control-label col-md-3"><spring:message
+													code="application.pages.admin.perm.path" /></label>
+										<div class="col-md-4">
+											<p class="form-control-static" data-display="path.id"></p>
+										</div>
+									</div>			
+									
+									
+																		
 								</div>
+
+							
+							
+								
+								
+								
 							</div>
 						</div>
 						<div class="form-actions">

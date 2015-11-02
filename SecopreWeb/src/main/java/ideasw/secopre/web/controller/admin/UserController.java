@@ -1,7 +1,5 @@
 package ideasw.secopre.web.controller.admin;
 
-import ideasw.secopre.dto.Request;
-import ideasw.secopre.model.EntryDistrict;
 import ideasw.secopre.model.security.Permission;
 import ideasw.secopre.model.security.Role;
 import ideasw.secopre.model.security.User;
@@ -72,11 +70,7 @@ public class UserController extends AuthController {
 		for (Person p : person) {
 			personMap.put(p.getId(),p.getName().concat(" ").concat(p.getSecondName().concat(" ").concat(p.getFatherLastName().concat(" ").concat(p.getMotherLastName()))) );
 		}
-
-		Request requestForm = new Request();
-		
 		model.addAttribute("persons", personMap);
-		model.addAttribute("requestForm", requestForm);
 		
 		return SecopreConstans.MV_ADM_USR;
 	}

@@ -74,9 +74,46 @@
 									</c:choose>
 									<c:if test=""></c:if> 
 								</td>
-								<td class="center">${permItem.active}</td>
-								<td><span class="label label-sm label-success">
-										Approved </span></td>
+
+								<td>
+									<c:choose>
+									    <c:when test="${permItem.active}">
+									   
+									        Activo
+									    
+									    </c:when>    
+									    <c:otherwise>
+									      
+									        Inactivo 
+									       
+									    </c:otherwise>
+									</c:choose>	
+								</td>		
+
+								<td>
+										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/adm/perm/edit?id=${permItem.id}' ,'dashboard','initPermPage()');">
+										 <i class="fa fa-edit xs"></i>
+										</button>
+										
+										<button id="btndelete"  type="button" class="btn delete btn-danger btn-xs" onclick="borrarRegistro('auth/adm/perm/delete?id=${permItem.id}','dashboard','initPermList()');"   >
+										<i class="fa fa-trash"></i> 
+										</button>
+
+									    <c:choose>
+									       <c:when test="${permItem.active}">
+									          <button id="btn_edit"  type="button" class="btn edit-xs btn-warning btn-xs" onclick="changeStatus('auth/adm/perm/changeStatus?id=${permItem.id}&activo=${!permItem.active}' ,'dashboard','initPermList()');">
+										      <i class="fa fa-minus-square xs"></i>
+										      </button>
+									       </c:when>    
+									       <c:otherwise>
+									          <button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="changeStatus('auth/adm/perm/changeStatus?id=${permItem.id}&activo=${!permItem.active}' ,'dashboard','initPermList()');">
+										      <i class="fa fa-check-square xs"></i>
+										      </button> 
+									       
+									       </c:otherwise>
+									    </c:choose>	
+								</td>											
+	
 							</tr>
 						</c:forEach>
 					</tbody>

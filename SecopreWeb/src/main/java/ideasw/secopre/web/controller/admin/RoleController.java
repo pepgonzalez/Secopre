@@ -1,11 +1,10 @@
 package ideasw.secopre.web.controller.admin;
+
 import ideasw.secopre.model.security.Role;
 import ideasw.secopre.service.AccessService;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
-
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -43,6 +42,8 @@ public class RoleController extends AuthController {
 		Role role = new Role();
 		model.addAttribute("roleList", roleList);
 		model.addAttribute("role", role);
+
+		
 		return SecopreConstans.MV_ADM_ROLE;
 	}
 
