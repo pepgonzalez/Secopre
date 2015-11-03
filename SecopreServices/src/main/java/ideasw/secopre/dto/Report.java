@@ -27,6 +27,9 @@ public class Report {
 	private Date lastUpdate;
 	private boolean active;
 	
+	//blob
+	private byte[] report;
+	
 	public Long getReportId() {
 		return reportId;
 	}
@@ -74,6 +77,12 @@ public class Report {
 	}
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+	public byte[] getReport() {
+		return report;
+	}
+	public void setReport(byte[] report) {
+		this.report = report;
 	}
 
 }

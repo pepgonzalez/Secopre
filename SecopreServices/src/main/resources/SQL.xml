@@ -382,6 +382,27 @@
 					]]>
 				</prop>	
 					
+				<prop key="GET_REPORT_BY_ID">
+					<![CDATA[
+						SELECT R.ID,
+							   R.DESCRIPTION, 
+							   R.REPORT_TYPE,
+							   R.PARAMETER_QUERY,
+							   R.ROLE_OWNER,
+							   R.LAST_UPDATE, 
+							   R.ACTIVE
+						  FROM secopre.REPORT R
+						 WHERE R.ID = :reportId
+					]]>
+				</prop>
+				
+				<prop key="GET_REPORT_RESOURCE">
+					<![CDATA[
+						SELECT R.RESOURCE
+						  FROM secopre.REPORT R
+						 WHERE R.ID = :reportId
+					]]>
+				</prop>			
 			</props>				
 		</property>
 	</bean>

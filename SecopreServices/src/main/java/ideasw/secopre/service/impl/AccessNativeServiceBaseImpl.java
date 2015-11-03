@@ -1,5 +1,7 @@
 package ideasw.secopre.service.impl;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Service;
+
 
 import ideasw.secopre.dao.impl.SecopreJdbcTemplate;
 
@@ -32,5 +35,9 @@ public class AccessNativeServiceBaseImpl {
 	
 	public <E> E queryForObject(Class<E> o, String q, SqlParameterSource params){
 		return sql.getNamedParameterJdbcTemplate().queryForObject(q, params, o);
+	}
+	
+	public Connection getSecopreConnection() throws SQLException{
+		return sql.getSecopreDataSource().getConnection();
 	}
 }

@@ -1,5 +1,7 @@
 package ideasw.secopre.service;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -129,4 +131,7 @@ public interface AccessNativeService {
 	
 	/*Metodo para validar si un username ya existe*/
 	int isUsernameValid(String username);
+	
+	/*Metodo para obtener la fuente de datos secopre*/
+	Connection getSecopreDSConnection() throws SQLException;
 }

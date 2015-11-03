@@ -286,6 +286,15 @@
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-core</artifactId>
 		</dependency>
+		
+		<!-- jasper reports -->
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>5.0.1</version>
+		</dependency>
+		
+		
 	</dependencies>
 
 	<repositories>

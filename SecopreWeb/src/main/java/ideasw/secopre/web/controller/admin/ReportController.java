@@ -8,9 +8,14 @@ import ideasw.secopre.model.catalog.District;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.AccessNativeService;
 import ideasw.secopre.service.BaseService;
+import ideasw.secopre.service.ReportService;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +45,9 @@ public class ReportController extends AuthController {
 	@Autowired
 	private BaseService baseService;
 	
+	@Autowired
+	private ReportService reportService;
+	
 	@RequestMapping(value = "report/list", method = { RequestMethod.GET })
 	public String showReportList(ModelMap model, RedirectAttributes attributes,  Principal principal) {
 		
@@ -53,8 +61,23 @@ public class ReportController extends AuthController {
 	}
 	
 	@RequestMapping(value = "report/download/{reportId}", method ={RequestMethod.GET})
-	public void downloadReport(@PathVariable("reportId") Long reportId, HttpServletResponse response){
+	public void downloadReport(@PathVariable("reportId") Long reportId, HttpServletResponse response) throws Exception{
 		LOG.info("Descargando reportId : " +  reportId);
+		Report report = reportService.getReport(reportId);
+		
+		String fileName = report.getDescription() + "." + report.getReportType().toLowerCase();
+		
+		String REPORT_TYPE_PDF = "application/pdf";
+		String REPORT_TYPE_XLS = "application/vnd.ms-excel";
+		
+		 OutputStream outputStream  = response.getOutputStream();
+		  response.setContentType(report.getReportType().equals("PDF") ? REPORT_TYPE_PDF : REPORT_TYPE_XLS);
+		  response.setContentLength(report.getReport().length);
+		  response.addHeader("Content-Disposition","attachment;filename="+fileName);
+		  response.setBufferSize(1024 * 15);
+		  outputStream.write(report.getReport());
+		  outputStream.flush();
+		  outputStream.close();
 	}
 	
 }

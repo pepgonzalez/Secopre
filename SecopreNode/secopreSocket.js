@@ -94,7 +94,8 @@ var SecopreSocket = function(config){
 
 		socket.on('search_user', processUserSearch);
 
-
+		console.log("DATA_____________")
+		console.log(data);
 		//se inicia la conexion
 		DB.processQuery("startUserConnection", [data.userId, socket.id], pushConnectedUsers);
 

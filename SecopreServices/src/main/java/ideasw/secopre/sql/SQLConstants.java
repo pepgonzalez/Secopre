@@ -32,5 +32,6 @@ public class SQLConstants {
 	public static final String IS_USERNAME_VALID = "IS_USERNAME_VALID";
 	//reportes
 	public static final String GET_REPORT_LIST = "GET_REPORT_LIST";
-	
+	public static final String GET_REPORT_BY_ID = "GET_REPORT_BY_ID";
+	public static final String GET_REPORT_RESOURCE = "GET_REPORT_RESOURCE";
 }

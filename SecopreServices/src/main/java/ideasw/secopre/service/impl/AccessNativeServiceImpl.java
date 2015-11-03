@@ -37,6 +37,8 @@ import ideasw.secopre.sql.QueryContainer;
 import ideasw.secopre.sql.SQLConstants;
 import sun.util.calendar.BaseCalendar.Date;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -543,6 +545,10 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		SqlParameterSource namedParameters = new MapSqlParameterSource()
 				.addValue("userId", user.getId());
 		return this.queryForList(Report.class, queryContainer.getSQL(SQLConstants.GET_REPORT_LIST), namedParameters, new ReportMapper());
+	}
+	
+	public Connection getSecopreDSConnection() throws SQLException{
+		return super.getSecopreConnection();
 	}
 
 }
