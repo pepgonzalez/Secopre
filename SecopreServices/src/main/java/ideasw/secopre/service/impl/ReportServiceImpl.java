@@ -51,6 +51,8 @@ import sun.util.calendar.BaseCalendar.Date;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -86,7 +88,6 @@ public class ReportServiceImpl extends AccessNativeServiceBaseImpl implements Re
 		report.setResource(this.getReportResource(reportId));
 		
 		Blob reportBlob = report.getResource();
-		System.out.println("tama de archivo: " + reportBlob.length());
 		InputStream reportStream = reportBlob.getBinaryStream();
 		
 		JasperDesign reportDesing = JRXmlLoader.load(reportStream);
@@ -101,13 +102,40 @@ public class ReportServiceImpl extends AccessNativeServiceBaseImpl implements Re
 	}
 	
 	
-	private void fillReport(JasperReport jasperReport, Report report) throws JRException, SQLException{
+	private void fillReport(JasperReport jasperReport, Report report) throws Exception{
 		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("REPORT_CONNECTION", nativeService.getSecopreDSConnection());
+		
+		loadDataSource(report, parameters);
 		JasperPrint jasperPrint;
 		
 		jasperPrint = JasperFillManager.fillReport(jasperReport, parameters);
 		report.setReport(getBytes(jasperPrint, report.getReportType())); 
+	}
+	
+	private void loadDataSource(Report report, Map<String, Object> parameters) throws Exception{
+		 Class[] paramTypes = new Class[]{Map.class};		
+		 String dataSourceMethod = "get" + report.getDataSource();
+		 Method method = this.getClass().getMethod(dataSourceMethod, paramTypes);
+		 method.invoke(this, new Object[] { parameters});
+	}
+	
+	/*metodos internos para setear la fuente de datos correspondiente*/
+	public void getSecopreDataSource(Map<String, Object> parameters){
+		LOG.info("Cargando fuente datos secopre por reflextion");
+		try {
+			parameters.put("REPORT_CONNECTION", nativeService.getSecopreDSConnection());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void getTsadbitntstDataSource(Map<String, Object> parameters){
+		LOG.info("Cargando fuente datos Tsadbitntst por reflextion");
+		try {
+			parameters.put("REPORT_CONNECTION", nativeService.getTsadbitntstDataSourceConnection());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private byte[] getBytes(JasperPrint jasperPrint, String reportType) throws JRException{

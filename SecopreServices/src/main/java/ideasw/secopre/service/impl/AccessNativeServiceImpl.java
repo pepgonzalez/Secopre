@@ -551,4 +551,9 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		return super.getSecopreConnection();
 	}
 
+	@Override
+	public Connection getTsadbitntstDataSourceConnection() throws SQLException {
+		return super.getTsadbitntstConnection();
+	}
+
 }

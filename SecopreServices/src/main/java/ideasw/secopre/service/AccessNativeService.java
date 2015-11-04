@@ -134,4 +134,7 @@ public interface AccessNativeService {
 	
 	/*Metodo para obtener la fuente de datos secopre*/
 	Connection getSecopreDSConnection() throws SQLException;
+	
+	/*Metodo para obtener la fuente de datos historica*/
+	Connection getTsadbitntstDataSourceConnection() throws SQLException;
 }

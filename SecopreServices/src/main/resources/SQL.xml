@@ -373,12 +373,17 @@
 							   R.PARAMETER_QUERY,
 							   R.ROLE_OWNER,
 							   R.LAST_UPDATE, 
-							   R.ACTIVE
+							   R.ACTIVE,
+							   R.REPORT_CODE,
+							   RS.DESCRIPTION REPORT_SOURCE,
+							   RS.DATASOURCE DATASOURCE
 						  FROM secopre.REPORT R,
-						  	   secopre.USER_ROLE UR
+						  	   secopre.USER_ROLE UR,
+						  	   secopre.REPORT_SOURCE RS
 						 WHERE R.ACTIVE = 1
 						   AND R.ROLE_OWNER = UR.ROLE_ID
 						   AND UR.USER_ID = :userId
+						   AND R.REPORT_SOURCE_ID = RS.ID
 					]]>
 				</prop>	
 					
@@ -390,9 +395,14 @@
 							   R.PARAMETER_QUERY,
 							   R.ROLE_OWNER,
 							   R.LAST_UPDATE, 
-							   R.ACTIVE
-						  FROM secopre.REPORT R
+							   R.ACTIVE,
+							   R.REPORT_CODE,
+							   RS.DESCRIPTION REPORT_SOURCE,
+							   RS.DATASOURCE DATASOURCE
+						  FROM secopre.REPORT R,
+						  	   secopre.REPORT_SOURCE RS
 						 WHERE R.ID = :reportId
+						 AND R.REPORT_SOURCE_ID = RS.ID
 					]]>
 				</prop>
 				

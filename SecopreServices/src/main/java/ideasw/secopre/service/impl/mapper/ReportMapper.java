@@ -23,7 +23,9 @@ public class ReportMapper implements RowMapper<Object> {
 		report.setRoleOwner(rs.getLong("ROLE_OWNER"));
 		report.setLastUpdate(rs.getDate("LAST_UPDATE"));
 		report.setActive(rs.getBoolean("ACTIVE"));
-		
+		report.setReportCode(rs.getString("REPORT_CODE"));
+		report.setReportSourceDescription(rs.getString("REPORT_SOURCE"));
+		report.setDataSource(rs.getString("DATASOURCE"));
 		return report;   
 	 }    
 } 

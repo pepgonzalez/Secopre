@@ -40,4 +40,8 @@ public class AccessNativeServiceBaseImpl {
 	public Connection getSecopreConnection() throws SQLException{
 		return sql.getSecopreDataSource().getConnection();
 	}
+	
+	public Connection getTsadbitntstConnection() throws SQLException{
+		return sql.getTsadbitntstDataSource().getConnection();
+	}
 }
