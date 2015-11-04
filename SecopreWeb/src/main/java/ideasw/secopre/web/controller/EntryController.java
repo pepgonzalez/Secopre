@@ -8,8 +8,6 @@ import ideasw.secopre.model.Entry;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
 import ideasw.secopre.model.ProgrammaticKey;
-import ideasw.secopre.model.catalog.Position;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -56,6 +54,7 @@ public class EntryController extends AuthController {
 	@RequestMapping(value = "oper/entry/add", method = RequestMethod.POST)
 	public String add(@ModelAttribute("entry") Entry entry ,ModelMap model) {
 		try {
+			entry.setActivo(Boolean.TRUE);
 			baseService.save(entry); 
 		} catch (Exception e) {
 			e.getStackTrace();

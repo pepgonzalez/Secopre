@@ -61,7 +61,7 @@
 																<form:textarea path="entry.code" id="code" name="code" value="${entry.code}" class="form-control" rows="1" />
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.catalog.entry.code.help"/></span>
+																<span id="code-error" class="help-block help-block-error"><spring:message code="application.pages.catalog.entry.code.help"/></span>
 																<i class="icon-user"></i>
 															</div>
 														</div>
@@ -76,7 +76,7 @@
 															    <form:textarea path="entry.name" id="name" name="name" value="${entry.name}" class="form-control" rows="2" />
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.catalog.entry.name.help"/></span>
+																<span id="name-error" class="help-block help-block-error"><spring:message code="application.pages.catalog.entry.name.help"/></span>
 																<i class="icon-user"></i>
 															</div>
 														</div>
@@ -91,7 +91,7 @@
 																<form:textarea path="entry.description" id="description" name="description" value="${entry.description}" class="form-control" rows="2" />
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.catalog.entry.description.help"/></span>
+																<span id="description-error" class="help-block help-block-error"><spring:message code="application.pages.catalog.entry.description.help"/></span>
 																<i class="icon-user"></i>
 															</div>
 														</div>
@@ -143,7 +143,7 @@
 												<h3 class="block">Confirmación</h3>
 	
 												
-									            <h4 class="form-section">Entradas</h4>
+									            <h4 class="form-section">Partidas</h4>
 									            <div class="form-group">
 										            <label class="control-label col-md-3"><spring:message
 													code="application.pages.catalog.entry.code" />
