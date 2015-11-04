@@ -489,10 +489,11 @@ function initUserValidations() {
 		// ignore : "", // validate all fields including form hidden input
 		rules : {
 			username : {
+				check_username : true,
+				pwcheck_digit : true,
 				minlength : 6,
 				maxlength : 20,
-				required : true,
-				check_username : true
+				required : true
 			},
 			nickname : {
 				minlength : 6,
@@ -524,7 +525,8 @@ function initUserValidations() {
 		},
 	    messages : {
 	    	username : {
-	    		check_username : "Por favor, escriba otro username. Ya existe"
+	    		check_username : "Por favor, escriba otro username. Ya existe",
+	    		 pwcheck_digit : "El username debe de tener al menos un número",
 		},
 		password : {
     		pwcheck_valid : "El password contiene caracteres no válidos. Verifique",
