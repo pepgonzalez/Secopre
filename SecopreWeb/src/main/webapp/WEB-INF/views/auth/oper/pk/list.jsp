@@ -91,9 +91,9 @@
 										 <i class="fa fa-edit xs"></i>
 										</button>
 										
-										<button id="btndelete"  type="button" class="btn delete btn-danger btn-xs" onclick="borrarRegistro('auth/oper/pk/delete?id=${programmaticKeyItem.id}','dashboard','initProgrammaticKeyList()');"   >
-										<i class="fa fa-trash"></i> 
-										</button>
+<%-- 										<button id="btndelete"  type="button" class="btn delete btn-danger btn-xs" onclick="borrarRegistro('auth/oper/pk/delete?id=${programmaticKeyItem.id}','dashboard','initProgrammaticKeyList()');"   > --%>
+<!-- 										<i class="fa fa-trash"></i>  -->
+<!-- 										</button> -->
 
 									    <c:choose>
 									       <c:when test="${programmaticKeyItem.activo}">
