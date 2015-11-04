@@ -29,6 +29,8 @@ public class SecopreJdbcTemplate {
 	@Autowired
 	private DataSource dataSource;
 
+	@Autowired
+	private DataSource tsadbitntstDataSource;
 	/**
 	 * retorna el {@link DataSource} en caso que se requiera realizar una
 	 * conexion JDBC
@@ -37,6 +39,10 @@ public class SecopreJdbcTemplate {
 	 */
 	public DataSource getSecopreDataSource() {
 		return dataSource;
+	}
+	
+	public DataSource getTsadbitntstDataSource() {
+		return tsadbitntstDataSource;
 	}
 
 	/**

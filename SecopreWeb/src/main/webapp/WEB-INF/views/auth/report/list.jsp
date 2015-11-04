@@ -42,6 +42,7 @@
 							<tr>
 								<th>ID</th>
 								<th>Nombre Reporte</th>
+								<th>Origen del reporte</th>
 								<th>Tipo Archivo</th>
 								<th>Acciones</th>
 							</tr>
@@ -52,6 +53,7 @@
 	
 										<td>${reportItem.reportId}</td>
 										<td>${reportItem.description}</td>
+										<td>${reportItem.reportSourceDescription}
 										<td>${reportItem.reportType}</td>
 										<td>	
 											<a href="#" onclick="openResourceNative('report/download/${reportItem.reportId}','dashboard','()','GET');">

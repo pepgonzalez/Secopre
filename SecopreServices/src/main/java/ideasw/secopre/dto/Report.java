@@ -27,6 +27,11 @@ public class Report {
 	private Date lastUpdate;
 	private boolean active;
 	
+	//fuente del reporte
+	private String reportCode;
+	private String reportSourceDescription;
+	private String dataSource;
+	
 	//blob
 	private byte[] report;
 	
@@ -83,6 +88,24 @@ public class Report {
 	}
 	public void setReport(byte[] report) {
 		this.report = report;
+	}
+	public String getReportCode() {
+		return reportCode;
+	}
+	public void setReportCode(String reportCode) {
+		this.reportCode = reportCode;
+	}
+	public String getReportSourceDescription() {
+		return reportSourceDescription;
+	}
+	public void setReportSourceDescription(String reportSourceDescription) {
+		this.reportSourceDescription = reportSourceDescription;
+	}
+	public String getDataSource() {
+		return dataSource;
+	}
+	public void setDataSource(String dataSource) {
+		this.dataSource = dataSource;
 	}
 
 }
