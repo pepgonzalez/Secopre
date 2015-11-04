@@ -62,7 +62,7 @@
 																<input id="code" name="code" type="text" class="form-control"  value="${pk.code}"   placeholder='<spring:message code="application.pages.catalog.programmaticKey.code.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.catalog.programmaticKey.code.help"/></span>
+																<span id="code-error" class="help-block help-block-error"><spring:message code="application.pages.catalog.programmaticKey.code.help"/></span>
 																<i class="icon-user"></i>
 															</div>
 														</div>
@@ -77,7 +77,7 @@
 																<input name="year"  id="year" type="text" value="${pk.year}"  class="form-control" placeholder='<spring:message code="application.pages.catalog.programmaticKey.year.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.catalog.programmaticKey.year.help"/></span>
+																<span id="year-error" class="help-block help-block-error"><spring:message code="application.pages.catalog.programmaticKey.year.help"/></span>
 																<i class="icon-user"></i>
 															</div>
 														</div>
