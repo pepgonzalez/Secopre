@@ -381,6 +381,7 @@
 						  	   secopre.USER_ROLE UR,
 						  	   secopre.REPORT_SOURCE RS
 						 WHERE R.ACTIVE = 1
+						   AND R.PARENT_REPORT_ID IS NULL
 						   AND R.ROLE_OWNER = UR.ROLE_ID
 						   AND UR.USER_ID = :userId
 						   AND R.REPORT_SOURCE_ID = RS.ID
@@ -412,7 +413,27 @@
 						  FROM secopre.REPORT R
 						 WHERE R.ID = :reportId
 					]]>
-				</prop>			
+				</prop>
+				
+				<prop key="GET_SUBREPORTS_BY_ID">
+					<![CDATA[
+						SELECT R.ID,
+							   R.DESCRIPTION, 
+							   R.REPORT_TYPE,
+							   R.PARAMETER_QUERY,
+							   R.ROLE_OWNER,
+							   R.LAST_UPDATE, 
+							   R.ACTIVE,
+							   R.REPORT_CODE,
+							   RS.DESCRIPTION REPORT_SOURCE,
+							   RS.DATASOURCE DATASOURCE
+						  FROM secopre.REPORT R,
+						  	   secopre.REPORT_SOURCE RS
+						 WHERE R.PARENT_REPORT_ID = :reportId
+						 AND R.REPORT_SOURCE_ID = RS.ID
+					]]>
+				</prop>
+							
 			</props>				
 		</property>
 	</bean>

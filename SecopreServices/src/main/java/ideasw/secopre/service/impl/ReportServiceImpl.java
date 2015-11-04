@@ -86,14 +86,8 @@ public class ReportServiceImpl extends AccessNativeServiceBaseImpl implements Re
 	private Report getReportCompiledObject(Long reportId) throws Exception{
 		Report report = this.getReportById(reportId);
 		report.setResource(this.getReportResource(reportId));
-		
-		Blob reportBlob = report.getResource();
-		InputStream reportStream = reportBlob.getBinaryStream();
-		
-		JasperDesign reportDesing = JRXmlLoader.load(reportStream);
-		JasperReport jasperReport = JasperCompileManager.compileReport(reportDesing);
-		
-		reportStream.close();
+
+		JasperReport jasperReport = getCompiledReport(report);
 		
 		//se llena el reporte
 		fillReport(jasperReport, report);
@@ -101,15 +95,44 @@ public class ReportServiceImpl extends AccessNativeServiceBaseImpl implements Re
 		return report;
 	}
 	
+	private JasperReport getCompiledReport(Report report) throws Exception{
+		Blob reportBlob = report.getResource();
+		InputStream reportStream = reportBlob.getBinaryStream();
+		
+		JasperDesign reportDesing = JRXmlLoader.load(reportStream);
+		JasperReport jasperReport = JasperCompileManager.compileReport(reportDesing);
+		
+		reportStream.close();
+		return jasperReport;
+	}
 	
 	private void fillReport(JasperReport jasperReport, Report report) throws Exception{
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		
 		loadDataSource(report, parameters);
+		loadSubReports(report, parameters);
+		
+		LOG.info("total de parametros: " + parameters.size());
+		
 		JasperPrint jasperPrint;
 		
 		jasperPrint = JasperFillManager.fillReport(jasperReport, parameters);
 		report.setReport(getBytes(jasperPrint, report.getReportType())); 
+	}
+	
+	private void loadSubReports(Report report, Map<String, Object> parameters) throws Exception{
+		LOG.info("Reporte padre:" + report.getReportId());
+		List<Report> subReports = getSubReportsById(report.getReportId());
+		LOG.info("total de subReportes: " + subReports.size());
+		if(subReports.size() > 0){
+			for(Report r: subReports){
+				LOG.info("Procesando subreporte: " + r.getReportId() + "-" + r.getReportCode());
+				r.setResource(this.getReportResource(r.getReportId()));
+				JasperReport jasper = getCompiledReport(r);
+				LOG.info("Agregando subreport: " + r.getReportCode());
+				parameters.put(r.getReportCode(), jasper);
+			}
+		}
 	}
 	
 	private void loadDataSource(Report report, Map<String, Object> parameters) throws Exception{
@@ -160,6 +183,11 @@ public class ReportServiceImpl extends AccessNativeServiceBaseImpl implements Re
 	private Report getReportById(Long reportId) {
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("reportId", reportId);	
 		return this.queryForList(Report.class, queryContainer.getSQL(SQLConstants.GET_REPORT_BY_ID), namedParameters, new ReportMapper()).get(0);
+	}
+	
+	private List<Report> getSubReportsById(Long reportId) {
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("reportId", reportId);	
+		return this.queryForList(Report.class, queryContainer.getSQL(SQLConstants.GET_SUBREPORTS_BY_ID), namedParameters, new ReportMapper());
 	}
 	
 	private Blob getReportResource(Long reportId) throws Exception {
