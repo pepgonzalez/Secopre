@@ -490,11 +490,13 @@ function initUserValidations() {
 		rules : {
 			username : {
 				minlength : 6,
+				maxlength : 20,
 				required : true,
 				check_username : true
 			},
 			nickname : {
 				minlength : 6,
+				maxlength : 20,
 				required : true
 			},
 			email : {
@@ -503,11 +505,14 @@ function initUserValidations() {
 			},
 			password : {
 				required : true,
-				minlength : 6
+				minlength : 6,
+				maxlength : 20,
+				pwcheck_valid : true,
+				pwcheck_digit : true,
+				pwcheck_upper : true,
 			},
 			rpassword : {
 				required : true,
-				minlength : 6,
 				equalTo : "#password"
 			},
 			"person.id" : {
@@ -520,7 +525,12 @@ function initUserValidations() {
 	    messages : {
 	    	username : {
 	    		check_username : "Por favor, escriba otro username. Ya existe"
-		}
+		},
+		password : {
+    		pwcheck_valid : "El password contiene caracteres no válidos. Verifique",
+    		pwcheck_digit : "El password debe de tener al menos un número",
+    		pwcheck_upper : "El password debe tener al menos una letra mayúscula"
+	     }
 	   },
 
 		invalidHandler : function(event, validator) { // display error alert
@@ -619,8 +629,19 @@ function initUserValidations() {
 		    	});
 		    	
 		    return validator;	
-		    	
 		    });
+	
+	$.validator.addMethod("pwcheck_valid", function(value) {
+		   return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value)
+		});
+	
+	$.validator.addMethod("pwcheck_upper", function(value) {
+		   return  /[A-Z]/.test(value) // has a lowercase letter
+		});
+	
+	$.validator.addMethod("pwcheck_digit", function(value) {
+		   return /\d/.test(value) // has a digit
+		});
    
 
 	var displayConfirm = function() {
