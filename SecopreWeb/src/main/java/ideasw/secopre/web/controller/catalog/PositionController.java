@@ -55,6 +55,7 @@ public class PositionController extends AuthController {
 	@RequestMapping(value = "cat/position/add", method = RequestMethod.POST)
 	public String add(@ModelAttribute("position") Position position, ModelMap model,  @RequestParam("id") Long id ) {
 		try {
+			position.setActivo(Boolean.TRUE);
 			baseService.save(position);
 		} catch (Exception e) {
 			model.addAttribute(

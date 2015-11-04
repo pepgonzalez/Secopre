@@ -62,7 +62,7 @@
 																<input id="name" name="name" type="text" value="${position.name}" class="form-control" placeholder='<spring:message code="application.pages.catalog.position.name.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.catalog.position.name.help"/></span>
+																<span id="name-error" class="help-block help-block-error"><spring:message code="application.pages.catalog.position.name.help"/></span>
 																<i class="icon-user"></i>
 															</div>
 														</div>
@@ -77,7 +77,7 @@
 																<input name="description"  id="description" type="text" value="${position.description}" class="form-control" placeholder='<spring:message code="application.pages.catalog.position.description.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.catalog.position.description.help"/></span>
+																<span id="description-error" class="help-block help-block-error"><spring:message code="application.pages.catalog.position.description.help"/></span>
 																<i class="icon-user"></i>
 															</div>
 														</div>

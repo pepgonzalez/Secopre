@@ -1116,7 +1116,8 @@ function initProgrammaticKeyValidations() {
 			},
 			year : {
 				maxlength : 4,
-				required : true
+				required : true,
+				number : true
 			}
 		},
 

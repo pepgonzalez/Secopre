@@ -1,7 +1,6 @@
 package ideasw.secopre.web.controller;
 
 import ideasw.secopre.model.ProgrammaticKey;
-import ideasw.secopre.model.catalog.Position;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
 
@@ -42,8 +41,9 @@ public class ProgrammaticKeyController extends AuthController {
 	@RequestMapping(value = "oper/pk/add", method = RequestMethod.POST)
 	public String add(@ModelAttribute("pk") ProgrammaticKey pk, ModelMap model) {
 		try {
-			baseService.persist(pk);
-		} catch (Exception e) {
+			pk.setActivo(Boolean.TRUE);
+			baseService.save(pk);
+		} catch (Exception e) {	
 			model.addAttribute(
 					"errors",
 					initErrors("Ocurrio un error al insertar el puesto:"
@@ -58,7 +58,7 @@ public class ProgrammaticKeyController extends AuthController {
 		ProgrammaticKey pk = baseService.findById(ProgrammaticKey.class , id);
 		//model.addAttribute("positionList", baseService.findAll(Position.class));
 		model.addAttribute("pk", pk);
-		return SecopreConstans.MV_CAT_PK_LIST;
+		return SecopreConstans.MV_CAT_PK_ADD;
 	}
 	
 	@RequestMapping(value = "oper/pk/delete", method = RequestMethod.POST)
