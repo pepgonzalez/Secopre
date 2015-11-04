@@ -413,7 +413,33 @@
 						 WHERE R.ID = :reportId
 					]]>
 				</prop>			
-			</props>				
+	
+				<prop key="VALIDATE_ENTRIES_NEXT_YEAR">
+					<![CDATA[
+						SELECT 
+						    COUNT(*)
+						FROM
+						    SECOPRE.entry E
+						        INNER JOIN
+						    SECOPRE.programmatic_key PK ON E.PROGRAMMATIC_ID = PK.ID
+						WHERE
+						    PK.YEAR = YEAR(CURDATE()) + 1
+					]]>
+				</prop>		
+				<prop key="CLONE_PROGRAMMATIC_KEY">
+					<![CDATA[	
+						INSERT INTO secopre.programmatic_key (ACTIVE, CREATE_DATE, CREATED_BY, UPDATE_DATE, UPDATED_BY, CODE, YEAR)
+						SELECT ACTIVE, NOW(), :userId, NOW(), :userId, CODE, YEAR +1
+						FROM secopre.programmatic_key
+						WHERE YEAR = YEAR(CURDATE());					
+					]]>
+				</prop>		
+				<prop key="CLONE_ENTRIES">
+					<![CDATA[	
+					
+					]]>
+				</prop>	
+			</props>							
 		</property>
 	</bean>
 </beans>
