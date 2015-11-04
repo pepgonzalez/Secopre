@@ -459,6 +459,15 @@
 						 WHERE R.PARENT_REPORT_ID = :reportId
 						 AND R.REPORT_SOURCE_ID = RS.ID
 					]]>
+				</prop>	
+				
+				<prop key="GET_ROLE_LIST_BY_USER">
+					<![CDATA[
+						SELECT ROLE_ID, ROLENAME
+  						  FROM USER_ROLE ur, ROLE r
+ 						 WHERE ur.role_id=r.id
+  						   AND USER_ID = :userId
+					]]>
 				</prop>		
 			</props>				
 		</property>

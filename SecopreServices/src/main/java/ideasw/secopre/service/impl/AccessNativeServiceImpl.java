@@ -18,6 +18,7 @@ import ideasw.secopre.model.EntryDistrict;
 import ideasw.secopre.model.ProgrammaticKey;
 import ideasw.secopre.model.catalog.District;
 import ideasw.secopre.model.catalog.MovementType;
+import ideasw.secopre.model.security.Role;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.AccessNativeService;
 import ideasw.secopre.service.AccessService;
@@ -29,6 +30,7 @@ import ideasw.secopre.service.impl.mapper.InboxMapper;
 import ideasw.secopre.service.impl.mapper.RequestConfigMapper;
 import ideasw.secopre.service.impl.mapper.RequestHistoryMapper;
 import ideasw.secopre.service.impl.mapper.RequestMapper;
+import ideasw.secopre.service.impl.mapper.RoleMapper;
 import ideasw.secopre.service.impl.mapper.StageConfigMapper;
 import ideasw.secopre.service.impl.mapper.MovementMapper;
 import ideasw.secopre.service.impl.mapper.ReportMapper;
@@ -555,5 +557,14 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	public Connection getTsadbitntstDataSourceConnection() throws SQLException {
 		return super.getTsadbitntstConnection();
 	}
+	
+	
+	@Override
+	public List<Role> getRolesByUser(Long userId) {
+		SqlParameterSource namedParameters = new MapSqlParameterSource()
+		.addValue("userId", userId);
+        return this.queryForList(Role.class, queryContainer.getSQL(SQLConstants.GET_ROLE_LIST_BY_USER), namedParameters, new RoleMapper());
+	}
+
 
 }

@@ -18,12 +18,49 @@ function initRoleList() {
 	sendRequestJQ('auth/adm/role/list', 'dashboard', 'initRolePage()');
 }
 
-function initUserPage() {
+function initUserPage(idUser) {
 	initPage('User');
 	initUserValidations();
 	$('#roles').multiSelect({
 		 includeSelectAllOption: true
 	});
+	
+	//alert(idUser);
+	
+
+	var apiCallUnblock = function(actionURL, callback) {
+		var method = method || "POST";
+		var header = $("meta[name='_csrf_header']").attr("content");
+		var token = $("meta[name='_csrf']").attr("content");
+		$.ajax({
+			url : context + '/' + actionURL,
+			beforeSend : function(xhr) {
+				xhr.setRequestHeader(header, token);
+			},
+			success : function(data) {
+				callback(data);
+				
+			}
+		});
+	};
+	
+	if(idUser!=null)
+	{
+	   apiCallUnblock("auth/adm/usr/getRoles/" + idUser, function(data)
+	   {	
+	      var valArr=data.result;
+	      i = 0, size = valArr.length;
+	      for(i; i < size; i++)
+	      {
+	         $("#roles option[value='" + valArr[i] + "']").attr("selected", "selected");
+	         $('#roles').multiSelect("refresh");
+	      }
+	   });
+	}
+	
+//	var valArr = [1,2];
+
+	
 
 	
 	$('#permissions').multiSelect({
