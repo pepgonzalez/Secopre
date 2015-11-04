@@ -240,39 +240,39 @@
 									            <h4 class="form-section">Datos Generales</h4>
 									            <div class="form-group">
 										            <label class="control-label col-md-3"><spring:message
-													code="application.pages.admin.persons.name" />
+													code="application.pages.catalog.district.number" />
 													</label>
 										            <div class="col-md-4">
-											           <p class="form-control-static" data-display="name"></p>
+											           <p class="form-control-static" data-display="number"></p>
 										            </div>
 									            </div>
 									            
 									            <div class="form-group">
 										           <label class="control-label col-md-3"><spring:message
-													  code="application.pages.admin.persons.secondName" />
+													  code="application.pages.catalog.district.state" />
 											       </label>
 										           <div class="col-md-4">
-											         <p class="form-control-static" data-display="secondName"></p>
+											         <p class="form-control-static" data-display="district.state.id"></p>
 										           </div>
 									            </div>	
 									            
 									            
 									            <div class="form-group">
 										           <label class="control-label col-md-3"><spring:message
-													  code="application.pages.admin.persons.fatherLastName" />
+													  code="application.pages.catalog.district.email" />
 											       </label>
 										           <div class="col-md-4">
-											         <p class="form-control-static" data-display="fatherLastName"></p>
+											         <p class="form-control-static" data-display="email"></p>
 										           </div>
 									            </div>		
 									            
 									            
 									            <div class="form-group">
 										           <label class="control-label col-md-3"><spring:message
-													  code="application.pages.admin.persons.motherLastName" />
+													  code="application.pages.catalog.district.telephone" />
 											       </label>
 										           <div class="col-md-4">
-											         <p class="form-control-static" data-display="motherLastName"></p>
+											         <p class="form-control-static" data-display="telephone"></p>
 										           </div>
 									            </div>		
 									            
@@ -294,54 +294,7 @@
 										           </div>
 									            </div>	
 									            
-									            
-									            <div class="form-group">
-										           <label class="control-label col-md-3"><spring:message
-													  code="application.pages.admin.persons.mobileTelepone" />
-											       </label>
-										           <div class="col-md-4">
-											         <p class="form-control-static" data-display="mobileTelepone"></p>
-										           </div>
-									            </div>	
-									            
-									            <div class="form-group">
-										           <label class="control-label col-md-3"><spring:message
-													  code="application.pages.admin.persons.twitter" />
-											       </label>
-										           <div class="col-md-4">
-											         <p class="form-control-static" data-display="twitter"></p>
-										           </div>
-									            </div>										            									            									            					
-													
-													
-									            <div class="form-group">
-										           <label class="control-label col-md-3"><spring:message
-													  code="application.pages.admin.persons.facebook" />
-											       </label>
-										           <div class="col-md-4">
-											         <p class="form-control-static" data-display="facebook"></p>
-										           </div>
-									            </div>	
-									            
-									            													
-									            <div class="form-group">
-										           <label class="control-label col-md-3"><spring:message
-													  code="application.pages.admin.persons.webSite" />
-											       </label>
-										           <div class="col-md-4">
-											         <p class="form-control-static" data-display="webSite"></p>
-										           </div>
-									            </div>	
-									            
-  												<h4 class="form-section">Dirección</h4>
-									            <div class="form-group">
-										            <label class="control-label col-md-3"><spring:message
-													code="application.pages.admin.persons.street" />
-													</label>
-										            <div class="col-md-4">
-											           <p class="form-control-static" data-display="street"></p>
-										            </div>
-									            </div>
+						
 									            
 									            <div class="form-group">
 										           <label class="control-label col-md-3"><spring:message
@@ -401,7 +354,7 @@
 												<a href="javascript:;" class="btn blue button-next">
 												<spring:message code="application.next"/> <i class="m-icon-swapright m-icon-white"></i>
 												</a>
-												<button type="button" class="btn green button-submit" id="submitRequestForm"><spring:message code="application.pages.cat.persons.crear"/></button>
+												<button type="button" class="btn green button-submit" id="submitRequestForm"><spring:message code="application.pages.catalog.district.crear"/></button>
 						
 											</div>
 										</div>

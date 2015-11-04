@@ -1,19 +1,13 @@
 package ideasw.secopre.web.controller.catalog;
 
-import java.util.HashMap;
-import java.util.List;
 
 import ideasw.secopre.model.catalog.Address;
 import ideasw.secopre.model.catalog.District;
-import ideasw.secopre.model.catalog.Position;
 import ideasw.secopre.model.catalog.State;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.SecopreCache;
 import ideasw.secopre.web.controller.base.AuthController;
 import ideasw.secopre.model.catalog.Person;
-import ideasw.secopre.model.security.Menu;
-import ideasw.secopre.model.security.Path;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -83,6 +77,8 @@ public class DistrictController extends AuthController {
 			RequestMethod.POST })
 	public String edit( ModelMap model, RedirectAttributes attributes, @RequestParam("id") Long id ) {
 		District district = baseService.findById(District.class , id);
+		model.addAttribute("district", district);
+		model.addAttribute("address", district.getAddress());
 		return SecopreConstans.MV_CAT_DISTRICT_ADD;
 	}
 	
