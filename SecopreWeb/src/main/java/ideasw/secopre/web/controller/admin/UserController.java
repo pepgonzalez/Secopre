@@ -178,13 +178,14 @@ public class UserController extends AuthController {
 		List<Person> person = baseService.findAll(Person.class);
 		HashMap<Long, String> personMap = new HashMap<Long, String>();
 		for (Person p : person) {
-			personMap.put(p.getId(),p.getName() );
+			personMap.put(p.getId(),p.getName().concat(" ").concat(p.getSecondName().concat(" ").concat(p.getFatherLastName().concat(" ").concat(p.getMotherLastName()))) );
 		}
 		model.addAttribute("persons", personMap);
 		
 		//Listado de Roles
-		List<Role> authorities  = (List<Role>) user.getAuthorities();
-		model.addAttribute("roles", authorities);
+//		List<Role> authorities  = (List<Role>) user.getAuthorities();
+//		model.addAttribute("roles", authorities);
+		model.addAttribute("roles", baseService.findAll(Role.class));
 
 		return SecopreConstans.MV_ADM_USR_EDIT;
 	}
@@ -216,6 +217,43 @@ public class UserController extends AuthController {
 		Map<String, Object> returnObject = new HashMap<String, Object>();
 		
 		int result = accessNativeService.isUsernameValid(username);
+		returnObject.put("result", result);
+		return returnObject;
+	}
+	
+	@RequestMapping(value = "adm/usr/getRoles/{idUser}", method= {RequestMethod.GET})
+	public @ResponseBody Map<String, Object> getRoles(@PathVariable("idUser") Long idUser){
+		Map<String, Object> returnObject = new HashMap<String, Object>();
+		
+		User user = baseService.findById(User.class , idUser);
+		
+		//Listado de Roles
+		List<Role> authorities  = accessNativeService.getRolesByUser(idUser);
+		
+		 //List of numbers we want to concatenate
+	    List<Long> numbers = new ArrayList<Long>();
+	    for (Role r : authorities) {
+	    	numbers.add(r.getId());
+		}
+
+	    //The string builder used to construct the string
+	    StringBuilder commaSepValueBuilder = new StringBuilder();
+
+	    //Looping through the list
+	    for ( int i = 0; i< numbers.size(); i++){
+	      //append the value into the builder
+	      commaSepValueBuilder.append(numbers.get(i));
+
+	      //if the value is not the last element of the list
+	      //then append the comma(,) as well
+	      if ( i != numbers.size()-1){
+	        commaSepValueBuilder.append(", ");
+	      }
+	    }
+	    System.out.println(commaSepValueBuilder.toString());
+		
+	    String result = commaSepValueBuilder.toString();
+		
 		returnObject.put("result", result);
 		return returnObject;
 	}

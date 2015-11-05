@@ -11,6 +11,7 @@ import ideasw.secopre.dto.Inbox;
 import ideasw.secopre.dto.Report;
 import ideasw.secopre.dto.Request;
 import ideasw.secopre.dto.RequestHistory;
+import ideasw.secopre.model.security.Role;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.model.Entry;
 import ideasw.secopre.model.EntryDistrict;
@@ -137,4 +138,7 @@ public interface AccessNativeService {
 	
 	/*Metodo para obtener la fuente de datos historica*/
 	Connection getTsadbitntstDataSourceConnection() throws SQLException;
+	
+	/*Metodo para obtener los roles de un usuario*/
+     List<Role> getRolesByUser(Long userId);
 }

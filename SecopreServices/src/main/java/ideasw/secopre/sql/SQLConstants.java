@@ -35,4 +35,5 @@ public class SQLConstants {
 	public static final String GET_REPORT_BY_ID = "GET_REPORT_BY_ID";
 	public static final String GET_REPORT_RESOURCE = "GET_REPORT_RESOURCE";
 	public static final String GET_SUBREPORTS_BY_ID = "GET_SUBREPORTS_BY_ID";
+	public static final String GET_ROLE_LIST_BY_USER = "GET_ROLE_LIST_BY_USER";
 }
