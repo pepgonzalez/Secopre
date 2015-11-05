@@ -281,6 +281,11 @@ var movementController = {
 				self.updateTotal(self, grid);
 			}
 			
+			function blockRecord(){
+				//se bloquea la version actual
+				self.blockRow(self, grid, nextIndex);
+			}
+			
 			function addCompensatedMovement(){
 				if(parseInt($("#movementTypeId").val()) == 3){
 					//se obtiene la informacion de la fila base
@@ -345,11 +350,14 @@ var movementController = {
 				       unblockPage();
 				       updateTotalAmounts();
 				       addCompensatedMovement();
+					   blockRecord();
 					});
 					
 				}else{
 					//si es un movimiento a la alza no valido montos solo actualizo
 					updateTotalAmounts();
+					//se bloquea el registro actual
+					blockRecord();
 				}
 			}else{
 				window.showNotification("error", "Capture un monto para continuar");
@@ -549,7 +557,7 @@ var movementController = {
 	        }	
 	    });
 		
-		//evento
+		//evento para actualizar los totales cuando cambia el valor del slider
 		$(document).find(id).on('change', function(){
 			$(self.getId(grid, indice, "monthAmount")).blur();
 		});
