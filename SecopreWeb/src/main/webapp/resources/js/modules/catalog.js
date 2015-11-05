@@ -1042,6 +1042,7 @@ function initEntryValidations() {
 			$('#form_wizard_1').find('.button-next').show();
 			$('#form_wizard_1').find('.button-submit').hide();
 		}
+		$('#form_wizard_1').find('.button-cancel').show();
 		Metronic.scrollTo($('.page-title'));
 	}
 

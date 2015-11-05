@@ -30,6 +30,7 @@ http://www.springframework.org/schema/jee/spring-jee.xsd">
 		<property name="username" value="${jdbc.username}" />
 		<property name="password" value="${jdbc.password}" />
 	</bean>
+<!-- 	<jee:jndi-lookup id="dataSource" jndi-name="jdbc/dssecopre"/>  -->
 	
 	<!-- fuente de datos historico -->
 	<bean id="tsadbitntstDataSource"
