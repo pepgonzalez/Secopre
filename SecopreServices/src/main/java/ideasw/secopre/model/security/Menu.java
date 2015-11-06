@@ -1,15 +1,25 @@
 package ideasw.secopre.model.security;
 
+import java.util.List;
+
 import ideasw.secopre.model.base.Persistible;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
+import org.hibernate.envers.RelationTargetAuditMode;
 
 @Entity
 @Table(name = "MENU", indexes = { @Index(unique = true, name = "menu_ix", columnList = "id") })
@@ -49,6 +59,16 @@ public class Menu implements Persistible {
 
 	@Column(name = "MENU_ORDER")
 	private int order;
+	
+    // bi-directional many-to-one association to permissionPath
+    @NotAudited
+    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+    @ManyToMany(fetch=FetchType.EAGER)
+    @JoinTable(name = "MENU_ROLE",
+        joinColumns = {@JoinColumn(name="MENU_ID")},
+        inverseJoinColumns = {@JoinColumn(name="ROLE_ID")}
+    )
+	private List<Role> roles;
 
 	/**
 	 * @return the id
@@ -183,6 +203,23 @@ public class Menu implements Persistible {
 	 */
 	public void setOrder(int order) {
 		this.order = order;
+	}
+
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
+
+	@Override
+	public String toString() {
+		return "Menu [id=" + id + ", active=" + active + ", description="
+				+ description + ", name=" + name + ", icon=" + icon
+				+ ", cssClass=" + cssClass + ", jsFunction=" + jsFunction
+				+ ", parentId=" + parentId + ", order=" + order + ", roles="
+				+ roles + "]";
 	}
 
 }

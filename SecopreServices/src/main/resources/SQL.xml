@@ -468,7 +468,27 @@
  						 WHERE ur.role_id=r.id
   						   AND USER_ID = :userId
 					]]>
-				</prop>		
+				</prop>	
+				
+				
+				<prop key="GET_PERMISSION_LIST_BY_ROLE">
+					<![CDATA[
+							SELECT p.ID PERMISSION_ID, P.NAME NAME
+							  FROM ROLE_PERMISSION rp, 
+							       PERMISSION p
+							 WHERE rp.permission_id = p.id
+							   AND rp.role_id = :idRole
+					]]>
+				</prop>					
+				
+				<prop key="GET_ROLE_LIST_BY_MENU">
+					<![CDATA[
+						SELECT ROLE_ID, ROLENAME
+  						  FROM MENU_ROLE mr, ROLE r
+ 						 WHERE mr.role_id=r.id
+  						   AND MENU_ID = :idMenu
+					]]>
+				</prop>						
 			</props>				
 		</property>
 	</bean>

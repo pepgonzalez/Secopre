@@ -8,7 +8,7 @@
 				<div class="caption">
 					<i class="fa fa-gift"></i>
 					<spring:message code="application.pages.admin.roles.title" />
-					- <span class="step-title"> Paso 1 de 2 </span>
+					- <span class="step-title"> Paso 1 de 3 </span>
 				</div>
 				<div class="tools hidden-xs">
 					<a href="javascript:;" class="collapse"> </a>
@@ -25,12 +25,20 @@
 											class="fa fa-check"></i> Captura de Roles
 									</span>
 								</a></li>
+														
+								<li><a href="#tab2" data-toggle="tab" class="step active">
+										<span class="number"> 2 </span> <span class="desc"> <i
+											class="fa fa-check"></i>Permisos
+									</span>
+								</a></li>
 								
-								<li><a href="#tab2" data-toggle="tab" class="step"> <span
-										class="number"> 2 </span> <span class="desc"> <i
+								<li><a href="#tab3" data-toggle="tab" class="step"> <span
+										class="number"> 3 </span> <span class="desc"> <i
 											class="fa fa-check"></i> Confirmación
 									</span>
 								</a></li>
+								
+
 							</ul>
 							<div id="bar" class="progress progress-striped"
 								role="progressbar">
@@ -58,11 +66,32 @@
 											 </div>
 									     </div>
 									  </div>
+									  
 									  										
 									</div>
+							
 								</div>
-
+								
 								<div class="tab-pane" id="tab2">
+									<h3 class="block">Seleccione los Permisos</h3>
+									<div class="form-group">
+										<label class="control-label col-md-3">Permisos<span
+											class="required"> * </span>
+										</label>
+										<div class="col-md-4">
+											<select multiple="multiple" class="multi-select" id="perms" name="perms">
+												<c:forEach items="${perms}" var="permission">
+													<option value="${permission.id}">${permission.name} </option>
+												</c:forEach>
+											</select>											
+										</div>
+									</div>
+									<div class="form-group">&nbsp;</div>
+									<div class="form-group">&nbsp;</div>
+								</div>									  
+									  
+
+								<div class="tab-pane" id="tab3">
 									<h3 class="block">Confirmación</h3>
 									<h4 class="form-section">Rol</h4>
 									<div class="form-group">
@@ -71,7 +100,17 @@
 										<div class="col-md-4">
 											<p class="form-control-static" data-display="rolename"></p>
 										</div>
-									</div>										
+
+									</div>	
+									
+									<h4 class="form-section">Permisos</h4>
+									<div class="form-group">
+										<label class="control-label col-md-3">Permisos:</label>
+										<div class="col-md-4">
+											<p class="form-control-static" data-display="perms"></p>
+										</div>
+									</div>
+									
 								</div>
 							</div>
 						</div>

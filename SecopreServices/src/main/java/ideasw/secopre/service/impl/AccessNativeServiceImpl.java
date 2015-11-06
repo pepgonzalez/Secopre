@@ -18,6 +18,7 @@ import ideasw.secopre.model.EntryDistrict;
 import ideasw.secopre.model.ProgrammaticKey;
 import ideasw.secopre.model.catalog.District;
 import ideasw.secopre.model.catalog.MovementType;
+import ideasw.secopre.model.security.Permission;
 import ideasw.secopre.model.security.Role;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.AccessNativeService;
@@ -27,6 +28,7 @@ import ideasw.secopre.service.impl.mapper.DistrictMapper;
 import ideasw.secopre.service.impl.mapper.EntryMapper;
 import ideasw.secopre.service.impl.mapper.FormalityMapper;
 import ideasw.secopre.service.impl.mapper.InboxMapper;
+import ideasw.secopre.service.impl.mapper.PermissionMapper;
 import ideasw.secopre.service.impl.mapper.RequestConfigMapper;
 import ideasw.secopre.service.impl.mapper.RequestHistoryMapper;
 import ideasw.secopre.service.impl.mapper.RequestMapper;
@@ -564,6 +566,21 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		SqlParameterSource namedParameters = new MapSqlParameterSource()
 		.addValue("userId", userId);
         return this.queryForList(Role.class, queryContainer.getSQL(SQLConstants.GET_ROLE_LIST_BY_USER), namedParameters, new RoleMapper());
+	}
+	
+	
+	@Override
+	public List<Permission> getPermissionsByRole(Long idRole) {
+		SqlParameterSource namedParameters = new MapSqlParameterSource()
+		.addValue("idRole", idRole);
+        return this.queryForList(Permission.class, queryContainer.getSQL(SQLConstants.GET_PERMISSION_LIST_BY_ROLE), namedParameters, new PermissionMapper());
+	}
+	
+	@Override
+	public List<Role> getRolesByMenu(Long idMenu) {
+		SqlParameterSource namedParameters = new MapSqlParameterSource()
+		.addValue("idMenu", idMenu);
+        return this.queryForList(Role.class, queryContainer.getSQL(SQLConstants.GET_ROLE_LIST_BY_MENU), namedParameters, new RoleMapper());
 	}
 
 

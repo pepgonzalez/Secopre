@@ -83,7 +83,7 @@
 									</td>		
 
 									<td>
-										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/adm/menu/edit?id=${menuItem.id}' ,'dashboard','initMenuCat()');">
+										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/adm/menu/edit?id=${menuItem.id}' ,'dashboard','initMenuCat(${menuItem.id})');">
 										 <i class="fa fa-edit xs"></i>
 										</button>
 										

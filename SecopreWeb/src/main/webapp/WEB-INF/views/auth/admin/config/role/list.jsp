@@ -80,7 +80,7 @@
 									</td>		
 
 									<td>
-										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/adm/role/edit?id=${roleItem.id}' ,'dashboard','initRolePage()');">
+										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/adm/role/edit?id=${roleItem.id}' ,'dashboard','initRolePage(${roleItem.id})');">
 										 <i class="fa fa-edit xs"></i>
 										</button>
 										
@@ -102,12 +102,7 @@
 									       </c:otherwise>
 									    </c:choose>	
 									</td>			
-									
-									
-									
-									
-									
-									
+
 								</tr>							
 							</c:forEach>
 							</tbody>

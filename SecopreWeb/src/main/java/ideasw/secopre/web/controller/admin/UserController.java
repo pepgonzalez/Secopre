@@ -98,25 +98,35 @@ public class UserController extends AuthController {
 	}
 
 	@RequestMapping(value = "adm/usr/add", method = RequestMethod.POST)
-	public String add(@ModelAttribute("user") User user, @RequestParam("roles") String role,@RequestParam("permissions") String permission,ModelMap model, RedirectAttributes attributes) {
-		
+	//public String add(@ModelAttribute("user") User user, @RequestParam("roles") String role,@RequestParam("permissions") String permission,ModelMap model, RedirectAttributes attributes) {
+	public String add(@ModelAttribute("user") User user, @RequestParam("roles") String role,ModelMap model, RedirectAttributes attributes) {
+	
 		try {
-			user.setPassword(Encryption.encrypByBCrypt(user.getPassword()));
-			user.setActive(Boolean.TRUE);
-			if (user.getHasChatActive()){
-				user.setHasChatActive(Boolean.TRUE);	
+			if(user.getId()==null)
+			{
+			   user.setPassword(Encryption.encrypByBCrypt(user.getPassword()));
+			   user.setActive(Boolean.TRUE);
+			}
+			else
+			{
+			   User userEdit = baseService.findById(User.class , user.getId());
+			   userEdit.setNickname(user.getNickname());
+			   userEdit.setEmail(user.getEmail());
+			   userEdit.setHasChatActive(user.getHasChatActive());
+			   userEdit.setPerson(user.getPerson());
+			   userEdit.setActive(user.isActive());
+			   user=userEdit;
 			}
 			
-		
 			
 			List<Role> authorities  = new ArrayList<Role>();
 			List<String> items = Arrays.asList(role.split("\\s*,\\s*"));
 			
 			for (String rolid : items) {
 				Role rol= baseService.findById(Role.class, Long.parseLong(rolid));
-				authorities.add(rol);
-				user.setAuthorities(authorities);
+				authorities.add(rol);	
 			}
+			user.setAuthorities(authorities);
 			
 			baseService.save(user);
 		} catch (Exception e) {
@@ -130,7 +140,6 @@ public class UserController extends AuthController {
 		}
 		return SecopreConstans.MV_ADM_USR_LIST;
 	}
-
 
 	@RequestMapping(value = "start" , method = RequestMethod.GET)
 	public String home(ModelMap model, Principal principal,
@@ -182,9 +191,6 @@ public class UserController extends AuthController {
 		}
 		model.addAttribute("persons", personMap);
 		
-		//Listado de Roles
-//		List<Role> authorities  = (List<Role>) user.getAuthorities();
-//		model.addAttribute("roles", authorities);
 		model.addAttribute("roles", baseService.findAll(Role.class));
 
 		return SecopreConstans.MV_ADM_USR_EDIT;
@@ -224,9 +230,6 @@ public class UserController extends AuthController {
 	@RequestMapping(value = "adm/usr/getRoles/{idUser}", method= {RequestMethod.GET})
 	public @ResponseBody Map<String, Object> getRoles(@PathVariable("idUser") Long idUser){
 		Map<String, Object> returnObject = new HashMap<String, Object>();
-		
-		User user = baseService.findById(User.class , idUser);
-		
 		//Listado de Roles
 		List<Role> authorities  = accessNativeService.getRolesByUser(idUser);
 		
@@ -247,12 +250,12 @@ public class UserController extends AuthController {
 	      //if the value is not the last element of the list
 	      //then append the comma(,) as well
 	      if ( i != numbers.size()-1){
-	        commaSepValueBuilder.append(", ");
+	        commaSepValueBuilder.append(",");
 	      }
 	    }
 	    System.out.println(commaSepValueBuilder.toString());
 		
-	    String result = commaSepValueBuilder.toString();
+	    String result = commaSepValueBuilder.toString().trim();
 		
 		returnObject.put("result", result);
 		return returnObject;

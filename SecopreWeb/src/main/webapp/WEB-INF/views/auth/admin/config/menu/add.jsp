@@ -7,7 +7,7 @@
 						<div class="portlet-title">
 							<div class="caption">
 								<i class="fa fa-gift"></i> <spring:message code="application.pages.admin.menu.title"/> - <span class="step-title">
-								Paso 1 de 2 </span>
+								Paso 1 de 3 </span>
 							</div>
 							<div class="tools hidden-xs">
 								<a href="javascript:;" class="collapse">
@@ -28,14 +28,21 @@
 												<i class="fa fa-check"></i><spring:message code="application.pages.admin.menu.title"/></span>
 												</a>
 											</li>
+											<li><a href="#tab2" data-toggle="tab" class="step"> <span
+										       class="number"> 2 </span> <span class="desc"> <i
+											   class="fa fa-check"></i>Roles
+									           </span>
+								               </a>
+								                </li>
 											<li>
-												<a href="#tab2" data-toggle="tab" class="step">
+												<a href="#tab3" data-toggle="tab" class="step">
 												<span class="number">
-												2 </span>
+												3 </span>
 												<span class="desc">
 												<i class="fa fa-check"></i><spring:message code="application.confirmation"/></span>
 												</a>
 											</li>
+											
 											
 										</ul>
 										
@@ -162,9 +169,28 @@
 																					       																				
 										        </div>
 											</div>
+											
+											
+											<div class="tab-pane" id="tab2">
+									<h3 class="block">Seleccione los Roles</h3>
+									<div class="form-group">
+										<label class="control-label col-md-3">Roles<span
+											class="required"> * </span>
+										</label>
+										<div class="col-md-4">
+											<select multiple="multiple" class="multi-select" id="rols" name="rols">
+												<c:forEach items="${rols}" var="role">
+														<option value="${role.id}">${role.rolename} </option> 
+												</c:forEach>
+											</select>											
+										</div>
+									</div>
+									<div class="form-group">&nbsp;</div>
+									<div class="form-group">&nbsp;</div>
+								</div>
 
 						
-											<div class="tab-pane" id="tab2">
+											<div class="tab-pane" id="tab3">
 												<h3 class="block"><spring:message code="application.confirmation"/></h3>
 	
 												
@@ -222,6 +248,14 @@
 											         <p class="form-control-static" data-display="parentId"></p>
 										           </div>
 									            </div>		
+									            
+									            <h4 class="form-section">Roles</h4>
+													<div class="form-group">
+														<label class="control-label col-md-3">Roles:</label>
+														<div class="col-md-4">
+															<p class="form-control-static" data-display="rols"></p>
+														</div>
+													</div>
 									            
 
 																								

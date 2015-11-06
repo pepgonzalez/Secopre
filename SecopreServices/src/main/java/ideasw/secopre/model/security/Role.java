@@ -55,7 +55,7 @@ public class Role implements Persistible, GrantedAuthority {
     // bi-directional many-to-one association to permissionPath
     @NotAudited
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
-    @ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(name = "ROLE_PERMISSION",
         joinColumns = {@JoinColumn(name="ROLE_ID")},
         inverseJoinColumns = {@JoinColumn(name="PERMISSION_ID")}

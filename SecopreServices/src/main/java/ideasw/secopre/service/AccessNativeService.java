@@ -11,6 +11,7 @@ import ideasw.secopre.dto.Inbox;
 import ideasw.secopre.dto.Report;
 import ideasw.secopre.dto.Request;
 import ideasw.secopre.dto.RequestHistory;
+import ideasw.secopre.model.security.Permission;
 import ideasw.secopre.model.security.Role;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.model.Entry;
@@ -141,4 +142,10 @@ public interface AccessNativeService {
 	
 	/*Metodo para obtener los roles de un usuario*/
      List<Role> getRolesByUser(Long userId);
+     
+ 	/*Metodo para obtener los permisos de un role*/
+     List<Permission> getPermissionsByRole(Long idRole);
+     
+ 	/*Metodo para obtener los roles de un menu*/
+     List<Role> getRolesByMenu(Long idMenu);
 }

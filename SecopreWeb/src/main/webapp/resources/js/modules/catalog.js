@@ -45,10 +45,39 @@ function initPositionList() {
 	sendRequestJQ('auth/cat/position/list', 'dashboard', 'initPositionCat()');
 }
 
-function initMenuCat() {
+function initMenuCat(idMenu) {
 	initPage('Menu');
 	initMenuValidations();
 	 $('select').select2();
+	 $('#rols').multiSelect({
+			 includeSelectAllOption: true
+	 });
+	 
+		var apiCallUnblock = function(actionURL, callback) {
+			var method = method || "POST";
+			var header = $("meta[name='_csrf_header']").attr("content");
+			var token = $("meta[name='_csrf']").attr("content");
+			$.ajax({
+				url : context + '/' + actionURL,
+				beforeSend : function(xhr) {
+					xhr.setRequestHeader(header, token);
+				},
+				success : function(data) {
+					callback(data);
+					
+				}
+			});
+		};
+		
+		if(idMenu!=null)
+		{
+		   apiCallUnblock("auth/adm/menu/getRoles/" + idMenu, function(data)
+		   {	
+		      var valArr=data.result.split(',');
+		      $("#rols").val(valArr);
+		      $("#rols").multiSelect("refresh");
+		   });
+		}
 }
 
 function initMenuList() {
@@ -798,7 +827,7 @@ function initMenuValidations() {
 	});
 
 	var displayConfirm = function() {
-		$('#tab2 .form-control-static', form).each(
+		$('#tab3 .form-control-static', form).each(
 				function() {
 					var input = $('[name="' + $(this).attr("data-display")
 							+ '"]', form);

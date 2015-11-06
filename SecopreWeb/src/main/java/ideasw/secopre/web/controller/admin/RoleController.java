@@ -1,17 +1,27 @@
 package ideasw.secopre.web.controller.admin;
 
+import ideasw.secopre.model.security.Permission;
 import ideasw.secopre.model.security.Role;
+import ideasw.secopre.service.AccessNativeService;
 import ideasw.secopre.service.AccessService;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -34,6 +44,9 @@ public class RoleController extends AuthController {
 
 	@Autowired
 	private AccessService accessService;
+	
+	@Autowired
+	private AccessNativeService accessNativeService;
 
 	@RequestMapping(value = "adm/role/list", method = { RequestMethod.GET,
 			RequestMethod.POST })
@@ -42,17 +55,34 @@ public class RoleController extends AuthController {
 		Role role = new Role();
 		model.addAttribute("roleList", roleList);
 		model.addAttribute("role", role);
+		model.addAttribute("perms", baseService.findAll(Permission.class));
 
-		
 		return SecopreConstans.MV_ADM_ROLE;
 	}
 
 	@RequestMapping(value = "adm/role/add", method = RequestMethod.POST)
-	public String add(@ModelAttribute("role") Role role, ModelMap model) {
+	public String add(@ModelAttribute("role") Role role, @RequestParam("perms") String permission,ModelMap model, RedirectAttributes attributes) {
 		try {
 			if(role.getId() == null)
-			role.setActive(Boolean.TRUE);
+			{
+			   role.setActive(Boolean.TRUE);
+			}
+			else
+			{
+			   Role roleEdit = baseService.findById(Role.class , role.getId());	
+			   roleEdit.setRolename(role.getRolename());
+			   role = roleEdit;
+			}
 			
+			List<Permission> permissionList  = new ArrayList<Permission>();
+			List<String> items = Arrays.asList(permission.split("\\s*,\\s*"));
+			
+			for (String permid : items) {
+				Permission perm= baseService.findById(Permission.class, Long.parseLong(permid));
+				permissionList.add(perm);	
+			}
+			role.setPermissions(permissionList);
+				
 			baseService.save(role);
 		} catch (Exception e) {
 			model.addAttribute(
@@ -87,6 +117,7 @@ public class RoleController extends AuthController {
 		List<Role> roleList = baseService.findAll(Role.class);
 		model.addAttribute("roleList", roleList);
 		model.addAttribute("role", role);
+		model.addAttribute("perms", baseService.findAll(Permission.class));
 		return SecopreConstans.MV_ADM_ROLE_ADD;
 	}
 	
@@ -99,6 +130,42 @@ public class RoleController extends AuthController {
 		
 		return SecopreConstans.MV_ADM_ROLE_LIST;
 	}
+	
+	@RequestMapping(value = "adm/role/getPermissions/{idRole}", method= {RequestMethod.GET})
+	public @ResponseBody Map<String, Object> getPermissions(@PathVariable("idRole") Long idRole){
+		Map<String, Object> returnObject = new HashMap<String, Object>();
+		//Listado de Permisos
+		List<Permission> permissionList  = accessNativeService.getPermissionsByRole(idRole);
+		
+		 //List of numbers we want to concatenate
+	    List<Long> numbers = new ArrayList<Long>();
+	    for (Permission r : permissionList) {
+	    	numbers.add(r.getId());
+		}
+
+	    //The string builder used to construct the string
+	    StringBuilder commaSepValueBuilder = new StringBuilder();
+
+	    //Looping through the list
+	    for ( int i = 0; i< numbers.size(); i++){
+	      //append the value into the builder
+	      commaSepValueBuilder.append(numbers.get(i));
+
+	      //if the value is not the last element of the list
+	      //then append the comma(,) as well
+	      if ( i != numbers.size()-1){
+	        commaSepValueBuilder.append(",");
+	      }
+	    }
+	    System.out.println(commaSepValueBuilder.toString());
+		
+	    String result = commaSepValueBuilder.toString().trim();
+		
+		returnObject.put("result", result);
+		return returnObject;
+	}
+	
+	
 	
 	
 	

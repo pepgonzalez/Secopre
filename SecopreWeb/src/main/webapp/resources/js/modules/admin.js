@@ -8,10 +8,40 @@ function initPermList() {
 sendRequestJQ('auth/adm/perm/list', 'dashboard', 'initPermPage()');
 }
 
-function initRolePage() {
+function initRolePage(idRole) {
 	initPage('Role');
 	initRoleValidations();
 	$('select').select2();
+	$('#perms').multiSelect({
+		 includeSelectAllOption: true
+	});
+	
+	var apiCallUnblock = function(actionURL, callback) {
+		var method = method || "POST";
+		var header = $("meta[name='_csrf_header']").attr("content");
+		var token = $("meta[name='_csrf']").attr("content");
+		$.ajax({
+			url : context + '/' + actionURL,
+			beforeSend : function(xhr) {
+				xhr.setRequestHeader(header, token);
+			},
+			success : function(data) {
+				callback(data);
+				
+			}
+		});
+	};
+	
+	if(idRole!=null)
+	{
+	   apiCallUnblock("auth/adm/role/getPermissions/" + idRole, function(data)
+	   {	
+	      var valArr=data.result.split(',');
+	      $("#perms").val(valArr);
+	      $("#perms").multiSelect("refresh");
+	   });
+	}
+	
 }
 
 function initRoleList() {
@@ -24,9 +54,6 @@ function initUserPage(idUser) {
 	$('#roles').multiSelect({
 		 includeSelectAllOption: true
 	});
-	
-	//alert(idUser);
-	
 
 	var apiCallUnblock = function(actionURL, callback) {
 		var method = method || "POST";
@@ -48,24 +75,15 @@ function initUserPage(idUser) {
 	{
 	   apiCallUnblock("auth/adm/usr/getRoles/" + idUser, function(data)
 	   {	
-	      var valArr=data.result;
-	      i = 0, size = valArr.length;
-	      for(i; i < size; i++)
-	      {
-	         $("#roles option[value='" + valArr[i] + "']").attr("selected", "selected");
-	         $('#roles').multiSelect("refresh");
-	      }
+	      var valArr=data.result.split(',');
+	      $("#roles").val(valArr);
+	      $("#roles").multiSelect("refresh");
 	   });
 	}
 	
-//	var valArr = [1,2];
-
-	
-
-	
-	$('#permissions').multiSelect({
-		 includeSelectAllOption: true
-	});
+//	$('#permissions').multiSelect({
+//		 includeSelectAllOption: true
+//	});
 	
 	 $('select').select2();
 }
@@ -142,7 +160,8 @@ function initRoleValidations() {
 			rolename : {
 				maxlength : 50,
 				required : true
-			}
+			},
+			perms : "required"
 		},
 
 		invalidHandler : function(event, validator) { // display error alert
@@ -210,7 +229,7 @@ function initRoleValidations() {
 	});
 
 	var displayConfirm = function() {
-		$('#tab2 .form-control-static', form).each(
+		$('#tab3 .form-control-static', form).each(
 				function() {
 					var input = $('[name="' + $(this).attr("data-display")
 							+ '"]', form);
@@ -684,7 +703,7 @@ function initUserValidations() {
    
 
 	var displayConfirm = function() {
-		$('#tab4 .form-control-static', form).each(
+		$('#tab3 .form-control-static', form).each(
 				function() {
 					var input = $('[name="' + $(this).attr("data-display")
 							+ '"]', form);
