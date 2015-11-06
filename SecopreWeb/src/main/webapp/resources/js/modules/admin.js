@@ -1128,7 +1128,7 @@ function initPersonValidations() {
 }
 
 function initTramiteListPage() {
-	$('#formalityList').DataTable({
+	var formalityDatatable = $('#formalityList').DataTable({
         "language": {
             "lengthMenu": "_MENU_ Registros por pagina",
             "zeroRecords": "No existen registros",
@@ -1137,6 +1137,11 @@ function initTramiteListPage() {
             "infoFiltered": "(filtered from _MAX_ total records)"
         }
     });
+	
+	//Filtro de datatable por fecha
+	$(document).find('#idFiltroFecha').on( 'keyup', function () {
+		formalityDatatable.columns( 3 ).search( this.value ).draw();
+	});
 }
 
 function showDataHistory(requestId){
