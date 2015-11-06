@@ -29,6 +29,9 @@ function initDistrictCat() {
 	initPage('District');
 	initDistrictValidations();
 	 $('select').select2();
+	 $('#usuarios').multiSelect({
+		 includeSelectAllOption: true
+ });
 }
 
 function initDistrictList() {
@@ -418,7 +421,7 @@ function initDistrictValidations() {
 	});
 
 	var displayConfirm = function() {
-		$('#tab3 .form-control-static', form).each(
+		$('#tab4 .form-control-static', form).each(
 				function() {
 					var input = $('[name="' + $(this).attr("data-display")
 							+ '"]', form);

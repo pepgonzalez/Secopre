@@ -1,6 +1,10 @@
 package ideasw.secopre.web.controller.catalog;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import ideasw.secopre.model.catalog.Address;
 import ideasw.secopre.model.catalog.District;
 import ideasw.secopre.model.catalog.State;
@@ -8,6 +12,9 @@ import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.SecopreCache;
 import ideasw.secopre.web.controller.base.AuthController;
 import ideasw.secopre.model.catalog.Person;
+import ideasw.secopre.model.security.Menu;
+import ideasw.secopre.model.security.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -52,19 +59,48 @@ public class DistrictController extends AuthController {
 		model.addAttribute("person", person);
 		model.addAttribute("address", address);
 		model.addAttribute("state", state);
-		
-		
-		
 		model.addAttribute("states", secopreCahe.getAllStatesMap());
+		model.addAttribute("usuarios", baseService.findAll(User.class));
 		
 		return SecopreConstans.MV_CAT_DISTRICT;
 	}
 	
 	@RequestMapping(value = "cat/district/add", method = RequestMethod.POST)
-	public String add(@ModelAttribute("district") District district,ModelMap model) {
+	public String add(@ModelAttribute("district") District district,@ModelAttribute("address") Address address, @RequestParam("usuarios") String users, ModelMap model) {
 		try {
+			List<User> userList  = new ArrayList<User>();
+			List<String> items = Arrays.asList(users.split("\\s*,\\s*"));
+			
+			for (String userid : items) {
+				User user= baseService.findById(User.class, Long.parseLong(userid));
+				userList.add(user);	
+			}
+			
+			
+			if(district.getId() == null)
+			{
+				district.setActivo(Boolean.TRUE);
+				baseService.save(district);
+				district.setAddress(address);
+			}
+			else
+			{
+			   District districtEdit = baseService.findById(District.class , district.getId());	
+			   districtEdit.setEmail(district.getEmail());
+			   districtEdit.setNumber(district.getNumber());
+			   districtEdit.setAddress(district.getAddress());
+			   districtEdit.setState(district.getState());
+			   districtEdit.setTelephone(district.getTelephone());
+			  
+			   
+			   district = districtEdit;
+			}
+			
+			
+			district.setUsers(userList);
 			baseService.save(district);
 		} catch (Exception e) {
+			e.printStackTrace();
 			model.addAttribute(
 					"errors",
 					initErrors("Ocurrio un error al insertar el Distrito:"
@@ -77,9 +113,14 @@ public class DistrictController extends AuthController {
 			RequestMethod.POST })
 	public String edit( ModelMap model, RedirectAttributes attributes, @RequestParam("id") Long id ) {
 		District district = baseService.findById(District.class , id);
+		Address address = new Address();
 		model.addAttribute("district", district);
-		model.addAttribute("address", district.getAddress());
-		return SecopreConstans.MV_CAT_DISTRICT_ADD;
+		model.addAttribute("address", address);
+		model.addAttribute("state", district.getState());
+
+		model.addAttribute("states", secopreCahe.getAllStatesMap());
+		return SecopreConstans.MV_CAT_DISTRICT_EDIT;
+		
 	}
 	
 	@RequestMapping(value = "cat/district/delete", method = RequestMethod.POST)

@@ -33,21 +33,13 @@
 												<span class="number">
 												2 </span>
 												<span class="desc">
-												<i class="fa fa-check"></i> Usuarios </span>
+												<i class="fa fa-check"></i>Direccion </span>
 												</a>
 											</li>
 											<li>
 												<a href="#tab3" data-toggle="tab" class="step">
 												<span class="number">
 												3 </span>
-												<span class="desc">
-												<i class="fa fa-check"></i>Direccion </span>
-												</a>
-											</li>
-											<li>
-												<a href="#tab4" data-toggle="tab" class="step">
-												<span class="number">
-												4 </span>
 												<span class="desc">
 												<i class="fa fa-check"></i>Confirmación </span>
 												</a>
@@ -139,28 +131,9 @@
 													</div>
 												</div>
 											</div>
-											
-											
-									<div class="tab-pane" id="tab2">
-									<h3 class="block">Seleccione los Usuarios</h3>
-									<div class="form-group">
-										<label class="control-label col-md-3">Usuarios<span
-											class="required"> * </span>
-										</label>
-										<div class="col-md-4">
-											<select multiple="multiple" class="multi-select" id="usuarios" name="usuarios">
-												<c:forEach items="${usuarios}" var="user">
-														<option value="${user.id}">${user.username} </option> 
-												</c:forEach>
-											</select>											
-										</div>
-									</div>
-									<div class="form-group">&nbsp;</div>
-									<div class="form-group">&nbsp;</div>
-								</div>
 
 						
-											<div class="tab-pane" id="tab3">
+											<div class="tab-pane" id="tab2">
 												<h3 class="block">Dirección</h3>
 												
 													<div class="form-group form-md-line-input has-danger">
@@ -260,7 +233,7 @@
 											</div>
 											
 											
-											<div class="tab-pane" id="tab4">
+											<div class="tab-pane" id="tab3">
 												<h3 class="block">Confirmación</h3>
 	
 												

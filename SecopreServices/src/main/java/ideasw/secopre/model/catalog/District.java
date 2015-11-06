@@ -39,11 +39,11 @@ public class District extends AuditEntity implements Persistible {
 	@Column(name = "NUMBER", nullable = false, length = 150)
 	private String number;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "STATE_ID")
 	private State state;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "ADDRESS_ID")
 	private Address address;
 
@@ -56,7 +56,7 @@ public class District extends AuditEntity implements Persistible {
 	
     @NotAudited
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
-    @ManyToMany(cascade=CascadeType.MERGE, fetch=FetchType.EAGER)
+    @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(name = "DISTRICT_USER",
         joinColumns = {@JoinColumn(name="DISTRICT_ID")},
         inverseJoinColumns = {@JoinColumn(name="USER_ID")}

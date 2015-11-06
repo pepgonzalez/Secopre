@@ -71,6 +71,7 @@ public class SecopreConstans {
 	public static final String MV_CAT_DISTRICT = "auth/catalog/district/district";
 	public static final String MV_CAT_DISTRICT_ADD = "auth/catalog/district/add";	
 	public static final String MV_CAT_DISTRICT_LIST = "auth/catalog/district/list";
+	public static final String MV_CAT_DISTRICT_EDIT = "auth/catalog/district/edit";
 
 	public static final String MV_CAT_POSITION = "auth/catalog/position/position";
 	public static final String MV_CAT_POSITION_ADD = "auth/catalog/position/add";
