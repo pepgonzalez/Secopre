@@ -80,19 +80,24 @@ public class DistrictController extends AuthController {
 			if(district.getId() == null)
 			{
 				district.setActivo(Boolean.TRUE);
-				baseService.save(district);
+				address.setActivo(Boolean.TRUE);
+				baseService.save(address);
 				district.setAddress(address);
 			}
 			else
 			{
 			   District districtEdit = baseService.findById(District.class , district.getId());	
+			   Address addressEdit = district.getAddress();
 			   districtEdit.setEmail(district.getEmail());
 			   districtEdit.setNumber(district.getNumber());
-			   districtEdit.setAddress(district.getAddress());
 			   districtEdit.setState(district.getState());
 			   districtEdit.setTelephone(district.getTelephone());
-			  
-			   
+			   addressEdit.setCity(address.getCity());
+			   addressEdit.setColony(address.getColony());
+			   addressEdit.setInteriorNumber(address.getInteriorNumber());
+			   addressEdit.setNumber(address.getNumber());
+			   addressEdit.setStreet(address.getStreet());
+			   districtEdit.setAddress(addressEdit);
 			   district = districtEdit;
 			}
 			
