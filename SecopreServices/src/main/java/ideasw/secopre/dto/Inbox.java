@@ -1,5 +1,9 @@
 package ideasw.secopre.dto;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Inbox {
 
 	private Long requestId;
@@ -22,6 +26,11 @@ public class Inbox {
 	private String captureForm;
 	private Long statusId;
 	private String nextDescription;
+	
+	private Float totalAmount;
+	private Date creationDate;
+	private String creationDateStr;
+	
 	@SuppressWarnings("unused")
 	private boolean hasDocument;
 	
@@ -161,5 +170,21 @@ public class Inbox {
 	}
 	public void setRequestFinished(boolean requestFinished) {
 		this.requestFinished = requestFinished;
+	}
+	public Float getTotalAmount() {
+		return totalAmount;
+	}
+	public void setTotalAmount(Float totalAmount) {
+		this.totalAmount = totalAmount;
+	}
+	public Date getCreationDate() {
+		return creationDate;
+	}
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+	public String getCreationDateStr() {
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		return df.format(this.creationDate);
 	}
 }

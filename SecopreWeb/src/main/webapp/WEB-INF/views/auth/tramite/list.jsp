@@ -43,7 +43,16 @@
 										</div>
 									</div>
 								</div>
+								<div class="row" style="margin-top:10px;">
+									<div class="col-md-12">
+										<div class="btn-group">
+											<input type="text" id="formalityDateSearch" placeholder="Buscar por fecha..." class="form-control input-medium">
+										</div>
+									</div>
+								</div>
 							</div>
+						<div>	
+					
 							<table class="table table-striped table-bordered table-hover" id="formalityList">
 							<thead>
 							<tr>
@@ -52,6 +61,8 @@
 								<th>Justificación</th>
 								<th>Distrito</th>
 								<th>Trámite</th>
+								<th>Importe</th>
+								<th>Fecha Creación</th>
 								<th>Siguiente Etapa</th>
 								<th>Acciones</th>
 							</tr>
@@ -65,6 +76,10 @@
 										<td>${inboxItem.justification}</td>
 										<td>${inboxItem.districtDescription}</td>
 										<td>${inboxItem.formalityDescription}</td>
+										
+										<td>${inboxItem.totalAmount}</td>
+										<td>${inboxItem.creationDateStr}</td>
+
 										<td>${inboxItem.nextDescription}</td>
 										<td>
 										

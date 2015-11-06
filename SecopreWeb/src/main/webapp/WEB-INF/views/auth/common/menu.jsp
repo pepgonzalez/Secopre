@@ -12,7 +12,7 @@
 			<!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
 			<!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
 			<!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
-			<ul class="page-sidebar-menu page-sidebar-menu-hover-submenu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+			<ul id="menuList" class="page-sidebar-menu page-sidebar-menu-hover-submenu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
 				<li class="start active ">
 					<a href="javascript:;">
 					<i class="icon-home"></i>
@@ -20,7 +20,7 @@
 					</a>
 				</li>
 				<c:forEach items="${menus}" var="itemMenu" varStatus="itemStatus">
-					<li>
+					<li id="${itemMenu.parent.jsId}">
 						<a href="javascript:;" onclick="${itemMenu.parent.jsFunction}">
 							<i class="${itemMenu.parent.cssClass}"></i>	
 							<span class="title">${itemMenu.parent.name}</span>	

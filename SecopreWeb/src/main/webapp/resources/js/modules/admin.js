@@ -1135,13 +1135,18 @@ function initTramiteListPage() {
             "info": "Mostrando pagina _PAGE_ de _PAGES_",
             "infoEmpty": "No hay registros disponibles",
             "infoFiltered": "(filtered from _MAX_ total records)"
-        }
+        },
+        bFilter: true, bInfo: true, bLengthChange:false, ordering:false
     });
 	
 	//Filtro de datatable por fecha
-	$(document).find('#idFiltroFecha').on( 'keyup', function () {
-		formalityDatatable.columns( 3 ).search( this.value ).draw();
+	$(document).find('#formalityDateSearch').on( 'keyup', function () {
+		formalityDatatable.columns( 6 ).search( this.value ).draw();
 	});
+	
+	$(document).find(".dataTables_filter").hide();
+	
+	updateMenu("#formalityMenu");
 }
 
 function showDataHistory(requestId){
@@ -1319,4 +1324,5 @@ function expenseCapture() {
 
 function initReports(){
 	console.log("iniciando listado de reportes");
+	updateMenu("#reportsMenu");
 }

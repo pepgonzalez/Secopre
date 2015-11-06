@@ -33,7 +33,7 @@
 				<thead>
 					<tr>
 						<th></th>
-						<th>Llave Programatica</th>
+						<th>Clave Programatica</th>
 						<th>Partida</th>
 						<th>Rango meses</th>
 						<th></th>

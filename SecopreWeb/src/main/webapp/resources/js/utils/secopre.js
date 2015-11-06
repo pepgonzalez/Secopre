@@ -297,3 +297,9 @@ function showNotification(notifType, notifMsg) {
 	}
 	var $toast = toastr[shortCutFunction](msg, title); // Wire up an event
 }
+
+function updateMenu(id){
+	console.log("actualizando menu");
+	$(document).find("#menuList").find("li").removeClass("start").removeClass("active");
+	$(document).find("#menuList").find(id).addClass("start").addClass("active");
+}

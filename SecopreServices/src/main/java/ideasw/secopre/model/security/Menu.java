@@ -51,6 +51,9 @@ public class Menu implements Persistible {
 	@Column(name = "CSSCLASS")
 	private String cssClass;
 
+	@Column(name = "JSID")
+	private String jsId;
+	
 	@Column(name = "JSFUNCTION")
 	private String jsFunction;
 
@@ -220,6 +223,14 @@ public class Menu implements Persistible {
 				+ ", cssClass=" + cssClass + ", jsFunction=" + jsFunction
 				+ ", parentId=" + parentId + ", order=" + order + ", roles="
 				+ roles + "]";
+	}
+
+	public String getJsId() {
+		return jsId;
+	}
+
+	public void setJsId(String jsId) {
+		this.jsId = jsId;
 	}
 
 }

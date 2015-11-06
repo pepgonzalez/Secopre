@@ -31,6 +31,8 @@ public class InboxMapper implements RowMapper<Object> {
 		 	inbox.setCaptureForm(rs.getString("CAPTURE_FORM"));
 		 	inbox.setStatusId(rs.getLong("STATUS_ID"));
 		 	inbox.setNextDescription(rs.getString("NEXT_DESCRIPTION"));
+		 	inbox.setTotalAmount(rs.getFloat("TOTAL_AMOUNT"));
+		 	inbox.setCreationDate(rs.getDate("CREATION_DATE"));
 			return inbox;
 	 }    
 } 
