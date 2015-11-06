@@ -116,6 +116,8 @@ var movementController = {
 		//evento para agregar movimientos
 		var addBtn = grd.find(".actions #addMov").on("click", function(){
 			self.addMovementRow(self, grid, false);
+			//al agregar me bloqueo hasta que la validacion correcta me desbloquee
+			grd.find(".actions #addMov").hide();
 		});
 	},
 	addMovementRow : function(self, grid, isComplementary, data){	
@@ -237,12 +239,17 @@ var movementController = {
 			console.log(data);
 			return data;
 	},
-	blockRow : function(self, grid, index){
+	blockRow : function(self, grid, index, keepSlider){
+		var keepSlider = keepSlider || false;
 		$(self.getId(grid, index, "programaticKeyId")).attr("readonly", "true");
 		$(self.getId(grid, index, "entryId")).attr("readonly", "true");
 		$(self.getId(grid, index, "monthAmount")).attr("readonly", "true");
 		var sliderId = self.getSliderId(grid) + index;
-		$(sliderId).hide();
+		if(keepSlider){
+			$(sliderId)[0].setAttribute('disabled',true);
+		}else{
+			$(sliderId).hide();
+		}
 	},
 	updateAmounts : function(self, grid, nextIndex, element){
 		var ma = $(document).find(self.getId(grid, nextIndex, element));
@@ -283,7 +290,8 @@ var movementController = {
 			
 			function blockRecord(){
 				//se bloquea la version actual
-				self.blockRow(self, grid, nextIndex);
+				self.blockRow(self, grid, nextIndex, true);
+				$(grid).find(".actions #addMov").show();
 			}
 			
 			function addCompensatedMovement(){
@@ -506,6 +514,8 @@ var movementController = {
 		if (filteredRows.length == 0){
 			$(grid).find("tbody").html('<tr id="noMovs"><td colspan="6">No hay Movimientos Capturados</td><tr>');
 		}
+		
+		$(grid).find(".actions #addMov").show();
 	},
 	addRemoveEvent : function(self, grid, indice){
 		var a = $(grid).find("[data-name='deleteAction']").find("#rmvIdx"+indice);
@@ -559,7 +569,7 @@ var movementController = {
 		
 		//evento para actualizar los totales cuando cambia el valor del slider
 		$(document).find(id).on('change', function(){
-			$(self.getId(grid, indice, "monthAmount")).blur();
+			//$(self.getId(grid, indice, "monthAmount")).blur();
 		});
 
 		var months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];			
