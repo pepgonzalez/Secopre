@@ -194,6 +194,8 @@
 									<div class="form-actions">
 										<div class="row">
 											<div class="col-md-offset-3 col-md-9">
+												<a href="javascript:;" class="btn default button-cancer">
+												<i class="m-icon-swapleft"></i> <spring:message code="application.cancel"/> </a>
 												<a href="javascript:;" class="btn default button-previous">
 												<i class="m-icon-swapleft"></i> <spring:message code="application.back"/> </a>
 												<a href="javascript:;" class="btn blue button-next">
