@@ -558,7 +558,6 @@ var movementController = {
 		
 		var rowSlider = document.getElementById(id);
 		
-		
 		$(document).find(id).noUiSlider({
 	        connect: true, behaviour: 'tap', step:1, start: [initialMonth, 11],
 	        range: {
@@ -566,44 +565,6 @@ var movementController = {
 	            'max': [11]
 	        }	
 	    });
-		
-		//evento para actualizar los totales cuando cambia el valor del slider
-		$(document).find(id).on('change', function(){
-			//$(self.getId(grid, indice, "monthAmount")).blur();
-			
-			//obtenemos los valores de partida y llave programatica
-			var entryId = parseInt($(self.getId(grid, indice, "entryId")).val());
-			var programaticKeyId = parseInt($(self.getId(grid, indice, "programaticKeyId")).val());
-			
-			alert("partida: " + entryId + ", clave: " + programaticKeyId);
-			
-			if(entryId < 0 || programaticKeyId < 0){
-				window.showNotification("error", "Seleccione llave programatica y Partida antes de continuar");
-				return;
-			}
-			
-			//obtenemos todos los registros activos en el grid que no son yo, activos y con misma partida
-			var brotherEntries = $(grid).find("tbody tr:not(#noMovs)").filter(function(){
-				var flag = $(this).find("[data-name='removedElement']").val();
-				var initialMonthId = $(this).find("[data-name='initialMonthId']").val();
-				var finalMonthId = $(this).find("[data-name='finalMonthId']").val();
-				
-				var programaticKeyId = $(this).find("[data-name='programaticKey'] select").val();
-				var entry = $(this).find("[data-name='entry'] select").val();
-				
-				var index = $(this).attr("data-rownumber");
-				
-				console.log("indice: " + index + ", esEliminado: " + flag + ", mesinicial: " 
-						+ initialMonthId + ", mesfinal: " + finalMonthId + ", llave: " + programaticKeyId + ", entry: " + entry);
-				
-				if(flag <= 0){
-					return true;
-				}else{
-					return false;
-				}
-			});
-			
-		});
 
 		var months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];			
 		function myValue(value){
@@ -621,6 +582,83 @@ var movementController = {
 
 		$(document).find(id).Link('lower').to($(document).find(self.getId(grid, indice, "lower-offset")), myValue);
 		$(document).find(id).Link('upper').to($(document).find(self.getId(grid, indice, "upper-offset")), myValue);
+		
+		var availableMonths = {};
+		for(var i = parseInt(new Date().getMonth()); i <= 11; i++){
+			availableMonths[i] = false;
+		}
+		
+		function setAvailableMonths(currentInitial, currentFinal){
+			for(var j = parseInt(currentInitial); j <= parseInt(currentFinal); j++){
+				availableMonths[j] = true; 
+			}	
+		}
+		
+		//evento para actualizar los totales cuando cambia el valor del slider
+		$(document).find(id).on('change', function(){
+			//$(self.getId(grid, indice, "monthAmount")).blur();
+			
+			//obtenemos los valores de partida y llave programatica
+			var currentEntryId = parseInt($(self.getId(grid, indice, "entryId")).val());
+			var currentProgramaticKeyId = parseInt($(self.getId(grid, indice, "programaticKeyId")).val());
+			var currentInitialMonthId = parseInt($(self.getId(grid, indice, "initialMonthId")).val());
+			var currentFinalMonthId = parseInt($(self.getId(grid, indice, "finalMonthId")).val());
+			
+			
+			alert("partida: " + currentEntryId + ", clave: " + currentProgramaticKeyId);
+			
+			if(currentEntryId < 0 || currentProgramaticKeyId < 0){
+				window.showNotification("error", "Seleccione llave programatica y Partida antes de continuar");
+				return;
+			}
+			
+			//obtenemos todos los registros activos en el grid que no son yo, activos y con misma partida
+			var brotherEntries = $(grid).find("tbody tr:not(#noMovs)").filter(function(){
+				
+				var flag = $(this).find("[data-name='removedElement']").val();
+				var initialMonthId = $(this).find("[data-name='initialMonthId']").val();
+				var finalMonthId = $(this).find("[data-name='finalMonthId']").val();
+				
+				var programaticKeyId = $(this).find("[data-name='programaticKey'] select").val();
+				var entry = $(this).find("[data-name='entry'] select").val();
+				
+				var index = $(this).attr("data-rownumber");
+				
+				console.log("indice: " + index + ", esEliminado: " + flag + ", mesinicial: " 
+						+ initialMonthId + ", mesfinal: " + finalMonthId + ", llave: " + programaticKeyId + ", entry: " + entry);
+				
+				if(flag <= 0 && index != indice && programaticKeyId == currentProgramaticKeyId && entry == currentEntryId){
+					return true;
+				}else{
+					return false;
+				}
+			});
+			alert("total de registros hermanos: " + brotherEntries.length);
+			
+			//si hay al menos un registro hermano
+			if(brotherEntries.length > 0){
+				//por cada hermano, se agregan los meses que ya tiene marcados
+				brotherEntries.each(function(idx, r){
+					var e = $(r);
+					var brotherInitialMonthId = e.find("[data-name='initialMonthId']").val();
+					var brotherFinalMonthId = e.find("[data-name='finalMonthId']").val();
+					setAvailableMonths(brotherInitialMonthId, brotherFinalMonthId);
+				});
+			}
+			
+			console.log("meses actuales y seleccionados: ");
+			console.log(availableMonths);
+			
+			for(var y = currentInitialMonthId; y<= currentFinalMonthId; y++){
+				var isSelected = availableMonths[y];
+				console.log("mes: " + y + ", esta seleccionado: " + isSelected);
+				if(isSelected){
+					window.showNotification("error","El mes de " + months[y] + " ya fue seleccionado en otro movimiento. Verifique." );
+					return;
+				}
+			}
+			
+		});
 	},
 	startComponent : function(){			
 		this.linkComponent(this.upGrid);
