@@ -3,6 +3,7 @@ var movementController = {
 	upGrid : "#addComponent",
 	downGrid : "#substractComponent",
 	slider : "SliderControl",
+	monthsController : false,
 	
 	/* funcion que oculta los grids */
 	reset : function(){
@@ -98,8 +99,12 @@ var movementController = {
 				var rowId = element.attr("id");	
 
 				self.startSlider(self, idx, parseInt(new Date().getMonth()), grid);		
+				
 				self.addRemoveEvent(self, grid, idx);
 				self.addInfoEvent(self, grid, idx);
+				self.addCloneEvent(self, grid, idx);
+				
+				$(grid).find("[data-name='deleteAction']").find("#cloneIdx"+idx).hide();
 				
 				//asignar eventos de cambio
 				self.addOnChangeEvent(self, grid, idx, "programaticKeyId",true);
@@ -121,7 +126,6 @@ var movementController = {
 		});
 	},
 	addMovementRow : function(self, grid, isComplementary, data){	
-		console.log("agregando movimiento");
 		var grd = $(grid);
 		var nextIndex = self.getNextIndex(grd);				
 		
@@ -135,6 +139,7 @@ var movementController = {
 		e.find("tr").attr("id","row"+nextIndex).attr("data-rowNumber", nextIndex);
 		e.find("[data-name='deleteAction'] #rowDeleteButton").attr("id", "rmvIdx" + nextIndex);
 		e.find("[data-name='deleteAction'] #rowInfoButton").attr("id", "infoIdx" + nextIndex);
+		e.find("[data-name='deleteAction'] #cloneInfoButton").attr("id", "cloneIdx" + nextIndex);
 		
 		//llave programatica
 		e.find("[data-name='programaticKey'] select").attr("name", self.getPath(grid, nextIndex, "programaticKeyId"))
@@ -198,7 +203,10 @@ var movementController = {
 		self.addOnChangeEvent(self, grid, nextIndex,"entryId",false);
 		self.addRemoveEvent(self, grid, nextIndex);
 		self.addInfoEvent(self, grid, nextIndex);
+		self.addCloneEvent(self, grid, nextIndex);
 		self.updateAmounts(self, grid, nextIndex, "monthAmount");
+		
+		$(document).find("#cloneIdx"+nextIndex).hide();
 	
 		if(isComplementary){
 			//se filtra
@@ -209,7 +217,6 @@ var movementController = {
 				entrySelect.empty();
 				entrySelect.append('<option value="-1">Seleccione..</option>');
 				$.each(response, function(index, item){
-					console.log("iterando registro");
 					if ( parseInt(item.id) != parseInt(data.entryId)){
 						entrySelect.append('<option value="' + item.id +'">' + item.name + '</option>');
 					}
@@ -219,8 +226,6 @@ var movementController = {
 			$(self.getId(grid, nextIndex, "monthAmount")).blur();
 			
 		}
-		
-		
 		grd.find("tbody #noMovs").remove();
 	},
 	getRowData : function(self, grid, index){
@@ -235,8 +240,6 @@ var movementController = {
 			data.initialMonth = initialMonth;
 			data.finalMonth = finalMonth;
 			data.monthAmount = monthAmount;
-			console.log("objeto data:");
-			console.log(data);
 			return data;
 	},
 	blockRow : function(self, grid, index, keepSlider){
@@ -272,7 +275,6 @@ var movementController = {
 			var that = this;
 			
 			function updateTotalAmounts(){
-				//alert("actualizando montos totales");
 				//se calcula el monto total del movimiento
 				total = ((finalMonth - initialMonth) + 1) * that.value;					
 				
@@ -291,6 +293,8 @@ var movementController = {
 			function blockRecord(){
 				//se bloquea la version actual
 				self.blockRow(self, grid, nextIndex, true);
+				$(grid).find("[data-name='deleteAction']").find("#cloneIdx"+nextIndex).show();
+				$(grid).find("[data-name='deleteAction']").find("#infoIdx"+nextIndex).hide();
 				$(grid).find(".actions #addMov").show();
 			}
 			
@@ -306,15 +310,18 @@ var movementController = {
 				}
 			}
 			
-			if(entryId < 0 || programaticKeyId < 0){
-				window.showNotification("error", "Seleccione llave programatica y Partida antes de continuar");
-				ma.closest("[data-name='monthAmount']").addClass("has-error");
-				updateTotalAmounts();
+			//se dispara el evento de validacion del slider que tambien determina el cambio de partida y clave
+			var sliderId = self.getSliderId(grid) + nextIndex;
+			$(document).find(sliderId).trigger("change");
+			
+			var validationResult = self.monthsController;			
+			if(!validationResult){
 				return;
 			}
 			
+			
 			//si se capturó algo
-			if ( this.value.length > 0){
+			if ( (this.value.length > 0) && (parseInt(this.value) > 0) ){
 				
 				var movementType = parseInt($(self.getId(grid, nextIndex, "movementTypeId")).val());
 				var calls = [];
@@ -326,14 +333,11 @@ var movementController = {
 					var isValidMovement = true;
 					for(var i = initialMonth; i <= finalMonth; i++){
 						
-						
 						var rowNumber = ma.closest("tr").attr("data-rowNumber");
 						//se buscan en el grid otras partidas que afecten al mismo mes
 						var totalGrid = self.obtenerTotalDePartidaPorMesEnGrid(self, grid, entryId, i, rowNumber);
 						var totalActual = parseFloat(this.value);
 						
-						//alert("total por grid: " + totalGrid);
-						//alert("total actual " + totalActual);
 						var montoTotal = totalGrid + totalActual;
 						var call = window.getPromise("auth/API/get/movOk/" + districtId + "/" + entryId + "/" + i + "/" + montoTotal, 
 								function(data){
@@ -377,8 +381,6 @@ var movementController = {
 	},
 	obtenerTotalDePartidaPorMesEnGrid: function(self, grid, entryId, monthId, rowNumber ){
 		
-		//alert("grid: " + grid + ", partida: " + entryId + ", mes: " + monthId + "rowNumber: " + rowNumber);
-		
 		//todas las partidas que no soy yo, y que son de la misma partida
 		var filteredRows = $(grid).find("tbody tr:not(#noMovs)").filter(function(){
 			var row = $(this);
@@ -387,8 +389,6 @@ var movementController = {
 			var mesInicial = parseInt(row.find("[data-name='initialMonthId']").val());
 			var mesFinal  = parseInt(row.find("[data-name='finalMonthId']").val());
 			var monthEntry = parseInt(row.find("[data-name='entry'] select").val());
-			
-			//alert("Datos de fila: esRegistroEliminado:" + esRegistroEliminado + ", indice:" + indice + ", rowNumber: "+ indice +", mesInicial: " + mesInicial + ", mes final: " + mesFinal + ", entryId:" + monthEntry);
 			
 			if (esRegistroEliminado <= 0 && (mesInicial <= monthId) && (mesFinal >= monthId ) && (rowNumber != indice) && (entryId == monthEntry)){
 				return true;
@@ -402,7 +402,6 @@ var movementController = {
 			total += parseFloat($(this).find("[data-name='monthAmount'] input").val());
 		});
 		
-		//alert("total de registros asociados a la partida ya existentes: " + filteredRows.length);
 		return total;
 	},
 	getCurrentEntries: function(grid, index){
@@ -412,9 +411,7 @@ var movementController = {
 			var rowNumber = parseInt($(this).attr("data-rownumber"));
 			return ( (parseInt(flag.val()) <= 0) && (index != rowNumber));
 		});
-		
-		console.log("total de filas activas: " + filteredRows.length);
-		
+				
 		filteredRows.each(function(idx, e){
 			var row = $(e);
 			var entry = parseInt(row.find("[data-name='entry'] select").val());
@@ -429,8 +426,6 @@ var movementController = {
 			var currentEntries = [];
 			if( (self.isCompensatedMovement()) && (grid == self.downGrid)){
 				currentEntries = self.getCurrentEntries(grid, indice);
-				console.log("total de partidas actuales");
-				console.log(currentEntries);
 			}
 		    
 			if(ajaxCall){
@@ -460,17 +455,6 @@ var movementController = {
 						}
 					});
 				});
-				
-				/*
-				self.apiCall('auth/API/get/entry/' + this.value + "/" + districtId , function(data){
-					var entrySelect = $(document).find(self.getId(grid, indice, "entryId"));
-			    	entrySelect.empty();
-			    	entrySelect.append('<option value="-1">Seleccione..</option>');
-			    	$.each(data, function(index, item){
-			    		entrySelect.append('<option value="' + item.id +'">' + item.name + '</option>');
-			    	});
-			    });
-				*/
 			}
 		    
 			if(parseInt(this.value) > 0){
@@ -479,12 +463,10 @@ var movementController = {
 		});
 	},
 	getEntriesByProgramaticKeyAndDistrict: function(programaticKeyId, callback){
-		console.log("llave programatica: " + programaticKeyId);
 		var districtId = $("#districtId").val();
 
 		//clousure
 		function returnMethod(data){
-			console.log("total de partidas encontradas: " + data.length);
 			callback(data);
 		}
 		
@@ -494,7 +476,6 @@ var movementController = {
 		});
 	},
 	removeClassError:function(id){
-		//alert("eliminando clase error de id: " + id);
 		$(id).closest(".has-error").removeClass("has-error");
 	},
 	removeRow : function(self, grid, indice){
@@ -534,7 +515,7 @@ var movementController = {
 	},
 	addInfoEvent : function(self, grid, indice){
 		var a = $(grid).find("[data-name='deleteAction']").find("#infoIdx"+indice);
-		
+				
 		a.on("click", function(){
 			var row = $(this).parent().parent();
 			
@@ -542,13 +523,27 @@ var movementController = {
 			var entry = row.find(self.getId(grid, indice, "entryId")).val();
 			var district = $("#districtId").val();
 			
-			//alert("valores: " + programaticKey+ ", partida: " + entry + ", distrito: " + district);
-			
 			if(parseInt(entry) <= 0){
 				window.showNotification("error", "Debe Seleccionar una partida para ver el detalle");
 			}else{
 				window.showEntryAmount(district, programaticKey, entry);
 			}
+			
+		});
+	},
+	addCloneEvent : function(self, grid, indice){
+		var a = $(grid).find("[data-name='deleteAction']").find("#cloneIdx"+indice);
+				
+		a.on("click", function(){
+			
+			self.addMovementRow(self, grid, false);			
+			var row = $(this).parent().parent();
+			
+			var programaticKey = row.find(self.getId(grid, indice, "programaticKeyId")).val();
+			var entry = row.find(self.getId(grid, indice, "entryId")).val();
+			
+			$(document).find(self.getId(grid, indice + 1, "programaticKeyId")).val(programaticKey);
+			$(document).find(self.getId(grid, indice + 1, "entryId")).val(entry);
 			
 		});
 	},
@@ -598,17 +593,17 @@ var movementController = {
 		$(document).find(id).on('change', function(){
 			//$(self.getId(grid, indice, "monthAmount")).blur();
 			
+			self.monthsController = true;
+			
 			//obtenemos los valores de partida y llave programatica
 			var currentEntryId = parseInt($(self.getId(grid, indice, "entryId")).val());
 			var currentProgramaticKeyId = parseInt($(self.getId(grid, indice, "programaticKeyId")).val());
 			var currentInitialMonthId = parseInt($(self.getId(grid, indice, "initialMonthId")).val());
 			var currentFinalMonthId = parseInt($(self.getId(grid, indice, "finalMonthId")).val());
 			
-			
-			alert("partida: " + currentEntryId + ", clave: " + currentProgramaticKeyId);
-			
 			if(currentEntryId < 0 || currentProgramaticKeyId < 0){
 				window.showNotification("error", "Seleccione llave programatica y Partida antes de continuar");
+				self.monthsController = false;
 				return;
 			}
 			
@@ -621,11 +616,7 @@ var movementController = {
 				
 				var programaticKeyId = $(this).find("[data-name='programaticKey'] select").val();
 				var entry = $(this).find("[data-name='entry'] select").val();
-				
 				var index = $(this).attr("data-rownumber");
-				
-				console.log("indice: " + index + ", esEliminado: " + flag + ", mesinicial: " 
-						+ initialMonthId + ", mesfinal: " + finalMonthId + ", llave: " + programaticKeyId + ", entry: " + entry);
 				
 				if(flag <= 0 && index != indice && programaticKeyId == currentProgramaticKeyId && entry == currentEntryId){
 					return true;
@@ -633,7 +624,6 @@ var movementController = {
 					return false;
 				}
 			});
-			alert("total de registros hermanos: " + brotherEntries.length);
 			
 			//si hay al menos un registro hermano
 			if(brotherEntries.length > 0){
@@ -645,19 +635,15 @@ var movementController = {
 					setAvailableMonths(brotherInitialMonthId, brotherFinalMonthId);
 				});
 			}
-			
-			console.log("meses actuales y seleccionados: ");
-			console.log(availableMonths);
-			
+						
 			for(var y = currentInitialMonthId; y<= currentFinalMonthId; y++){
 				var isSelected = availableMonths[y];
-				console.log("mes: " + y + ", esta seleccionado: " + isSelected);
 				if(isSelected){
 					window.showNotification("error","El mes de " + months[y] + " ya fue seleccionado en otro movimiento. Verifique." );
-					return;
+					$(self.getId(grid, indice, "monthAmount")).val("0");
+					self.monthsController = false;
 				}
-			}
-			
+			}			
 		});
 	},
 	startComponent : function(){			
@@ -757,7 +743,6 @@ var movementController = {
 					}
 					return res;
 				case 2:
-					//alert("validando 2 " +  self.downGrid);
 					var res = this.validateComponent(self.downGrid);
 					if(res){	
 						this.notif("success","Validación completa");
