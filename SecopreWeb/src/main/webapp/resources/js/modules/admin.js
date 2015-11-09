@@ -1,3 +1,15 @@
+function showProfile(idUser) {
+	sendRequestJQ('auth/adm/profile/show', 'dashboard', 'initProfilePage()');
+}
+
+function showProfileAccount(idUser) {
+	sendRequestJQ('auth/adm/profile/showProfileAccount/'+idUser, 'dashboard2','initProfilePage()');
+}
+
+function initProfilePage() {
+}
+
+
 function initPermPage() {
 	initPage('Perm');
 	initPermValidations();
