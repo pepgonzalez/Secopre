@@ -75,6 +75,7 @@
 	<link href='<c:url value="/resources/css/plugins/introjs.min.css"/>' rel="stylesheet" type="text/css"/>
 	<link href='<c:url value="/resources/css/secopre.css"/>' rel="stylesheet" type="text/css"/>
 	<link href='<c:url value="/resources/css/plugins/all.css"/>' rel="stylesheet" type="text/css"/>
+	<link href='<c:url value="/resources/css/plugins/tooltipster.css"/>' rel="stylesheet" type="text/css"/>
 	<!-- END PAGE CUSTOM STYLES -->	
 	<link rel="shortcut icon" href='<c:url value="/resources/img/favicon.ico"/>' type="image/vnd.microsoft.icon"/> 
 
@@ -172,7 +173,8 @@
 	<script src='<c:url value="/resources/js/plugins/intro.min.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/toastr.min.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/bootbox.min.js"/>' type="text/javascript"></script>		
-	<script src='<c:url value="/resources/js/plugins/jquery.formatCurrency-1.4.0.min.js"/>' type="text/javascript"></script>		
+	<script src='<c:url value="/resources/js/plugins/jquery.formatCurrency-1.4.0.min.js"/>' type="text/javascript"></script>
+	<script src='<c:url value="/resources/js/plugins/jquery.tooltipster.min.js"/>' type="text/javascript"></script>		
 	
 	
 	<script src='<c:url value="/resources/js/utils/secopreUtils.js"/>' type="text/javascript"></script>	
