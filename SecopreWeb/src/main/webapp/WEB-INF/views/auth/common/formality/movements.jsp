@@ -53,8 +53,9 @@
 								<tr data-name="rowContainer" id="row${i.index}" data-rowNumber="${i.index}">
 									
 									<td data-name="deleteAction" class="buttonColumn">
-  										<a href="javascript:;" class="btn default btn-xs red" id="rmvIdx${i.index}"><i class="fa fa-times"></i></a>
-  										<a href="javascript:;" class="btn grey-cascade btn-xs default lastButton" id="infoIdx${i.index}"><i class="fa fa-info-circle"></i></a>
+										<a href="javascript:;" class="btn default btn-xs red" id="rmvIdx${i.index}"><i class="fa fa-times"></i></a>
+  										<a href="javascript:;" class="btn grey-cascade btn-xs default" id="infoIdx${i.index}"><i class="fa fa-info-circle"></i></a>
+  										<a href="javascript:;" class="btn blue btn-xs default lastButton" id="cloneIdx${i.index}"><i class="fa fa-copy"></i></a>	
 									</td>
 									
 									<td data-name="programaticKey">
@@ -138,10 +139,10 @@
 								<tr data-name="rowContainer" id="row${i.index}" data-rowNumber="${i.index}">
 									
 									<td data-name="deleteAction" class="buttonColumn">
-  										<a href="javascript:;" class="btn default btn-xs red" id="rmvIdx${i.index}"><i class="fa fa-times"></i></a>
-  										<a href="javascript:;" class="btn grey-cascade btn-xs default lastButton" id="infoIdx${i.index}"><i class="fa fa-info-circle"></i></a>
-									</td>
-									
+										<a href="javascript:;" class="btn default btn-xs red" id="rmvIdx${i.index}"><i class="fa fa-times"></i></a>
+  										<a href="javascript:;" class="btn grey-cascade btn-xs default" id="infoIdx${i.index}"><i class="fa fa-info-circle"></i></a>
+  										<a href="javascript:;" class="btn blue btn-xs default lastButton" id="cloneIdx${i.index}"><i class="fa fa-copy"></i></a>
+  									</td>
 									
 									<td data-name="programaticKey">
 										<form:select path="upMovements[${i.index}].programaticKeyId" class="form-control input-small">
@@ -197,9 +198,8 @@
 		<td data-name="deleteAction" class="buttonColumn">
   			<a href="javascript:;" class="btn default btn-xs red" id="rowDeleteButton"><i class="fa fa-times"></i></a>
   			<a href="javascript:;" class="btn grey-cascade btn-xs default lastButton" id="rowInfoButton"><i class="fa fa-info-circle"></i></a>
+  			<a href="javascript:;" class="btn blue btn-xs default lastButton" id="cloneInfoButton"><i class="fa fa-copy"></i></a>
 		</td>
-		
-		
 		
 		<td data-name="programaticKey">
 			<form:select path="upMovements" class="form-control input-small">
