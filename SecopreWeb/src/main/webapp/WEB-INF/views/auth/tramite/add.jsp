@@ -18,7 +18,7 @@
 						
 						<div class="portlet-body form">
 							<!-- formulario -->	
-							<form:form cssClass="form-horizontal" method="POST" modelAttribute="requestForm" id="requestForm" action="auth/tram/add" novalidate="novalidate">
+							<form:form  method="POST" modelAttribute="requestForm" id="requestForm" action="auth/tram/add" novalidate="novalidate">
 							
 								<div class="form-body">
 									<!-- Se incluyen los DIV de alertamiento en formularios -->

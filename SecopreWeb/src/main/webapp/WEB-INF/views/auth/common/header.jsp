@@ -74,6 +74,7 @@
 							<li class="external">
 								<h3><span class="bold">4 pendientes</span> notificaciones</h3>
 								<a href="extra_profile.html">ver todo</a>
+								
 							</li>
 							<li>
 								<ul class="dropdown-menu-list scroller" style="height: 250px;" data-handle-color="#637283">
@@ -274,7 +275,7 @@
 						</a>
 						<ul class="dropdown-menu dropdown-menu-default">
 							<li>
-								<a href="extra_profile.html">
+								<a href="javascript:showProfile(${loggedUser.id});">
 								<i class="icon-user"></i> Mi Perfil </a>
 							</li>
 							<li>
