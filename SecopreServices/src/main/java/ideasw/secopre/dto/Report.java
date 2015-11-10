@@ -32,6 +32,9 @@ public class Report {
 	private String reportSourceDescription;
 	private String dataSource;
 	
+	//listado de parametros del reporte
+	private List<ReportParameter> reportParameters;
+	
 	//blob
 	private byte[] report;
 	
@@ -106,6 +109,16 @@ public class Report {
 	}
 	public void setDataSource(String dataSource) {
 		this.dataSource = dataSource;
+	}
+	public List<ReportParameter> getReportParameters() {
+		return reportParameters;
+	}
+	public void setReportParameters(List<ReportParameter> reportParameters) {
+		this.reportParameters = reportParameters;
+	}
+	
+	public boolean getHasReportParameters(){
+		return this.reportParameters.size() > 0;
 	}
 
 }
