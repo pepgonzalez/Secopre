@@ -1337,5 +1337,39 @@ function expenseCapture() {
 
 function initReports(){
 	console.log("iniciando listado de reportes");
+	
+	var reportTable = $('#reportList').DataTable({
+        "language": {
+            "lengthMenu": "_MENU_ Registros por pagina",
+            "zeroRecords": "No existen registros",
+            "info": "Mostrando pagina _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay registros disponibles",
+            "infoFiltered": "(filtered from _MAX_ total records)"
+        },
+        bFilter: true, bInfo: true, bLengthChange:false, ordering:false
+    });
+	
 	updateMenu("#reportsMenu");
+}
+
+function initReportParamCapture(){
+	console.log("iniciando js de captura de parametros");
+	
+	$('#downloadReport').click(function(e) {
+		console.log("descargando forma");
+		
+		var isFormOk = true;
+		$(document).find("#reportParametersForm").find("input").each(function(idx, e){
+			var input = $(e);
+			var isRequired = input.attr("data-required") === 'true';
+			if (isRequired && input.val().length == 0){
+				window.showNotification("error", input.attr("data-parametername") + " no puede ser vacio. Verifique");
+				isFormOk = false;
+			}
+		});
+		
+		if(isFormOk){
+			openParamResourceNative('report/download/paramReport', 'reportParametersForm');
+		}
+	});
 }
