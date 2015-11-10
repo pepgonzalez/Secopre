@@ -273,10 +273,15 @@ function openResourceNative(actionURL) {
     window.location.href = downloadUrl;
 }
 
-function openParamResourceNative(actionURL) {
+function openParamResourceNative(actionURL, formId) {
     var downloadUrl = actionURL;
+    
+    var frm = $('#' + formId);	
+	var formQuery = (frm !== undefined && frm !== null) ? frm.serialize(true) : null;
+	
+    
     // (optionally) provide the user with a message that the download is starting
-    window.location.href = downloadUrl;
+    window.location.href = downloadUrl+"?"+formQuery;
 }
 
 function showNotification(notifType, notifMsg) {
