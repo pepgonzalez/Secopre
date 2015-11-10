@@ -56,9 +56,18 @@
 										<td>${reportItem.reportSourceDescription}
 										<td>${reportItem.reportType}</td>
 										<td>	
-											<a href="#" onclick="openResourceNative('report/download/${reportItem.reportId}','dashboard','()','GET');">
-												<span class="label label-sm label-success"> Ver Reporte </span>
-											</a>
+											<c:if test="${reportItem.hasReportParameters == false}">
+												<a href="#" onclick="openResourceNative('report/download/${reportItem.reportId}','dashboard','()','GET');">
+													<span class="label label-sm label-success"> Ver Reporte </span>
+												</a>
+											</c:if>
+											
+											<c:if test="${reportItem.hasReportParameters == true}">
+												<a href="#" onclick="sendRequestJQ('auth/report/params/${reportItem.reportId}','dashboard','initReportParamCapture()','GET');">
+													<span class="label label-sm label-success"> Ver Reporte </span>
+												</a>
+											</c:if>
+											
 										</td>
 									</tr>							
 								</c:forEach>

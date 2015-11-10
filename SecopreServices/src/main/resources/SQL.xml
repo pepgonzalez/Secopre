@@ -491,7 +491,26 @@
  						 WHERE mr.role_id=r.id
   						   AND MENU_ID = :idMenu
 					]]>
-				</prop>						
+				</prop>	
+				
+				<prop key="GET_REPORT_PARAMETERS">
+					<![CDATA[
+						SELECT RPC.REPORT_ID,
+							   RPC.PARAMETER_NAME,
+							   RPC.PARAMETER_PATH,
+							   RPC.PARAMETER_ID,
+							   RP.PARAMETER_TYPE,
+							   RPC.LABEL,
+							   RPC.REQUIRED,
+							   RPC.CREATION_DATE,
+							   RPC.ACTIVE
+						  FROM secopre.REPORT_PARAMETER_CONFIG RPC,
+						  	   secopre.REPORT_PARAMETER RP
+						 WHERE RPC.PARAMETER_ID = RP.ID
+						 AND RPC.REPORT_ID = :reportId
+					]]>
+				</prop>
+									
 			</props>				
 		</property>
 	</bean>

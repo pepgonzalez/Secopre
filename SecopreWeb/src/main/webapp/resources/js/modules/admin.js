@@ -1326,3 +1326,25 @@ function initReports(){
 	console.log("iniciando listado de reportes");
 	updateMenu("#reportsMenu");
 }
+
+function initReportParamCapture(){
+	console.log("iniciando js de captura de parametros");
+	
+	$('#downloadReport').click(function(e) {
+		console.log("descargando forma");
+		
+		var isFormOk = true;
+		$(document).find("#reportParametersForm").find("input").each(function(idx, e){
+			var input = $(e);
+			var isRequired = input.attr("data-required") === 'true';
+			if (isRequired && input.val().length == 0){
+				window.showNotification("error", input.attr("data-parametername") + " no puede ser vacio. Verifique");
+				isFormOk = false;
+			}
+		});
+		
+		if(isFormOk){
+			submitAjaxJQ('reportParametersForm', 'dashboard', '');
+		}
+	});
+}
