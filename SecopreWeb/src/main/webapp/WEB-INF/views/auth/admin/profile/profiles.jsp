@@ -2,10 +2,7 @@
 <!-- SPRING TAGS LIBS -->
 <%@ include file="/WEB-INF/views/auth/common/springTags.jsp"%>
 
-<!--[if IE 8]> <html lang="es-MX" class="ie8 no-js"> <![endif]-->
-<!--[if IE 9]> <html lang="es-MX" class="ie9 no-js"> <![endif]-->
-<!--[if !IE]><!-->
-<html lang="es-MX" class="no-js">
+<html lang="es-MX" class="no-js">	
 
 <head>
 
@@ -81,12 +78,14 @@
 			
 <body>	
 <div class="profile-container">	
-<!-- BEGIN HEADER -->
+			<!-- BEGIN PAGE HEAD -->
+			<div class="page-head">
+				<!-- BEGIN PAGE TITLE -->
 				<div class="page-title">
-					<h1>
-					Mi Pefil <small> </small>
-					</h1>
+					<h1>Mi Perfil<small> Mi Cuenta</small></h1>
 				</div>
+			</div>
+			<!-- END PAGE HEAD -->
 			
 			<ul class="page-breadcrumb breadcrumb">
 				<li>

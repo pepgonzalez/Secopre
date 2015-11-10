@@ -1,5 +1,5 @@
 function showProfile(idUser) {
-	sendRequestJQ('auth/adm/profile/show', 'dashboard', 'initProfilePage()');
+	sendRequestJQ('auth/adm/profile/show/' + idUser, 'dashboard', 'initProfilePage()');
 }
 
 function showProfileAccount(idUser) {
@@ -7,6 +7,7 @@ function showProfileAccount(idUser) {
 }
 
 function initProfilePage() {
+	$('select').select2();
 }
 
 

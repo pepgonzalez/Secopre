@@ -5,15 +5,22 @@ import ideasw.secopre.service.AccessNativeService;
 import ideasw.secopre.service.AccessService;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
+
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 import ideasw.secopre.model.catalog.Person;
+import ideasw.secopre.model.catalog.Position;
 
 /**
  * Controller principal encargada del modulo de administracion de
@@ -39,14 +46,14 @@ public class ProfileController extends AuthController {
 	@Autowired
 	private AccessNativeService accessNativeService;
 
-	@RequestMapping(value = "adm/profile/show", method = { RequestMethod.GET,
+	@RequestMapping(value = "adm/profile/show/{idUser}", method = { RequestMethod.GET,
 			RequestMethod.POST })
-	public String getUserList(ModelMap model,Principal principal, HttpServletRequest request) {
-			String name = principal.getName(); // get logged in username
-			model.addAttribute("username", name);
-			User loggedUser = baseService.findByProperty(User.class, "username",
-					name).get(0);
-			model.addAttribute("loggedUser", loggedUser);
+	public String getUserList(ModelMap model,@PathVariable("idUser") Long idUser, Principal principal, HttpServletRequest request) {
+		String name = principal.getName(); // get logged in username
+		model.addAttribute("username", name);
+		User loggedUser = baseService.findByProperty(User.class, "username",
+				name).get(0);
+		model.addAttribute("loggedUser", loggedUser);
 		return SecopreConstans.MV_ADM_PROFILE;
 	}
 	
@@ -60,11 +67,17 @@ public class ProfileController extends AuthController {
 			User loggedUser = baseService.findByProperty(User.class, "username",
 					name).get(0);
 			model.addAttribute("loggedUser", loggedUser);
-		    
 			User user = baseService.findById(User.class , idUser);
 			Person person = baseService.findById(Person.class , user.getPerson().getId());
-
 			model.addAttribute("person", person);
+			model.addAttribute("user", user);
+
+			List<Position> position = baseService.findAll(Position.class);
+			HashMap<Long, String> positionMap = new HashMap<Long, String>();
+			for (Position p : position) {
+				positionMap.put(p.getId(),p.getName());
+			}
+			model.addAttribute("positions", positionMap);
 			
 		return SecopreConstans.MV_ADM_PROFILE_ACCOUNT;
 	}

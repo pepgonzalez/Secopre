@@ -1,3 +1,4 @@
+<%@ include file="/WEB-INF/views/auth/common/springTags.jsp"%>
 
 						<div class="row">
 							<div class="col-md-12">
@@ -27,43 +28,49 @@
 											<!-- PERSONAL INFO TAB -->
 											<div class="tab-pane active" id="tab_1_1">
 												<form role="form" action="#">
+												
 													<div class="form-group">
 														<label class="control-label">Primer Nombre</label>
 														<input type="text" value="${person.name}"  placeholder="John" class="form-control"/>
 													</div>
+													
 													<div class="form-group">
 														<label class="control-label">Segundo Nombre</label>
 														<input type="text"  value="${person.secondName}" placeholder="" class="form-control"/>
 													</div>
+													
 													<div class="form-group">
 														<label class="control-label">Apellido Paterno</label>
 														<input type="text" value="${person.secondName}" placeholder="" class="form-control"/>
 													</div>
+													
 													<div class="form-group">
 														<label class="control-label">Apellido Materno</label>
 														<input type="text" value="${person.fatherLastName}"  placeholder="" class="form-control"/>
 													</div>
+													
 													<div class="form-group">
-														<label class="control-label">Celular</label>
-														<input type="text" value="${person.motherLastName}" placeholder="+1 646 580 DEMO (6284)" class="form-control"/>
+														<label class="control-label">Nickname</label>
+														<input type="text" value="${user.nickname}"  class="form-control"/>
 													</div>
-<!-- 													<div class="form-group"> -->
-<!-- 														<label class="control-label">Intereses</label> -->
-<!-- 														<input type="text" placeholder="Design, Web etc." class="form-control"/> -->
-<!-- 													</div> -->
+																										
+													<label class="control-label">Ocupación</label>			
 													<div class="form-group">
-														<label class="control-label">Ocupación</label>
-														<input type="text" placeholder="Web Developer" class="form-control"/>
+					
+													   		<form:select path="positions"  name="positions" class="form-control input-large">
+															   <form:option value="" label="Seleccione..."/>
+				    										   <form:options items="${positions}" />
+															</form:select>
 													</div>
+
+									
 													<div class="form-group">
-														<label class="control-label">Acerca de ti</label>
+													<label class="control-label">Acerca de mi</label>
 														<textarea class="form-control" rows="3" placeholder="We are KeenThemes!!!"></textarea>
 													</div>
-<!-- 													<div class="form-group"> -->
-<!-- 														<label class="control-label">Website Url</label> -->
-<!-- 														<input type="text" placeholder="http://www.mywebsite.com" class="form-control"/> -->
-<!-- 													</div> -->
-													<div class="margiv-top-10">
+															
+
+													<div class="margiv-top-11">
 														<a href="javascript:;" class="btn green-haze">
 														Guardar Cambios </a>
 														<a href="javascript:;" class="btn default">
@@ -106,9 +113,9 @@
 													</div>
 													<div class="margin-top-10">
 														<a href="javascript:;" class="btn green-haze">
-														Submit </a>
+														Guardar </a>
 														<a href="javascript:;" class="btn default">
-														Cancel </a>
+														Cancelar </a>
 													</div>
 												</form>
 											</div>
@@ -187,7 +194,7 @@
 														<a href="javascript:;" class="btn green-haze">
 														Guardar Cambios </a>
 														<a href="javascript:;" class="btn default">
-														Cancel </a>
+														Cancelar </a>
 													</div>
 												</form>
 											</div>
