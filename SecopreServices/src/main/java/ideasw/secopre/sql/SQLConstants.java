@@ -27,6 +27,11 @@ public class SQLConstants {
 	public static final String GET_REQUEST_DETAIL = "GET_REQUEST_DETAIL";
 	public static final String GET_REQUEST_HISTORY = "GET_REQUEST_HISTORY";
 	public static final String GET_VALID_DISTRICTS = "GET_VALID_DISTRICTS";
+	//Querys para clonacion de partidas
+	public static final String VALIDATE_ENTRIES_NEXT_YEAR = "VALIDATE_ENTRIES_NEXT_YEAR";
+	public static final String CLONE_PROGRAMMATIC_KEY = "CLONE_PROGRAMMATIC_KEY";
+	public static final String CLONE_ENTRIES = "CLONE_ENTRIES";
+	
 	//obtiene todas las partidas asociadas a un llave programatica con saldo disponible
 	public static final String GET_VALID_ENTRIES = "GET_VALID_ENTRIES";
 	public static final String IS_USERNAME_VALID = "IS_USERNAME_VALID";
@@ -39,6 +44,6 @@ public class SQLConstants {
 	public static final String GET_REPORT_BY_ID = "GET_REPORT_BY_ID";
 	public static final String GET_REPORT_RESOURCE = "GET_REPORT_RESOURCE";
 	public static final String GET_SUBREPORTS_BY_ID = "GET_SUBREPORTS_BY_ID";
-
+	public static final String GET_REPORT_PARAMETERS = "GET_REPORT_PARAMETERS";
 	
 }
