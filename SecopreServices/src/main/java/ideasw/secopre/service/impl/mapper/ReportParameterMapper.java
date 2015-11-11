@@ -21,6 +21,7 @@ public class ReportParameterMapper implements RowMapper<Object> {
 		reportParameter.setParameterName(rs.getString("PARAMETER_NAME"));
 		reportParameter.setParameterPath(rs.getString("PARAMETER_PATH"));
 		reportParameter.setParameterType(rs.getString("PARAMETER_TYPE"));
+		reportParameter.setAjax(rs.getString("AJAX"));
 		reportParameter.setLabel(rs.getString("LABEL"));
 		reportParameter.setRequired(rs.getBoolean("REQUIRED"));
 		reportParameter.setCreationDate(rs.getDate("CREATION_DATE"));

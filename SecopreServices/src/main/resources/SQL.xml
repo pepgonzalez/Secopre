@@ -500,6 +500,7 @@
 							   RPC.PARAMETER_PATH,
 							   RPC.PARAMETER_ID,
 							   RP.PARAMETER_TYPE,
+							   RP.AJAX,
 							   RPC.LABEL,
 							   RPC.REQUIRED,
 							   RPC.CREATION_DATE,

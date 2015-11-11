@@ -41,12 +41,60 @@
 												</label>
 												<div class="col-md-9">
 													<div class="input-icon">
-														<form:input path="${reportParam.parameterPath}" class="form-control" data-required="${reportParam.required}" data-parametername="${reportParam.label}"/>
+														<form:input path="${reportParam.parameterPath}" class="form-control" 
+														data-required="${reportParam.required}" data-parametername="${reportParam.label}"
+														data-parameterType="input"/>
 														<div class="form-control-focus"></div>
 													</div>
 												</div>
 											</div>
 											
+										</c:if>
+										
+										<c:if test="${reportParam.parameterType == 'date'}">
+										
+											<div class="form-group form-md">
+												<label class="col-md-3 control-label" for="form_control_1">
+													${reportParam.label}
+													<c:if test="${reportParam.required}">
+													<span class="required">*</span>
+													</c:if>
+												</label>
+												<div class="col-md-9">
+                                                        <div data-date-format="dd/mm/yyyy" class="input-group date date-picker">
+														<div class="input-group-addon">
+													        <span class="fa fa-calendar"></span>
+													    </div>
+														<input name="${reportParam.parameterPath}"  
+														id="${reportParam.parameterPath}"  type="text" value="${reportParam.parameterPath}" 
+														class="form-control" data-required="${reportParam.required}" data-parametername="${reportParam.label}"
+														data-parameterType="date">
+														<div class="form-control-focus">
+														</div>
+														</div>
+														<span id="dueDateStr-error" class="help-block help-block-error">
+															Capture la fecha
+														</span>														
+												</div>
+											</div>	
+										</c:if>
+										
+										<c:if test="${reportParam.parameterType == 'select'}">
+											<div class="form-group form-md-line-input">
+												<label class="col-md-3 control-label" for="form_control_1">
+													${reportParam.label}
+													<c:if test="${reportParam.required}">
+														<span class="required">*</span>
+													</c:if>
+												</label>
+												<div class="col-md-9">
+													<form:select path="${reportParam.parameterPath}" class="form-control input-small" 
+																 data-required="${reportParam.required}" data-parametername="${reportParam.label}" data-parameterType="date">
+														<form:option value="-1" label="Seleccione..."/>
+						    							<form:options items="${reportParam.parameterOptions}" />
+													</form:select>
+												</div>
+											</div>
 										</c:if>
 										
 									</c:forEach>

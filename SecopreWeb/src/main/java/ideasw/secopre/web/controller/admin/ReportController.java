@@ -53,7 +53,7 @@ public class ReportController extends AuthController {
 	private ReportService reportService;
 	
 	@RequestMapping(value = "report/list", method = { RequestMethod.GET })
-	public String showReportList(ModelMap model, RedirectAttributes attributes,  Principal principal) {
+	public String showReportList(ModelMap model, RedirectAttributes attributes,  Principal principal) throws Exception {
 		
 		LOG.info("showReportList");
 		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);

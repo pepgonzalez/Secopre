@@ -1355,6 +1355,19 @@ function initReports(){
 function initReportParamCapture(){
 	console.log("iniciando js de captura de parametros");
 	
+	$(document).find("#reportParametersForm").find("input").each(function(idx,e){
+		var input = $(e);
+		var inputType = input.attr("data-parametertype");
+		
+		//si es un date, se inicializa el date
+		if(inputType == "date"){
+			input.datepicker({
+			  	  format: 'dd/mm/yyyy',
+			  	  autoclose: true
+			  });
+		}
+	});
+	
 	$('#downloadReport').click(function(e) {
 		console.log("descargando forma");
 		
@@ -1364,6 +1377,15 @@ function initReportParamCapture(){
 			var isRequired = input.attr("data-required") === 'true';
 			if (isRequired && input.val().length == 0){
 				window.showNotification("error", input.attr("data-parametername") + " no puede ser vacio. Verifique");
+				isFormOk = false;
+			}
+		});
+		
+		$(document).find("#reportParametersForm").find("select").each(function(idx, e){
+			var input = $(e);
+			var isRequired = input.attr("data-required") === 'true';
+			if (isRequired && parseInt(input.val()) <= 0){
+				window.showNotification("error", "Debe seleccionar un valor en " + input.attr("data-parametername") + ". Verifique.");
 				isFormOk = false;
 			}
 		});

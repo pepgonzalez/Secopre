@@ -43,6 +43,7 @@ import ideasw.secopre.sql.QueryContainer;
 import ideasw.secopre.sql.SQLConstants;
 import sun.util.calendar.BaseCalendar.Date;
 
+import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -547,7 +548,7 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 				
 	}
 	
-	public List<Report> getReportList(User user){
+	public List<Report> getReportList(User user) throws Exception{
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("userId", user.getId());
 		List<Report> reportList = this.queryForList(Report.class, queryContainer.getSQL(SQLConstants.GET_REPORT_LIST), namedParameters, new ReportMapper());
 		for(Report report: reportList){
@@ -556,16 +557,26 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		return reportList;
 	}
 	
-	public Report getReportById(Long reportId){
+	public Report getReportById(Long reportId) throws Exception{
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("reportId", reportId);
 		Report report = this.queryForList(Report.class, queryContainer.getSQL(SQLConstants.GET_REPORT_BY_ID), namedParameters , new ReportMapper()).get(0);
 		report.setReportParameters(this.getReportParameterByReportId(report.getReportId()));
 		return report;
 	}
 	
-	public List<ReportParameter> getReportParameterByReportId(Long reportId){
+	public List<ReportParameter> getReportParameterByReportId(Long reportId) throws Exception{
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("reportId", reportId);
-		return this.queryForList(ReportParameter.class, queryContainer.getSQL(SQLConstants.GET_REPORT_PARAMETERS), namedParameters, new ReportParameterMapper());
+		List<ReportParameter> reportParameterList = this.queryForList(ReportParameter.class, queryContainer.getSQL(SQLConstants.GET_REPORT_PARAMETERS), namedParameters, new ReportParameterMapper());
+		
+		for(ReportParameter reportParameter: reportParameterList){
+			if(reportParameter.getAjax() != null && reportParameter.getAjax().length() > 0){
+				//se obtiene el mapa de opciones
+				 Method method = this.getClass().getMethod(reportParameter.getAjax());
+				 Map<Long, String> parameterOptions = (Map<Long, String>) method.invoke(this);
+				 reportParameter.setParameterOptions(parameterOptions);
+			}
+		}
+		return reportParameterList;
 	}
 	
 	public Connection getSecopreDSConnection() throws SQLException{
@@ -601,7 +612,7 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	}
 
 	@Override
-	public List<ReportParameter> getParametersById(Long reportId) {
+	public List<ReportParameter> getParametersById(Long reportId) throws Exception {
 		return this.getReportParameterByReportId(reportId);
 	}
 
