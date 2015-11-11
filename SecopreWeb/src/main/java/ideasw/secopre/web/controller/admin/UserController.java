@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ideasw.secopre.model.catalog.Person;
+import ideasw.secopre.model.catalog.Position;
 
 /**
  * Controller principal encargada del modulo de administracion de
@@ -65,12 +66,19 @@ public class UserController extends AuthController {
 		model.addAttribute("permissions", baseService.findAll(Permission.class));
 		
 		List<Person> person = baseService.findAll(Person.class);
-		
+		//Lista de Personas
 		HashMap<Long, String> personMap = new HashMap<Long, String>();
 		for (Person p : person) {
 			personMap.put(p.getId(),p.getName().concat(" ").concat(p.getSecondName().concat(" ").concat(p.getFatherLastName().concat(" ").concat(p.getMotherLastName()))) );
 		}
 		model.addAttribute("persons", personMap);
+		//Lista de Position
+		List<Position> position = baseService.findAll(Position.class);
+		HashMap<Long, String> positionMap = new HashMap<Long, String>();
+		for (Position p : position) {
+			positionMap.put(p.getId(),p.getName());
+		}
+		model.addAttribute("positions", positionMap);
 		
 		return SecopreConstans.MV_ADM_USR;
 	}

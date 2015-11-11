@@ -588,6 +588,9 @@ function initUserValidations() {
 			"person.id" : {
 				required : true
 			},
+			"position.id" : {
+				required : true
+			},
 			roles : "required",
 			permissions : "required",
 			gender : "required"
