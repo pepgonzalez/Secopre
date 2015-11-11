@@ -5,6 +5,7 @@ import ideasw.secopre.dto.Formality;
 import ideasw.secopre.dto.Inbox;
 import ideasw.secopre.dto.Movement;
 import ideasw.secopre.dto.Report;
+import ideasw.secopre.dto.ReportParameter;
 import ideasw.secopre.dto.Request;
 import ideasw.secopre.dto.RequestConfig;
 import ideasw.secopre.dto.RequestHistory;
@@ -83,14 +84,14 @@ public class ReportServiceImpl extends AccessNativeServiceBaseImpl implements Re
 	
 	static final Logger LOG = LoggerFactory.getLogger(ReportServiceImpl.class);
 
-	private Report getReportCompiledObject(Long reportId) throws Exception{
+	private Report getReportCompiledObject(Long reportId, ReportParameter params) throws Exception{
 		Report report = this.getReportById(reportId);
 		report.setResource(this.getReportResource(reportId));
 
 		JasperReport jasperReport = getCompiledReport(report);
 		
 		//se llena el reporte
-		fillReport(jasperReport, report);
+		fillReport(jasperReport, report, params);
 		
 		return report;
 	}
@@ -106,11 +107,17 @@ public class ReportServiceImpl extends AccessNativeServiceBaseImpl implements Re
 		return jasperReport;
 	}
 	
-	private void fillReport(JasperReport jasperReport, Report report) throws Exception{
+	private void fillReport(JasperReport jasperReport, Report report, ReportParameter params) throws Exception{
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		
 		loadDataSource(report, parameters);
 		loadSubReports(report, parameters);
+		
+		List<ReportParameter> reportParamsList = nativeService.getParametersById(report.getReportId());
+		
+		if(reportParamsList.size() > 0){
+			loadUserParameters(report, parameters, reportParamsList, params);
+		}
 		
 		LOG.info("total de parametros: " + parameters.size());
 		
@@ -133,6 +140,21 @@ public class ReportServiceImpl extends AccessNativeServiceBaseImpl implements Re
 				parameters.put(r.getReportCode(), jasper);
 			}
 		}
+	}
+	
+	private void loadUserParameters(Report report, Map<String, Object>parameters, List<ReportParameter>reportParamsList, ReportParameter params) throws Exception{
+		for(ReportParameter parameter : reportParamsList){
+			 String paramMethod = this.getParamGetter(parameter.getParameterPath());
+			 LOG.info("obteniendo parametro: " + paramMethod);
+			 Method method = params.getClass().getMethod(paramMethod);
+			 String paramValue = (String) method.invoke(params);
+			 LOG.info("resultado: " + paramValue);
+			 parameters.put(parameter.getParameterName(), paramValue);
+		}
+	}
+	
+	private String getParamGetter(String param){
+		return "get"+param.substring(0,1).toUpperCase()+param.substring(1);
 	}
 	
 	private void loadDataSource(Report report, Map<String, Object> parameters) throws Exception{
@@ -198,8 +220,14 @@ public class ReportServiceImpl extends AccessNativeServiceBaseImpl implements Re
 
 	@Override
 	public Report getReport(Long reportId) throws Exception {
-		Report report = this.getReportCompiledObject(reportId);
-		
+		Report report = this.getReportCompiledObject(reportId, null);
+		return report;
+	}
+
+	@Override
+	public Report getReport(Long reportId, ReportParameter params) throws Exception {
+		// TODO Auto-generated method stub
+		Report report = this.getReportCompiledObject(reportId, params);
 		return report;
 	}	
 

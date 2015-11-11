@@ -9,6 +9,7 @@ import ideasw.secopre.dto.Authorization;
 import ideasw.secopre.dto.Formality;
 import ideasw.secopre.dto.Inbox;
 import ideasw.secopre.dto.Report;
+import ideasw.secopre.dto.ReportParameter;
 import ideasw.secopre.dto.Request;
 import ideasw.secopre.dto.RequestHistory;
 import ideasw.secopre.model.security.Permission;
@@ -148,4 +149,9 @@ public interface AccessNativeService {
      
  	/*Metodo para obtener los roles de un menu*/
      List<Role> getRolesByMenu(Long idMenu);
+     
+     /*Obtener reporte y parametero en base a id*/
+     Report getReportById(Long reportId);
+     
+     List<ReportParameter> getParametersById(Long reportId);
 }

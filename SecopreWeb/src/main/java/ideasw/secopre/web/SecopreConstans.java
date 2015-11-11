@@ -47,6 +47,8 @@ public class SecopreConstans {
 	
 	//####Modulo de reportes
 	public static final String MV_REPORT_LIST = "auth/report/list";
+	public static final String MV_REPORT_PARAMS = "auth/report/params";
+	public static final String MV_REPORT_LIST_REDIRECT = "redirect:auth/report/list";
 	
 	
 	//####Constantes de carga de archivos####//
@@ -89,6 +91,10 @@ public class SecopreConstans {
 	public static final String MV_CAT_DUEDATE_ADD = "auth/param/dueDate/add";	
 	public static final String MV_CAT_DUEDATE_LIST = "auth/param/dueDate/list";	
 	
+	//####Modulo de Perfil Usuario####//
+	public static final String MV_ADM_PROFILE = "auth/admin/profile/profiles";
+	public static final String MV_ADM_PROFILE_ACCOUNT = "auth/admin/profile/profileAccount";
 	
+
 		
 }

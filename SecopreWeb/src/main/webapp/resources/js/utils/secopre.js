@@ -41,7 +41,8 @@ function unblockPage() {
  * @param targetId:
  *            el id del div donde se inyectara el HTML producido por la peticion
  */
-function submitAjaxJQ(formId, targetId, after) {
+function submitAjaxJQ(formId, targetId, after, isDownload) {
+	var isDownload
 	var method = 'POST';
 	var frm = $('#' + formId);
 	var action = frm.attr('action');
@@ -270,6 +271,17 @@ function openResourceNative(actionURL) {
     var downloadUrl = actionURL;
     // (optionally) provide the user with a message that the download is starting
     window.location.href = downloadUrl;
+}
+
+function openParamResourceNative(actionURL, formId) {
+    var downloadUrl = actionURL;
+    
+    var frm = $('#' + formId);	
+	var formQuery = (frm !== undefined && frm !== null) ? frm.serialize(true) : null;
+	
+    
+    // (optionally) provide the user with a message that the download is starting
+    window.location.href = downloadUrl+"?"+formQuery;
 }
 
 function showNotification(notifType, notifMsg) {

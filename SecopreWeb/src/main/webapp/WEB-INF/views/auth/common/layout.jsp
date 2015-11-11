@@ -47,6 +47,13 @@
 	<link href='<c:url value="/resources/css/plugins/daterangepicker-bs3.css"/>' rel="stylesheet" type="text/css"/>
 	<link href='<c:url value="/resources/css/plugins/fullcalendar.min.css"/>' rel="stylesheet" type="text/css"/>
 	<link href='<c:url value="/resources/css/plugins/morris.css"/>' rel="stylesheet" type="text/css"/>
+	
+	<link href='<c:url value="/resources/css/plugins/bootstrap-fileinput.css"/>' rel="stylesheet" type="text/css"/>
+	<link href='<c:url value="/resources/css/plugins/profile.css"/>' rel="stylesheet" type="text/css"/>
+	<link href='<c:url value="/resources/css/plugins/tasks.css"/>' rel="stylesheet" type="text/css"/>
+	
+	
+	
 	<!-- END PAGE LEVEL PLUGIN STYLES -->	
 	<!-- BEGIN PAGE STYLES -->
 	<link href='<c:url value="/resources/css/tasks.css"/>' rel="stylesheet" type="text/css"/>
@@ -130,6 +137,7 @@
 	<!-- IMPORTANT! fullcalendar depends on jquery-ui.min.js for drag anddrop support -->
 	<script src='<c:url value="/resources/js/plugins/morris.min.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/raphael-min.js"/>' type="text/javascript"></script>
+	<script src='<c:url value="/resources/js/plugins/bootstrap-fileinput.js"/>' type="text/javascript"></script>	
 	<script src='<c:url value="/resources/js/plugins/jquery.sparkline.min.js"/>' type="text/javascript"></script>
 	<!-- END PAGE LEVEL PLUGINS -->
 	<!-- BEGIN PAGE LEVEL SCRIPTS -->
@@ -145,6 +153,8 @@
 	<script src='<c:url value="/resources/js/global/quick-sidebar2.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/global/index3.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/global/tasks.js"/>' type="text/javascript"></script>
+	
+    <script src='<c:url value="/resources/js/global/profile.js"/>' type="text/javascript"></script>
 	 
 	<script src='<c:url value="/resources/js/plugins/select2.min.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/bootstrap-select.min.js"/>' type="text/javascript"></script>

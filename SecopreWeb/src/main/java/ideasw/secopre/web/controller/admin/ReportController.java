@@ -2,7 +2,9 @@ package ideasw.secopre.web.controller.admin;
 
 import ideasw.secopre.dto.Formality;
 import ideasw.secopre.dto.Inbox;
+import ideasw.secopre.dto.Movement;
 import ideasw.secopre.dto.Report;
+import ideasw.secopre.dto.ReportParameter;
 import ideasw.secopre.dto.Request;
 import ideasw.secopre.model.catalog.District;
 import ideasw.secopre.model.security.User;
@@ -20,6 +22,7 @@ import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
@@ -27,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -78,6 +82,46 @@ public class ReportController extends AuthController {
 		  outputStream.write(report.getReport());
 		  outputStream.flush();
 		  outputStream.close();
+	}
+	
+	
+	@RequestMapping(value = "report/params/{reportId}", method ={RequestMethod.GET})
+	public String showReportParams(@PathVariable("reportId") Long reportId, ModelMap model, HttpServletResponse response) throws Exception{
+		LOG.info("mostrando parametros de reportId : " +  reportId);
+		
+		Report report = accessNativeService.getReportById(reportId);
+		
+		ReportParameter params = new ReportParameter();
+		params.setReportId(report.getReportId());
+		
+		model.addAttribute("reportParameters", report.getReportParameters());
+		model.addAttribute("reportParametersForm",params);
+		model.addAttribute("reportName", report.getDescription());
+		
+		return SecopreConstans.MV_REPORT_PARAMS;
+	}
+	
+	@RequestMapping(value = "report/download/paramReport", method = { RequestMethod.GET })
+	public void downloadParamReport(@ModelAttribute("reportParametersForm") ReportParameter reportParameterForm, BindingResult result, ModelMap model, 
+			RedirectAttributes attributes, Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		LOG.info("Descargando reporte con parametros");
+		LOG.info(reportParameterForm.toString());
+		
+		Report report = reportService.getReport(reportParameterForm.getReportId(), reportParameterForm);
+		
+		String fileName = report.getDescription() + "." + report.getReportType().toLowerCase();
+		
+		String REPORT_TYPE_PDF = "application/pdf";
+		String REPORT_TYPE_XLS = "application/vnd.ms-excel";
+		
+		OutputStream outputStream  = response.getOutputStream();
+		response.setContentType(report.getReportType().equals("PDF") ? REPORT_TYPE_PDF : REPORT_TYPE_XLS);
+		response.setContentLength(report.getReport().length);
+		response.addHeader("Content-Disposition","attachment;filename="+fileName);
+		response.setBufferSize(1024 * 15);
+		outputStream.write(report.getReport());
+		outputStream.flush();
+		outputStream.close();
 	}
 	
 }

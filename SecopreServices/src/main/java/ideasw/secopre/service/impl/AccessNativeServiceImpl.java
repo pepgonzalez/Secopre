@@ -5,6 +5,7 @@ import ideasw.secopre.dto.Formality;
 import ideasw.secopre.dto.Inbox;
 import ideasw.secopre.dto.Movement;
 import ideasw.secopre.dto.Report;
+import ideasw.secopre.dto.ReportParameter;
 import ideasw.secopre.dto.Request;
 import ideasw.secopre.dto.RequestConfig;
 import ideasw.secopre.dto.RequestHistory;
@@ -36,6 +37,7 @@ import ideasw.secopre.service.impl.mapper.RoleMapper;
 import ideasw.secopre.service.impl.mapper.StageConfigMapper;
 import ideasw.secopre.service.impl.mapper.MovementMapper;
 import ideasw.secopre.service.impl.mapper.ReportMapper;
+import ideasw.secopre.service.impl.mapper.ReportParameterMapper;
 import ideasw.secopre.service.impl.mapper.WorkFlowConfigMapper;
 import ideasw.secopre.sql.QueryContainer;
 import ideasw.secopre.sql.SQLConstants;
@@ -546,9 +548,24 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	}
 	
 	public List<Report> getReportList(User user){
-		SqlParameterSource namedParameters = new MapSqlParameterSource()
-				.addValue("userId", user.getId());
-		return this.queryForList(Report.class, queryContainer.getSQL(SQLConstants.GET_REPORT_LIST), namedParameters, new ReportMapper());
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("userId", user.getId());
+		List<Report> reportList = this.queryForList(Report.class, queryContainer.getSQL(SQLConstants.GET_REPORT_LIST), namedParameters, new ReportMapper());
+		for(Report report: reportList){
+			report.setReportParameters(this.getReportParameterByReportId(report.getReportId()));
+		}
+		return reportList;
+	}
+	
+	public Report getReportById(Long reportId){
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("reportId", reportId);
+		Report report = this.queryForList(Report.class, queryContainer.getSQL(SQLConstants.GET_REPORT_BY_ID), namedParameters , new ReportMapper()).get(0);
+		report.setReportParameters(this.getReportParameterByReportId(report.getReportId()));
+		return report;
+	}
+	
+	public List<ReportParameter> getReportParameterByReportId(Long reportId){
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("reportId", reportId);
+		return this.queryForList(ReportParameter.class, queryContainer.getSQL(SQLConstants.GET_REPORT_PARAMETERS), namedParameters, new ReportParameterMapper());
 	}
 	
 	public Connection getSecopreDSConnection() throws SQLException{
@@ -581,6 +598,11 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		SqlParameterSource namedParameters = new MapSqlParameterSource()
 		.addValue("idMenu", idMenu);
         return this.queryForList(Role.class, queryContainer.getSQL(SQLConstants.GET_ROLE_LIST_BY_MENU), namedParameters, new RoleMapper());
+	}
+
+	@Override
+	public List<ReportParameter> getParametersById(Long reportId) {
+		return this.getReportParameterByReportId(reportId);
 	}
 
 
