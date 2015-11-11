@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -80,6 +81,32 @@ public class ProfileController extends AuthController {
 			model.addAttribute("positions", positionMap);
 			
 		return SecopreConstans.MV_ADM_PROFILE_ACCOUNT;
+	}
+	
+	@RequestMapping(value = "adm/profile/changePersonalInfo/{idUser}/{idPerson}", method = { RequestMethod.GET,
+			RequestMethod.POST })
+	public String changePersonalInfo(ModelMap model,@ModelAttribute("user") User user,@ModelAttribute("person") Person person,@PathVariable("idUser") Long idUser,@PathVariable("idPerson") Long idPerson, Principal principal, HttpServletRequest request) {
+		String name = principal.getName(); // get logged in username
+		model.addAttribute("username", name);
+		User loggedUser = baseService.findByProperty(User.class, "username",
+				name).get(0);
+		model.addAttribute("loggedUser", loggedUser);
+		User userEdit = baseService.findById(User.class , idUser);
+		Person personEdit = baseService.findById(Person.class , user.getPerson().getId());
+		
+		
+		model.addAttribute("person", person);
+		model.addAttribute("user", user);
+		List<Position> position = baseService.findAll(Position.class);
+		HashMap<Long, String> positionMap = new HashMap<Long, String>();
+		for (Position p : position) {
+			positionMap.put(p.getId(),p.getName());
+		}
+		model.addAttribute("positions", positionMap);
+		
+		
+		
+		return SecopreConstans.MV_ADM_PROFILE;
 	}
 
 

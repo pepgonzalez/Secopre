@@ -91,6 +91,7 @@ public class User implements Persistible, UserDetails {
 	@PrimaryKeyJoinColumn(name = "PERSON_ID", referencedColumnName = "ID")
 	private Person person;
     
+    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     @ManyToOne
 	@PrimaryKeyJoinColumn(name = "POSITION_ID", referencedColumnName = "ID")
 	private Position position;
