@@ -12,6 +12,7 @@ import ideasw.secopre.dto.Report;
 import ideasw.secopre.dto.ReportParameter;
 import ideasw.secopre.dto.Request;
 import ideasw.secopre.dto.RequestHistory;
+import ideasw.secopre.dto.UserMovement;
 import ideasw.secopre.model.security.Permission;
 import ideasw.secopre.model.security.Role;
 import ideasw.secopre.model.security.User;
@@ -153,5 +154,12 @@ public interface AccessNativeService {
      /*Obtener reporte y parametero en base a id*/
      Report getReportById(Long reportId) throws Exception;
      
+     /*Metodo para obtener los parametros de un reporte*/
      List<ReportParameter> getParametersById(Long reportId) throws Exception;
+     
+     /*Servicio para obtener las ultimas partidas creadas por el usuario*/
+     List<UserMovement> getCreatedFormalitiesByUserId(Long userId, int totalMovements);
+     
+     /*Servicio para obtener todas las acciones realizadas por el usuario*/
+     List<UserMovement> getMovementUserActions(Long userId, int totalMovements);
 }

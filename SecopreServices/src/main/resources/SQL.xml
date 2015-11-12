@@ -511,6 +511,77 @@
 						 AND RPC.REPORT_ID = :reportId
 					]]>
 				</prop>
+				
+				<prop key="GET_CREATED_FORMALITIES_BY_USER">
+					<![CDATA[
+					SELECT R.FOLIO, 
+						   'Creacion de Trámite' AS MOVEMENT_TYPE,
+					       R.JUSTIFICATION AS JUSTIFICATION,
+					       RH.COMMENTS AS COMMENTS,
+					       F.DESCRIPTION AS FORMALITY,
+					       RH.LAST_UPDATE CREATION_DATE,
+					       (SELECT S.DESCRIPTION
+					          FROM secopre.REQUEST_HISTORY IRH,
+					          	   secopre.WORKFLOW_CONFIG WC,
+					          	   secopre.STATUS S
+					         WHERE IRH.ACTIVE = 1 
+					           AND IRH.WORKFLOW_CONFIG_ID = WC.ID
+					           AND WC.STATUS_ID = S.ID
+					           AND IRH.REQUEST_ID = R.ID) AS CURRENT_STATUS
+					  FROM secopre.REQUEST_HISTORY RH,
+					  	   secopre.REQUEST R,
+					  	   secopre.REQUEST_CONFIG RC,
+					  	   secopre.FORMALITY F
+					 WHERE RH.USER_ID = :userId
+					   AND RH.CONSECUTIVE = 1
+					   AND RC.REQUEST_ID = R.ID
+					   AND RC.FORMALITY_ID = F.ID
+					   AND RH.REQUEST_ID = R.ID
+					 ORDER BY RH.LAST_UPDATE DESC
+					 LIMIT :total
+					]]>
+				</prop>
+				
+				<prop key="GET_USER_MOVEMENT_ACTIONS">
+					<![CDATA[
+						SELECT R.FOLIO,
+							   'Acción Sobre el Folio' as MOVEMENT_TYPE,
+							   R.JUSTIFICATION,
+							   RH.COMMENTS,
+							   F.DESCRIPTION FORMALITY,
+							   RH.LAST_UPDATE AS CREATION_DATE,
+							   RH.REQUEST_ID, 
+							   RH.CONSECUTIVE,
+							   RH.LAST_UPDATE,
+							   RH.WORKFLOW_CONFIG_ID, 
+							   WC.WF_CFG_CODE, 
+							   WC.NEXT_STAGE_CONFIG,
+							   CONCAT(IFNULL ((SELECT IST.DESCRIPTION
+							   	  FROM secopre.STATUS IST,
+							   	  	   secopre.WORKFLOW_CONFIG IWC,
+							   	  	   secopre.REQUEST_HISTORY IRH
+							   	 WHERE IRH.REQUEST_ID = RH.REQUEST_ID
+							   	   AND IRH.CONSECUTIVE = (RH.CONSECUTIVE - 1)
+							   	   AND IRH.WORKFLOW_CONFIG_ID = IWC.ID
+							   	   AND IWC.STATUS_ID = IST.ID), 'Creación del Folio'), ' > ', WC.WF_CFG_CODE, ' > ', S.DESCRIPTION) AS CURRENT_STATUS
+						  FROM secopre.REQUEST_HISTORY RH,
+						  	   secopre.WORKFLOW_CONFIG WC,
+						  	   secopre.STAGE_CONFIG SC,
+						  	   secopre.STATUS S,
+						  	   secopre.REQUEST R,
+						  	   secopre.FORMALITY F,
+						  	   secopre.REQUEST_CONFIG RC
+						 where RH.user_id = :userId 
+						AND RH.WORKFLOW_CONFIG_ID = WC.ID
+						AND WC.STAGE_CONFIG_ID = SC.ID
+						AND WC.STATUS_ID = S.ID
+						AND RH.REQUEST_ID = R.ID
+						AND R.ID = RC.REQUEST_ID
+						AND RC.FORMALITY_ID = F.ID
+						ORDER BY RH.LAST_UPDATE DESC, RH.CONSECUTIVE DESC
+						LIMIT :total
+					]]>
+				</prop>
 									
 			</props>				
 		</property>

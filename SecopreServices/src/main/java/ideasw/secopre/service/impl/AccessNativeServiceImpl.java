@@ -10,6 +10,7 @@ import ideasw.secopre.dto.Request;
 import ideasw.secopre.dto.RequestConfig;
 import ideasw.secopre.dto.RequestHistory;
 import ideasw.secopre.dto.StageConfig;
+import ideasw.secopre.dto.UserMovement;
 import ideasw.secopre.dto.WorkFlowConfig;
 import ideasw.secopre.enums.Month;
 import ideasw.secopre.enums.WorkFlowCode;
@@ -35,6 +36,7 @@ import ideasw.secopre.service.impl.mapper.RequestHistoryMapper;
 import ideasw.secopre.service.impl.mapper.RequestMapper;
 import ideasw.secopre.service.impl.mapper.RoleMapper;
 import ideasw.secopre.service.impl.mapper.StageConfigMapper;
+import ideasw.secopre.service.impl.mapper.UserMovementMapper;
 import ideasw.secopre.service.impl.mapper.MovementMapper;
 import ideasw.secopre.service.impl.mapper.ReportMapper;
 import ideasw.secopre.service.impl.mapper.ReportParameterMapper;
@@ -614,6 +616,18 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	@Override
 	public List<ReportParameter> getParametersById(Long reportId) throws Exception {
 		return this.getReportParameterByReportId(reportId);
+	}
+	
+	public List<UserMovement> getCreatedFormalitiesByUserId(Long userId, int totalMovements){
+		SqlParameterSource namedParameters = new MapSqlParameterSource()
+				.addValue("userId", userId).addValue("total", totalMovements);
+		return this.queryForList(UserMovement.class, queryContainer.getSQL(SQLConstants.GET_CREATED_FORMALITIES_BY_USER), namedParameters, new UserMovementMapper());
+	}
+	
+	public List<UserMovement> getMovementUserActions(Long userId, int totalMovements){
+		SqlParameterSource namedParameters = new MapSqlParameterSource()
+				.addValue("userId", userId).addValue("total", totalMovements);
+		return this.queryForList(UserMovement.class, queryContainer.getSQL(SQLConstants.GET_USER_MOVEMENT_ACTIONS), namedParameters, new UserMovementMapper());
 	}
 
 
