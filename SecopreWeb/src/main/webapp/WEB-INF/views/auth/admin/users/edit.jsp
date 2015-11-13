@@ -30,13 +30,13 @@
 											class="fa fa-check"></i>Roles
 									</span>
 								</a></li>
-<!-- 								<li><a href="#tab3" data-toggle="tab" class="step active"> -->
-<!-- 										<span class="number"> 3 </span> <span class="desc"> <i -->
-<!-- 											class="fa fa-check"></i>Permisos -->
-<!-- 									</span> -->
-<!-- 								</a></li> -->
-								<li><a href="#tab3" data-toggle="tab" class="step"> <span
-										class="number"> 3 </span> <span class="desc"> <i
+								<li><a href="#tab3" data-toggle="tab" class="step active">
+										<span class="number"> 3 </span> <span class="desc"> <i
+											class="fa fa-check"></i>Distritos
+									</span>
+								</a></li>
+								<li><a href="#tab4" data-toggle="tab" class="step"> <span
+										class="number"> 4 </span> <span class="desc"> <i
 											class="fa fa-check"></i> Confirmación
 									</span>
 								</a></li>
@@ -149,6 +149,24 @@
 									<div class="form-group">&nbsp;</div>
 									<div class="form-group">&nbsp;</div>
 								</div>
+								
+								<div class="tab-pane" id="tab3">
+									<h3 class="block">Seleccione los Distritos</h3>
+									<div class="form-group">
+										<label class="control-label col-md-3">Distrito<span
+											class="required"> * </span>
+										</label>
+										<div class="col-md-4">
+											<select multiple="multiple" class="multi-select" id="districts" name="districts">
+												<c:forEach items="${districts}" var="district">
+														<option value="${district.id}">${district.number} </option> 
+												</c:forEach>
+											</select>											
+										</div>
+									</div>
+									<div class="form-group">&nbsp;</div>
+									<div class="form-group">&nbsp;</div>
+								</div>
 <!-- 								<div class="tab-pane" id="tab3"> -->
 <!-- 									<h3 class="block">Seelccione los Permisos</h3> -->
 <!-- 									<div class="form-group"> -->
@@ -166,7 +184,7 @@
 <!-- 									<div class="form-group">&nbsp;</div> -->
 <!-- 									<div class="form-group">&nbsp;</div> -->
 <!-- 								</div> -->
-								<div class="tab-pane" id="tab3">
+								<div class="tab-pane" id="tab4">
 									<h3 class="block">Confirme la cuenta de usuario</h3>
 									<h4 class="form-section">Cuenta</h4>
 									<div class="form-group">

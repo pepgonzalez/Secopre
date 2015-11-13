@@ -162,4 +162,10 @@ public interface AccessNativeService {
      
      /*Servicio para obtener todas las acciones realizadas por el usuario*/
      List<UserMovement> getMovementUserActions(Long userId, int totalMovements);
+     
+     /*Servicio para obtener todas los distritos que pertenece a un usuario*/
+     List<District> getDistrictsByUser(Long userId);
+     
+     /*Servicio para obtener todas los usuarios que pertenece a un distrito*/
+     List<User> getUsersByDistrict(Long districtId);
 }

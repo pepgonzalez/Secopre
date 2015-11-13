@@ -27,6 +27,10 @@ public class SQLConstants {
 	public static final String GET_REQUEST_DETAIL = "GET_REQUEST_DETAIL";
 	public static final String GET_REQUEST_HISTORY = "GET_REQUEST_HISTORY";
 	public static final String GET_VALID_DISTRICTS = "GET_VALID_DISTRICTS";
+	public static final String GET_DISTRICT_LIST_BY_USER = "GET_DISTRICT_LIST_BY_USER";
+	public static final String GET_USER_LIST_BY_DISTRICT = "GET_USER_LIST_BY_DISTRICT";	
+	
+	
 	//obtiene todas las partidas asociadas a un llave programatica con saldo disponible
 	public static final String GET_VALID_ENTRIES = "GET_VALID_ENTRIES";
 	public static final String IS_USERNAME_VALID = "IS_USERNAME_VALID";

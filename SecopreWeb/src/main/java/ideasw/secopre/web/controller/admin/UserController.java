@@ -64,7 +64,7 @@ public class UserController extends AuthController {
 		model.addAttribute("userList", baseService.findAll(User.class));
 		model.addAttribute("user", user);
 		model.addAttribute("roles", baseService.findAll(Role.class));
-		model.addAttribute("permissions", baseService.findAll(Permission.class));
+		//model.addAttribute("permissions", baseService.findAll(Permission.class));
 		
 		
 		List<Person> person = baseService.findAll(Person.class);
@@ -205,7 +205,7 @@ public class UserController extends AuthController {
 		
 		model.addAttribute("userList", baseService.findAll(User.class));
 	
-		model.addAttribute("permissions", baseService.findAll(Permission.class));
+		//model.addAttribute("permissions", baseService.findAll(Permission.class));
 	
 		//Listado de Personas
 		List<Person> person = baseService.findAll(Person.class);
@@ -215,7 +215,11 @@ public class UserController extends AuthController {
 		}
 		model.addAttribute("persons", personMap);
 		
+		//Lista de Roles
 		model.addAttribute("roles", baseService.findAll(Role.class));
+		
+		//Lista de Distritos
+		model.addAttribute("districts", secopreCache.getAlldistricts());
 
 		return SecopreConstans.MV_ADM_USR_EDIT;
 	}
@@ -285,5 +289,38 @@ public class UserController extends AuthController {
 		return returnObject;
 	}
 	
+	@RequestMapping(value = "adm/usr/getDistrictsByUser/{idUser}", method= {RequestMethod.GET})
+	public @ResponseBody Map<String, Object> getDistrictsByUser(@PathVariable("idUser") Long idUser){
+		Map<String, Object> returnObject = new HashMap<String, Object>();
+		//Listado de Distritos
+		List<District> districts  = accessNativeService.getDistrictsByUser(idUser);
+		
+		 //List of numbers we want to concatenate
+	    List<Long> numbers = new ArrayList<Long>();
+	    for (District r : districts) {
+	    	numbers.add(r.getId());
+		}
+
+	    //The string builder used to construct the string
+	    StringBuilder commaSepValueBuilder = new StringBuilder();
+
+	    //Looping through the list
+	    for ( int i = 0; i< numbers.size(); i++){
+	      //append the value into the builder
+	      commaSepValueBuilder.append(numbers.get(i));
+
+	      //if the value is not the last element of the list
+	      //then append the comma(,) as well
+	      if ( i != numbers.size()-1){
+	        commaSepValueBuilder.append(",");
+	      }
+	    }
+	    System.out.println(commaSepValueBuilder.toString());
+		
+	    String result = commaSepValueBuilder.toString().trim();
+		
+		returnObject.put("result", result);
+		return returnObject;
+	}
 	
 }

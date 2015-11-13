@@ -226,8 +226,8 @@
 										</label>
 										<div class="col-md-4">
 											<select multiple="multiple" class="multi-select" id="districts" name="districts">
-												<c:forEach items="${districts}" var="role">
-														<option value="${district.id}">${district.name} </option> 
+												<c:forEach items="${districts}" var="district">
+														<option value="${district.id}">${district.number} </option> 
 												</c:forEach>
 											</select>											
 										</div>

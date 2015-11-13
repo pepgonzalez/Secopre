@@ -582,7 +582,26 @@
 						LIMIT :total
 					]]>
 				</prop>
-									
+				
+				<prop key="GET_DISTRICT_LIST_BY_USER">
+					<![CDATA[
+							SELECT D.id , D.NUMBER DESCRIPCION
+						  	  FROM DISTRICT D,
+						  	       DISTRICT_USER DS
+						  	 WHERE D.ID = DS.DISTRICT_ID
+						  	   AND DS.USER_ID = :userId
+					]]>
+				</prop>	
+				
+				<prop key="GET_USER_LIST_BY_DISTRICT">
+					<![CDATA[
+							SELECT U.id , U.USERNAME USERNAME, U.PERSON_ID
+						  	  FROM USER U,
+						  	       DISTRICT_USER DU
+						  	 WHERE U.ID = DU.USER_ID
+						  	   AND DU.DISTRICT_ID = :districtId
+					]]>
+				</prop>						
 			</props>				
 		</property>
 	</bean>

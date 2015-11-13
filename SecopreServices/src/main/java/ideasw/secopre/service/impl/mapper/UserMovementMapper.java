@@ -2,11 +2,8 @@ package ideasw.secopre.service.impl.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import org.springframework.jdbc.core.RowMapper;
-
 import ideasw.secopre.dto.UserMovement;
-import ideasw.secopre.model.security.Role;
 
 public class UserMovementMapper implements RowMapper<Object> {    
 	 

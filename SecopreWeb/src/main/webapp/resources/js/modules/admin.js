@@ -380,6 +380,14 @@ function initUserPage(idUser) {
 	      $("#roles").val(valArr);
 	      $("#roles").multiSelect("refresh");
 	   });
+	   
+	   apiCallUnblock("auth/adm/usr/getDistrictsbyUser/" + idUser, function(data)
+			   {	
+			      var valArr=data.result.split(',');
+			      $("#districts").val(valArr);
+			      $("#districts").multiSelect("refresh");
+			   });	   
+	   
 	}
 	
 //	$('#permissions').multiSelect({

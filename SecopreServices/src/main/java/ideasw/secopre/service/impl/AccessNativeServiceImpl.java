@@ -36,6 +36,7 @@ import ideasw.secopre.service.impl.mapper.RequestHistoryMapper;
 import ideasw.secopre.service.impl.mapper.RequestMapper;
 import ideasw.secopre.service.impl.mapper.RoleMapper;
 import ideasw.secopre.service.impl.mapper.StageConfigMapper;
+import ideasw.secopre.service.impl.mapper.UserMapper;
 import ideasw.secopre.service.impl.mapper.UserMovementMapper;
 import ideasw.secopre.service.impl.mapper.MovementMapper;
 import ideasw.secopre.service.impl.mapper.ReportMapper;
@@ -629,6 +630,21 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 				.addValue("userId", userId).addValue("total", totalMovements);
 		return this.queryForList(UserMovement.class, queryContainer.getSQL(SQLConstants.GET_USER_MOVEMENT_ACTIONS), namedParameters, new UserMovementMapper());
 	}
+	
+	@Override
+	public List<District> getDistrictsByUser(Long userId) {
+		SqlParameterSource namedParameters = new MapSqlParameterSource()
+		.addValue("userId", userId);
+        return this.queryForList(District.class, queryContainer.getSQL(SQLConstants.GET_DISTRICT_LIST_BY_USER), namedParameters, new DistrictMapper());
+	}
+	
+	@Override
+	public List<User> getUsersByDistrict(Long districtId) {
+		SqlParameterSource namedParameters = new MapSqlParameterSource()
+		.addValue("districtId", districtId);
+        return this.queryForList(User.class, queryContainer.getSQL(SQLConstants.GET_USER_LIST_BY_DISTRICT), namedParameters, new UserMapper());
+	}
+
 
 
 }
