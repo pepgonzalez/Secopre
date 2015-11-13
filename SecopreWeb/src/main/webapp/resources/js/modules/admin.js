@@ -352,6 +352,9 @@ function initUserPage(idUser) {
 	$('#roles').multiSelect({
 		 includeSelectAllOption: true
 	});
+	$('#districts').multiSelect({
+		 includeSelectAllOption: true
+	});
 
 	var apiCallUnblock = function(actionURL, callback) {
 		var method = method || "POST";
@@ -1004,7 +1007,7 @@ function initUserValidations() {
    
 
 	var displayConfirm = function() {
-		$('#tab3 .form-control-static', form).each(
+		$('#tab4 .form-control-static', form).each(
 				function() {
 					var input = $('[name="' + $(this).attr("data-display")
 							+ '"]', form);

@@ -30,12 +30,12 @@
 											class="fa fa-check"></i>Roles
 									</span>
 								</a></li>
-<!-- 								<li><a href="#tab3" data-toggle="tab" class="step active"> -->
-<!-- 										<span class="number"> 3 </span> <span class="desc"> <i -->
-<!-- 											class="fa fa-check"></i>Permisos -->
-<!-- 									</span> -->
-<!-- 								</a></li> -->
-								<li><a href="#tab3" data-toggle="tab" class="step"> <span
+								<li><a href="#tab3" data-toggle="tab" class="step active">
+										<span class="number"> 3 </span> <span class="desc"> <i
+											class="fa fa-check"></i>Distritos
+									</span>
+								</a></li>
+								<li><a href="#tab4" data-toggle="tab" class="step"> <span
 										class="number"> 3 </span> <span class="desc"> <i
 											class="fa fa-check"></i> Confirmación
 									</span>
@@ -210,6 +210,24 @@
 											<select multiple="multiple" class="multi-select" id="roles" name="roles">
 												<c:forEach items="${roles}" var="role">
 														<option value="${role.id}">${role.rolename} </option> 
+												</c:forEach>
+											</select>											
+										</div>
+									</div>
+									<div class="form-group">&nbsp;</div>
+									<div class="form-group">&nbsp;</div>
+								</div>
+								
+								<div class="tab-pane" id="tab3">
+									<h3 class="block">Seleccione los Distritos</h3>
+									<div class="form-group">
+										<label class="control-label col-md-3">Distrito<span
+											class="required"> * </span>
+										</label>
+										<div class="col-md-4">
+											<select multiple="multiple" class="multi-select" id="districts" name="districts">
+												<c:forEach items="${districts}" var="role">
+														<option value="${district.id}">${district.name} </option> 
 												</c:forEach>
 											</select>											
 										</div>

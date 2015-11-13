@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ideasw.secopre.model.catalog.District;
 import ideasw.secopre.model.catalog.Person;
 import ideasw.secopre.model.catalog.Position;
 
@@ -65,6 +66,7 @@ public class UserController extends AuthController {
 		model.addAttribute("roles", baseService.findAll(Role.class));
 		model.addAttribute("permissions", baseService.findAll(Permission.class));
 		
+		
 		List<Person> person = baseService.findAll(Person.class);
 		//Lista de Personas
 		HashMap<Long, String> personMap = new HashMap<Long, String>();
@@ -79,6 +81,9 @@ public class UserController extends AuthController {
 			positionMap.put(p.getId(),p.getName());
 		}
 		model.addAttribute("positions", positionMap);
+		
+		//Lista de Distritos
+		model.addAttribute("districts", secopreCache.getAlldistricts());
 		
 		return SecopreConstans.MV_ADM_USR;
 	}
@@ -107,7 +112,7 @@ public class UserController extends AuthController {
 
 	@RequestMapping(value = "adm/usr/add", method = RequestMethod.POST)
 	//public String add(@ModelAttribute("user") User user, @RequestParam("roles") String role,@RequestParam("permissions") String permission,ModelMap model, RedirectAttributes attributes) {
-	public String add(@ModelAttribute("user") User user, @RequestParam("roles") String role,ModelMap model, RedirectAttributes attributes) {
+	public String add(@ModelAttribute("user") User user, @RequestParam("roles") String role,@RequestParam("districts") String districts,ModelMap model, RedirectAttributes attributes) {
 	
 		try {
 			if(user.getId()==null)
@@ -125,8 +130,7 @@ public class UserController extends AuthController {
 			   userEdit.setActive(user.isActive());
 			   user=userEdit;
 			}
-			
-			
+            // Roles
 			List<Role> authorities  = new ArrayList<Role>();
 			List<String> items = Arrays.asList(role.split("\\s*,\\s*"));
 			
@@ -135,8 +139,20 @@ public class UserController extends AuthController {
 				authorities.add(rol);	
 			}
 			user.setAuthorities(authorities);
-			
+				
 			baseService.save(user);
+			
+			//Distritos
+			List<User> userList  = new ArrayList<User>();
+			List<String> itemsDist = Arrays.asList(districts.split("\\s*,\\s*"));
+			
+			for (String districtId : itemsDist) {
+				District district= baseService.findById(District.class, Long.parseLong(districtId));
+				userList.add(user);
+				district.setUsers(userList);
+				baseService.save(district);
+			}
+
 		} catch (Exception e) {
 			model.addAttribute(
 					"errors",
