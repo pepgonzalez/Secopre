@@ -1,10 +1,5 @@
 package ideasw.secopre.service;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
-
 import ideasw.secopre.dto.Authorization;
 import ideasw.secopre.dto.Formality;
 import ideasw.secopre.dto.Inbox;
@@ -12,12 +7,18 @@ import ideasw.secopre.dto.Report;
 import ideasw.secopre.dto.ReportParameter;
 import ideasw.secopre.dto.Request;
 import ideasw.secopre.dto.RequestHistory;
-import ideasw.secopre.model.security.Permission;
-import ideasw.secopre.model.security.Role;
-import ideasw.secopre.model.security.User;
+import ideasw.secopre.dto.UserMovement;
 import ideasw.secopre.model.Entry;
 import ideasw.secopre.model.EntryDistrict;
 import ideasw.secopre.model.catalog.District;
+import ideasw.secopre.model.security.Permission;
+import ideasw.secopre.model.security.Role;
+import ideasw.secopre.model.security.User;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
 
 public interface AccessNativeService {
@@ -99,7 +100,7 @@ public interface AccessNativeService {
 	/*
 	 * Metodo que obtiene el listado de reportes disponibles para un usuario
 	 */
-	List<Report> getReportList(User user);
+	List<Report> getReportList(User user) throws Exception;
 	
 	/*
 	 * Metodos accesores de catalogos requeridos en pantallas de captura
@@ -151,7 +152,24 @@ public interface AccessNativeService {
      List<Role> getRolesByMenu(Long idMenu);
      
      /*Obtener reporte y parametero en base a id*/
-     Report getReportById(Long reportId);
+     Report getReportById(Long reportId) throws Exception;
+     
+     /*Metodo para obtener los parametros de un reporte*/
+     List<ReportParameter> getParametersById(Long reportId) throws Exception;
+     
+     /*Servicio para obtener las ultimas partidas creadas por el usuario*/
+     List<UserMovement> getCreatedFormalitiesByUserId(Long userId, int totalMovements);
+     
+     /*Servicio para obtener todas las acciones realizadas por el usuario*/
+     List<UserMovement> getMovementUserActions(Long userId, int totalMovements);
+     
+     /*Servicio para obtener todas los distritos que pertenece a un usuario*/
+     List<District> getDistrictsByUser(Long userId);
      
      List<ReportParameter> getParametersById(Long reportId);
+
+     /*Servicio para obtener todas los usuarios que pertenece a un distrito*/
+     List<User> getUsersByDistrict(Long districtId);
+     
+     List<Entry> getValidEntriesByDistrict(Long districtId);
 }

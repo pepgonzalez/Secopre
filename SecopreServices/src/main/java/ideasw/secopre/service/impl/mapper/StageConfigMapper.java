@@ -1,7 +1,6 @@
 package ideasw.secopre.service.impl.mapper;
 
 import ideasw.secopre.dto.StageConfig;
-import ideasw.secopre.dto.WorkFlowConfig;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -5,8 +5,6 @@ import ideasw.secopre.dto.Inbox;
 import ideasw.secopre.dto.Request;
 import ideasw.secopre.model.catalog.District;
 import ideasw.secopre.model.security.User;
-import ideasw.secopre.service.AccessNativeService;
-import ideasw.secopre.service.BaseService;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
 
@@ -14,7 +12,6 @@ import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,11 +22,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class TramiteController extends AuthController {
 
-	@Autowired
-	private AccessNativeService accessNativeService;
-	
-	@Autowired
-	private BaseService baseService;
 	
 	@RequestMapping(value = "tram/add", method = { RequestMethod.GET })
 	public String showFormalityForm(ModelMap model, RedirectAttributes attributes,  Principal principal) {
@@ -45,17 +37,11 @@ public class TramiteController extends AuthController {
 		   formalitiesMap.put(f.getFormalityId(), f.getDescription());
 		}
 		
-		//obtener los distritos
-		List<District> districtList = accessNativeService.getValidDistricts();
-		HashMap<Long, String> districtsMap = new HashMap<Long, String>();
-		for(District district : districtList){
-			districtsMap.put(district.getId(), district.getNumber());
-		}
-		
+
 		Request requestForm = new Request();
 		
 		model.addAttribute("formalities", formalitiesMap);
-		model.addAttribute("districts", districtsMap);
+		model.addAttribute("districts", secopreCache.getValidDistrictsMap());
 		model.addAttribute("requestForm", requestForm);
 		
 		return SecopreConstans.MV_TRAM_ADD;

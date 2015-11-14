@@ -1,27 +1,28 @@
 package ideasw.secopre.web.controller.catalog;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import ideasw.secopre.model.catalog.Address;
 import ideasw.secopre.model.catalog.District;
+import ideasw.secopre.model.catalog.Person;
 import ideasw.secopre.model.catalog.State;
+import ideasw.secopre.model.security.User;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.SecopreCache;
 import ideasw.secopre.web.controller.base.AuthController;
-import ideasw.secopre.model.catalog.Person;
-import ideasw.secopre.model.security.Menu;
-import ideasw.secopre.model.security.User;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -46,6 +47,9 @@ public class DistrictController extends AuthController {
 	
 	@Autowired
 	private SecopreCache secopreCahe; 
+	
+	@Autowired
+	private AccessNativeService accessNativeService;
 
 	@RequestMapping(value = "cat/district/list", method = { RequestMethod.GET,
 			RequestMethod.POST })
@@ -54,7 +58,7 @@ public class DistrictController extends AuthController {
 		Person person = new Person();
 		Address address = new Address();
 		State state = new State();
-		model.addAttribute("districtList", baseService.findAll(District.class));
+		model.addAttribute("districtList", secopreCahe.getAlldistricts());
 		model.addAttribute("district", district);
 		model.addAttribute("person", person);
 		model.addAttribute("address", address);
@@ -124,7 +128,7 @@ public class DistrictController extends AuthController {
 		model.addAttribute("state", district.getState());
 
 		model.addAttribute("states", secopreCahe.getAllStatesMap());
-		return SecopreConstans.MV_CAT_DISTRICT_EDIT;
+		return SecopreConstans.MV_CAT_DISTRICT_ADD;
 		
 	}
 	
@@ -164,6 +168,40 @@ public class DistrictController extends AuthController {
 		model.addAttribute("states", secopreCahe.getAllStatesMap());
 		
 		return SecopreConstans.MV_CAT_DISTRICT_LIST;
+	}
+	
+	@RequestMapping(value = "adm/usr/getUsersByDistrict/{idDistrict}", method= {RequestMethod.GET})
+	public @ResponseBody Map<String, Object> getUsersByDistrict(@PathVariable("idDistrict") Long idDistrict){
+		Map<String, Object> returnObject = new HashMap<String, Object>();
+		//Listado de Distritos
+		List<User> users  = accessNativeService.getUsersByDistrict(idDistrict);
+		
+		 //List of numbers we want to concatenate
+	    List<Long> numbers = new ArrayList<Long>();
+	    for (User u : users) {
+	    	numbers.add(u.getId());
+		}
+
+	    //The string builder used to construct the string
+	    StringBuilder commaSepValueBuilder = new StringBuilder();
+
+	    //Looping through the list
+	    for ( int i = 0; i< numbers.size(); i++){
+	      //append the value into the builder
+	      commaSepValueBuilder.append(numbers.get(i));
+
+	      //if the value is not the last element of the list
+	      //then append the comma(,) as well
+	      if ( i != numbers.size()-1){
+	        commaSepValueBuilder.append(",");
+	      }
+	    }
+	    System.out.println(commaSepValueBuilder.toString());
+		
+	    String result = commaSepValueBuilder.toString().trim();
+		
+		returnObject.put("result", result);
+		return returnObject;
 	}
 	
 }

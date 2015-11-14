@@ -10,6 +10,7 @@ import ideasw.secopre.dto.Request;
 import ideasw.secopre.dto.RequestConfig;
 import ideasw.secopre.dto.RequestHistory;
 import ideasw.secopre.dto.StageConfig;
+import ideasw.secopre.dto.UserMovement;
 import ideasw.secopre.dto.WorkFlowConfig;
 import ideasw.secopre.enums.Month;
 import ideasw.secopre.enums.WorkFlowCode;
@@ -23,26 +24,31 @@ import ideasw.secopre.model.security.Permission;
 import ideasw.secopre.model.security.Role;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.AccessNativeService;
-import ideasw.secopre.service.AccessService;
 import ideasw.secopre.service.BaseService;
 import ideasw.secopre.service.impl.mapper.DistrictMapper;
 import ideasw.secopre.service.impl.mapper.EntryMapper;
 import ideasw.secopre.service.impl.mapper.FormalityMapper;
 import ideasw.secopre.service.impl.mapper.InboxMapper;
+import ideasw.secopre.service.impl.mapper.MovementMapper;
 import ideasw.secopre.service.impl.mapper.PermissionMapper;
+import ideasw.secopre.service.impl.mapper.ReportMapper;
+import ideasw.secopre.service.impl.mapper.ReportParameterMapper;
 import ideasw.secopre.service.impl.mapper.RequestConfigMapper;
 import ideasw.secopre.service.impl.mapper.RequestHistoryMapper;
 import ideasw.secopre.service.impl.mapper.RequestMapper;
 import ideasw.secopre.service.impl.mapper.RoleMapper;
 import ideasw.secopre.service.impl.mapper.StageConfigMapper;
-import ideasw.secopre.service.impl.mapper.MovementMapper;
-import ideasw.secopre.service.impl.mapper.ReportMapper;
-import ideasw.secopre.service.impl.mapper.ReportParameterMapper;
+import ideasw.secopre.service.impl.mapper.UserMapper;
+import ideasw.secopre.service.impl.mapper.UserMovementMapper;
+import ideasw.secopre.service.impl.mapper.UserMapper;
+import ideasw.secopre.service.impl.mapper.UserMovementMapper;
+import ideasw.secopre.service.impl.mapper.UserMapper;
+import ideasw.secopre.service.impl.mapper.UserMovementMapper;
 import ideasw.secopre.service.impl.mapper.WorkFlowConfigMapper;
 import ideasw.secopre.sql.QueryContainer;
 import ideasw.secopre.sql.SQLConstants;
-import sun.util.calendar.BaseCalendar.Date;
 
+import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -506,6 +512,23 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 
 	}
 
+	/*
+	 * Metodo que retorna todas las partidas asociadas a la llave programatica y
+	 * que tengan presupuesto asignado en el distrito seleccionado
+	 */
+	@Override
+	public List<Entry> getValidEntriesByDistrict(Long districtId) {
+
+		SqlParameterSource namedParameters = new MapSqlParameterSource()
+				.addValue("districtId", districtId);
+
+		List<Entry> list = this.queryForList(Entry.class, queryContainer
+				.getSQL(SQLConstants.GET_VALID_ENTRIES_BY_DISTRIC),
+				namedParameters, new EntryMapper());
+		return list;
+
+	}
+	
 	@Override
 	public EntryDistrict getEntryBalance(Long districtId, Long entryId, Long month) {
 		
@@ -547,7 +570,7 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 				
 	}
 	
-	public List<Report> getReportList(User user){
+	public List<Report> getReportList(User user) throws Exception{
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("userId", user.getId());
 		List<Report> reportList = this.queryForList(Report.class, queryContainer.getSQL(SQLConstants.GET_REPORT_LIST), namedParameters, new ReportMapper());
 		for(Report report: reportList){
@@ -556,16 +579,26 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		return reportList;
 	}
 	
-	public Report getReportById(Long reportId){
+	public Report getReportById(Long reportId) throws Exception{
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("reportId", reportId);
 		Report report = this.queryForList(Report.class, queryContainer.getSQL(SQLConstants.GET_REPORT_BY_ID), namedParameters , new ReportMapper()).get(0);
 		report.setReportParameters(this.getReportParameterByReportId(report.getReportId()));
 		return report;
 	}
 	
-	public List<ReportParameter> getReportParameterByReportId(Long reportId){
+	public List<ReportParameter> getReportParameterByReportId(Long reportId) throws Exception{
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("reportId", reportId);
-		return this.queryForList(ReportParameter.class, queryContainer.getSQL(SQLConstants.GET_REPORT_PARAMETERS), namedParameters, new ReportParameterMapper());
+		List<ReportParameter> reportParameterList = this.queryForList(ReportParameter.class, queryContainer.getSQL(SQLConstants.GET_REPORT_PARAMETERS), namedParameters, new ReportParameterMapper());
+		
+		for(ReportParameter reportParameter: reportParameterList){
+			if(reportParameter.getAjax() != null && reportParameter.getAjax().length() > 0){
+				//se obtiene el mapa de opciones
+				 Method method = this.getClass().getMethod(reportParameter.getAjax());
+				 Map<Long, String> parameterOptions = (Map<Long, String>) method.invoke(this);
+				 reportParameter.setParameterOptions(parameterOptions);
+			}
+		}
+		return reportParameterList;
 	}
 	
 	public Connection getSecopreDSConnection() throws SQLException{
@@ -601,9 +634,36 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	}
 
 	@Override
-	public List<ReportParameter> getParametersById(Long reportId) {
+	public List<ReportParameter> getParametersById(Long reportId) throws Exception {
 		return this.getReportParameterByReportId(reportId);
 	}
+	
+	public List<UserMovement> getCreatedFormalitiesByUserId(Long userId, int totalMovements){
+		SqlParameterSource namedParameters = new MapSqlParameterSource()
+				.addValue("userId", userId).addValue("total", totalMovements);
+		return this.queryForList(UserMovement.class, queryContainer.getSQL(SQLConstants.GET_CREATED_FORMALITIES_BY_USER), namedParameters, new UserMovementMapper());
+	}
+	
+	public List<UserMovement> getMovementUserActions(Long userId, int totalMovements){
+		SqlParameterSource namedParameters = new MapSqlParameterSource()
+				.addValue("userId", userId).addValue("total", totalMovements);
+		return this.queryForList(UserMovement.class, queryContainer.getSQL(SQLConstants.GET_USER_MOVEMENT_ACTIONS), namedParameters, new UserMovementMapper());
+	}
+	
+	@Override
+	public List<District> getDistrictsByUser(Long userId) {
+		SqlParameterSource namedParameters = new MapSqlParameterSource()
+		.addValue("userId", userId);
+        return this.queryForList(District.class, queryContainer.getSQL(SQLConstants.GET_DISTRICT_LIST_BY_USER), namedParameters, new DistrictMapper());
+	}
+	
+	@Override
+	public List<User> getUsersByDistrict(Long districtId) {
+		SqlParameterSource namedParameters = new MapSqlParameterSource()
+		.addValue("districtId", districtId);
+        return this.queryForList(User.class, queryContainer.getSQL(SQLConstants.GET_USER_LIST_BY_DISTRICT), namedParameters, new UserMapper());
+	}
+
 
 
 }

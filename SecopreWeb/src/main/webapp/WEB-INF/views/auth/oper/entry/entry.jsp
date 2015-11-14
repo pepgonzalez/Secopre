@@ -27,10 +27,10 @@
                                 <div class="portlet-body">
                                     <ul class="nav nav-pills">
                                         <li class="active">
-                                            <a href="#tab_2_1" data-toggle="tab">Catalogo Partidas</a>
+                                            <a href="#tab_2_1" data-toggle="tab">Saldo de Partidas</a>
                                         </li>
                                         <li>
-                                            <a href="#tab_2_2" data-toggle="tab">Saldo de Partidas</a>
+                                            <a href="#tab_2_2" data-toggle="tab">Catalogo Partidas</a>
                                         </li>
                                         <li>
                                             <a href="#tab_2_3" data-toggle="tab">Presupuesto Anual</a>
@@ -41,7 +41,12 @@
                                     </ul>
 
                                      <div class="tab-content">
-                                        <div class="tab-pane fade active in" id="tab_2_1">
+                                        <div class="tab-pane fade active in" id="tab_2_1">											
+											<div id="list_ByDistrict">
+												<%@ include file="/WEB-INF/views/auth/oper/entry/byDistrict.jsp"%>
+											</div>
+                                         </div>
+                                        <div class="tab-pane fade" id="tab_2_2">
 											<!-- FORMULARIO AGREGAR PARTIDAS-->
 											<div id="add_Entry">
 												<%@ include file="/WEB-INF/views/auth/oper/entry/add.jsp"%>
@@ -52,9 +57,8 @@
 											<div id="list_Entry">
 												<%@ include file="/WEB-INF/views/auth/oper/entry/list.jsp"%>
 											</div>
-											<!-- TERMINA LISTA PARTIDAS -->			
-                                         </div>
-                                        <div class="tab-pane fade" id="tab_2_2">
+											
+
                                         </div>
                                         <div class="tab-pane fade" id="tab_2_3">
                                         </div>

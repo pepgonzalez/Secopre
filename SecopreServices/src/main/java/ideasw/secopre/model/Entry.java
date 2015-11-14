@@ -4,6 +4,7 @@
 package ideasw.secopre.model;
 
 import ideasw.secopre.enums.AccountingType;
+import ideasw.secopre.enums.StatusEntry;
 import ideasw.secopre.model.base.AuditEntity;
 import ideasw.secopre.model.base.Persistible;
 
@@ -54,10 +55,6 @@ public class Entry extends AuditEntity implements Persistible {
 	private ProgrammaticKey programmaticKey;
 	
 
-//    @ManyToOne
-//	@PrimaryKeyJoinColumn(name = "PROGRAMMATIC_ID", referencedColumnName = "ID")
-//	private ProgrammaticKey programmaticKey;
-
 	@Column(name = "ACCOUNTING_TYPE")
 	@Enumerated(EnumType.STRING)
 	private AccountingType accountingType;
@@ -65,6 +62,18 @@ public class Entry extends AuditEntity implements Persistible {
 	@ManyToOne
 	@JoinColumn(name = "ENTRY_CONCEPT_ID")
 	private Entry concept;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "STATUS")
+	private StatusEntry status;
+	
+	public StatusEntry getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusEntry status) {
+		this.status = status;
+	}
 
 	/**
 	 * @return the id
