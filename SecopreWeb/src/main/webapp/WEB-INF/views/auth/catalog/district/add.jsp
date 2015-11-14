@@ -7,7 +7,7 @@
 						<div class="portlet-title">
 							<div class="caption">
 								<i class="fa fa-gift"></i> <spring:message code="application.pages.catalog.district.title"/> - <span class="step-title">
-								Paso 1 de 3 </span>
+								Paso 1 de 4 </span>
 							</div>
 							<div class="tools hidden-xs">
 								<a href="javascript:;" class="collapse">

@@ -25,13 +25,44 @@ function initPositionList() {
 }
 
 
-function initDistrictCat() {
+function initDistrictCat(idDistrict) {
 	initPage('District');
 	initDistrictValidations();
 	 $('select').select2();
 	 $('#usuarios').multiSelect({
 		 includeSelectAllOption: true
  });
+	 
+	 
+		var apiCallUnblock = function(actionURL, callback) {
+			var method = method || "POST";
+			var header = $("meta[name='_csrf_header']").attr("content");
+			var token = $("meta[name='_csrf']").attr("content");
+			$.ajax({
+				url : context + '/' + actionURL,
+				beforeSend : function(xhr) {
+					xhr.setRequestHeader(header, token);
+				},
+				success : function(data) {
+					callback(data);
+					
+				}
+			});
+		};
+		
+		if(idDistrict!=null)
+		{
+		   apiCallUnblock("auth/adm/usr/getUsersByDistrict/" + idDistrict, function(data)
+		   {	
+		      var valArr=data.result.split(',');
+		      $("#usuarios").val(valArr);
+		      $("#usuarios").multiSelect("refresh");
+		   });
+		   
+		}
+	 
+	 
+	 
 }
 
 function initDistrictList() {

@@ -6,6 +6,7 @@ import ideasw.secopre.dto.Movement;
 import ideasw.secopre.dto.Report;
 import ideasw.secopre.dto.ReportParameter;
 import ideasw.secopre.dto.Request;
+import ideasw.secopre.dto.UserMovement;
 import ideasw.secopre.model.catalog.District;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.AccessNativeService;
@@ -53,13 +54,24 @@ public class ReportController extends AuthController {
 	private ReportService reportService;
 	
 	@RequestMapping(value = "report/list", method = { RequestMethod.GET })
-	public String showReportList(ModelMap model, RedirectAttributes attributes,  Principal principal) {
+	public String showReportList(ModelMap model, RedirectAttributes attributes,  Principal principal) throws Exception {
 		
 		LOG.info("showReportList");
 		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
 
 		List<Report> reportList = accessNativeService.getReportList(loggedUser);		
 		model.addAttribute("reportList", reportList);
+		
+		//test movimientos creados
+		List<UserMovement> createdMovements = accessNativeService.getCreatedFormalitiesByUserId(loggedUser.getId(), 5);
+		for(UserMovement mov: createdMovements){
+			LOG.info(mov.toString());
+		}
+		//test total de movimientos de usuario
+		List<UserMovement> totalmovs = accessNativeService.getMovementUserActions(loggedUser.getId(), 5);
+		for(UserMovement mov: totalmovs){
+			LOG.info(mov.toString());
+		}
 				
 		return SecopreConstans.MV_REPORT_LIST;
 	}

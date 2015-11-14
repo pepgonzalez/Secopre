@@ -8,6 +8,9 @@ import ideasw.secopre.dto.ReportParameter;
 import ideasw.secopre.dto.Request;
 import ideasw.secopre.dto.RequestHistory;
 import ideasw.secopre.dto.UserMovement;
+import ideasw.secopre.model.security.Permission;
+import ideasw.secopre.model.security.Role;
+import ideasw.secopre.model.security.User;
 import ideasw.secopre.model.Entry;
 import ideasw.secopre.model.EntryDistrict;
 import ideasw.secopre.model.catalog.District;
@@ -165,11 +168,14 @@ public interface AccessNativeService {
      
      /*Servicio para obtener todas los distritos que pertenece a un usuario*/
      List<District> getDistrictsByUser(Long userId);
-     
+
      List<ReportParameter> getParametersById(Long reportId);
 
      /*Servicio para obtener todas los usuarios que pertenece a un distrito*/
      List<User> getUsersByDistrict(Long districtId);
      
      List<Entry> getValidEntriesByDistrict(Long districtId);
+
+     /*Servicio para obtener todas los usuarios que pertenece a un distrito*/
+     List<User> getUsersByDistrict(Long districtId);
 }

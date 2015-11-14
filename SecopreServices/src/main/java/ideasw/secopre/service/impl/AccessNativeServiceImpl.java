@@ -44,6 +44,10 @@ import ideasw.secopre.service.impl.mapper.UserMapper;
 import ideasw.secopre.service.impl.mapper.UserMovementMapper;
 import ideasw.secopre.service.impl.mapper.UserMapper;
 import ideasw.secopre.service.impl.mapper.UserMovementMapper;
+import ideasw.secopre.service.impl.mapper.MovementMapper;
+import ideasw.secopre.service.impl.mapper.ReportMapper;
+import ideasw.secopre.service.impl.mapper.ReportParameterMapper;
+
 import ideasw.secopre.service.impl.mapper.WorkFlowConfigMapper;
 import ideasw.secopre.sql.QueryContainer;
 import ideasw.secopre.sql.SQLConstants;

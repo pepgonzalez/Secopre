@@ -6,6 +6,7 @@ package ideasw.secopre.model.security;
 import ideasw.secopre.model.Dashboard;
 import ideasw.secopre.model.base.Persistible;
 import ideasw.secopre.model.catalog.Person;
+import ideasw.secopre.model.catalog.Position;
 
 import java.util.Collection;
 import java.util.List;
@@ -89,6 +90,11 @@ public class User implements Persistible, UserDetails {
     @ManyToOne
 	@PrimaryKeyJoinColumn(name = "PERSON_ID", referencedColumnName = "ID")
 	private Person person;
+    
+    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+    @ManyToOne
+	@PrimaryKeyJoinColumn(name = "POSITION_ID", referencedColumnName = "ID")
+	private Position position;
 	
 	public String getAvatar() {
 		return avatar == null ? "avatar.png" : avatar;
@@ -306,5 +312,13 @@ public class User implements Persistible, UserDetails {
 
 	public void setPerson(Person person) {
 		this.person = person;
+	}
+
+	public Position getPosition() {
+		return position;
+	}
+
+	public void setPosition(Position position) {
+		this.position = position;
 	}
 }

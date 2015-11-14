@@ -22,6 +22,7 @@ public class ReportParameter {
 	private String parameterName;
 	private String parameterPath;
 	private String parameterType;
+	private String ajax;
 	private String label;
 	private boolean required;
 	private Date creationDate;
@@ -30,6 +31,13 @@ public class ReportParameter {
 	//campos de carga por reflextion
 	private String districtId;
 	private String year;
+	private String initialDateStr;
+	private String finalDateStr;
+	private String initialMonthId;
+	private String finalMonthId;
+	
+	//opciones para parametros dinamicos del tipo select
+	private Map<Long, String> parameterOptions;
 	
 	
 	public Long getReportId() {
@@ -95,5 +103,41 @@ public class ReportParameter {
 	
 	public String toString(){
 		return "districtId: "+ districtId + ", year: " + year;
+	}
+	public String getInitialDateStr() {
+		return initialDateStr;
+	}
+	public void setInitialDateStr(String initialDateStr) {
+		this.initialDateStr = initialDateStr;
+	}
+	public String getFinalDateStr() {
+		return finalDateStr;
+	}
+	public void setFinalDateStr(String finalDateStr) {
+		this.finalDateStr = finalDateStr;
+	}
+	public String getAjax() {
+		return ajax;
+	}
+	public void setAjax(String ajax) {
+		this.ajax = ajax;
+	}
+	public Map<Long, String> getParameterOptions() {
+		return parameterOptions;
+	}
+	public void setParameterOptions(Map<Long, String> parameterOptions) {
+		this.parameterOptions = parameterOptions;
+	}
+	public String getInitialMonthId() {
+		return initialMonthId;
+	}
+	public void setInitialMonthId(String initialMonthId) {
+		this.initialMonthId = initialMonthId;
+	}
+	public String getFinalMonthId() {
+		return finalMonthId;
+	}
+	public void setFinalMonthId(String finalMonthId) {
+		this.finalMonthId = finalMonthId;
 	}
 }

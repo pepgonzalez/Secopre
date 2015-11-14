@@ -27,7 +27,7 @@
 										<div class="tab-content">
 											<!-- PERSONAL INFO TAB -->
 											<div class="tab-pane active" id="tab_1_1">
-												<form role="form" action="#">
+												<form id="personal_form" action="auth/adm/profile/changePersonalInfo/${user.id}/${person.id}">
 												
 													<div class="form-group">
 														<label class="control-label">Primer Nombre</label>
@@ -53,26 +53,55 @@
 														<label class="control-label">Nickname</label>
 														<input type="text" value="${user.nickname}"  class="form-control"/>
 													</div>
+													
+													<div class="form-group">
+														<label class="control-label"><spring:message code="application.pages.admin.users.email" /></label>
+														<input type="text" value="${user.email}"  class="form-control"/>
+													</div>
 																										
 													<label class="control-label">Ocupación</label>			
 													<div class="form-group">
 					
-													   		<form:select path="positions"  name="positions" class="form-control input-large">
+													   		<form:select path="user.position.id"  name="positions" class="form-control input-large">
 															   <form:option value="" label="Seleccione..."/>
 				    										   <form:options items="${positions}" />
 															</form:select>
+													</div>
+													
+													<div class="form-group">
+														<label class="control-label"><spring:message code="application.pages.admin.persons.telephone"/></label>
+														<input type="text" value="${person.telephone}"  class="form-control"/>
+													</div>
+													
+													<div class="form-group">
+														<label class="control-label"><spring:message code="application.pages.admin.persons.mobileTelepone"/></label>
+														<input type="text" value="${person.mobileTelepone}"  class="form-control"/>
+													</div>
+													
+													<div class="form-group">
+														<label class="control-label"><spring:message code="application.pages.admin.persons.twitter"/></label>
+														<input type="text" value="${person.twitter}"  class="form-control"/>
+													</div>
+													
+													<div class="form-group">
+														<label class="control-label"><spring:message code="application.pages.admin.persons.facebook"/></label>
+														<input type="text" value="${person.facebook}"  class="form-control"/>
+													</div>
+													
+													<div class="form-group">
+														<label class="control-label"><spring:message code="application.pages.admin.persons.webSite"/></label>
+														<input type="text" value="${person.webSite}"  class="form-control"/>
 													</div>
 
 									
 													<div class="form-group">
 													<label class="control-label">Acerca de mi</label>
-														<textarea class="form-control" rows="3" placeholder="We are KeenThemes!!!"></textarea>
+														<textarea class="form-control" rows="3" placeholder=""></textarea>
 													</div>
 															
 
 													<div class="margiv-top-11">
-														<a href="javascript:;" class="btn green-haze">
-														Guardar Cambios </a>
+														<button type="button" class="btn green button-submit" id="submitRequestPersonalInfo"><spring:message code="application.save"/></button>
 														<a href="javascript:;" class="btn default">
 														Cancelar </a>
 													</div>
@@ -88,7 +117,8 @@
 													<div class="form-group">
 														<div class="fileinput fileinput-new" data-provides="fileinput">
 															<div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-																<img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt=""/>
+															   <img id="loggedUserAvatar" alt="" class="img-responsive" src='<c:url value="/resources/img/users/${loggedUser.avatar}"/>' />
+<!-- 																<img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt=""/> -->
 															</div>
 															<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;">
 															</div>
