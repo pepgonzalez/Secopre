@@ -342,7 +342,18 @@
 						   AND E.PROGRAMMATIC_ID = :programaticKeyId
 					]]>
 				</prop>
-				
+				<prop key="GET_VALID_ENTRIES_BY_DISTRIC">
+					<![CDATA[
+						SELECT DISTINCT E.ID, E.NAME
+						 FROM secopre.ENTRY E
+						 INNER JOIN secopre.ENTRYDISTRICT ED 
+						 ON E.ID = ED.ENTRY_ID
+						 INNER JOIN secopre.PROGRAMMATIC_KEY PK
+						 ON E.PROGRAMMATIC_ID = PK.ID
+						 WHERE PK.YEAR = YEAR(CURDATE())
+						 AND ED.DISTRICT_ID = :districtId ;
+					]]>
+				</prop>				
 				<prop key="GET_STAGE_CONFIG_BY_ID">
 					<![CDATA[
 						SELECT SC.* FROM secopre.STAGE_CONFIG SC WHERE id = :stageConfigId
@@ -430,18 +441,25 @@
 						    PK.YEAR = YEAR(CURDATE()) + 1
 					]]>
 				</prop>
-		
-				<prop key="CLONE_PROGRAMMATIC_KEY">
-					<![CDATA[	
-						INSERT INTO secopre.programmatic_key (ACTIVE, CREATE_DATE, CREATED_BY, UPDATE_DATE, UPDATED_BY, CODE, YEAR)
-						SELECT ACTIVE, NOW(), :userId, NOW(), :userId, CODE, YEAR +1
-						FROM secopre.programmatic_key
-						WHERE YEAR = YEAR(CURDATE());					
-					]]>
-				</prop>		
+
 				<prop key="CLONE_ENTRIES">
 					<![CDATA[	
-					
+						CALL secopre.CLONE_ENTRIES(:userId);
+					]]>
+				</prop>
+
+				<prop key="GET_DISTRICT_ENTRIES_JPQL">
+					<![CDATA[	
+						SELECT 
+						    ed
+						FROM
+						    Entry e
+						        join
+						    EntryDistrict ed 
+						        join
+						    ProgrammaticKey pk
+						WHERE
+						    pk.year = YEAR(CURDATE())
 					]]>
 				</prop>
 
@@ -585,7 +603,7 @@
 				
 				<prop key="GET_DISTRICT_LIST_BY_USER">
 					<![CDATA[
-							SELECT D.id , D.NUMBER DESCRIPCION
+							SELECT D.id , D.NUMBER DESCRIPTION
 						  	  FROM DISTRICT D,
 						  	       DISTRICT_USER DS
 						  	 WHERE D.ID = DS.DISTRICT_ID

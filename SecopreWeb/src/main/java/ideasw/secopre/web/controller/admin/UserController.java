@@ -127,7 +127,7 @@ public class UserController extends AuthController {
 			   userEdit.setEmail(user.getEmail());
 			   userEdit.setHasChatActive(user.getHasChatActive());
 			   userEdit.setPerson(user.getPerson());
-			   userEdit.setActive(user.isActive());
+
 			   user=userEdit;
 			}
             // Roles
@@ -145,10 +145,10 @@ public class UserController extends AuthController {
 			//Distritos
 			List<User> userList  = new ArrayList<User>();
 			List<String> itemsDist = Arrays.asList(districts.split("\\s*,\\s*"));
+			userList.add(user);
 			
 			for (String districtId : itemsDist) {
 				District district= baseService.findById(District.class, Long.parseLong(districtId));
-				userList.add(user);
 				district.setUsers(userList);
 				baseService.save(district);
 			}
