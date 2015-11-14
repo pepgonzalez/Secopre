@@ -382,7 +382,7 @@ function initUserPage(idUser) {
 	      $("#roles").multiSelect("refresh");
 	   });
 	   
-	   apiCallUnblock("auth/adm/usr/getDistrictsbyUser/" + idUser, function(data)
+	   apiCallUnblock("auth/adm/usr/getDistrictsByUser/" + idUser, function(data)
 			   {	
 			      var valArr=data.result.split(',');
 			      $("#districts").val(valArr);
