@@ -1,6 +1,5 @@
 package ideasw.secopre.service.impl.mapper;
 
-import ideasw.secopre.dto.Inbox;
 import ideasw.secopre.dto.RequestHistory;
 
 import java.sql.ResultSet;

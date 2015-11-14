@@ -1,5 +1,6 @@
 package ideasw.secopre.web.controller.base;
 
+import ideasw.secopre.service.AccessNativeService;
 import ideasw.secopre.service.BaseService;
 import ideasw.secopre.web.controller.SecopreCache;
 
@@ -30,6 +31,10 @@ public class ControllerBase {
 	
 	@Autowired
 	public SecopreCache secopreCache;
+	
+	@Autowired
+	public AccessNativeService accessNativeService;
+	
 
 	private Locale locale = LocaleContextHolder.getLocale();
 

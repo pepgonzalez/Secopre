@@ -1,21 +1,22 @@
 package ideasw.secopre.web.controller.catalog;
 
 
+
+import ideasw.secopre.model.catalog.Address;
+import ideasw.secopre.model.catalog.District;
+import ideasw.secopre.model.catalog.Person;
+import ideasw.secopre.model.catalog.State;
+import ideasw.secopre.model.security.User;
+import ideasw.secopre.service.AccessNativeService;
+import ideasw.secopre.web.SecopreConstans;
+import ideasw.secopre.web.controller.SecopreCache;
+import ideasw.secopre.web.controller.base.AuthController;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import ideasw.secopre.model.catalog.Address;
-import ideasw.secopre.model.catalog.District;
-import ideasw.secopre.model.catalog.State;
-import ideasw.secopre.service.AccessNativeService;
-import ideasw.secopre.web.SecopreConstans;
-import ideasw.secopre.web.controller.SecopreCache;
-import ideasw.secopre.web.controller.base.AuthController;
-import ideasw.secopre.model.catalog.Person;
-import ideasw.secopre.model.security.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

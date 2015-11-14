@@ -1,12 +1,11 @@
 package ideasw.secopre.service.impl.mapper;
 
+import ideasw.secopre.dto.Movement;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
-
-import ideasw.secopre.dto.Movement;
-import ideasw.secopre.dto.Request;
 
 public class MovementMapper implements RowMapper<Object> {    
 	 

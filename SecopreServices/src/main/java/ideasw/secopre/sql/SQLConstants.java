@@ -30,9 +30,14 @@ public class SQLConstants {
 	public static final String GET_DISTRICT_LIST_BY_USER = "GET_DISTRICT_LIST_BY_USER";
 	public static final String GET_USER_LIST_BY_DISTRICT = "GET_USER_LIST_BY_DISTRICT";	
 	
+	//Querys para clonacion de partidas
+	public static final String VALIDATE_ENTRIES_NEXT_YEAR = "VALIDATE_ENTRIES_NEXT_YEAR";
+	public static final String CLONE_ENTRIES = "CLONE_ENTRIES";
 	
 	//obtiene todas las partidas asociadas a un llave programatica con saldo disponible
 	public static final String GET_VALID_ENTRIES = "GET_VALID_ENTRIES";
+	public static final String GET_DISTRICT_ENTRIES = "GET_DISTRICT_ENTRIES";
+	public static final String GET_VALID_ENTRIES_BY_DISTRIC = "GET_VALID_ENTRIES_BY_DISTRIC";
 	public static final String IS_USERNAME_VALID = "IS_USERNAME_VALID";
 	public static final String GET_ROLE_LIST_BY_USER = "GET_ROLE_LIST_BY_USER";
 	public static final String GET_PERMISSION_LIST_BY_ROLE = "GET_PERMISSION_LIST_BY_ROLE";

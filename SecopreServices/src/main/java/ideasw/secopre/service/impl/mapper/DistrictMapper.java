@@ -1,5 +1,7 @@
 package ideasw.secopre.service.impl.mapper;
 
+import ideasw.secopre.model.catalog.District;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

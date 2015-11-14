@@ -24,13 +24,15 @@ import ideasw.secopre.model.security.Permission;
 import ideasw.secopre.model.security.Role;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.AccessNativeService;
-import ideasw.secopre.service.AccessService;
 import ideasw.secopre.service.BaseService;
 import ideasw.secopre.service.impl.mapper.DistrictMapper;
 import ideasw.secopre.service.impl.mapper.EntryMapper;
 import ideasw.secopre.service.impl.mapper.FormalityMapper;
 import ideasw.secopre.service.impl.mapper.InboxMapper;
+import ideasw.secopre.service.impl.mapper.MovementMapper;
 import ideasw.secopre.service.impl.mapper.PermissionMapper;
+import ideasw.secopre.service.impl.mapper.ReportMapper;
+import ideasw.secopre.service.impl.mapper.ReportParameterMapper;
 import ideasw.secopre.service.impl.mapper.RequestConfigMapper;
 import ideasw.secopre.service.impl.mapper.RequestHistoryMapper;
 import ideasw.secopre.service.impl.mapper.RequestMapper;
@@ -38,13 +40,17 @@ import ideasw.secopre.service.impl.mapper.RoleMapper;
 import ideasw.secopre.service.impl.mapper.StageConfigMapper;
 import ideasw.secopre.service.impl.mapper.UserMapper;
 import ideasw.secopre.service.impl.mapper.UserMovementMapper;
+import ideasw.secopre.service.impl.mapper.UserMapper;
+import ideasw.secopre.service.impl.mapper.UserMovementMapper;
+import ideasw.secopre.service.impl.mapper.UserMapper;
+import ideasw.secopre.service.impl.mapper.UserMovementMapper;
 import ideasw.secopre.service.impl.mapper.MovementMapper;
 import ideasw.secopre.service.impl.mapper.ReportMapper;
 import ideasw.secopre.service.impl.mapper.ReportParameterMapper;
+
 import ideasw.secopre.service.impl.mapper.WorkFlowConfigMapper;
 import ideasw.secopre.sql.QueryContainer;
 import ideasw.secopre.sql.SQLConstants;
-import sun.util.calendar.BaseCalendar.Date;
 
 import java.lang.reflect.Method;
 import java.sql.Connection;
@@ -510,6 +516,23 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 
 	}
 
+	/*
+	 * Metodo que retorna todas las partidas asociadas a la llave programatica y
+	 * que tengan presupuesto asignado en el distrito seleccionado
+	 */
+	@Override
+	public List<Entry> getValidEntriesByDistrict(Long districtId) {
+
+		SqlParameterSource namedParameters = new MapSqlParameterSource()
+				.addValue("districtId", districtId);
+
+		List<Entry> list = this.queryForList(Entry.class, queryContainer
+				.getSQL(SQLConstants.GET_VALID_ENTRIES_BY_DISTRIC),
+				namedParameters, new EntryMapper());
+		return list;
+
+	}
+	
 	@Override
 	public EntryDistrict getEntryBalance(Long districtId, Long entryId, Long month) {
 		

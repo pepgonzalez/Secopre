@@ -175,8 +175,9 @@
 	<script src='<c:url value="/resources/js/plugins/bootbox.min.js"/>' type="text/javascript"></script>		
 	<script src='<c:url value="/resources/js/plugins/jquery.formatCurrency-1.4.0.min.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/jquery.tooltipster.min.js"/>' type="text/javascript"></script>		
-	
-	
+	<script src='<c:url value="/resources/js/plugins/jquery.counterup.min.js"/>' type="text/javascript"></script>		
+	<script src='<c:url value="/resources/js/plugins/jquery.waypoints.min.js"/>' type="text/javascript"></script>
+
 	<script src='<c:url value="/resources/js/utils/secopreUtils.js"/>' type="text/javascript"></script>	
 	<script src='<c:url value="/resources/js/utils/secopre.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/demo/table-managed.js"/>' type="text/javascript"></script>	

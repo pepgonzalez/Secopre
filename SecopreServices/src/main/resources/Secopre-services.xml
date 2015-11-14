@@ -16,6 +16,8 @@ http://www.springframework.org/schema/jee/spring-jee.xsd">
 	<!-- import del archivo XML con SQL nativo -->
 	<import resource="SQL.xml"/>
 
+	<tx:annotation-driven/>
+
 	<!-- escaneado automatico de componentes de tipo @Component , @Repository,  @Service, @Controller -->
 	<context:component-scan base-package="ideasw.secopre.service.*, ideasw.secopre.dao.*" />
 
@@ -60,7 +62,7 @@ http://www.springframework.org/schema/jee/spring-jee.xsd">
 		p:entityManagerFactory-ref="entityManagerFactory" />
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
-
+	
 	<bean id="passwordEncoder"
 		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
 		<constructor-arg name="strength" value="10" />

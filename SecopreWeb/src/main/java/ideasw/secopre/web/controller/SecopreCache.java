@@ -3,6 +3,7 @@ package ideasw.secopre.web.controller;
 import ideasw.secopre.model.catalog.District;
 import ideasw.secopre.model.catalog.State;
 import ideasw.secopre.model.security.User;
+import ideasw.secopre.service.AccessNativeService;
 import ideasw.secopre.service.BaseService;
 
 import java.util.HashMap;
@@ -25,24 +26,29 @@ import org.springframework.stereotype.Component;
 @Scope("singleton")
 public class SecopreCache {
 
-	
 	@Autowired
 	public BaseService baseService;
 
+	@Autowired
+	private AccessNativeService accessNativeService;
+
 	private static List<District> allDistricts = null;
+	private static List<District> validDistricts = null;
 	private static Map<User, List<District>> districtByUser = new HashMap<User, List<District>>();
 	private static List<State> allStates = null;
 	private static Map<Long, String> allStateMap = new HashMap<Long, String>();
+	private static Map<Long, String> validDistrictsMap = new HashMap<Long, String>();
 
 	/**
 	 * Metodo que ejecuta la configuracion de las constantes que utilizara
 	 * secopre
 	 */
 	public void onInit() {
-    	getAlldistricts();
-    	getAllStates();
-		
+		getAlldistricts();
+		getAllStates();
+
 	}
+
 	public List<State> getAllStates() {
 		if (allStates == null) {
 			allStates = baseService.findAll(State.class);
@@ -86,5 +92,23 @@ public class SecopreCache {
 
 		return getDistrictsByUser(user, false);
 
+	}
+
+	public Map<Long, String> getValidDistrictsMap() {
+		if (validDistrictsMap.isEmpty()) {
+			for (District district : getValidDistricts()) {
+				validDistrictsMap.put(district.getId(), district.getNumber());
+			}
+		}
+
+		return validDistrictsMap;
+	}
+
+	public List<District> getValidDistricts() {
+
+		if (validDistricts == null) {
+			validDistricts = accessNativeService.getValidDistricts();
+		}
+		return validDistricts;
 	}
 }
