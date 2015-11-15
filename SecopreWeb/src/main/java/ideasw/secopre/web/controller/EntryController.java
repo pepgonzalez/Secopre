@@ -46,7 +46,7 @@ public class EntryController extends AuthController {
 
 	@RequestMapping(value = "oper/entry/list", method = { RequestMethod.GET,
 			RequestMethod.POST })
-	public String getList(ModelMap model) {
+	public String getList(@ModelAttribute("balance") EntryBalance balance, ModelMap model) {
 		Entry entry = new Entry();
 		Map<String, Object> propertiesMap = new HashMap<String, Object>();
 		propertiesMap.put("status", StatusEntry.CONFIG);
