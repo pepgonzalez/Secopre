@@ -603,7 +603,7 @@
 				
 				<prop key="GET_DISTRICT_LIST_BY_USER">
 					<![CDATA[
-							SELECT D.id , D.NUMBER DESCRIPCION
+							SELECT D.id , D.NUMBER DESCRIPTION
 						  	  FROM DISTRICT D,
 						  	       DISTRICT_USER DS
 						  	 WHERE D.ID = DS.DISTRICT_ID

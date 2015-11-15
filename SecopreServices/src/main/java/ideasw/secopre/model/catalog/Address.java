@@ -32,8 +32,8 @@ public class Address extends AuditEntity implements Persistible {
 	private String number;
 	@Column(name = "NUMBER_INT", nullable = true, length = 50)
 	private String interiorNumber;
-	@Column(name = "STATE", unique = true, length = 50)
-	private String state;
+//	@Column(name = "STATE", unique = true, length = 50)
+//	private String state;
 	@Column(name = "CITY", unique = true, length = 50)
 	private String city;
 	@Column(name = "COLONY", unique = true, length = 50)
@@ -109,17 +109,17 @@ public class Address extends AuditEntity implements Persistible {
 	/**
 	 * @return the state
 	 */
-	public String getState() {
-		return state;
-	}
-
-	/**
-	 * @param state
-	 *            the state to set
-	 */
-	public void setState(String state) {
-		this.state = state;
-	}
+//	public String getState() {
+//		return state;
+//	}
+//
+//	/**
+//	 * @param state
+//	 *            the state to set
+//	 */
+//	public void setState(String state) {
+//		this.state = state;
+//	}
 
 	/**
 	 * @return the city

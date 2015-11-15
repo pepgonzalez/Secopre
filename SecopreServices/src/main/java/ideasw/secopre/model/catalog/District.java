@@ -18,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import org.hibernate.envers.Audited;
@@ -39,8 +40,12 @@ public class District extends AuditEntity implements Persistible {
 	@Column(name = "NUMBER", nullable = false, length = 150)
 	private String number;
 
-	@ManyToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "STATE_ID")
+//	@ManyToOne(cascade = CascadeType.MERGE)
+//	@JoinColumn(name = "STATE_ID")
+//	private State state;
+	
+	@ManyToOne
+	@PrimaryKeyJoinColumn(name = "STATE_ID", referencedColumnName = "ID")
 	private State state;
 
 	@ManyToOne(cascade = CascadeType.MERGE)
@@ -166,5 +171,40 @@ public class District extends AuditEntity implements Persistible {
 	public void setUsers(List<User> users) {
 		this.users = users;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((number == null) ? 0 : number.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		District other = (District) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (number == null) {
+			if (other.number != null)
+				return false;
+		} else if (!number.equals(other.number))
+			return false;
+		return true;
+	}
+
+
+
+
 
 }
