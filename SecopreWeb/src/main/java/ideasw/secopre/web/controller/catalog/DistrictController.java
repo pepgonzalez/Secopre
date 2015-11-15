@@ -74,7 +74,7 @@ public class DistrictController extends AuthController {
 	}
 	
 	@RequestMapping(value = "cat/district/add", method = RequestMethod.POST)
-	public String add(@ModelAttribute("district") District district,@ModelAttribute("address") Address address, @RequestParam("usuarios") String users, ModelMap model) {
+	public String add(@ModelAttribute("district") District district,@ModelAttribute("address") Address address, @RequestParam("usuarios") String users,@RequestParam("addressid") Long addressid, ModelMap model) {
 		try {
 			List<User> userList  = new ArrayList<User>();
 			List<String> items = Arrays.asList(users.split("\\s*,\\s*"));
@@ -95,17 +95,39 @@ public class DistrictController extends AuthController {
 			else
 			{
 			   District districtEdit = baseService.findById(District.class , district.getId());	
-			   Address addressEdit = district.getAddress();
+			   if (addressid != null)
+			   {
+				   Address addressEdit = baseService.findById(Address.class , addressid);
+				   addressEdit.setZipCode(address.getZipCode());
+				   addressEdit.setCity(address.getCity());
+				   addressEdit.setColony(address.getColony());
+				   addressEdit.setInteriorNumber(address.getInteriorNumber());
+				   addressEdit.setNumber(address.getNumber());
+				   addressEdit.setStreet(address.getStreet());
+				   addressEdit.setStateDTO(address.getStateDTO() );
+				   address = addressEdit;
+			   }
+			   else
+			   {
+				   Address addressEdit = new Address();
+				   addressEdit.setActivo(Boolean.TRUE);
+				   addressEdit.setZipCode(address.getZipCode());
+				   addressEdit.setCity(address.getCity());
+				   addressEdit.setColony(address.getColony());
+				   addressEdit.setInteriorNumber(address.getInteriorNumber());
+				   addressEdit.setNumber(address.getNumber());
+				   addressEdit.setStreet(address.getStreet());
+				   addressEdit.setStateDTO(address.getStateDTO() );
+//				   addressEdit.setState(address.getState()); 
+				   address = addressEdit;
+			   }
+			   
+			   districtEdit.setAddress(address);
 			   districtEdit.setEmail(district.getEmail());
 			   districtEdit.setNumber(district.getNumber());
 			   districtEdit.setState(district.getState());
 			   districtEdit.setTelephone(district.getTelephone());
-			   addressEdit.setCity(address.getCity());
-			   addressEdit.setColony(address.getColony());
-			   addressEdit.setInteriorNumber(address.getInteriorNumber());
-			   addressEdit.setNumber(address.getNumber());
-			   addressEdit.setStreet(address.getStreet());
-			   districtEdit.setAddress(addressEdit);
+
 			   district = districtEdit;
 			}
 			
@@ -126,9 +148,15 @@ public class DistrictController extends AuthController {
 			RequestMethod.POST })
 	public String edit( ModelMap model, RedirectAttributes attributes, @RequestParam("id") Long id ) {
 		District district = baseService.findById(District.class , id);
-		Address address = new Address();
+
 		model.addAttribute("district", district);
-		model.addAttribute("address", address);
+		if (district.getAddress() != null){
+			model.addAttribute("address", district.getAddress());			
+		}
+		else{
+			model.addAttribute("address", new Address());	
+		}
+
 		model.addAttribute("state", district.getState());
 
 		model.addAttribute("states", secopreCahe.getAllStatesMap());

@@ -18,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import org.hibernate.envers.Audited;
@@ -39,8 +40,12 @@ public class District extends AuditEntity implements Persistible {
 	@Column(name = "NUMBER", nullable = false, length = 150)
 	private String number;
 
-	@ManyToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "STATE_ID")
+//	@ManyToOne(cascade = CascadeType.MERGE)
+//	@JoinColumn(name = "STATE_ID")
+//	private State state;
+	
+	@ManyToOne
+	@PrimaryKeyJoinColumn(name = "STATE_ID", referencedColumnName = "ID")
 	private State state;
 
 	@ManyToOne(cascade = CascadeType.MERGE)
