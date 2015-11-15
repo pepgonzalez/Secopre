@@ -145,12 +145,37 @@ public class UserController extends AuthController {
 			//Distritos
 			List<User> userList  = new ArrayList<User>();
 			List<String> itemsDist = Arrays.asList(districts.split("\\s*,\\s*"));
-			userList.add(user);
+			//userList.add(user);
+			
+			//Se obtiene la lista original de distritos que tiene el usuario
+			List<District> originalDistrictByUser = accessNativeService.getDistrictsByUser(user.getId()) ;
 			
 			for (String districtId : itemsDist) {
 				District district= baseService.findById(District.class, Long.parseLong(districtId));
-				district.setUsers(userList);
+				//Obtener Todos los usuario de el distrito em curso
+				List<User> originalUserByDistrictList = accessNativeService.getUsersByDistrict(district.getId());
+				
+				//Buscamos el distrito de la lista definitiva en la lista que existe actualmente
+				if (!originalDistrictByUser.contains(district))
+					{
+					   originalUserByDistrictList.add(user);
+					}
+				district.setUsers(originalUserByDistrictList);
 				baseService.save(district);
+			}
+			
+			for (District district : originalDistrictByUser) {
+				District dist = baseService.findById(District.class, district.getId());
+				if (!itemsDist.contains(dist.getId().toString()))
+				{
+					//TReigo la lista de ususarios de este distrito
+					List<User> originalUserByDistrictList = accessNativeService.getUsersByDistrict(dist.getId());
+					originalUserByDistrictList.remove(user);
+					dist.setUsers(originalUserByDistrictList);
+					baseService.save(dist);
+					
+				}
+
 			}
 
 		} catch (Exception e) {
