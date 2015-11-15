@@ -23,7 +23,7 @@
 		<maven-war-plugin>2.2</maven-war-plugin>
 		<maven-surefire-plugin>2.16</maven-surefire-plugin>
 		<maven-ear-plugin>2.6</maven-ear-plugin>
-		<maven-jetty-plugin>6.1.0</maven-jetty-plugin>
+		<maven-jetty-plugin>9.0.0.RC0</maven-jetty-plugin>
 		<!-- Dependecias -->
 		<org.springframework.version>4.1.5.RELEASE</org.springframework.version>
 		<spring-security-version>4.0.1.RELEASE</spring-security-version>
@@ -51,8 +51,7 @@
 	</properties>
 
 	<dependencyManagement>
-		<dependencies>
-		
+		<dependencies>		
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-core</artifactId>
