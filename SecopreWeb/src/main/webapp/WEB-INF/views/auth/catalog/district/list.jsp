@@ -73,7 +73,7 @@
 										 ${districtItem.state.name}
 									</td>
 									<td>
-<%-- 										 ${districtItem.address.street} --%>
+										 ${districtItem.address.street}
 									</td>
 									<td>
 										 ${districtItem.email}

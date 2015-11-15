@@ -62,7 +62,8 @@ public class DistrictController extends AuthController {
 		Person person = new Person();
 		Address address = new Address();
 		State state = new State();
-		model.addAttribute("districtList", secopreCahe.getAlldistricts());
+		//model.addAttribute("districtList", secopreCahe.getAlldistricts());
+		model.addAttribute("districtList", baseService.findAll(District.class));
 		model.addAttribute("district", district);
 		model.addAttribute("person", person);
 		model.addAttribute("address", address);
@@ -190,17 +191,17 @@ public class DistrictController extends AuthController {
 		districtEdit.setActivo(activo);
 		baseService.save(districtEdit);
 		
-		District district = new District();
-		Person person = new Person();
-		Address address = new Address();
-		State state = new State();
-		model.addAttribute("districtList", baseService.findAll(District.class));
-		model.addAttribute("district", district);
-		model.addAttribute("person", person);
-		model.addAttribute("address", address);
-		model.addAttribute("state", state);
-		
-		model.addAttribute("states", secopreCahe.getAllStatesMap());
+//		District district = new District();
+//		Person person = new Person();
+//		Address address = new Address();
+//		State state = new State();
+//		model.addAttribute("districtList", baseService.findAll(District.class));
+//		model.addAttribute("district", district);
+//		model.addAttribute("person", person);
+//		model.addAttribute("address", address);
+//		model.addAttribute("state", state);
+//		
+//		model.addAttribute("states", secopreCahe.getAllStatesMap());
 		
 		return SecopreConstans.MV_CAT_DISTRICT_LIST;
 	}
