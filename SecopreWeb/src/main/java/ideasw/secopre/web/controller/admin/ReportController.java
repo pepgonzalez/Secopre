@@ -61,17 +61,6 @@ public class ReportController extends AuthController {
 
 		List<Report> reportList = accessNativeService.getReportList(loggedUser);		
 		model.addAttribute("reportList", reportList);
-		
-		//test movimientos creados
-		List<UserMovement> createdMovements = accessNativeService.getCreatedFormalitiesByUserId(loggedUser.getId(), 5);
-		for(UserMovement mov: createdMovements){
-			LOG.info(mov.toString());
-		}
-		//test total de movimientos de usuario
-		List<UserMovement> totalmovs = accessNativeService.getMovementUserActions(loggedUser.getId(), 5);
-		for(UserMovement mov: totalmovs){
-			LOG.info(mov.toString());
-		}
 				
 		return SecopreConstans.MV_REPORT_LIST;
 	}
