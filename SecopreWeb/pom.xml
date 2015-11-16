@@ -93,13 +93,13 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
 		</dependency>
-	
-		<!-- Apache Commons Upload --> 
+
+		<!-- Apache Commons Upload -->
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
@@ -120,7 +120,6 @@
 				</property>
 			</activation>
 			<properties>
-				<jetty_port>9999</jetty_port>
 				<jetty_config>jetty-ds-dev.xml</jetty_config>
 			</properties>
 		</profile>
@@ -136,35 +135,17 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
-		      <plugin>
-		        <!-- <groupId>org.mortbay.jetty</groupId>
-		        <version>8.1.9.v20130131</version> -->
-		        <groupId>org.eclipse.jetty</groupId>
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
 				<version>${maven-jetty-plugin}</version>
-		        <artifactId>jetty-maven-plugin</artifactId>
-		        <configuration>
-		          <webAppConfig>
-		            <jettyEnvXml>src/main/resources/${jetty_config}</jettyEnvXml>
-		            <contextPath>/${path-secopre-web}</contextPath>
-		          </webAppConfig>
-		        </configuration>
-		      </plugin>
-		    </plugins>			
-<!-- 			<plugin> -->
-<!-- 				<groupId>org.eclipse.jetty</groupId> -->
-<!-- 				<artifactId>maven-jetty-plugin</artifactId> -->
-<!-- 				<version>${maven-jetty-plugin}</version> -->
-<!-- 				<configuration> -->
-<!-- 					<jettyEnvXml>src/main/resources/${jetty_config}</jettyEnvXml> -->
-<!-- 					<contextPath>/${path-secopre-web}</contextPath> -->
-<!-- 					<connectors> -->
-<!-- 						<connector implementation="org.mortbay.jetty.nio.SelectChannelConnector"> -->
-<!-- 							<port>${jetty_port}</port> -->
-<!-- 							<maxIdleTime>60000</maxIdleTime> -->
-<!-- 						</connector> -->
-<!-- 					</connectors> -->
-<!-- 					<scanIntervalSeconds>3</scanIntervalSeconds> -->
-<!-- 				</configuration> -->
-<!-- 			</plugin> -->
+				<artifactId>jetty-maven-plugin</artifactId>
+				<configuration>
+					<webAppConfig>
+						<jettyEnvXml>src/main/resources/${jetty_config}</jettyEnvXml>
+						<contextPath>/${path-secopre-web}</contextPath>
+					</webAppConfig>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 </project>

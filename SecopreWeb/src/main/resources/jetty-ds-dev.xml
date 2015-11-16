@@ -13,4 +13,15 @@
 			</New>
 		</Arg>
 	</New>
+	<New id="tsadbitntst" class="org.eclipse.jetty.plus.jndi.Resource">
+		<Arg></Arg>
+		<Arg>jdbc/dstsadbitntst</Arg>
+		<Arg>
+			<New class="com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource">
+				<Set name="Url">jdbc:mysql://45.55.191.180:3306/secopre</Set>
+				<Set name="User">historico</Set>
+				<Set name="Password">historico</Set>
+			</New>
+		</Arg>
+	</New>
 </Configure>
