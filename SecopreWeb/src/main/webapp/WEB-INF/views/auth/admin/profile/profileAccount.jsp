@@ -18,45 +18,46 @@
 											<li>
 												<a href="#tab_1_3" data-toggle="tab">Cambiar Contraseña</a>
 											</li>
-											<li>
-												<a href="#tab_1_4" data-toggle="tab">Aviso de Privacidad</a>
-											</li>
+<!-- 											<li> -->
+<!-- 												<a href="#tab_1_4" data-toggle="tab">Aviso de Privacidad</a> -->
+<!-- 											</li> -->
 										</ul>
 									</div>
 									<div class="portlet-body">
 										<div class="tab-content">
 											<!-- PERSONAL INFO TAB -->
 											<div class="tab-pane active" id="tab_1_1">
-												<form id="personal_form" action="auth/adm/profile/changePersonalInfo/${user.id}/${person.id}">
+												<form id="personal_form" action="auth/adm/profile/changePersonalInfo/${user.id}/${person.id}"
+												method="POST" novalidate="novalidate">
 												
 													<div class="form-group">
 														<label class="control-label">Primer Nombre</label>
-														<input type="text" value="${person.name}"  placeholder="John" class="form-control"/>
+														<input name=name type="text" value="${person.name}"  placeholder="John" class="form-control"/>
 													</div>
 													
 													<div class="form-group">
 														<label class="control-label">Segundo Nombre</label>
-														<input type="text"  value="${person.secondName}" placeholder="" class="form-control"/>
+														<input name=secondName type="text"  value="${person.secondName}" placeholder="" class="form-control"/>
 													</div>
 													
 													<div class="form-group">
 														<label class="control-label">Apellido Paterno</label>
-														<input type="text" value="${person.secondName}" placeholder="" class="form-control"/>
+														<input name=fatherLastName type="text" value="${person.fatherLastName}" placeholder="" class="form-control"/>
 													</div>
 													
 													<div class="form-group">
 														<label class="control-label">Apellido Materno</label>
-														<input type="text" value="${person.fatherLastName}"  placeholder="" class="form-control"/>
+														<input name=motherLastName type="text" value="${person.motherLastName}"  placeholder="" class="form-control"/>
 													</div>
 													
 													<div class="form-group">
 														<label class="control-label">Nickname</label>
-														<input type="text" value="${user.nickname}"  class="form-control"/>
+														<input name=nickname type="text" value="${user.nickname}"  class="form-control"/>
 													</div>
 													
 													<div class="form-group">
 														<label class="control-label"><spring:message code="application.pages.admin.users.email" /></label>
-														<input type="text" value="${user.email}"  class="form-control"/>
+														<input name=email type="text" value="${user.email}"  class="form-control"/>
 													</div>
 																										
 													<label class="control-label">Ocupación</label>			
@@ -70,38 +71,38 @@
 													
 													<div class="form-group">
 														<label class="control-label"><spring:message code="application.pages.admin.persons.telephone"/></label>
-														<input type="text" value="${person.telephone}"  class="form-control"/>
+														<input name=telephone type="text" value="${person.telephone}"  class="form-control"/>
 													</div>
 													
 													<div class="form-group">
 														<label class="control-label"><spring:message code="application.pages.admin.persons.mobileTelepone"/></label>
-														<input type="text" value="${person.mobileTelepone}"  class="form-control"/>
+														<input name=mobileTelepone type="text" value="${person.mobileTelepone}"  class="form-control"/>
 													</div>
 													
 													<div class="form-group">
 														<label class="control-label"><spring:message code="application.pages.admin.persons.twitter"/></label>
-														<input type="text" value="${person.twitter}"  class="form-control"/>
+														<input name=twitter type="text" value="${person.twitter}"  class="form-control"/>
 													</div>
 													
 													<div class="form-group">
 														<label class="control-label"><spring:message code="application.pages.admin.persons.facebook"/></label>
-														<input type="text" value="${person.facebook}"  class="form-control"/>
+														<input name=facebook type="text" value="${person.facebook}"  class="form-control"/>
 													</div>
 													
 													<div class="form-group">
 														<label class="control-label"><spring:message code="application.pages.admin.persons.webSite"/></label>
-														<input type="text" value="${person.webSite}"  class="form-control"/>
+														<input name=webSite type="text" value="${person.webSite}"  class="form-control"/>
 													</div>
 
 									
 													<div class="form-group">
 													<label class="control-label">Acerca de mi</label>
-														<textarea class="form-control" rows="3" placeholder=""></textarea>
+														<textarea name=information value="${user.information}" class="form-control" rows="3" placeholder=""></textarea>
 													</div>
 															
 
 													<div class="margiv-top-11">
-														<button type="button" class="btn green button-submit" id="submitRequestPersonalInfo"><spring:message code="application.save"/></button>
+														<button type="button" class="btn blue button-submit" id="submitRequestPersonalInfo"><spring:message code="application.save"/></button>
 														<a href="javascript:;" class="btn default">
 														Cancelar </a>
 													</div>
@@ -113,8 +114,7 @@
 												<p>
 													 Seleccione su Avantar, el cual será su identificador gráfico en este portal
 												</p>
-												<form action="#" role="form">
-													<div class="form-group">
+												<form id="avatar_form" action="auth/adm/profile/changeAvatar/${user.id}" method="POST" novalidate="novalidate">
 														<div class="fileinput fileinput-new" data-provides="fileinput">
 															<div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
 															   <img id="loggedUserAvatar" alt="" class="img-responsive" src='<c:url value="/resources/img/users/${loggedUser.avatar}"/>' />
@@ -140,7 +140,7 @@
 															
 <!-- 															<span>Atache image thumbnail is supported in Latest Firefox, Chrome, Opera, Safari and Internet Explorer 10 only </span> -->
 														</div>
-													</div>
+													
 													<div class="margin-top-10">
 														<a href="javascript:;" class="btn green-haze">
 														Guardar </a>
@@ -152,25 +152,25 @@
 											<!-- END CHANGE AVATAR TAB -->
 											<!-- CHANGE PASSWORD TAB -->
 											<div class="tab-pane" id="tab_1_3">
-												<form action="#">
+													<form id="password_form" action="auth/adm/profile/changePassword/${user.id}" method="POST" novalidate="novalidate">
 													<div class="form-group">
 														<label class="control-label">Contraseña Actual</label>
-														<input type="password" class="form-control"/>
+														<input name=apassword type="password" class="form-control"/>
 													</div>
 													<div class="form-group">
 														<label class="control-label">Nueva Contraseña</label>
-														<input type="password" class="form-control"/>
+														<input id=password name=password type="password" class="form-control"/>
 													</div>
 													<div class="form-group">
 														<label class="control-label">Nueva Contraseña</label>
-														<input type="password" class="form-control"/>
+														<input id=rpassword name=rpassword type="password" class="form-control"/>
 													</div>
-													<div class="margin-top-10">
-														<a href="javascript:;" class="btn green-haze">
-														Cambiar Contraseña </a>
+													<div class="margiv-top-10">
+														<button type="button" class="btn blue button-submit" id="submitRequestPassword"><spring:message code="application.save"/></button>
 														<a href="javascript:;" class="btn default">
 														Cancelar </a>
 													</div>
+													
 												</form>
 											</div>
 											<!-- END CHANGE PASSWORD TAB -->

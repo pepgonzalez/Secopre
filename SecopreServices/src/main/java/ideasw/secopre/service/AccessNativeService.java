@@ -171,4 +171,7 @@ public interface AccessNativeService {
 
      /*Servicio para obtener todas los usuarios que pertenece a un distrito*/
      List<User> getUsersByDistrict(Long districtId);
+     
+ 	/*Metodo para validar si el password de un usuario coincide con el actual*/
+ 	int isPasswordExist(String password, Long userId);
 }

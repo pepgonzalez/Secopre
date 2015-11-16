@@ -667,6 +667,15 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		.addValue("districtId", districtId);
         return this.queryForList(User.class, queryContainer.getSQL(SQLConstants.GET_USER_LIST_BY_DISTRICT), namedParameters, new UserMapper());
 	}
+	
+	@Override
+	public int isPasswordExist(String password,Long idUser ){
+		SqlParameterSource params = new MapSqlParameterSource()
+				.addValue("password", password).addValue("idUser", idUser);
+		
+		return this.queryForObject(Integer.class, queryContainer.getSQL(SQLConstants.IS_PASSWORD_EXIST), params);
+				
+	}
 
 
 

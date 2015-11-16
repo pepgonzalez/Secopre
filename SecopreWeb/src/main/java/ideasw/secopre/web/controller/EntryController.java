@@ -41,7 +41,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class EntryController extends AuthController {
 
-	@Autowired
+	
 	private EntryConfigService entryConfigService;
 
 	@RequestMapping(value = "oper/entry/list", method = { RequestMethod.GET,
