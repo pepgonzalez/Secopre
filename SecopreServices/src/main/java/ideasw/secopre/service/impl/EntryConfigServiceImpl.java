@@ -21,19 +21,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-public class EntryConfigServiceImpl implements EntryConfigService {
+@Service
+public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl implements EntryConfigService {
 
 	static final Logger LOG = LoggerFactory
 			.getLogger(EntryConfigServiceImpl.class);
 
 	@Autowired
 	BaseService baseService;
-
-	@Autowired
-	AccessNativeServiceBaseImpl accessService;
 
 	@Autowired
 	QueryContainer queryContainer;
@@ -78,7 +77,7 @@ public class EntryConfigServiceImpl implements EntryConfigService {
 
 	private Integer numberEntriesNextYear() {
 		SqlParameterSource params = new MapSqlParameterSource();
-		Integer numberEntries = accessService.queryForObject(Integer.class,
+		Integer numberEntries = this.queryForObject(Integer.class,
 				queryContainer.getSQL(SQLConstants.VALIDATE_ENTRIES_NEXT_YEAR),
 				params);
 		if (numberEntries == null) {
@@ -90,7 +89,7 @@ public class EntryConfigServiceImpl implements EntryConfigService {
 	private void callSPCloneEntries(String userId) {
 		SqlParameterSource params = new MapSqlParameterSource().addValue(
 				"userId", userId);
-		accessService.executeCall(
+		this.executeCall(
 				queryContainer.getSQL(SQLConstants.CLONE_ENTRIES), params);
 	}
 
@@ -172,7 +171,7 @@ public class EntryConfigServiceImpl implements EntryConfigService {
 
 		sql.append(";");
 
-		List<EntryDistrict> entryList = accessService.queryForList(
+		List<EntryDistrict> entryList = this.queryForList(
 				EntryDistrict.class, sql.toString(), params,
 				new EntryDistrictMapper());
 		if(entryList!= null && !entryList.isEmpty()){
