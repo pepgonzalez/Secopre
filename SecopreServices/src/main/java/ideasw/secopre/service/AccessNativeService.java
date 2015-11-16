@@ -174,4 +174,10 @@ public interface AccessNativeService {
      
  	/*Metodo para validar si el password de un usuario coincide con el actual*/
  	int isPasswordExist(String password, Long userId);
+ 	
+ 	/*Metodo para obtener un listado de partidas*/
+ 	public Map<Long, String> getEntriesMap();
+ 	
+ 	/*Metodo para obtener un listado de distritos*/
+ 	public Map<Long, String> getDistrictsMap();
 }

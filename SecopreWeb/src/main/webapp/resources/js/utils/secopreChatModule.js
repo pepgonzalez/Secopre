@@ -818,9 +818,7 @@ $(document).ready(function(){
 		
 		//ping al server para validar si existe
 		
-		var miUrl = urls.ping;
-		alert(miUrl);
-		
+		var miUrl = urls.ping;		
 		$.ajax({
 		      type: "GET",
 		      //url: "http://localhost:3000/v1/",

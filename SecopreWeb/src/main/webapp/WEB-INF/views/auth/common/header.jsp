@@ -63,7 +63,10 @@
 					<li class="separator hide">
 					</li>
 					<!-- BEGIN NOTIFICATION DROPDOWN -->
+					
 					<!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+					
+					<!-- 
 					<li id="step5" class="dropdown dropdown-extended dropdown-notification dropdown-light" id="header_notification_bar">
 						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
 						<i class="icon-bell"></i>
@@ -122,6 +125,7 @@
 							</li>
 						</ul>
 					</li>
+					-->
 					<!-- END NOTIFICATION DROPDOWN -->
 					<li class="separator hide">
 					</li>
@@ -169,6 +173,7 @@
 					</li>
 					<!-- BEGIN TODO DROPDOWN -->
 					<!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+					<!-- 
 					<li class="dropdown dropdown-extended dropdown-tasks dropdown-light" id="header_task_bar">
 						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
 						<i class="icon-calendar"></i>
@@ -263,6 +268,7 @@
 							</li>
 						</ul>
 					</li>
+					 -->
 					<!-- END TODO DROPDOWN -->
 					<!-- BEGIN USER LOGIN DROPDOWN -->
 					<!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
@@ -278,18 +284,22 @@
 								<a href="javascript:showProfile();">
 								<i class="icon-user"></i> Mi Perfil </a>
 							</li>
+							<!-- 
 							<li>
 								<a href="inbox.html">
 								<i class="icon-envelope-open"></i> Mis Notificaciones <span class="badge badge-danger">
 								3 </span>
 								</a>
 							</li>
+							 -->
+							 <!--  
 							<li>
 								<a href="page_todo.html">
 								<i class="icon-rocket"></i> Mis Pendientes <span class="badge badge-success">
 								7 </span>
 								</a>
 							</li>
+							-->
 							<li class="divider">
 							</li>
 							<li>

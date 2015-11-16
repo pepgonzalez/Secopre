@@ -461,6 +461,26 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		}
 		return map;
 	}
+	
+	public Map<Long, String> getEntriesMap(){
+		List<Entry> l = new ArrayList<Entry>();
+		l = baseService.findAll(Entry.class);
+		Map<Long, String> map = new HashMap<Long, String>();
+		for (Entry e : l){
+			map.put(e.getId(), e.getName());
+		}
+		return map;
+	}
+	
+	public Map<Long, String> getDistrictsMap(){
+		List<District> l = new ArrayList<District>();
+		l = baseService.findAll(District.class);
+		Map<Long, String> map = new HashMap<Long, String>();
+		for (District e : l){
+			map.put(e.getId(), e.getNumber());
+		}
+		return map;
+	}
 
 	@Override
 	public List<Entry> getEntries(Long programaticKey) {
