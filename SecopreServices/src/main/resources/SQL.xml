@@ -619,7 +619,17 @@
 						  	 WHERE U.ID = DU.USER_ID
 						  	   AND DU.DISTRICT_ID = :districtId
 					]]>
-				</prop>						
+				</prop>
+
+				<prop key="IS_PASSWORD_EXIST">
+					<![CDATA[
+							SELECT COUNT(1) AS EXISTE
+							  FROM secopre.USER
+							 WHERE ID = :idUser
+							   AND PASSWORD = :password
+					]]>
+				</prop>	
+					
 			</props>				
 		</property>
 	</bean>

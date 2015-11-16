@@ -275,7 +275,7 @@
 						</a>
 						<ul class="dropdown-menu dropdown-menu-default">
 							<li>
-								<a href="javascript:showProfile(${loggedUser.id});">
+								<a href="javascript:showProfile();">
 								<i class="icon-user"></i> Mi Perfil </a>
 							</li>
 							<li>

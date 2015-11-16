@@ -13,7 +13,7 @@
 									 ${username}
 								</div>
 								<div class="profile-usertitle-job">
-									 Developer
+									 ${position}
 								</div>
 							</div>
 							<!-- END SIDEBAR USER TITLE -->
@@ -32,7 +32,7 @@
 										Overview </a>
 									</li>
 									<li>
-										<a href="javascript:showProfileAccount(${loggedUser.id});">
+										<a href="javascript:showProfileAccount();">
 										<i class="icon-settings"></i>
 										Mi Cuenta </a>
 									</li>
@@ -54,47 +54,47 @@
 						<!-- PORTLET MAIN -->
 						<div class="portlet light">
 							<!-- STAT -->
-							<div class="row list-separated profile-stat">
-								<div class="col-md-4 col-sm-4 col-xs-6">
-									<div class="uppercase profile-stat-title">
-										 37
-									</div>
-									<div class="uppercase profile-stat-text">
-										 Projects
-									</div>
-								</div>
-								<div class="col-md-4 col-sm-4 col-xs-6">
-									<div class="uppercase profile-stat-title">
-										 51
-									</div>
-									<div class="uppercase profile-stat-text">
-										 Tasks
-									</div>
-								</div>
-								<div class="col-md-4 col-sm-4 col-xs-6">
-									<div class="uppercase profile-stat-title">
-										 61
-									</div>
-									<div class="uppercase profile-stat-text">
-										 Uploads
-									</div>
-								</div>
-							</div>
+<!-- 							<div class="row list-separated profile-stat"> -->
+<!-- 								<div class="col-md-4 col-sm-4 col-xs-6"> -->
+<!-- 									<div class="uppercase profile-stat-title"> -->
+<!-- 										 37 -->
+<!-- 									</div> -->
+<!-- 									<div class="uppercase profile-stat-text"> -->
+<!-- 										 Projects -->
+<!-- 									</div> -->
+<!-- 								</div> -->
+<!-- 								<div class="col-md-4 col-sm-4 col-xs-6"> -->
+<!-- 									<div class="uppercase profile-stat-title"> -->
+<!-- 										 51 -->
+<!-- 									</div> -->
+<!-- 									<div class="uppercase profile-stat-text"> -->
+<!-- 										 Tasks -->
+<!-- 									</div> -->
+<!-- 								</div> -->
+<!-- 								<div class="col-md-4 col-sm-4 col-xs-6"> -->
+<!-- 									<div class="uppercase profile-stat-title"> -->
+<!-- 										 61 -->
+<!-- 									</div> -->
+<!-- 									<div class="uppercase profile-stat-text"> -->
+<!-- 										 Uploads -->
+<!-- 									</div> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
 							<!-- END STAT -->
 							<div>
-								<h4 class="profile-desc-title">About Marcus Doe</h4>
+								<h4 class="profile-desc-title">Acerca de ${username}</h4>
 								<span class="profile-desc-text"> Lorem ipsum dolor sit amet diam nonummy nibh dolore. </span>
 								<div class="margin-top-20 profile-desc-link">
 									<i class="fa fa-globe"></i>
-									<a href="http://www.keenthemes.com">www.keenthemes.com</a>
+									<a href="">${person.webSite}</a>
 								</div>
 								<div class="margin-top-20 profile-desc-link">
 									<i class="fa fa-twitter"></i>
-									<a href="http://www.twitter.com/keenthemes/">@keenthemes</a>
+									<a href="">${person.twitter}</a>
 								</div>
 								<div class="margin-top-20 profile-desc-link">
 									<i class="fa fa-facebook"></i>
-									<a href="http://www.facebook.com/keenthemes/">keenthemes</a>
+									<a href="">${person.facebook}</a>
 								</div>
 							</div>
 						</div>

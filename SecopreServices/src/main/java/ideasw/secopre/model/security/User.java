@@ -95,6 +95,8 @@ public class User implements Persistible, UserDetails {
     @ManyToOne
 	@PrimaryKeyJoinColumn(name = "POSITION_ID", referencedColumnName = "ID")
 	private Position position;
+    
+    private String information;
 	
 	public String getAvatar() {
 		return avatar == null ? "avatar.png" : avatar;
@@ -113,6 +115,8 @@ public class User implements Persistible, UserDetails {
         inverseJoinColumns = {@JoinColumn(name="ROLE_ID")}
     )
     private List<Role> authorities;
+    
+    
 
 
 	/* Spring Security fields */
@@ -352,5 +356,13 @@ public class User implements Persistible, UserDetails {
 		} else if (!username.equals(other.username))
 			return false;
 		return true;
+	}
+
+	public String getInformation() {
+		return information;
+	}
+
+	public void setInformation(String information) {
+		this.information = information;
 	}
 }

@@ -42,6 +42,7 @@ public class SQLConstants {
 	public static final String GET_ROLE_LIST_BY_USER = "GET_ROLE_LIST_BY_USER";
 	public static final String GET_PERMISSION_LIST_BY_ROLE = "GET_PERMISSION_LIST_BY_ROLE";
 	public static final String GET_ROLE_LIST_BY_MENU = "GET_ROLE_LIST_BY_MENU";
+	public static final String IS_PASSWORD_EXIST = "IS_PASSWORD_EXIST";
 	
 	//reportes
 	public static final String GET_REPORT_LIST = "GET_REPORT_LIST";

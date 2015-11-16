@@ -8,7 +8,7 @@
 				<div class="caption">
 					<i class="fa fa-gift"></i>
 					<spring:message code="application.pages.admin.roles.title" />
-					- <span class="step-title"> Paso 1 de 3 </span>
+					 <span class="step-title"> Paso 1 de 3 </span>
 				</div>
 				<div class="tools hidden-xs">
 					<a href="javascript:;" class="collapse"> </a>
