@@ -1,6 +1,20 @@
 /*utilidades*/
 utils = new SecopreUtils();
 
+ulrs = {
+		//chat : "http://localhost:3000"
+		chat : "http://189.210.196.197:3000/",
+		updateSeen : this.chat + "v1/chat/updateSeen/",
+		getConversation : this.chat + "v1/chat/getConversation/",
+		getConversations : this.chat + "v1/chat/getConversations/",
+		getFrecuentUsers : this.chat +  "v1/chat/getFrecuentUsers/",
+		createConversation : this.chat + "v1/chat/createConversation/",
+		getMoreMessages : this.chat +  "v1/chat/getMoreMsgs/",
+		getConversationId : this.chat + "v1/chat/getConversationId/",
+		ping : this.chat + "v1/"
+}
+
+
 /*modulo de chat*/
 var SecopreChat = function(){
 	
@@ -278,7 +292,8 @@ var SecopreChat = function(){
 		/*actualiza el estatus si es necesario*/
 		if (c.dir == 'IN' && c.status == 0){
 			$.ajax({
-				url: "http://localhost:3000/v1/chat/updateSeen/" + c.id,
+				//url: "http://localhost:3000/v1/chat/updateSeen/" + c.id,
+				url: urls.updateSeen + c.id,
 				dataType: 'json'
 			}).done(function(r) {
 				if (parseInt(r.affectedRows) > 0){
@@ -294,7 +309,8 @@ var SecopreChat = function(){
 	
 	function _updateSeenFromLiveChat(cId, callback){
 		$.ajax({
-			url: "http://localhost:3000/v1/chat/updateSeen/" + cId,
+			//url: "http://localhost:3000/v1/chat/updateSeen/" + cId,
+			url : urls.updateSeen + cId,
 			dataType: 'json'
 		}).done(function(r) {
 			if (parseInt(r.affectedRows) > 0){
@@ -330,8 +346,9 @@ var SecopreChat = function(){
 
         var chatContainer = $(document).find(".page-quick-sidebar-chat-user-messages");
         
-        var url =  "http://localhost:3000/v1/chat/getConversation/" + c.id + "/" + c.userId;
-		
+        //var url =  "http://localhost:3000/v1/chat/getConversation/" + c.id + "/" + c.userId;
+		var url = urls.getConversation + c.id + "/" + c.userId;
+        
 		_getAjaxRequest(url, function(data){
 			
 			var total = data.length;			
@@ -531,14 +548,17 @@ var SecopreChat = function(){
 	/*funcion para cargar el popup*/
 	this.loadInitialData = function(){
 		/*carga informacion de popup*/
-		_getAjaxRequest("http://localhost:3000/v1/chat/getConversations/" + this.userId + "/0/6", _processInitialData);
+		//_getAjaxRequest("http://localhost:3000/v1/chat/getConversations/" + this.userId + "/0/6", _processInitialData);
+		_getAjaxRequest(urls.getConversations + this.userId + "/0/6", _processInitialData);
+		
 		/*carga informacion de usuarios frecuentes*/
 		this.loadFrecuentUsers();
 	};
 	
 	/*funcion para actualizar el estado de los usuarios frecuentes*/
 	this.loadFrecuentUsers = function(){
-		_getAjaxRequest("http://localhost:3000/v1/chat/getFrecuentUsers/" + this.userId , _processFrecuentUsers);
+		//_getAjaxRequest("http://localhost:3000/v1/chat/getFrecuentUsers/" + this.userId , _processFrecuentUsers);
+		_getAjaxRequest(urls.getFrecuentUsers + this.userId, _processFrecuentUsers);
 	};
 	
 	
@@ -553,7 +573,8 @@ var SecopreChat = function(){
 		
 		if(conv.id == -1){
 			//se crea la conversacion
-			var url = "http://localhost:3000/v1/chat/createConversation/" + this.userId + "/" + conv.userId;
+			//var url = "http://localhost:3000/v1/chat/createConversation/" + this.userId + "/" + conv.userId;
+			var url = urls.createConversation + this.userId + "/" + conv.userId;
 			
 			_getAjaxRequest(url, function(r){
 				conv.id = r.cId;
@@ -570,7 +591,8 @@ var SecopreChat = function(){
 	/*funcion para mostrar todas las conversaciones*/
 	this.loadAllConversations = function (){
 		var userId = parseInt( $("#loggedUserId").val());
-		_getAjaxRequest("http://localhost:3000/v1/chat/getConversations/" + userId + "/0/11", _processAllConversations);
+		//_getAjaxRequest("http://localhost:3000/v1/chat/getConversations/" + userId + "/0/11", _processAllConversations);
+		_getAjaxRequest(urls.getConversations + userId + "/0/11", _processAllConversations);
 	};
 	
 	/*funcion para cerrar conversacion*/
@@ -629,7 +651,8 @@ var SecopreChat = function(){
 				
 		var chatContainer = $(document).find(".page-quick-sidebar-chat-user-messages");
         
-        var url =  "http://localhost:3000/v1/chat/getMoreMsgs/" + cId + "/" + userId + "/" + from;
+        //var url =  "http://localhost:3000/v1/chat/getMoreMsgs/" + cId + "/" + userId + "/" + from;
+        var url = urls.getMoreMessages + cId + "/" + userId + "/" + from;
 		
 		_getAjaxRequest(url, function(data){
 			
@@ -711,8 +734,9 @@ var SecopreChat = function(){
 			
 			var nUser = data[0].userId;
 			
-		    var url = "http://localhost:3000/v1/chat/getConversationId/" + self.userId + "/" + nUser;
-		    _getAjaxRequest(url, addNewUser);
+		    //var url = "http://localhost:3000/v1/chat/getConversationId/" + self.userId + "/" + nUser;
+		    var url = urls.getConversationId + self.userId + "/" + nUser;
+			_getAjaxRequest(url, addNewUser);
 			
 			function addNewUser(r){
 				
@@ -795,7 +819,8 @@ $(document).ready(function(){
 		//ping al server para validar si existe
 		$.ajax({
 		      type: "GET",
-		      url: "http://localhost:3000/v1/",
+		      //url: "http://localhost:3000/v1/",
+		      url: urls.ping,
 		      success: function (response) {
 		    	
 		    	Chat.userId = userId;
