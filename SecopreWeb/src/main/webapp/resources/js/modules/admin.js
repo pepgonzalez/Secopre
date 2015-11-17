@@ -3991,3 +3991,4 @@ function initReportParamCapture(){
 		}
 	});
 }
+}
