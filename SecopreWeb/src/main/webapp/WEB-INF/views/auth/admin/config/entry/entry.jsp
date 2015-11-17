@@ -30,10 +30,10 @@
                                             <a href="#tab_2_1" data-toggle="tab">Saldo de Partidas</a>
                                         </li>
                                         <li>
-                                            <a href="#tab_2_3" data-toggle="tab">Presupuesto Anual</a>
+                                            <a href="#tab_2_2" data-toggle="tab">Presupuesto Anual</a>
                                         </li>
                                         <li>
-                                            <a href="#tab_2_4" data-toggle="tab">Calendarizacion de Saldos</a>
+                                            <a href="#tab_2_3" data-toggle="tab">Calendarizacion de Saldos</a>
                                         </li>
                                     </ul>
 
@@ -44,13 +44,12 @@
 											</div>
                                          </div>
                                         <div class="tab-pane fade" id="tab_2_2">
-
+											<div id="templateArea">
+												<%@ include file="/WEB-INF/views/auth/admin/config/entry/template.jsp"%>
+											</div>
                                         </div>
                                         <div class="tab-pane fade" id="tab_2_3">
-                                        </div>
-                                        <div class="tab-pane fade" id="tab_2_4">
-                                        </div>
-                                        
+                                        </div>  
                                      </div>                               
                             	</div>
                             </div>

@@ -450,14 +450,12 @@
 
 				<prop key="GET_DISTRICT_ENTRIES_JPQL">
 					<![CDATA[	
-						SELECT 
-						    ed
 						FROM
-						    Entry e
-						        join
 						    EntryDistrict ed 
 						        join
-						    ProgrammaticKey pk
+						    ed.entry e
+						    	join
+						    e.programmaticKey pk 
 						WHERE
 						    pk.year = YEAR(CURDATE())
 					]]>

@@ -36,7 +36,7 @@ public class SQLConstants {
 	
 	//obtiene todas las partidas asociadas a un llave programatica con saldo disponible
 	public static final String GET_VALID_ENTRIES = "GET_VALID_ENTRIES";
-	public static final String GET_DISTRICT_ENTRIES = "GET_DISTRICT_ENTRIES";
+	public static final String GET_DISTRICT_ENTRIES_JPQL = "GET_DISTRICT_ENTRIES_JPQL";
 	public static final String GET_VALID_ENTRIES_BY_DISTRIC = "GET_VALID_ENTRIES_BY_DISTRIC";
 	public static final String IS_USERNAME_VALID = "IS_USERNAME_VALID";
 	public static final String GET_ROLE_LIST_BY_USER = "GET_ROLE_LIST_BY_USER";
