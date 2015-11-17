@@ -72,9 +72,13 @@ public class ProfileController extends AuthController {
 				.getId());
 		model.addAttribute("person", person);
 		
+		try{
 		if (user.getPosition().getName() != null)
 		{model.addAttribute("position", user.getPosition().getName());}
 		else
+		{model.addAttribute("position", "");}
+		}
+		catch(Exception e)
 		{model.addAttribute("position", "");}
 		
 		

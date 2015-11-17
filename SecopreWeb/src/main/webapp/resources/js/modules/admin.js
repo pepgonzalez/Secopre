@@ -8,6 +8,11 @@ function showProfileAccount() {
 	sendRequestJQ('auth/adm/profile/showProfileAccount', 'dashboard2','initProfilePage()');
 }
 
+function showOverview()
+{   initProfileValidations();
+	sendRequestJQ('auth/adm/profile/show', 'dashboard', 'initProfilePage()');
+}
+
 function initProfilePage() {
 	initProfileValidations();
 	initPasswordValidations();
@@ -61,7 +66,7 @@ function initProfileValidations() {
 			mobileTelepone : {
 				maxlength:12
 			},
-			webSite : {url: true},
+			webSite : {maxlength:100},
 			nickname : {
 				minlength : 6,
 				maxlength : 20,

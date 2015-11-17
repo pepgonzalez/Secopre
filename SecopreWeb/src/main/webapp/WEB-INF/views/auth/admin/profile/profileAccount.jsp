@@ -97,7 +97,7 @@
 									
 													<div class="form-group">
 													<label class="control-label">Acerca de mi</label>
-														<textarea name=information value="${user.information}" class="form-control" rows="3" placeholder=""></textarea>
+														<textarea id="information" name="information"  class="form-control" rows="3" placeholder=""></textarea>
 													</div>
 															
 

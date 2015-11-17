@@ -27,7 +27,7 @@
 							<div class="profile-usermenu">
 								<ul class="nav">
 									<li class="active">
-										<a href="extra_profile.html">
+										<a href="javascript:showOverview();">
 										<i class="icon-home"></i>
 										Overview </a>
 									</li>
@@ -83,7 +83,7 @@
 							<!-- END STAT -->
 							<div>
 								<h4 class="profile-desc-title">Acerca de ${username}</h4>
-								<span class="profile-desc-text"> Lorem ipsum dolor sit amet diam nonummy nibh dolore. </span>
+								<span class="profile-desc-text">  ${user.information} </span>
 								<div class="margin-top-20 profile-desc-link">
 									<i class="fa fa-globe"></i>
 									<a href="">${person.webSite}</a>
