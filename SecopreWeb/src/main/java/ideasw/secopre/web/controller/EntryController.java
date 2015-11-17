@@ -3,6 +3,7 @@ package ideasw.secopre.web.controller;
 import ideasw.secopre.enums.AccountingType;
 import ideasw.secopre.enums.StatusEntry;
 import ideasw.secopre.model.Entry;
+import ideasw.secopre.model.EntryDistrict;
 import ideasw.secopre.model.ProgrammaticKey;
 import ideasw.secopre.service.EntryConfigService;
 import ideasw.secopre.web.SecopreConstans;
