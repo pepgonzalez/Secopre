@@ -23,7 +23,7 @@
 						<div class="col-md-3">
 							<div class="btn-group">
 								<button id="sample_editable_1_new" class="btn green"
-									onclick="sendRequestJQ('auth/report/params/17','dashboard','initReportParamCapture()','GET');">
+									onclick="sendRequestJQ('auth/report/params/17','templateArea','initReportParamCapture()','GET');">
 									Obtener plantilla de Carga</button>
 							</div>
 						</div>

@@ -57,7 +57,7 @@ public class EntryConfigController extends AuthController {
 		return SecopreConstans.MV_CONF_ENTRY;
 	}
 
-	@RequestMapping(value = "cfg/entry/search", method = RequestMethod.GET)
+	@RequestMapping(value = "cfg/entry/search", method = RequestMethod.POST)
 	public String searchEntries(
 			@ModelAttribute("entryFilter") EntryFilter entryFilter,
 			ModelMap model, RedirectAttributes attributes) {
@@ -65,7 +65,7 @@ public class EntryConfigController extends AuthController {
 		model.addAttribute("balance", balance);
 		attributes.addFlashAttribute("balance", balance);
 
-		return "redirect:cfg/entry/list";
+		return "redirect:/auth/cfg/entry/list";
 	}
 
 	@RequestMapping(value = "cfg/entry/byDistrict")

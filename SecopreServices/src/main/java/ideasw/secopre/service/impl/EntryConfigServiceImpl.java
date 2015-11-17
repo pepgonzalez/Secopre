@@ -106,7 +106,7 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl implemen
 		
 		EntryDistrict result = getBalance(filter);
 		
-		StringBuffer sql = new StringBuffer(queryContainer.getSQL(SQLConstants.GET_DISTRICT_ENTRIES));
+		StringBuffer sql = new StringBuffer(queryContainer.getSQL(SQLConstants.GET_DISTRICT_ENTRIES_JPQL));
 		Map<String,Object> params = new HashMap<String,Object>();
 		if (filter.getDistrictId() != null) {
 			sql.append(" AND ed.district.id = :districtId");
@@ -119,12 +119,11 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl implemen
 
 		}
 
-		if (filter.getMonths() == null || filter.getMonths().length != 0) {
+		if (filter.getMonths() != null && filter.getMonths().length != 0) {
 			sql.append(" AND ed.month IN (:months)");
 			params.put("months", filter.getMonths());
 		}
 
-		sql.append(";");
 		List<EntryDistrict> entryList = baseService.executeQueryMultipleResult(EntryDistrict.class, sql.toString(), params);		
 		
 		balance.setEntries(entryList);
@@ -164,7 +163,7 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl implemen
 
 		}
 
-		if (filter.getMonths() == null || filter.getMonths().length != 0) {
+		if (filter.getMonths() != null && filter.getMonths().length != 0) {
 			sql.append(" AND ED.MONTH IN (:months)");
 			params.addValue("entryId", filter.getMonths());
 		}

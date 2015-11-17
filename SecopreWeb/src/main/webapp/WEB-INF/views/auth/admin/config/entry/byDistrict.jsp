@@ -15,7 +15,7 @@
 						</div>
 						<div class="portlet-body form">
 							<!-- formulario -->	
-							<form:form  method="GET" modelAttribute="entryFilter" id="entryFilter" action="auth/tram/add" novalidate="novalidate">
+							<form:form action="auth/cfg/entry/search" class="form-horizontal" id="submit_form"  modelAttribute="entryFilter" method="GET"  novalidate="novalidate">
 								<div class="row">		
 									<div class="col-md-5">
 										<label class="col-md-2 control-label" for="districtId" style="text-align:left;">Distrito</label>
@@ -42,7 +42,7 @@
 	                                                 <span class="glyphicon glyphicon-search"></span>
 	                                             </button>
 	                                         </span>	
-	                                         <select id="months" class="form-control select2-multiple" multiple>
+	                                         <select id="months" name="months" class="form-control select2-multiple" multiple>
 	                                       		 <option value="0">Enero</option>
 	                                             <option value="1">Febrero</option>
 	                                             <option value="2">Marzo</option>
@@ -61,7 +61,7 @@
 
 							<div class="row">
 								<div class="col-md-offset-9 col-md-6">
-									<button type="button" class="btn green" id="submitRequestForm">Consultar</button>
+									<button type="button" class="btn green" id="submitRequestForm" onclick="submitAjaxJQ('submit_form', 'workarea', 'initEntryByDistrict()');">Consultar</button>
 								</div>
 							</div>
 							<div class="clearfix"></div>
@@ -81,7 +81,7 @@
 		                                </div>
 		                                <div class="details">
 		                                    <div class="number">
-		                                        <span data-counter="counterup" data-value="12,5">0</span> $
+		                                        <span data-counter="counterup" data-value="${balance.annualAmount}">0</span> $
 		                                    </div>
 		                                    <div class="desc">Presupuesto Anual</div>
 		                                </div>
@@ -97,7 +97,7 @@
 		                                </div>
 		                                <div class="details">
 		                                    <div class="number">
-		                                        <span data-counter="counterup" data-value="12,5">0</span> $
+		                                        <span data-counter="counterup" data-value="${balance.budgetAmount}">0</span> $
 		                                    	<div class="desc">Presupuesto</div>
 		                                    </div>
 		                                </div>
@@ -114,7 +114,7 @@
 		                                </div>
 		                                <div class="details">
 		                                    <div class="number">
-		                                        <span data-counter="counterup" data-value="12,5">0</span> $
+		                                        <span data-counter="counterup" data-value="${balance.budgetCommit}">0</span> $
 		                                    </div>
 		                                    <div class="desc">Total Comprometido</div>
 		                                </div>
@@ -131,7 +131,7 @@
 		                                </div>
 		                                <div class="details">
 		                                    <div class="number"> 
-		                                        <span data-counter="counterup" data-value="12,5">0</span> $
+		                                        <span data-counter="counterup" data-value="${balance.budgetAsing}">0</span> $
 		                                    	<div class="desc"> Total Aplicado</div>
 		                                    </div>
 		                                </div>
