@@ -103,7 +103,7 @@ public class DistrictController extends AuthController {
 				   addressEdit.setCity(address.getCity());
 				   addressEdit.setColony(address.getColony());
 				   addressEdit.setInteriorNumber(address.getInteriorNumber());
-				   addressEdit.setNumber(address.getNumber());
+				   addressEdit.setExteriorNumber(address.getExteriorNumber());
 				   addressEdit.setStreet(address.getStreet());
 				   addressEdit.setStateDTO(address.getStateDTO() );
 				   address = addressEdit;
@@ -116,7 +116,7 @@ public class DistrictController extends AuthController {
 				   addressEdit.setCity(address.getCity());
 				   addressEdit.setColony(address.getColony());
 				   addressEdit.setInteriorNumber(address.getInteriorNumber());
-				   addressEdit.setNumber(address.getNumber());
+				   addressEdit.setExteriorNumber(address.getExteriorNumber());
 				   addressEdit.setStreet(address.getStreet());
 				   addressEdit.setStateDTO(address.getStateDTO() );
 //				   addressEdit.setState(address.getState()); 

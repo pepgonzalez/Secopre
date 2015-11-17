@@ -30,9 +30,6 @@
                                             <a href="#tab_2_1" data-toggle="tab">Saldo de Partidas</a>
                                         </li>
                                         <li>
-                                            <a href="#tab_2_2" data-toggle="tab">Catalogo Partidas</a>
-                                        </li>
-                                        <li>
                                             <a href="#tab_2_3" data-toggle="tab">Presupuesto Anual</a>
                                         </li>
                                         <li>
@@ -59,5 +56,5 @@
                             </div>
 
 
-	
+
 	

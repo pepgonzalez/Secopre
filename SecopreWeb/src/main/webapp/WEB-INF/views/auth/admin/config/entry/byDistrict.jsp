@@ -211,27 +211,11 @@
 <!-- 				</div> -->
 <!-- 			</div> -->
 
-			<script>
+				<script>
 
 			$(document).ready(function() {
-		        $("[data-counter='counterup']").counterUp({
-		            delay: 10,
-		            time: 1000
-		        });
-		        				
-				$("select#districtId").change(function(){
-					blockPage();
-			         $.getJSON("oper/entry/byDistrict",{districtId: $(this).val()}, function(j){
-			              var options = '';
-			              var json = eval(j);
-			              $.each(json, function(key, value) {
-			            	  options += '<option value="' + key + '">' + value + '</option>';
-			              });        
-			   			  unblockPage();            
-			              $("select#entryId").html(options);
-			            });
-			        });
+
 										
 			 });	
-		
+					
 			</script>

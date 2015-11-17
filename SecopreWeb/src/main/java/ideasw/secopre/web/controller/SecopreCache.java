@@ -78,9 +78,16 @@ public class SecopreCache {
 
 		if (forceUpdate || !districtByUser.containsKey(user)) {
 			// Aqui se busca la informacion de BD
-
+			
+			if(user.getId() == null){
+				Map<String, Object> params = new HashMap<String, Object>();
+				params.put("username", user.getUsername());
+				user = baseService.findByProperties(User.class, params).get(0);
+			}
+			
+			List<District> districts = user.getDistricts();
 			// Se actualiza el mapa
-
+			districtByUser.put(user, districts);
 		}
 		listByUser = districtByUser.get(user);
 
@@ -90,7 +97,24 @@ public class SecopreCache {
 
 	public List<District> getDistrictsByUser(User user) {
 
-		return getDistrictsByUser(user, false);
+		return getDistrictsByUser(user, true);
+
+	}
+
+	public Map<Long, String> getDistrictsByUserMap(String username) {
+		List<District> districts = getDistrictsByUser(username);
+		Map<Long, String> districtsMap = new HashMap<Long,String>();
+		for(District item: districts){
+			districtsMap.put(item.getId(), "DTO-"+item.getNumber());
+		}
+		return districtsMap;
+	}
+	public List<District> getDistrictsByUser(String username) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("username", username);
+
+		return getDistrictsByUser(
+				baseService.findByProperties(User.class, params).get(0), true);
 
 	}
 

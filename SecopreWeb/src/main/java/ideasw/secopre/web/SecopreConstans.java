@@ -61,6 +61,11 @@ public class SecopreConstans {
 	public static final String MV_CAT_ENTRY_ADD = "auth/oper/entry/add";
 	public static final String MV_CAT_ENTRY_LIST = "auth/oper/entry/list";
 	
+	//####Modulo de Configuracion de Partidas####//
+	public static final String MV_CONF_ENTRY = "auth/admin/config/entry/entry";
+	public static final String MV_CONF_ENTRY_LIST = "auth/admin/config/entry/list";
+	
+	
 	public static final String MV_CAT_PK = "auth/oper/pk/programmaticKey";
 	public static final String MV_CAT_PK_ADD = "auth/oper/pk/add";
 	public static final String MV_CAT_PK_LIST = "auth/oper/pk/list";

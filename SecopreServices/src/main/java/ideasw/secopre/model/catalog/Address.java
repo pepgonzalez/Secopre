@@ -29,14 +29,14 @@ public class Address extends AuditEntity implements Persistible {
 	@Column(name = "STREET", nullable = false, length = 150)
 	private String street;
 	@Column(name = "NUMBER", nullable = true, length = 50)
-	private String number;
+	private String exteriorNumber;
 	@Column(name = "NUMBER_INT", nullable = true, length = 50)
 	private String interiorNumber;
 //	@Column(name = "STATE", unique = true, length = 50)
 //	private String state;
-	@Column(name = "CITY", unique = true, length = 50)
+	@Column(name = "CITY",  length = 50)
 	private String city;
-	@Column(name = "COLONY", unique = true, length = 50)
+	@Column(name = "COLONY", length = 50)
 	private String colony;
 	@Column(name = "ZIP_CODE", nullable = false, length = 5)
 	private String zipCode;
@@ -76,20 +76,6 @@ public class Address extends AuditEntity implements Persistible {
 		this.street = street;
 	}
 
-	/**
-	 * @return the number
-	 */
-	public String getNumber() {
-		return number;
-	}
-
-	/**
-	 * @param number
-	 *            the number to set
-	 */
-	public void setNumber(String number) {
-		this.number = number;
-	}
 
 	/**
 	 * @return the interiorNumber
@@ -165,6 +151,14 @@ public class Address extends AuditEntity implements Persistible {
 
 	public void setStateDTO(State stateDTO) {
 		this.stateDTO = stateDTO;
+	}
+
+	public String getExteriorNumber() {
+		return exteriorNumber;
+	}
+
+	public void setExteriorNumber(String exteriorNumber) {
+		this.exteriorNumber = exteriorNumber;
 	}
 
 }
