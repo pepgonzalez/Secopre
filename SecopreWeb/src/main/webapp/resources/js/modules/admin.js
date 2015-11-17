@@ -1736,6 +1736,29 @@ function initTramiteListPage() {
 	updateMenu("#formalityMenu");
 }
 
+function initEntryDistrictCat() {
+	alert("iniciando catalogo de partidas por distrito");
+	var formalityDatatable = $("#entryDistrictList").DataTable({
+        "language": {
+            "lengthMenu": "_MENU_ Registros por pagina",
+            "zeroRecords": "No existen registros",
+            "info": "Mostrando pagina _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay registros disponibles",
+            "infoFiltered": "(filtered from _MAX_ total records)"
+        },
+        bFilter: true, bInfo: true, bLengthChange:false, ordering:false
+    });
+	
+	//Filtro de datatable por fecha
+	$(document).find('#entrySearch').on( 'keyup', function () {
+		formalityDatatable.columns( 3 ).search( this.value ).draw();
+	});
+	
+	$(document).find(".dataTables_filter").hide();
+	
+	updateMenu("#adminMenuId");
+}
+
 function showDataHistory(requestId){
 	
 	apiCall("auth/wf/requestDetail/" + requestId, function(data){
