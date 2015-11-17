@@ -123,7 +123,7 @@
 									<div class="form-actions">
 										<div class="row">
 											<div class="col-md-offset-3 col-md-9">
-											    <a href="javascript:cancelPage('DueDate');" class="btn red" >
+											    <a href="javascript:showList('DueDate');" class="btn red" >
 												 <spring:message code="application.cancel"/> <i class="fa fa-times"></i>
 												</a>
 											

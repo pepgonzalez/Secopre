@@ -750,7 +750,7 @@ function initPage(page) {
 			});
 }
 
-function cancelPage(page){
+function showList(page){
 		$('#add_' + page).hide();
 		$('#list_' + page).show();
 }
