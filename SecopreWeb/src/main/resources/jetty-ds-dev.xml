@@ -4,11 +4,7 @@
 		<Arg>jdbc/dssecopre</Arg>
 		<Arg>
 			<New class="com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource">
-<<<<<<< HEAD
-				<Set name="Url">jdbc:mysql://189.210.196.197:3306/secopre</Set>
-=======
 				<Set name="Url">jdbc:mysql://45.55.191.180:3306/secopre</Set>
->>>>>>> branch 'master' of https://github.com/pepgonzalez/Secopre
 				<Set name="User">secopre</Set>
 				<Set name="Password">secopre</Set>
 			</New>
