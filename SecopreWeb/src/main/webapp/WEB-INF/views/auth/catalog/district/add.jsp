@@ -184,7 +184,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input id="address.number" name="number" value="${address.number}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.number.placeholder"/>'>
+																<input id="address.exteriorNumber" name="exteriorNumber" value="${address.exteriorNumber}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.number.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span id="number-error" class="help-block help-block-error"><spring:message code="application.pages.admin.persons.number.help"/></span>
@@ -328,7 +328,7 @@
 													  code="application.pages.admin.persons.number" />
 											       </label>
 										           <div class="col-md-4">
-											         <p class="form-control-static" data-display="number"></p>
+											         <p class="form-control-static" data-display="exteriorNumber"></p>
 										           </div>
 									            </div>	
 									            

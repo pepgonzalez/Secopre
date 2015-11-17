@@ -73,7 +73,9 @@
 										 ${districtItem.state.name}
 									</td>
 									<td>
-										 ${districtItem.address.street}
+										 ${districtItem.address.street}  
+										 ${districtItem.address.exteriorNumber}  
+										 ${districtItem.address.colony} 
 									</td>
 									<td>
 										 ${districtItem.email}
