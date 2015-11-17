@@ -78,6 +78,7 @@
 	<link href='<c:url value="/resources/css/plugins/tooltipster.css"/>' rel="stylesheet" type="text/css"/>
 	<!-- END PAGE CUSTOM STYLES -->	
 	<link rel="shortcut icon" href='<c:url value="/resources/img/favicon.ico"/>' type="image/vnd.microsoft.icon"/> 
+	
 
 </head>		
 <c:set var="context" value="${pageContext.request.contextPath}"/>
@@ -117,6 +118,8 @@
 	<![endif]-->
 	<script src='<c:url value="/resources/js/global/jquery.min.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/global/jquery-migrate.min.js"/>' type="text/javascript"></script>
+   
+	
 	<!-- IMPORTANT! Load jquery-ui.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
 	<script src='<c:url value="/resources/js/plugins/jquery-ui.min.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/bootstrap.min.js"/>' type="text/javascript"></script>
@@ -146,8 +149,7 @@
 	
 	<!--plugin de js para slider-->
 	<script src='<c:url value="/resources/js/global/jquery.nouislider.all.js"/>' type="text/javascript"></script>
-	 
-	 <!-- scripts para chat -->
+	 	 <!-- scripts para chat -->
 	 <script src='<c:url value="/resources/js/global/layout4.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/global/demo4.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/global/quick-sidebar2.js"/>' type="text/javascript"></script>

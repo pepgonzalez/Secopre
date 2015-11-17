@@ -69,7 +69,7 @@
 																<input id="name" name="name" type="text" value="${menu.name}" class="form-control" placeholder='<spring:message code="application.pages.admin.menu.name.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.menu.name.help"/></span>
+																<span id=name-error class="help-block help-block-error"><spring:message code="application.pages.admin.menu.name.help"/></span>
 																<i class="icon-user"></i>
 															</div>
 														</div>
@@ -84,7 +84,7 @@
 																<input name="description"  id="description" type="text" value="${menu.description}" class="form-control" placeholder='<spring:message code="application.pages.admin.menu.description.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.menu.description.help"/></span>
+																<span id=description-error class="help-block help-block-error"><spring:message code="application.pages.admin.menu.description.help"/></span>
 																<i class="icon-user"></i>
 															</div>
 														</div>
@@ -99,11 +99,24 @@
 																<input name="cssClass"  id="cssClass" type="text" value="${menu.cssClass}" class="form-control" placeholder='<spring:message code="application.pages.admin.menu.cssClass.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.menu.cssClass.help"/></span>
+																<span id=cssClass-error class="help-block help-block-error"><spring:message code="application.pages.admin.menu.cssClass.help"/></span>
 																<i class="icon-user"></i>
 															</div>
 														</div>
-													</div>			
+													</div>	
+													
+											<div class="form-group">
+                                                <label class="control-label col-md-3">Fontawesome Icons</label>
+                                                <div class="col-md-4">
+                                                    <select data-show-subtext="true" class="bs-select form-control bs-select-hidden">
+                                                        <option data-icon="fa-glass icon-success">Mustard</option>
+                                                        <option data-icon="fa-heart icon-info">Ketchup</option>
+                                                        <option data-icon="fa-film icon-default">Relish</option>
+                                                        <option data-icon="fa-home icon-warning">Mayonnaise</option>
+                                                        <option data-icon="fa-user icon-danger">Barbecue Sauce</option>
+                                                    </select><div class="btn-group bootstrap-select bs-select form-control dropup"><button data-toggle="dropdown" class="btn dropdown-toggle btn-default" type="button" title="Relish" aria-expanded="false"><span class="filter-option pull-left"><i class="fa fa-film icon-default"></i> Relish</span>&nbsp;<span class="caret"></span></button><div class="dropdown-menu open" style="max-height: 291.167px; overflow: hidden; min-height: 105px;"><ul role="menu" class="dropdown-menu inner" style="max-height: 289.167px; overflow-y: auto; min-height: 103px;"><li data-original-index="0" class=""><a data-tokens="null" style="" class="" tabindex="0"><span class="fa fa-glass icon-success"></span> <span class="text">Mustard</span><span class="fa fa-check check-mark"></span></a></li><li data-original-index="1" class=""><a data-tokens="null" style="" class="" tabindex="0"><span class="fa fa-heart icon-info"></span> <span class="text">Ketchup</span><span class="fa fa-check check-mark"></span></a></li><li data-original-index="2" class="selected"><a data-tokens="null" style="" class="" tabindex="0"><span class="fa fa-film icon-default"></span> <span class="text">Relish</span><span class="fa fa-check check-mark"></span></a></li><li data-original-index="3"><a data-tokens="null" style="" class="" tabindex="0"><span class="fa fa-home icon-warning"></span> <span class="text">Mayonnaise</span><span class="fa fa-check check-mark"></span></a></li><li data-original-index="4"><a data-tokens="null" style="" class="" tabindex="0"><span class="fa fa-user icon-danger"></span> <span class="text">Barbecue Sauce</span><span class="fa fa-check check-mark"></span></a></li></ul></div></div>
+                                                </div>
+                                            </div>		
 													
 													<div class="form-group form-md-line-input has-danger">
 														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.menu.jsFunction"/>
@@ -114,7 +127,7 @@
 																<input name="jsFunction"  id="jsFunction" type="text" value="${menu.jsFunction}" class="form-control" placeholder='<spring:message code="application.pages.admin.menu.jsFunction.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.menu.jsFunction.help"/></span>
+																<span id=jsFunction-error class="help-block help-block-error"><spring:message code="application.pages.admin.menu.jsFunction.help"/></span>
 																<i class="icon-user"></i>
 															</div>
 														</div>
@@ -129,7 +142,7 @@
 																<input name="order"  id="order" type="number" value="${menu.order}" class="form-control" placeholder='<spring:message code="application.pages.admin.menu.order.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.menu.order.help"/></span>
+																<span id=order-error class="help-block help-block-error"><spring:message code="application.pages.admin.menu.order.help"/></span>
 																<i class="icon-user"></i>
 															</div>
 														</div>
@@ -161,7 +174,7 @@
 																<input name="url" id="url" type="text" value="${path.url}" class="form-control" placeholder='<spring:message code="application.pages.admin.menu.path.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.menu.path.help"/></span>
+																<span id=url-error class="help-block help-block-error"><spring:message code="application.pages.admin.menu.path.help"/></span>
 																<i class="icon-user"></i>
 															</div>
 														</div>

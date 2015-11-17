@@ -750,6 +750,11 @@ function initPage(page) {
 			});
 }
 
+function cancelPage(page){
+		$('#add_' + page).hide();
+		$('#list_' + page).show();
+}
+
 function initRoleValidations() {
 
 	var form = $('#submit_form');
@@ -3990,4 +3995,5 @@ function initReportParamCapture(){
 			openParamResourceNative('report/download/paramReport', 'reportParametersForm');
 		}
 	});
+}
 }
