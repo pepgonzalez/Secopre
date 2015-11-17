@@ -180,4 +180,6 @@ public interface AccessNativeService {
  	
  	/*Metodo para obtener un listado de distritos*/
  	public Map<Long, String> getDistrictsMap();
+
+	List<EntryDistrict> getEntryDistrict();
 }

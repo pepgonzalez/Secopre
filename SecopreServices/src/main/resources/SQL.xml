@@ -629,7 +629,34 @@
 							   AND PASSWORD = :password
 					]]>
 				</prop>	
-					
+				
+				<prop key="GET_ENTRY_DISTRICT">
+					<![CDATA[
+						SELECT 
+							   D.ID DISTRICT_ID,
+							   D.NUMBER,
+							   PK.ID PROGRAMATIC_KEY_ID,
+							   PK.CODE,
+							   PK.YEAR,
+							   E.ID ENTRY_ID,
+							   E.DESCRIPTION,
+							   ED.MONTH,
+							   ED.ANNUAL_AMOUNT,
+							   ED.BUDGET_AMOUNT,
+							   ED.BUDGET_AMOUNT_ASSIGN,
+							   ED.COMMITTED_AMOUNT
+						  FROM secopre.ENTRYDISTRICT ED,
+						  	   secopre.DISTRICT D,
+						  	   secopre.ENTRY E,
+						  	   secopre.PROGRAMMATIC_KEY PK
+						 WHERE ED.DISTRICT_ID = D.ID
+						   AND ED.ENTRY_ID = E.ID
+						   AND E.PROGRAMMATIC_ID = PK.ID
+						ORDER BY ED.DISTRICT_ID, ED.ENTRY_ID, ED.MONTH ASC, ANNUAL_AMOUNT DESC
+						LIMIT 100
+					]]>
+				</prop>	
+				
 			</props>				
 		</property>
 	</bean>
