@@ -384,7 +384,7 @@ function initDistrictValidations() {
 			street : {
 				required : true
 			},
-			number : {
+			exteriorNumber : {
 				required : true
 			},
 			colony : {
