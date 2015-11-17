@@ -53,4 +53,7 @@ public class SQLConstants {
 	public static final String GET_CREATED_FORMALITIES_BY_USER = "GET_CREATED_FORMALITIES_BY_USER";
 	public static final String GET_USER_MOVEMENT_ACTIONS = "GET_USER_MOVEMENT_ACTIONS";
 	
+	//presupuesto anual
+	public static final String GET_ENTRY_DISTRICT = "GET_ENTRY_DISTRICT";
+	
 }

@@ -28,6 +28,7 @@ import ideasw.secopre.service.BaseService;
 import ideasw.secopre.service.impl.mapper.DistrictMapper;
 import ideasw.secopre.service.impl.mapper.EntryMapper;
 import ideasw.secopre.service.impl.mapper.FormalityMapper;
+import ideasw.secopre.service.impl.mapper.FullEntryDistrictMapper;
 import ideasw.secopre.service.impl.mapper.InboxMapper;
 import ideasw.secopre.service.impl.mapper.MovementMapper;
 import ideasw.secopre.service.impl.mapper.PermissionMapper;
@@ -461,6 +462,26 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		}
 		return map;
 	}
+	
+	public Map<Long, String> getEntriesMap(){
+		List<Entry> l = new ArrayList<Entry>();
+		l = baseService.findAll(Entry.class);
+		Map<Long, String> map = new HashMap<Long, String>();
+		for (Entry e : l){
+			map.put(e.getId(), e.getName());
+		}
+		return map;
+	}
+	
+	public Map<Long, String> getDistrictsMap(){
+		List<District> l = new ArrayList<District>();
+		l = baseService.findAll(District.class);
+		Map<Long, String> map = new HashMap<Long, String>();
+		for (District e : l){
+			map.put(e.getId(), e.getNumber());
+		}
+		return map;
+	}
 
 	@Override
 	public List<Entry> getEntries(Long programaticKey) {
@@ -673,8 +694,13 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		SqlParameterSource params = new MapSqlParameterSource()
 				.addValue("password", password).addValue("idUser", idUser);
 		
-		return this.queryForObject(Integer.class, queryContainer.getSQL(SQLConstants.IS_PASSWORD_EXIST), params);
-				
+		return this.queryForObject(Integer.class, queryContainer.getSQL(SQLConstants.IS_PASSWORD_EXIST), params);			
+	}
+	
+	@Override
+	public List<EntryDistrict> getEntryDistrict() {
+		SqlParameterSource namedParameters = new MapSqlParameterSource();
+        return this.queryForList(EntryDistrict.class, queryContainer.getSQL(SQLConstants.GET_ENTRY_DISTRICT), namedParameters, new FullEntryDistrictMapper());
 	}
 
 

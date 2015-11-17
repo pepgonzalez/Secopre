@@ -55,6 +55,9 @@ public class EntryDistrict extends AuditEntity implements Persistible {
 	@Transient
 	private String monthString;
 
+	@Transient
+	private ProgrammaticKey programmaticKey;
+	
 	public Long getId() {
 		return id;
 	}
@@ -137,5 +140,13 @@ public class EntryDistrict extends AuditEntity implements Persistible {
 
 	public boolean isValidMovement(Double amount) {
 		return ((this.budgetAmountAssign - this.committedAmount) >= amount);
+	}
+
+	public ProgrammaticKey getProgrammaticKey() {
+		return programmaticKey;
+	}
+
+	public void setProgrammaticKey(ProgrammaticKey programmaticKey) {
+		this.programmaticKey = programmaticKey;
 	}
 }

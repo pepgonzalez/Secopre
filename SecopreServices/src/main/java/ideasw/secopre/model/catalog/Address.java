@@ -34,9 +34,9 @@ public class Address extends AuditEntity implements Persistible {
 	private String interiorNumber;
 //	@Column(name = "STATE", unique = true, length = 50)
 //	private String state;
-	@Column(name = "CITY", unique = true, length = 50)
+	@Column(name = "CITY",  length = 50)
 	private String city;
-	@Column(name = "COLONY", unique = true, length = 50)
+	@Column(name = "COLONY", length = 50)
 	private String colony;
 	@Column(name = "ZIP_CODE", nullable = false, length = 5)
 	private String zipCode;

@@ -122,6 +122,13 @@ var SecopreSocket = function(config){
 	        });
         }
 	});
+
+	function pollingData(){
+		console.log("polling data");
+	}
+
+	// loop para hacer polling a la base de datos
+    setInterval(pollingData, 3000);
 }
 
 module.exports = SecopreSocket;

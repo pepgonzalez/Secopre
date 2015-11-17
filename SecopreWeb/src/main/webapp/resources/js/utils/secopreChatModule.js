@@ -1,17 +1,17 @@
 /*utilidades*/
 utils = new SecopreUtils();
 
-ulrs = {
+urls = {
 		//chat : "http://localhost:3000"
 		chat : "http://189.210.196.197:3000/",
-		updateSeen : this.chat + "v1/chat/updateSeen/",
-		getConversation : this.chat + "v1/chat/getConversation/",
-		getConversations : this.chat + "v1/chat/getConversations/",
-		getFrecuentUsers : this.chat +  "v1/chat/getFrecuentUsers/",
-		createConversation : this.chat + "v1/chat/createConversation/",
-		getMoreMessages : this.chat +  "v1/chat/getMoreMsgs/",
-		getConversationId : this.chat + "v1/chat/getConversationId/",
-		ping : this.chat + "v1/"
+		updateSeen : "http://189.210.196.197:3000/" + "v1/chat/updateSeen/",
+		getConversation : "http://189.210.196.197:3000/" + "v1/chat/getConversation/",
+		getConversations : "http://189.210.196.197:3000/" + "v1/chat/getConversations/",
+		getFrecuentUsers : "http://189.210.196.197:3000/" +  "v1/chat/getFrecuentUsers/",
+		createConversation : "http://189.210.196.197:3000/" + "v1/chat/createConversation/",
+		getMoreMessages : "http://189.210.196.197:3000/" +  "v1/chat/getMoreMsgs/",
+		getConversationId : "http://189.210.196.197:3000/" + "v1/chat/getConversationId/",
+		ping : "http://189.210.196.197:3000/" + "v1/",
 }
 
 
@@ -817,10 +817,12 @@ $(document).ready(function(){
 	if (userHasChatModule){
 		
 		//ping al server para validar si existe
+		
+		var miUrl = urls.ping;		
 		$.ajax({
 		      type: "GET",
 		      //url: "http://localhost:3000/v1/",
-		      url: urls.ping,
+		      url: miUrl,
 		      success: function (response) {
 		    	
 		    	Chat.userId = userId;

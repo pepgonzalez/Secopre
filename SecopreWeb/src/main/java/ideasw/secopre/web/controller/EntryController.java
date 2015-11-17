@@ -5,6 +5,11 @@ import ideasw.secopre.enums.StatusEntry;
 import ideasw.secopre.model.Entry;
 import ideasw.secopre.model.EntryDistrict;
 import ideasw.secopre.model.ProgrammaticKey;
+<<<<<<< HEAD
+=======
+import ideasw.secopre.model.catalog.District;
+import ideasw.secopre.service.AccessNativeService;
+>>>>>>> branch 'master' of https://github.com/pepgonzalez/Secopre
 import ideasw.secopre.service.EntryConfigService;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
@@ -40,6 +45,10 @@ public class EntryController extends AuthController {
 
 	@Autowired
 	private EntryConfigService entryConfigService;
+	
+	@Autowired
+	private AccessNativeService accessNativeService;
+
 
 	@RequestMapping(value = "oper/entry/list", method = { RequestMethod.GET,
 			RequestMethod.POST })
