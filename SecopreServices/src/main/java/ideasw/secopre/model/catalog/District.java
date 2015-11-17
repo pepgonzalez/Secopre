@@ -39,10 +39,6 @@ public class District extends AuditEntity implements Persistible {
 
 	@Column(name = "NUMBER", nullable = false, length = 150)
 	private String number;
-
-//	@ManyToOne(cascade = CascadeType.MERGE)
-//	@JoinColumn(name = "STATE_ID")
-//	private State state;
 	
 	@ManyToOne
 	@PrimaryKeyJoinColumn(name = "STATE_ID", referencedColumnName = "ID")

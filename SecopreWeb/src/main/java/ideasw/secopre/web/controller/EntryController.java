@@ -1,12 +1,9 @@
 package ideasw.secopre.web.controller;
 
-import ideasw.secopre.dto.EntryBalance;
-import ideasw.secopre.dto.EntryFilter;
 import ideasw.secopre.enums.AccountingType;
 import ideasw.secopre.enums.StatusEntry;
 import ideasw.secopre.model.Entry;
 import ideasw.secopre.model.ProgrammaticKey;
-import ideasw.secopre.model.catalog.District;
 import ideasw.secopre.service.EntryConfigService;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
@@ -22,7 +19,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -46,10 +42,10 @@ public class EntryController extends AuthController {
 
 	@RequestMapping(value = "oper/entry/list", method = { RequestMethod.GET,
 			RequestMethod.POST })
-	public String getList(@ModelAttribute("balance") EntryBalance balance, ModelMap model) {
+	public String getList(ModelMap model) {
 		Entry entry = new Entry();
 		Map<String, Object> propertiesMap = new HashMap<String, Object>();
-		propertiesMap.put("status", StatusEntry.CONFIG);
+		propertiesMap.put("status", StatusEntry.ACTIVE);
 		model.addAttribute("entryList",
 				baseService.findByProperties(Entry.class, propertiesMap));
 
@@ -62,43 +58,12 @@ public class EntryController extends AuthController {
 			pkMap.put(p.getId(), p.getCode());
 		}
 
-		model.addAttribute("entryFilter", new EntryFilter());
 		// TODO: filtral distritos por usuario
 		model.addAttribute("districtList", secopreCache.getValidDistrictsMap());
 		model.addAttribute("accountingTypes", AccountingType.values());
 		model.addAttribute("pks", pkMap);
 
 		return SecopreConstans.MV_CAT_ENTRY;
-	}
-
-	@RequestMapping(value = "oper/entry/search", method = RequestMethod.GET)
-	public String searchEntries(
-			@ModelAttribute("entryFilter") EntryFilter entryFilter,
-			ModelMap model,RedirectAttributes attributes) {
-		EntryBalance balance = 
-				entryConfigService.getEntryBalance(entryFilter);
-		model.addAttribute("balance",balance);
-		attributes.addFlashAttribute("balance",balance);
-
-		return "redirect:oper/entry/list";
-	}
-
-	@RequestMapping(value = "oper/entry/byDistrict")
-	public @ResponseBody Map<Long, String> getEntriesByDistrict(
-			@RequestParam(value = "districtId", required = true) Long districtId,
-			ModelMap modelMap) {
-		Map<Long, String> entryMap = new HashMap<Long, String>();
-		Map<String, Object> propertiesMap = new HashMap<String, Object>();
-
-		propertiesMap.put("district",
-				baseService.findById(District.class, districtId));
-		List<Entry> entryList = accessNativeService
-				.getValidEntriesByDistrict(districtId);
-
-		for (Entry item : entryList) {
-			entryMap.put(item.getId(), item.getName());
-		}
-		return entryMap;
 	}
 
 	@RequestMapping(value = "oper/entry/add", method = RequestMethod.POST)
@@ -172,5 +137,17 @@ public class EntryController extends AuthController {
 		model.addAttribute("pks", pkMap);
 
 		return SecopreConstans.MV_CAT_ENTRY_LIST;
+	}
+	
+	/*mostrar listado de partidas*/
+	@RequestMapping(value = "adm/entry/list", method = {
+			RequestMethod.GET, RequestMethod.POST })
+	public String getEntryList(ModelMap model, RedirectAttributes attributes) {
+		
+		List<EntryDistrict> list = accessNativeService.getEntryDistrict();
+		
+		model.addAttribute("entries", list);
+
+		return SecopreConstans.MV_ADM_ENTRY_DISTRICT;
 	}
 }

@@ -5,6 +5,7 @@ package ideasw.secopre.model.security;
 
 import ideasw.secopre.model.Dashboard;
 import ideasw.secopre.model.base.Persistible;
+import ideasw.secopre.model.catalog.District;
 import ideasw.secopre.model.catalog.Person;
 import ideasw.secopre.model.catalog.Position;
 
@@ -72,32 +73,32 @@ public class User implements Persistible, UserDetails {
 	@Column(name = "NICKNAME", unique = true)
 	@Size(max = 20, min = 5)
 	private String nickname;
-	
+
 	@Column(name = "EMAIL")
 	@Size(max = 60)
-	private String email;	
-	
+	private String email;
+
 	@Column(name = "HAS_CHAT_ACTIVE")
 	private Boolean hasChatActive;
 
 	@Column(name = "AVATAR")
 	private String avatar;
-	
+
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="DASHBOARD_ID")	
+	@JoinColumn(name = "DASHBOARD_ID")
 	private Dashboard dashboard;
-	
-    @ManyToOne
+
+	@ManyToOne
 	@PrimaryKeyJoinColumn(name = "PERSON_ID", referencedColumnName = "ID")
 	private Person person;
-    
-    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
-    @ManyToOne
+
+	@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+	@ManyToOne
 	@PrimaryKeyJoinColumn(name = "POSITION_ID", referencedColumnName = "ID")
 	private Position position;
-    
-    private String information;
-	
+
+	private String information;
+
 	public String getAvatar() {
 		return avatar == null ? "avatar.png" : avatar;
 	}
@@ -107,17 +108,17 @@ public class User implements Persistible, UserDetails {
 	}
 
 	// bi-directional many-to-one association to Userrole
-    @NotAudited
-    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
-    @ManyToMany(cascade=CascadeType.MERGE, fetch=FetchType.EAGER)
-    @JoinTable(name = "USER_ROLE",
-        joinColumns = {@JoinColumn(name="USER_ID")},
-        inverseJoinColumns = {@JoinColumn(name="ROLE_ID")}
-    )
-    private List<Role> authorities;
-    
-    
+	@NotAudited
+	@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@JoinTable(name = "USER_ROLE", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = { @JoinColumn(name = "ROLE_ID") })
+	private List<Role> authorities;
 
+	@NotAudited
+	@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "DISTRICT_USER", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = { @JoinColumn(name = "DISTRICT_ID") })
+	private List<District> districts;
 
 	/* Spring Security fields */
 	@Transient
@@ -248,8 +249,8 @@ public class User implements Persistible, UserDetails {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-	
-    public Boolean getHasChatActive() {
+
+	public Boolean getHasChatActive() {
 		return hasChatActive;
 	}
 
@@ -290,7 +291,8 @@ public class User implements Persistible, UserDetails {
 	}
 
 	/**
-	 * @param email the email to set
+	 * @param email
+	 *            the email to set
 	 */
 	public void setEmail(String email) {
 		this.email = email;
@@ -304,7 +306,8 @@ public class User implements Persistible, UserDetails {
 	}
 
 	/**
-	 * @param dashboard the dashboard to set
+	 * @param dashboard
+	 *            the dashboard to set
 	 */
 	public void setDashboard(Dashboard dashboard) {
 		this.dashboard = dashboard;
@@ -365,4 +368,13 @@ public class User implements Persistible, UserDetails {
 	public void setInformation(String information) {
 		this.information = information;
 	}
+
+	public List<District> getDistricts() {
+		return districts;
+	}
+
+	public void setDistricts(List<District> districts) {
+		this.districts = districts;
+	}
+
 }
