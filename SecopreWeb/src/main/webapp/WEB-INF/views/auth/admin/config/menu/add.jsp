@@ -105,18 +105,18 @@
 														</div>
 													</div>	
 													
-											<div class="form-group">
-                                                <label class="control-label col-md-3">Fontawesome Icons</label>
-                                                <div class="col-md-4">
-                                                    <select data-show-subtext="true" class="bs-select form-control bs-select-hidden">
-                                                        <option data-icon="fa-glass icon-success">Mustard</option>
-                                                        <option data-icon="fa-heart icon-info">Ketchup</option>
-                                                        <option data-icon="fa-film icon-default">Relish</option>
-                                                        <option data-icon="fa-home icon-warning">Mayonnaise</option>
-                                                        <option data-icon="fa-user icon-danger">Barbecue Sauce</option>
-                                                    </select><div class="btn-group bootstrap-select bs-select form-control dropup"><button data-toggle="dropdown" class="btn dropdown-toggle btn-default" type="button" title="Relish" aria-expanded="false"><span class="filter-option pull-left"><i class="fa fa-film icon-default"></i> Relish</span>&nbsp;<span class="caret"></span></button><div class="dropdown-menu open" style="max-height: 291.167px; overflow: hidden; min-height: 105px;"><ul role="menu" class="dropdown-menu inner" style="max-height: 289.167px; overflow-y: auto; min-height: 103px;"><li data-original-index="0" class=""><a data-tokens="null" style="" class="" tabindex="0"><span class="fa fa-glass icon-success"></span> <span class="text">Mustard</span><span class="fa fa-check check-mark"></span></a></li><li data-original-index="1" class=""><a data-tokens="null" style="" class="" tabindex="0"><span class="fa fa-heart icon-info"></span> <span class="text">Ketchup</span><span class="fa fa-check check-mark"></span></a></li><li data-original-index="2" class="selected"><a data-tokens="null" style="" class="" tabindex="0"><span class="fa fa-film icon-default"></span> <span class="text">Relish</span><span class="fa fa-check check-mark"></span></a></li><li data-original-index="3"><a data-tokens="null" style="" class="" tabindex="0"><span class="fa fa-home icon-warning"></span> <span class="text">Mayonnaise</span><span class="fa fa-check check-mark"></span></a></li><li data-original-index="4"><a data-tokens="null" style="" class="" tabindex="0"><span class="fa fa-user icon-danger"></span> <span class="text">Barbecue Sauce</span><span class="fa fa-check check-mark"></span></a></li></ul></div></div>
-                                                </div>
-                                            </div>		
+<!-- 											<div class="form-group"> -->
+<!--                                                 <label class="control-label col-md-3">Fontawesome Icons</label> -->
+<!--                                                 <div class="col-md-4"> -->
+<!--                                                     <select data-show-subtext="true" class="bs-select form-control bs-select-hidden"> -->
+<!--                                                         <option data-icon="fa-glass icon-success">Mustard</option> -->
+<!--                                                         <option data-icon="fa-heart icon-info">Ketchup</option> -->
+<!--                                                         <option data-icon="fa-film icon-default">Relish</option> -->
+<!--                                                         <option data-icon="fa-home icon-warning">Mayonnaise</option> -->
+<!--                                                         <option data-icon="fa-user icon-danger">Barbecue Sauce</option> -->
+<!--                                                     </select><div class="btn-group bootstrap-select bs-select form-control dropup"><button data-toggle="dropdown" class="btn dropdown-toggle btn-default" type="button" title="Relish" aria-expanded="false"><span class="filter-option pull-left"><i class="fa fa-film icon-default"></i> Relish</span>&nbsp;<span class="caret"></span></button><div class="dropdown-menu open" style="max-height: 291.167px; overflow: hidden; min-height: 105px;"><ul role="menu" class="dropdown-menu inner" style="max-height: 289.167px; overflow-y: auto; min-height: 103px;"><li data-original-index="0" class=""><a data-tokens="null" style="" class="" tabindex="0"><span class="fa fa-glass icon-success"></span> <span class="text">Mustard</span><span class="fa fa-check check-mark"></span></a></li><li data-original-index="1" class=""><a data-tokens="null" style="" class="" tabindex="0"><span class="fa fa-heart icon-info"></span> <span class="text">Ketchup</span><span class="fa fa-check check-mark"></span></a></li><li data-original-index="2" class="selected"><a data-tokens="null" style="" class="" tabindex="0"><span class="fa fa-film icon-default"></span> <span class="text">Relish</span><span class="fa fa-check check-mark"></span></a></li><li data-original-index="3"><a data-tokens="null" style="" class="" tabindex="0"><span class="fa fa-home icon-warning"></span> <span class="text">Mayonnaise</span><span class="fa fa-check check-mark"></span></a></li><li data-original-index="4"><a data-tokens="null" style="" class="" tabindex="0"><span class="fa fa-user icon-danger"></span> <span class="text">Barbecue Sauce</span><span class="fa fa-check check-mark"></span></a></li></ul></div></div> -->
+<!--                                                 </div> -->
+<!--                                             </div>		 -->
 													
 													<div class="form-group form-md-line-input has-danger">
 														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.menu.jsFunction"/>
