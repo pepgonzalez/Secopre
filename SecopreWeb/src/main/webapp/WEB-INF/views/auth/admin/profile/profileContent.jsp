@@ -22,40 +22,40 @@
 <!-- 										</div> -->
 									</div>
 									<div class="portlet-body">
-										<div class="row number-stats margin-bottom-30">
-											<div class="col-md-6 col-sm-6 col-xs-6">
-												<div class="stat-left">
-													<div class="stat-chart">
-														<!-- do not line break "sparkline_bar" div. sparkline chart has an issue when the container div has line break -->
-														<div id="sparkline_bar"><canvas style="display: inline-block; width: 90px; height: 45px; vertical-align: top;" width="90" height="45"></canvas></div>
-													</div>
-													<div class="stat-number">
-														<div class="title">
-															 Total
-														</div>
-														<div class="number">
-															 500
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="col-md-6 col-sm-6 col-xs-6">
-												<div class="stat-right">
-													<div class="stat-chart">
-														<!-- do not line break "sparkline_bar" div. sparkline chart has an issue when the container div has line break -->
-														<div id="sparkline_bar2"><canvas style="display: inline-block; width: 90px; height: 45px; vertical-align: top;" width="90" height="45"></canvas></div>
-													</div>
-													<div class="stat-number">
-														<div class="title">
-															 New
-														</div>
-														<div class="number">
-															 719
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
+<!-- 										<div class="row number-stats margin-bottom-30"> -->
+<!-- 											<div class="col-md-6 col-sm-6 col-xs-6"> -->
+<!-- 												<div class="stat-left"> -->
+<!-- 													<div class="stat-chart"> -->
+<!-- 														do not line break "sparkline_bar" div. sparkline chart has an issue when the container div has line break -->
+<!-- 														<div id="sparkline_bar"><canvas style="display: inline-block; width: 90px; height: 45px; vertical-align: top;" width="90" height="45"></canvas></div> -->
+<!-- 													</div> -->
+<!-- 													<div class="stat-number"> -->
+<!-- 														<div class="title"> -->
+<!-- 															 Total -->
+<!-- 														</div> -->
+<!-- 														<div class="number"> -->
+<!-- 															 500 -->
+<!-- 														</div> -->
+<!-- 													</div> -->
+<!-- 												</div> -->
+<!-- 											</div> -->
+<!-- 											<div class="col-md-6 col-sm-6 col-xs-6"> -->
+<!-- 												<div class="stat-right"> -->
+<!-- 													<div class="stat-chart"> -->
+<!-- 														do not line break "sparkline_bar" div. sparkline chart has an issue when the container div has line break -->
+<!-- 														<div id="sparkline_bar2"><canvas style="display: inline-block; width: 90px; height: 45px; vertical-align: top;" width="90" height="45"></canvas></div> -->
+<!-- 													</div> -->
+<!-- 													<div class="stat-number"> -->
+<!-- 														<div class="title"> -->
+<!-- 															 New -->
+<!-- 														</div> -->
+<!-- 														<div class="number"> -->
+<!-- 															 719 -->
+<!-- 														</div> -->
+<!-- 													</div> -->
+<!-- 												</div> -->
+<!-- 											</div> -->
+<!-- 										</div> -->
 										<div class="table-scrollable table-scrollable-borderless">
 											<table class="table table-hover table-light">
 											<thead>
