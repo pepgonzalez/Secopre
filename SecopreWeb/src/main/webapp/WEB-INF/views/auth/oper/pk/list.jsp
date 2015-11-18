@@ -53,6 +53,12 @@
 								</th>
 								<th><spring:message code="application.pages.catalog.programmaticKey.code"/></th>
 								<th><spring:message code="application.pages.catalog.programmaticKey.year"/></th>
+								<th><spring:message code="application.pages.catalog.programmaticKey.function"/></th>
+								<th><spring:message code="application.pages.catalog.programmaticKey.finality"/></th>
+								<th><spring:message code="application.pages.catalog.programmaticKey.subfunction"/></th>
+								<th><spring:message code="application.pages.catalog.programmaticKey.activity"/></th>
+								<th><spring:message code="application.pages.catalog.programmaticKey.programBudget"/></th>
+								<th><spring:message code="application.pages.catalog.programmaticKey.unitResponsable"/></th>
 								<th><spring:message code="application.active"/></th>
 								<th><spring:message code="application.actions"/></th>
 							</tr>
@@ -66,6 +72,24 @@
 									<td>${programmaticKeyItem.code}</td>
 									<td>
 										 ${programmaticKeyItem.year}
+									</td>
+									<td>
+										 ${programmaticKeyItem.function}
+									</td>
+									<td>
+										 ${programmaticKeyItem.finality}
+									</td>
+									<td>
+										 ${programmaticKeyItem.subfunction}
+									</td>
+									<td>
+										 ${programmaticKeyItem.activity}
+									</td>
+									<td>
+										 ${programmaticKeyItem.programBudget}
+									</td>
+									<td>
+										 ${programmaticKeyItem.unitResponsable}
 									</td>
 									
 									
