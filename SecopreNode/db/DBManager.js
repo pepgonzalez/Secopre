@@ -25,8 +25,8 @@ var DBManager = function(config){
         DBPool.getConnection(function(error, connection){
             //si error, logueo y trueno
             if(error){
-                connection.release();
                 console.log("Error de al obtener la conexion: " + error);
+                connection.release();
                 return;
             }
 
