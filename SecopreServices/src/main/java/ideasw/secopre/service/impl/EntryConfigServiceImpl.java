@@ -11,6 +11,7 @@ import ideasw.secopre.service.impl.mapper.EntryDistrictMapper;
 import ideasw.secopre.sql.QueryContainer;
 import ideasw.secopre.sql.SQLConstants;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -164,11 +165,10 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl implemen
 		}
 
 		if (filter.getMonths() != null && filter.getMonths().length != 0) {
-			sql.append(" AND ED.MONTH IN (:months)");
-			params.addValue("entryId", filter.getMonths());
+			sql.append(" AND ED.MONTH IN ( :months ) ");
+			params.addValue("months", Arrays.asList(filter.getMonths()));
 		}
 
-		sql.append(";");
 
 		List<EntryDistrict> entryList = this.queryForList(
 				EntryDistrict.class, sql.toString(), params,

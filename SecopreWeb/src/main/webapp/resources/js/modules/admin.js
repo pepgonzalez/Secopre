@@ -685,7 +685,16 @@ function initEntryByDistrict(){
         delay: 10,
         time: 1000
     });
-    				
+ 
+	$('#byDistrictTable').DataTable({		
+		 "language": {
+	            "lengthMenu": "_MENU_ Registros por pagina",
+	            "zeroRecords": "No existen registros",
+	            "info": "Mostrando pagina _PAGE_ de _PAGES_",
+	            "infoEmpty": "No hay registros disponibles",
+	            "infoFiltered": "(filtered from _MAX_ total records)"
+	        }	
+});
 	$("select#districtId").change(function(){
 		blockPage();
          $.getJSON("cfg/entry/byDistrict",{districtId: $(this).val()}, function(j){

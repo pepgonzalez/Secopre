@@ -53,23 +53,18 @@ public class EntryConfigController extends AuthController {
 		model.addAttribute("entryFilter", filter);
 		model.addAttribute("districtList",
 				secopreCache.getDistrictsByUserMap(principal.getName()));
-		if(model.get("balance") != null){
-			model.addAttribute("balance", model.get("balance"));
-		}else{
-			model.addAttribute("balance", new EntryBalance());
-		}
-		
+		model.addAttribute("balance", new EntryBalance());		
 		return SecopreConstans.MV_CONF_ENTRY;
 	}
 
 	@RequestMapping(value = "cfg/entry/search", method = RequestMethod.POST)
 	public String searchEntries(
 			@ModelAttribute("entryFilter") EntryFilter entryFilter,
-			ModelMap model, RedirectAttributes attributes) {
+			ModelMap model) {
 		EntryBalance balance = entryConfigService.getEntryBalance(entryFilter);
-		attributes.addFlashAttribute("balance", balance);
-
-		return "redirect:/auth/cfg/entry/list";
+		model.addAttribute("balance", balance);
+		model.addAttribute("entryFilter", entryFilter);
+		return "auth/admin/config/entry/byDistrict";
 	}
 
 	@RequestMapping(value = "cfg/entry/byDistrict")
