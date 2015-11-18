@@ -2,7 +2,7 @@ var mysql     =    require('mysql');
 
 var DBPool =  mysql.createPool({
         connectionLimit : 100,
-        host     : '189.210.196.197',
+        host     : '127.0.0.1',
         user     : 'secopre',
         password : 'secopre',
         database : 'secopre',
