@@ -86,6 +86,7 @@ public class EntryDistrict extends AuditEntity implements Persistible {
 		return annualAmount;
 	}
 
+	
 	public void setAnnualAmount(Double annualAmount) {
 		this.annualAmount = annualAmount;
 	}

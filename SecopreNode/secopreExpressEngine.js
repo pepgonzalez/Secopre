@@ -1,7 +1,7 @@
 express = require('express');
 
 var cors = require('cors');
-var corsOptions = { origin : 'http://localhost:9999'}
+var corsOptions = { origin : 'http://smartsecopre.ddns.net:8080'}
 
 var SecopreChat = function(config){
     config = config || {};

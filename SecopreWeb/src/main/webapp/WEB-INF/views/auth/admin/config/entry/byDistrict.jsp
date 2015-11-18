@@ -60,7 +60,7 @@
 		                                <div class="details">
 		                                    <div class="number"> 
 		                                        <span data-counter="counterup" data-value="<c:out value="${balance.budgetAsing - balance.budgetCommit}"/>"><c:out value="${balance.budgetAsing - balance.budgetCommit}"/></span> $
-		                                    	<div class="desc"> Total Post Compromiso</div>
+		                                    	<div class="desc"> Disponible</div>
 		                                    </div>
 		                                </div>
 		                                <a class="more" href="javascript:;">
