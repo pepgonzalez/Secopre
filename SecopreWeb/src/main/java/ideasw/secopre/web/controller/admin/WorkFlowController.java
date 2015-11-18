@@ -205,7 +205,7 @@ public class WorkFlowController extends AuthController {
 				}
 				
 				String requestFolder = rootPath + File.separator + requestId;
-				
+				LOG.info("======> creando directorio de folio: " + requestFolder);
 				LOG.debug("creando directorio de folio: " + requestFolder);
 				File requestDirectory = new File(requestFolder);
 				if (!requestDirectory.exists()) {

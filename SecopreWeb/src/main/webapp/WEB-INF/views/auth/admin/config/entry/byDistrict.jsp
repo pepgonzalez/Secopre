@@ -18,7 +18,7 @@
 							<form:form action="auth/cfg/entry/search" class="form-horizontal" id="submit_form"  modelAttribute="entryFilter" method="GET"  novalidate="novalidate">
 								<div class="row">		
 									<div class="col-md-5">
-										<label class="col-md-2 control-label" for="districtId" style="text-align:left;">Distrito ${balance.budgetAsing}</label>
+										<label class="col-md-2 control-label" for="districtId" style="text-align:left;">Distrito</label>
 										<form:select path="districtId" id="districtId" class="form-control">
 										   	<form:option value="-1" label="Seleccione..."/>
 		 									<form:options items="${districtList}" />
@@ -81,7 +81,7 @@
 		                                </div>
 		                                <div class="details">
 		                                    <div class="number">
-		                                        <span data-counter="counterup" data-value="${balance.annualAmount}">0</span> $
+		                                        <span data-counter="counterup" data-value="${annualAmount.annualAmount}">${annualAmount.annualAmount}</span> $
 		                                    </div>
 		                                    <div class="desc">Presupuesto Anual</div>
 		                                </div>
@@ -97,7 +97,7 @@
 		                                </div>
 		                                <div class="details">
 		                                    <div class="number">
-		                                        <span data-counter="counterup" data-value="${balance.budgetAmount}">0</span> $
+		                                        <span data-counter="counterup" data-value="${annualAmount.budgetAmount}">${annualAmount.budgetAmount}</span> $
 		                                    	<div class="desc">Presupuesto</div>
 		                                    </div>
 		                                </div>
@@ -114,7 +114,7 @@
 		                                </div>
 		                                <div class="details">
 		                                    <div class="number">
-		                                        <span data-counter="counterup" data-value="${balance.budgetCommit}">${balance.budgetCommit}</span> $
+		                                        <span data-counter="counterup" data-value="${annualAmount.budgetCommit}">${annualAmount.budgetCommit}</span> $
 		                                    </div>
 		                                    <div class="desc">Total Comprometido</div>
 		                                </div>
@@ -131,7 +131,7 @@
 		                                </div>
 		                                <div class="details">
 		                                    <div class="number"> 
-		                                        <span data-counter="counterup" data-value="${balance.budgetAsing}">${balance.budgetAsing}</span> $
+		                                        <span data-counter="counterup" data-value="${annualAmount.budgetAsing}">${annualAmount.budgetAsing}</span> $
 		                                    	<div class="desc"> Total Aplicado</div>
 		                                    </div>
 		                                </div>
