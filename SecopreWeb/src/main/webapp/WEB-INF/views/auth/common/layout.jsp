@@ -81,6 +81,9 @@
 	
 
 </head>		
+
+<%@ page isELIgnored="false" %>
+
 <c:set var="context" value="${pageContext.request.contextPath}"/>
 
 <script type="text/javascript">
