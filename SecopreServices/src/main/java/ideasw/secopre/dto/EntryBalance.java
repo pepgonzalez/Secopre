@@ -6,12 +6,12 @@ import java.util.List;
 
 public class EntryBalance {
 
-	public Double annualAmount = 0D;
-	public Double budgetAmount = 0D;
-	public Double budgetAsing = 0D;
-	public Double budgetCommit = 0D;
+	private Double annualAmount = 0D;
+	private Double budgetAmount = 0D;
+	private Double budgetAsing = 0D;
+	private Double budgetCommit = 0D;
 	
-	public List<EntryDistrict> entries;
+	private List<EntryDistrict> entries;
 
 	public Double getAnnualAmount() {
 		return annualAmount;

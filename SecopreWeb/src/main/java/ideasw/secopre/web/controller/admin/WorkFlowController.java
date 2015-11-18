@@ -16,7 +16,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -162,7 +161,7 @@ public class WorkFlowController extends AuthController {
 	 * param requestId		- Folio en cuestion
 	 * param stageConfigId	- Etapa actual
 	 * */
-	@RequestMapping(value = "wf/upload/{requestId}/{stageConfigId}", method = { RequestMethod.GET })
+	@RequestMapping(value = "wf/upload/{requestId}/{stageConfigId}", method = { RequestMethod.GET, RequestMethod.POST })
 	public String showUploadForm(@PathVariable("requestId") Long requestId, @PathVariable("stageConfigId") Long stageConfigId, ModelMap model, RedirectAttributes attributes, Principal principal) {
 
 		Request requestForm = accessNativeService.getRequestById(requestId);

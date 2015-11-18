@@ -49,11 +49,11 @@ public class EntryConfigController extends AuthController {
 	public String getList(@ModelAttribute("balance") EntryBalance balance,
 			ModelMap model, Principal principal) {
 
-
+		
 		model.addAttribute("entryFilter", new EntryFilter());
 		model.addAttribute("districtList",
 				secopreCache.getDistrictsByUserMap(principal.getName()));
-
+		model.addAttribute("balance", balance);
 		return SecopreConstans.MV_CONF_ENTRY;
 	}
 
