@@ -225,7 +225,7 @@
 											class="required"> * </span>
 										</label>
 										<div class="col-md-4">
-											<select multiple="multiple" class="multi-select" id="districts" name="districts">
+											<select multiple="multiple" class="multi-select" id="distrs" name="distrs">
 												<c:forEach items="${districts}" var="district">
 														<option value="${district.id}">${district.number} </option> 
 												</c:forEach>
@@ -254,7 +254,7 @@
 <!-- 									<div class="form-group">&nbsp;</div> -->
 <!-- 								</div> -->
 								
-								<div class="tab-pane" id="tab3">
+								<div class="tab-pane" id="tab4">
 									<h3 class="block">Confirme la cuenta de usuario</h3>
 									<h4 class="form-section">Cuenta</h4>
 									<div class="form-group">

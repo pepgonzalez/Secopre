@@ -112,7 +112,7 @@ public class UserController extends AuthController {
 
 	@RequestMapping(value = "adm/usr/add", method = RequestMethod.POST)
 	//public String add(@ModelAttribute("user") User user, @RequestParam("roles") String role,@RequestParam("permissions") String permission,ModelMap model, RedirectAttributes attributes) {
-	public String add(@ModelAttribute("user") User user, @RequestParam("roles") String role,@RequestParam("districts") String districts,ModelMap model, RedirectAttributes attributes) {
+	public String add(@ModelAttribute("user") User user, @RequestParam("roles") String role,@RequestParam("distrs") String districts,ModelMap model, RedirectAttributes attributes) {
 	
 		try {
 			if(user.getId()==null)

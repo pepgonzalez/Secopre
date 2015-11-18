@@ -157,7 +157,7 @@
 											class="required"> * </span>
 										</label>
 										<div class="col-md-4">
-											<select multiple="multiple" class="multi-select" id="districts" name="districts">
+											<select multiple="multiple" class="multi-select" id="distrs" name="distrs">
 												<c:forEach items="${districts}" var="district">
 														<option value="${district.id}">${district.number} </option> 
 												</c:forEach>

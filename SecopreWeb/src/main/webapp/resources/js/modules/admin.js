@@ -634,7 +634,7 @@ function initUserPage(idUser) {
 	$('#roles').multiSelect({
 		 includeSelectAllOption: true
 	});
-	$('#districts').multiSelect({
+	$('#distrs').multiSelect({
 		 includeSelectAllOption: true
 	});
 
@@ -666,8 +666,8 @@ function initUserPage(idUser) {
 	   apiCallUnblock("auth/adm/usr/getDistrictsByUser/" + idUser, function(data)
 			   {	
 			      var valArr=data.result.split(',');
-			      $("#districts").val(valArr);
-			      $("#districts").multiSelect("refresh");
+			      $("#distrs").val(valArr);
+			      $("#distrs").multiSelect("refresh");
 			   });	   
 	   
 	}
@@ -1197,7 +1197,7 @@ function initUserValidations() {
 				required : true
 			},
 			roles : "required",
-			permissions : "required",
+			distrs : "required",
 			gender : "required"
 		},
 	    messages : {
