@@ -1182,6 +1182,24 @@ function initProgrammaticKeyValidations() {
 				maxlength : 4,
 				required : true,
 				number : true
+			},
+			"function" : {
+				maxlength : 10
+			},
+			activity : {
+				maxlength : 10
+			},
+			subfunction : {
+				maxlength : 10
+			},
+			programBudget : {
+				maxlength : 30
+			},
+			unitResponsable : {
+				maxlength : 30
+			},
+			finality : {
+				maxlength : 10
 			}
 		},
 

@@ -82,6 +82,99 @@
 															</div>
 														</div>
 													</div>
+													
+													<div class="form-group form-md-line-input has-danger">
+														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.programmaticKey.function"/>
+<!-- 														<span class="required">* </span> -->
+														</label>
+														<div class="col-md-10">
+															<div class="input-icon">
+																<input name="function"  id="function" type="text" value="${pk.function}"  class="form-control" placeholder='<spring:message code="application.pages.catalog.programmaticKey.function.placeholder"/>'>
+																<div class="form-control-focus">
+																</div>
+																<span id="function-error" class="help-block help-block-error"><spring:message code="application.pages.catalog.programmaticKey.function.help"/></span>
+																<i class="icon-user"></i>
+															</div>
+														</div>
+													</div>
+													
+													
+													<div class="form-group form-md-line-input has-danger">
+														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.programmaticKey.finality"/>
+<!-- 														<span class="required">* </span> -->
+														</label>
+														<div class="col-md-10">
+															<div class="input-icon">
+																<input name="finality"  id="finality" type="text" value="${pk.finality}"  class="form-control" placeholder='<spring:message code="application.pages.catalog.programmaticKey.finality.placeholder"/>'>
+																<div class="form-control-focus">
+																</div>
+																<span id="finality-error" class="help-block help-block-error"><spring:message code="application.pages.catalog.programmaticKey.finality.help"/></span>
+																<i class="icon-user"></i>
+															</div>
+														</div>
+													</div>
+													
+													<div class="form-group form-md-line-input has-danger">
+														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.programmaticKey.subfunction"/>
+<!-- 														<span class="required">* </span> -->
+														</label>
+														<div class="col-md-10">
+															<div class="input-icon">
+																<input name="subfunction"  id="subfunction" type="text" value="${pk.subfunction}"  class="form-control" placeholder='<spring:message code="application.pages.catalog.programmaticKey.subfunction.placeholder"/>'>
+																<div class="form-control-focus">
+																</div>
+																<span id="subfunction-error" class="help-block help-block-error"><spring:message code="application.pages.catalog.programmaticKey.subfunction.help"/></span>
+																<i class="icon-user"></i>
+															</div>
+														</div>
+													</div>
+													
+													
+													<div class="form-group form-md-line-input has-danger">
+														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.programmaticKey.activity"/>
+<!-- 														<span class="required">* </span> -->
+														</label>
+														<div class="col-md-10">
+															<div class="input-icon">
+																<input name="activity"  id="activity" type="text" value="${pk.activity}"  class="form-control" placeholder='<spring:message code="application.pages.catalog.programmaticKey.activity.placeholder"/>'>
+																<div class="form-control-focus">
+																</div>
+																<span id="activity-error" class="help-block help-block-error"><spring:message code="application.pages.catalog.programmaticKey.activity.help"/></span>
+																<i class="icon-user"></i>
+															</div>
+														</div>
+													</div>
+													
+													<div class="form-group form-md-line-input has-danger">
+														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.programmaticKey.programBudget"/>
+<!-- 														<span class="required">* </span> -->
+														</label>
+														<div class="col-md-10">
+															<div class="input-icon">
+																<input name="programBudget"  id="programBudget" type="text" value="${pk.programBudget}"  class="form-control" placeholder='<spring:message code="application.pages.catalog.programmaticKey.programBudget.placeholder"/>'>
+																<div class="form-control-focus">
+																</div>
+																<span id="programBudget-error" class="help-block help-block-error"><spring:message code="application.pages.catalog.programmaticKey.programBudget.help"/></span>
+																<i class="icon-user"></i>
+															</div>
+														</div>
+													</div>
+													
+													
+													<div class="form-group form-md-line-input has-danger">
+														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.programmaticKey.unitResponsable"/>
+<!-- 														<span class="required">* </span> -->
+														</label>
+														<div class="col-md-10">
+															<div class="input-icon">
+																<input name="unitResponsable"  id="unitResponsable" type="text" value="${pk.unitResponsable}"  class="form-control" placeholder='<spring:message code="application.pages.catalog.programmaticKey.unitResponsable.placeholder"/>'>
+																<div class="form-control-focus">
+																</div>
+																<span id="unitResponsable-error" class="help-block help-block-error"><spring:message code="application.pages.catalog.programmaticKey.unitResponsable.help"/></span>
+																<i class="icon-user"></i>
+															</div>
+														</div>
+													</div>																			
 																					       																				
 										        </div>
 											</div>
@@ -100,6 +193,7 @@
 											           <p class="form-control-static" data-display="code"></p>
 										            </div>
 									            </div>
+									            
 									            <div class="form-group">
 										           <label class="control-label col-md-3"><spring:message
 													  code="application.pages.catalog.programmaticKey.year" />
@@ -107,8 +201,61 @@
 										           <div class="col-md-4">
 											         <p class="form-control-static" data-display="year"></p>
 										           </div>
-									            </div>							
-													
+									            </div>	
+									          
+									            <div class="form-group">
+										           <label class="control-label col-md-3"><spring:message
+													  code="application.pages.catalog.programmaticKey.function" />
+											       </label>
+										           <div class="col-md-4">
+											         <p class="form-control-static" data-display="function"></p>
+										           </div>
+									            </div>
+									            
+									            <div class="form-group">
+										           <label class="control-label col-md-3"><spring:message
+													  code="application.pages.catalog.programmaticKey.finality" />
+											       </label>
+										           <div class="col-md-4">
+											         <p class="form-control-static" data-display="finality"></p>
+										           </div>
+									            </div>	
+									            
+									            <div class="form-group">
+										           <label class="control-label col-md-3"><spring:message
+													  code="application.pages.catalog.programmaticKey.subfunction" />
+											       </label>
+										           <div class="col-md-4">
+											         <p class="form-control-static" data-display="subfunction"></p>
+										           </div>
+									            </div>	
+									            
+									            <div class="form-group">
+										           <label class="control-label col-md-3"><spring:message
+													  code="application.pages.catalog.programmaticKey.activity" />
+											       </label>
+										           <div class="col-md-4">
+											         <p class="form-control-static" data-display="activity"></p>
+										           </div>
+									            </div>	
+									            									 									        						
+									            <div class="form-group">
+										           <label class="control-label col-md-3"><spring:message
+													  code="application.pages.catalog.programmaticKey.programBudget" />
+											       </label>
+										           <div class="col-md-4">
+											         <p class="form-control-static" data-display="programBudget"></p>
+										           </div>
+									            </div>	
+									            
+									            <div class="form-group">
+										           <label class="control-label col-md-3"><spring:message
+													  code="application.pages.catalog.programmaticKey.unitResponsable" />
+											       </label>
+										           <div class="col-md-4">
+											         <p class="form-control-static" data-display="unitResponsable"></p>
+										           </div>
+									            </div>										       													
 																								
 											</div>
 										</div>

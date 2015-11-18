@@ -36,6 +36,24 @@ public class ProgrammaticKey extends AuditEntity implements Persistible {
 
 	@Column(name = "YEAR", nullable = false)
 	private Integer year;
+	
+	@Column(name = "FUNCTION", nullable = true)
+	private String function;
+	
+	@Column(name = "FINALITY", nullable = true)
+	private String finality;
+	
+	@Column(name = "SUBFUNCTION", nullable = true)
+	private String subfunction;
+
+	@Column(name = "ACTIVITY", nullable = true)
+	private String activity;
+	
+	@Column(name = "PROGRAM_BUDGET", nullable = true)
+	private String programBudget;
+	
+	@Column(name = "UNIT_RESPONSABLE", nullable = true)
+	private String unitResponsable;
 
 	/**
 	 * @return the id
@@ -80,6 +98,54 @@ public class ProgrammaticKey extends AuditEntity implements Persistible {
 	 */
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public String getFunction() {
+		return function;
+	}
+
+	public void setFunction(String function) {
+		this.function = function;
+	}
+
+	public String getFinality() {
+		return finality;
+	}
+
+	public void setFinality(String finality) {
+		this.finality = finality;
+	}
+
+	public String getSubfunction() {
+		return subfunction;
+	}
+
+	public void setSubfunction(String subfunction) {
+		this.subfunction = subfunction;
+	}
+
+	public String getActivity() {
+		return activity;
+	}
+
+	public void setActivity(String activity) {
+		this.activity = activity;
+	}
+
+	public String getProgramBudget() {
+		return programBudget;
+	}
+
+	public void setProgramBudget(String programBudget) {
+		this.programBudget = programBudget;
+	}
+
+	public String getUnitResponsable() {
+		return unitResponsable;
+	}
+
+	public void setUnitResponsable(String unitResponsable) {
+		this.unitResponsable = unitResponsable;
 	}
 
 }
