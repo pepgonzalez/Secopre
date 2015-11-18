@@ -36,16 +36,16 @@
 										<i class="icon-settings"></i>
 										Mi Cuenta </a>
 									</li>
-									<li>
-										<a target="_blank" href="page_todo.html">
-										<i class="icon-check"></i>
-										Tareas </a>
-									</li>
-									<li>
-										<a href="extra_profile_help.html">
-										<i class="icon-info"></i>
-										Ayuda </a>
-									</li>
+<!-- 									<li> -->
+<!-- 										<a target="_blank" href="page_todo.html"> -->
+<!-- 										<i class="icon-check"></i> -->
+<!-- 										Tareas </a> -->
+<!-- 									</li> -->
+<!-- 									<li> -->
+<!-- 										<a href="extra_profile_help.html"> -->
+<!-- 										<i class="icon-info"></i> -->
+<!-- 										Ayuda </a> -->
+<!-- 									</li> -->
 								</ul>
 							</div>
 							<!-- END MENU -->
