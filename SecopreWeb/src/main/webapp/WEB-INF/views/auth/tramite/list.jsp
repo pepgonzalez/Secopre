@@ -46,7 +46,7 @@
 								<div class="row" style="margin-top:10px;">
 									<div class="col-md-12">
 										<div class="btn-group">
-											<input type="text" id="formalityDateSearch" placeholder="Buscar por fecha..." class="form-control input-medium">
+											<input type="text" id="formalityDateSearch" placeholder="Buscar..." class="form-control input-medium">
 										</div>
 									</div>
 								</div>

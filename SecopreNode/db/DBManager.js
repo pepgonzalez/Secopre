@@ -2,7 +2,7 @@ var mysql     =    require('mysql');
 
 var DBPool =  mysql.createPool({
         connectionLimit : 100,
-        host     : '45.55.191.180',
+        host     : '127.0.0.1',
         user     : 'secopre',
         password : 'secopre',
         database : 'secopre',
@@ -25,8 +25,8 @@ var DBManager = function(config){
         DBPool.getConnection(function(error, connection){
             //si error, logueo y trueno
             if(error){
-                connection.release();
                 console.log("Error de al obtener la conexion: " + error);
+                connection.release();
                 return;
             }
 
