@@ -51,6 +51,7 @@
 	<link href='<c:url value="/resources/css/plugins/bootstrap-fileinput.css"/>' rel="stylesheet" type="text/css"/>
 	<link href='<c:url value="/resources/css/plugins/profile.css"/>' rel="stylesheet" type="text/css"/>
 	<link href='<c:url value="/resources/css/plugins/tasks.css"/>' rel="stylesheet" type="text/css"/>
+	<link href='<c:url value="/resources/css/plugins/jquery.qtip.min.css"/>' rel="stylesheet" type="text/css"/>
 	
 	
 	
@@ -182,6 +183,7 @@
 	<script src='<c:url value="/resources/js/plugins/jquery.tooltipster.min.js"/>' type="text/javascript"></script>		
 	<script src='<c:url value="/resources/js/plugins/jquery.counterup.min.js"/>' type="text/javascript"></script>		
 	<script src='<c:url value="/resources/js/plugins/jquery.waypoints.min.js"/>' type="text/javascript"></script>
+	<script src='<c:url value="/resources/js/plugins/jquery.qtip.min.js"/>' type="text/javascript"></script>
 
 	<script src='<c:url value="/resources/js/utils/secopreUtils.js"/>' type="text/javascript"></script>	
 	<script src='<c:url value="/resources/js/utils/secopre.js"/>' type="text/javascript"></script>

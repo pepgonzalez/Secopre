@@ -56,22 +56,20 @@
 							<table class="table table-striped table-bordered table-hover" id="formalityList">
 							<thead>
 							<tr>
-								<th>ID</th>
-								<th>Folio</th>
+								<th>Solicitud</th>
 								<th>Justificación</th>
 								<th>Distrito</th>
 								<th>Trámite</th>
 								<th>Importe</th>
 								<th>Fecha Creación</th>
 								<th>Siguiente Etapa</th>
-								<th>Acciones</th>
+								<th></th>
 							</tr>
 							</thead>
 							<tbody>
 								<c:forEach items="${inboxList}" var="inboxItem">
 									<tr class="odd gradeX">
 	
-										<td>${inboxItem.requestId}</td>
 										<td>${inboxItem.folio}</td>
 										<td>${inboxItem.justification}</td>
 										<td>${inboxItem.districtDescription}</td>
@@ -80,26 +78,47 @@
 										<td>${inboxItem.totalAmount}</td>
 										<td>${inboxItem.creationDateStr}</td>
 
-										<td>${inboxItem.nextDescription}</td>
 										<td>
-										
 											<c:if test="${inboxItem.requestFinished == false}">
 												<a href="#" onclick="sendRequestJQ('${inboxItem.nextStageURL}','dashboard','${inboxItem.nextStageJSFunction}','GET');">
-													<span class="label label-sm label-success"> Ver </span>
+													${inboxItem.nextDescription}
 												</a>
 											</c:if>
-											
 											<c:if test="${inboxItem.requestFinished == true}">
-												<a href="#" onclick="showDataHistory('${inboxItem.requestId}')">
-													<span class="label label-sm label-success"> Historia del folio </span>
-												</a>
+												${inboxItem.nextDescription}
 											</c:if>
+										</td>
+										<td>
+										
+											<a href="javascript:;" class="btn btn-xs tooltip-control"><i class="fa fa-folder-open"></i></a>
+											<div class="tooltip-popup">
+											 <div class="qtip-titlebar">
+										        <div id="qtip-{id}-title" class="qtip-title">Opciones</div>
+										    </div>
+												<table>
+													<tbody>
+														<c:if test="${inboxItem.requestFinished == true}">
+															<tr>
+																<td>
+																	<a href="#" onclick="showDataHistory('${inboxItem.requestId}')" >
+																		Ver historia del Folio
+																	</a>
+																</td>
+															</tr>
+														</c:if>
+														<c:if test="${inboxItem.hasDocument}">
+															<tr>
+																<td>
+																	<a href="#" onclick="openResourceNative('wf/download/${inboxItem.requestId}','dashboard','()','GET');">
+																		Ver documento anexo
+																	</a>
+																</td>
+															</tr>
+														</c:if>
+													</tbody>
+												</table>
+											</div>
 											
-											<c:if test="${inboxItem.hasDocument}">
-												<a href="#" onclick="openResourceNative('wf/download/${inboxItem.requestId}','dashboard','()','GET');">
-												<span class="label label-sm label-success"> Mostrar Documento </span>
-											</a>
-											</c:if>
 										</td>
 									</tr>							
 								</c:forEach>

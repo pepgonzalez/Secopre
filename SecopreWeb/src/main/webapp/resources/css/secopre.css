@@ -76,3 +76,20 @@ p.advertencia, p.error, p.exito, p.aviso{ font-size: 12px; margin-top: 5px; }
 .lastButton{
 	margin-right:1px;
 }
+
+/*tooltip*/
+.tooltip-popup{
+	display:none;
+}
+
+.tooltipContentCustomClass .qtip-content{
+	font-size: 12px;
+	border-color: #eee;
+    background-color: #ddd;
+    width: 100px;
+    height: 50px;
+}
+
+.qtip-content a{
+	padding:5px;
+}

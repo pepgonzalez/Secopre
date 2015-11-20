@@ -1777,6 +1777,23 @@ function initTramiteListPage() {
 	
 	$(document).find(".dataTables_filter").hide();
 	
+	//tooltip
+	$(document).find(".tooltip-control").each(function(){
+		$(this).qtip({
+			 content: {
+				 text: $(this).next(".tooltip-popup")
+		     },
+		     position:{
+		    	 my: 'top right',
+		         at: 'bottom left'
+		     },
+		     hide: {
+		         delay: 700
+		     },
+		     style: { classes: 'qtip-light' }
+		});
+	});
+	
 	updateMenu("#formalityMenu");
 }
 
