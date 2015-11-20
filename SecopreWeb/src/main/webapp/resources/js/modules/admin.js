@@ -1767,12 +1767,12 @@ function initTramiteListPage() {
             "infoEmpty": "No hay registros disponibles",
             "infoFiltered": "(filtered from _MAX_ total records)"
         },
-        bFilter: true, bInfo: true, bLengthChange:false, ordering:false
+        bFilter: true, bInfo: true, bLengthChange:false, ordering:true
     });
 	
 	// Filtro de datatable por fecha
 	$(document).find('#formalityDateSearch').on( 'keyup', function () {
-		formalityDatatable.columns( 6 ).search( this.value ).draw();
+		formalityDatatable.search( this.value ).draw();
 	});
 	
 	$(document).find(".dataTables_filter").hide();
