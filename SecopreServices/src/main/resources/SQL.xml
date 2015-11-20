@@ -449,7 +449,11 @@
 				</prop>
 
 				<prop key="GET_DISTRICT_ENTRIES_JPQL">
-					<![CDATA[	
+					<![CDATA[ 
+						SELECT sum (annualAmount), 
+							sum(budgetAmount), 
+							sum(budgetAmountAssign), 
+							sum(committedAmount)	
 						FROM
 						    EntryDistrict ed 
 						        join

@@ -49,11 +49,10 @@ public class EntryConfigController extends AuthController {
 	public String getList(@ModelAttribute("entryFilter") EntryFilter filter,
 			ModelMap model, Principal principal) {
 
-		
 		model.addAttribute("entryFilter", filter);
-		model.addAttribute("districtList",
-				secopreCache.getDistrictsByUserMap(principal.getName()));
-		model.addAttribute("balance", new EntryBalance());		
+		model.addAttribute("entidadList",
+				secopreCache.getStateByUserMap(principal.getName()));
+		model.addAttribute("balance", new EntryBalance());
 		return SecopreConstans.MV_CONF_ENTRY;
 	}
 
@@ -67,8 +66,26 @@ public class EntryConfigController extends AuthController {
 		return "auth/admin/config/entry/byDistrict";
 	}
 
-	@RequestMapping(value = "cfg/entry/byDistrict")
-	public @ResponseBody Map<Long, String> getEntriesByDistrict(
+	@RequestMapping(value = "cfg/entry/getDistricts")
+	public @ResponseBody Map<Long, String> getDistricts(
+			@RequestParam(value = "stateId", required = true) Long stateId,
+			ModelMap modelMap) {
+		Map<Long, String> entryMap = new HashMap<Long, String>();
+		Map<String, Object> propertiesMap = new HashMap<String, Object>();
+		
+		propertiesMap.put("state.id", stateId);
+		List<District> districtList = baseService.findByPropertiesWithOrder(
+				District.class, propertiesMap);
+
+		for (District item : districtList) {
+			entryMap.put(item.getId(), item.getState().getName() + " DTO-"
+					+ item.getNumber());
+		}
+		return entryMap;
+	}
+
+	@RequestMapping(value = "cfg/entry/getEntries")
+	public @ResponseBody Map<Long, String> getEntries(
 			@RequestParam(value = "districtId", required = true) Long districtId,
 			ModelMap modelMap) {
 		Map<Long, String> entryMap = new HashMap<Long, String>();

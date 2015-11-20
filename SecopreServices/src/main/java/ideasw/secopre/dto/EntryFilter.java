@@ -2,11 +2,13 @@ package ideasw.secopre.dto;
 
 public class EntryFilter {
 
+	private Long stateId;
+
 	private Long districtId;
 
 	private Long entryId;
 
-	private Integer[] months; 
+	private Integer[] months;
 
 	public Long getDistrictId() {
 		return districtId;
@@ -32,4 +34,11 @@ public class EntryFilter {
 		this.entryId = entryId;
 	}
 
+	public Long getStateId() {
+		return stateId;
+	}
+
+	public void setStateId(Long stateId) {
+		this.stateId = stateId;
+	}
 }

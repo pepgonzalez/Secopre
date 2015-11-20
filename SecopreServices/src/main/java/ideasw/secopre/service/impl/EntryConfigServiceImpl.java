@@ -108,24 +108,35 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl implemen
 		EntryDistrict result = getBalance(filter);
 		
 		StringBuffer sql = new StringBuffer(queryContainer.getSQL(SQLConstants.GET_DISTRICT_ENTRIES_JPQL));
+		StringBuffer groupBy = new StringBuffer(" GROUP BY");
 		Map<String,Object> params = new HashMap<String,Object>();
+		if (filter.getStateId() != null) {
+			sql.append(" AND ed.district.state.id = :stateid");
+			params.put("stateid", filter.getStateId());
+			groupBy.append(" ed.district.state,");
+		}
 		if (filter.getDistrictId() != null) {
 			sql.append(" AND ed.district.id = :districtId");
 			params.put("districtId", filter.getDistrictId());
+			groupBy.append(" ed.district,");
 		}
 
 		if (filter.getEntryId() != null) {
 			sql.append(" AND ed.entry.id = :entryId");
 			params.put("entryId", filter.getEntryId());
-
+			groupBy.append(" ed.entry,");
 		}
 
 		if (filter.getMonths() != null && filter.getMonths().length != 0) {
 			sql.append(" AND ed.month IN (:months)");
 			params.put("months", filter.getMonths());
+			groupBy.append(" ed.month,");
 		}
-
-		List<EntryDistrict> entryList = baseService.executeQueryMultipleResult(EntryDistrict.class, sql.toString(), params);		
+		String groupByStr = "";
+		if(groupBy.toString().substring(groupBy.toString().length() -1, groupBy.toString().length()).equals(",")){
+			groupByStr = groupBy.substring(0, groupBy.toString().length()-1);
+		}
+		List<EntryDistrict> entryList = baseService.executeQueryMultipleResult(EntryDistrict.class, sql.toString() + groupByStr, params);		
 		
 		balance.setEntries(entryList);
 		balance.setAnnualAmount(result.getAnnualAmount());
