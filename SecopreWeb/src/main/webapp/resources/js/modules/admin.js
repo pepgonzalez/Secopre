@@ -1788,9 +1788,12 @@ function initTramiteListPage() {
 		         at: 'bottom left'
 		     },
 		     hide: {
-		         delay: 700
-		     },
-		     style: { classes: 'qtip-light' }
+	           fixed: true,
+	           delay: 400
+	         },
+		     style: {
+		    	 classes: "ui-tooltip-shadow"
+		     }
 		});
 	});
 	

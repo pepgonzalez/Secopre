@@ -82,14 +82,37 @@ p.advertencia, p.error, p.exito, p.aviso{ font-size: 12px; margin-top: 5px; }
 	display:none;
 }
 
-.tooltipContentCustomClass .qtip-content{
-	font-size: 12px;
-	border-color: #eee;
-    background-color: #ddd;
-    width: 100px;
-    height: 50px;
+table.popupContainer{
+	font-size:12px; 
 }
 
-.qtip-content a{
-	padding:5px;
+table.popupContainer tr td, table.popupContainer tr th{
+         padding: 0px;
+         heigth:2em;
+         background-color:white;
+}
+
+table.popupContainer tr td a{
+         display:block;
+         width:100%;
+         padding: 10px;
+}
+
+.popupContainer .qtip-content{
+    padding: 0px!important;
+    margin: 0px!important;
+}
+
+.qtip-default {
+    background-color: #1f897f;
+    border-color: #ddd;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.qtip-titlebar{
+	background-color: #1f897f;
+	color:white;
+	font-size:13px;
+	padding:10px;
 }

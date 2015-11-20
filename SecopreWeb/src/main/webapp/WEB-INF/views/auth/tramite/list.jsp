@@ -91,32 +91,38 @@
 										<td>
 										
 											<a href="javascript:;" class="btn btn-xs tooltip-control"><i class="fa fa-folder-open"></i></a>
+											
+											<!-- tooltip popup -->
 											<div class="tooltip-popup">
-											 <div class="qtip-titlebar">
-										        <div id="qtip-{id}-title" class="qtip-title">Opciones</div>
-										    </div>
-												<table>
-													<tbody>
-														<c:if test="${inboxItem.requestFinished == true}">
-															<tr>
-																<td>
-																	<a href="#" onclick="showDataHistory('${inboxItem.requestId}')" >
-																		Ver historia del Folio
-																	</a>
-																</td>
-															</tr>
-														</c:if>
-														<c:if test="${inboxItem.hasDocument}">
-															<tr>
-																<td>
-																	<a href="#" onclick="openResourceNative('wf/download/${inboxItem.requestId}','dashboard','()','GET');">
-																		Ver documento anexo
-																	</a>
-																</td>
-															</tr>
-														</c:if>
-													</tbody>
-												</table>
+											 	<div class="qtip-titlebar">
+										        	<div id="qtip-{id}-title" class="qtip-title">Opciones</div>
+										    	</div>
+										    	
+										    	<div id="qtip-{id}-content" class="qtip-content ui-widget-content" aria-atomic="true">
+       
+													<table class="popupContainer">
+														<tbody>
+															<c:if test="${inboxItem.requestFinished == true}">
+																<tr>
+																	<td>
+																		<a href="#" onclick="showDataHistory('${inboxItem.requestId}')" >
+																			Ver historia del Folio
+																		</a>
+																	</td>
+																</tr>
+															</c:if>
+															<c:if test="${inboxItem.hasDocument}">
+																<tr>
+																	<td>
+																		<a href="#" onclick="openResourceNative('wf/download/${inboxItem.requestId}','dashboard','()','GET');">
+																			Ver documento anexo
+																		</a>
+																	</td>
+																</tr>
+															</c:if>
+														</tbody>
+													</table>
+												</div>
 											</div>
 											
 										</td>
