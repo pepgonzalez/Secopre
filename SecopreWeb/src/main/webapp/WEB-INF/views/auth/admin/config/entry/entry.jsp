@@ -10,51 +10,12 @@
 			<!-- BEGIN PAGE BREADCRUMB -->
 			<ul class="page-breadcrumb breadcrumb">
 				<li>
-					<a href="javascript:;">Catalogos </a><i class="fa fa-circle"></i>
+					<a href="javascript:;">Administración </a><i class="fa fa-circle"></i>
 				</li>
 				<li class="active">
-					  Partidas
+					  Partidas Por Distrito
 				</li>
 			</ul>
-			<!-- END PAGE BREADCRUMB -->
-<!--                             <div class="portlet light bordered"> -->
-<!--                                 <div class="portlet-title"> -->
-<!--                                     <div class="caption"> -->
-<!--                                         <i class="icon-bubble font-green-sharp"></i> -->
-<!--                                         <span class="caption-subject font-green-sharp bold uppercase">Configuración de Partidas</span> -->
-<!--                                     </div> -->
-<!--                                 </div> -->
-<!--                                 <div class="portlet-body"> -->
-<!--                                     <ul class="nav nav-pills"> -->
-<!--                                         <li class="active"> -->
-<!--                                             <a href="#tab_2_1" data-toggle="tab">Saldo de Partidas</a> -->
-<!--                                         </li> -->
-<!--                                         <li> -->
-<!--                                             <a href="#tab_2_2" data-toggle="tab">Presupuesto Anual</a> -->
-<!--                                         </li> -->
-<!--                                         <li> -->
-<!--                                             <a href="#tab_2_3" data-toggle="tab">Calendarizacion de Saldos</a> -->
-<!--                                         </li> -->
-<!--                                     </ul> -->
-
-<!--                                      <div class="tab-content"> -->
-<!--                                         <div class="tab-pane fade active in" id="tab_2_1">											 -->
-<!-- 											<div id="list_ByDistrict"> -->
-<%-- 												<%@ include file="/WEB-INF/views/auth/admin/config/entry/byDistrict.jsp"%> --%>
-<!-- 											</div> -->
-<!--                                          </div> -->
-<!--                                         <div class="tab-pane fade" id="tab_2_2"> -->
-<!-- 											<div id="templateArea"> -->
-<%-- 												<%@ include file="/WEB-INF/views/auth/admin/config/entry/template.jsp"%> --%>
-<!-- 											</div> -->
-<!--                                         </div> -->
-<!--                                         <div class="tab-pane fade" id="tab_2_3"> -->
-<!--                                         </div>   -->
-<!--                                      </div>                                -->
-<!--                             	</div> -->
-<!--                             </div> -->
-
-
 
 				<!-- BEGIN FILTER CONTENT-->
 			<div class="row">
@@ -72,25 +33,33 @@
 						<div class="portlet-body form">
 							<!-- formulario -->	
 							<form:form action="auth/cfg/entry/search" class="form-horizontal" id="submit_form"  modelAttribute="entryFilter" method="GET"  novalidate="novalidate">
-								<div class="row">		
-									<div class="col-md-5">
-										<label class="col-md-2 control-label" for="districtId" style="text-align:left;">Distrito</label>
-										<form:select path="districtId" id="districtId" class="form-control">
-										   	<form:option value="-1" label="Seleccione..."/>
-		 									<form:options items="${districtList}" />
+								<div class="row">
+									<div class="col-md-6">
+										<label class="col-md-2 control-label" for="stateId" style="text-align:left;">Entidad</label>
+										<form:select path="stateId" id="stateId" class="form-control">
+										   	<form:option value="" label="Seleccione..."/>
+		 									<form:options items="${entidadList}" />
 										</form:select>
 									</div>
-									
-									
-									<div class="col-md-4">
-										<label class="col-md-2 control-label" for="entryId" style="text-align:left;">Partida</label>
-										<form:select path="entryId" id="entryId" class="form-control">
-										   	<form:option value="-1" label="Seleccione..."/>
+
+										
+									<div class="col-md-6">
+										<label class="col-md-2 control-label" for="districtId" style="text-align:left;">Distrito</label>
+										<form:select path="districtId" id="districtId" class="form-control">
+										   	<form:option value="" label="Seleccione..."/>
 										</form:select>
-									</div>									
+									</div>
+																		
 								</div>
 								<div class="row">
-									<div class="col-md-5">
+									<div class="col-md-6">
+										<label class="col-md-2 control-label" for="entryId" style="text-align:left;">Partida</label>
+										<form:select path="entryId" id="entryId" class="form-control">
+										   	<form:option value="" label="Seleccione..."/>
+										</form:select>
+									</div>									
+									
+									<div class="col-md-4">
 										<label for="select2-input-group-append" class="control-label">Meses</label>
 										<div class="input-group select2-bootstrap-prepend">
 	                                         <span class="input-group-btn">
@@ -114,13 +83,12 @@
                                              </select>
 										</div>
 									</div>
-
-							<div class="row">
-								<div class="col-md-offset-9 col-md-6">
-									<button type="button" class="btn green" id="submitRequestForm" onclick="submitAjaxJQ('submit_form', 'list_ByDistrict', 'initEntryByDistrict()');">Consultar</button>
-								</div>
-							</div>
-							<div class="clearfix"></div>
+									<div class="col-md-2">
+										<button type="button" class="btn green" id="submitRequestForm" onclick="submitAjaxJQ('submit_form', 'list_ByDistrict', 'initEntryByDistrict()');">Consultar</button>
+									</div>
+									
+									<div class="row">
+									</div>
 								</div>					
 							 </form:form>
 						</div>

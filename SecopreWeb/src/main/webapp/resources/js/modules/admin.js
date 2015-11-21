@@ -694,11 +694,26 @@ function initEntryByDistrict(){
 	            "infoEmpty": "No hay registros disponibles",
 	            "infoFiltered": "(filtered from _MAX_ total records)"
 	        }	
-});
-	$("select#districtId").change(function(){
+	});
+	$("select#stateId").change(function(){
 		blockPage();
-         $.getJSON("cfg/entry/byDistrict",{districtId: $(this).val()}, function(j){
-              var options = '';
+		 $("select#districtId").html('');
+		 $("select#entryId").html('');
+         $.getJSON("cfg/entry/getDistricts",{stateId: $(this).val()}, function(j){
+              var options = '<option value="">Seleccione... </option>';
+              var json = eval(j);
+              $.each(json, function(key, value) {
+            	  options += '<option value="' + key + '">' + value + '</option>';
+              });        
+   			  unblockPage();            
+              $("select#districtId").html(options);
+            });
+     });		
+	$("select#districtId").change(function(){
+		$("select#entryId").html('');
+		blockPage();
+         $.getJSON("cfg/entry/getEntries",{districtId: $(this).val()}, function(j){
+              var options = '<option value="">Seleccione... </option>';
               var json = eval(j);
               $.each(json, function(key, value) {
             	  options += '<option value="' + key + '">' + value + '</option>';
@@ -1767,15 +1782,35 @@ function initTramiteListPage() {
             "infoEmpty": "No hay registros disponibles",
             "infoFiltered": "(filtered from _MAX_ total records)"
         },
-        bFilter: true, bInfo: true, bLengthChange:false, ordering:false
+        bFilter: true, bInfo: true, bLengthChange:false, ordering:true
     });
 	
 	// Filtro de datatable por fecha
 	$(document).find('#formalityDateSearch').on( 'keyup', function () {
-		formalityDatatable.columns( 6 ).search( this.value ).draw();
+		formalityDatatable.search( this.value ).draw();
 	});
 	
 	$(document).find(".dataTables_filter").hide();
+	
+	//tooltip
+	$(document).find(".tooltip-control").each(function(){
+		$(this).qtip({
+			 content: {
+				 text: $(this).next(".tooltip-popup")
+		     },
+		     position:{
+		    	 my: 'top right',
+		         at: 'bottom left'
+		     },
+		     hide: {
+	           fixed: true,
+	           delay: 400
+	         },
+		     style: {
+		    	 classes: "ui-tooltip-shadow"
+		     }
+		});
+	});
 	
 	updateMenu("#formalityMenu");
 }

@@ -51,6 +51,15 @@ public class Role implements Persistible, GrantedAuthority {
 	@Column(name = "ROLENAME", unique = true)
 	@Size(max = 50)
 	private String rolename;
+	
+	@Column(name = "DESCRIPTION")
+	@Size(max = 100)
+	private String description;
+	
+	@Column(name = "NAME")
+	@Size(max = 100)
+	private String name;
+	
 
     // bi-directional many-to-one association to permissionPath
     @NotAudited
@@ -114,6 +123,22 @@ public class Role implements Persistible, GrantedAuthority {
 	 */
 	public void setPermissions(List<Permission> permissions) {
 		this.permissions = permissions;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

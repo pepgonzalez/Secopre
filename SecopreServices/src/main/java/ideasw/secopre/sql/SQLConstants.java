@@ -35,6 +35,7 @@ public class SQLConstants {
 	public static final String CLONE_ENTRIES = "CLONE_ENTRIES";
 	
 	//obtiene todas las partidas asociadas a un llave programatica con saldo disponible
+	public static final String GET_ENTRY_DETAIL = "GET_ENTRY_DETAIL";
 	public static final String GET_VALID_ENTRIES = "GET_VALID_ENTRIES";
 	public static final String GET_DISTRICT_ENTRIES_JPQL = "GET_DISTRICT_ENTRIES_JPQL";
 	public static final String GET_VALID_ENTRIES_BY_DISTRIC = "GET_VALID_ENTRIES_BY_DISTRIC";

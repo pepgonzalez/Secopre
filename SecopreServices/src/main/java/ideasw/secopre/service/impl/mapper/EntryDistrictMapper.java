@@ -11,7 +11,6 @@ public class EntryDistrictMapper implements RowMapper<Object> {
 	 
 	public EntryDistrict mapRow(ResultSet rs, int rowNum) throws SQLException {    
 		EntryDistrict entryD = new EntryDistrict();
-		 entryD.setAnnualAmount(rs.getDouble("ANNUAL_AMOUNT"));
 		 entryD.setBudgetAmount(rs.getDouble("BUDGET_AMOUNT"));
 		 entryD.setBudgetAmountAssign(rs.getDouble("BUDGET_AMOUNT_ASSIGN"));
 		 entryD.setCommittedAmount(rs.getDouble("COMMITTED_AMOUNT"));

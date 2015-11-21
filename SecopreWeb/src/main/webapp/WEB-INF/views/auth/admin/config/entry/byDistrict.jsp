@@ -118,22 +118,43 @@
 											<table class="table table-striped table-bordered table-hover" id="byDistrictTable">
 											<thead>
 											<tr>
-												<th>Clabe</th>
-												<th>Nombre</th>
-												<th>Presupuesto Anual</th>
-												<th>Mes</th>
-												<th>Monto</th>
+												<th>Entidad</th>
+												<th>Distrito</th>
+												<th>Partida</th>
+												<th>Enero</th>
+												<th>Febrero</th>
+												<th>Marzo</th>
+												<th>Abril</th>
+												<th>Mayo</th>
+												<th>Junio</th>
+												<th>Julio</th>
+												<th>Agosto</th>
+												<th>Septiembre</th>
+												<th>Octubre</th>
+												<th>Noviembre</th>
+												<th>Diciembre</th>
 											</tr>
 											</thead>
 											<tbody>
 												<c:forEach items="${balance.entries}" var="entryItem">
 													<tr class="odd gradeX">
-														<td>${entryItem}</td>
-														<td>${entryItem}</td>
-														<td>${entryItem}</td>												
-														<td>${entryItem}</td>
-														<td>${entryItem}</td>
+														<td>${entryItem.stateName}</td>
+														<td>${entryItem.districtNumber}</td>
+														<td>${entryItem.entryDescription}</td>												
+														<td>${entryItem.january}</td>
+														<td>${entryItem.february}</td>
+														<td>${entryItem.march}</td>
+														<td>${entryItem.april}</td>
+														<td>${entryItem.may}</td>												
+														<td>${entryItem.june}</td>
+														<td>${entryItem.july}</td>
+														<td>${entryItem.august}</td>
+														<td>${entryItem.september}</td>
+														<td>${entryItem.october}</td>												
+														<td>${entryItem.november}</td>
+														<td>${entryItem.december}</td>													
 													</tr>
+
 												</c:forEach>
 											</tbody>
 											</table>

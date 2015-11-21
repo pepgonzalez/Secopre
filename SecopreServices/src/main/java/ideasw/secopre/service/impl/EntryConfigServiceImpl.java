@@ -1,20 +1,20 @@
 package ideasw.secopre.service.impl;
 
 import ideasw.secopre.dto.EntryBalance;
+import ideasw.secopre.dto.EntryDistrictDetail;
 import ideasw.secopre.dto.EntryFilter;
 import ideasw.secopre.dto.UpdateEntry;
 import ideasw.secopre.exception.EntryDistrictException;
 import ideasw.secopre.model.EntryDistrict;
 import ideasw.secopre.service.BaseService;
 import ideasw.secopre.service.EntryConfigService;
+import ideasw.secopre.service.impl.mapper.EntryDistrictDetailMapper;
 import ideasw.secopre.service.impl.mapper.EntryDistrictMapper;
 import ideasw.secopre.sql.QueryContainer;
 import ideasw.secopre.sql.SQLConstants;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.jfree.util.Log;
 import org.slf4j.Logger;
@@ -27,7 +27,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl implements EntryConfigService {
+public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
+		implements EntryConfigService {
 
 	static final Logger LOG = LoggerFactory
 			.getLogger(EntryConfigServiceImpl.class);
@@ -38,7 +39,6 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl implemen
 	@Autowired
 	QueryContainer queryContainer;
 
-	
 	@Override
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public boolean cloneEntries(String userId) throws Exception {
@@ -90,8 +90,8 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl implemen
 	private void callSPCloneEntries(String userId) {
 		SqlParameterSource params = new MapSqlParameterSource().addValue(
 				"userId", userId);
-		this.executeCall(
-				queryContainer.getSQL(SQLConstants.CLONE_ENTRIES), params);
+		this.executeCall(queryContainer.getSQL(SQLConstants.CLONE_ENTRIES),
+				params);
 	}
 
 	@Override
@@ -102,66 +102,90 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl implemen
 
 	@Override
 	public EntryBalance getEntryBalance(EntryFilter filter) {
-		
+
 		EntryBalance balance = new EntryBalance();
-		
+
 		EntryDistrict result = getBalance(filter);
-		
-		StringBuffer sql = new StringBuffer(queryContainer.getSQL(SQLConstants.GET_DISTRICT_ENTRIES_JPQL));
-		Map<String,Object> params = new HashMap<String,Object>();
+
+		StringBuffer sql = new StringBuffer(
+				queryContainer.getSQL(SQLConstants.GET_ENTRY_DETAIL));
+		MapSqlParameterSource params = new MapSqlParameterSource();
+
+		if (filter.getStateId() != null) {
+			sql.append(" AND S.ID = :stateid");
+			params.addValue("stateid", filter.getStateId());
+		}
 		if (filter.getDistrictId() != null) {
-			sql.append(" AND ed.district.id = :districtId");
-			params.put("districtId", filter.getDistrictId());
+			sql.append(" AND D.ID = :districtId");
+			params.addValue("districtId", filter.getDistrictId());
 		}
 
 		if (filter.getEntryId() != null) {
-			sql.append(" AND ed.entry.id = :entryId");
-			params.put("entryId", filter.getEntryId());
-
+			sql.append(" AND E.ID = :entryId");
+			params.addValue("entryId", filter.getEntryId());
 		}
 
-		if (filter.getMonths() != null && filter.getMonths().length != 0) {
-			sql.append(" AND ed.month IN (:months)");
-			params.put("months", filter.getMonths());
-		}
-
-		List<EntryDistrict> entryList = baseService.executeQueryMultipleResult(EntryDistrict.class, sql.toString(), params);		
+		sql.append(" GROUP BY DISTRICT_ID, ENTRY_ID");
 		
+		List<EntryDistrictDetail> entryList = this.queryForList(
+				EntryDistrictDetail.class, sql.toString(), params,
+				new EntryDistrictDetailMapper());
+
+		Double anualAmount = 0D;
+		if (entryList != null && !entryList.isEmpty()) {
+
+			for (EntryDistrictDetail item : entryList) {
+				anualAmount += item.getAnnualAmount();
+			}
+		}
 		balance.setEntries(entryList);
-		balance.setAnnualAmount(result.getAnnualAmount());
+		balance.setAnnualAmount(anualAmount);
 		balance.setBudgetAmount(result.getBudgetAmount());
 		balance.setBudgetAsing(result.getBudgetAmountAssign());
 		balance.setBudgetCommit(result.getCommittedAmount());
-		
+
 		return balance;
 	}
-	
+
 	private EntryDistrict getBalance(EntryFilter filter) {
 		StringBuffer sql = new StringBuffer("");
 		MapSqlParameterSource params = new MapSqlParameterSource();
-		
+
 		sql.append("SELECT ");
-		sql.append("ED.ANNUAL_AMOUNT,");
 		sql.append("SUM(ED.BUDGET_AMOUNT) AS BUDGET_AMOUNT,");
 		sql.append("SUM(ED.BUDGET_AMOUNT_ASSIGN) AS BUDGET_AMOUNT_ASSIGN,");
-		sql.append("SUM(ED.COMMITTED_AMOUNT) AS COMMITTED_AMOUNT");
+		sql.append("SUM(ED.COMMITTED_AMOUNT) AS COMMITTED_AMOUNT,");
+		sql.append("S.ID AS STATE, D.ID AS DISTRICT, E.ID AS ENTRY");
 		sql.append(" FROM ");
 		sql.append(" secopre.ENTRY E");
 		sql.append(" INNER JOIN");
 		sql.append(" secopre.ENTRYDISTRICT ED ON E.ID = ED.ENTRY_ID");
 		sql.append(" INNER JOIN");
 		sql.append(" secopre.PROGRAMMATIC_KEY PK ON E.PROGRAMMATIC_ID = PK.ID");
+		sql.append(" INNER JOIN");
+		sql.append(" secopre.DISTRICT D ON ED.DISTRICT_ID = D.ID ");
+		sql.append(" INNER JOIN");
+		sql.append(" secopre.STATE S ON D.STATE_ID = S.ID ");
 		sql.append(" WHERE");
 		sql.append(" PK.YEAR = YEAR(CURDATE())");
+
+		String groupBy = " GROUP BY ";
+		if (filter.getStateId() != null) {
+			sql.append(" AND D.STATE_ID = :stateId");
+			params.addValue("stateId", filter.getStateId());
+			groupBy += "STATE,";
+		}
+
 		if (filter.getDistrictId() != null) {
 			sql.append(" AND ED.DISTRICT_ID = :districtId");
 			params.addValue("districtId", filter.getDistrictId());
+			groupBy += "DISTRICT,";
 		}
 
 		if (filter.getEntryId() != null) {
 			sql.append(" AND ED.ENTRY_ID = :entryId");
 			params.addValue("entryId", filter.getEntryId());
-
+			groupBy += "ENTRY,";
 		}
 
 		if (filter.getMonths() != null && filter.getMonths().length != 0) {
@@ -169,17 +193,15 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl implemen
 			params.addValue("months", Arrays.asList(filter.getMonths()));
 		}
 
-
-		List<EntryDistrict> entryList = this.queryForList(
-				EntryDistrict.class, sql.toString(), params,
-				new EntryDistrictMapper());
-		if(entryList!= null && !entryList.isEmpty()){
+		List<EntryDistrict> entryList = this.queryForList(EntryDistrict.class,
+				sql.toString() + groupBy.substring(0, groupBy.length() - 1),
+				params, new EntryDistrictMapper());
+		if (entryList != null && !entryList.isEmpty()) {
 			return entryList.get(0);
-		}else{
+		} else {
 			return new EntryDistrict();
 		}
-		
-		
+
 	}
 
 }

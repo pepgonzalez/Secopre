@@ -1,40 +1,28 @@
 package ideasw.secopre.service.impl;
 
-import ideasw.secopre.dto.Authorization;
-import ideasw.secopre.dto.Formality;
-import ideasw.secopre.dto.Inbox;
-import ideasw.secopre.dto.Movement;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.lang.reflect.Method;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.stereotype.Service;
+
 import ideasw.secopre.dto.Report;
 import ideasw.secopre.dto.ReportParameter;
-import ideasw.secopre.dto.Request;
-import ideasw.secopre.dto.RequestConfig;
-import ideasw.secopre.dto.RequestHistory;
-import ideasw.secopre.dto.StageConfig;
-import ideasw.secopre.dto.WorkFlowConfig;
-import ideasw.secopre.enums.Month;
-import ideasw.secopre.enums.WorkFlowCode;
-import ideasw.secopre.exception.EntryDistrictException;
-import ideasw.secopre.model.Entry;
-import ideasw.secopre.model.EntryDistrict;
-import ideasw.secopre.model.ProgrammaticKey;
-import ideasw.secopre.model.catalog.District;
-import ideasw.secopre.model.catalog.MovementType;
-import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.AccessNativeService;
-import ideasw.secopre.service.AccessService;
 import ideasw.secopre.service.BaseService;
 import ideasw.secopre.service.ReportService;
-import ideasw.secopre.service.impl.mapper.DistrictMapper;
-import ideasw.secopre.service.impl.mapper.EntryMapper;
-import ideasw.secopre.service.impl.mapper.FormalityMapper;
-import ideasw.secopre.service.impl.mapper.InboxMapper;
-import ideasw.secopre.service.impl.mapper.RequestConfigMapper;
-import ideasw.secopre.service.impl.mapper.RequestHistoryMapper;
-import ideasw.secopre.service.impl.mapper.RequestMapper;
-import ideasw.secopre.service.impl.mapper.StageConfigMapper;
-import ideasw.secopre.service.impl.mapper.MovementMapper;
 import ideasw.secopre.service.impl.mapper.ReportMapper;
-import ideasw.secopre.service.impl.mapper.WorkFlowConfigMapper;
 import ideasw.secopre.sql.QueryContainer;
 import ideasw.secopre.sql.SQLConstants;
 import net.sf.jasperreports.engine.JRException;
@@ -48,27 +36,6 @@ import net.sf.jasperreports.engine.export.JExcelApiExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporterParameter;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
-import sun.util.calendar.BaseCalendar.Date;
-
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.sql.Blob;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ReportServiceImpl extends AccessNativeServiceBaseImpl implements ReportService{
@@ -99,10 +66,16 @@ public class ReportServiceImpl extends AccessNativeServiceBaseImpl implements Re
 	private JasperReport getCompiledReport(Report report) throws Exception{
 		Blob reportBlob = report.getResource();
 		InputStream reportStream = reportBlob.getBinaryStream();
+				
+		String jasper = org.apache.commons.io.IOUtils.toString(reportStream, "UTF-8");
 		
-		JasperDesign reportDesing = JRXmlLoader.load(reportStream);
+		LOG.info(jasper);
+		
+		InputStream encodedString = new ByteArrayInputStream(jasper.getBytes());
+		
+		JasperDesign reportDesing = JRXmlLoader.load(encodedString);
 		JasperReport jasperReport = JasperCompileManager.compileReport(reportDesing);
-		
+				
 		reportStream.close();
 		return jasperReport;
 	}
