@@ -52,6 +52,22 @@
 									<h3 class="block">Proporcionar datos del Rol</h3>
 									<div class="form-body">
 									
+							        <div class="form-group form-md-line-input has-danger">
+									   <label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.roles.name"/>
+									   <span class="required">* </span>
+									   </label>
+									   <div class="col-md-10">
+									      <div class="input-icon">
+										     <input id="name" name="name" type="text" class="form-control"  value="${role.name}"   placeholder='<spring:message code="application.pages.admin.roles.name.placeholder"/>'>
+											    <div class="form-control-focus">
+												</div>
+												<span id="name-error" class="help-block help-block-error"> <spring:message code="application.pages.admin.roles.name.help"/>  </span>															
+ 												<i class="icon-user"></i> 
+											 </div>
+									     </div>
+									</div>	
+									
+									
 									<div class="form-group form-md-line-input has-danger">
 									   <label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.roles.rolename"/>
 									   <span class="required">* </span>
@@ -65,11 +81,28 @@
  												<i class="icon-user"></i> 
 											 </div>
 									     </div>
-									  </div>
-									  
-									  										
+									</div>	
+									
+		
+									
+									<div class="form-group form-md-line-input has-danger">
+									   <label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.roles.description"/>
+									   <span class="required">* </span>
+									   </label>
+									   <div class="col-md-10">
+									      <div class="input-icon">
+										     <input id="description" name="description" type="text" class="form-control"  value="${role.description}"   placeholder='<spring:message code="application.pages.admin.roles.description.placeholder"/>'>
+											    <div class="form-control-focus">
+												</div>
+												<span id="description-error" class="help-block help-block-error"> <spring:message code="application.pages.admin.roles.description.help"/>  </span>															
+ 												<i class="icon-user"></i> 
+											 </div>
+									     </div>
+									</div>	
+									
+									
+																	
 									</div>
-							
 								</div>
 								
 								<div class="tab-pane" id="tab2">

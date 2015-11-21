@@ -51,7 +51,8 @@
 								<th class="table-checkbox">
 									<input type="checkbox" class="group-checkable" data-set="#roleTable .checkboxes"/>
 								</th>
-								<th><spring:message code="application.pages.admin.roles.rolename"/></th>
+								<th><spring:message code="application.pages.admin.roles.name"/></th>
+								<th><spring:message code="application.pages.admin.roles.description"/></th>
 								<th><spring:message code="application.pages.admin.roles.active"/></th>
 								<th><spring:message code="application.actions"/></th>
 							</tr>
@@ -62,7 +63,8 @@
 									<td>
 										<input type="checkbox" class="checkboxes" value="1"/>
 									</td>
-									<td>${roleItem.rolename}</td>
+									<td>${roleItem.name}</td>
+									<td>${roleItem.description}</td>
 									
 									<td>
 									<c:choose>

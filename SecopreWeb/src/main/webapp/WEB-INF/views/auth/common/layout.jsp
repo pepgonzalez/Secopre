@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <!-- SPRING TAGS LIBS -->
 <%@ include file="/WEB-INF/views/auth/common/springTags.jsp"%>
@@ -162,11 +163,16 @@
 	
     <script src='<c:url value="/resources/js/global/profile.js"/>' type="text/javascript"></script>
 	 
+<%--  	<script src='<c:url value="/resources/js/plugins/select2.full.min.js"/>' type="text/javascript"></script>  --%>
 	<script src='<c:url value="/resources/js/plugins/select2.min.js"/>' type="text/javascript"></script>
+	<script src='<c:url value="/resources/js/plugins/app.min.js"/>' type="text/javascript"></script> 
+ 	<script src='<c:url value="/resources/js/plugins/components-select2.min.js"/>' type="text/javascript"></script> 
+	<script src='<c:url value="/resources/js/plugins/components-bootstrap-select.min.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/bootstrap-select.min.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/components-dropdowns.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/ui-alert-dialog-api.js"/>' type="text/javascript"></script>
 	
+ 	
 	 
 	<!-- END PAGE LEVEL SCRIPTS -->
 	<!-- BEGIN PAGE LEVEL CUSTOM SCRIPTS -->
@@ -211,9 +217,14 @@
 		   Index.init(); // init index page
 		   Tasks.initDashboardWidget(); // init tash dashboard widget  
 		   //MapsGoogle.init();		
+ 		   //ComponentsSelect2.init();
+		  // ComponentsBootstrapSelect.init();
+ 		  // App.init();
+
 		});
 	</script>
 	<!-- END JAVASCRIPTS -->
 </body>
 <!-- END BODY -->
+
 </html>	
