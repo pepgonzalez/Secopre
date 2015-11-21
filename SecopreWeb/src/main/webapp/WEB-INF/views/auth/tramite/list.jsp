@@ -20,9 +20,55 @@
 								<div class="row">
 									<div class="col-md-6">
 										<div class="btn-group">
-											<button id="sample_editable_1_new" class="btn green" onclick="sendRequestJQ('auth/tram/add','dashboard','initTramitePage()','GET');">
-												<spring:message code="application.add"/> <i class="fa fa-plus"></i>
-											</button>
+											
+											<input type="hidden" name="canCapture" id="canCaptureValue" value="${canUserCapture}">
+											
+											<c:if test="${canUserCapture == true}">
+												<button id="canCaptureButton" class="btn green" onclick="sendRequestJQ('auth/tram/add','dashboard','initTramitePage()','GET');">
+													<spring:message code="application.add"/> <i class="fa fa-plus"></i>
+												</button>
+											</c:if>
+											
+											<c:if test="${canUserCapture == false}">
+												<a id="canCaptureButton" class="btn green canCaptureButton disabledWithPopup">
+													<spring:message code="application.add"/> <i class="fa fa-plus"></i>
+												</a>
+												
+												<!-- tooltip popup -->
+												<div class="tooltip-popup">	
+													<div class="qtip-titlebar">
+										        		<div id="qtip-{id}-title" class="qtip-title">Captura No disponible</div>
+										    		</div>
+											    	<div id="qtip-{id}-content" class="qtip-content ui-widget-content" aria-atomic="true" style="background-color:white">
+	       
+														<table class="popupContainer">
+															<tbody>
+																<c:if test="${isValidDate == false}">
+																	<tr> 
+																		<td>
+																		<a href="#" onclick="" >
+																			Fecha de Captura no valida
+																		</a>
+																		</td>
+																	</tr>
+																</c:if>
+																<c:if test="${hasUserRequestInProcess == true}">
+																	<tr>
+																		<td>
+																			<a href="#" onclick="" >
+																			Cuenta con solicitudes activas en etapa de captura
+																		</a>
+																		</td>
+																	</tr>
+																</c:if>
+															</tbody>
+														</table>
+													</div>
+												</div>
+												
+											</c:if>
+											
+											
 										</div>
 									</div>
 									<div class="col-md-6">

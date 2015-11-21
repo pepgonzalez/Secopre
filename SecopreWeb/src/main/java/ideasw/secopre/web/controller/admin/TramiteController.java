@@ -11,6 +11,7 @@ import ideasw.secopre.web.controller.base.AuthController;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -55,7 +56,13 @@ public class TramiteController extends AuthController {
 
 		List<Inbox> inboxList = accessNativeService.getInboxByUserId(loggedUser.getId());
 		
+		Map<String,Boolean> canCapture = accessNativeService.canUserCapture(loggedUser.getId());
+		
 		model.addAttribute("inboxList", inboxList);
+		model.addAttribute("canUserCapture", canCapture.get("canUserCapture"));
+		model.addAttribute("hasUserRequestInProcess", canCapture.get("hasUserRequestInProcess"));
+		model.addAttribute("isValidDate", canCapture.get("isValidDate"));
+		
 				
 		return SecopreConstans.MV_TRAM_LIST;
 	}

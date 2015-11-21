@@ -699,6 +699,62 @@
 					]]>
 				</prop>	
 				
+				<prop key="IS_VALID_DATE_FOR_CAPTURE">
+					<![CDATA[
+				 SELECT COUNT(*) IS_VALID FROM
+						(SELECT DD.DUE_DATE AS FECHA_INICIAL, 
+							   DD.MAX_BLOCK_DATE AS FECHA_FINAL
+						  FROM secopre.DUE_DATE DD
+						 WHERE DD.ACTIVE = 1) DATES
+						 WHERE STR_TO_DATE(:currentDate, '%d/%m/%Y') BETWEEN DATES.FECHA_INICIAL AND DATES.FECHA_FINAL
+					]]>
+				</prop>
+				
+				<prop key="GET_PROPERTY_BY_CODE">
+					<![CDATA[
+					   SELECT P.* 
+  						 FROM secopre.PROPERTY P
+ 						WHERE UPPER(P.CODE) = :code
+					]]>
+				</prop>
+				
+				<prop key="HAS_USER_ROLE">
+					<![CDATA[
+						SELECT COUNT(*) HAS_ROLE
+						  FROM secopre.USER_ROLE
+						 WHERE USER_ID = :userId
+						   AND ROLE_ID = :roleId
+					]]>
+				</prop>
+				
+				<prop key="GET_ACTIVE_REQUESTS_IN_CAPTURE">
+					<![CDATA[
+						SELECT COUNT(*) AS ACTIVE_REQUESTS_IN_CAPTURE
+						FROM 
+						(SELECT R.ID
+						  FROM secopre.REQUEST R,
+						       secopre.REQUEST_HISTORY RH
+						 WHERE R.ID = RH.REQUEST_ID
+						   AND RH.CONSECUTIVE = 1
+						   AND RH.USER_ID = :userId
+						) USER_ACTIVE_REQUESTS,
+						  secopre.REQUEST_HISTORY RH,
+						  secopre.WORKFLOW_CONFIG WC,
+						  secopre.STAGE_CONFIG SC
+						WHERE USER_ACTIVE_REQUESTS.ID = RH.REQUEST_ID
+						  AND RH.ACTIVE = 1
+						  AND RH.WORKFLOW_CONFIG_ID = WC.ID
+						  AND WC.NEXT_STAGE_CONFIG = SC.ID
+						  AND SC.CAPTURE_FORM IS NOT NULL
+					]]>
+				</prop>
+				
+				<prop key="TEMPLATE">
+					<![CDATA[
+					
+					]]>
+				</prop>
+				
 			</props>				
 		</property>
 	</bean>

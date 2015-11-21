@@ -1774,6 +1774,32 @@ function initPersonValidations() {
 }
 
 function initTramiteListPage() {
+	
+	var canEdit = $(document).find("#canCaptureValue").val();	
+	if(canEdit == "false"){
+		$(document).find(".canCaptureButton").each(function(){
+			$(this).qtip({
+				 content: {
+					 text: $(this).next(".tooltip-popup")
+			     },
+			     position:{
+			    	 my: 'top left',
+			         at: 'bottom right'
+			     },
+			     hide: {
+		           fixed: true,
+		           delay: 400
+		         },
+			     style: {
+			    	 classes: "ui-tooltip-shadow"
+			     }
+			});
+		});
+	}else{
+		alert("no se genera popup");
+	}
+	
+	
 	var formalityDatatable = $('#formalityList').DataTable({
         "language": {
             "lengthMenu": "_MENU_ Registros por pagina",

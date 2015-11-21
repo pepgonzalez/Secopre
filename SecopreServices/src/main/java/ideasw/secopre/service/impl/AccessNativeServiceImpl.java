@@ -1,9 +1,11 @@
 package ideasw.secopre.service.impl;
 
+import ideasw.secopre.constants.PropertyConstants;
 import ideasw.secopre.dto.Authorization;
 import ideasw.secopre.dto.Formality;
 import ideasw.secopre.dto.Inbox;
 import ideasw.secopre.dto.Movement;
+import ideasw.secopre.dto.Property;
 import ideasw.secopre.dto.Report;
 import ideasw.secopre.dto.ReportParameter;
 import ideasw.secopre.dto.Request;
@@ -32,6 +34,7 @@ import ideasw.secopre.service.impl.mapper.FullEntryDistrictMapper;
 import ideasw.secopre.service.impl.mapper.InboxMapper;
 import ideasw.secopre.service.impl.mapper.MovementMapper;
 import ideasw.secopre.service.impl.mapper.PermissionMapper;
+import ideasw.secopre.service.impl.mapper.PropertyMapper;
 import ideasw.secopre.service.impl.mapper.ReportMapper;
 import ideasw.secopre.service.impl.mapper.ReportParameterMapper;
 import ideasw.secopre.service.impl.mapper.RequestConfigMapper;
@@ -56,8 +59,11 @@ import ideasw.secopre.sql.SQLConstants;
 import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -703,6 +709,72 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
         return this.queryForList(EntryDistrict.class, queryContainer.getSQL(SQLConstants.GET_ENTRY_DISTRICT), namedParameters, new FullEntryDistrictMapper());
 	}
 
-
+	private boolean isValidDateForCapture(Date date){
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		String currentDate = df.format(date);
+		SqlParameterSource params = new MapSqlParameterSource().addValue("currentDate", currentDate);
+		return this.queryForObject(Integer.class, queryContainer.getSQL(SQLConstants.IS_VALID_DATE_FOR_CAPTURE), params) > 0;			
+	}
+	
+	private int getActiveRequestInCapture(Long userId){
+		LOG.info("Buscando tramites en etapas de captura para el usuario: " + userId);
+		SqlParameterSource params = new MapSqlParameterSource().addValue("userId", userId);
+		int result = this.queryForObject(Integer.class, queryContainer.getSQL(SQLConstants.GET_ACTIVE_REQUESTS_IN_CAPTURE), params);			
+		LOG.info("Total de tramites en etapa de captura: " + result);
+		return result;
+	}
+	
+	public Property getPropertyByCode(String code){
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("code", code);
+		Property property = this.queryForList(Property.class, queryContainer.getSQL(SQLConstants.GET_PROPERTY_BY_CODE), namedParameters , new PropertyMapper()).get(0);
+		return property;
+	}
+	
+	public boolean hasUserRole(Long userId, Long roleId){
+		SqlParameterSource params = new MapSqlParameterSource().addValue("userId", userId).addValue("roleId", roleId);
+		return (this.queryForObject(Integer.class, queryContainer.getSQL(SQLConstants.HAS_USER_ROLE), params) > 0);		
+	}
+	
+	public Map<String, Boolean> canUserCapture(Long userId){
+		Map<String, Boolean> result = new HashMap<String, Boolean>();
+		
+		Property dueDateExceptionRoleProperty = this.getPropertyByCode(PropertyConstants.ROL_SALTO_REGLA_FECHA_CORTE);
+		Property requestInCaptureExceptionRoleProperty = this.getPropertyByCode(PropertyConstants.ROL_SALTO_REGLA_TRAMITE_PENDIENTE);
+		
+		boolean isValidDate = false;
+		boolean hasUserRequestInProcess = true;
+		
+		//pregunto si el usuario tiene el rol de excepcion de fechas de corte
+		if(this.hasUserRole(userId, dueDateExceptionRoleProperty.getLongValue())){
+			LOG.info("User tiene rol de excepcion de fechas de captura");
+			isValidDate = true;
+		//pregunto si la fecha de corte es valida
+		}else{
+			if(this.isValidDateForCapture(new Date())){
+				LOG.info("es hoy fecha de captura correcta");
+				isValidDate = true;
+			}
+		}
+		
+		//pregunto si el usuario tiene el rol de excepcion de tramites en tuberia
+		if(this.hasUserRole(userId, requestInCaptureExceptionRoleProperty.getLongValue())){
+			LOG.info("Usuario tiene rol de excepcion de tramites en proceso");
+			hasUserRequestInProcess = false;
+		//pregunto si el usuario tiene tramites en proceso en etapa de captura
+		}else{
+			if(this.getActiveRequestInCapture(userId) == 0){
+				LOG.info("el usuario no tiene tramites en proceso");
+				hasUserRequestInProcess = false;
+			}
+		}
+		
+		LOG.info("is valid date: " + isValidDate);
+		LOG.info("hasUserRequestInProcess: " + hasUserRequestInProcess);
+		
+		result.put("isValidDate", isValidDate);
+		result.put("hasUserRequestInProcess", hasUserRequestInProcess);
+		result.put("canUserCapture", (isValidDate && !(hasUserRequestInProcess)) );
+		return result;
+	}
 
 }

@@ -182,4 +182,7 @@ public interface AccessNativeService {
  	public Map<Long, String> getDistrictsMap();
 
 	List<EntryDistrict> getEntryDistrict();
+	
+	/*Metodo para validar si el usuario puede capturar un nuevo tramite*/
+	public Map<String, Boolean> canUserCapture(Long userId);
 }

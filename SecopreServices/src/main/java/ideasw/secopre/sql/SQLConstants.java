@@ -57,4 +57,12 @@ public class SQLConstants {
 	//presupuesto anual
 	public static final String GET_ENTRY_DISTRICT = "GET_ENTRY_DISTRICT";
 	
+	//validacion fechas de corte
+	public static final String IS_VALID_DATE_FOR_CAPTURE = "IS_VALID_DATE_FOR_CAPTURE";
+	public static final String HAS_USER_ROLE = "HAS_USER_ROLE";
+	public static final String GET_ACTIVE_REQUESTS_IN_CAPTURE = "GET_ACTIVE_REQUESTS_IN_CAPTURE";
+	
+	//para trabajar con las properties
+	public static final String GET_PROPERTY_BY_CODE = "GET_PROPERTY_BY_CODE";
+	
 }

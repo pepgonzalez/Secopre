@@ -92,6 +92,10 @@ table.popupContainer tr td, table.popupContainer tr th{
          background-color:white;
 }
 
+table.popupContainer tbody {
+         background-color:white;
+}
+
 table.popupContainer tr td a{
          display:block;
          width:100%;
@@ -115,4 +119,11 @@ table.popupContainer tr td a{
 	color:white;
 	font-size:13px;
 	padding:10px;
+}
+
+.disabledWithPopup{
+	opacity: .65;
+}
+.disabledWithPopup:hover{
+	opacity: .65;
 }
