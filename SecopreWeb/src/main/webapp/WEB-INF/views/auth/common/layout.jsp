@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 <!DOCTYPE html>
 <!-- SPRING TAGS LIBS -->
 <%@ include file="/WEB-INF/views/auth/common/springTags.jsp"%>
