@@ -801,6 +801,14 @@ function initRoleValidations() {
 				maxlength : 50,
 				required : true
 			},
+			name : {
+				maxlength : 50,
+				required : true
+			},
+			description : {
+				maxlength : 100,
+				required : true
+			},
 			perms : "required"
 		},
 
