@@ -697,9 +697,10 @@ function initEntryByDistrict(){
 	});
 	$("select#stateId").change(function(){
 		blockPage();
-		
+		 $("select#districtId").html('');
+		 $("select#entryId").html('');
          $.getJSON("cfg/entry/getDistricts",{stateId: $(this).val()}, function(j){
-              var options = '';
+              var options = '<option value="">Seleccione... </option>';
               var json = eval(j);
               $.each(json, function(key, value) {
             	  options += '<option value="' + key + '">' + value + '</option>';
@@ -709,10 +710,10 @@ function initEntryByDistrict(){
             });
      });		
 	$("select#districtId").change(function(){
-		$("select#stateId").value("");
+		$("select#entryId").html('');
 		blockPage();
          $.getJSON("cfg/entry/getEntries",{districtId: $(this).val()}, function(j){
-              var options = '';
+              var options = '<option value="">Seleccione... </option>';
               var json = eval(j);
               $.each(json, function(key, value) {
             	  options += '<option value="' + key + '">' + value + '</option>';
@@ -1790,6 +1791,26 @@ function initTramiteListPage() {
 	});
 	
 	$(document).find(".dataTables_filter").hide();
+	
+	//tooltip
+	$(document).find(".tooltip-control").each(function(){
+		$(this).qtip({
+			 content: {
+				 text: $(this).next(".tooltip-popup")
+		     },
+		     position:{
+		    	 my: 'top right',
+		         at: 'bottom left'
+		     },
+		     hide: {
+	           fixed: true,
+	           delay: 400
+	         },
+		     style: {
+		    	 classes: "ui-tooltip-shadow"
+		     }
+		});
+	});
 	
 	updateMenu("#formalityMenu");
 }

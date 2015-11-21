@@ -1,7 +1,5 @@
 package ideasw.secopre.dto;
 
-import ideasw.secopre.model.EntryDistrict;
-
 import java.util.List;
 
 public class EntryBalance {
@@ -10,8 +8,8 @@ public class EntryBalance {
 	private Double budgetAmount = 0D;
 	private Double budgetAsing = 0D;
 	private Double budgetCommit = 0D;
-	
-	private List<EntryDistrict> entries;
+
+	private List<EntryDistrictDetail> entries;
 
 	public Double getAnnualAmount() {
 		return annualAmount;
@@ -45,12 +43,12 @@ public class EntryBalance {
 		this.budgetCommit = budgetCommit;
 	}
 
-	public List<EntryDistrict> getEntries() {
+	public List<EntryDistrictDetail> getEntries() {
 		return entries;
 	}
 
-	public void setEntries(List<EntryDistrict> entries) {
+	public void setEntries(List<EntryDistrictDetail> entries) {
 		this.entries = entries;
-	}		
-	
+	}
+
 }

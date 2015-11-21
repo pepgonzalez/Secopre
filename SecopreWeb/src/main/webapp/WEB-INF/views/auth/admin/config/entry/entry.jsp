@@ -35,7 +35,7 @@
 							<form:form action="auth/cfg/entry/search" class="form-horizontal" id="submit_form"  modelAttribute="entryFilter" method="GET"  novalidate="novalidate">
 								<div class="row">
 									<div class="col-md-6">
-										<label class="col-md-2 control-label" for="districtId" style="text-align:left;">Entidad</label>
+										<label class="col-md-2 control-label" for="stateId" style="text-align:left;">Entidad</label>
 										<form:select path="stateId" id="stateId" class="form-control">
 										   	<form:option value="" label="Seleccione..."/>
 		 									<form:options items="${entidadList}" />
