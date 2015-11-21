@@ -82,10 +82,17 @@ function initPositionList() {
 function initMenuCat(idMenu) {
 	initPage('Menu');
 	initMenuValidations();
-	 $('select').select2();
+	$('.selectpicker').selectpicker({
+	      style: 'btn-info',
+	      size: 12
+	  });
+    $('select').select2();
 	 $('#rols').multiSelect({
 			 includeSelectAllOption: true
 	 });
+   
+	 
+
 	 
 		var apiCallUnblock = function(actionURL, callback) {
 			var method = method || "POST";

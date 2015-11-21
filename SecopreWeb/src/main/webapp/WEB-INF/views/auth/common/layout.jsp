@@ -51,6 +51,7 @@
 	<link href='<c:url value="/resources/css/plugins/bootstrap-fileinput.css"/>' rel="stylesheet" type="text/css"/>
 	<link href='<c:url value="/resources/css/plugins/profile.css"/>' rel="stylesheet" type="text/css"/>
 	<link href='<c:url value="/resources/css/plugins/tasks.css"/>' rel="stylesheet" type="text/css"/>
+	<link href='<c:url value="/resources/css/plugins/jquery.qtip.min.css"/>' rel="stylesheet" type="text/css"/>
 	
 	
 	
@@ -161,11 +162,16 @@
 	
     <script src='<c:url value="/resources/js/global/profile.js"/>' type="text/javascript"></script>
 	 
+<%--  	<script src='<c:url value="/resources/js/plugins/select2.full.min.js"/>' type="text/javascript"></script>  --%>
 	<script src='<c:url value="/resources/js/plugins/select2.min.js"/>' type="text/javascript"></script>
+	<script src='<c:url value="/resources/js/plugins/app.min.js"/>' type="text/javascript"></script> 
+ 	<script src='<c:url value="/resources/js/plugins/components-select2.min.js"/>' type="text/javascript"></script> 
+	<script src='<c:url value="/resources/js/plugins/components-bootstrap-select.min.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/bootstrap-select.min.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/components-dropdowns.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/ui-alert-dialog-api.js"/>' type="text/javascript"></script>
 	
+ 	
 	 
 	<!-- END PAGE LEVEL SCRIPTS -->
 	<!-- BEGIN PAGE LEVEL CUSTOM SCRIPTS -->
@@ -182,6 +188,7 @@
 	<script src='<c:url value="/resources/js/plugins/jquery.tooltipster.min.js"/>' type="text/javascript"></script>		
 	<script src='<c:url value="/resources/js/plugins/jquery.counterup.min.js"/>' type="text/javascript"></script>		
 	<script src='<c:url value="/resources/js/plugins/jquery.waypoints.min.js"/>' type="text/javascript"></script>
+	<script src='<c:url value="/resources/js/plugins/jquery.qtip.min.js"/>' type="text/javascript"></script>
 
 	<script src='<c:url value="/resources/js/utils/secopreUtils.js"/>' type="text/javascript"></script>	
 	<script src='<c:url value="/resources/js/utils/secopre.js"/>' type="text/javascript"></script>
@@ -209,6 +216,10 @@
 		   Index.init(); // init index page
 		   Tasks.initDashboardWidget(); // init tash dashboard widget  
 		   //MapsGoogle.init();		
+ 		   //ComponentsSelect2.init();
+		  // ComponentsBootstrapSelect.init();
+ 		  // App.init();
+
 		});
 	</script>
 	<!-- END JAVASCRIPTS -->
