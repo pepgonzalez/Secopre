@@ -163,17 +163,11 @@
 	<script src='<c:url value="/resources/js/global/tasks.js"/>' type="text/javascript"></script>
 	
     <script src='<c:url value="/resources/js/global/profile.js"/>' type="text/javascript"></script>
-	 
-<%--  	<script src='<c:url value="/resources/js/plugins/select2.full.min.js"/>' type="text/javascript"></script>  --%>
-	<script src='<c:url value="/resources/js/plugins/select2.min.js"/>' type="text/javascript"></script>
-<%-- 	<script src='<c:url value="/resources/js/plugins/app.min.js"/>' type="text/javascript"></script>  --%>
- 	<script src='<c:url value="/resources/js/plugins/components-select2.min.js"/>' type="text/javascript"></script> 
-	<script src='<c:url value="/resources/js/plugins/components-bootstrap-select.min.js"/>' type="text/javascript"></script>
-	<script src='<c:url value="/resources/js/plugins/bootstrap-select.min.js"/>' type="text/javascript"></script>
+ 	<script src='<c:url value="/resources/js/plugins/bootstrap-select.min.js"/>' type="text/javascript"></script> 
+  	<script src='<c:url value="/resources/js/plugins/select2.min.js"/>' type="text/javascript"></script> 
 	<script src='<c:url value="/resources/js/plugins/components-dropdowns.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/ui-alert-dialog-api.js"/>' type="text/javascript"></script>
 	
- 	
 	 
 	<!-- END PAGE LEVEL SCRIPTS -->
 	<!-- BEGIN PAGE LEVEL CUSTOM SCRIPTS -->
