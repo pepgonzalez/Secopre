@@ -228,6 +228,18 @@
 						<div class="form-actions">
 							<div class="row">
 								<div class="col-md-offset-3 col-md-9">
+										      <c:choose>
+											     <c:when test="${user.id!=null}">
+											        <a href="javascript:initUserList();" class="btn red" >
+													   <spring:message code="application.cancel"/> <i class="fa fa-times"></i>
+													   </a>  
+												 </c:when>   
+									             <c:otherwise>		
+											           <a href="javascript:showList('User');" class="btn red" >
+													   <spring:message code="application.cancel"/> <i class="fa fa-times"></i>
+													   </a>  	
+									             </c:otherwise>
+									          </c:choose>	
 									<a href="javascript:;" class="btn default button-previous">
 										<i class="m-icon-swapleft"></i> <spring:message code="application.back"/>
 									</a> <a href="javascript:;" class="btn blue button-next">
