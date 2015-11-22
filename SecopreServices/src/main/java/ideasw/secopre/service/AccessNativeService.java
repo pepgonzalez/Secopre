@@ -8,6 +8,7 @@ import ideasw.secopre.dto.ReportParameter;
 import ideasw.secopre.dto.Request;
 import ideasw.secopre.dto.RequestHistory;
 import ideasw.secopre.dto.UserMovement;
+import ideasw.secopre.model.DueDate;
 import ideasw.secopre.model.Entry;
 import ideasw.secopre.model.EntryDistrict;
 import ideasw.secopre.model.catalog.District;
@@ -42,6 +43,12 @@ public interface AccessNativeService {
 	 * param userId - Identificador del usuario
 	 */
 	List<Inbox> getInboxByUserId(Long userId);
+	
+	/*
+	 * Metodo para obtener todos los tramites en tuberia creados por el folio
+	 * param userId - Identificador del usuario
+	 */
+	List<Inbox> getMyInboxByUserId(Long userId);
 	
 	/*
 	 * Metodo transaccional para avanzar un folio de etapa
@@ -133,6 +140,9 @@ public interface AccessNativeService {
 	/*Metodo para obtener solamente los tramites con presupuesto asignado en entry district*/
 	List<District> getValidDistricts();
 	
+	/*Metodo para obtener los distritos con presupuesto asignado a los cuales tiene acceso el usuario*/
+	List<District> getValidDistrictsByUserId(Long userId);
+	
 	/*Metodo para validar si un username ya existe*/
 	int isUsernameValid(String username);
 	
@@ -185,4 +195,7 @@ public interface AccessNativeService {
 	
 	/*Metodo para validar si el usuario puede capturar un nuevo tramite*/
 	public Map<String, Boolean> canUserCapture(Long userId);
+	
+	/*Metodo para obtener los rangos de fechas de captura disponibles*/
+	public List<DueDate> getActiveDueDate();
 }

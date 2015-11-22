@@ -34,10 +34,12 @@ public class SecopreCache {
 
 	private static List<District> allDistricts = null;
 	private static List<District> validDistricts = null;
+	private static List<District> validDistrictsByUser = null;
 	private static Map<User, List<District>> districtByUser = new HashMap<User, List<District>>();
 	private static List<State> allStates = null;
 	private static Map<Long, String> allStateMap = new HashMap<Long, String>();
 	private static Map<Long, String> validDistrictsMap = new HashMap<Long, String>();
+	private static Map<Long, String> validDistrictsMapByUser = new HashMap<Long, String>();
 
 	/**
 	 * Metodo que ejecuta la configuracion de las constantes que utilizara
@@ -141,7 +143,7 @@ public class SecopreCache {
 
 		return validDistrictsMap;
 	}
-
+	
 	public List<District> getValidDistricts() {
 
 		if (validDistricts == null) {
@@ -149,4 +151,25 @@ public class SecopreCache {
 		}
 		return validDistricts;
 	}
+	
+	
+	/* filtro de distritos por asignacion a usuario*/
+	public Map<Long, String> getValidDistrictsMapByUserId(Long userId) {
+		if (validDistrictsMapByUser.isEmpty()) {
+			for (District district : getValidDistrictsByUser(userId)) {
+				validDistrictsMapByUser.put(district.getId(), district.getNumber());
+			}
+		}
+
+		return validDistrictsMapByUser;
+	}
+	
+	public List<District> getValidDistrictsByUser(Long userId) {
+
+		if (validDistrictsByUser == null) {
+			validDistrictsByUser = accessNativeService.getValidDistrictsByUserId(userId);
+		}
+		return validDistrictsByUser;
+	}
+
 }

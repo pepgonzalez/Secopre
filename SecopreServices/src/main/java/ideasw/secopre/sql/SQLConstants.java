@@ -14,6 +14,7 @@ public class SQLConstants {
 	public static final String INSERT_OR_UPDATE_REQUEST_DETAIL = "INSERT_OR_UPDATE_REQUEST_DETAIL";
 	public static final String INSERT_REQUEST_HISTORY = "INSERT_REQUEST_HISTORY";
 	public static final String GET_FORMALITY_INBOX = "GET_FORMALITY_INBOX";
+	public static final String GET_MY_FORMALITY_INBOX = "GET_MY_FORMALITY_INBOX";
 	public static final String GET_REQUEST_WORKFLOW_CONFIG = "GET_REQUEST_WORKFLOW_CONFIG";
 	public static final String INACTIVATE_ACTIVE_STAGE = "INACTIVATE_ACTIVE_STAGE";
 	public static final String GET_REQUEST_BY_ID = "GET_REQUEST_BY_ID";
@@ -27,6 +28,7 @@ public class SQLConstants {
 	public static final String GET_REQUEST_DETAIL = "GET_REQUEST_DETAIL";
 	public static final String GET_REQUEST_HISTORY = "GET_REQUEST_HISTORY";
 	public static final String GET_VALID_DISTRICTS = "GET_VALID_DISTRICTS";
+	public static final String GET_VALID_DISTRICTS_BY_USER = "GET_VALID_DISTRICTS_BY_USER";
 	public static final String GET_DISTRICT_LIST_BY_USER = "GET_DISTRICT_LIST_BY_USER";
 	public static final String GET_USER_LIST_BY_DISTRICT = "GET_USER_LIST_BY_DISTRICT";	
 	

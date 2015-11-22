@@ -47,7 +47,7 @@ public class DueDate extends AuditEntity implements Persistible {
 	@Column(name = "MAX_BLOCK_DATE", nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date maxBlockDate;
-	
+
 	@Transient
 	private String maxBlockDateStr;
 
@@ -136,5 +136,4 @@ public class DueDate extends AuditEntity implements Persistible {
 			e.printStackTrace();
 		}
 	}
-
 }

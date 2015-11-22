@@ -42,7 +42,7 @@ public class TramiteController extends AuthController {
 		Request requestForm = new Request();
 		
 		model.addAttribute("formalities", formalitiesMap);
-		model.addAttribute("districts", secopreCache.getValidDistrictsMap());
+		model.addAttribute("districts", secopreCache.getValidDistrictsMapByUserId(loggedUser.getId()));
 		model.addAttribute("requestForm", requestForm);
 		
 		return SecopreConstans.MV_TRAM_ADD;
@@ -90,6 +90,19 @@ public class TramiteController extends AuthController {
 			System.out.println(ex);
 			return "redirect:/auth/tram/list";
 		}
+	}
+	
+	
+	@RequestMapping(value = "tram/mylist", method = { RequestMethod.GET })
+	public String showMyFormalityList(ModelMap model, RedirectAttributes attributes,  Principal principal) {
+		
+		System.out.println("showMyFormalityList");
+		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
+
+		List<Inbox> inboxList = accessNativeService.getMyInboxByUserId(loggedUser.getId());
+		
+		model.addAttribute("inboxList", inboxList);	
+		return SecopreConstans.MV_TRAM_MY_LIST;
 	}
 	
 }

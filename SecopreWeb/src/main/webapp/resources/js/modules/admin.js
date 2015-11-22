@@ -781,7 +781,7 @@ function initPage(page) {
 
 function showList(page){
 		$('#add_' + page).hide();
-		$('#list_' + page).show();
+		$('#list_' + page).show();		
 }
 
 function initRoleValidations() {
@@ -1779,6 +1779,28 @@ function initPersonValidations() {
 			submitAjaxJQ('submit_form', 'dashboard', 'initPersonList()');
 		}
 	});
+	
+	updateMenu("#formalityMenu");
+}
+
+function initMyTramiteListPage(){
+	var formalityDatatable = $('#formalityList').DataTable({
+        "language": {
+            "lengthMenu": "_MENU_ Registros por pagina",
+            "zeroRecords": "No existen registros",
+            "info": "Mostrando pagina _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay registros disponibles",
+            "infoFiltered": "(filtered from _MAX_ total records)"
+        },
+        bFilter: true, bInfo: true, bLengthChange:false, ordering:true
+    });
+	
+	// Filtro de datatable por fecha
+	$(document).find('#formalityDateSearch').on( 'keyup', function () {
+		formalityDatatable.search( this.value ).draw();
+	});
+	
+	$(document).find(".dataTables_filter").hide();
 }
 
 function initTramiteListPage() {
@@ -1803,10 +1825,7 @@ function initTramiteListPage() {
 			     }
 			});
 		});
-	}else{
-		alert("no se genera popup");
 	}
-	
 	
 	var formalityDatatable = $('#formalityList').DataTable({
         "language": {
@@ -2081,6 +2100,7 @@ function initReportParamCapture(){
 			openParamResourceNative('report/download/paramReport', 'reportParametersForm');
 		}
 	});
+}
 
 function showProfile() {
 	initProfileValidations();
@@ -4079,4 +4099,14 @@ function initReportParamCapture(){
 		}
 	});
 }
+
+function showDueDates(){
+	
+	apiCall("auth/wf/getDueDates", function(data){
+		bootbox.dialog({
+	        message: data,
+	        title: "Fechas disponibles para captura"	    
+	    }).find(".modal-dialog").css({"width":"40%"});
+	});
 }
+

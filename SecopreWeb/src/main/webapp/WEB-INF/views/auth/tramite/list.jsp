@@ -46,7 +46,7 @@
 																<c:if test="${isValidDate == false}">
 																	<tr> 
 																		<td>
-																		<a href="#" onclick="" >
+																		<a href="#" onclick="showDueDates();" >
 																			Fecha de Captura no valida
 																		</a>
 																		</td>
@@ -55,7 +55,7 @@
 																<c:if test="${hasUserRequestInProcess == true}">
 																	<tr>
 																		<td>
-																			<a href="#" onclick="" >
+																			<a href="#" onclick="sendRequestJQ('auth/tram/mylist','dashboard','initMyTramiteListPage()','GET');" >
 																			Cuenta con solicitudes activas en etapa de captura
 																		</a>
 																		</td>
@@ -165,6 +165,20 @@
 																		</a>
 																	</td>
 																</tr>
+															</c:if>
+															
+															<c:if test="${inboxItem.requestFinished == false}">
+																<c:if test="${inboxItem.hasDocument == false}">
+																
+																	<tr>
+																		<td>
+																			<a href="#" class="disabled">
+																				Sin opciones Disponibles
+																			</a>
+																		</td>
+																	</tr>
+																
+																</c:if>
 															</c:if>
 														</tbody>
 													</table>

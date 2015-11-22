@@ -4,6 +4,7 @@ import ideasw.secopre.dto.Authorization;
 import ideasw.secopre.dto.Movement;
 import ideasw.secopre.dto.Request;
 import ideasw.secopre.dto.RequestHistory;
+import ideasw.secopre.model.DueDate;
 import ideasw.secopre.model.EntryDistrict;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.AccessNativeService;
@@ -297,4 +298,19 @@ public class WorkFlowController extends AuthController {
 		model.addAttribute("entryDistrictBalance", entryDistrictBalance);
 		return SecopreConstans.MV_TRAM_BALANCE;
 	}
+	
+	
+	/*
+	 * Metodo para obtener el detalle de la historia de un folio
+	 * param requestId
+	 * */
+	@RequestMapping(value = "wf/getDueDates", method = { RequestMethod.GET })
+	public String getDueDatesInfo(ModelMap model, RedirectAttributes attributes, Principal principal) {
+
+		List<DueDate> dueDates = accessNativeService.getActiveDueDate();
+
+		model.addAttribute("dueDates", dueDates);
+		return SecopreConstans.MV_TRAM_DUE_DATES;
+	}
 }
+

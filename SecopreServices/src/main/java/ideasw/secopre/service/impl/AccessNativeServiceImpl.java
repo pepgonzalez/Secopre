@@ -17,6 +17,7 @@ import ideasw.secopre.dto.WorkFlowConfig;
 import ideasw.secopre.enums.Month;
 import ideasw.secopre.enums.WorkFlowCode;
 import ideasw.secopre.exception.EntryDistrictException;
+import ideasw.secopre.model.DueDate;
 import ideasw.secopre.model.Entry;
 import ideasw.secopre.model.EntryDistrict;
 import ideasw.secopre.model.ProgrammaticKey;
@@ -119,6 +120,11 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	public List<Inbox> getInboxByUserId(Long userId){
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("userId", userId);	
 		return this.queryForList(Inbox.class, queryContainer.getSQL(SQLConstants.GET_FORMALITY_INBOX), namedParameters, new InboxMapper());
+	}
+	
+	public List<Inbox> getMyInboxByUserId(Long userId){
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("userId", userId);	
+		return this.queryForList(Inbox.class, queryContainer.getSQL(SQLConstants.GET_MY_FORMALITY_INBOX), namedParameters, new InboxMapper());
 	}
 	
 	public List<RequestHistory> getRequestHistory(Long requestId){
@@ -593,6 +599,12 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		return list;
 	}
 	
+	public List<District> getValidDistrictsByUserId(Long userId){
+		SqlParameterSource params = new MapSqlParameterSource().addValue("userId", userId);
+		List<District> list = this.queryForList(District.class, queryContainer.getSQL(SQLConstants.GET_VALID_DISTRICTS_BY_USER), params, new DistrictMapper());	
+		return list;
+	}
+	
 	public int isUsernameValid(String username){
 		SqlParameterSource params = new MapSqlParameterSource()
 				.addValue("username", username);
@@ -735,6 +747,12 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		return (this.queryForObject(Integer.class, queryContainer.getSQL(SQLConstants.HAS_USER_ROLE), params) > 0);		
 	}
 	
+	
+	public List<DueDate> getActiveDueDate(){
+		List<DueDate> l = baseService.findAll(DueDate.class);
+		return l;
+	}
+		
 	public Map<String, Boolean> canUserCapture(Long userId){
 		Map<String, Boolean> result = new HashMap<String, Boolean>();
 		
