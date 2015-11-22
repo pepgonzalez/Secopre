@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Service;
@@ -37,7 +38,12 @@ public class AccessNativeServiceBaseImpl {
 	}
 
 	public <E> E queryForObject(Class<E> o, String q, SqlParameterSource params) {
-		return sql.getNamedParameterJdbcTemplate().queryForObject(q, params, o);
+		try{
+			return sql.getNamedParameterJdbcTemplate().queryForObject(q, params, o);
+		}catch (EmptyResultDataAccessException e){
+			return null;
+		}
+		
 	}
 
 	public Connection getSecopreConnection() throws SQLException {

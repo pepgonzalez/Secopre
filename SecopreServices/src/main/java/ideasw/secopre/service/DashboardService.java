@@ -1,5 +1,6 @@
 package ideasw.secopre.service;
 
+import ideasw.secopre.model.catalog.District;
 import ideasw.secopre.model.security.User;
 
 import java.util.List;
@@ -7,5 +8,7 @@ import java.util.List;
 public interface DashboardService {
 
 	public List<String> getIndicators(User user);
+	
+	public String getNotice(User user, List<District> distritcs);
 
 }

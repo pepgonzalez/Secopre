@@ -1,14 +1,16 @@
 package ideasw.secopre.web.controller;
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import java.util.List;
 
 import ideasw.secopre.model.Notice;
 import ideasw.secopre.model.catalog.District;
+import ideasw.secopre.model.security.User;
+import ideasw.secopre.service.DashboardService;
 import ideasw.secopre.web.SecopreConstans;
-import ideasw.secopre.web.controller.SecopreCache;
 import ideasw.secopre.web.controller.base.AuthController;
+
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -34,9 +37,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller
 public class NoticeController extends AuthController {
-	
+
 	@Autowired
-	private SecopreCache secopreCahe; 
+	DashboardService dashboardService;
 
 	@RequestMapping(value = "oper/notice/list", method = { RequestMethod.GET,
 			RequestMethod.POST })
@@ -44,48 +47,52 @@ public class NoticeController extends AuthController {
 		Notice notice = new Notice();
 		model.addAttribute("noticeList", baseService.findAll(Notice.class));
 		model.addAttribute("notice", notice);
-		model.addAttribute("districts", secopreCahe.getAlldistricts());
+		model.addAttribute("districts", secopreCache.getAlldistricts());
 		return SecopreConstans.MV_CAT_NOTICE;
 	}
-	
+
 	@RequestMapping(value = "oper/notice/edit", method = { RequestMethod.GET,
 			RequestMethod.POST })
-	public String edit( ModelMap model, RedirectAttributes attributes, @RequestParam("id") Long id ) {
-		Notice notice = baseService.findById(Notice.class , id);
+	public String edit(ModelMap model, RedirectAttributes attributes,
+			@RequestParam("id") Long id) {
+		Notice notice = baseService.findById(Notice.class, id);
 		model.addAttribute("notice", notice);
-		model.addAttribute("districts", secopreCahe.getAlldistricts());
+		model.addAttribute("districts", secopreCache.getAlldistricts());
 
 		return SecopreConstans.MV_CAT_NOTICE_ADD;
 	}
-	
-	@RequestMapping(value = "oper/notice/changeStatus", method = { RequestMethod.GET,
-			RequestMethod.POST })
-	public String changeStatus( ModelMap model, RedirectAttributes attributes, @RequestParam("id") Long id,@RequestParam("activo") Boolean activo  ) {
-		Notice noticeEdit = baseService.findById(Notice.class , id);
+
+	@RequestMapping(value = "oper/notice/changeStatus", method = {
+			RequestMethod.GET, RequestMethod.POST })
+	public String changeStatus(ModelMap model, RedirectAttributes attributes,
+			@RequestParam("id") Long id, @RequestParam("activo") Boolean activo) {
+		Notice noticeEdit = baseService.findById(Notice.class, id);
 		noticeEdit.setActivo(activo);
 		baseService.save(noticeEdit);
-		
+
 		Notice notice = new Notice();
 		model.addAttribute("noticeList", baseService.findAll(Notice.class));
 		model.addAttribute("notice", notice);
-		model.addAttribute("districts", secopreCahe.getAlldistricts());
+		model.addAttribute("districts", secopreCache.getAlldistricts());
 
 		return SecopreConstans.MV_CAT_NOTICE_LIST;
 	}
-	
+
 	@RequestMapping(value = "oper/notice/add", method = RequestMethod.POST)
-	public String add(@ModelAttribute("notice") Notice notice,@RequestParam("districts") String district ,ModelMap model) {
+	public String add(@ModelAttribute("notice") Notice notice,
+			@RequestParam("districts") String district, ModelMap model) {
 		try {
-			
-			List<District> distritList  = new ArrayList<District>();
+
+			List<District> distritList = new ArrayList<District>();
 			List<String> items = Arrays.asList(district.split("\\s*,\\s*"));
-			
+
 			for (String distrid : items) {
-				District distr= baseService.findById(District.class, Long.parseLong(distrid));
+				District distr = baseService.findById(District.class,
+						Long.parseLong(distrid));
 				distritList.add(distr);
 				notice.setDistrs(distritList);
 				notice.setActivo(Boolean.TRUE);
-			}	
+			}
 			notice.setActivo(Boolean.TRUE);
 			baseService.save(notice);
 		} catch (Exception e) {
@@ -98,12 +105,12 @@ public class NoticeController extends AuthController {
 		}
 		return SecopreConstans.MV_CAT_NOTICE_LIST;
 	}
-	
+
 	@RequestMapping(value = "oper/notice/delete", method = RequestMethod.POST)
-	public String delete(ModelMap model,  @RequestParam("id") Long id ) {
+	public String delete(ModelMap model, @RequestParam("id") Long id) {
 		try {
-			Notice notice = baseService.findById(Notice.class , id);
-			if (notice!=null){
+			Notice notice = baseService.findById(Notice.class, id);
+			if (notice != null) {
 				baseService.remove(notice);
 			}
 		} catch (Exception e) {
@@ -114,6 +121,12 @@ public class NoticeController extends AuthController {
 		}
 		return SecopreConstans.MV_CAT_NOTICE_LIST;
 	}
-	
-	
+
+	@RequestMapping(value = "oper/notice/getNotice")
+	public @ResponseBody String getNotice(ModelMap modelMap, Principal principal) {
+		User user = secopreCache.getUser(principal.getName());
+		return dashboardService.getNotice(user,
+				secopreCache.getDistrictsByUser(user));
+	}
+
 }

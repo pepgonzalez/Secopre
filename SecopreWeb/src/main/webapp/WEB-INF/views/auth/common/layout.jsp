@@ -78,6 +78,7 @@
 	<link href='<c:url value="/resources/css/secopre.css"/>' rel="stylesheet" type="text/css"/>
 	<link href='<c:url value="/resources/css/plugins/all.css"/>' rel="stylesheet" type="text/css"/>
 	<link href='<c:url value="/resources/css/plugins/tooltipster.css"/>' rel="stylesheet" type="text/css"/>
+	<link href='<c:url value="/resources/css/plugins/bootstrap-dialog.min.css"/>' rel="stylesheet" type="text/css"/>
 	<!-- END PAGE CUSTOM STYLES -->	
 	<link rel="shortcut icon" href='<c:url value="/resources/img/favicon.ico"/>' type="image/vnd.microsoft.icon"/> 
 	
@@ -165,7 +166,7 @@
 	 
 <%--  	<script src='<c:url value="/resources/js/plugins/select2.full.min.js"/>' type="text/javascript"></script>  --%>
 	<script src='<c:url value="/resources/js/plugins/select2.min.js"/>' type="text/javascript"></script>
-	<script src='<c:url value="/resources/js/plugins/app.min.js"/>' type="text/javascript"></script> 
+<%-- 	<script src='<c:url value="/resources/js/plugins/app.min.js"/>' type="text/javascript"></script>  --%>
  	<script src='<c:url value="/resources/js/plugins/components-select2.min.js"/>' type="text/javascript"></script> 
 	<script src='<c:url value="/resources/js/plugins/components-bootstrap-select.min.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/bootstrap-select.min.js"/>' type="text/javascript"></script>
@@ -190,6 +191,7 @@
 	<script src='<c:url value="/resources/js/plugins/jquery.counterup.min.js"/>' type="text/javascript"></script>		
 	<script src='<c:url value="/resources/js/plugins/jquery.waypoints.min.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/jquery.qtip.min.js"/>' type="text/javascript"></script>
+    <script src='<c:url value="/resources/js/plugins/bootstrap-dialog.min.js"/>' type="text/javascript"></script>
 
 	<script src='<c:url value="/resources/js/utils/secopreUtils.js"/>' type="text/javascript"></script>	
 	<script src='<c:url value="/resources/js/utils/secopre.js"/>' type="text/javascript"></script>
@@ -211,16 +213,27 @@
 				
 		   Metronic.init(); // init metronic core componets
 		   Layout.init(); // init layout
-// 		   Demo.init(); // init demo features
 		   UIBlockUI.init(); //block ui
 		   QuickSidebar.init(); // init quick sidebar
 		   Index.init(); // init index page
 		   Tasks.initDashboardWidget(); // init tash dashboard widget  
-		   //MapsGoogle.init();		
- 		   //ComponentsSelect2.init();
-		  // ComponentsBootstrapSelect.init();
- 		  // App.init();
 
+	         $.getJSON("oper/notice/getNotice",{}, function(j){
+	              var json = eval(j);
+				  if(json != '' || json != 'undefined'){
+		              BootstrapDialog.show({
+		            		title: 'Notificaciones Secopre',
+		            	    message: json,
+		            	    buttons: [{
+		            	   		label: 'Cerrar',
+		            	        action: function(dialog) {
+		            	        	dialog.close();
+		            	        }
+		            	    }]
+		            	});
+				  }	
+	            });
+		   
 		});
 	</script>
 	<!-- END JAVASCRIPTS -->

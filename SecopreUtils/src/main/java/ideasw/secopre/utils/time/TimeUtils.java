@@ -24,8 +24,8 @@ public class TimeUtils {
 	public static final SimpleDateFormat customnCompleteDateFormat = new SimpleDateFormat(
 			CUSTOM_COMPLETE_DATE_FORMAT);
 	public static final String DB2_DATE_FORMAT = "yyyyMMdd";
-	public static final SimpleDateFormat db2DateFormat = new SimpleDateFormat(
-			DB2_DATE_FORMAT);
+	public static final SimpleDateFormat defaultDateFormat = new SimpleDateFormat(
+			DEFAULT_DATE_FORMAT);
 
 	/**
 	 * Retorna un objeto de tipo fecha dado un valor string y un formateador

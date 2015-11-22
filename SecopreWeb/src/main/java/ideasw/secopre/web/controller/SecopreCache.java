@@ -121,12 +121,15 @@ public class SecopreCache {
 	}
 
 	public List<District> getDistrictsByUser(String username) {
+
+		return getDistrictsByUser(getUser(username), true);
+
+	}
+
+	public User getUser(String username) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("username", username);
-
-		return getDistrictsByUser(
-				baseService.findByProperties(User.class, params).get(0), true);
-
+		return baseService.findByProperties(User.class, params).get(0);
 	}
 
 	public Map<Long, String> getValidDistrictsMap() {
