@@ -536,7 +536,7 @@
 				
 				<prop key="GET_PERMISSION_LIST_BY_ROLE">
 					<![CDATA[
-							SELECT p.ID PERMISSION_ID, P.NAME NAME
+							SELECT p.ID PERMISSION_ID, p.NAME NAME
 							  FROM ROLE_PERMISSION rp, 
 							       PERMISSION p
 							 WHERE rp.permission_id = p.id

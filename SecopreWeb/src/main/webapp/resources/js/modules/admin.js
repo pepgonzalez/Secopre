@@ -781,7 +781,7 @@ function initPage(page) {
 
 function showList(page){
 		$('#add_' + page).hide();
-		$('#list_' + page).show();
+		$('#list_' + page).show();		
 }
 
 function initRoleValidations() {
