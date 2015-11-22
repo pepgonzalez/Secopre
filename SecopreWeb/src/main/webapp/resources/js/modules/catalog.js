@@ -83,8 +83,8 @@ function initMenuCat(idMenu) {
 	initPage('Menu');
 	initMenuValidations();
 	$('.selectpicker').selectpicker({
-	      style: 'btn-info',
-	      size: 12
+	      style: 'btn-default',
+	      size: 16
 	  });
     $('select').select2();
 	 $('#rols').multiSelect({
