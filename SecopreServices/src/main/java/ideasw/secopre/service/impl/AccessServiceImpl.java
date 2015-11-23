@@ -74,17 +74,26 @@ public class AccessServiceImpl implements AccessService {
 	}
 
 	private List<RenderSingleMenu> buildMenu(List<Menu> orderMenus) {
+		// Se ordenan los menus en base al paretnt
+		
 		RenderSingleMenu singleMenu = null;
 		List<RenderSingleMenu> buildMenus = new ArrayList<RenderSingleMenu>(0);
+		List<Long> procesed = new ArrayList<Long>();
 		for (Menu menu : orderMenus) {
-			// Solo se evaluan menus que no sean childs
-			if (menu.getParentId() != null && menu.getParentId().intValue() > 0) {
-				continue;
+
+			if (menu.getParentId() != null && menu.getParentId().intValue() > 0) {		
+				if(procesed.contains(menu.getParentId())){
+					continue;
+				}
+				Menu parent  = jpaDao.findById(Menu.class, menu.getParentId());
+				singleMenu = new RenderSingleMenu();
+				singleMenu.setParent(parent);
+				singleMenu.setChilds(getChilds(orderMenus, parent));
+				buildMenus.add(singleMenu);
+				procesed.add(parent.getId());
+				
 			}
-			singleMenu = new RenderSingleMenu();
-			singleMenu.setParent(menu);
-			singleMenu.setChilds(getChilds(orderMenus, menu));
-			buildMenus.add(singleMenu);
+			
 		}
 
 		return buildMenus;
