@@ -5,6 +5,7 @@
 		<Arg>
 			<New class="com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource">
 				<Set name="Url">jdbc:mysql://189.210.196.197:3306/secopre</Set>
+<!-- 				<Set name="Url">jdbc:mysql://localhost:3306/secopre</Set> -->
 				<Set name="User">secopre</Set>
 				<Set name="Password">secopre</Set>
 			</New>
@@ -15,6 +16,7 @@
 		<Arg>
 			<New class="com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource">
 				<Set name="Url">jdbc:mysql://189.210.196.197:3306/tsadbitntst</Set>
+<!-- 			<Set name="Url">jdbc:mysql://localhost:3306/tsadbitntst</Set> -->
 				<Set name="User">historico</Set>
 				<Set name="Password">historico</Set>
 			</New>

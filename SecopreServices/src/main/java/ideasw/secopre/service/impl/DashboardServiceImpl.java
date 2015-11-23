@@ -2,10 +2,12 @@ package ideasw.secopre.service.impl;
 
 import ideasw.secopre.model.Dashboard;
 import ideasw.secopre.model.Indicator;
+import ideasw.secopre.model.Notice;
 import ideasw.secopre.model.catalog.District;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.BaseService;
 import ideasw.secopre.service.DashboardService;
+import ideasw.secopre.service.impl.mapper.NoticeMapper;
 import ideasw.secopre.utils.time.TimeUtils;
 
 import java.util.ArrayList;
@@ -13,7 +15,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Service;
@@ -77,38 +78,41 @@ public class DashboardServiceImpl extends AccessNativeServiceBaseImpl implements
 
 		// Busca primero una aviso por el alguno de los distritos.
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("SELECT N.NOTICE ");
+		buffer.append("SELECT N.NOTICE AS NOTICE ");
 		buffer.append("FROM secopre.NOTICE N ");
 		buffer.append("INNER JOIN secopre.NOTICE_DISTRICT ND ");
 		buffer.append("ON N.ID = ND.NOTICE_ID ");
 		buffer.append("WHERE ND.DISTRICT_ID IN ( :districts ) ");
-		buffer.append("AND DISPLAY_DATE = :displayDate ");
+		buffer.append("AND DISPLAY_DATE = DATE(:displayDate) ");
 		buffer.append("AND ACTIVE = 1 ");
 		buffer.append("ORDER BY N.REGISTER_DATE ");
-		buffer.append("LIMIT 1");
 
 		params.addValue("displayDate",TimeUtils.defaultDateFormat.format(new Date()));
 		params.addValue("districts", Arrays.asList(list));
 
-		String notice = this.queryForObject(String.class, buffer.toString(),
-				params);
 
-		if (!StringUtils.isEmpty(notice)) {
-			return notice;
+		List<Notice> notices = this.queryForList(Notice.class, buffer.toString(), params, new NoticeMapper());
+
+		if (notices != null && !notices.isEmpty() ) {
+			return notices.get(0).getNoticeInfo();
 		}
+	
 		params = new MapSqlParameterSource();
 		// En caso que no exista algun aviso busca uno general;
 		buffer = new StringBuffer();
-		buffer.append("SELECT N.NOTICE ");
+		buffer.append("SELECT N.NOTICE AS NOTICE ");
 		buffer.append("FROM secopre.NOTICE N ");
-		buffer.append("WHERE N.DISPLAY_DATE = :displayDate ");
-		buffer.append("AND N.ID NOT IN (SELECT ND.NOTICE_ID FROM NOTICE_DISTRICT ND)");
+		buffer.append("WHERE N.DISPLAY_DATE = DATE(:displayDate) ");
+		buffer.append("AND N.ID NOT IN (SELECT ND.NOTICE_ID FROM secopre.NOTICE_DISTRICT ND) ");
 		buffer.append("AND N.ACTIVE = 1 ");
-		buffer.append("LIMIT 1");
 
 		params.addValue("displayDate",TimeUtils.defaultDateFormat.format(new Date()));
-		notice = this.queryForObject(String.class, buffer.toString(), params);
+		notices = this.queryForList(Notice.class, buffer.toString(), params, new NoticeMapper());
 
-		return notice;
+		if (notices != null && !notices.isEmpty() ) {
+			return notices.get(0).getNoticeInfo();
+		}
+
+		return null;
 	}
 }

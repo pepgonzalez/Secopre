@@ -3,7 +3,9 @@ package ideasw.secopre.utils.time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
+import org.joda.time.Interval;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -74,4 +76,16 @@ public class TimeUtils {
 		return getDate(value, DEFAULT_DATE_FORMAT);
 	}
 
+	public static boolean isOverlaps(Interval intervalToValidate,
+			List<Interval> intervals) {
+
+		boolean isOverlaps = false;
+		for (Interval interval : intervals) {
+			if (intervalToValidate.overlaps(interval)) {
+				isOverlaps = true;
+				return isOverlaps;
+			}
+		}
+		return isOverlaps;
+	}
 }

@@ -186,6 +186,7 @@
 	<script src='<c:url value="/resources/js/plugins/jquery.waypoints.min.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/jquery.qtip.min.js"/>' type="text/javascript"></script>
     <script src='<c:url value="/resources/js/plugins/bootstrap-dialog.min.js"/>' type="text/javascript"></script>
+    <script src='<c:url value="/resources/js/plugins/ui-modals.min.js"/>' type="text/javascript"></script>
 
 	<script src='<c:url value="/resources/js/utils/secopreUtils.js"/>' type="text/javascript"></script>	
 	<script src='<c:url value="/resources/js/utils/secopre.js"/>' type="text/javascript"></script>
@@ -200,8 +201,7 @@
 	<!-- scripts para modulo de chat -->
 	<script src="http://189.210.196.197:3000/socket.io/socket.io.js" type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/utils/secopreChatModule.js"/>' type="text/javascript"></script>
-	
-	
+
 	<script>
 		jQuery(document).ready(function() {
 				
@@ -214,14 +214,23 @@
 
 	         $.getJSON("oper/notice/getNotice",{}, function(j){
 	              var json = eval(j);
-				  if(json != '' || json != 'undefined'){
+	              blockPage();
+	              console.log("NOTICE ===>", json);
+				  if(json !== '' || json != 'undefined' || json != null){
+					  unblockPage();
 		              BootstrapDialog.show({
 		            		title: 'Notificaciones Secopre',
 		            	    message: json,
+		            	    size: BootstrapDialog.SIZE_WIDE,
+		            	    draggable: true,
 		            	    buttons: [{
-		            	   		label: 'Cerrar',
-		            	        action: function(dialog) {
-		            	        	dialog.close();
+		            	        id: 'btn-ok',   
+		            	        icon: 'glyphicon glyphicon-check',       
+		            	        label: 'Cerrar',
+		            	        cssClass: 'btn-primary', 
+		            	        autospin: false,
+		            	        action: function(dialogRef){    
+		            	            dialogRef.close();
 		            	        }
 		            	    }]
 		            	});
