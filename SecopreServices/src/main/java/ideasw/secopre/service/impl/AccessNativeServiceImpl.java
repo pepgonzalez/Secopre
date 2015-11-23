@@ -1,6 +1,7 @@
 package ideasw.secopre.service.impl;
 
 import ideasw.secopre.constants.PropertyConstants;
+import ideasw.secopre.constants.WorkflowConstants;
 import ideasw.secopre.dto.Authorization;
 import ideasw.secopre.dto.Formality;
 import ideasw.secopre.dto.Inbox;
@@ -109,7 +110,7 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		Formality formality = this.getFormalityById(request.getFormalityId());
 		this.insertRequestConfig(request.getRequestId(), formality);
 		
-		this.invokeNextStage(request.getRequestId(), WorkFlowCode.SOLCOMP.name() , -1L,  userId, request.getComments());
+		this.invokeNextStage(request.getRequestId(), WorkFlowCode.SOLCOMP.name() , -1L,  userId, request.getComments(), 0);
 		
 		return request.getRequestId();
 	}
@@ -134,7 +135,7 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	
 	
 	public void invokeNextStage(Request request, Long userId){
-		this.invokeNextStage(request.getRequestId(), request.getNextStageValueCode(), request.getStageConfigId(), userId, request.getComments());
+		this.invokeNextStage(request.getRequestId(), request.getNextStageValueCode(), request.getStageConfigId(), userId, request.getComments(), 0);
 	}
 	
 	public int updateRequestUploadedFile(Long requestId, String uploadedFilePath){
@@ -148,7 +149,7 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	/*
 	 * Proceso para avanzar un tramite de etapa
 	 * */
-	private void invokeNextStage(Long requestId, String valueCode, Long stageConfigId,  Long userId, String comments){
+	private void invokeNextStage(Long requestId, String valueCode, Long stageConfigId,  Long userId, String comments, int isAutomatic){
 			
 		int consecutive = this.getNextConsecutive(requestId);
 	
@@ -160,9 +161,45 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 			LOG.info("Insertando consecutivo de etapa: " + consecutive);
 			WorkFlowConfig transition = this.getRequestWorkFlowConfig(requestId, valueCode, stageConfigId).get(0);
 			
+			//se obtiene la etapa actual
+			StageConfig currentStage = this.getStageConfigById(stageConfigId);
+			LOG.info("Etapa actual: " + currentStage);
+			
 			//validar si la siguiente etapa es operacion o cancelacion del tramite
 			StageConfig next = this.getStageConfigById(transition.getNextStageConfig());
 			LOG.info("Siguiente etapa:" + next);
+			
+			
+			//si la siguiente etapa es autorizacion y no es salto automatico, logica para identificar siguiente etapa
+			if (next.getIsAuthorization() && isAutomatic == 0 &&  !(currentStage.getIsAuthorization())){
+				LOG.info("siguiente etapa es etapa de autorizacion, validando privilegios del usuario");
+				//se valida si el usuario tiene el superRol de autorizacion configurado en el tramite
+				RequestConfig requestConfig = this.getRequestConfigById(requestId);
+				
+				RequestConfig config = this.getRequestConfigById(requestId);
+				Formality formality = this.getFormalityById(config.getFormalityId());
+				
+				int isSuperUser = this.isAuthorizationSuperUser(formality.getAuthorizationId(), userId);
+				LOG.info("Es usuario super usuario de configuracion: " + isSuperUser);
+				if (isSuperUser > 0){
+					LOG.info("Finalizando captura y operando movimiento");
+					invokeNextStage(requestId, WorkflowConstants.SUPER_ROLE_AUTHORIZATION, stageConfigId, userId, comments, 1);
+					return;
+				}
+				
+				//si no es super user, pregunto por el employment
+				String automaticAuthorizationCode = getAutomaticAuthorization(config.getAuthorizationId(), userId);
+				if(automaticAuthorizationCode.equals(WorkflowConstants.WF_NOT_AUTOMATIC_AUTHORIZATION)){
+					LOG.info("usuario no tiene privilegios de autorizacion automatica");
+				}else{
+					LOG.info("Autorizacion automatica por etapa: " + automaticAuthorizationCode);
+					invokeNextStage(requestId, automaticAuthorizationCode, stageConfigId, userId, comments, 1);
+					return;
+				}
+			}else{
+				LOG.info("omitiendo validacion de autorizaciones automaticas");
+			}
+			
 			
 			//si es etapa de cancelacion, se da rollback a los movimientos a la baja
 			if(next.getIsCanceled()){
@@ -182,6 +219,13 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 			this.inactivateActiveStage(requestId);
 			this.insertTransition(requestId, transition, consecutive, userId, comments);
 		}
+	}
+	
+	private String getAutomaticAuthorization(Long authorizationId, Long userId){
+		SqlParameterSource params = new MapSqlParameterSource()
+				.addValue("authorizationId", authorizationId)
+				.addValue("userId", userId);
+		return this.queryForObject(String.class, queryContainer.getSQL(SQLConstants.GET_AUTOMATIC_AUTHORIZATION), params);
 	}
 	
 	

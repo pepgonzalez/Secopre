@@ -67,4 +67,7 @@ public class SQLConstants {
 	//para trabajar con las properties
 	public static final String GET_PROPERTY_BY_CODE = "GET_PROPERTY_BY_CODE";
 	
+	//authorizaciones automaticas
+	public static final String GET_AUTOMATIC_AUTHORIZATION = "GET_AUTOMATIC_AUTHORIZATION";
+	
 }

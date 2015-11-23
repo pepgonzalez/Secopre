@@ -317,11 +317,11 @@
 					<![CDATA[
 					SELECT COUNT(*) AS CAN_AUTHORIZE 
 					  FROM secopre.AUTHORIZATION_CONFIG AC,
-					  	   secopre.REL_USER_EMPLOYMENT RUE
+					  	   secopre.USER U
 					 WHERE AC.AUTHORIZATION_ID = :authorizationId
 					   AND AC.STAGE_CONFIG_ID = :stageConfigId
-					   AND AC.EMPLOYMENT_ID = RUE.EMPLOYMENT_ID
-					   AND RUE.USER_ID = :userId		
+					   AND AC.POSITION_ID = U.POSITION_ID
+					   AND U.ID = :userId	
 					]]>
 				</prop>
 				
@@ -817,6 +817,20 @@
 						    AND DIST.ID = DU.DISTRICT_ID						-- JOIN DISTRICT USER CON DISTRITO
 						    AND DIST.STATE_ID = STATE.ID						-- JOIN DISTRICT CON STATE
 						    ORDER BY RH.LAST_UPDATE DESC
+					]]>
+				</prop>
+				
+				<prop key="GET_AUTOMATIC_AUTHORIZATION">
+					<![CDATA[
+						SELECT IFNULL(T.AUTH_AUT_CODE, 'NA') AUTH_STAGE FROM
+								(
+								SELECT MAX(LEVEL), AUTH_AUT_CODE
+								  FROM secopre.AUTHORIZATION_CONFIG AC,
+								  	   secopre.USER U
+								 WHERE AC.AUTHORIZATION_ID = :authorizationId
+								   AND AC.POSITION_ID = U.POSITION_ID
+								   AND U.ID = :userId
+								) T
 					]]>
 				</prop>
 				
