@@ -2,7 +2,6 @@ package ideasw.secopre.model.security;
 
 import ideasw.secopre.model.base.Persistible;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -40,10 +39,7 @@ public class Permission implements Persistible {
 	@Column(name = "NAME", unique = true)
 	@Size(max = 50)
 	private String name;	
-	
-//	@ManyToOne(cascade = CascadeType.MERGE)
-//	private Path path;
-	
+		
 	@ManyToOne
 	@PrimaryKeyJoinColumn(name = "PATH_ID", referencedColumnName = "ID")
 	private Path path;

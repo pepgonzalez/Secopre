@@ -1,16 +1,15 @@
 package ideasw.secopre.web.controller.admin;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import ideasw.secopre.model.security.Menu;
 import ideasw.secopre.model.security.Path;
 import ideasw.secopre.model.security.Role;
 import ideasw.secopre.service.AccessNativeService;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -114,15 +113,7 @@ public class MenuController extends AuthController {
 			   menu = menuEdit;
 			}
 			
-			List<Role> roleList  = new ArrayList<Role>();
-			List<String> items = Arrays.asList(role.split("\\s*,\\s*"));
-			
-			for (String rolid : items) {
-				Role rol= baseService.findById(Role.class, Long.parseLong(rolid));
-				roleList.add(rol);	
-			}
-			
-			menu.setRoles(roleList);
+
 			baseService.save(menu);
 			path.setId(pathid);
 			path.setMenu(menu);
