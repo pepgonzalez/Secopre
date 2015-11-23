@@ -1,6 +1,7 @@
 package ideasw.secopre.web.controller.config;
 
 import ideasw.secopre.model.DueDate;
+import ideasw.secopre.model.catalog.District;
 import ideasw.secopre.utils.time.TimeUtils;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
@@ -15,9 +16,11 @@ import org.joda.time.Interval;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -50,6 +53,9 @@ public class DueDateController extends AuthController {
 	public String add(@ModelAttribute("dueDate") DueDate dueDate, ModelMap model) {
 		try {
 			dueDate.setActivo(Boolean.TRUE);
+			
+			
+			
 			baseService.save(dueDate);
 		} catch (Exception e) {
 			model.addAttribute(
@@ -139,4 +145,27 @@ public class DueDateController extends AuthController {
 
 		return isValid;
 	}
+	
+	@RequestMapping(value = "param/dueDate/isDueDateValid", method= {RequestMethod.GET})
+	public @ResponseBody Map<String, Object> isDueDateValid(@RequestParam("dueDateStr") String dueDateStr, @RequestParam("maxBlockDateStr") String maxBlockDateStr ){
+		Map<String, Object> returnObject = new HashMap<String, Object>();
+        DueDate dueDate = new DueDate();
+        dueDate.setDueDateStr(dueDateStr);
+        dueDate.setMaxBlockDateStr(maxBlockDateStr);
+        
+		Boolean isValid = isValidDueDate(dueDate);
+	    String result = null;
+		
+	    if (isValid) 
+	    {result="1";}
+	    else
+	    {result="0";}
+	    
+		returnObject.put("result", result);
+		return returnObject;
+	}
+	
+	
+	
+
 }

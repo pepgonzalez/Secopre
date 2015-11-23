@@ -15,6 +15,7 @@ function initDueDateList() {
 	sendRequestJQ('auth/param/dueDate/list', 'dashboard', 'initDueDateCat()');
 }
 
+
 function initPositionCat() {
 	initPage('Position');
 	initPositionValidations();
@@ -82,10 +83,10 @@ function initPositionList() {
 function initMenuCat(idMenu) {
 	initPage('Menu');
 	initMenuValidations();
-	$('.selectpicker').selectpicker({
-	      style: 'btn-default',
-	      size: 16
-	  });
+//	$('.selectpicker').selectpicker({
+//	      style: 'btn-default',
+//	      size: 16
+//	  });
     $('select').select2();
 //	 $('#rols').multiSelect({
 //			 includeSelectAllOption: true
@@ -179,7 +180,8 @@ function initDueDateValidations() {
 		rules : {
 			maxBlockDateStr : {
 				required : true,
-				australianDate : true
+				australianDate : true,
+				rangeDate : true
 			},
 			dueDateStr : {
 				required : true,
@@ -188,7 +190,8 @@ function initDueDateValidations() {
 		},
 		messages : {
 			maxBlockDateStr : {
-				australianDate : "El formato de fecha es de dd/mm/yyyy"
+				australianDate : "El formato de fecha es de dd/mm/yyyy",
+				rangeDate : "Fechas no validas. Rango de fechas ya existe"
 			},
 			dueDateStr : {
 				australianDate : "El formato de fecha es de dd/mm/yyyy"
@@ -242,6 +245,49 @@ function initDueDateValidations() {
 			form[0].submit(); // submit the form
 		}
 	});
+	
+	
+	var validator;
+
+
+	var apiCallUnblock = function(actionURL, callback) {
+		var method = method || "POST";
+		var header = $("meta[name='_csrf_header']").attr("content");
+		var token = $("meta[name='_csrf']").attr("content");
+		$.ajax({
+			url : context + '/' + actionURL,
+			beforeSend : function(xhr) {
+				xhr.setRequestHeader(header, token);
+			},
+			success : function(data) {
+				callback(data);
+				
+			}
+		});
+	};
+
+	$.validator.addMethod(
+		    "rangeDate",
+		    function(value, element) {
+		    	var dueDateStr = $('#dueDateStr').val();
+		    	var maxBlockDateStr = $('#maxBlockDateStr').val();
+		    	if (dueDateStr != "" && maxBlockDateStr != "")
+		    	{
+		    	apiCallUnblock("auth/param/dueDate/isDueDateValid?dueDateStr=" + dueDateStr + "&maxBlockDateStr=" + maxBlockDateStr, function(data){
+					
+					result=data.result;
+					if (result==0){
+						validator = true;
+		    		}else{
+		    			validator = false;
+		    		}	
+		    	});
+		    	}
+		    if (validator == undefined)	
+		    	{validator=true}
+		    
+		    return validator;	
+		    });
 	
 	$.validator.addMethod(
 		    "australianDate",
