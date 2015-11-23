@@ -2737,7 +2737,7 @@ function initUserPage(idUser) {
 	$('#roles').multiSelect({
 		 includeSelectAllOption: true
 	});
-	$('#districts').multiSelect({
+	$('#distrs').multiSelect({
 		 includeSelectAllOption: true
 	});
 

@@ -29,7 +29,7 @@
 												</a>
 											</li>
 											<li>
-												<a href="#tab3" data-toggle="tab" class="step">
+												<a href="#tab2" data-toggle="tab" class="step">
 												<span class="number">
 												2 </span>
 												<span class="desc">
@@ -84,27 +84,43 @@
 														</div>
 													</div>
 													
-												<div class="form-group form-md-line-input has-danger">
-                                                <label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.menu.cssClass"/>
-                                                </label>
-                                                <div class="col-md-10">
-                                                    <div class="input-icon">
-                                                    <select  id="cssClass" name="cssClass" class="selectpicker">
-                                                        <option value="icon-settings" data-icon="glyphicon glyphicon-hand-right">   Seleccione..</option>
-                                                        <option value="glyphicon glyphicon-print" data-icon="glyphicon glyphicon-print">glyphicon-print</option>
-                                                        <option value="glyphicon glyphicon-user" data-icon="glyphicon glyphicon-user">glyphicon-user</option>
-                                                        <option value="glyphicon glyphicon-cog" data-icon="glyphicon glyphicon-cog">glyphicon-cog</option>
-                                                        <option value="glyphicon glyphicon-calendar" data-icon="glyphicon glyphicon-calendar">glyphicon-calendar</option>
-                                                        <option value="glyphicon glyphicon-usd" data-icon="glyphicon glyphicon-usd">glyphicon-usd</option>
-                                                        <option value="glyphicon glyphicon-stats" data-icon="glyphicon glyphicon-stats" >glyphicon glyphicon-pdf</option>
-                                                        
-                                                    </select>
-                                                    	<div class="form-control-focus">
+													
+													<div class="form-group form-md-line-input has-danger">
+														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.menu.cssClass"/>
+														<span class="required">* </span>
+														</label>
+														<div class="col-md-10">
+															<div class="input-icon">
+																<input name="cssClass"  id="cssClass" type="text" value="${menu.cssClass}" class="form-control" placeholder='<spring:message code="application.pages.admin.menu.cssClass.placeholder"/>'>
+																<div class="form-control-focus">
 																</div>
-																<span id=cssClass-error class="help-block help-block-error"><spring:message code="application.pages.admin.menu.cssClass.help"/></span>
+																<span id=description-error class="help-block help-block-error"><spring:message code="application.pages.admin.menu.cssClass.help"/></span>
+																<i class="icon-user"></i>
 															</div>
-                                                </div>
-                                                 </div>
+														</div>
+													</div>			
+													
+<!-- 												<div class="form-group form-md-line-input has-danger"> -->
+<%--                                                 <label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.menu.cssClass"/> --%>
+<!--                                                 </label> -->
+<!--                                                 <div class="col-md-10"> -->
+<!--                                                     <div class="input-icon"> -->
+<!--                                                     <select  id="cssClass" name="cssClass" class="selectpicker"> -->
+<!--                                                         <option value="icon-settings" data-icon="glyphicon glyphicon-hand-right">   Seleccione..</option> -->
+<!--                                                         <option value="glyphicon glyphicon-print" data-icon="glyphicon glyphicon-print">glyphicon-print</option> -->
+<!--                                                         <option value="glyphicon glyphicon-user" data-icon="glyphicon glyphicon-user">glyphicon-user</option> -->
+<!--                                                         <option value="glyphicon glyphicon-cog" data-icon="glyphicon glyphicon-cog">glyphicon-cog</option> -->
+<!--                                                         <option value="glyphicon glyphicon-calendar" data-icon="glyphicon glyphicon-calendar">glyphicon-calendar</option> -->
+<!--                                                         <option value="glyphicon glyphicon-usd" data-icon="glyphicon glyphicon-usd">glyphicon-usd</option> -->
+<!--                                                         <option value="glyphicon glyphicon-stats" data-icon="glyphicon glyphicon-stats" >glyphicon glyphicon-pdf</option> -->
+                                                        
+<!--                                                     </select> -->
+<!--                                                     	<div class="form-control-focus"> -->
+<!-- 																</div> -->
+<%-- 																<span id=cssClass-error class="help-block help-block-error"><spring:message code="application.pages.admin.menu.cssClass.help"/></span> --%>
+<!-- 															</div> -->
+<!--                                                 </div> -->
+<!--                                                  </div> -->
 
 													<div class="form-group form-md-line-input has-danger">
 														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.menu.jsFunction"/>
@@ -232,14 +248,14 @@
 										           </div>
 									            </div>	
 									            
-									            <div class="form-group">
-										           <label class="control-label col-md-3"><spring:message
-													  code="application.pages.admin.menu.order" />
-											       </label>
-										           <div class="col-md-4">
-											         <p class="form-control-static" data-display="order"></p>
-										           </div>
-									            </div>			
+<!-- 									            <div class="form-group"> -->
+<%-- 										           <label class="control-label col-md-3"><spring:message --%>
+<%-- 													  code="application.pages.admin.menu.order" /> --%>
+<!-- 											       </label> -->
+<!-- 										           <div class="col-md-4"> -->
+<!-- 											         <p class="form-control-static" data-display="order"></p> -->
+<!-- 										           </div> -->
+<!-- 									            </div>			 -->
 									            
 									            <div class="form-group">
 										           <label class="control-label col-md-3"><spring:message
