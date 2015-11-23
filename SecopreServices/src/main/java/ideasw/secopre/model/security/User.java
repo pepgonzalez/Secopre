@@ -24,7 +24,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
@@ -89,23 +88,16 @@ public class User implements Persistible, UserDetails {
 	private Dashboard dashboard;
 
 	@ManyToOne
-	@PrimaryKeyJoinColumn(name = "PERSON_ID", referencedColumnName = "ID")
+	@JoinColumn(name = "PERSON_ID") 
 	private Person person;
 
 	@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
 	@ManyToOne
-	@PrimaryKeyJoinColumn(name = "POSITION_ID", referencedColumnName = "ID")
+	@JoinColumn(name = "POSITION_ID") 
 	private Position position;
-
+	
+	@Column(name = "INFORMATION")
 	private String information;
-
-	public String getAvatar() {
-		return avatar == null ? "avatar.png" : avatar;
-	}
-
-	public void setAvatar(String avatar) {
-		this.avatar = avatar;
-	}
 
 	// bi-directional many-to-one association to Userrole
 	@NotAudited
@@ -375,6 +367,14 @@ public class User implements Persistible, UserDetails {
 
 	public void setDistricts(List<District> districts) {
 		this.districts = districts;
+	}
+
+	public String getAvatar() {
+		return avatar == null ? "avatar.png" : avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
 	}
 
 }

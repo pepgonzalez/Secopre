@@ -1,6 +1,7 @@
 package ideasw.secopre.web.controller.admin;
 import ideasw.secopre.model.security.Menu;
 import ideasw.secopre.model.security.Path;
+import ideasw.secopre.model.security.Permission;
 import ideasw.secopre.model.security.Role;
 import ideasw.secopre.service.AccessNativeService;
 import ideasw.secopre.web.SecopreConstans;
@@ -57,10 +58,7 @@ public class MenuController extends AuthController {
 			parentMap.put(p.getId(),p.getName() );
 		}
 		model.addAttribute("parents", parentMap);
-		
-		model.addAttribute("rols", baseService.findAll(Role.class));
-		
-		
+				
 		return SecopreConstans.MV_ADM_MENU;
 	}
 	
@@ -86,13 +84,11 @@ public class MenuController extends AuthController {
 			model.addAttribute("path", path);
 		}
 		
-		model.addAttribute("rols", baseService.findAll(Role.class));
-		
 		return SecopreConstans.MV_ADM_MENU_ADD;
 	}
 	
 	@RequestMapping(value = "adm/menu/add", method = RequestMethod.POST)
-	public String add(@ModelAttribute("menu") Menu menu,@ModelAttribute("path") Path path, @RequestParam("pathid") Long pathid,@RequestParam("rols") String role, ModelMap model,  @RequestParam("id") Long id ) {
+	public String add(@ModelAttribute("menu") Menu menu,@ModelAttribute("path") Path path, @RequestParam("pathid") Long pathid, ModelMap model,  @RequestParam("id") Long id ) {
 		try {
 			
 			
@@ -113,12 +109,22 @@ public class MenuController extends AuthController {
 			   menu = menuEdit;
 			}
 			
-
+			//Se Crea el menu
 			baseService.save(menu);
+			//Se crea el path asociado al menu
 			path.setId(pathid);
 			path.setMenu(menu);
 			baseService.save(path);
 			
+			path = baseService.getReference(Path.class, pathid);
+			//Se crea un permisio asociado a ese Path
+			
+			Permission permission = new Permission();
+			permission.setPath(path);
+			permission.setName("MENU_"+menu.getName());
+			permission.setActive(Boolean.TRUE);
+			
+			baseService.save(permission);
 		} catch (Exception e) {
 			e.getStackTrace();
 			e.printStackTrace();
