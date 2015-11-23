@@ -92,7 +92,7 @@ public class MenuController extends AuthController {
 	}
 	
 	@RequestMapping(value = "adm/menu/add", method = RequestMethod.POST)
-	public String add(@ModelAttribute("menu") Menu menu,@ModelAttribute("path") Path path, @RequestParam("pathid") Long pathid,@RequestParam("rols") String role, ModelMap model,  @RequestParam("id") Long id ) {
+	public String add(@ModelAttribute("menu") Menu menu,@ModelAttribute("path") Path path, @RequestParam("pathid") Long pathid, ModelMap model,  @RequestParam("id") Long id ) {
 		try {
 			
 			

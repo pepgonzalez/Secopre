@@ -221,7 +221,7 @@
 								<div class="tab-pane" id="tab3">
 									<h3 class="block">Seleccione los Distritos</h3>
 									<div class="form-group">
-										<label class="control-label col-md-3">Distrito<span
+										<label class="control-label col-md-3">Distritos<span
 											class="required"> * </span>
 										</label>
 										<div class="col-md-4">
@@ -285,6 +285,14 @@
 											<p class="form-control-static" data-display="roles"></p>
 										</div>
 									</div>
+									
+									<h4 class="form-section">Distritos </h4>
+									<div class="form-group">
+										<label class="control-label col-md-3">Distritos:</label>
+										<div class="col-md-4">
+											<p class="form-control-static" data-display="distrs"></p>
+										</div>
+									</div>
 <!-- 									<h4 class="form-section">Permisos</h4> -->
 <!-- 									<div class="form-group"> -->
 <!-- 										<label class="control-label col-md-3">Permisos:</label> -->
@@ -299,7 +307,7 @@
 							<div class="row">
 								<div class="col-md-offset-3 col-md-9">									
 										      <c:choose>
-											     <c:when test="${notice.id!=null}">
+											     <c:when test="${user.id!=null}">
 											        <a href="javascript:initUserList();" class="btn red" >
 													   <spring:message code="application.cancel"/> <i class="fa fa-times"></i>
 													   </a>  

@@ -177,6 +177,8 @@ public class UserController extends AuthController {
 				}
 
 			}
+			
+			return SecopreConstans.MV_ADM_USR_LIST;
 
 		} catch (Exception e) {
 			model.addAttribute(
