@@ -1807,7 +1807,9 @@ function initTramiteListPage() {
 	
 	var canEdit = $(document).find("#canCaptureValue").val();	
 	if(canEdit == "false"){
+		console.log("usuario no puede capturar iniciando tooltip");
 		$(document).find(".canCaptureButton").each(function(){
+			console.log("seteando tooltip");
 			$(this).qtip({
 				 content: {
 					 text: $(this).next(".tooltip-popup")
@@ -1825,6 +1827,8 @@ function initTramiteListPage() {
 			     }
 			});
 		});
+	}else{
+		console.log("usuario puede capturar");
 	}
 	
 	var formalityDatatable = $('#formalityList').DataTable({
@@ -1846,6 +1850,7 @@ function initTramiteListPage() {
 	$(document).find(".dataTables_filter").hide();
 	
 	//tooltip
+	console.log("iniciando tooltip de elementos en lista");
 	$(document).find(".tooltip-control").each(function(){
 		$(this).qtip({
 			 content: {
@@ -3821,28 +3826,6 @@ function initPersonValidations() {
 	});
 }
 
-function initTramiteListPage() {
-	var formalityDatatable = $('#formalityList').DataTable({
-        "language": {
-            "lengthMenu": "_MENU_ Registros por pagina",
-            "zeroRecords": "No existen registros",
-            "info": "Mostrando pagina _PAGE_ de _PAGES_",
-            "infoEmpty": "No hay registros disponibles",
-            "infoFiltered": "(filtered from _MAX_ total records)"
-        },
-        bFilter: true, bInfo: true, bLengthChange:false, ordering:false
-    });
-	
-	// Filtro de datatable por fecha
-	$(document).find('#formalityDateSearch').on( 'keyup', function () {
-		formalityDatatable.columns( 6 ).search( this.value ).draw();
-	});
-	
-	$(document).find(".dataTables_filter").hide();
-	
-	updateMenu("#formalityMenu");
-}
-
 function initEntryDistrictCat() {
 	alert("iniciando catalogo de partidas por distrito");
 	var formalityDatatable = $("#entryDistrictList").DataTable({
@@ -4110,3 +4093,6 @@ function showDueDates(){
 	});
 }
 
+function noAction(){
+	console.log("Window js content embed in jsp");
+}

@@ -186,16 +186,19 @@ public interface AccessNativeService {
  	int isPasswordExist(String password, Long userId);
  	
  	/*Metodo para obtener un listado de partidas*/
- 	public Map<Long, String> getEntriesMap();
+ 	 Map<Long, String> getEntriesMap();
  	
  	/*Metodo para obtener un listado de distritos*/
- 	public Map<Long, String> getDistrictsMap();
+ 	 Map<Long, String> getDistrictsMap();
 
 	List<EntryDistrict> getEntryDistrict();
 	
 	/*Metodo para validar si el usuario puede capturar un nuevo tramite*/
-	public Map<String, Boolean> canUserCapture(Long userId);
+	 Map<String, Boolean> canUserCapture(Long userId);
 	
 	/*Metodo para obtener los rangos de fechas de captura disponibles*/
-	public List<DueDate> getActiveDueDate();
+	List<DueDate> getActiveDueDate();
+	
+	/*distrito por usuario*/
+	Map<Long, String> getValidDistrictsMapByUserId(Long userId);
 }

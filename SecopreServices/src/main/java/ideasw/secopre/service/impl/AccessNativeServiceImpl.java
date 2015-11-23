@@ -794,5 +794,15 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		result.put("canUserCapture", (isValidDate && !(hasUserRequestInProcess)) );
 		return result;
 	}
+	
+	public Map<Long, String> getValidDistrictsMapByUserId(Long userId) {
+		Map<Long, String> validDistrictsMapByUser = new HashMap<Long, String>();
+		
+		for (District district : getValidDistrictsByUserId(userId)) {
+			validDistrictsMapByUser.put(district.getId(), district.getNumber());
+		}
+
+		return validDistrictsMapByUser;
+	}
 
 }

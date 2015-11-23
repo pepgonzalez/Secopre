@@ -42,7 +42,7 @@ public class TramiteController extends AuthController {
 		Request requestForm = new Request();
 		
 		model.addAttribute("formalities", formalitiesMap);
-		model.addAttribute("districts", secopreCache.getValidDistrictsMapByUserId(loggedUser.getId()));
+		model.addAttribute("districts", accessNativeService.getValidDistrictsMapByUserId(loggedUser.getId()));
 		model.addAttribute("requestForm", requestForm);
 		
 		return SecopreConstans.MV_TRAM_ADD;

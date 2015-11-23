@@ -195,3 +195,11 @@
 					<!-- END SAMPLE FORM PORTLET-->
 				</div>
 			</div>
+
+			
+			<script type="text/javascript">
+			
+				$(document).ready(function(){
+					initTramiteListPage();
+				});
+			</script>
