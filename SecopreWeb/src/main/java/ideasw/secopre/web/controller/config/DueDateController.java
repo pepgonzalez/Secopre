@@ -152,14 +152,17 @@ public class DueDateController extends AuthController {
         DueDate dueDate = new DueDate();
         dueDate.setDueDateStr(dueDateStr);
         dueDate.setMaxBlockDateStr(maxBlockDateStr);
-        
+        String result = null;
+        try
+        {
 		Boolean isValid = isValidDueDate(dueDate);
-	    String result = null;
-		
 	    if (isValid) 
 	    {result="1";}
 	    else
 	    {result="0";}
+        }
+        catch(Exception e)
+        {result="1";}
 	    
 		returnObject.put("result", result);
 		return returnObject;
