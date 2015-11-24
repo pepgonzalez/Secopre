@@ -10,8 +10,6 @@ import ideasw.secopre.service.DashboardService;
 import ideasw.secopre.service.impl.mapper.NoticeMapper;
 import ideasw.secopre.utils.time.TimeUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -69,48 +67,42 @@ public class DashboardServiceImpl extends AccessNativeServiceBaseImpl implements
 	}
 
 	@Override
-	public String getNotice(User user, List<District> districts) {
+	public Notice getNotice(User user, List<District> districts) {
 		MapSqlParameterSource params = new MapSqlParameterSource();
-		List<Long> list = new ArrayList<Long>(0);
+		String list = "";
 		for (District district : districts) {
-			list.add(district.getId());
+			list+=district.getId()+",";
 		}
 
 		// Busca primero una aviso por el alguno de los distritos.
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("SELECT N.NOTICE AS NOTICE ");
+		buffer.append("SELECT N.* ");
 		buffer.append("FROM secopre.NOTICE N ");
 		buffer.append("INNER JOIN secopre.NOTICE_DISTRICT ND ");
 		buffer.append("ON N.ID = ND.NOTICE_ID ");
-		buffer.append("WHERE ND.DISTRICT_ID IN ( :districts ) ");
-		buffer.append("AND DISPLAY_DATE = DATE(:displayDate) ");
+		buffer.append("WHERE ND.DISTRICT_ID IN ( "+list.substring(0, list.length()-1)+" ) ");
+		buffer.append("AND DISPLAY_DATE = DATE('"+TimeUtils.defaultDateFormat.format(new Date())+"') ");
 		buffer.append("AND ACTIVE = 1 ");
 		buffer.append("ORDER BY N.REGISTER_DATE ");
-
-		params.addValue("displayDate",TimeUtils.defaultDateFormat.format(new Date()));
-		params.addValue("districts", Arrays.asList(list));
-
 
 		List<Notice> notices = this.queryForList(Notice.class, buffer.toString(), params, new NoticeMapper());
 
 		if (notices != null && !notices.isEmpty() ) {
-			return notices.get(0).getNoticeInfo();
+			return notices.get(0);
 		}
 	
-		params = new MapSqlParameterSource();
 		// En caso que no exista algun aviso busca uno general;
 		buffer = new StringBuffer();
-		buffer.append("SELECT N.NOTICE AS NOTICE ");
+		buffer.append("SELECT N.* ");
 		buffer.append("FROM secopre.NOTICE N ");
-		buffer.append("WHERE N.DISPLAY_DATE = DATE(:displayDate) ");
+		buffer.append("WHERE N.DISPLAY_DATE = DATE('"+TimeUtils.defaultDateFormat.format(new Date())+"') ");
 		buffer.append("AND N.ID NOT IN (SELECT ND.NOTICE_ID FROM secopre.NOTICE_DISTRICT ND) ");
 		buffer.append("AND N.ACTIVE = 1 ");
 
-		params.addValue("displayDate",TimeUtils.defaultDateFormat.format(new Date()));
 		notices = this.queryForList(Notice.class, buffer.toString(), params, new NoticeMapper());
-
+		
 		if (notices != null && !notices.isEmpty() ) {
-			return notices.get(0).getNoticeInfo();
+			return notices.get(0);
 		}
 
 		return null;

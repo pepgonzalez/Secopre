@@ -120,7 +120,7 @@
 				</property>
 			</activation>
 			<properties>
-				<jetty_port>9999</jetty_port>
+				<jetty_port>8888</jetty_port>
 				<jetty_config>jetty-ds-dev.xml</jetty_config>
 			</properties>
 		</profile>

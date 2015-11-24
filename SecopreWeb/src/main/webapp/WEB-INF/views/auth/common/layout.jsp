@@ -217,11 +217,12 @@
 	              var json = eval(j);
 	              blockPage();
 	              console.log("NOTICE ===>", json);
-				  if(json !== '' || json != 'undefined' || json != null){
+	              console.log("EVAL =====>", eval(json != null));
+				  if(json != null ){
 					  unblockPage();
 		              BootstrapDialog.show({
 		            		title: 'Notificaciones Secopre',
-		            	    message: json,
+		            	    message: json.noticeInfo,
 		            	    size: BootstrapDialog.SIZE_WIDE,
 		            	    draggable: true,
 		            	    buttons: [{
@@ -235,7 +236,8 @@
 		            	        }
 		            	    }]
 		            	});
-				  }	
+				  }
+				  unblockPage();	
 	            });
 		   
 		});
