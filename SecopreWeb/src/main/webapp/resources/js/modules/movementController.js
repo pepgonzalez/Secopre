@@ -74,7 +74,7 @@ var movementController = {
 				
 				//solo considera las filas no eliminadas
 				if(parseInt(isRemovedRow) == 0){
-					var totalAmount = row.find("[data-name='totalAmount']");
+					var totalAmount = row.find("[data-name='totalAmount'] input");
 					if (totalAmount.val().length > 0){
 						gridTotal += parseFloat(totalAmount.val());
 					}
@@ -162,6 +162,10 @@ var movementController = {
 		e.find("[data-name='monthAmount'] input").attr("name", self.getPath(grid, nextIndex, "monthAmount"))
 		.attr("id", self.getId(grid, nextIndex, "monthAmount", 2)).attr("value", "0");
 		
+		//totalAmount
+		e.find("[data-name='totalAmount'] input").attr("name", self.getPath(grid, nextIndex, "totalAmount"))
+		.attr("id", self.getId(grid, nextIndex, "totalAmount", 2)).attr("value", "0");
+		
 		//initialMonthId
 		e.find("[data-name='initialMonthId']").attr("name", self.getPath(grid, nextIndex, "initialMonthId"))
 		.attr("id", self.getId(grid, nextIndex, "initialMonthId", 2)).attr("value","");
@@ -180,8 +184,10 @@ var movementController = {
 		e.find("[data-name='requestDetailId']").attr("name", self.getPath(grid, nextIndex, "requestDetailId"))
 		.attr("id", self.getId(grid, nextIndex, "requestDetailId", 2)).attr("value","-1");
 		
+		/*
 		e.find("[data-name='totalAmount']").attr("name", self.getPath(grid, nextIndex, "totalAmount"))
 		.attr("id", self.getId(grid, nextIndex, "totalAmount", 2)).attr("value","0");
+		*/
 		
 		if(isComplementary){
 			//se oculta lo que no debe ir, o se desabilita

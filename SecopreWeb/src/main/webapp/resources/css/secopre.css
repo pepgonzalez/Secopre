@@ -127,3 +127,7 @@ table.popupContainer tr td a{
 .disabledWithPopup:hover{
 	opacity: .65;
 }
+
+.zoom-out{
+	zoom:85%;
+}

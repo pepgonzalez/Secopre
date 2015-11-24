@@ -18,7 +18,7 @@
 </div>
 
 <!-- grid de movimientos de disminucion -->
-<div class="portlet box green" id="substractComponent">
+<div class="portlet box green zoom-out" id="substractComponent">
 	<div class="portlet-title">
 		<div class="caption">
 			<i class="fa fa-cogs"></i>Reducción Líquida
@@ -38,6 +38,7 @@
 						<th>Rango meses</th>
 						<th></th>
 						<th>Monto Mensual</th>
+						<th>Monto Total</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -82,9 +83,12 @@
 									<td data-name="monthAmount">
 										<form:input path="downMovements[${i.index}].monthAmount" class="form-control input-small numbersOnly"/>
 									</td>
-					
+									
+									<td data-name="totalAmount">
+										<form:input path="downMovements[${i.index}].totalAmount" class="form-control input-small numbersOnly"/>
+									</td>
+									
 									<form:hidden path="downMovements[${i.index}].initialMonthId" class="form-control" data-name="initialMonthId"/>
-									<form:hidden path="downMovements[${i.index}].totalAmount" class="form-control" data-name="totalAmount"/>
 									<form:hidden path="downMovements[${i.index}].finalMonthId" class="form-control" data-name="finalMonthId"/>
 									<form:hidden path="downMovements[${i.index}].removedElement" class="form-control" data-name="removedElement"/>
 									<form:hidden path="downMovements[${i.index}].movementTypeId" class="form-control" data-name="movementTypeId"/>
@@ -106,7 +110,7 @@
 </div>
 
 
-<div class="portlet box green" id="addComponent">
+<div class="portlet box green zoom-out" id="addComponent">
 	<div class="portlet-title">
 		<div class="caption">
 			<i class="fa fa-cogs"></i>Ampliación Líquida
@@ -126,6 +130,7 @@
 						<th>Rango meses</th>
 						<th></th>
 						<th>Monto Mensual</th>
+						<th>Monto Total</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -168,9 +173,12 @@
 									<td data-name="monthAmount">
 										<form:input path="upMovements[${i.index}].monthAmount" class="form-control input-small numbersOnly"/>
 									</td>
+									
+									<td data-name="totalAmount">
+										<form:input path="upMovements[${i.index}].totalAmount" class="form-control input-small numbersOnly"/>
+									</td>
 					
 									<form:hidden path="upMovements[${i.index}].initialMonthId" class="form-control" data-name="initialMonthId"/>
-									<form:hidden path="upMovements[${i.index}].totalAmount" class="form-control" data-name="totalAmount"/>
 									<form:hidden path="upMovements[${i.index}].finalMonthId" class="form-control" data-name="finalMonthId"/>
 									<form:hidden path="upMovements[${i.index}].removedElement" class="form-control" data-name="removedElement"/>
 									<form:hidden path="upMovements[${i.index}].movementTypeId" class="form-control" data-name="movementTypeId"/>
@@ -225,11 +233,15 @@
 		<td data-name="monthAmount">
 			<form:input path="upMovements" class="form-control input-small numbersOnly"/>
 		</td>
+		
+		<td data-name="totalAmount">
+			<form:input path="upMovements" class="form-control input-small numbersOnly" readonly="true"/>
+		</td>
+		
 		<form:hidden path="upMovements" class="form-control" data-name="initialMonthId"/>
 		<form:hidden path="upMovements" class="form-control" data-name="finalMonthId"/>
 		<form:hidden path="upMovements" class="form-control" data-name="removedElement"/>
 		<form:hidden path="upMovements" class="form-control" data-name="movementTypeId"/>
 		<form:hidden path="upMovements" class="form-control" data-name="requestDetailId"/>
-		<form:hidden path="upMovements" class="form-control" data-name="totalAmount"/>
 	</tr>
 </template>
