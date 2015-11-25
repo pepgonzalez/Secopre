@@ -36,7 +36,7 @@
 									</span>
 								</a></li>
 								<li><a href="#tab4" data-toggle="tab" class="step"> <span
-										class="number"> 3 </span> <span class="desc"> <i
+										class="number"> 4 </span> <span class="desc"> <i
 											class="fa fa-check"></i> Confirmación
 									</span>
 								</a></li>
@@ -58,9 +58,10 @@
 											</label>
 											<div class="col-md-9">
 												<div class="input-icon">
-													<input id="username" name="username" type="text" value="${user.username}" class="form-control" placeholder='<spring:message code="application.pages.admin.users.username.placeholder"/>'>
+													<input id="username" name="username" type="text" value="${user.username}" class="form-control" placeholder='<spring:message code="application.pages.admin.users.username.placeholder"/>'
+													aria-required="true" aria-describedby="name-error" aria-invalid="true" >
 													<div class="form-control-focus"></div>
-													<span id=username-error class="help-block help-block-error">
+													<span id=username-error class="help-block-error help-block">
 														<spring:message code="application.pages.admin.users.username.help" />
 													</span>
 													<i class="icon-user"></i>
@@ -74,8 +75,7 @@
 												class="required">* </span> </label>
 											<div class="col-md-9">
 												<div class="input-icon">
-													<input id="nickname" name="nickname" type="text" value="${user.nickname}"
-														class="form-control"
+													<input class="form-control" id="nickname" name="nickname" type="text" value="${user.nickname}"
 														placeholder='<spring:message code="application.pages.admin.users.nickname.placeholder"/>'>
 													<div class="form-control-focus"></div>
 													<span id=nickname-error class="help-block help-block-error"><spring:message

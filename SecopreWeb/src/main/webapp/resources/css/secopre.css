@@ -131,3 +131,9 @@ table.popupContainer tr td a{
 .zoom-out{
 	zoom:85%;
 }
+
+.movementComponent{
+	font-size:12px!important;
+	padding:2px 4px!important;
+	
+}

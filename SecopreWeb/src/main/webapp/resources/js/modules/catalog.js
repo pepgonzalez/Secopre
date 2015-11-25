@@ -247,7 +247,7 @@ function initDueDateValidations() {
 	});
 	
 	
-	var validator;
+	var validator=false;
 
 
 	var apiCallUnblock = function(actionURL, callback) {
@@ -256,6 +256,7 @@ function initDueDateValidations() {
 		var token = $("meta[name='_csrf']").attr("content");
 		$.ajax({
 			url : context + '/' + actionURL,
+			async: false,
 			beforeSend : function(xhr) {
 				xhr.setRequestHeader(header, token);
 			},

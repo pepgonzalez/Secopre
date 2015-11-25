@@ -18,7 +18,7 @@
 </div>
 
 <!-- grid de movimientos de disminucion -->
-<div class="portlet box green zoom-out" id="substractComponent">
+<div class="portlet box green" id="substractComponent">
 	<div class="portlet-title">
 		<div class="caption">
 			<i class="fa fa-cogs"></i>Reducción Líquida
@@ -110,7 +110,7 @@
 </div>
 
 
-<div class="portlet box green zoom-out" id="addComponent">
+<div class="portlet box green" id="addComponent">
 	<div class="portlet-title">
 		<div class="caption">
 			<i class="fa fa-cogs"></i>Ampliación Líquida
@@ -125,7 +125,7 @@
 				<thead>
 					<tr>
 						<th></th>
-						<th>Llave Programatica</th>
+						<th>Clave Programatica</th>
 						<th>Partida</th>
 						<th>Rango meses</th>
 						<th></th>
@@ -203,20 +203,20 @@
 <template id="movementRowTemplate">
 	<tr data-name="rowContainer">
 	
-		<td data-name="deleteAction" class="buttonColumn">
+		<td data-name="deleteAction" class="buttonColumn movementComponent">
   			<a href="javascript:;" class="btn default btn-xs red" id="rowDeleteButton"><i class="fa fa-times"></i></a>
   			<a href="javascript:;" class="btn grey-cascade btn-xs default lastButton" id="rowInfoButton"><i class="fa fa-info-circle"></i></a>
   			<a href="javascript:;" class="btn blue btn-xs default lastButton" id="cloneInfoButton"><i class="fa fa-copy"></i></a>
 		</td>
 		
 		<td data-name="programaticKey">
-			<form:select path="upMovements" class="form-control input-small">
+			<form:select path="upMovements" class="form-control input-small movementComponent">
 				<form:option value="-1" label="Seleccione..."/>
 	  			<form:options items="${programaticKeys}" />
 			</form:select>
 		</td>
 		<td data-name="entry">
-			<form:select path="upMovements" class="form-control input-medium">
+			<form:select path="upMovements" class="form-control input-small movementComponent">
 				<form:option value="-1" label="Seleccione..."/>
 	  			<form:options items="${entries}" />
 			</form:select>
@@ -227,15 +227,15 @@
 			</div>
 		</td>
 		<td data-name="monthLabels">
-			<div class="input-xsmall" style="padding-top:2px;">
+			<div class="input-xsmall movementComponent" style="padding-top:2px;">
 				<span data-name="lower-offset"></span>-<span data-name="upper-offset"></span>
 			</div>
 		<td data-name="monthAmount">
-			<form:input path="upMovements" class="form-control input-small numbersOnly"/>
+			<form:input path="upMovements" class="form-control input-small numbersOnly movementComponent"/>
 		</td>
 		
 		<td data-name="totalAmount">
-			<form:input path="upMovements" class="form-control input-small numbersOnly" readonly="true"/>
+			<form:input path="upMovements" class="form-control input-xsmall numbersOnly movementComponent" readonly="true"/>
 		</td>
 		
 		<form:hidden path="upMovements" class="form-control" data-name="initialMonthId"/>
