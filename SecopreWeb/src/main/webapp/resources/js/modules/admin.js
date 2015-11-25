@@ -1892,6 +1892,17 @@ function showEntryAmount(district, programaticKey, entry){
 	});
 }
 
+function showKeyData(programaticKeyId){
+	
+	function clousure(data){
+		return data;
+	}
+	
+	apiCall("auth/wf/pk/" + programaticKeyId, function(data){
+		clousure(data);
+	});
+}
+
 function initUpload() {
 
 	var requestForm = $('#requestForm');

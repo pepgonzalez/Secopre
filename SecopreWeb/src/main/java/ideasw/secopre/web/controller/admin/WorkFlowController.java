@@ -1,13 +1,18 @@
 package ideasw.secopre.web.controller.admin;
 
 import ideasw.secopre.dto.Authorization;
+import ideasw.secopre.dto.EntryBalance;
+import ideasw.secopre.dto.EntryFilter;
 import ideasw.secopre.dto.Movement;
 import ideasw.secopre.dto.Request;
 import ideasw.secopre.dto.RequestHistory;
 import ideasw.secopre.model.DueDate;
 import ideasw.secopre.model.EntryDistrict;
+import ideasw.secopre.model.ProgrammaticKey;
+import ideasw.secopre.model.catalog.District;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.AccessNativeService;
+import ideasw.secopre.service.EntryConfigService;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
 
@@ -45,6 +50,9 @@ public class WorkFlowController extends AuthController {
 
 	@Autowired
 	private AccessNativeService accessNativeService;
+	
+	@Autowired
+	private EntryConfigService entryConfigService;
 
 	/*
 	 * Metodo para obtener la forma de captura de movimientos
@@ -295,8 +303,38 @@ public class WorkFlowController extends AuthController {
 		List<EntryDistrict> entryDistrictBalance = accessNativeService.getAnnualEntryBalance(districtId, entryId);
 		
 		LOG.info("total de registros para distrito: " + districtId + ", partida: " + entryId + ": " + entryDistrictBalance.size());
+		
+		EntryFilter entryFilter = new EntryFilter();
+		entryFilter.setDistrictId(districtId);
+		District d = baseService.findById(District.class, districtId);
+		entryFilter.setEntryId(entryId);
+		entryFilter.setStateId(d.getState().getId());
+		
+		EntryBalance balance = entryConfigService.getEntryBalance(entryFilter);
+		
 		model.addAttribute("entryDistrictBalance", entryDistrictBalance);
+		model.addAttribute("balance", balance);
 		return SecopreConstans.MV_TRAM_BALANCE;
+	}
+	
+	/*Metodo para obtener el detalle de la clave programatica */
+	@RequestMapping(value = "wf/pk/{pkId}", method = { RequestMethod.GET })
+	public String getProgramaticData(@PathVariable("pkId") Long programaticKeyId,
+								   ModelMap model, RedirectAttributes attributes, Principal principal) {
+
+		LOG.info("Buscando llave programatica con id: " + programaticKeyId);
+		ProgrammaticKey pk = baseService.findById(ProgrammaticKey.class, programaticKeyId);
+		boolean existeKey = false;
+		if (pk != null){
+			LOG.info("AÑO: " + pk.getYear());
+			existeKey = true;
+		}else{
+			LOG.info("no se encontro la llave");
+		}
+		
+		model.addAttribute("pk", pk);
+		model.addAttribute("existeKey", existeKey);
+		return SecopreConstans.MV_TRAM_PK;
 	}
 	
 	
