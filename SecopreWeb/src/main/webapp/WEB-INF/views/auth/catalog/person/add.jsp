@@ -65,7 +65,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input id="name" name="name" value="${person.name}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.name.placeholder"/>'>
+																<input id="name" name="name" value="${person.name}" type="text" class="form-control" aria-required="true" aria-describedby="name-error" aria-invalid="true"  placeholder='<spring:message code="application.pages.admin.persons.name.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span id="name-error" class="help-block help-block-error">
@@ -81,7 +81,8 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input name="secondName"  id="secondName" value="${person.secondName}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.secondName.placeholder"/>'>
+																<input name="secondName"  id="secondName" value="${person.secondName}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.secondName.placeholder"/>' aria-required="true" aria-describedby="secondName-error" aria-invalid="true" 
+																aria-required="true" aria-describedby="name-error" aria-invalid="true">
 																<div class="form-control-focus">
 																</div>
 																<span id="secondName-error" class="help-block help-block-error"><spring:message code="application.pages.admin.persons.secondName.help"/></span>
@@ -159,7 +160,8 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input id="telephone" name="telephone" value="${person.telephone}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.telephone.placeholder"/>'>
+																<input id="telephone" name="telephone" value="${person.telephone}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.telephone.placeholder"/>'
+																aria-required="true" aria-describedby="name-error" aria-invalid="true">
 																<div class="form-control-focus">
 																</div>
 																<span id="telephone-error" class="help-block help-block-error"><spring:message code="application.pages.admin.persons.telephone.help"/></span>
