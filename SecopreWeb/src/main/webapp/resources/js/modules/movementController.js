@@ -204,6 +204,31 @@ var movementController = {
 		
 		grd.find("tbody").append(e);
 		
+		
+		grd.find('tbody').find('tr').each(function(){
+			
+			$(this).find("[data-name='programaticKey'] select").each(function(){
+				var currentSelect = $(this);
+				currentSelect.qtip({
+					content:{
+						//text: (function(ctx){var value = $(ctx).val();console.log("value del select: " + value);return value;})(currentSelect),
+						text:"Hola Mundo",
+						position:{
+					    	 my: 'top left',
+					         at: 'bottom right'
+					     },
+					     hide: {
+				           fixed: true,
+				           delay: 400
+				         },
+					     style: {
+					    	 classes: "ui-tooltip-shadow"
+					     }
+					}
+				});
+			});
+		});
+		
 		self.startSlider(self, nextIndex, parseInt(new Date().getMonth()), grid);
 		self.addOnChangeEvent(self, grid, nextIndex,"programaticKeyId",true);
 		self.addOnChangeEvent(self, grid, nextIndex,"entryId",false);
@@ -433,7 +458,32 @@ var movementController = {
 			if( (self.isCompensatedMovement()) && (grid == self.downGrid)){
 				currentEntries = self.getCurrentEntries(grid, indice);
 			}
-		    
+		
+			var currentSelect = $(this);
+			
+			/* logica que se ejecuta en claves programaticas para actualizar la partida*/
+			currentSelect.qtip("destroy");
+			
+			currentSelect.qtip({
+				content:{
+					style: { 
+						classes: 'x',
+						width: 500,
+        				height: 200 
+					},
+					text: (function(ctx){
+						var value = $(ctx).val();
+						console.log("value del select: " + value);
+						return value;
+					})(this),
+					hide: {
+				           fixed: true,
+				           delay: 4000
+				         }
+				}
+			});
+			
+			
 			if(ajaxCall){
 				
 				//preguntamos el id del distrito
