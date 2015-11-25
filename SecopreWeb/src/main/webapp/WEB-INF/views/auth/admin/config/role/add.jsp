@@ -136,6 +136,25 @@
 
 									</div>	
 									
+									<div class="form-group">
+										<label class="control-label col-md-3"><spring:message
+													code="application.pages.admin.roles.name" /></label>
+										<div class="col-md-4">
+											<p class="form-control-static" data-display="name"></p>
+										</div>
+
+									</div>	
+									
+									
+									<div class="form-group">
+										<label class="control-label col-md-3"><spring:message
+													code="application.pages.admin.roles.description" /></label>
+										<div class="col-md-4">
+											<p class="form-control-static" data-display=description></p>
+										</div>
+
+									</div>	
+									
 									<h4 class="form-section">Permisos</h4>
 									<div class="form-group">
 										<label class="control-label col-md-3">Permisos:</label>
