@@ -693,7 +693,8 @@ function initEntryByDistrict(){
 	            "info": "Mostrando pagina _PAGE_ de _PAGES_",
 	            "infoEmpty": "No hay registros disponibles",
 	            "infoFiltered": "(filtered from _MAX_ total records)"
-	        }	
+	        }
+	
 	});
 	$("select#stateId").change(function(){
 		blockPage();
@@ -1889,6 +1890,17 @@ function showEntryAmount(district, programaticKey, entry){
 	        message: data,
 	        title: "Totales Distrito - Llave Programatica - Partida"	    
 	    }).find(".modal-dialog").css({"width":"70%"});
+	});
+}
+
+function showKeyData(programaticKeyId){
+	
+	function clousure(data){
+		return data;
+	}
+	
+	apiCall("auth/wf/pk/" + programaticKeyId, function(data){
+		clousure(data);
 	});
 }
 
