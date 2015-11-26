@@ -693,7 +693,8 @@ function initEntryByDistrict(){
 	            "info": "Mostrando pagina _PAGE_ de _PAGES_",
 	            "infoEmpty": "No hay registros disponibles",
 	            "infoFiltered": "(filtered from _MAX_ total records)"
-	        }	
+	        }
+	
 	});
 	$("select#stateId").change(function(){
 		blockPage();
