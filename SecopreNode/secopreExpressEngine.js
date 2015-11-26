@@ -1,7 +1,15 @@
 express = require('express');
 
 var cors = require('cors');
-var corsOptions = { origin : 'http://smartsecopre.ddns.net:8080'}
+//var corsOptions = { origin : 'http://smartsecopre.ddns.net:8080'}
+
+var whitelist = ['http://smartsecopre.ddns.net:8080', 'http://192.168.228.1:8888','http://189.183.32.111:8888'];
+var corsOptions = {
+  origin: function(origin, callback){
+    var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
+    callback(null, originIsWhitelisted);
+  }
+};
 
 var SecopreChat = function(config){
     config = config || {};
