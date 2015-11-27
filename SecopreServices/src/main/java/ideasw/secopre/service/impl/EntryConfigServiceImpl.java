@@ -4,6 +4,7 @@ import ideasw.secopre.dto.EntryBalance;
 import ideasw.secopre.dto.EntryDistrictDetail;
 import ideasw.secopre.dto.EntryFilter;
 import ideasw.secopre.dto.UpdateEntry;
+import ideasw.secopre.enums.StatusEntry;
 import ideasw.secopre.exception.EntryDistrictException;
 import ideasw.secopre.model.EntryDistrict;
 import ideasw.secopre.service.BaseService;
@@ -101,15 +102,18 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 	}
 
 	@Override
-	public EntryBalance getEntryBalance(EntryFilter filter) {
+	public EntryBalance getEntryBalance(EntryFilter filter, StatusEntry status) {
 
 		EntryBalance balance = new EntryBalance();
 
-		EntryDistrict result = getBalance(filter);
+		EntryDistrict result = getBalance(filter, status);
 
 		StringBuffer sql = new StringBuffer(
 				queryContainer.getSQL(SQLConstants.GET_ENTRY_DETAIL));
 		MapSqlParameterSource params = new MapSqlParameterSource();
+
+		sql.append(" AND E.STATUS = :status");
+		params.addValue("status", status);
 
 		if (filter.getStateId() != null) {
 			sql.append(" AND S.ID = :stateid");
@@ -147,7 +151,7 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 		return balance;
 	}
 
-	private EntryDistrict getBalance(EntryFilter filter) {
+	private EntryDistrict getBalance(EntryFilter filter,StatusEntry status) {
 		StringBuffer sql = new StringBuffer("");
 		MapSqlParameterSource params = new MapSqlParameterSource();
 
@@ -168,7 +172,9 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 		sql.append(" secopre.STATE S ON D.STATE_ID = S.ID ");
 		sql.append(" WHERE");
 		sql.append(" PK.YEAR = YEAR(CURDATE())");
-
+		sql.append(" E.STATUS = :status ");
+		params.addValue("status", status);
+		
 		String groupBy = " GROUP BY ";
 		if (filter.getStateId() != null) {
 			sql.append(" AND D.STATE_ID = :stateId");

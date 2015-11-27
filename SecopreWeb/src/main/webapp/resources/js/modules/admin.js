@@ -1916,8 +1916,8 @@ function initUpload() {
 			return;
 		}
 		var size = parseInt($("#attachment")[0].files[0].size);
-		if (size > 100000){
-			window.showNotification("error", "El archivo seleccionado excede el limite de 100Kb permitido. Peso de archivo seleccionado: "+ size / 1000 + " Kb.");
+		if (size > 10000000){
+			window.showNotification("error", "El archivo seleccionado excede el limite de 20MB permitido. Peso de archivo seleccionado: "+ size / 1000000 + " MB.");
 			return; 
 		}
 		
@@ -3892,8 +3892,8 @@ function initUpload() {
 			return;
 		}
 		var size = parseInt($("#attachment")[0].files[0].size);
-		if (size > 100000){
-			window.showNotification("error", "El archivo seleccionado excede el limite de 100Kb permitido. Peso de archivo seleccionado: "+ size / 1000 + " Kb.");
+		if (size > 10000000){
+			window.showNotification("error", "El archivo seleccionado excede el limite de 20MB permitido. Peso de archivo seleccionado: "+ size / 1000000 + " MB.");
 			return; 
 		}
 		

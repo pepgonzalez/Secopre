@@ -3,7 +3,6 @@ package ideasw.secopre.web.controller;
 import ideasw.secopre.enums.AccountingType;
 import ideasw.secopre.enums.StatusEntry;
 import ideasw.secopre.model.Entry;
-import ideasw.secopre.model.EntryDistrict;
 import ideasw.secopre.model.ProgrammaticKey;
 import ideasw.secopre.service.AccessNativeService;
 import ideasw.secopre.service.EntryConfigService;
@@ -144,16 +143,5 @@ public class EntryController extends AuthController {
 
 		return SecopreConstans.MV_CAT_ENTRY_LIST;
 	}
-	
-	/*mostrar listado de partidas*/
-	@RequestMapping(value = "adm/entry/list", method = {
-			RequestMethod.GET, RequestMethod.POST })
-	public String getEntryList(ModelMap model, RedirectAttributes attributes) {
-		
-		List<EntryDistrict> list = accessNativeService.getEntryDistrict();
-		
-		model.addAttribute("entries", list);
 
-		return SecopreConstans.MV_ADM_ENTRY_DISTRICT;
-	}
 }

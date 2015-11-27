@@ -2,6 +2,7 @@ package ideasw.secopre.web.controller.config;
 
 import ideasw.secopre.dto.EntryBalance;
 import ideasw.secopre.dto.EntryFilter;
+import ideasw.secopre.enums.StatusEntry;
 import ideasw.secopre.model.Entry;
 import ideasw.secopre.model.ProgrammaticKey;
 import ideasw.secopre.model.catalog.District;
@@ -60,7 +61,7 @@ public class EntryConfigController extends AuthController {
 	public String searchEntries(
 			@ModelAttribute("entryFilter") EntryFilter entryFilter,
 			ModelMap model) {
-		EntryBalance balance = entryConfigService.getEntryBalance(entryFilter);
+		EntryBalance balance = entryConfigService.getEntryBalance(entryFilter, StatusEntry.ACTIVE);
 		model.addAttribute("balance", balance);
 		model.addAttribute("entryFilter", entryFilter);
 		return "auth/admin/config/entry/byDistrict";
