@@ -447,8 +447,10 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	}
 	
 	private int insertMovement(Movement m){
+		
+		Date today = new Date();
+		
 		SqlParameterSource params = new MapSqlParameterSource()
-				.addValue("id", 1)
 				.addValue("requestId", m.getRequestId())
 				.addValue("movementTypeId", m.getMovementTypeId())
 				.addValue("programaticKeyId", m.getProgramaticKeyId())
@@ -457,7 +459,7 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 				.addValue("finalMonth", m.getFinalMonthId())
 				.addValue("monthAmount", m.getMonthAmount())
 				.addValue("totalAmount", m.getTotalAmount())
-				.addValue("creationDate", new Date())
+				.addValue("creationDate", today)
 				.addValue("active", 1);
 		LOG.info("insertando movimiento");
 		LOG.info(m.toString());

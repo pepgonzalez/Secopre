@@ -128,7 +128,7 @@ var SecopreSocket = function(config){
 	setInterval(searchForNotifications, 3000);
 
 	function searchForNotifications(){
-		DB.processQuery("getUserInfo", [data.me, data.userName, data.me], function(r){
+		DB.processQuery("getNewNotifications", [], function(r){
 			console.log("resultados: ");
 			console.log(r);
 		});

@@ -115,18 +115,18 @@
 				   T.LAST_UPDATE lastConnection,
 				   T.DESCRIPTION employment
 			  FROM (
-				SELECT COUNT(*) AS TOTAL, CC2.CONVERSATION_ID, CC2.USER_ID, U.USERNAME, U.AVATAR, RUC.ACTIVE, RUC.LAST_UPDATE, E.DESCRIPTION
+				SELECT COUNT(*) AS TOTAL, CC2.CONVERSATION_ID, CC2.USER_ID, U.USERNAME, U.AVATAR, RUC.ACTIVE, RUC.LAST_UPDATE, P.DESCRIPTION
 				  FROM secopre.CHAT_CONVERSATION CC1, secopre.CHAT_CONVERSATION CC2, secopre.USER U,
-				  	   secopre.CHAT_MESSAGE CM, secopre.REL_USER_CONNECTION RUC, secopre.REL_USER_EMPLOYMENT RUE,
-				  	   secopre.EMPLOYMENT E
+				  	   secopre.CHAT_MESSAGE CM, secopre.REL_USER_CONNECTION RUC,
+				  	   secopre.POSITION P
 				 WHERE CC1.USER_ID = ?
 				   AND CC1.CONVERSATION_ID = CC2.CONVERSATION_ID
 				   AND CC2.USER_ID <> CC1.USER_ID
 				   AND CC2.USER_ID = U.ID
 				   AND CC2.CONVERSATION_ID = CM.CONVERSATION_ID
 				   AND RUC.USER_ID = CC2.USER_ID
-				   AND RUC.USER_ID = RUE.USER_ID
-				   AND RUE.EMPLOYMENT_ID = E.EMPLOYMENT_ID
+				   AND RUC.USER_ID = U.ID
+				   AND U.POSITION_ID = P.ID
 				GROUP BY CM.CONVERSATION_ID
 				) T ORDER BY T.TOTAL DESC, T.USER_ID ASC
 			LIMIT 5
@@ -138,18 +138,16 @@
 			SELECT U.ID userId,
 				   U.USERNAME userName,
 				   IFNULL(U.AVATAR, 'avatar.png') avatar,
-				   E.DESCRIPTION employment, 
+				   P.DESCRIPTION employment, 
 				   CC.CONVERSATION_ID cId
 			  FROM secopre.REL_USER_CONNECTION RUC,
 			  	   secopre.USER U,
-			  	   secopre.REL_USER_EMPLOYMENT RUE,
-			  	   secopre.EMPLOYMENT E,
 			  	   secopre.CHAT_CONVERSATION CC
+				   secopre.POSITION P
 			 WHERE RUC.SOCKET_ID = ?
 			   AND RUC.USER_ID != ?
 			   AND RUC.USER_ID = U.ID
-			   AND RUC.USER_ID = RUE.USER_ID
-			   AND RUE.EMPLOYMENT_ID = E.EMPLOYMENT_ID
+			   AND U.POSITION_ID = P.ID
 			   AND CC.USER_ID = RUC.USER_ID
 			   AND CC.CONVERSATION_ID IN (SELECT CONVERSATION_ID FROM secopre.CHAT_CONVERSATION WHERE USER_ID = ?)
 		]]>
@@ -160,7 +158,7 @@
 			SELECT U.ID userId,
 				   U.USERNAME userName,
 				   IFNULL(U.AVATAR, 'avatar.png') avatar,
-				   E.DESCRIPTION employment,
+				   P.DESCRIPTION employment,
 				   IFNULL((
 				   		SELECT T1.CONVERSATION_ID
 				   	     FROM secopre.CHAT_CONVERSATION T1 WHERE T1.USER_ID = RUC.USER_ID
@@ -168,13 +166,11 @@
 				   ),-1) cId
 			  FROM secopre.REL_USER_CONNECTION RUC,
 			  	   secopre.USER U,
-			  	   secopre.REL_USER_EMPLOYMENT RUE,
-			  	   secopre.EMPLOYMENT E
+			  	   secopre.POSITION P
 			 WHERE RUC.SOCKET_ID = ?
 			   AND RUC.USER_ID != ?
 			   AND RUC.USER_ID = U.ID
-			   AND RUC.USER_ID = RUE.USER_ID
-			   AND RUE.EMPLOYMENT_ID = E.EMPLOYMENT_ID
+			   AND U.POSITION_ID = P.ID
 		]]>
 	</getActiveUsersV2>
 
@@ -183,13 +179,11 @@
 			SELECT U.ID userId,
 				   U.USERNAME userName,
 				   IFNULL(U.AVATAR, 'avatar.png') avatar,
-				   E.DESCRIPTION employment
+				   P.DESCRIPTION employment
 			  FROM secopre.USER U,
-			  	   secopre.REL_USER_EMPLOYMENT RUE,
-			  	   secopre.EMPLOYMENT E
+			  	   secopre.POSITION P
 			 WHERE U.ID = ?
-			   AND U.ID = RUE.USER_ID
-			   AND RUE.EMPLOYMENT_ID = E.EMPLOYMENT_ID
+			   AND U.POSITION_ID = P.ID
 		]]>
 	</getUser>
 
@@ -233,7 +227,7 @@
 			SELECT U.ID userId,
 				   U.USERNAME userName,
 				   IFNULL(U.AVATAR, 'avatar.png') avatar,
-				   E.DESCRIPTION employment,
+				   P.DESCRIPTION employment,
 				   IFNULL((
 				   		SELECT T1.CONVERSATION_ID
 				   	     FROM secopre.CHAT_CONVERSATION T1 WHERE T1.USER_ID = RUC.USER_ID
@@ -243,13 +237,18 @@
 				   RUC.LAST_UPDATE lastConnection
 			  FROM secopre.REL_USER_CONNECTION RUC,
 			  	   secopre.USER U,
-			  	   secopre.REL_USER_EMPLOYMENT RUE,
-			  	   secopre.EMPLOYMENT E
+			  	   secopre.POSITION P
 			 WHERE UPPER(U.USERNAME) LIKE UPPER(CONCAT('%', ?, '%'))
 			   AND U.ID != ?
 			   AND RUC.USER_ID = U.ID
-			   AND RUC.USER_ID = RUE.USER_ID
-			   AND RUE.EMPLOYMENT_ID = E.EMPLOYMENT_ID
+			   AND U.POSITION_ID = P.ID
 		]]>
 	</getUserInfo>
+
+	<getNewNotifications>
+		<![CDATA[
+			SELECT * FROM secopre.NOTIFICATION
+		]]>
+	</getNewNotifications>
+	
 </queries>

@@ -865,7 +865,7 @@ var movementController = {
 				case 2:
 					var res = this.validateComponent(self.downGrid);
 					if(res){	
-						this.notif("success","Validación completa");
+						console.log("validacion completa");
 					}
 					return res;
 				case 3:
@@ -883,7 +883,7 @@ var movementController = {
 							this.notif("error","la suma de los movimientos de aumento y disminución deben resultar 0.");
 							return false;
 						}else{
-							this.notif("success","Validación completa en ambos grids");
+							console.log("validacion completa");
 						}	
 					}
 					return (resUp && resDown);

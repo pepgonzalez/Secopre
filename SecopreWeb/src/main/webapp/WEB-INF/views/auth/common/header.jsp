@@ -66,7 +66,7 @@
 					
 					<!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
 					
-					<!-- 
+					 
 					<li id="step5" class="dropdown dropdown-extended dropdown-notification dropdown-light" id="header_notification_bar">
 						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
 						<i class="icon-bell"></i>
@@ -125,7 +125,8 @@
 							</li>
 						</ul>
 					</li>
-					-->
+					
+					
 					<!-- END NOTIFICATION DROPDOWN -->
 					<li class="separator hide">
 					</li>
