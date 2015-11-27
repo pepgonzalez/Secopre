@@ -258,15 +258,6 @@
 					]]>
 				</prop>
 
-				<prop key="INSERT_REQUEST_DETAIL">
-					<![CDATA[
-						INSERT INTO secopre.REQUEST_DETAIL
-						(id, REQUEST_ID, MOVEMENT_TYPE_ID, PROGRAMATIC_KEY_ID, ENTRY_ID, INITIAL_MONTH, FINAL_MONTH, MONTH_AMOUNT, TOTAL_AMOUNT, CREATION_DATE, ACTIVE)
-						VALUES
-						(:requestDetailId, :requestId, :movementTypeId, :programaticKeyId, :entryId, :initialMonth, :finalMonth, :monthAmount, :totalAmount, sysdate(), 1)
-					]]>
-				</prop>
-
 				<prop key="UPDATE_REQUEST_DETAIL">
 					<![CDATA[
 						UPDATE secopre.REQUEST_DETAIL
@@ -831,6 +822,15 @@
 								   AND AC.POSITION_ID = U.POSITION_ID
 								   AND U.ID = :userId
 								) T
+					]]>
+				</prop>
+				
+				<prop key="INSERT_REQUEST_DETAIL">
+					<![CDATA[
+						INSERT INTO secopre.REQUEST_DETAIL
+						(id, REQUEST_ID, MOVEMENT_TYPE_ID, PROGRAMATIC_KEY_ID, ENTRY_ID, INITIAL_MONTH, FINAL_MONTH, MONTH_AMOUNT, TOTAL_AMOUNT, CREATION_DATE, ACTIVE)
+						VALUES
+						(:id, :requestId, :movementTypeId, :programaticKeyId, :entryId, :initialMonth, :finalMonth, :monthAmount, :totalAmount, :creationDate, :active)
 					]]>
 				</prop>
 				

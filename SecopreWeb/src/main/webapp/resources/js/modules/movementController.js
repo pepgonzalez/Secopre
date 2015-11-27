@@ -859,7 +859,7 @@ var movementController = {
 				case 1:
 					var res = this.validateComponent(self.upGrid);
 					if(res){	
-						this.notif("success","Validación completa");
+						console.log("validacion completa");
 					}
 					return res;
 				case 2:

@@ -92,7 +92,8 @@ public class Movement {
 	}
 
 	public String toString(){
-		return "{movementTypeId: " + this.movementTypeId +
+		return "{requestId: "+ requestId + 
+		", movementTypeId: " + this.movementTypeId +
 		", removedElement: "  + this.removedElement +
 		", programaticKeyId: " + this.programaticKeyId + 
 		", entryId: " + this.entryId + 

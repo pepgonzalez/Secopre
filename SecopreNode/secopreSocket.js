@@ -122,6 +122,17 @@ var SecopreSocket = function(config){
 	        });
         }
 	});
+
+
+	//funcion para hacer pooling a la base de datos en busqueda de nueva informacion
+	setInterval(searchForNotifications, 3000);
+
+	function searchForNotifications(){
+		DB.processQuery("getUserInfo", [data.me, data.userName, data.me], function(r){
+			console.log("resultados: ");
+			console.log(r);
+		});
+	}
 }
 
 module.exports = SecopreSocket;

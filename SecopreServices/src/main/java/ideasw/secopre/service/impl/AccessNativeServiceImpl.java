@@ -395,9 +395,14 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	
 	
 	private void insertMovementList(List<Movement> list, Request request) throws Exception{
-				
+		
+		LOG.info("---------------------------------------------------------------------------");
 		LOG.info("Cantidad de movimientos a actualizar: " + list.size());
 		LOG.info("Tipo de guardado: " + request.getNextStageValueCode());
+		LOG.info("Request id: " + request.getRequestId());
+		LOG.info("---------------------------------------------------------------------------");
+
+		
 		for(Movement m : list){
 			
 			//si no es un elemento eliminado
@@ -430,12 +435,33 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 					
 				}
 				
-				
+				LOG.info("Obteniendo id detalle para request_id: " + request.getRequestId());
 				//inserta de nuevo el registro
-				Long id =  this.insertAndReturnId(Movement.TABLE_NAME, Movement.PRIMARY_KEY, m.getParams(request.getRequestId()));
-				m.setRequestDetailId(id);
+				//Long id =  this.insertAndReturnId(Movement.TABLE_NAME, Movement.PRIMARY_KEY, m.getParams(request.getRequestId()));
+				m.setRequestId(request.getRequestId());
+				this.insertMovement(m);
+				//LOG.info("Request_detail obtenido: " + id);
+				//m.setRequestDetailId(id);
 			}
 		}
+	}
+	
+	private int insertMovement(Movement m){
+		SqlParameterSource params = new MapSqlParameterSource()
+				.addValue("id", 1)
+				.addValue("requestId", m.getRequestId())
+				.addValue("movementTypeId", m.getMovementTypeId())
+				.addValue("programaticKeyId", m.getProgramaticKeyId())
+				.addValue("entryId", m.getEntryId())
+				.addValue("initialMonth", m.getInitialMonthId())
+				.addValue("finalMonth", m.getFinalMonthId())
+				.addValue("monthAmount", m.getMonthAmount())
+				.addValue("totalAmount", m.getTotalAmount())
+				.addValue("creationDate", new Date())
+				.addValue("active", 1);
+		LOG.info("insertando movimiento");
+		LOG.info(m.toString());
+		return this.insertOrUpdate(queryContainer.getSQL(SQLConstants.INSERT_REQUEST_DETAIL), params);
 	}
 	
 	private int insertTransition(Long requestId, WorkFlowConfig config, int consecutive, Long userId, String comments){

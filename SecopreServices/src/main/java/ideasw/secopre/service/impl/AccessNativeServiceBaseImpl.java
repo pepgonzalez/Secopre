@@ -21,8 +21,7 @@ public class AccessNativeServiceBaseImpl {
 
 	public Long insertAndReturnId(String tableName, String id,
 			Map<String, Object> params) {
-		Number key = sql.getSimpleJdbcInsert(tableName, id)
-				.executeAndReturnKey(params);
+		Number key = sql.getSimpleJdbcInsert(tableName, id).executeAndReturnKey(params);
 		return new Long(key.longValue());
 	}
 
