@@ -80,6 +80,8 @@
 	<link href='<c:url value="/resources/css/plugins/tooltipster.css"/>' rel="stylesheet" type="text/css"/>
 	<link href='<c:url value="/resources/css/plugins/bootstrap-dialog.min.css"/>' rel="stylesheet" type="text/css"/>
 	<!-- END PAGE CUSTOM STYLES -->	
+
+	
 	<link rel="shortcut icon" href='<c:url value="/resources/img/favicon.ico"/>' type="image/vnd.microsoft.icon"/> 
 	
 
@@ -197,11 +199,19 @@
 	<script src='<c:url value="/resources/js/modules/admin.js"/>' type="text/javascript"></script>	
 	<script src='<c:url value="/resources/js/modules/catalog.js"/>' type="text/javascript"></script>	
 	
+	<!-- Scripts para exportar -->
+	<script src='<c:url value="/resources/js/export/tableExport.js"/>' type="text/javascript"></script>	
+	<script src='<c:url value="/resources/js/export/jquery.base64.js"/>' type="text/javascript"></script>	
+	<script src='<c:url value="/resources/js/export/jspdf/libs/sprintf.js"/>' type="text/javascript"></script>	
+	<script src='<c:url value="/resources/js/export/jspdf/jspdf.js"/>' type="text/javascript"></script>	
+	<script src='<c:url value="/resources/js/export/jspdf/libs/base64.js"/>' type="text/javascript"></script>	
+
 	<!-- END PAGE LEVEL CUSTOM SCRIPTS -->
 	
 	<!-- scripts para modulo de chat -->
 	<script src="http://189.210.196.197:3000/socket.io/socket.io.js" type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/utils/secopreChatModule.js"/>' type="text/javascript"></script>
+
 
 	<script>
 		jQuery(document).ready(function() {

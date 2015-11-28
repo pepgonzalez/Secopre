@@ -26,8 +26,8 @@ http://www.springframework.org/schema/jee/spring-jee.xsd">
 		base-package="ideasw.secopre.web.*, ideasw.secopre.web.security.*" />
 
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" >
-		<!-- setting maximum upload size -->
-        <property name="maxUploadSize" value="100000" />
+		<!-- setting maximum upload size  10 MB-->
+        <property name="maxUploadSize" value="10000000" /> 
 	</bean>
 
 	<!-- conectividad por json-->

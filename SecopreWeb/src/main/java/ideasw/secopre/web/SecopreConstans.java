@@ -104,7 +104,7 @@ public class SecopreConstans {
 	public static final String MV_ADM_PROFILE_ACCOUNT = "auth/admin/profile/profileAccount";
 	
 	//####Modulo de partidas
-	public static final String MV_ADM_ENTRY_DISTRICT = "auth/admin/config/entryDistrict/list";
+	public static final String MV_ADM_BUDGET = "auth/admin/config/budget/list";
 	
 
 		

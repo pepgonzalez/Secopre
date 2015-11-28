@@ -28,7 +28,6 @@ function initPositionList() {
 
 function initDistrictCat(idDistrict) {
 	initPage('District');
-	initDistrictValidations();
 	 $('select').select2();
 	 $('#usuarios').multiSelect({
 		 includeSelectAllOption: true
@@ -180,8 +179,8 @@ function initDueDateValidations() {
 		rules : {
 			maxBlockDateStr : {
 				required : true,
-				australianDate : true,
-				rangeDate : true
+				australianDate : true
+				//rangeDate : true
 			},
 			dueDateStr : {
 				required : true,

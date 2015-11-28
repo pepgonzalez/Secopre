@@ -9,16 +9,15 @@
 		</layout>
 	</appender>
 	
-	<logger name="org.hibernate.transaction.JDBCTransaction" level="ERROR" />
-	<logger name="org.hibernate.jdbc.ConnectionManager" level="ERROR" />
+	<logger name="org.hibernate" level="WARN" />
 	<logger name="org.springframework.orm.jpa.JpaTransactionManager"
 		level="ERROR" />
 
 	<logger name="org.springframework.web.context.ContextLoader"
-		level="INFO" additivity="false">
+		level="WARN" additivity="false">
 		<appender-ref ref="STDOUT" />
 	</logger>
-	<root level="INFO">
+	<root level="WARN">
 		<appender-ref ref="STDOUT" />
 	</root>
 </configuration>

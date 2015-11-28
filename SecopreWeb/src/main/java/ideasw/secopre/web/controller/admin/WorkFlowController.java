@@ -6,6 +6,7 @@ import ideasw.secopre.dto.EntryFilter;
 import ideasw.secopre.dto.Movement;
 import ideasw.secopre.dto.Request;
 import ideasw.secopre.dto.RequestHistory;
+import ideasw.secopre.enums.StatusEntry;
 import ideasw.secopre.model.DueDate;
 import ideasw.secopre.model.EntryDistrict;
 import ideasw.secopre.model.ProgrammaticKey;
@@ -310,7 +311,7 @@ public class WorkFlowController extends AuthController {
 		entryFilter.setEntryId(entryId);
 		entryFilter.setStateId(d.getState().getId());
 		
-		EntryBalance balance = entryConfigService.getEntryBalance(entryFilter);
+		EntryBalance balance = entryConfigService.getEntryBalance(entryFilter, StatusEntry.ACTIVE);
 		
 		model.addAttribute("entryDistrictBalance", entryDistrictBalance);
 		model.addAttribute("balance", balance);
