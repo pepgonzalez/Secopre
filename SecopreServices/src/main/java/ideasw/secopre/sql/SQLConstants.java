@@ -70,4 +70,7 @@ public class SQLConstants {
 	//authorizaciones automaticas
 	public static final String GET_AUTOMATIC_AUTHORIZATION = "GET_AUTOMATIC_AUTHORIZATION";
 	
+	//notificaciones
+	public static final String GET_NOTIFICATIONS_BY_USER = "GET_NOTIFICATIONS_BY_USER";
+	
 }

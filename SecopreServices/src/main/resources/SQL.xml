@@ -832,6 +832,15 @@
 						(REQUEST_ID, MOVEMENT_TYPE_ID, PROGRAMATIC_KEY_ID, ENTRY_ID, INITIAL_MONTH, FINAL_MONTH, MONTH_AMOUNT, TOTAL_AMOUNT, ACTIVE)
 						VALUES
 						(:requestId, :movementTypeId, :programaticKeyId, :entryId, :initialMonth, :finalMonth, :monthAmount, :totalAmount, :active)
+<<<<<<< HEAD
+=======
+					]]>
+				</prop>
+				
+				<prop key="GET_NOTIFICATIONS_BY_USER">
+					<![CDATA[
+						SELECT * FROM secopre.NOTIFICATION where USER_ID = :userId AND STATUS = 1
+>>>>>>> branch 'master' of https://github.com/pepgonzalez/Secopre
 					]]>
 				</prop>
 				

@@ -68,59 +68,55 @@
 					
 					 
 					<li id="step5" class="dropdown dropdown-extended dropdown-notification dropdown-light" id="header_notification_bar">
+						
 						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-						<i class="icon-bell"></i>
-						<span class="badge badge-success">
-						4 </span>
+							<i class="icon-bell"></i>
+							<c:if test="${totalNotifications > 0}">
+								<span class="badge badge-success">${totalNotifications}</span>
+							</c:if>
 						</a>
 						<ul class="dropdown-menu">
 							<li class="external">
-								<h3><span class="bold">4 pendientes</span> notificaciones</h3>
-								<a href="extra_profile.html">ver todo</a>
-								
+								<c:if test="${totalNotifications > 0}">
+									<h3><span class="bold">${totalNotifications} pendientes</span> notificaciones</h3>
+								</c:if>
+								<c:if test="${totalNotifications == 0}">
+									<h3>Sin notificaciones pendientes</h3>
+								</c:if>
 							</li>
 							<li>
 								<ul class="dropdown-menu-list scroller" style="height: 250px;" data-handle-color="#637283">
-									<li>
-										<a href="javascript:;">
-										<span class="time">just now</span>
-										<span class="details">
-										<span class="label label-sm label-icon label-success">
-										<i class="fa fa-plus"></i>
-										</span>
-										Autorizar Mov TUA 30</span>
-										</a>
-									</li>
-									<li>
-										<a href="javascript:;">
-										<span class="time">3 mins</span>
-										<span class="details">
-										<span class="label label-sm label-icon label-danger">
-										<i class="fa fa-bolt"></i>
-										</span>
-										Mov TUA 28 Rechazado</span>
-										</a>
-									</li>
-									<li>
-										<a href="javascript:;">
-										<span class="time">10 mins</span>
-										<span class="details">
-										<span class="label label-sm label-icon label-warning">
-										<i class="fa fa-bell-o"></i>
-										</span>
-										Autorizar Mov TUA 24</span>
-										</a>
-									</li>
-									<li>
-										<a href="javascript:;">
-										<span class="time">14 hrs</span>
-										<span class="details">
-										<span class="label label-sm label-icon label-info">
-										<i class="fa fa-bullhorn"></i>
-										</span>
-										Mov TUA 15 Rechazado </span>
-										</a>
-									</li>
+									<c:if test="${totalNotifications > 0}">
+									
+										<c:forEach items="${notifications}" var="n">
+										
+											<li>
+												<a href="javascript:;">
+												<span class="time">Ahora</span>
+												<span class="details">
+												<span class="label label-sm label-icon label-success">
+												<i class="fa fa-plus"></i>
+												</span>${n.message}</span>
+												</a>
+											</li>
+										
+										</c:forEach>
+									</c:if>
+									
+									<c:if test="${totalNotifications == 0}">
+									
+										<li>
+												<a href="javascript:;">
+												<span class="time">Ahora</span>
+												<span class="details">
+												<span class="label label-sm label-icon label-success">
+												<i class="fa fa-plus"></i>
+												</span>No hay notificaciones</span>
+												</a>
+											</li>
+									
+									</c:if>
+									
 								</ul>
 							</li>
 						</ul>
