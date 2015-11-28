@@ -18,6 +18,7 @@ public class EntryDistrictDetailMapper implements RowMapper<Object> {
 		entry.setDistrictNumber(rs.getString("DISTRICT_NUMBER"));
 		entry.setEntryId(rs.getLong("ENTRY_ID"));
 		entry.setEntryDescription(rs.getString("ENTRY_DESCRIPTION"));
+		entry.setEntryCode(rs.getString("ENTRY_CODE"));
 		entry.setAnnualAmount(rs.getDouble("ANNUAL_AMOUNT"));
 		entry.setJanuary(rs.getDouble("ENERO"));
 		entry.setFebruary(rs.getDouble("FEBRERO"));

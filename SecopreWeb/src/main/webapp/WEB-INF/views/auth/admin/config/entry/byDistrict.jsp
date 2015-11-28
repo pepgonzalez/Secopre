@@ -26,7 +26,7 @@
 		                                <div class="details">
 		                                    <div class="number">
 		                                        <span data-counter="counterup" data-value="<c:out value="${balance.budgetAsing}"/>"><c:out value="${balance.budgetAsing}"/></span> $
-		                                    	<div class="desc">Presupuesto Real</div>
+		                                    	<div class="desc">Presupuesto Modificado</div>
 		                                    </div>
 		                                </div>
 		                                <a class="more" href="javascript:;">
@@ -140,7 +140,7 @@
 													<tr class="odd gradeX">
 														<td>${entryItem.stateName}</td>
 														<td>${entryItem.districtNumber}</td>
-														<td>${entryItem.entryDescription}</td>												
+														<td>${entryItem.entryCode}</td>												
 														<td>${entryItem.january}</td>
 														<td>${entryItem.february}</td>
 														<td>${entryItem.march}</td>

@@ -98,7 +98,7 @@ public class EntryConfigController extends AuthController {
 				.getValidEntriesByDistrict(districtId);
 
 		for (Entry item : entryList) {
-			entryMap.put(item.getId(), item.getName());
+			entryMap.put(item.getId(), item.getCode() + " - "+item.getName());
 		}
 		return entryMap;
 	}

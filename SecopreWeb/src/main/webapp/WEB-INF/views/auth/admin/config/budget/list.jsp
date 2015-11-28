@@ -26,7 +26,7 @@
 									<%@ include file="/WEB-INF/views/auth/common/alertForm.jsp"%>
 									
 									<div class="form-group form-md-line-input">
-										<div class="col-md-6">
+										<div class="col-md-3">
 											<div class="btn-group">
 												<button id="sample_editable_1_new" class="btn green"
 													onclick="sendRequestJQ('auth/report/params/17','dashboard','initReportParamCapture()','GET');">
@@ -41,14 +41,15 @@
 												<spring:message code="application.pages.tramite.add.notEmpty"/>
 											</span>
 										</div>										
+										<div class="col-md-3">
+<%-- 											<button type="button" class="btn default" onclick="sendRequestJQ('auth/tram/list','dashboard','initTramiteListPage()','GET');"><spring:message code="application.back"/></button> --%>
+											<button type="button" class="btn green fileinput-button" id="uploadFile"><i class="fa fa-plus"></i>Subir Archivo</button>
+										</div>				
 									</div>
 									<div class="form-group form-md-line-input">
 										<div class="col-md-6">
 										</div>										
-										<div class="col-md-6">
-<%-- 											<button type="button" class="btn default" onclick="sendRequestJQ('auth/tram/list','dashboard','initTramiteListPage()','GET');"><spring:message code="application.back"/></button> --%>
-											<button type="button" class="btn green fileinput-button" id="uploadFile"><i class="fa fa-plus"></i>Subir Archivo</button>
-										</div>									
+					
 									</div>																	
 							</form:form>	
 						</div>

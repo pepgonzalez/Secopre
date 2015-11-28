@@ -8,6 +8,7 @@ public class EntryDistrictDetail {
 	private Long districtId;
 	private String districtNumber;
 	private Long entryId;
+	private String entryCode;
 	private String entryDescription;
 
 	private Double annualAmount;
@@ -202,6 +203,13 @@ public class EntryDistrictDetail {
 
 	public void setDecember(Double december) {
 		this.december = december;
+	}
+	public String getEntryCode() {
+		return entryCode;
+	}
+
+	public void setEntryCode(String entryCode) {
+		this.entryCode = entryCode;
 	}
 
 }

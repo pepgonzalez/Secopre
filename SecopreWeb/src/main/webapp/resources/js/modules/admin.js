@@ -1,3 +1,6 @@
+function annualBudget(){
+	initEntryByDistrict();
+}
 
 function showProfile() {
 	initProfileValidations();

@@ -14,6 +14,7 @@
 							   D.NUMBER AS DISTRICT_NUMBER,
 							   ENTRY_ID AS ENTRY_ID,
 							   E.DESCRIPTION AS ENTRY_DESCRIPTION,
+							   E.CODE AS ENTRY_CODE,
 							   ANNUAL_AMOUNT AS ANNUAL_AMOUNT ,
 							   SUM(ENERO) AS ENERO,
 							   SUM(FEBRERO) AS FEBRERO,
@@ -828,9 +829,9 @@
 				<prop key="INSERT_REQUEST_DETAIL">
 					<![CDATA[
 						INSERT INTO secopre.REQUEST_DETAIL
-						(REQUEST_ID, MOVEMENT_TYPE_ID, PROGRAMATIC_KEY_ID, ENTRY_ID, INITIAL_MONTH, FINAL_MONTH, MONTH_AMOUNT, TOTAL_AMOUNT, CREATION_DATE, ACTIVE)
+						(REQUEST_ID, MOVEMENT_TYPE_ID, PROGRAMATIC_KEY_ID, ENTRY_ID, INITIAL_MONTH, FINAL_MONTH, MONTH_AMOUNT, TOTAL_AMOUNT, ACTIVE)
 						VALUES
-						(:requestId, :movementTypeId, :programaticKeyId, :entryId, :initialMonth, :finalMonth, :monthAmount, :totalAmount, :creationDate, :active)
+						(:requestId, :movementTypeId, :programaticKeyId, :entryId, :initialMonth, :finalMonth, :monthAmount, :totalAmount, :active)
 					]]>
 				</prop>
 				

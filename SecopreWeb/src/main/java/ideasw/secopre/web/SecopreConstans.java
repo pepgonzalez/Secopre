@@ -37,7 +37,7 @@ public class SecopreConstans {
 	//####Modulo de Tramites####//
 	public static final String MV_TRAM_ADD = "auth/tramite/add";
 	public static final String MV_TRAM_LIST = "auth/tramite/list";
-	public static final String MV_TRAM_MY_LIST = "auth/tramite/mylist";
+	public static final String MV_TRAM_MY_LIST = "auth/tramite/myList";
 	public static final String MV_TRAM_CAPTURE = "auth/tramite/capture";
 	public static final String MV_TRAM_AUTH = "auth/tramite/authorization";
 	public static final String MV_TRAM_UPLOAD = "auth/tramite/upload";

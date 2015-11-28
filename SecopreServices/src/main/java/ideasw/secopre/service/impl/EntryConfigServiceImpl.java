@@ -113,7 +113,7 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 		MapSqlParameterSource params = new MapSqlParameterSource();
 
 		sql.append(" AND E.STATUS = :status");
-		params.addValue("status", status);
+		params.addValue("status", status.name());
 
 		if (filter.getStateId() != null) {
 			sql.append(" AND S.ID = :stateid");
@@ -172,8 +172,8 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 		sql.append(" secopre.STATE S ON D.STATE_ID = S.ID ");
 		sql.append(" WHERE");
 		sql.append(" PK.YEAR = YEAR(CURDATE())");
-		sql.append(" E.STATUS = :status ");
-		params.addValue("status", status);
+		sql.append(" AND E.STATUS = :status ");
+		params.addValue("status", status.name());
 		
 		String groupBy = " GROUP BY ";
 		if (filter.getStateId() != null) {

@@ -46,14 +46,6 @@ import ideasw.secopre.service.impl.mapper.RoleMapper;
 import ideasw.secopre.service.impl.mapper.StageConfigMapper;
 import ideasw.secopre.service.impl.mapper.UserMapper;
 import ideasw.secopre.service.impl.mapper.UserMovementMapper;
-import ideasw.secopre.service.impl.mapper.UserMapper;
-import ideasw.secopre.service.impl.mapper.UserMovementMapper;
-import ideasw.secopre.service.impl.mapper.UserMapper;
-import ideasw.secopre.service.impl.mapper.UserMovementMapper;
-import ideasw.secopre.service.impl.mapper.MovementMapper;
-import ideasw.secopre.service.impl.mapper.ReportMapper;
-import ideasw.secopre.service.impl.mapper.ReportParameterMapper;
-
 import ideasw.secopre.service.impl.mapper.WorkFlowConfigMapper;
 import ideasw.secopre.sql.QueryContainer;
 import ideasw.secopre.sql.SQLConstants;
@@ -448,7 +440,6 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	
 	private int insertMovement(Movement m){
 		
-		Date today = new Date();
 		
 		SqlParameterSource params = new MapSqlParameterSource()
 				.addValue("requestId", m.getRequestId())
@@ -459,7 +450,6 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 				.addValue("finalMonth", m.getFinalMonthId())
 				.addValue("monthAmount", m.getMonthAmount())
 				.addValue("totalAmount", m.getTotalAmount())
-				.addValue("creationDate", today)
 				.addValue("active", 1);
 		LOG.info("insertando movimiento");
 		LOG.info(m.toString());
@@ -584,7 +574,7 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		}
 		Map<Long, String> map = new HashMap<Long, String>();
 		for (Entry e : l){
-			map.put(e.getId(), e.getName());
+			map.put(e.getId(), e.getCode() + " - "+e.getName());
 		}
 		return map;
 	}

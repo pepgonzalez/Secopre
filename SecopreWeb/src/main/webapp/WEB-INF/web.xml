@@ -5,28 +5,28 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
 	<display-name>SECOPRE</display-name>
-	
+
 	<!-- ficheros de configuracion de spring -->
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/spring/applicationContext.xml,/WEB-INF/spring/Secopre-security.xml</param-value>
-    </context-param>	
-    
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring/applicationContext.xml,/WEB-INF/spring/Secopre-security.xml</param-value>
+	</context-param>
+
 	<context-param>
 		<param-name>spring.profiles.active</param-name>
 		<param-value>dev</param-value>
 	</context-param>
-	
+
 	<context-param>
 		<param-name>spring.profiles.default</param-name>
 		<param-value>dev</param-value>
 	</context-param>
-	
+
 	<context-param>
 		<param-name>spring.liveBeansView.mbeanDomain</param-name>
 		<param-value>dev</param-value>
 	</context-param>
-	
+
 	<!-- Definicion del Servlet principal y configuracion -->
 	<servlet>
 		<servlet-name>Secopre</servlet-name>
@@ -44,15 +44,15 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	<!-- Definicion de listener -->
-	
+
 	<!-- listener inicializador del framework -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-    <!-- listener para prevenir multiples sesiones -->
-    <listener>
-    	<listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
-  	</listener>
+	<!-- listener para prevenir multiples sesiones -->
+	<listener>
+		<listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
+	</listener>
 	<!-- Spring Security -->
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
@@ -73,9 +73,23 @@
 		<error-code>404</error-code>
 		<location>/404</location>
 	</error-page>
-		
+
 	<welcome-file-list>
 		<welcome-file>views/secure/common/test.jsp</welcome-file>
 	</welcome-file-list>
 
+<!-- SOLO PARA JETTY SERVER -->
+<!-- 	<resource-ref> -->
+<!-- 		<description>Secopre Data Source</description> -->
+<!-- 		<res-ref-name>jdbc/dssecopre</res-ref-name> -->
+<!-- 		<res-type>javax.sql.DataSource</res-type> -->
+<!-- 		<res-auth>Container</res-auth> -->
+<!-- 	</resource-ref> -->
+
+<!-- 	<resource-ref> -->
+<!-- 		<description>Historico Data Source</description> -->
+<!-- 		<res-ref-name>jdbc/dstsadbitntst</res-ref-name> -->
+<!-- 		<res-type>javax.sql.DataSource</res-type> -->
+<!-- 		<res-auth>Container</res-auth> -->
+<!-- 	</resource-ref> -->
 </web-app>
