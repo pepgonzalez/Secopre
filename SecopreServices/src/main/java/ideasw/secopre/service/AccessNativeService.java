@@ -8,6 +8,7 @@ import ideasw.secopre.dto.ReportParameter;
 import ideasw.secopre.dto.Request;
 import ideasw.secopre.dto.RequestHistory;
 import ideasw.secopre.dto.UserMovement;
+import ideasw.secopre.dto.Notification;
 import ideasw.secopre.model.DueDate;
 import ideasw.secopre.model.Entry;
 import ideasw.secopre.model.EntryDistrict;
@@ -201,4 +202,6 @@ public interface AccessNativeService {
 	
 	/*distrito por usuario*/
 	Map<Long, String> getValidDistrictsMapByUserId(Long userId);
+
+	List<Notification> getNotificationByUserId(Long userId);
 }

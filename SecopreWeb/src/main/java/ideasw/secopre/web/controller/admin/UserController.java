@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ideasw.secopre.dto.Notification;
 import ideasw.secopre.model.catalog.District;
 import ideasw.secopre.model.catalog.Person;
 import ideasw.secopre.model.catalog.Position;
@@ -199,12 +200,18 @@ public class UserController extends AuthController {
 		String name = principal.getName(); // get logged in username
 		model.addAttribute("username", name);
 		// Se colocan los menus del usuario en session
-		request.getSession().setAttribute("menus",
-				accessService.getMenuByUserName(name));
-		User loggedUser = baseService.findByProperty(User.class, "username",
-				name).get(0);
+		request.getSession().setAttribute("menus", accessService.getMenuByUserName(name));
+		
+		User loggedUser = baseService.findByProperty(User.class, "username", name).get(0);
+		
 		model.addAttribute("loggedUser", loggedUser);
 
+		//se obtienen las notificaciones
+		List<Notification> notifications = accessNativeService.getNotificationByUserId(loggedUser.getId());
+		
+		model.addAttribute("notifications", notifications);
+		model.addAttribute("totalNotifications", notifications.size());
+		
 		return SecopreConstans.AUTH_INDEX;
 	}
 	

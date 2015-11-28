@@ -6,6 +6,7 @@ import ideasw.secopre.dto.Authorization;
 import ideasw.secopre.dto.Formality;
 import ideasw.secopre.dto.Inbox;
 import ideasw.secopre.dto.Movement;
+import ideasw.secopre.dto.Notification;
 import ideasw.secopre.dto.Property;
 import ideasw.secopre.dto.Report;
 import ideasw.secopre.dto.ReportParameter;
@@ -35,6 +36,7 @@ import ideasw.secopre.service.impl.mapper.FormalityMapper;
 import ideasw.secopre.service.impl.mapper.FullEntryDistrictMapper;
 import ideasw.secopre.service.impl.mapper.InboxMapper;
 import ideasw.secopre.service.impl.mapper.MovementMapper;
+import ideasw.secopre.service.impl.mapper.NotificationMapper;
 import ideasw.secopre.service.impl.mapper.PermissionMapper;
 import ideasw.secopre.service.impl.mapper.PropertyMapper;
 import ideasw.secopre.service.impl.mapper.ReportMapper;
@@ -447,9 +449,7 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	}
 	
 	private int insertMovement(Movement m){
-		
-		Date today = new Date();
-		
+				
 		SqlParameterSource params = new MapSqlParameterSource()
 				.addValue("requestId", m.getRequestId())
 				.addValue("movementTypeId", m.getMovementTypeId())
@@ -459,7 +459,6 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 				.addValue("finalMonth", m.getFinalMonthId())
 				.addValue("monthAmount", m.getMonthAmount())
 				.addValue("totalAmount", m.getTotalAmount())
-				.addValue("creationDate", today)
 				.addValue("active", 1);
 		LOG.info("insertando movimiento");
 		LOG.info(m.toString());
@@ -875,6 +874,13 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		}
 
 		return validDistrictsMapByUser;
+	}
+	
+	
+	@Override
+	public List<Notification> getNotificationByUserId(Long userId) {
+		SqlParameterSource params = new MapSqlParameterSource().addValue("userId", userId);
+		return this.queryForList(Notification.class, queryContainer.getSQL(SQLConstants.GET_NOTIFICATIONS_BY_USER), params, new NotificationMapper());
 	}
 
 }
