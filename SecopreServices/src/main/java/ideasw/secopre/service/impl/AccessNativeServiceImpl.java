@@ -373,20 +373,6 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		return 0;
 	}
 	
-	public Request insertOrUpdateRequestData(Request request){
-		Request baseRequest = this.getRequestById(request.getRequestId());
-		
-		baseRequest.setMovementTypeId(request.getMovementTypeId());
-		baseRequest.setCertifiedAccount(request.getCertifiedAccount());
-		
-		request.setDistrictId(baseRequest.getDistrictId());
-		
-		LOG.info("Actualizando request");
-		this.insertOrUpdateRequest(baseRequest);
-		LOG.info("Request Actualizado");
-		
-		return request;
-	}
 	
 	public Request insertOrUpdateRequestData(Request request){
 		Request baseRequest = this.getRequestById(request.getRequestId());

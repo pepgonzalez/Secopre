@@ -202,7 +202,6 @@ public interface AccessNativeService {
 	
 	/*distrito por usuario*/
 	Map<Long, String> getValidDistrictsMapByUserId(Long userId);
-<<<<<<< HEAD
 	
 	/*Metodo para obtener los distritos*/
 	List<District> getDistricts();
@@ -210,9 +209,6 @@ public interface AccessNativeService {
 	/*Metodo para obtener los usuarios*/
 	List<User> getUsers();
 	
-=======
-
->>>>>>> branch 'master' of https://github.com/pepgonzalez/Secopre
 	List<Notification> getNotificationByUserId(Long userId);
 	
 	Request insertOrUpdateRequestData(Request request);

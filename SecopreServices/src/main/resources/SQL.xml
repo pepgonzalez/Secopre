@@ -856,7 +856,6 @@
 					]]>
 				</prop>
 				
-<<<<<<< HEAD
 				<prop key="GET_LIST_DISTRICTS">
 					<![CDATA[
 						SELECT D.ID, CONCAT('DTO-',D.NUMBER) AS DESCRIPTION ,EMAIL,TELEPHONE, D.ACTIVE, 
@@ -876,16 +875,6 @@
                            FROM USER
 					]]>
 				</prop>
-				
-				
-				
-=======
->>>>>>> branch 'master' of https://github.com/pepgonzalez/Secopre
-				
-				
-				
-				
-				
 				
 				<prop key="INSERT_REQUEST_DETAIL_MIRROR">
 					<![CDATA[
