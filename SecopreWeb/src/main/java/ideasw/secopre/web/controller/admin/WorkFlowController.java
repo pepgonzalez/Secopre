@@ -14,6 +14,7 @@ import ideasw.secopre.model.catalog.District;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.AccessNativeService;
 import ideasw.secopre.service.EntryConfigService;
+import ideasw.secopre.service.MovementsService;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
 
@@ -23,6 +24,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -51,6 +53,9 @@ public class WorkFlowController extends AuthController {
 
 	@Autowired
 	private AccessNativeService accessNativeService;
+
+	@Autowired
+	private MovementsService movementsService;
 	
 	@Autowired
 	private EntryConfigService entryConfigService;
@@ -124,6 +129,49 @@ public class WorkFlowController extends AuthController {
 		*/
 	}
 
+	
+	/*
+	 * Metodo para guardar el listado de movimientos de forma parcial o permamentemente avanzando de etapa
+	 * param requestForm - Objeto con el listado de movimientos capturados 
+	 * */
+	@RequestMapping(value = "wf/capture/partial/{movementCode}", method = { RequestMethod.POST })
+	public String saveMovementsV2(@ModelAttribute("requestForm") Request requestForm, BindingResult result, ModelMap model, 
+			RedirectAttributes attributes, Principal principal, HttpServletRequest request) throws Exception{
+		
+		LOG.info("iniciando guardado parcial de movimientos");
+		
+		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
+		
+		LOG.info("Alza");
+		for(Movement m : requestForm.getUpMovements()){
+			LOG.info(m.toString());
+		}
+		
+		LOG.info("baja");
+		for(Movement m : requestForm.getDownMovements()){
+			LOG.info(m.toString());
+		}
+		
+		try{
+			requestForm = accessNativeService.insertOrUpdateRequestData(requestForm);
+			//se actualiza la informacion de guardado parcial
+			movementsService.savePartialRequest(requestForm);
+			
+			return SecopreConstans.MV_TRAM_LIST_REDIRECT;
+		
+		}catch(Exception ex){
+			LOG.error(ex.getMessage());
+			List<String> errors = new ArrayList<String>();
+			errors.add(ex.getMessage());
+			
+			model.addAttribute("errors", errors);
+			model.addAttribute("nextAction", "sendRequestJQ('auth/tram/list','dashboard','initTramiteListPage()','GET');");
+			return SecopreConstans.MV_TRAM_EXCEPTION;
+		}
+	}
+	
+	
+	
 	/*
 	 * Metodo para mostrar la autorizacion del folio correspondiente a la siguiente etapa
 	 * param requestId		- Folio en cuestion

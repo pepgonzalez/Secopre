@@ -382,14 +382,15 @@
 				</prop>
 				<prop key="GET_VALID_ENTRIES_BY_DISTRIC">
 					<![CDATA[
-						SELECT DISTINCT E.ID, E.NAME
+						SELECT DISTINCT E.ID, E.NAME, E.CODE
 						 FROM secopre.ENTRY E
 						 INNER JOIN secopre.ENTRYDISTRICT ED 
 						 ON E.ID = ED.ENTRY_ID
 						 INNER JOIN secopre.PROGRAMMATIC_KEY PK
 						 ON E.PROGRAMMATIC_ID = PK.ID
 						 WHERE PK.YEAR = YEAR(CURDATE())
-						 AND ED.DISTRICT_ID = :districtId ;
+						 AND ED.DISTRICT_ID = :districtId
+						 ORDER BY E.CODE
 					]]>
 				</prop>				
 				<prop key="GET_STAGE_CONFIG_BY_ID">
@@ -832,17 +833,36 @@
 						(REQUEST_ID, MOVEMENT_TYPE_ID, PROGRAMATIC_KEY_ID, ENTRY_ID, INITIAL_MONTH, FINAL_MONTH, MONTH_AMOUNT, TOTAL_AMOUNT, ACTIVE)
 						VALUES
 						(:requestId, :movementTypeId, :programaticKeyId, :entryId, :initialMonth, :finalMonth, :monthAmount, :totalAmount, :active)
-<<<<<<< HEAD
-=======
 					]]>
 				</prop>
 				
 				<prop key="GET_NOTIFICATIONS_BY_USER">
 					<![CDATA[
 						SELECT * FROM secopre.NOTIFICATION where USER_ID = :userId AND STATUS = 1
->>>>>>> branch 'master' of https://github.com/pepgonzalez/Secopre
 					]]>
 				</prop>
+				
+				
+				
+				
+				
+				
+				
+				<prop key="INSERT_REQUEST_DETAIL_MIRROR">
+					<![CDATA[
+						INSERT INTO secopre.REQUEST_DETAIL_MIRROR
+						(REQUEST_ID, MOVEMENT_TYPE_ID, PROGRAMATIC_KEY_ID, ENTRY_ID, INITIAL_MONTH, FINAL_MONTH, MONTH_AMOUNT, TOTAL_AMOUNT, ACTIVE)
+						VALUES
+						(:requestId, :movementTypeId, :programaticKeyId, :entryId, :initialMonth, :finalMonth, :monthAmount, :totalAmount, :active)
+					]]>
+				</prop>
+				
+				<prop key="CLEAN_REQUEST_DETAIL_MIRROR">
+					<![CDATA[
+						DELETE FROM secopre.REQUEST_DETAIL_MIRROR WHERE ID = ?
+					]]>
+				</prop>
+				
 				
 			</props>				
 		</property>
