@@ -1,7 +1,9 @@
 package ideasw.secopre.web.controller.base;
 
 import ideasw.secopre.exception.ResourceNotFoundException;
+import ideasw.secopre.web.SecopreConstans;
 
+import java.security.Principal;
 import java.sql.SQLException;
 
 import org.slf4j.Logger;
@@ -41,6 +43,35 @@ public class GlobalExceptionController {
 		return model;
 
 	}
+
+	/**
+	 * Metodo que permite las excepciones generales no clasificadas generadas en
+	 * la capa del controlador
+	 * 
+	 * @param exception
+	 * @return pagina de error generica
+	 */
+	@ExceptionHandler(javax.servlet.ServletException.class)
+	public ModelAndView handleAllException(javax.servlet.ServletException exception, Principal principal) {
+		LOG.error("##########Se solicito un path no configurado#############",
+				exception);
+		ModelAndView model; 
+
+		if(principal != null && principal.getName() != null){
+			model  = new ModelAndView("auth/start");
+			model.addObject("errMsg",
+					"Ocurrio un error, por favor intente mas tarde");
+		}else{
+			model  = new ModelAndView(SecopreConstans.MV_403);
+			model.addObject(
+					"message",
+					"Hola , no tienes permisos para acceder a esta pagina, por favor contacta a tu administrador!");
+			
+		}
+		return model;
+
+	}	
+	
 
 	/**
 	 * Metodo que permite cachar y evaluar los errores ocacionados por un codigo

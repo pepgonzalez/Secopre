@@ -370,13 +370,14 @@
 	
 				<prop key="GET_VALID_ENTRIES">
 					<![CDATA[
-						SELECT E.ID, E.NAME 
+						SELECT E.ID, E.NAME, E.CODE 
 						  FROM secopre.ENTRY E
 						  JOIN (SELECT DISTINCT DISTRICT_ID, ENTRY_ID 
 						          FROM secopre.ENTRYDISTRICT ED 
 						         WHERE ED.DISTRICT_ID = :districtId ) T
 						    ON E.ID = T.ENTRY_ID
 						   AND E.PROGRAMMATIC_ID = :programaticKeyId
+						ORDER BY E.CODE   
 					]]>
 				</prop>
 				
@@ -855,6 +856,7 @@
 					]]>
 				</prop>
 				
+<<<<<<< HEAD
 				<prop key="GET_LIST_DISTRICTS">
 					<![CDATA[
 						SELECT D.ID, CONCAT('DTO-',D.NUMBER) AS DESCRIPTION ,EMAIL,TELEPHONE, D.ACTIVE, 
@@ -877,6 +879,8 @@
 				
 				
 				
+=======
+>>>>>>> branch 'master' of https://github.com/pepgonzalez/Secopre
 				
 				
 				

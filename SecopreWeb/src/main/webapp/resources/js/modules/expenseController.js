@@ -383,11 +383,12 @@ var expenseController = {
 									break;
 								}
 							}
+							console.log(item);
 							if(!existe){
-								entrySelect.append('<option value="' + item.id +'">' + item.name + '</option>');
+								entrySelect.append('<option value="' + item.id +'">'+item.code+'-'+ item.name + '</option>');
 							}
 						}else{
-							entrySelect.append('<option value="' + item.id +'">' + item.name + '</option>');
+							entrySelect.append('<option value="' + item.id +'">'+item.code+'-'+ item.name +  '</option>');
 						}
 					});
 					

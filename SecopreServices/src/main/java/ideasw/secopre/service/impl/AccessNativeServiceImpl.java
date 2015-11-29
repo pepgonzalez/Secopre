@@ -387,6 +387,21 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		
 		return request;
 	}
+	
+	public Request insertOrUpdateRequestData(Request request){
+		Request baseRequest = this.getRequestById(request.getRequestId());
+		
+		baseRequest.setMovementTypeId(request.getMovementTypeId());
+		baseRequest.setCertifiedAccount(request.getCertifiedAccount());
+		
+		request.setDistrictId(baseRequest.getDistrictId());
+		
+		LOG.info("Actualizando request");
+		this.insertOrUpdateRequest(baseRequest);
+		LOG.info("Request Actualizado");
+		
+		return request;
+	}
 
 	private int cleanRequestDetail(Long requestId){
 		SqlParameterSource params = new MapSqlParameterSource()

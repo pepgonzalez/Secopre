@@ -27,6 +27,8 @@ public class Movement {
 	private Double monthAmount;
 	private Double totalAmount;
 	
+	private boolean isSaved;
+	
 	private Integer removedElement = 0;
 	
 	public Long getRequestDetailId() {
@@ -100,7 +102,8 @@ public class Movement {
 		", initialMonthId: " + this.initialMonthId + 
 		", finalMonthId: " + this.finalMonthId + 
 		", monthAmount: " + this.monthAmount + 
-		", totalAmount: " + this.getTotalAmount() + "}";
+		", totalAmount: " + this.getTotalAmount() + 
+		", isSaved: " + this.isSaved + "}";
 	}
 
 	public static final String TABLE_NAME = "REQUEST_DETAIL";
@@ -125,6 +128,12 @@ public class Movement {
 	}
 	public void setRequestId(Long requestId) {
 		this.requestId = requestId;
+	}
+	public boolean getIsSaved() {
+		return isSaved;
+	}
+	public void setIsSaved(boolean isSaved) {
+		this.isSaved = isSaved;
 	}
 
 }

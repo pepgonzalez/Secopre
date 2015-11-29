@@ -195,6 +195,7 @@
 	<script src='<c:url value="/resources/js/utils/secopre.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/demo/table-managed.js"/>' type="text/javascript"></script>	
 	<script src='<c:url value="/resources/js/modules/movementController.js"/>' type="text/javascript"></script>	
+	<script src='<c:url value="/resources/js/modules/movementController2.js"/>' type="text/javascript"></script>	
 	<script src='<c:url value="/resources/js/modules/expenseController.js"/>' type="text/javascript"></script>	
 	<script src='<c:url value="/resources/js/modules/admin.js"/>' type="text/javascript"></script>	
 	<script src='<c:url value="/resources/js/modules/catalog.js"/>' type="text/javascript"></script>	
@@ -225,11 +226,9 @@
 
 	         $.getJSON("oper/notice/getNotice",{}, function(j){
 	              var json = eval(j);
-	              blockPage();
 	              console.log("NOTICE ===>", json);
 	              console.log("EVAL =====>", eval(json != null));
 				  if(json != null ){
-					  unblockPage();
 		              BootstrapDialog.show({
 		            		title: 'Notificaciones Secopre',
 		            	    message: json.noticeInfo,
@@ -247,7 +246,6 @@
 		            	    }]
 		            	});
 				  }
-				  unblockPage();	
 	            });
 		   
 		});
