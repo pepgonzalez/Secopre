@@ -53,7 +53,8 @@ public class EntryController extends AuthController {
 		propertiesMap.put("status", StatusEntry.ACTIVE);
 		model.addAttribute("entryList",
 				baseService.findByProperties(Entry.class, propertiesMap));
-
+		
+		baseService.findByPropertiesWithOrder(Entry.class, propertiesMap, "code");
 		model.addAttribute("entry", entry);
 		List<ProgrammaticKey> programmaticKeyList = baseService
 				.findAll(ProgrammaticKey.class);

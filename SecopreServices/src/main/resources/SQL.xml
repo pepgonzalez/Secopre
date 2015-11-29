@@ -371,13 +371,14 @@
 	
 				<prop key="GET_VALID_ENTRIES">
 					<![CDATA[
-						SELECT E.ID, E.NAME 
+						SELECT E.ID, E.NAME, E.CODE 
 						  FROM secopre.ENTRY E
 						  JOIN (SELECT DISTINCT DISTRICT_ID, ENTRY_ID 
 						          FROM secopre.ENTRYDISTRICT ED 
 						         WHERE ED.DISTRICT_ID = :districtId ) T
 						    ON E.ID = T.ENTRY_ID
 						   AND E.PROGRAMMATIC_ID = :programaticKeyId
+						ORDER BY E.CODE   
 					]]>
 				</prop>
 				<prop key="GET_VALID_ENTRIES_BY_DISTRIC">
@@ -841,6 +842,28 @@
 						SELECT * FROM secopre.NOTIFICATION where USER_ID = :userId AND STATUS = 1
 					]]>
 				</prop>
+				
+				
+				
+				
+				
+				
+				
+				<prop key="INSERT_REQUEST_DETAIL_MIRROR">
+					<![CDATA[
+						INSERT INTO secopre.REQUEST_DETAIL_MIRROR
+						(REQUEST_ID, MOVEMENT_TYPE_ID, PROGRAMATIC_KEY_ID, ENTRY_ID, INITIAL_MONTH, FINAL_MONTH, MONTH_AMOUNT, TOTAL_AMOUNT, ACTIVE)
+						VALUES
+						(:requestId, :movementTypeId, :programaticKeyId, :entryId, :initialMonth, :finalMonth, :monthAmount, :totalAmount, :active)
+					]]>
+				</prop>
+				
+				<prop key="CLEAN_REQUEST_DETAIL_MIRROR">
+					<![CDATA[
+						DELETE FROM secopre.REQUEST_DETAIL_MIRROR WHERE ID = ?
+					]]>
+				</prop>
+				
 				
 			</props>				
 		</property>
