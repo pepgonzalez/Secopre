@@ -13,6 +13,7 @@ public class EntryMapper implements RowMapper<Object> {
 		Entry entry = new Entry();
 		 entry.setId(rs.getLong("ID"));
 		 entry.setName(rs.getString("NAME"));
+		 entry.setCode(rs.getInt("CODE"));
 		 return entry;   
 	 }    
 } 

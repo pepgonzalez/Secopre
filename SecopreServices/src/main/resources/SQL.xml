@@ -382,14 +382,15 @@
 				</prop>
 				<prop key="GET_VALID_ENTRIES_BY_DISTRIC">
 					<![CDATA[
-						SELECT DISTINCT E.ID, E.NAME
+						SELECT DISTINCT E.ID, E.NAME, E.CODE
 						 FROM secopre.ENTRY E
 						 INNER JOIN secopre.ENTRYDISTRICT ED 
 						 ON E.ID = ED.ENTRY_ID
 						 INNER JOIN secopre.PROGRAMMATIC_KEY PK
 						 ON E.PROGRAMMATIC_ID = PK.ID
 						 WHERE PK.YEAR = YEAR(CURDATE())
-						 AND ED.DISTRICT_ID = :districtId ;
+						 AND ED.DISTRICT_ID = :districtId
+						 ORDER BY E.CODE
 					]]>
 				</prop>				
 				<prop key="GET_STAGE_CONFIG_BY_ID">
