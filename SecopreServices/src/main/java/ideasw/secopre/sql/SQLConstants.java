@@ -31,6 +31,8 @@ public class SQLConstants {
 	public static final String GET_VALID_DISTRICTS_BY_USER = "GET_VALID_DISTRICTS_BY_USER";
 	public static final String GET_DISTRICT_LIST_BY_USER = "GET_DISTRICT_LIST_BY_USER";
 	public static final String GET_USER_LIST_BY_DISTRICT = "GET_USER_LIST_BY_DISTRICT";	
+	public static final String GET_LIST_USERS = "GET_LIST_USERS";	
+	public static final String GET_LIST_DISTRICTS = "GET_LIST_DISTRICTS";	
 	
 	//Querys para clonacion de partidas
 	public static final String VALIDATE_ENTRIES_NEXT_YEAR = "VALIDATE_ENTRIES_NEXT_YEAR";
@@ -72,5 +74,10 @@ public class SQLConstants {
 	
 	//notificaciones
 	public static final String GET_NOTIFICATIONS_BY_USER = "GET_NOTIFICATIONS_BY_USER";
+
+	
+	//nuevo proceso de guardado de movimientos
+	public static final String INSERT_REQUEST_DETAIL_MIRROR = "INSERT_REQUEST_DETAIL_MIRROR";
+	public static final String CLEAN_REQUEST_DETAIL_MIRROR = "CLEAN_REQUEST_DETAIL_MIRROR";
 	
 }

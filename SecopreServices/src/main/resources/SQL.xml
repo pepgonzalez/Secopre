@@ -5,7 +5,6 @@
 	<bean id="queryContainer" class="ideasw.secopre.sql.QueryContainer">
 		<property name="queries">
 			<props>
-
 				<prop key="GET_ENTRY_DETAIL">
 					<![CDATA[
 						SELECT S.ID AS STATE_ID,
@@ -380,6 +379,7 @@
 						   AND E.PROGRAMMATIC_ID = :programaticKeyId
 					]]>
 				</prop>
+				
 				<prop key="GET_VALID_ENTRIES_BY_DISTRIC">
 					<![CDATA[
 						SELECT DISTINCT E.ID, E.NAME, E.CODE
@@ -402,21 +402,29 @@
 				
 				<prop key="GET_VALID_DISTRICTS">
 					<![CDATA[
-						SELECT D.ID, CONCAT('DTO-',D.NUMBER) AS DESCRIPTION
-							FROM secopre.DISTRICT D JOIN
+							SELECT D.ID, CONCAT('DTO-',D.NUMBER) AS DESCRIPTION,
+							       EMAIL,TELEPHONE, D.ACTIVE, A.NUMBER NUMBER_EXT, A.STREET, A.COLONY, A.CITY, S.id STATE_ID, S.CODE, S.NAME, A.id ADDRESS_ID
+							       FROM secopre.DISTRICT D JOIN
 							(SELECT DISTINCT(ED.DISTRICT_ID) FROM secopre.ENTRYDISTRICT ED) T
-							ON (D.ID = T.DISTRICT_ID)
+								ON (D.ID = T.DISTRICT_ID)
+							LEFT OUTER JOIN ADDRESS A
+							  ON D.ADDRESS_ID = A.id
+							    LEFT OUTER JOIN STATE S
+							  ON S.id = D.STATE_ID
 					]]>
 				</prop>
 				
 				<prop key="GET_VALID_DISTRICTS_BY_USER">
 					<![CDATA[
-						SELECT D.ID, 
-						       CONCAT(S.NAME, ' (DTO-',D.NUMBER,')') AS DESCRIPTION
+                        SELECT D.ID, 
+						       CONCAT(S.NAME, ' (DTO-',D.NUMBER,')') AS DESCRIPTION,
+						       EMAIL,TELEPHONE, D.ACTIVE, A.NUMBER NUMBER_EXT, A.STREET, A.COLONY, A.CITY, S.id STATE_ID, S.CODE, S.NAME, A.id ADDRESS_ID
 						  FROM secopre.DISTRICT D 
+						  LEFT OUTER JOIN ADDRESS A
+							ON D.ADDRESS_ID = A.id
 						       JOIN (SELECT DISTINCT(ED.DISTRICT_ID) FROM secopre.ENTRYDISTRICT ED) T ON (D.ID = T.DISTRICT_ID)
 						       JOIN secopre.STATE S ON (D.STATE_ID = S.ID)
-						       JOIN secopre.DISTRICT_USER DU ON (DU.DISTRICT_ID = D.ID AND DU.USER_ID = :userId)
+						       JOIN secopre.DISTRICT_USER DU ON (DU.DISTRICT_ID = D.ID AND DU.USER_ID =  :userId)
 					]]>
 				</prop>
 				
@@ -649,19 +657,24 @@
 					]]>
 				</prop>
 				
+				
 				<prop key="GET_DISTRICT_LIST_BY_USER">
 					<![CDATA[
-							SELECT D.id , D.NUMBER DESCRIPTION
-						  	  FROM DISTRICT D,
-						  	       DISTRICT_USER DS
-						  	 WHERE D.ID = DS.DISTRICT_ID
-						  	   AND DS.USER_ID = :userId
+			            SELECT D.id , D.NUMBER DESCRIPTION,EMAIL,TELEPHONE, D.ACTIVE, 
+						       A.NUMBER NUMBER_EXT, A.STREET, A.COLONY, A.CITY, 
+						       S.id STATE_ID, S.CODE, S.NAME, A.id ADDRESS_ID
+						  FROM DISTRICT D
+				       LEFT OUTER JOIN ADDRESS A
+						    ON D.ADDRESS_ID = A.id
+						  JOIN secopre.STATE S ON (D.STATE_ID = S.ID)
+						  JOIN secopre.DISTRICT_USER DU ON (DU.DISTRICT_ID = D.ID AND DU.USER_ID =  :userId)
 					]]>
 				</prop>	
 				
 				<prop key="GET_USER_LIST_BY_DISTRICT">
 					<![CDATA[
-							SELECT U.id , U.USERNAME USERNAME, U.PERSON_ID
+							SELECT U.id , U.USERNAME USERNAME, U.PERSON_ID,
+							       ACTIVE, AVATAR, EMAIL, HAS_CHAT_ACTIVE, NICKNAME, PASSWORD, DASHBOARD_ID
 						  	  FROM USER U,
 						  	       DISTRICT_USER DU
 						  	 WHERE U.ID = DU.USER_ID
@@ -841,6 +854,50 @@
 						SELECT * FROM secopre.NOTIFICATION where USER_ID = :userId AND STATUS = 1
 					]]>
 				</prop>
+				
+				<prop key="GET_LIST_DISTRICTS">
+					<![CDATA[
+						SELECT D.ID, CONCAT('DTO-',D.NUMBER) AS DESCRIPTION ,EMAIL,TELEPHONE, D.ACTIVE, 
+						       A.NUMBER NUMBER_EXT, A.STREET, A.COLONY, A.CITY, 
+						       S.id STATE_ID, S.CODE, S.NAME, A.id ADDRESS_ID
+						  FROM DISTRICT D
+						  LEFT OUTER JOIN ADDRESS A
+						  ON D.ADDRESS_ID = A.id
+						    LEFT OUTER JOIN STATE S
+						  ON S.id = D.STATE_ID
+					]]>
+				</prop>
+				
+				<prop key="GET_LIST_USERS">
+					<![CDATA[
+                         SELECT ID,ACTIVE,AVATAR, EMAIL, HAS_CHAT_ACTIVE, NICKNAME, PASSWORD,USERNAME, DASHBOARD_ID, PERSON_ID
+                           FROM USER
+					]]>
+				</prop>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<prop key="INSERT_REQUEST_DETAIL_MIRROR">
+					<![CDATA[
+						INSERT INTO secopre.REQUEST_DETAIL_MIRROR
+						(REQUEST_ID, MOVEMENT_TYPE_ID, PROGRAMATIC_KEY_ID, ENTRY_ID, INITIAL_MONTH, FINAL_MONTH, MONTH_AMOUNT, TOTAL_AMOUNT, ACTIVE)
+						VALUES
+						(:requestId, :movementTypeId, :programaticKeyId, :entryId, :initialMonth, :finalMonth, :monthAmount, :totalAmount, :active)
+					]]>
+				</prop>
+				
+				<prop key="CLEAN_REQUEST_DETAIL_MIRROR">
+					<![CDATA[
+						DELETE FROM secopre.REQUEST_DETAIL_MIRROR WHERE ID = ?
+					]]>
+				</prop>
+				
 				
 			</props>				
 		</property>
