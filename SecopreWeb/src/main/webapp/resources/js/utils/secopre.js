@@ -49,11 +49,7 @@ function submitAjaxJQ(formId, targetId, after, isDownload) {
 	
 	
 	var x = (frm !== undefined && frm !== null) ? frm.serialize(true) : null;
-	
-	console.log("data----------------------------------------------------------");
-	console.log(x);
-	console.log("fin data------------------------------------------------------");
-	
+		
 	var header = $("meta[name='_csrf_header']").attr("content");
 	var token = $("meta[name='_csrf']").attr("content");
 
@@ -89,6 +85,48 @@ function submitAjaxJQ(formId, targetId, after, isDownload) {
 									+ thrownError);
 				}
 			});
+}
+
+
+function submitAjaxJQWithAction(formId, targetId, after, action) {
+	var method = 'POST';
+	var frm = $('#' + formId);
+	var action = action;
+	
+	
+	var x = (frm !== undefined && frm !== null) ? frm.serialize(true) : null;
+		
+	var header = $("meta[name='_csrf_header']").attr("content");
+	var token = $("meta[name='_csrf']").attr("content");
+
+	var path = context + '/' + action;
+		
+	blockPage();
+	$.ajax({
+		type : method,
+		url : context + '/' + action,
+		data : (frm !== undefined && frm !== null) ? frm.serialize(true) : null,
+		beforeSend : function(xhr) {
+			xhr.setRequestHeader(header, token);
+		},
+		success : function(data) {
+			$("#" + targetId).html("");
+			$('#' + targetId).html(data);
+			// Mensaje Exito
+			showNotification('success', 'La operacion se realizo correctamente!!');
+		},
+		complete : function(jqXHR) {
+			if (after !== null) {
+				eval(after);
+			}
+			unblockPage();
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			unblockPage();
+			// Mensaje error
+			showNotification('error','Ocurrio un error al ejecutar su peticion:' + thrownError);
+		}
+	});
 }
 
 //using FormData() object

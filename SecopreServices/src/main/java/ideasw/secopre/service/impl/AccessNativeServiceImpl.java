@@ -356,16 +356,8 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	
 	@Transactional(readOnly = false, rollbackFor=EntryDistrictException.class)
 	public int insertOrUpdateRequestDetail(Request request) throws Exception{
-
-		Request baseRequest = this.getRequestById(request.getRequestId());
-		baseRequest.setMovementTypeId(request.getMovementTypeId());
-		baseRequest.setCertifiedAccount(request.getCertifiedAccount());
-		request.setDistrictId(baseRequest.getDistrictId());
 		
-		LOG.info("Actualizando request");
-		this.insertOrUpdateRequest(baseRequest);
-		LOG.info("Request Actualizado");
-		
+		request = this.insertOrUpdateRequestData(request);
 		
 		//se limpian los movimientos actuales
 		LOG.info("Limpiando detalle de movimientos");
@@ -379,6 +371,21 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		this.insertMovementList(request.getUpMovements(), request);
 		LOG.info("Movimientos de ampliacion terminado");
 		return 0;
+	}
+	
+	public Request insertOrUpdateRequestData(Request request){
+		Request baseRequest = this.getRequestById(request.getRequestId());
+		
+		baseRequest.setMovementTypeId(request.getMovementTypeId());
+		baseRequest.setCertifiedAccount(request.getCertifiedAccount());
+		
+		request.setDistrictId(baseRequest.getDistrictId());
+		
+		LOG.info("Actualizando request");
+		this.insertOrUpdateRequest(baseRequest);
+		LOG.info("Request Actualizado");
+		
+		return request;
 	}
 
 	private int cleanRequestDetail(Long requestId){

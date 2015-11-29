@@ -204,4 +204,6 @@ public interface AccessNativeService {
 	Map<Long, String> getValidDistrictsMapByUserId(Long userId);
 
 	List<Notification> getNotificationByUserId(Long userId);
+	
+	Request insertOrUpdateRequestData(Request request);
 }
