@@ -28,12 +28,11 @@ function initPositionList() {
 
 function initDistrictCat(idDistrict) {
 	initPage('District');
+	initDistrictValidations();
 	 $('select').select2();
 	 $('#usuarios').multiSelect({
 		 includeSelectAllOption: true
- });
-	 
-	 
+	 });
 		var apiCallUnblock = function(actionURL, callback) {
 			var method = method || "POST";
 			var header = $("meta[name='_csrf_header']").attr("content");
@@ -60,8 +59,6 @@ function initDistrictCat(idDistrict) {
 		   });
 		   
 		}
-	 
-	 
 	 
 }
 
