@@ -53,7 +53,7 @@
 												<div class="form-body">													
 
 													<div class="form-group form-md-line-input">
-														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.entry.code"/>
+														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.entry.entry"/>
 															<span class="required">* </span>
 														</label>
 														<div class="col-md-10">
@@ -61,7 +61,7 @@
 																<form:textarea path="entry.code" id="code" name="code" value="${entry.code}" class="form-control" rows="1" />
 																<div class="form-control-focus">
 																</div>
-																<span id="code-error" class="help-block help-block-error"><spring:message code="application.pages.catalog.entry.code.help"/></span>
+																<span id="code-error" class="help-block help-block-error"><spring:message code="application.pages.catalog.entry.entry.help"/></span>
 																<i class="icon-user"></i>
 															</div>
 														</div>
@@ -146,7 +146,7 @@
 									            <h4 class="form-section">Partidas</h4>
 									            <div class="form-group">
 										            <label class="control-label col-md-3"><spring:message
-													code="application.pages.catalog.entry.code" />
+													code="application.pages.catalog.entry.entry" />
 													</label>
 										            <div class="col-md-4">
 											           <p class="form-control-static" data-display="name"></p>

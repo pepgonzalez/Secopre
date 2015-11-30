@@ -212,4 +212,9 @@ public interface AccessNativeService {
 	List<Notification> getNotificationByUserId(Long userId);
 	
 	Request insertOrUpdateRequestData(Request request);
+	
+	List<Entry> getEntries();
+	
+	/*Servicio para obtener todas los distritos que pertenece a un aviso*/
+    List<District> getDistrictsByNotice(Long noticeId);
 }

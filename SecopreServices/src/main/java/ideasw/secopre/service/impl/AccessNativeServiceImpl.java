@@ -34,6 +34,7 @@ import ideasw.secopre.service.impl.mapper.DistrictMapper;
 import ideasw.secopre.service.impl.mapper.EntryMapper;
 import ideasw.secopre.service.impl.mapper.FormalityMapper;
 import ideasw.secopre.service.impl.mapper.FullEntryDistrictMapper;
+import ideasw.secopre.service.impl.mapper.FullEntryMapper;
 import ideasw.secopre.service.impl.mapper.InboxMapper;
 import ideasw.secopre.service.impl.mapper.MovementMapper;
 import ideasw.secopre.service.impl.mapper.NotificationMapper;
@@ -890,6 +891,18 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	@Override
 	public List<User> getUsers() {
         return this.queryForList(User.class, queryContainer.getSQL(SQLConstants.GET_LIST_USERS), null, new UserMapper());
+	}
+	
+	@Override
+	public List<Entry> getEntries() {
+        return this.queryForList(Entry.class, queryContainer.getSQL(SQLConstants.GET_LIST_ENTRIES), null, new FullEntryMapper());
+	}
+	
+	@Override
+	public List<District> getDistrictsByNotice(Long noticeId) {
+		SqlParameterSource namedParameters = new MapSqlParameterSource()
+		.addValue("noticeId", noticeId);
+        return this.queryForList(District.class, queryContainer.getSQL(SQLConstants.GET_DISTRICT_LIST_BY_NOTICE), namedParameters, new DistrictMapper());
 	}
 
 }

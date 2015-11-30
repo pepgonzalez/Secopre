@@ -90,7 +90,7 @@
 									</td>		
 
 									<td>
-										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/oper/notice/edit?id=${noticeItem.id}' ,'dashboard','initNoticeCat()');">
+										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/oper/notice/edit?id=${noticeItem.id}' ,'dashboard','initNoticeCat(${noticeItem.id})');">
 										 <i class="fa fa-edit xs"></i>
 										</button>
 										

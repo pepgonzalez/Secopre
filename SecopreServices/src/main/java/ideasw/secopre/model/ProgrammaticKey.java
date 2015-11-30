@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * Clase que modela los agrupadores de partidas contables dentro de la
@@ -54,6 +55,9 @@ public class ProgrammaticKey extends AuditEntity implements Persistible {
 	
 	@Column(name = "UNIT_RESPONSABLE", nullable = true)
 	private String unitResponsable;
+	
+	@Transient
+	private String description;
 
 	/**
 	 * @return the id
@@ -146,6 +150,15 @@ public class ProgrammaticKey extends AuditEntity implements Persistible {
 
 	public void setUnitResponsable(String unitResponsable) {
 		this.unitResponsable = unitResponsable;
+	}
+
+	public String getDescription() {
+		return description;
+		//return this.function.concat(" ").concat(this.finality).concat(" ").concat(this.subfunction).concat(" ").concat(activity).concat(" ").concat(programBudget).concat(" ").concat(this.unitResponsable);
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }

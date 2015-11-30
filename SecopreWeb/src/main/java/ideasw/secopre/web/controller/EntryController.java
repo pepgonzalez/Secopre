@@ -51,13 +51,13 @@ public class EntryController extends AuthController {
 		Entry entry = new Entry();
 		Map<String, Object> propertiesMap = new HashMap<String, Object>();
 		propertiesMap.put("status", StatusEntry.ACTIVE);
-		model.addAttribute("entryList",
-				baseService.findByProperties(Entry.class, propertiesMap));
 		
+		//model.addAttribute("entryList",baseService.findByProperties(Entry.class, propertiesMap));	
+		model.addAttribute("entryList",accessNativeService.getEntries());	
 		baseService.findByPropertiesWithOrder(Entry.class, propertiesMap, "code");
+		
 		model.addAttribute("entry", entry);
-		List<ProgrammaticKey> programmaticKeyList = baseService
-				.findAll(ProgrammaticKey.class);
+		List<ProgrammaticKey> programmaticKeyList = baseService.findAll(ProgrammaticKey.class);
 
 		HashMap<Long, String> pkMap = new HashMap<Long, String>();
 		for (ProgrammaticKey p : programmaticKeyList) {

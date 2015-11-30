@@ -51,8 +51,9 @@
 								<th class="table-checkbox">
 									<input type="checkbox" class="group-checkable" data-set="#entryTable .checkboxes"/>
 								</th>
-								<th><spring:message code="application.pages.catalog.entry.code"/></th>
-								<th><spring:message code="application.pages.catalog.entry.name"/></th>
+<%-- 								<th><spring:message code="application.pages.catalog.entry.code"/></th> --%>
+								<th><spring:message code="application.pages.catalog.entry.entry"/></th>
+								<th><spring:message code="application.pages.catalog.entry.pk"/></th>								
 								<th><spring:message code="application.pages.catalog.entry.description"/></th>
 								<th><spring:message code="application.active"/></th>
 								<th><spring:message code="application.actions"/></th>
@@ -65,7 +66,7 @@
 										<input type="checkbox" class="checkboxes" value="1"/>
 									</td>
 									<td>${entryItem.code}</td>
-									<td>${entryItem.name}</td>
+									<td>${entryItem.programmaticKey.description}</td>
 									<td>
 										 ${entryItem.description}
 									</td>

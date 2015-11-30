@@ -892,6 +892,36 @@
 				</prop>
 				
 				
+				<prop key="GET_LIST_ENTRIES">
+					<![CDATA[
+						  SELECT E.ID, E.ACTIVE, E.CODE, E.NAME,E.DESCRIPTION , CONCAT(PK.FUNCTION," ",PK.FINALITY, " ",PK.SUBFUNCTION," " ,PK.ACTIVITY," ",PK.PROGRAM_BUDGET," ",UNIT_RESPONSABLE) DESCRIPTION_PK, 
+						         PK.ID PROGRAMMATIC_ID, PK.CODE, PK.YEAR, PK.ACTIVITY, PK.FINALITY, PK.FUNCTION,PK.PROGRAM_BUDGET, PK.SUBFUNCTION, UNIT_RESPONSABLE
+						    FROM ENTRY E,
+						         PROGRAMMATIC_KEY PK
+						   WHERE E.PROGRAMMATIC_ID = PK.id
+						    AND  E.STATUS = 'ACTIVE'
+						   ORDER BY E.CODE
+					]]>
+				</prop>		
+				
+				<prop key="GET_DISTRICT_LIST_BY_NOTICE">
+					<![CDATA[
+				           SELECT D.ID, 
+						       CONCAT(S.NAME, ' (DTO-',D.NUMBER,')') AS DESCRIPTION,
+						       EMAIL,TELEPHONE, D.ACTIVE, A.NUMBER NUMBER_EXT, A.STREET, A.COLONY, A.CITY, S.id STATE_ID, S.CODE, S.NAME, A.id ADDRESS_ID
+						  FROM secopre.DISTRICT D 
+						  LEFT OUTER JOIN ADDRESS A
+							ON D.ADDRESS_ID = A.id
+						       JOIN secopre.STATE S ON (D.STATE_ID = S.ID)
+						       JOIN secopre.NOTICE_DISTRICT NU ON (NU.DISTRICT_ID = D.ID AND NU.NOTICE_ID =  :noticeId)	
+					]]>
+				</prop>	
+				
+				
+	
+				  
+				
+				
 			</props>				
 		</property>
 	</bean>
