@@ -3,6 +3,7 @@ package ideasw.secopre.service.impl;
 import ideasw.secopre.constants.PropertyConstants;
 import ideasw.secopre.constants.WorkflowConstants;
 import ideasw.secopre.dto.Authorization;
+import ideasw.secopre.dto.EntryCurrentTotal;
 import ideasw.secopre.dto.Formality;
 import ideasw.secopre.dto.Inbox;
 import ideasw.secopre.dto.Movement;
@@ -31,6 +32,7 @@ import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.AccessNativeService;
 import ideasw.secopre.service.BaseService;
 import ideasw.secopre.service.impl.mapper.DistrictMapper;
+import ideasw.secopre.service.impl.mapper.EntryCurrentTotalMapper;
 import ideasw.secopre.service.impl.mapper.EntryMapper;
 import ideasw.secopre.service.impl.mapper.FormalityMapper;
 import ideasw.secopre.service.impl.mapper.FullEntryDistrictMapper;
@@ -926,6 +928,12 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		SqlParameterSource namedParameters = new MapSqlParameterSource()
 		.addValue("noticeId", noticeId);
         return this.queryForList(District.class, queryContainer.getSQL(SQLConstants.GET_DISTRICT_LIST_BY_NOTICE), namedParameters, new DistrictMapper());
+	}
+	
+	
+	public EntryCurrentTotal getEntryCurrentTotals(Long districtId, Long entryId) {
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("districtId", districtId).addValue("entryId", entryId);	
+		return this.queryForList(EntryCurrentTotal.class, queryContainer.getSQL(SQLConstants.GET_ENTRY_CURRENT_TOTALS), namedParameters, new EntryCurrentTotalMapper()).get(0);
 	}
 
 }

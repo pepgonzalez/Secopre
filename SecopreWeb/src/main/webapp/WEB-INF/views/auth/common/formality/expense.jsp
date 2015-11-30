@@ -21,7 +21,8 @@
 			<i class="fa fa-cogs"></i>Gastos
 		</div>
 		<div class="actions">
-			<a href="javascript:;" class="btn green btn-sm" id="addMov"><i class="fa fa-plus"></i>Agregar Gasto </a>
+			<a href="javascript:;" class="btn green btn-sm addButton" id="addMov"><i class="fa fa-plus"></i>Agregar Gasto </a>
+			<a href="javascript:;" class="btn green btn-sm" id="saveMov"><i class="fa fa-hdd-o"></i>Guardar Gasto</a>
 		</div>
 	</div>
 	<div class="portlet-body">
@@ -33,6 +34,8 @@
 						<th>Clave Programatica</th>
 						<th>Partida</th>
 						<th>Monto Mensual</th>
+						<th>Monto Total</th>
+						
 					</tr>
 				</thead>
 				<tbody>
@@ -49,7 +52,9 @@
 									
 									<td data-name="deleteAction" class="buttonColumn">
   										<a href="javascript:;" class="btn default btn-xs red" id="rmvIdx${i.index}"><i class="fa fa-times"></i></a>
-  										<a href="javascript:;" class="btn grey-cascade btn-xs default lastButton" id="infoIdx${i.index}"><i class="fa fa-info-circle"></i></a>
+  										<c:if test="${mov.isSaved == false}">
+											<a href="javascript:;" class="btn grey-cascade btn-xs default movementComponent" id="infoIdx${i.index}"><i class="fa fa-info-circle"></i></a>
+										</c:if>
 									</td>
 									
 									<td data-name="programaticKey">
@@ -67,13 +72,18 @@
 									<td data-name="monthAmount">
 										<form:input path="downMovements[${i.index}].monthAmount" class="form-control numbersOnly"/>
 									</td>
+									
+									<td data-name="totalAmount">
+										<form:input path="downMovements[${i.index}].totalAmount" class="form-control input-xsmall numbersOnly movementComponent"/>
+									</td>
 					
 									<form:hidden path="downMovements[${i.index}].initialMonthId" class="form-control" data-name="initialMonthId"/>
-									<form:hidden path="downMovements[${i.index}].totalAmount" class="form-control" data-name="totalAmount"/>
 									<form:hidden path="downMovements[${i.index}].finalMonthId" class="form-control" data-name="finalMonthId"/>
 									<form:hidden path="downMovements[${i.index}].removedElement" class="form-control" data-name="removedElement"/>
 									<form:hidden path="downMovements[${i.index}].movementTypeId" class="form-control" data-name="movementTypeId"/>
 									<form:hidden path="downMovements[${i.index}].requestDetailId" class="form-control" data-name="requestDetailId"/>
+									<form:hidden path="downMovements[${i.index}].isSaved" class="form-control" data-name="isSaved"/>
+									
 								</tr>
 							</c:forEach>
 					    </c:otherwise>
@@ -89,6 +99,8 @@
 		</div>
 	</div>
 </div>
+
+<div id="currentTotals"></div>
 
 <!-- row template para agregar registros -->
 <template id="movementRowTemplate">
@@ -114,11 +126,22 @@
 		<td data-name="monthAmount">
 			<form:input path="upMovements" class="form-control numbersOnly"/>
 		</td>
+		
+		<td data-name="totalAmount">
+			<form:input path="upMovements" class="form-control input-xsmall numbersOnly movementComponent" readonly="true"/>
+		</td>
 		<form:hidden path="upMovements" class="form-control" data-name="initialMonthId"/>
 		<form:hidden path="upMovements" class="form-control" data-name="finalMonthId"/>
 		<form:hidden path="upMovements" class="form-control" data-name="removedElement"/>
 		<form:hidden path="upMovements" class="form-control" data-name="movementTypeId"/>
 		<form:hidden path="upMovements" class="form-control" data-name="requestDetailId"/>
-		<form:hidden path="upMovements" class="form-control" data-name="totalAmount"/>
 	</tr>
 </template>
+
+<c:if test="${executeInnerJs == 1}">
+	<script type="text/javascript">
+		$(document).ready(function(){
+			expenseCapture();
+		});
+	</script>
+</c:if>

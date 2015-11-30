@@ -197,79 +197,52 @@ var movementController2 = {
 		var e = $(self.activateTemplate("#movementRowTemplate"));
 
 		// accion
-		e.find("tr").attr("id", "row" + nextIndex).attr("data-rowNumber",
-				nextIndex);
-		e.find("[data-name='deleteAction'] #rowDeleteButton").attr("id",
-				"rmvIdx" + nextIndex);
-		e.find("[data-name='deleteAction'] #rowInfoButton").attr("id",
-				"infoIdx" + nextIndex);
-		e.find("[data-name='deleteAction'] #cloneInfoButton").attr("id",
-				"cloneIdx" + nextIndex);
+		e.find("tr").attr("id", "row" + nextIndex).attr("data-rowNumber",nextIndex);
+		e.find("[data-name='deleteAction'] #rowDeleteButton").attr("id", "rmvIdx" + nextIndex);
+		e.find("[data-name='deleteAction'] #rowInfoButton").attr("id", "infoIdx" + nextIndex);
+		e.find("[data-name='deleteAction'] #cloneInfoButton").attr("id", "cloneIdx" + nextIndex);
 
 		// llave programatica
-		e.find("[data-name='programaticKey'] select").attr("name",
-				self.getPath(grid, nextIndex, "programaticKeyId")).attr("id",
-				self.getId(grid, nextIndex, "programaticKeyId", 2)).removeAttr(
-				"multiple");
-		e.find("[data-name='programaticKey']").find("input[type='hidden']")
-				.remove();
+		e.find("[data-name='programaticKey'] select").attr("name",self.getPath(grid, nextIndex, "programaticKeyId")).attr("id",self.getId(grid, nextIndex, "programaticKeyId", 2)).removeAttr("multiple");
+		e.find("[data-name='programaticKey']").find("input[type='hidden']").remove();
 
 		// entry
-		e.find("[data-name='entry'] select").attr("name",
-				self.getPath(grid, nextIndex, "entryId")).attr("id",
-				self.getId(grid, nextIndex, "entryId", 2)).removeAttr(
-				"multiple");
+		e.find("[data-name='entry'] select").attr("name",self.getPath(grid, nextIndex, "entryId"))
+		.attr("id",self.getId(grid, nextIndex, "entryId", 2)).removeAttr("multiple");
 		e.find("[data-name='entry']").find("input[type='hidden']").remove();
 
 		// sliderControl
-		e.find("[data-name='sliderControl'] #sliderControl").attr("id",
-				self.getSliderId(grid).substring(1) + nextIndex);
+		e.find("[data-name='sliderControl'] #sliderControl").attr("id",self.getSliderId(grid).substring(1) + nextIndex);
 
 		// lowerOffset
-		e.find("[data-name='lower-offset'] ").attr("id",
-				self.getId(grid, nextIndex, "lower-offset", 2));
-		e.find("[data-name='upper-offset'] ").attr("id",
-				self.getId(grid, nextIndex, "upper-offset", 2));
+		e.find("[data-name='lower-offset'] ").attr("id",self.getId(grid, nextIndex, "lower-offset", 2));
+		e.find("[data-name='upper-offset'] ").attr("id",self.getId(grid, nextIndex, "upper-offset", 2));
 
 		// monthAmount
-		e.find("[data-name='monthAmount'] input").attr("name",
-				self.getPath(grid, nextIndex, "monthAmount")).attr("id",
-				self.getId(grid, nextIndex, "monthAmount", 2)).attr("value",
-				"0");
+		e.find("[data-name='monthAmount'] input").attr("name",self.getPath(grid, nextIndex, "monthAmount"))
+		.attr("id",self.getId(grid, nextIndex, "monthAmount", 2)).attr("value","0");
 
 		// totalAmount
-		e.find("[data-name='totalAmount'] input").attr("name",
-				self.getPath(grid, nextIndex, "totalAmount")).attr("id",
-				self.getId(grid, nextIndex, "totalAmount", 2)).attr("value",
-				"0");
+		e.find("[data-name='totalAmount'] input").attr("name",self.getPath(grid, nextIndex, "totalAmount"))
+		.attr("id",self.getId(grid, nextIndex, "totalAmount", 2)).attr("value","0");
 
 		// initialMonthId
-		e.find("[data-name='initialMonthId']").attr("name",
-				self.getPath(grid, nextIndex, "initialMonthId")).attr("id",
-				self.getId(grid, nextIndex, "initialMonthId", 2)).attr("value",
-				"");
+		e.find("[data-name='initialMonthId']").attr("name",self.getPath(grid, nextIndex, "initialMonthId"))
+		.attr("id",self.getId(grid, nextIndex, "initialMonthId", 2)).attr("value","");
 
 		// finalMonthId
-		e.find("[data-name='finalMonthId']").attr("name",
-				self.getPath(grid, nextIndex, "finalMonthId")).attr("id",
-				self.getId(grid, nextIndex, "finalMonthId", 2)).attr("value",
-				"");
+		e.find("[data-name='finalMonthId']").attr("name",self.getPath(grid, nextIndex, "finalMonthId"))
+		.attr("id",self.getId(grid, nextIndex, "finalMonthId", 2)).attr("value","");
 
 		// removedElement
-		e.find("[data-name='removedElement']").attr("name",
-				self.getPath(grid, nextIndex, "removedElement")).attr("id",
-				self.getId(grid, nextIndex, "removedElement", 2)).attr("value",
-				"0");
+		e.find("[data-name='removedElement']").attr("name",self.getPath(grid, nextIndex, "removedElement"))
+		.attr("id",self.getId(grid, nextIndex, "removedElement", 2)).attr("value","0");
 
-		e.find("[data-name='movementTypeId']").attr("name",
-				self.getPath(grid, nextIndex, "movementTypeId")).attr("id",
-				self.getId(grid, nextIndex, "movementTypeId", 2)).attr("value",
-				(grid == self.upGrid ? "1" : "-1"));
+		e.find("[data-name='movementTypeId']").attr("name",self.getPath(grid, nextIndex, "movementTypeId"))
+		.attr("id",self.getId(grid, nextIndex, "movementTypeId", 2)).attr("value",(grid == self.upGrid ? "1" : "-1"));
 
-		e.find("[data-name='requestDetailId']").attr("name",
-				self.getPath(grid, nextIndex, "requestDetailId")).attr("id",
-				self.getId(grid, nextIndex, "requestDetailId", 2)).attr(
-				"value", "-1");
+		e.find("[data-name='requestDetailId']").attr("name",self.getPath(grid, nextIndex, "requestDetailId"))
+		.attr("id",self.getId(grid, nextIndex, "requestDetailId", 2)).attr("value", "-1");
 
 		/*
 		 * e.find("[data-name='totalAmount']").attr("name", self.getPath(grid,
@@ -464,13 +437,11 @@ var movementController2 = {
 
 				// si el monto es mayor a cero, se elimina el error
 				if (parseInt(that.value) > 0) {
-					self.removeClassError(self.getId(grid, nextIndex,
-							"monthAmount"));
+					self.removeClassError(self.getId(grid, nextIndex,"monthAmount"));
 				}
 
 				// guardamos el monto total en total amount
-				$(self.getId(grid, nextIndex, "totalAmount"))
-						.val(total);
+				$(self.getId(grid, nextIndex, "totalAmount")).val(total);
 
 				// se invoca update para actualizar los totales del grid
 				self.updateTotal(self, grid);
@@ -723,11 +694,10 @@ var movementController2 = {
 		row.remove();
 		self.updateTotal(self, grid);
 
-		var filteredRows = $(grid).find("tbody tr:not(#noMovs)").filter(
-				function() {
-					var flag = $(this).find("[data-name='removedElement']");
-					return (parseInt(flag.val()) <= 0);
-				});
+		var filteredRows = $(grid).find("tbody tr:not(#noMovs)").filter(function() {
+			var flag = $(this).find("[data-name='removedElement']");
+			return (parseInt(flag.val()) <= 0);
+		});
 
 		if (filteredRows.length == 0) {
 			$(grid).find("tbody").html('<tr id="noMovs"><td colspan="6">No hay Movimientos Capturados</td><tr>');
@@ -741,6 +711,7 @@ var movementController2 = {
 		
 		$(document).find(".addButton").show();
 		$(document).find("#saveAndContinue").show();
+		$(document).find("#currentTotals").hide();
 	},
 	addRemoveEvent : function(self, grid, indice) {
 		var a = $(grid).find("[data-name='deleteAction']").find(
@@ -756,18 +727,14 @@ var movementController2 = {
 			if (isSaved == "true") {
 				console.log("elemento ya guardado, borrando y recargando");
 
-				var requestDetailId = row.find(
-						self.getId(grid, indice, "requestDetailId")).val();
+				var requestDetailId = row.find(self.getId(grid, indice, "requestDetailId")).val();
 				var formalityCode = $(document).find("#formalityCode").val();
 				var stageConfigId = $(document).find("#stageConfigId").val();
 				var requestId = $(document).find("#requestId").val();
 
-				var url = "auth/wf/capture/delete/" + requestDetailId + "/"
-						+ formalityCode + "/" + requestId + "/" + stageConfigId
-						+ "/1";
+				var url = "auth/wf/capture/delete/" + requestDetailId + "/"+ formalityCode + "/" + requestId + "/" + stageConfigId + "/1";
 				console.log("url: " + url);
-				submitAjaxJQWithAction('requestForm', 'dashboard',
-						'movements2Capture', url);
+				submitAjaxJQWithAction('requestForm', 'dashboard','movements2Capture', url);
 			} else {
 				console.log("elemento no guardado, borrando");
 				self.removeRow(self, grid, indice);
@@ -785,16 +752,14 @@ var movementController2 = {
 		a.on("click", function() {
 			var row = $(this).parent().parent();
 
-			var programaticKey = row.find(
-					self.getId(grid, indice, "programaticKeyId")).val();
+			var programaticKey = row.find(self.getId(grid, indice, "programaticKeyId")).val();
 			var entry = row.find(self.getId(grid, indice, "entryId")).val();
 			var district = $("#districtId").val();
 
 			if (parseInt(entry) <= 0) {
-				window.showNotification("error",
-						"Debe Seleccionar una partida para ver el detalle");
+				window.showNotification("error","Debe Seleccionar una partida para ver el detalle");
 			} else {
-				window.showEntryAmount(district, programaticKey, entry);
+				window.showEntryTotals(district, programaticKey, entry);
 			}
 
 		});

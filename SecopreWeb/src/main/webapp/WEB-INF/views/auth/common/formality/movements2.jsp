@@ -115,6 +115,7 @@
 	</div>
 </div>
 
+<div id="currentTotals"></div>
 
 <div class="portlet box green" id="addComponent">
 	<div class="portlet-title">

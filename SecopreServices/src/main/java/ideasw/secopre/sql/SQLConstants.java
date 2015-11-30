@@ -85,4 +85,6 @@ public class SQLConstants {
 	public static final String REMOVE_REQUEST_DETAIL_ELEMENT = "REMOVE_REQUEST_DETAIL_ELEMENT";
 	public static final String GET_MIRROR_MOVEMENT_TOTAL = "GET_MIRROR_MOVEMENT_TOTAL";
 	
+	public static final String GET_ENTRY_CURRENT_TOTALS = "GET_ENTRY_CURRENT_TOTALS";
+	
 }

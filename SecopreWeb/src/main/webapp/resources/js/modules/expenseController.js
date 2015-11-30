@@ -73,7 +73,7 @@ var expenseController = {
 				
 				//solo considera las filas no eliminadas
 				if(parseInt(isRemovedRow) == 0){
-					var totalAmount = row.find("[data-name='totalAmount']");
+					var totalAmount = row.find("[data-name='totalAmount'] input");
 					if (totalAmount.val().length > 0){
 						gridTotal += parseFloat(totalAmount.val());
 					}
@@ -113,9 +113,21 @@ var expenseController = {
 			grd.find("tbody tr:not(#noMovs)").remove();
 		}
 		
+		self.updateTotal(self, grid);
+		
 		//evento para agregar movimientos
 		var addBtn = grd.find(".actions #addMov").on("click", function(){
 			self.addMovementRow(self, grid, false);
+			
+			$(grid).find("#addMov").hide();
+			//se borran todos los botones de clonacion que existan
+			$(document).find(".cloneButton").hide();
+			$(document).find(".addButton").hide();
+			$(document).find("#saveAndContinue").hide();
+		});
+		
+		var saveBtn = grd.find(".actions #saveMov").on("click",function() {
+			submitAjaxJQWithAction('requestForm', 'dashboard','movements2Capture','auth/wf/capture/partial/expense');
 		});
 	},
 	addMovementRow : function(self, grid, isComplementary, data){	
@@ -146,6 +158,10 @@ var expenseController = {
 		//monthAmount
 		e.find("[data-name='monthAmount'] input").attr("name", self.getPath(grid, nextIndex, "monthAmount"))
 		.attr("id", self.getId(grid, nextIndex, "monthAmount", 2)).attr("value", "0");
+		
+		// totalAmount
+		e.find("[data-name='totalAmount'] input").attr("name",self.getPath(grid, nextIndex, "totalAmount"))
+		.attr("id",self.getId(grid, nextIndex, "totalAmount", 2)).attr("value","0");
 		
 		var currentMonth = parseInt(new Date().getMonth());
 		
@@ -201,6 +217,7 @@ var expenseController = {
 		$(self.getId(grid, index, "programaticKeyId")).attr("readonly", "true");
 		$(self.getId(grid, index, "entryId")).attr("readonly", "true");
 		$(self.getId(grid, index, "monthAmount")).attr("readonly", "true");
+		$(self.getId(grid, index, "totalAmount")).attr("readonly", "true");
 		var sliderId = self.getSliderId(grid) + index;
 		$(sliderId).hide();
 	},
@@ -238,6 +255,14 @@ var expenseController = {
 				
 				//se invoca update para actualizar los totales del grid
 				self.updateTotal(self, grid);
+			}
+			
+			function blockRecord() {
+				// se bloquea la version actual
+				self.blockRow(self, grid, nextIndex, true);
+				//$(grid).find("[data-name='deleteAction']").find("#cloneIdx" + nextIndex).show();
+				//$(grid).find("[data-name='deleteAction']").find("#infoIdx" + nextIndex).hide();
+				$(grid).find(".actions #saveMov").show();
 			}
 			
 			function addCompensatedMovement(){
@@ -302,11 +327,13 @@ var expenseController = {
 				       unblockPage();
 				       updateTotalAmounts();
 				       addCompensatedMovement();
+				       blockRecord();
 					});
 					
 				}else{
 					//si es un movimiento a la alza no valido montos solo actualizo
 					updateTotalAmounts();
+					blockRecord();
 				}
 			}else{
 				window.showNotification("error", "Capture un monto para continuar");
@@ -441,16 +468,42 @@ var expenseController = {
 		if (filteredRows.length == 0){
 			$(grid).find("tbody").html('<tr id="noMovs"><td colspan="6">No hay Movimientos Capturados</td><tr>');
 		}
+		
+		$(grid).find(".actions #saveMov").hide();
+		
+		//se borran todos los botones de clonacion que existan
+		$(document).find(".cloneButton").show();
+		
+		$(document).find(".addButton").show();
+		$(document).find("#saveAndContinue").show();
+		$(document).find("#currentTotals").hide();
 	},
 	addRemoveEvent : function(self, grid, indice){
 		var a = $(grid).find("[data-name='deleteAction']").find("#rmvIdx"+indice);
 		
 		a.on("click", function(){
-			self.removeRow(self, grid, indice);
 			
-			if((self.isCompensatedMovement()) && (grid == self.downGrid)){
-				self.removeRow(self, self.upGrid, indice);
+			var row = $(this).parent().parent();
+			// se valida si es un elemento ya salvado, si es asi, se elimina y
+			// se recarga la pagina
+			var isSaved = row.find(self.getId(grid, indice, "isSaved")).val();
+
+			if (isSaved == "true") {
+				console.log("elemento ya guardado, borrando y recargando");
+
+				var requestDetailId = row.find(self.getId(grid, indice, "requestDetailId")).val();
+				var formalityCode = $(document).find("#formalityCode").val();
+				var stageConfigId = $(document).find("#stageConfigId").val();
+				var requestId = $(document).find("#requestId").val();
+
+				var url = "auth/wf/capture/delete/" + requestDetailId + "/"+ formalityCode + "/" + requestId + "/" + stageConfigId + "/1";
+				console.log("url: " + url);
+				submitAjaxJQWithAction('requestForm', 'dashboard','expenseCapture', url);
+			} else {
+				console.log("elemento no guardado, borrando");
+				self.removeRow(self, grid, indice);
 			}		
+		
 		});
 	},
 	isCompensatedMovement : function(){
@@ -470,7 +523,7 @@ var expenseController = {
 			if(parseInt(entry) <= 0){
 				window.showNotification("error", "Debe Seleccionar una partida para ver el detalle");
 			}else{
-				window.showEntryAmount(district, programaticKey, entry);
+				window.showEntryTotals(district, programaticKey, entry);
 			}
 			
 		});
@@ -514,6 +567,8 @@ var expenseController = {
 	},
 	startComponent : function(){			
 		this.linkComponent(this.downGrid);
+		
+		this.blockCompensatedData();
 	},
 	blockCompensatedData: function(){
 		//downgrid, se bloquean los rows

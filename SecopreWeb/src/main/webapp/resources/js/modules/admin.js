@@ -1896,6 +1896,12 @@ function showEntryAmount(district, programaticKey, entry){
 	});
 }
 
+function showEntryTotals(district, programaticKey, entry){
+	apiCall("auth/wf/entryTotals/" + district + "/" + entry, function(data){
+		$(document).find("#currentTotals").html("").html(data).show();
+	});
+}
+
 function showKeyData(programaticKeyId){
 	
 	function clousure(data){
@@ -2042,6 +2048,10 @@ function initAuthorization() {
 	}
 	
 	
+	$(document).find("#addMov").hide();
+	$(document).find("#saveMov").hide();
+	
+	
 	var requestForm = $('#requestForm');
 
 	$('#cancelFormality').click(function(e) {
@@ -2079,11 +2089,15 @@ function expenseCapture() {
 	
 	expenseController.startComponent();
 	
+	$(expenseController.downGrid).find("#saveMov").hide();
+	
+	//movementController2.startComponent();	
 	// se carga el movimiento seleccionado
 	// expenseController.update(parseInt($("#movementTypeId").val()));
 
 	var requestForm = $('#requestForm');
 
+	/*
 	$(document).find('#partialSave').on("click", function(e) {
 		alert("haciendo guardado parcial");
 		var isCorrect = expenseController.validate();
@@ -2092,11 +2106,28 @@ function expenseCapture() {
 			submitAjaxJQ('requestForm', 'dashboard', '');
 		}
 	});
+	*/
 
+	/*
 	$(document).find('#saveAndContinue').on("click", function(e) {
-		alert("finalizando captura");
-		var isCorrect = expenseController.validate();
+		//alert("finalizando captura");
+		//var isCorrect = expenseController.validate();
 		if (isCorrect){
+			requestForm.find('#nextStageValueCode').val("SOLCOMP");
+			submitAjaxJQ('requestForm', 'dashboard', '');
+		}
+	});
+	*/
+	
+
+	$('#saveAndContinue').click(function(e) {
+		
+		var clave = $(document).find("#certifiedAccountId").val();
+		
+		if(clave.length <= 0){
+			window.showNotification("error", "Capture una cuenta para continuar");
+		}else{
+			//var isCorrect = movementController.validate();
 			requestForm.find('#nextStageValueCode').val("SOLCOMP");
 			submitAjaxJQ('requestForm', 'dashboard', '');
 		}

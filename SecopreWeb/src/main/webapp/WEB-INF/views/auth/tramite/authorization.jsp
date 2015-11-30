@@ -49,7 +49,7 @@
 									<div class="row">
 										<div class="col-md-offset-2 col-md-10">
 											
-											<button type="button" class="btn default" onclick="sendRequestJQ('auth/tram/list','dashboard','initTramiteListPage()','GET');">Regresar a Mis Tramites</button>
+											<button type="button" class="btn default" onclick="sendRequestJQ('auth/tram/list','dashboard','noAction()','GET');">Regresar a Mis Tramites</button>
 											
 											<c:if test="${authorization.canUserAuthorize || authorization.superUser}">
 												<button type="button" class="btn default" id="cancelFormality" >Cancelar Solicitud</button>

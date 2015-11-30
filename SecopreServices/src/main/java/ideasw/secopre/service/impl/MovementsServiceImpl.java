@@ -51,7 +51,7 @@ public class MovementsServiceImpl extends AccessNativeServiceBaseImpl implements
 		
 		Property p = accessNativeService.getPropertyByCode(PropertyConstants.COMPENSATED_MOVEMENT_TYPE);
 		//si es compensado, se valida que la suma de los movimientos a la alza mas los movimientos a la baja resulte 0
-		if(p.getLongValue().longValue() == movementTypeId.longValue()){
+		if(movementTypeId != null && p.getLongValue().longValue() == movementTypeId.longValue()){
 			//se obtiene el total de las amplicaciones compensadas
 			Double upTotal = this.getTotalFromRequest(1L, requestId);
 			//se obtiene el total de las reducciones compensadas

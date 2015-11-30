@@ -1,6 +1,7 @@
 package ideasw.secopre.service;
 
 import ideasw.secopre.dto.Authorization;
+import ideasw.secopre.dto.EntryCurrentTotal;
 import ideasw.secopre.dto.Formality;
 import ideasw.secopre.dto.Inbox;
 import ideasw.secopre.dto.Report;
@@ -222,4 +223,6 @@ public interface AccessNativeService {
 	
 	/*Servicio para obtener todas los distritos que pertenece a un aviso*/
     List<District> getDistrictsByNotice(Long noticeId);
+    
+    EntryCurrentTotal getEntryCurrentTotals(Long districtId, Long entryId);
 }

@@ -2,11 +2,13 @@ package ideasw.secopre.web.controller.admin;
 
 import ideasw.secopre.dto.Authorization;
 import ideasw.secopre.dto.EntryBalance;
+import ideasw.secopre.dto.EntryCurrentTotal;
 import ideasw.secopre.dto.EntryFilter;
 import ideasw.secopre.dto.Movement;
 import ideasw.secopre.dto.Request;
 import ideasw.secopre.dto.RequestHistory;
 import ideasw.secopre.enums.StatusEntry;
+import ideasw.secopre.exception.EntryDistrictException;
 import ideasw.secopre.model.DueDate;
 import ideasw.secopre.model.EntryDistrict;
 import ideasw.secopre.model.ProgrammaticKey;
@@ -251,10 +253,21 @@ public class WorkFlowController extends AuthController {
 			LOG.info("Redirigiendo al listado de movimientos");
 			return SecopreConstans.MV_TRAM_LIST_REDIRECT;
 		
-		}catch(Exception ex){
+		}catch(EntryDistrictException ex){
+			ex.printStackTrace();
 			LOG.error(ex.getMessage());
 			List<String> errors = new ArrayList<String>();
 			errors.add(ex.getMessage());
+			
+			redirectAttributes.addFlashAttribute("errors", errors);
+			redirectAttributes.addFlashAttribute("existErrors", 1);
+			
+			return "redirect:/auth/wf/capture/partial/" + requestForm.getFormalityCode() + "/" + requestForm.getRequestId() + "/" + requestForm.getStageConfigId() + "/1";
+		}catch(Exception ex2){
+			ex2.printStackTrace();
+			LOG.error(ex2.getMessage());
+			List<String> errors = new ArrayList<String>();
+			errors.add("Error interno del sistema. Contacte a su administrador por favor.");
 			
 			redirectAttributes.addFlashAttribute("errors", errors);
 			redirectAttributes.addFlashAttribute("existErrors", 1);
@@ -463,6 +476,22 @@ public class WorkFlowController extends AuthController {
 		model.addAttribute("balance", balance);
 		return SecopreConstans.MV_TRAM_BALANCE;
 	}
+	
+	/*Metodo para obtener el detalle distrito - llave programatica - mes */
+	@RequestMapping(value = "wf/entryTotals/{district}/{entry}", method = { RequestMethod.GET })
+	public String getAmountsDetail(@PathVariable("district") Long districtId,
+								   @PathVariable("entry") Long entryId, 
+								   ModelMap model, RedirectAttributes attributes, Principal principal) {
+		
+		LOG.info("total de registros para distrito: " + districtId + ", partida: " + entryId);
+		
+		EntryCurrentTotal totals = accessNativeService.getEntryCurrentTotals(districtId, entryId);
+		List<EntryCurrentTotal> l = new ArrayList<EntryCurrentTotal>();
+		l.add(totals);
+		model.addAttribute("totals", l);
+		return SecopreConstans.MV_TRAM_CURRENT_TOTAL;
+	}
+	
 	
 	/*Metodo para obtener el detalle de la clave programatica */
 	@RequestMapping(value = "wf/pk/{pkId}", method = { RequestMethod.GET })
