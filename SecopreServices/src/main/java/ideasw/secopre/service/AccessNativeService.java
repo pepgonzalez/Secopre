@@ -9,6 +9,7 @@ import ideasw.secopre.dto.Request;
 import ideasw.secopre.dto.RequestHistory;
 import ideasw.secopre.dto.UserMovement;
 import ideasw.secopre.dto.Notification;
+import ideasw.secopre.dto.Property;
 import ideasw.secopre.model.DueDate;
 import ideasw.secopre.model.Entry;
 import ideasw.secopre.model.EntryDistrict;
@@ -78,6 +79,8 @@ public interface AccessNativeService {
 	 * return request - objeto con la informacion general del tramite
 	 */
 	Request getRequestAndDetailById(Long requestId);
+	
+	Request getRequestAndPartialDetailById(Long requestId);
 	
 	/*
 	 * Metodo para obtener la historia del folio
@@ -206,4 +209,6 @@ public interface AccessNativeService {
 	List<Notification> getNotificationByUserId(Long userId);
 	
 	Request insertOrUpdateRequestData(Request request);
+
+	 Property getPropertyByCode(String code);
 }

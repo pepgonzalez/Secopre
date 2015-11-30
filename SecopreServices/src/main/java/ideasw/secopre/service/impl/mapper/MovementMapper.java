@@ -20,6 +20,7 @@ public class MovementMapper implements RowMapper<Object> {
 		 mov.setFinalMonthId(rs.getInt("FINAL_MONTH"));
 		 mov.setMonthAmount(rs.getDouble("MONTH_AMOUNT"));
 		 mov.setTotalAmount(rs.getDouble("TOTAL_AMOUNT"));
+		 mov.setIsSaved(true);
 		 return mov;   
 	 }    
 } 

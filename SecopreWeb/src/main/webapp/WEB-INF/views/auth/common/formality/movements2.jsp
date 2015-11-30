@@ -24,7 +24,7 @@
 			<i class="fa fa-cogs"></i>Reducción Líquida
 		</div>
 		<div class="actions">
-			<a href="javascript:;" class="btn green btn-sm" id="addMov"><i class="fa fa-plus"></i>Agregar Movimiento </a>
+			<a href="javascript:;" class="btn green btn-sm addButton" id="addMov"><i class="fa fa-plus"></i>Agregar Movimiento </a>
 			<a href="javascript:;" class="btn green btn-sm" id="saveMov"><i class="fa fa-hdd-o"></i>Guardar Movimiento</a>
 		</div>
 	</div>
@@ -55,19 +55,23 @@
 								<tr data-name="rowContainer" id="row${i.index}" data-rowNumber="${i.index}">
 									
 									<td data-name="deleteAction" class="buttonColumn">
-										<a href="javascript:;" class="btn default btn-xs red" id="rmvIdx${i.index}"><i class="fa fa-times"></i></a>
-  										<a href="javascript:;" class="btn grey-cascade btn-xs default" id="infoIdx${i.index}"><i class="fa fa-info-circle"></i></a>
-  										<a href="javascript:;" class="btn blue btn-xs default lastButton" id="cloneIdx${i.index}"><i class="fa fa-copy"></i></a>	
+										<a href="javascript:;" class="btn default btn-xs red movementComponent" id="rmvIdx${i.index}"><i class="fa fa-times"></i></a>
+  										<c:if test="${mov.isSaved}">
+  											<a href="javascript:;" class="btn blue btn-xs default lastButton movementComponent cloneButton" id="cloneIdx${i.index}"><i class="fa fa-copy"></i></a>	
+										</c:if>
+										<c:if test="${mov.isSaved == false}">
+											<a href="javascript:;" class="btn grey-cascade btn-xs default movementComponent" id="infoIdx${i.index}"><i class="fa fa-info-circle"></i></a>
+										</c:if>
 									</td>
 									
 									<td data-name="programaticKey">
-										<form:select path="downMovements[${i.index}].programaticKeyId" class="form-control input-small">
+										<form:select path="downMovements[${i.index}].programaticKeyId" class="form-control input-small movementComponent">
 											<form:option value="-1" label="Seleccione..."/>
 						    				<form:options items="${programaticKeys}" />
 										</form:select>
 									</td>
 									<td data-name="entry">
-										<form:select path="downMovements[${i.index}].entryId" class="form-control input-medium">
+										<form:select path="downMovements[${i.index}].entryId" class="form-control input-small movementComponent">
 											<form:option value="-1" label="Seleccione..."/>
 						    				<form:options items="${entries}" />
 										</form:select>
@@ -82,11 +86,11 @@
 											<span id="downMovements${i.index}.lower-offset"></span>-<span id="downMovements${i.index}.upper-offset"></span>
 										</div>
 									<td data-name="monthAmount">
-										<form:input path="downMovements[${i.index}].monthAmount" class="form-control input-small numbersOnly"/>
+										<form:input path="downMovements[${i.index}].monthAmount" class="form-control input-small numbersOnly movementComponent"/>
 									</td>
 									
 									<td data-name="totalAmount">
-										<form:input path="downMovements[${i.index}].totalAmount" class="form-control input-small numbersOnly"/>
+										<form:input path="downMovements[${i.index}].totalAmount" class="form-control input-xsmall numbersOnly movementComponent"/>
 									</td>
 									
 									<form:hidden path="downMovements[${i.index}].initialMonthId" class="form-control" data-name="initialMonthId"/>
@@ -118,7 +122,7 @@
 			<i class="fa fa-cogs"></i>Ampliación Líquida
 		</div>
 		<div class="actions">
-			<a href="javascript:;" class="btn green btn-sm" id="addMov"><i class="fa fa-plus"></i>Agregar Movimiento </a>
+			<a href="javascript:;" class="btn green btn-sm addButton" id="addMov"><i class="fa fa-plus"></i>Agregar Movimiento </a>
 			<a href="javascript:;" class="btn green btn-sm" id="saveMov"><i class="fa fa-hdd-o"></i>Guardar Movimiento</a>
 		</div>
 	</div>
@@ -147,19 +151,23 @@
 								<tr data-name="rowContainer" id="row${i.index}" data-rowNumber="${i.index}">
 									
 									<td data-name="deleteAction" class="buttonColumn">
-										<a href="javascript:;" class="btn default btn-xs red" id="rmvIdx${i.index}"><i class="fa fa-times"></i></a>
-  										<a href="javascript:;" class="btn grey-cascade btn-xs default" id="infoIdx${i.index}"><i class="fa fa-info-circle"></i></a>
-  										<a href="javascript:;" class="btn blue btn-xs default lastButton" id="cloneIdx${i.index}"><i class="fa fa-copy"></i></a>
+										<a href="javascript:;" class="btn default btn-xs red movementComponent" id="rmvIdx${i.index}"><i class="fa fa-times"></i></a>
+  										<c:if test="${mov.isSaved}">
+  											<a href="javascript:;" class="btn blue btn-xs default lastButton movementComponent cloneButton" id="cloneIdx${i.index}"><i class="fa fa-copy"></i></a>	
+										</c:if>
+										<c:if test="${mov.isSaved == false}">
+											<a href="javascript:;" class="btn grey-cascade btn-xs default movementComponent" id="infoIdx${i.index}"><i class="fa fa-info-circle"></i></a>
+										</c:if>
   									</td>
 									
 									<td data-name="programaticKey">
-										<form:select path="upMovements[${i.index}].programaticKeyId" class="form-control input-small">
+										<form:select path="upMovements[${i.index}].programaticKeyId" class="form-control input-small movementComponent">
 											<form:option value="-1" label="Seleccione..."/>
 						    				<form:options items="${programaticKeys}" />
 										</form:select>
 									</td>
 									<td data-name="entry">
-										<form:select path="upMovements[${i.index}].entryId" class="form-control input-medium">
+										<form:select path="upMovements[${i.index}].entryId" class="form-control input-small movementComponent">
 											<form:option value="-1" label="Seleccione..."/>
 						    				<form:options items="${entries}" />
 										</form:select>
@@ -174,11 +182,11 @@
 											<span id="upMovements${i.index}.lower-offset"></span>-<span id="upMovements${i.index}.upper-offset"></span>
 										</div>
 									<td data-name="monthAmount">
-										<form:input path="upMovements[${i.index}].monthAmount" class="form-control input-small numbersOnly"/>
+										<form:input path="upMovements[${i.index}].monthAmount" class="form-control input-small numbersOnly movementComponent"/>
 									</td>
 									
 									<td data-name="totalAmount">
-										<form:input path="upMovements[${i.index}].totalAmount" class="form-control input-small numbersOnly"/>
+										<form:input path="upMovements[${i.index}].totalAmount" class="form-control input-xsmall numbersOnly movementComponent"/>
 									</td>
 					
 									<form:hidden path="upMovements[${i.index}].initialMonthId" class="form-control" data-name="initialMonthId"/>
@@ -208,9 +216,9 @@
 <template id="movementRowTemplate">
 	<tr data-name="rowContainer">
 	
-		<td data-name="deleteAction" class="buttonColumn movementComponent">
-  			<a href="javascript:;" class="btn default btn-xs red movementActionButton" id="rowDeleteButton"><i class="fa fa-times"></i></a>
-  			<a href="javascript:;" class="btn grey-cascade btn-xs default lastButton movementActionButton" id="rowInfoButton"><i class="fa fa-info-circle"></i></a>
+		<td data-name="deleteAction" class="buttonColumn">
+  			<a href="javascript:;" class="btn default btn-xs red movementComponent" id="rowDeleteButton"><i class="fa fa-times"></i></a>
+  			<a href="javascript:;" class="btn grey-cascade btn-xs default lastButton movementComponent" id="rowInfoButton"><i class="fa fa-info-circle"></i></a>
 		</td>
 		
 		<td data-name="programaticKey">
@@ -250,3 +258,11 @@
 		<form:hidden path="upMovements" class="form-control" data-name="isSaved" value="0"/>
 	</tr>
 </template>
+
+<c:if test="${executeInnerJs == 1}">
+	<script type="text/javascript">
+		$(document).ready(function(){
+			movements2Capture();
+		});
+	</script>
+</c:if>

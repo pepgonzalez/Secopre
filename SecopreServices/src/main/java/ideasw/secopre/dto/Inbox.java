@@ -3,6 +3,7 @@ package ideasw.secopre.dto;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class Inbox {
 
@@ -151,7 +152,7 @@ public class Inbox {
 
 	public String getNextStageURL(){
 		String basePath =  (this.isCapture ? this.url + "/" + this.captureForm : this.url);
-		basePath = basePath + "/" + this.requestId + "/" + this.nextStageConfig;
+		basePath = basePath + "/" + this.requestId + "/" + this.nextStageConfig + "/0";
 		return basePath;
 	}
 	
@@ -186,5 +187,9 @@ public class Inbox {
 	public String getCreationDateStr() {
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		return df.format(this.creationDate);
+	}
+	
+	public String getTotalAmountStr(){
+		return String.format("%1$,.2f", this.totalAmount);
 	}
 }

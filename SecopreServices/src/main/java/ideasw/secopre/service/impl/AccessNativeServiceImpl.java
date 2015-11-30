@@ -498,10 +498,33 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 
 		return r;
 	}
+	
+	public Request getRequestAndPartialDetailById(Long requestId) {
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("requestId", requestId);
+		List<Request> list = this.queryForList(Request.class, queryContainer.getSQL(SQLConstants.GET_REQUEST_BY_ID), namedParameters, new RequestMapper());
+		Request r =  list.get(0);
+		r.setMovements(this.getRequestPartialDetailByRequestId(requestId));
+
+		//se obtiene requestConfig
+		RequestConfig config = this.getRequestConfigById(r.getRequestId());
+
+		Formality formality =  getFormalityById(config.getFormalityId());
+		String formalityName = formality.getDescription();
+
+		r.setFormalityName(formalityName);
+
+		return r;
+	}
 
 	public List<Movement> getRequestDetailByRequestId(Long requestId){
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("requestId", requestId);
-		List<Movement> list = this.queryForList(Movement.class, queryContainer.getSQL(SQLConstants.GET_REQUEST_DETAIL), namedParameters, new MovementMapper());	
+		List<Movement> list = this.queryForList(Movement.class, queryContainer.getSQL(SQLConstants.GET_REQUEST_DETAIL), namedParameters, new MovementMapper());		
+		return list;
+	}
+	
+	public List<Movement> getRequestPartialDetailByRequestId(Long requestId){
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("requestId", requestId);
+		List<Movement> list = this.queryForList(Movement.class, queryContainer.getSQL(SQLConstants.GET_REQUEST_DETAIL_MIRROR), namedParameters, new MovementMapper());		
 		return list;
 	}
 	

@@ -130,6 +130,61 @@ public class WorkFlowController extends AuthController {
 	}
 
 	
+	/*-----------------------------------------------------------------------------------------------------------------------------------------------------*/
+	
+	/*
+	 * Metodo para obtener la forma de captura de movimientos
+	 * param formalityCode 	- forma que sera cargada
+	 * param requestId		- folio en cuestion
+	 * param stageConfigId	- etapa actual del folio
+	 * */
+	@RequestMapping(value = "wf/capture/partial/{formalityCode}/{requestId}/{stageConfigId}/{executeInnerJs}", method = { RequestMethod.GET })
+	public String showMovementsPartialCapture(
+			@PathVariable("requestId") Long requestId, @PathVariable("stageConfigId") Long stageConfigId, 
+			@PathVariable("formalityCode") String formalityCode,
+			@PathVariable("executeInnerJs") Integer executeInnerJs,
+			ModelMap model, RedirectAttributes attributes, Principal principal) {
+		
+		LOG.info("Cargando informacion parcial");
+		Request requestForm = accessNativeService.getRequestAndPartialDetailById(requestId);
+
+		requestForm.setStageConfigId(stageConfigId);
+		requestForm.setFormalityCode(formalityCode);
+				
+		if (requestForm.getMovementTypeId() != null && requestForm.getMovementTypeId().intValue() > 0){
+			requestForm.setMovementTypeId(requestForm.getMovementTypeId());
+		}else{
+			requestForm.setMovementTypeId(-1L);
+		}
+
+		
+		model.addAttribute("movementTypes", accessNativeService.getMovementTypesMap());
+		model.addAttribute("programaticKeys", accessNativeService.getProgramaticKeysMap());
+		model.addAttribute("entries", accessNativeService.getEntriesMap(-1L));
+		model.addAttribute("months", accessNativeService.getMonthsMap());
+		model.addAttribute("requestForm", requestForm);
+		model.addAttribute("executeInnerJs", executeInnerJs);
+
+		return SecopreConstans.MV_TRAM_CAPTURE;
+	}
+	
+	@RequestMapping(value = "wf/capture/delete/{requestDetailId}/{formalityCode}/{requestId}/{stageConfigId}/{ijs}", method = { RequestMethod.POST })
+	public String deleteDetailItem(
+			@PathVariable("requestDetailId") Long requestDetailId, 
+			@PathVariable("requestId") Long requestId, 
+			@PathVariable("stageConfigId") Long stageConfigId, 
+			@PathVariable("formalityCode") String formalityCode,
+			@PathVariable("ijs") Integer ijs,
+			ModelMap model, RedirectAttributes attributes, Principal principal) {
+		
+		LOG.info("Borrando elemento y redirigiendo : " + requestDetailId);
+		movementsService.removeMirrorElement(requestDetailId);
+		
+		LOG.info("Redirigiendo a carga del listado");
+		return "redirect:/auth/wf/capture/partial/" + formalityCode + "/" + requestId + "/" + stageConfigId + "/" + ijs;
+	}
+	
+	
 	/*
 	 * Metodo para guardar el listado de movimientos de forma parcial o permamentemente avanzando de etapa
 	 * param requestForm - Objeto con el listado de movimientos capturados 
@@ -156,8 +211,8 @@ public class WorkFlowController extends AuthController {
 			requestForm = accessNativeService.insertOrUpdateRequestData(requestForm);
 			//se actualiza la informacion de guardado parcial
 			movementsService.savePartialRequest(requestForm);
-			
-			return SecopreConstans.MV_TRAM_LIST_REDIRECT;
+			LOG.info("Redirigiendo a carga del listado");
+			return "redirect:/auth/wf/capture/partial/" + requestForm.getFormalityCode() + "/" + requestForm.getRequestId() + "/" + requestForm.getStageConfigId() + "/1";
 		
 		}catch(Exception ex){
 			LOG.error(ex.getMessage());
@@ -170,6 +225,44 @@ public class WorkFlowController extends AuthController {
 		}
 	}
 	
+	@RequestMapping(value = "wf/capture/next/{movementCode}", method = { RequestMethod.POST })
+	public String saveMovementsAndAdvance(@ModelAttribute("requestForm") Request requestForm, BindingResult result, ModelMap model, 
+			RedirectAttributes attributes, Principal principal, HttpServletRequest request, final RedirectAttributes redirectAttributes) throws Exception{
+		
+		LOG.info("iniciando guardado de movimientos y validando operacion");
+		
+		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
+		
+		try{
+			requestForm = accessNativeService.insertOrUpdateRequestData(requestForm);
+			//se actualiza la informacion de guardado parcial
+			movementsService.savePartialRequest(requestForm);
+			
+			//valida los movimientos (al menos uno y totales compensado)
+			movementsService.isValidMovement(requestForm.getRequestId(), requestForm.getMovementTypeId());
+			
+			//si es valido el movimiento, pasar a tabla de datalle y comprometer segun sea el caso
+			accessNativeService.insertOrUpdateRequestDetail(requestForm);
+			accessNativeService.invokeNextStage(requestForm, loggedUser.getId());
+			
+			//se borra la tabla espejo
+			movementsService.cleanMirrorMovements(requestForm.getRequestId());
+			
+			LOG.info("Redirigiendo al listado de movimientos");
+			return SecopreConstans.MV_TRAM_LIST_REDIRECT;
+		
+		}catch(Exception ex){
+			LOG.error(ex.getMessage());
+			List<String> errors = new ArrayList<String>();
+			errors.add(ex.getMessage());
+			
+			redirectAttributes.addFlashAttribute("errors", errors);
+			redirectAttributes.addFlashAttribute("existErrors", 1);
+			
+			return "redirect:/auth/wf/capture/partial/" + requestForm.getFormalityCode() + "/" + requestForm.getRequestId() + "/" + requestForm.getStageConfigId() + "/1";
+		}
+	}
+	
 	
 	
 	/*
@@ -177,8 +270,10 @@ public class WorkFlowController extends AuthController {
 	 * param requestId		- Folio en cuestion
 	 * param stageConfigId	- Etapa de autorizacion actual
 	 * */
-	@RequestMapping(value = "wf/authorization/{requestId}/{stageConfigId}", method = { RequestMethod.GET })
-	public String showAuthorizationInfo(@PathVariable("requestId") Long requestId, @PathVariable("stageConfigId") Long stageConfigId, ModelMap model, RedirectAttributes attributes, Principal principal) {
+	@RequestMapping(value = "wf/authorization/{requestId}/{stageConfigId}/{ijs}", method = { RequestMethod.GET })
+	public String showAuthorizationInfo(@PathVariable("requestId") Long requestId, 
+			@PathVariable("stageConfigId") Long stageConfigId, 
+			@PathVariable("ijs") int ijs, ModelMap model, RedirectAttributes attributes, Principal principal) {
 
 		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
 
@@ -219,8 +314,11 @@ public class WorkFlowController extends AuthController {
 	 * param requestId		- Folio en cuestion
 	 * param stageConfigId	- Etapa actual
 	 * */
-	@RequestMapping(value = "wf/upload/{requestId}/{stageConfigId}", method = { RequestMethod.GET, RequestMethod.POST })
-	public String showUploadForm(@PathVariable("requestId") Long requestId, @PathVariable("stageConfigId") Long stageConfigId, ModelMap model, RedirectAttributes attributes, Principal principal) {
+	@RequestMapping(value = "wf/upload/{requestId}/{stageConfigId}/{ijs}", method = { RequestMethod.GET, RequestMethod.POST })
+	public String showUploadForm(@PathVariable("requestId") Long requestId, 
+			@PathVariable("stageConfigId") Long stageConfigId, 
+			@PathVariable("ijs") int ijs,
+			ModelMap model, RedirectAttributes attributes, Principal principal) {
 
 		Request requestForm = accessNativeService.getRequestById(requestId);
 		requestForm.setStageConfigId(stageConfigId);

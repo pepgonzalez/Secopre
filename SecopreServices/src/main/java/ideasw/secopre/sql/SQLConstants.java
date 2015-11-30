@@ -77,5 +77,8 @@ public class SQLConstants {
 	//nuevo proceso de guardado de movimientos
 	public static final String INSERT_REQUEST_DETAIL_MIRROR = "INSERT_REQUEST_DETAIL_MIRROR";
 	public static final String CLEAN_REQUEST_DETAIL_MIRROR = "CLEAN_REQUEST_DETAIL_MIRROR";
+	public static final String GET_REQUEST_DETAIL_MIRROR = "GET_REQUEST_DETAIL_MIRROR";
+	public static final String REMOVE_REQUEST_DETAIL_ELEMENT = "REMOVE_REQUEST_DETAIL_ELEMENT";
+	public static final String GET_MIRROR_MOVEMENT_TOTAL = "GET_MIRROR_MOVEMENT_TOTAL";
 	
 }

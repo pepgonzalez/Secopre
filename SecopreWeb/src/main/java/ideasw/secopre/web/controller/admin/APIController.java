@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.jfree.util.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -25,6 +28,10 @@ public class APIController extends AuthController {
 
 	@Autowired
 	private AccessNativeService accessNativeService;
+	
+
+	static final Logger LOG = LoggerFactory.getLogger(APIController.class);
+
 
 	@RequestMapping(value = "API/get/entry/{programaticKeyId}/{districtId}", method = { RequestMethod.GET })
 	public @ResponseBody List<Entry> getEntriesByProgramaticKey(
@@ -46,6 +53,8 @@ public class APIController extends AuthController {
 			@PathVariable("amount") Double amount){
 		
 		EntryDistrict balance = accessNativeService.getEntryBalance(districtId, entryId, month);
+		LOG.info("Obteniendo balance por distrito: " + districtId + ", partida: " + entryId + ", mes: " + month);
+		LOG.info(balance.toString());
 		
 		Map<String, Object> returnObject = new HashMap<String, Object>();
 		

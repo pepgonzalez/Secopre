@@ -1874,6 +1874,9 @@ function initTramiteListPage() {
 		});
 	});
 	
+	//actualizar formato de currency
+	
+	
 	updateMenu("#formalityMenu");
 }
 
@@ -3967,13 +3970,11 @@ function movements2Capture() {
 	$("#movementTypeId").on("change", function (e) {
 		movementController2.clean(movementController2.upGrid);
 		movementController2.clean(movementController2.downGrid);
-	    movementController2.update(parseInt(this.value));
-	    $(movementController2.upGrid).find('tbody tr:not(#noMovs)').remove();
-	    $(movementController2.downGrid).find('tbody tr:not(#noMovs)').remove();
 	    
-	    if(movementController2.isCompensatedMovement()){
-	    	$(movementController2.upGrid).find("#addMov").hide();
-	    }
+		movementController2.update(parseInt(this.value));
+	    
+		$(movementController2.upGrid).find('tbody tr:not(#noMovs)').remove();
+	    $(movementController2.downGrid).find('tbody tr:not(#noMovs)').remove();
 	    
 	    $(movementController2.upGrid).find("#saveMov").hide();
 	    $(movementController2.downGrid).find("#saveMov").hide();
@@ -3987,21 +3988,10 @@ function movements2Capture() {
 
 	var requestForm = $('#requestForm');
 
-	$('#partialSave').click(function(e) {
-		// alert("haciendo guardado parcial");
-		var isCorrect = movementController2.validate();
-		if (isCorrect){
-			requestForm.find('#nextStageValueCode').val("SOLPEND");
-			submitAjaxJQ('requestForm', 'dashboard', '');
-		}
-	});
-
 	$('#saveAndContinue').click(function(e) {
-		var isCorrect = movementController.validate();
-		if (isCorrect){
-			requestForm.find('#nextStageValueCode').val("SOLCOMP");
-			submitAjaxJQ('requestForm', 'dashboard', '');
-		}
+		//var isCorrect = movementController.validate();
+		requestForm.find('#nextStageValueCode').val("SOLCOMP");
+		submitAjaxJQ('requestForm', 'dashboard', '');
 	});
 }
 

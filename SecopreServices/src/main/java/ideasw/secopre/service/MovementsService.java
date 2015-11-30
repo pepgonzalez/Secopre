@@ -8,6 +8,7 @@ import ideasw.secopre.dto.ReportParameter;
 import ideasw.secopre.dto.Request;
 import ideasw.secopre.dto.RequestHistory;
 import ideasw.secopre.dto.UserMovement;
+import ideasw.secopre.exception.EntryDistrictException;
 import ideasw.secopre.dto.Notification;
 import ideasw.secopre.model.DueDate;
 import ideasw.secopre.model.Entry;
@@ -26,5 +27,11 @@ import java.util.Map;
 public interface MovementsService {
 	
 	int savePartialRequest(Request request);
+	
+	int removeMirrorElement(Long requestDetailId);
+	
+	boolean isValidMovement(Long requestId, Long movementTypeId) throws EntryDistrictException;
+
+	int cleanMirrorMovements(Long requestId);
 	
 }

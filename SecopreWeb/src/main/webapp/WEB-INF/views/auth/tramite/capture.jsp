@@ -15,12 +15,12 @@
 								</a>
 							</div>
 						</div>
-						
+												
 						<div class="portlet-body form">
 							<!-- formulario -->	
 							<div>
 								<form:form cssClass="form-horizontal" method="POST" modelAttribute="requestForm" id="requestForm" 
-								           action="auth/wf/capture/movements" novalidate="novalidate">
+								           action="auth/wf/capture/next/movements2" novalidate="novalidate">
 							
 									<div class="form-body">
 										<!-- Se incluyen los DIV de alertamiento en formularios -->
@@ -31,7 +31,10 @@
 										<form:hidden path="stageConfigId" />
 										<form:hidden path="nextStageValueCode" id="nextStageValueCode" />
 										<form:hidden path="districtId" id="districtId"/>
-												  
+										<form:hidden path="formalityCode" id="formalityCode"/>
+										
+										<jsp:include page="/WEB-INF/views/auth/tramite/exception.jsp" flush="true"/>
+										  
 										<jsp:include page="/WEB-INF/views/auth/common/formality/${requestForm.formalityCode}.jsp" flush="true"/>
 										  				
 									</div>
@@ -40,8 +43,8 @@
 									<div class="form-actions margin-top-10">
 										<div class="row">
 											<div class="col-md-offset-2 col-md-10">
-												<button type="button" class="btn default" onclick="sendRequestJQ('auth/tram/list','dashboard','initTramiteListPage()','GET');"><spring:message code="application.back"/></button>
-												<button type="button" class="btn default" id="partialSave">Guardado Parcial</button>
+												<button type="button" class="btn default" onclick="sendRequestJQ('auth/tram/list','dashboard','noAction()','GET');"><spring:message code="application.back"/></button>
+												<!-- <button type="button" class="btn default" id="partialSave">Guardado Parcial</button> -->
 												<button type="button" class="btn green" id="saveAndContinue">Finalizar Captura</button>
 											</div>
 										</div>

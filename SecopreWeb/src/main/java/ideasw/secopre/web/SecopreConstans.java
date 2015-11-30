@@ -46,6 +46,7 @@ public class SecopreConstans {
 	public static final String MV_TRAM_BALANCE = "auth/tramite/balance";
 	public static final String MV_TRAM_PK = "auth/tramite/pk";
 	public static final String MV_TRAM_LIST_REDIRECT = "redirect:/auth/tram/list";
+	public static final String MV_TRAM_CAPTURE_REDIRECT = "redirect:/auth/tramite/capture/";
 	public static final String MV_TRAM_EXCEPTION = "auth/tramite/exception";
 	
 	//####Modulo de reportes

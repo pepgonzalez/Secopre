@@ -58,6 +58,10 @@ public class EntryDistrict extends AuditEntity implements Persistible {
 	@Transient
 	private ProgrammaticKey programmaticKey;
 	
+	public String toString(){
+		return "{anual:" + annualAmount + "al mes: " + this.budgetAmount + ", actual al mes: " + this.budgetAmountAssign + ", comprometido: " + this.committedAmount + "}";
+	}
+	
 	public Long getId() {
 		return id;
 	}

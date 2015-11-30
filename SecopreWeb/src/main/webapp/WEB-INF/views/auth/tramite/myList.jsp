@@ -68,7 +68,7 @@
 										<td>${inboxItem.justification}</td>
 										<td>${inboxItem.districtDescription}</td>
 										<td>${inboxItem.formalityDescription}</td>
-										<td>${inboxItem.totalAmount}</td>
+										<td>${inboxItem.totalAmountStr}</td>
 										<td>${inboxItem.creationDateStr}</td>
 										<td>${inboxItem.nextDescription}</td>
 									</tr>							
