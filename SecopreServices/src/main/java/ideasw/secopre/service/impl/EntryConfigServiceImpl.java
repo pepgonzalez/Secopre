@@ -1,5 +1,6 @@
 package ideasw.secopre.service.impl;
 
+import ideasw.secopre.dto.AnnualBudgetFile;
 import ideasw.secopre.dto.EntryBalance;
 import ideasw.secopre.dto.EntryDistrictDetail;
 import ideasw.secopre.dto.EntryFilter;
@@ -14,9 +15,17 @@ import ideasw.secopre.service.impl.mapper.EntryDistrictMapper;
 import ideasw.secopre.sql.QueryContainer;
 import ideasw.secopre.sql.SQLConstants;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.jfree.util.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -208,6 +217,42 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 			return new EntryDistrict();
 		}
 
+	}
+
+	@Override
+	public Long importExcel(AnnualBudgetFile fileBean, String username) throws Exception {
+		
+		//Valida que existan partidas en configuracion, de lo contrario las crea.
+		EntryBalance balance = this.getEntryBalance(new EntryFilter(), StatusEntry.CONFIG);
+		if(balance.getEntries().isEmpty()){
+			//Crea  las partidas para el año siguiente.
+			this.cloneEntries(username);
+		}
+		
+		// si no genero excepcion al clonar las entidades actualizar los saldos
+		
+		try {
+			ByteArrayInputStream bis = new ByteArrayInputStream(fileBean
+					.getFile().getBytes());
+			//Parsea el ByteArrayInputStream a Workbook
+			Workbook workbook = WorkbookFactory.create(bis);
+			
+			//Obtiene la primer Hoja 
+			Sheet sheet = workbook.getSheetAt(0);
+			
+			//Itera los renglones de la hoja
+			Iterator<Row> rowIterator = sheet.iterator();
+			int rowCount = 0;
+			while (rowIterator.hasNext()) {
+
+			}	
+			
+		} catch (IOException e) {
+			LOG.error("IOException", e);
+		} catch (InvalidFormatException e) {
+			LOG.error("InvalidFormatException", e);
+		}
+		return null;
 	}
 
 }

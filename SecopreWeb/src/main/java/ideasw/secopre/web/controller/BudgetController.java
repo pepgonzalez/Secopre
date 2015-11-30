@@ -1,7 +1,6 @@
 package ideasw.secopre.web.controller;
 
-import java.security.Principal;
-
+import ideasw.secopre.dto.AnnualBudgetFile;
 import ideasw.secopre.dto.EntryBalance;
 import ideasw.secopre.dto.EntryFilter;
 import ideasw.secopre.enums.StatusEntry;
@@ -9,12 +8,19 @@ import ideasw.secopre.service.EntryConfigService;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
 
+import java.security.Principal;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -49,17 +55,25 @@ public class BudgetController extends AuthController {
 		return SecopreConstans.MV_ADM_BUDGET;
 	}
 
-	@RequestMapping(value = "adm/budget/upload", method = { RequestMethod.GET,
-			RequestMethod.POST })
-	public String upload(ModelMap model, RedirectAttributes attributes) {
-		return SecopreConstans.MV_ADM_BUDGET;
+	@RequestMapping(value = "/upload", method = { RequestMethod.POST,
+			RequestMethod.GET })
+	public String upload(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam(defaultValue = "", value = "file") MultipartFile file,
+			ModelMap model) {
+		AnnualBudgetFile uploadItem = new AnnualBudgetFile();
+		uploadItem.setFile(file);
+
+		return null;
 	}
 
 	@RequestMapping(value = "adm/budget/search", method = RequestMethod.POST)
 	public String searchEntries(
 			@ModelAttribute("entryFilter") EntryFilter entryFilter,
 			ModelMap model) {
-		EntryBalance balance = entryConfigService.getEntryBalance(entryFilter, StatusEntry.CONFIG);
+		EntryBalance balance = entryConfigService.getEntryBalance(entryFilter,
+				StatusEntry.CONFIG);
 		model.addAttribute("balance", balance);
 		model.addAttribute("entryFilter", entryFilter);
 		return "auth/admin/config/entry/byDistrict";
