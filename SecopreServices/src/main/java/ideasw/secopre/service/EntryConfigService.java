@@ -1,5 +1,6 @@
 package ideasw.secopre.service;
 
+import ideasw.secopre.dto.AnnualBudgetFile;
 import ideasw.secopre.dto.EntryBalance;
 import ideasw.secopre.dto.EntryFilter;
 import ideasw.secopre.dto.UpdateEntry;
@@ -8,6 +9,9 @@ import ideasw.secopre.enums.StatusEntry;
 import java.util.List;
 
 public interface EntryConfigService {
+
+	
+	public Long importExcel(AnnualBudgetFile fileBean,String username) throws Exception;
 
 	public boolean cloneEntries(String userId) throws Exception;
 

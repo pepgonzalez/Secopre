@@ -10,12 +10,15 @@ import ideasw.secopre.web.controller.base.AuthController;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,7 +50,7 @@ public class NoticeController extends AuthController {
 		Notice notice = new Notice();
 		model.addAttribute("noticeList", baseService.findAll(Notice.class));
 		model.addAttribute("notice", notice);
-		model.addAttribute("districts", secopreCache.getAlldistricts());
+		model.addAttribute("districts", secopreCache.getValidDistricts());
 		return SecopreConstans.MV_CAT_NOTICE;
 	}
 
@@ -57,7 +60,7 @@ public class NoticeController extends AuthController {
 			@RequestParam("id") Long id) {
 		Notice notice = baseService.findById(Notice.class, id);
 		model.addAttribute("notice", notice);
-		model.addAttribute("districts", secopreCache.getAlldistricts());
+		model.addAttribute("districts", secopreCache.getValidDistricts());
 
 		return SecopreConstans.MV_CAT_NOTICE_ADD;
 	}
@@ -73,7 +76,7 @@ public class NoticeController extends AuthController {
 		Notice notice = new Notice();
 		model.addAttribute("noticeList", baseService.findAll(Notice.class));
 		model.addAttribute("notice", notice);
-		model.addAttribute("districts", secopreCache.getAlldistricts());
+		model.addAttribute("districts", secopreCache.getValidDistricts() );
 
 		return SecopreConstans.MV_CAT_NOTICE_LIST;
 	}
@@ -82,7 +85,20 @@ public class NoticeController extends AuthController {
 	public String add(@ModelAttribute("notice") Notice notice,
 			@RequestParam("districts") String district, ModelMap model) {
 		try {
-
+            if(notice.getId()==null)
+            {
+            	notice.setActivo(Boolean.TRUE);
+            }
+            else
+            {    
+            	Notice noticeEdit = baseService.findById(Notice.class , notice.getId());
+            	noticeEdit.setActivo(notice.getActivo());
+            	noticeEdit.setDisplayDate(notice.getDisplayDate());
+            	noticeEdit.setRegisterDate(notice.getRegisterDate());
+            	noticeEdit.setNoticeInfo(notice.getNoticeInfo());
+            	noticeEdit.setId(notice.getId());
+            	notice = noticeEdit;
+            }
 			List<District> distritList = new ArrayList<District>();
 			List<String> items = Arrays.asList(district.split("\\s*,\\s*"));
 
@@ -91,9 +107,8 @@ public class NoticeController extends AuthController {
 						Long.parseLong(distrid));
 				distritList.add(distr);
 				notice.setDistrs(distritList);
-				notice.setActivo(Boolean.TRUE);
 			}
-			notice.setActivo(Boolean.TRUE);
+			
 			baseService.save(notice);
 		} catch (Exception e) {
 			e.getStackTrace();
@@ -128,6 +143,40 @@ public class NoticeController extends AuthController {
 		Notice notice = dashboardService.getNotice(user,
 				secopreCache.getDistrictsByUser(user));
 		return notice;
+	}
+	
+	@RequestMapping(value = "oper/notice/getDistrictsByNotice/{noticeId}", method= {RequestMethod.GET})
+	public @ResponseBody Map<String, Object> getDistrictsByNotice(@PathVariable("noticeId") Long noticeId){
+		Map<String, Object> returnObject = new HashMap<String, Object>();
+		//Listado de Distritos
+		List<District> districts  = accessNativeService.getDistrictsByNotice(noticeId);
+		
+		 //List of numbers we want to concatenate
+	    List<Long> numbers = new ArrayList<Long>();
+	    for (District r : districts) {
+	    	numbers.add(r.getId());
+		}
+
+	    //The string builder used to construct the string
+	    StringBuilder commaSepValueBuilder = new StringBuilder();
+
+	    //Looping through the list
+	    for ( int i = 0; i< numbers.size(); i++){
+	      //append the value into the builder
+	      commaSepValueBuilder.append(numbers.get(i));
+
+	      //if the value is not the last element of the list
+	      //then append the comma(,) as well
+	      if ( i != numbers.size()-1){
+	        commaSepValueBuilder.append(",");
+	      }
+	    }
+	    System.out.println(commaSepValueBuilder.toString());
+		
+	    String result = commaSepValueBuilder.toString().trim();
+		
+		returnObject.put("result", result);
+		return returnObject;
 	}
 
 }

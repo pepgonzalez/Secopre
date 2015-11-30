@@ -226,11 +226,9 @@
 
 	         $.getJSON("oper/notice/getNotice",{}, function(j){
 	              var json = eval(j);
-	              blockPage();
 	              console.log("NOTICE ===>", json);
 	              console.log("EVAL =====>", eval(json != null));
 				  if(json != null ){
-					  unblockPage();
 		              BootstrapDialog.show({
 		            		title: 'Notificaciones Secopre',
 		            	    message: json.noticeInfo,
@@ -248,7 +246,6 @@
 		            	    }]
 		            	});
 				  }
-				  unblockPage();	
 	            });
 		   
 		});

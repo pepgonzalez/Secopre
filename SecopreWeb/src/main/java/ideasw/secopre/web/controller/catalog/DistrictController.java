@@ -62,14 +62,26 @@ public class DistrictController extends AuthController {
 		Person person = new Person();
 		Address address = new Address();
 		State state = new State();
-		//model.addAttribute("districtList", secopreCahe.getAlldistricts());
-		model.addAttribute("districtList", baseService.findAll(District.class));
+		
+		List<District> districtList  = new ArrayList<District>();
+		districtList = accessNativeService.getDistricts();
+//		
+//		for (District dist : districtList) {
+//			if (dist.getAddress().getId() != 0)
+//			{Address dir= baseService.findById(Address.class,dist.getAddress().getId());
+//			dist.setAddress(dir);
+//			}
+//		}
+		
+		model.addAttribute("districtList", districtList);
+		//model.addAttribute("districtList", baseService.findAll(District.class));
 		model.addAttribute("district", district);
 		model.addAttribute("person", person);
 		model.addAttribute("address", address);
 		model.addAttribute("state", state);
 		model.addAttribute("states", secopreCahe.getAllStatesMap());
-		model.addAttribute("usuarios", baseService.findAll(User.class));
+		//model.addAttribute("usuarios", baseService.findAll(User.class));
+		model.addAttribute("usuarios", accessNativeService.getUsers() );
 		
 		return SecopreConstans.MV_CAT_DISTRICT;
 	}
@@ -162,7 +174,10 @@ public class DistrictController extends AuthController {
 
 		model.addAttribute("states", secopreCahe.getAllStatesMap());
 		
-		model.addAttribute("usuarios", baseService.findAll(User.class));
+		//model.addAttribute("usuarios", baseService.findAll(User.class));
+		
+		model.addAttribute("usuarios", accessNativeService.getUsers());
+		
 		
 		return SecopreConstans.MV_CAT_DISTRICT_ADD;
 		

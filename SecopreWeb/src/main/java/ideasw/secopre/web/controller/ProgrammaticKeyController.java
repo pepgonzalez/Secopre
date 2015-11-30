@@ -1,6 +1,7 @@
 package ideasw.secopre.web.controller;
 
 import ideasw.secopre.model.ProgrammaticKey;
+import ideasw.secopre.model.security.User;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
 
@@ -41,7 +42,23 @@ public class ProgrammaticKeyController extends AuthController {
 	@RequestMapping(value = "oper/pk/add", method = RequestMethod.POST)
 	public String add(@ModelAttribute("pk") ProgrammaticKey pk, ModelMap model) {
 		try {
-			pk.setActivo(Boolean.TRUE);
+			if(pk.getId()==null)
+			{
+               pk.setActivo(Boolean.TRUE);
+			}
+			else
+			{
+				ProgrammaticKey pkEdit = baseService.findById(ProgrammaticKey.class , pk.getId());
+				pkEdit.setFunction(pk.getFunction());
+				pkEdit.setFinality(pk.getFinality());
+				pkEdit.setActivity(pk.getActivity());
+				pkEdit.setCode(pk.getCode());
+				pkEdit.setProgramBudget(pk.getProgramBudget());
+				pkEdit.setSubfunction(pk.getSubfunction());
+				pkEdit.setUnitResponsable(pk.getUnitResponsable());
+				pk=pkEdit;
+			}
+			
 			baseService.save(pk);
 		} catch (Exception e) {	
 			model.addAttribute(

@@ -205,10 +205,21 @@ public interface AccessNativeService {
 	
 	/*distrito por usuario*/
 	Map<Long, String> getValidDistrictsMapByUserId(Long userId);
-
+	
+	/*Metodo para obtener los distritos*/
+	List<District> getDistricts();
+	
+	/*Metodo para obtener los usuarios*/
+	List<User> getUsers();
+	
 	List<Notification> getNotificationByUserId(Long userId);
 	
 	Request insertOrUpdateRequestData(Request request);
 
-	 Property getPropertyByCode(String code);
+	Property getPropertyByCode(String code);
+	
+	List<Entry> getEntries();
+	
+	/*Servicio para obtener todas los distritos que pertenece a un aviso*/
+    List<District> getDistrictsByNotice(Long noticeId);
 }

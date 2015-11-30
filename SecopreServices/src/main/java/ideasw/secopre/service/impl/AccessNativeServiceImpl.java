@@ -34,6 +34,7 @@ import ideasw.secopre.service.impl.mapper.DistrictMapper;
 import ideasw.secopre.service.impl.mapper.EntryMapper;
 import ideasw.secopre.service.impl.mapper.FormalityMapper;
 import ideasw.secopre.service.impl.mapper.FullEntryDistrictMapper;
+import ideasw.secopre.service.impl.mapper.FullEntryMapper;
 import ideasw.secopre.service.impl.mapper.InboxMapper;
 import ideasw.secopre.service.impl.mapper.MovementMapper;
 import ideasw.secopre.service.impl.mapper.NotificationMapper;
@@ -372,6 +373,7 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		LOG.info("Movimientos de ampliacion terminado");
 		return 0;
 	}
+	
 	
 	public Request insertOrUpdateRequestData(Request request){
 		Request baseRequest = this.getRequestById(request.getRequestId());
@@ -902,6 +904,28 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	public List<Notification> getNotificationByUserId(Long userId) {
 		SqlParameterSource params = new MapSqlParameterSource().addValue("userId", userId);
 		return this.queryForList(Notification.class, queryContainer.getSQL(SQLConstants.GET_NOTIFICATIONS_BY_USER), params, new NotificationMapper());
+	}
+	
+	@Override
+	public List<District> getDistricts() {
+        return this.queryForList(District.class, queryContainer.getSQL(SQLConstants.GET_LIST_DISTRICTS),null, new DistrictMapper());
+	}
+	
+	@Override
+	public List<User> getUsers() {
+        return this.queryForList(User.class, queryContainer.getSQL(SQLConstants.GET_LIST_USERS), null, new UserMapper());
+	}
+	
+	@Override
+	public List<Entry> getEntries() {
+        return this.queryForList(Entry.class, queryContainer.getSQL(SQLConstants.GET_LIST_ENTRIES), null, new FullEntryMapper());
+	}
+	
+	@Override
+	public List<District> getDistrictsByNotice(Long noticeId) {
+		SqlParameterSource namedParameters = new MapSqlParameterSource()
+		.addValue("noticeId", noticeId);
+        return this.queryForList(District.class, queryContainer.getSQL(SQLConstants.GET_DISTRICT_LIST_BY_NOTICE), namedParameters, new DistrictMapper());
 	}
 
 }

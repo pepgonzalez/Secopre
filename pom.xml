@@ -50,6 +50,9 @@
 		<jasperreports.version>5.0.1</jasperreports.version>
 		<joda-time.version>2.7</joda-time.version>
 		<jxl.version>2.6.10</jxl.version>
+		<poi.version>3.7</poi.version>
+		<poi-ooxml.version>3.7</poi-ooxml.version>
+		<itext.version>2.1.7</itext.version>
 
 	</properties>
 
@@ -243,6 +246,23 @@
 				<groupId>org.codehaus.jackson</groupId>
 				<artifactId>jackson-mapper-asl</artifactId>
 				<version>${jackson.version}</version>
+			</dependency>
+
+			<!-- Para parseo de Excel -->
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi</artifactId>
+				<version>${poi.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi-ooxml</artifactId>
+				<version>${poi-ooxml.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lowagie</groupId>
+				<artifactId>itext</artifactId>
+				<version>${itext.version}</version>
 			</dependency>
 
 		</dependencies>

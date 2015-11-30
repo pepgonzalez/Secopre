@@ -141,7 +141,7 @@ function initEntryList() {
 }
 
 
-function initNoticeCat() {
+function initNoticeCat(noticeId) {
 	initPage('Notice');
 	initNoticeValidations();
 	 $('select').select2();
@@ -154,6 +154,34 @@ function initNoticeCat() {
 	    	  format: 'dd/mm/yyyy'
 	    });
 	    $('#districts').multiSelect({ includeSelectAllOption: true});
+	    
+		var apiCallUnblock = function(actionURL, callback) {
+			var method = method || "POST";
+			var header = $("meta[name='_csrf_header']").attr("content");
+			var token = $("meta[name='_csrf']").attr("content");
+			$.ajax({
+				url : context + '/' + actionURL,
+				beforeSend : function(xhr) {
+					xhr.setRequestHeader(header, token);
+				},
+				success : function(data) {
+					callback(data);
+					
+				}
+			});
+		};
+		
+		if(noticeId!=null)
+		{
+
+		   apiCallUnblock("auth/oper/notice/getDistrictsByNotice/" + noticeId, function(data)
+				   {	
+				      var valArr=data.result.split(',');
+				      $("#districts").val(valArr);
+				      $("#districts").multiSelect("refresh");
+				   });	   
+		   
+		}
 	    
 }
 
@@ -1234,21 +1262,27 @@ function initProgrammaticKeyValidations() {
 				number : true
 			},
 			"function" : {
+				required : true,
 				maxlength : 10
 			},
 			activity : {
+				required : true,
 				maxlength : 10
 			},
 			subfunction : {
+				required : true,
 				maxlength : 10
 			},
 			programBudget : {
+				required : true,
 				maxlength : 30
 			},
 			unitResponsable : {
+				required : true,
 				maxlength : 30
 			},
 			finality : {
+				required : true,
 				maxlength : 10
 			}
 		},
