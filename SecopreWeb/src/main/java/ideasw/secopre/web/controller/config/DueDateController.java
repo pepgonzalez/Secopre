@@ -1,12 +1,12 @@
 package ideasw.secopre.web.controller.config;
 
 import ideasw.secopre.model.DueDate;
-import ideasw.secopre.model.catalog.District;
 import ideasw.secopre.utils.time.TimeUtils;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +16,7 @@ import org.joda.time.Interval;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -146,23 +146,63 @@ public class DueDateController extends AuthController {
 		return isValid;
 	}
 	
+	boolean isWithinRange(Date testDate,Date startDate,Date endDate) {
+		return testDate.after(startDate) && testDate.before(endDate);
+	}
+	
 	@RequestMapping(value = "param/dueDate/isDueDateValid", method= {RequestMethod.GET})
 	public @ResponseBody Map<String, Object> isDueDateValid(@RequestParam("dueDateStr") String dueDateStr, @RequestParam("maxBlockDateStr") String maxBlockDateStr ){
 		Map<String, Object> returnObject = new HashMap<String, Object>();
         DueDate dueDate = new DueDate();
         dueDate.setDueDateStr(dueDateStr);
         dueDate.setMaxBlockDateStr(maxBlockDateStr);
-        String result = null;
+        String result = "0";
         try
         {
-		Boolean isValid = isValidDueDate(dueDate);
-	    if (isValid) 
-	    {result="1";}
-	    else
-	    {result="0";}
+        	
+        	boolean isValid = false;
+        	boolean isValidDueDate = false;
+        	boolean isValidMaxBlockDate = false;
+    		
+    		
+    		if (dueDate.getDueDate().after(dueDate.getMaxBlockDate()))
+    		{
+    			isValid=true;
+				result="2";
+    		}
+    		
+    		if (!isValid)
+        	{
+    		   Map<String, Object> params = new HashMap<String, Object>();
+    		   params.put("activo", Boolean.TRUE);
+    		   List<DueDate> allActives = baseService.findByProperties(DueDate.class,
+    				params);	
+    		
+        
+	    		for (DueDate item : allActives) {
+	    			isValidDueDate = isWithinRange(dueDate.getDueDate(),item.getDueDate(),item.getMaxBlockDate());
+	    			isValidMaxBlockDate = isWithinRange(dueDate.getMaxBlockDate(),item.getDueDate(),item.getMaxBlockDate());
+	    			if(isValidMaxBlockDate || isValidDueDate)
+	    			{
+	    				isValid=true;
+	    				result="1";
+	    				break; 
+	    			}
+	    		}
+        	}
         }
-        catch(Exception e)
-        {result="1";}
+    	catch(Exception e)
+    	{}
+//		
+//		
+//		
+//	    if (isValid) 
+//	    {result="1";}
+//	    else
+//	    {result="0";}
+//        }
+//        catch(Exception e)
+//        {result="1";}
 	    
 		returnObject.put("result", result);
 		return returnObject;

@@ -189,6 +189,36 @@ function initNoticeList() {
 	sendRequestJQ('auth/oper/notice/list', 'dashboard', 'initNoticeCat()');
 }
 
+
+function validaFechas() {
+	var validator=false;
+	var dueDateStr = $('#dueDateStr').val();
+	var maxBlockDateStr = $('#maxBlockDateStr').val();
+	var actionURL = "auth/param/dueDate/isDueDateValid?dueDateStr=" + dueDateStr + "&maxBlockDateStr=" + maxBlockDateStr;
+	var method = method || "POST";
+	var header = $("meta[name='_csrf_header']").attr("content");
+	var token = $("meta[name='_csrf']").attr("content");
+	$.ajax({
+		url : context + '/' + actionURL,
+		async: false,
+		beforeSend : function(xhr) {
+			xhr.setRequestHeader(header, token);
+		},
+		success : function(data) {
+			result=data.result;
+			if (result==0){
+				validator = result;
+			}else{
+				validator = result;
+			}	
+			//alert(validator);
+			return validator;
+			
+		}
+	});
+	return validator;
+}
+
 function initDueDateValidations() {
 
 	var form = $('#submit_form');
@@ -394,6 +424,21 @@ function initDueDateValidations() {
 
 			success.hide();
 			error.hide();
+			
+			//alert('vamos a validar la fecha')
+			//alert(validaFechas());
+			var res = validaFechas();
+			if (res == 1) {
+				//alert('salio falso')
+				bootbox.alert("El rango de fechas seleccionado se sobrepone a un rango existente. Favor de validar"); 
+				return false;
+			}
+			else if (res == 2)	
+			{
+				bootbox.alert("Fecha de corte es mayor que Fecha maxima de bloqueo. Favor de validar"); 
+				return false;
+			}
+			
 
 			if (form.valid() == false) {
 				return false;
@@ -424,7 +469,7 @@ function initDueDateValidations() {
 		// submitAjaxJQ('submit_form','dashboard','');
 	}).hide();
 
-	$('#submitRequestForm').click(function() {
+	$('#submitRequestForm').click(function() {		
 		if (form.valid()) {
 			submitAjaxJQ('submit_form', 'dashboard', 'initDueDateList()');
 		}
