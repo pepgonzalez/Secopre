@@ -17,11 +17,13 @@ import ideasw.secopre.sql.SQLConstants;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -139,7 +141,7 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 		}
 
 		sql.append(" GROUP BY DISTRICT_ID, ENTRY_ID");
-		
+
 		List<EntryDistrictDetail> entryList = this.queryForList(
 				EntryDistrictDetail.class, sql.toString(), params,
 				new EntryDistrictDetailMapper());
@@ -160,7 +162,7 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 		return balance;
 	}
 
-	private EntryDistrict getBalance(EntryFilter filter,StatusEntry status) {
+	private EntryDistrict getBalance(EntryFilter filter, StatusEntry status) {
 		StringBuffer sql = new StringBuffer("");
 		MapSqlParameterSource params = new MapSqlParameterSource();
 
@@ -183,7 +185,7 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 		sql.append(" PK.YEAR = YEAR(CURDATE())");
 		sql.append(" AND E.STATUS = :status ");
 		params.addValue("status", status.name());
-		
+
 		String groupBy = " GROUP BY ";
 		if (filter.getStateId() != null) {
 			sql.append(" AND D.STATE_ID = :stateId");
@@ -220,33 +222,43 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 	}
 
 	@Override
-	public Long importExcel(AnnualBudgetFile fileBean, String username) throws Exception {
-		
-		//Valida que existan partidas en configuracion, de lo contrario las crea.
-		EntryBalance balance = this.getEntryBalance(new EntryFilter(), StatusEntry.CONFIG);
-		if(balance.getEntries().isEmpty()){
-			//Crea  las partidas para el año siguiente.
+	public Long importExcel(AnnualBudgetFile fileBean, String username)
+			throws Exception {
+
+		// Valida que existan partidas en configuracion, de lo contrario las
+		// crea.
+		EntryBalance balance = this.getEntryBalance(new EntryFilter(),
+				StatusEntry.CONFIG);
+		if (balance.getEntries().isEmpty()) {
+			// Crea las partidas para el año siguiente.
 			this.cloneEntries(username);
 		}
-		
+
 		// si no genero excepcion al clonar las entidades actualizar los saldos
-		
+
 		try {
 			ByteArrayInputStream bis = new ByteArrayInputStream(fileBean
 					.getFile().getBytes());
-			//Parsea el ByteArrayInputStream a Workbook
+			// Parsea el ByteArrayInputStream a Workbook
 			Workbook workbook = WorkbookFactory.create(bis);
-			
-			//Obtiene la primer Hoja 
-			Sheet sheet = workbook.getSheetAt(0);
-			
-			//Itera los renglones de la hoja
-			Iterator<Row> rowIterator = sheet.iterator();
-			int rowCount = 0;
-			while (rowIterator.hasNext()) {
 
-			}	
+			// Obtiene la primer Hoja
+			Sheet sheet = workbook.getSheetAt(0);
+
+			// Itera los renglones de la hoja
+			Iterator<Row> rowIterator = sheet.iterator();
+
+			EntryDistrictDetail detail = null;
+			List<EntryDistrictDetail> allRows = new ArrayList<EntryDistrictDetail>(0);
 			
+			while (rowIterator.hasNext()) {
+				 detail = getBudgetDetail(rowIterator.next());
+				 if(detail != null){
+					 allRows.add(detail);	 
+				 }
+				 
+			}
+
 		} catch (IOException e) {
 			LOG.error("IOException", e);
 		} catch (InvalidFormatException e) {
@@ -255,4 +267,68 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 		return null;
 	}
 
+	private EntryDistrictDetail getBudgetDetail(Row row){
+		Iterator<Cell> cellIterator = row.cellIterator();
+		int cellCount = 0;
+		EntryDistrictDetail entryDistrict = new EntryDistrictDetail();
+//		StringBuffer sb = new StringBuffer("INSERT INTO secopre.ENTRYDISTRICT ");
+		while (cellIterator.hasNext()) {
+			Cell cell = cellIterator.next();
+			
+			//Validar si la celda inicia numerico
+			if(cellCount == 1 && !EntryConfigServiceImpl.isNumeric(cell.getStringCellValue())){
+				break;
+			}
+			
+			//Almacenar Informacion
+			if(cellCount == 1){ // Es el ID del distrito
+				entryDistrict.setDistrictId(Long.valueOf(cell.getStringCellValue()));
+			}else if(cellCount == 3){//Es el id de la partida 
+				entryDistrict.setEntryId(Long.valueOf(cell.getStringCellValue()));
+			}else if(cellCount == 5){//Es el monto anual
+				entryDistrict.setAnnualAmount(Double.valueOf(cell.getStringCellValue()));
+			}else if(cellCount == 6){//Es el monto de Enero
+				entryDistrict.setJanuary(Double.valueOf(cell.getStringCellValue()));
+			}else if(cellCount == 7){//Es el monto de Febrero
+				entryDistrict.setFebruary(Double.valueOf(cell.getStringCellValue()));
+			}else if(cellCount == 8){//Es el monto de Marzo
+				entryDistrict.setMarch(Double.valueOf(cell.getStringCellValue()));
+			}else if(cellCount == 9){//Es el monto de Abril	
+				entryDistrict.setApril(Double.valueOf(cell.getStringCellValue()));
+			}else if(cellCount == 10){//Es el monto de Mayo
+				entryDistrict.setMay(Double.valueOf(cell.getStringCellValue()));
+			}else if(cellCount == 11){//Es el monto de Junio
+				entryDistrict.setJune(Double.valueOf(cell.getStringCellValue()));
+			}else if(cellCount == 12){//Es el monto de Julio
+				entryDistrict.setJuly(Double.valueOf(cell.getStringCellValue()));
+			}else if(cellCount == 13){//Es el monto de Agosto
+				entryDistrict.setAugust(Double.valueOf(cell.getStringCellValue()));
+			}else if(cellCount == 14){//Es el monto de Septiembre
+				entryDistrict.setSeptember(Double.valueOf(cell.getStringCellValue()));
+			}else if(cellCount == 15){//Es el monto de Octubre
+				entryDistrict.setOctober(Double.valueOf(cell.getStringCellValue()));
+			}else if(cellCount == 16){//Es el monto de Noviembre
+				entryDistrict.setNovember(Double.valueOf(cell.getStringCellValue()));
+			}else if(cellCount == 17){//Es el monto de Diciembre
+				entryDistrict.setDecember(Double.valueOf(cell.getStringCellValue()));
+			}
+			
+			if(entryDistrict.getAnnualAmount() == null || entryDistrict.getEntryId() == null){
+				entryDistrict = null;
+			}
+			cellCount++;
+		}
+		return entryDistrict;
+		
+	}
+
+	public static boolean isNumeric(String str) {
+		try {
+			@SuppressWarnings("unused")
+			double d = Double.parseDouble(str);
+		} catch (NumberFormatException nfe) {
+			return false;
+		}
+		return true;
+	}
 }
