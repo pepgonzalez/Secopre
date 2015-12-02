@@ -307,7 +307,7 @@ var movementController2 = {
 			});
 		});
 
-		self.startSlider(self, nextIndex, parseInt(new Date().getMonth()) - 1, 11, grid);
+		self.startSlider(self, nextIndex, parseInt(new Date().getMonth()), 11, grid);
 		self.addOnChangeEvent(self, grid, nextIndex, "programaticKeyId", true);
 		self.addOnChangeEvent(self, grid, nextIndex, "entryId", false);
 		self.addRemoveEvent(self, grid, nextIndex);
