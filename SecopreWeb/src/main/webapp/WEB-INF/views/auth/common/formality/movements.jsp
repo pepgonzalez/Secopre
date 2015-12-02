@@ -24,7 +24,7 @@
 			<i class="fa fa-cogs"></i>Reducción Líquida
 		</div>
 		<div class="actions">
-			<a href="javascript:;" class="btn green btn-sm" id="addMov"><i class="fa fa-plus"></i>Agregar Movimiento </a>
+			<a href="javascript:;" class="btn green btn-sm x" id="addMov"><i class="fa fa-plus"></i>Agregar Movimiento </a>
 		</div>
 	</div>
 	<div class="portlet-body">
@@ -116,7 +116,7 @@
 			<i class="fa fa-cogs"></i>Ampliación Líquida
 		</div>
 		<div class="actions">
-			<a href="javascript:;" class="btn green btn-sm" id="addMov"><i class="fa fa-plus"></i>Agregar Movimiento </a>
+			<a href="javascript:;" class="btn green btn-sm x" id="addMov"><i class="fa fa-plus"></i>Agregar Movimiento </a>
 		</div>
 	</div>
 	<div class="portlet-body">

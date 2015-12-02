@@ -2026,12 +2026,11 @@ function movements2Capture() {
 
 
 function initAuthorization() {
-	// alert("Iniciando autorizacion");
 	
 	$(document).find("input").attr("readonly","true");
 	$(document).find("select").attr("readonly","true");
 
-	movementController.startComponent();
+	movementController2.startComponent();
 	
 	$(document).find("[data-name='sliderControl']").hide();
 	$(document).find("[data-name='deleteAction']").html("");
@@ -2046,11 +2045,6 @@ function initAuthorization() {
 	if(tipoMov == 2){
 		$("#addComponent").hide();
 	}
-	
-	
-	$(document).find("#addMov").hide();
-	$(document).find("#saveMov").hide();
-	
 	
 	var requestForm = $('#requestForm');
 
@@ -2075,6 +2069,8 @@ function initAuthorization() {
 		requestForm.find('#nextStageValueCode').val("CONTINUAR");
 		submitAjaxJQ('requestForm', 'dashboard', '');
 	});
+	
+	$(document).find(".addButton").hide();
 }
 
 
