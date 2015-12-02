@@ -58,6 +58,7 @@
 								<th>Importe</th>
 								<th>Fecha Creación</th>
 								<th>Siguiente Etapa</th>
+								<th>Opciones</th>
 							</tr>
 							</thead>
 							<tbody>
@@ -71,6 +72,13 @@
 										<td>${inboxItem.totalAmountStr}</td>
 										<td>${inboxItem.creationDateStr}</td>
 										<td>${inboxItem.nextDescription}</td>
+										<td>
+											<c:if test="${inboxItem.isOperated == true}">
+												<a href="#" onclick="openResourceNative('wf/download/format/${inboxItem.requestId}','dashboard','()','GET');">
+													Descargar Formato
+												</a>
+											</c:if>
+										</td>
 									</tr>							
 								</c:forEach>
 							</tbody>

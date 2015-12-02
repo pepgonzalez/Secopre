@@ -33,6 +33,8 @@ public class InboxMapper implements RowMapper<Object> {
 		 	inbox.setNextDescription(rs.getString("NEXT_DESCRIPTION"));
 		 	inbox.setTotalAmount(rs.getFloat("TOTAL_AMOUNT"));
 		 	inbox.setCreationDate(rs.getDate("CREATION_DATE"));
+		 	inbox.setCanceled(rs.getBoolean("IS_CANCELED"));
+		 	inbox.setOperated(rs.getBoolean("IS_OPERATED"));
 			return inbox;
 	 }    
 } 

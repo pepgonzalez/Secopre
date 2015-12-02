@@ -170,6 +170,8 @@
 									THEN 1 
 									ELSE 0 
 								END) AS IS_END_WORKFLOW,
+								SC.IS_CANCELED,
+								SC.IS_OPERATED,
 								ifnull(SC.CAPTURE_FORM,"") CAPTURE_FORM,
 								WC.STATUS_ID, S.DESCRIPTION NEXT_DESCRIPTION
 						   FROM secopre.REQUEST R,
@@ -783,6 +785,8 @@
 									THEN 1 
 									ELSE 0 
 								END) AS IS_END_WORKFLOW,
+								SC.IS_CANCELED,
+								SC.IS_OPERATED,
 								ifnull(SC.CAPTURE_FORM,"") CAPTURE_FORM,
 								WC.STATUS_ID, S.DESCRIPTION NEXT_DESCRIPTION
 						   FROM secopre.REQUEST R,
@@ -801,10 +805,14 @@
 						   		secopre.STATE STATE,
 						   		(SELECT R.ID
 								  FROM secopre.REQUEST R,
-								       secopre.REQUEST_HISTORY RH
+								       secopre.REQUEST_HISTORY RH,
+								       secopre.WORKFLOW_CONFIG WC,
+								       secopre.STAGE_CONFIG SC
 								 WHERE R.ID = RH.REQUEST_ID
-								   AND RH.CONSECUTIVE = 1
 								   AND RH.USER_ID = :userId
+								   AND RH.WORKFLOW_CONFIG_ID = WC.ID
+								   AND WC.NEXT_STAGE_CONFIG = SC.ID
+								   AND (RH.CONSECUTIVE = 1 OR (SC.IS_CANCELED = 1 OR SC.IS_OPERATED = 1))
 								) MY_REQUEST
 						  WHERE 
 						        MY_REQUEST.ID = RH.REQUEST_ID

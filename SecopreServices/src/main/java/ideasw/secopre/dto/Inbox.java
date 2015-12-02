@@ -28,6 +28,9 @@ public class Inbox {
 	private Long statusId;
 	private String nextDescription;
 	
+	private boolean isCanceled;
+	private boolean isOperated;
+	
 	private Float totalAmount;
 	private Date creationDate;
 	private String creationDateStr;
@@ -191,5 +194,17 @@ public class Inbox {
 	
 	public String getTotalAmountStr(){
 		return String.format("%1$,.2f", this.totalAmount);
+	}
+	public boolean getIsCanceled() {
+		return isCanceled;
+	}
+	public void setCanceled(boolean isCanceled) {
+		this.isCanceled = isCanceled;
+	}
+	public boolean getIsOperated() {
+		return isOperated;
+	}
+	public void setOperated(boolean isOperated) {
+		this.isOperated = isOperated;
 	}
 }
