@@ -363,7 +363,10 @@ var movementController2 = {
 		$(self.getId(grid, index, "totalAmount")).attr("readonly", "true");
 		var sliderId = self.getSliderId(grid) + index;
 		if (keepSlider) {
-			$(sliderId)[0].setAttribute('disabled', true);
+			var sl = $(sliderId)[0];
+			if(sl){
+				sl.setAttribute('disabled', true);
+			}
 		} else {
 			$(sliderId).hide();
 		}
