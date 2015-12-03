@@ -186,6 +186,9 @@ var movementController2 = {
 		});
 
 		var saveBtn = grd.find(".actions #saveMov").on("click",function() {
+			$(document).find("#requestForm").find(".pk").prop("disabled",false);
+			$(document).find("#requestForm").find(".entry").prop("disabled",false);
+			$(document).find("#requestForm").find(".monthAmount").prop("disabled",false);
 			submitAjaxJQWithAction('requestForm', 'dashboard','movements2Capture','auth/wf/capture/partial/movements2');
 		});
 		
@@ -355,12 +358,19 @@ var movementController2 = {
 		data.monthAmount = monthAmount;
 		return data;
 	},
-	blockRow : function(self, grid, index, keepSlider) {
+	blockRow : function(self, grid, index, keepSlider, forceDisabled) {
 		var keepSlider = keepSlider || false;
 		$(self.getId(grid, index, "programaticKeyId")).attr("readonly", "true");
 		$(self.getId(grid, index, "entryId")).attr("readonly", "true");
 		$(self.getId(grid, index, "monthAmount")).attr("readonly", "true");
 		$(self.getId(grid, index, "totalAmount")).attr("readonly", "true");
+		
+		if(forceDisabled){
+			$(self.getId(grid, index, "programaticKeyId")).attr("readonly", "true").prop("disabled",true);
+			$(self.getId(grid, index, "entryId")).attr("readonly", "true").prop("disabled",true);
+			$(self.getId(grid, index, "monthAmount")).attr("readonly", "true").prop("disabled",true);
+		}
+		
 		var sliderId = self.getSliderId(grid) + index;
 		if (keepSlider) {
 			var sl = $(sliderId)[0];
@@ -412,7 +422,7 @@ var movementController2 = {
 
 			function blockRecord() {
 				// se bloquea la version actual
-				self.blockRow(self, grid, nextIndex, true);
+				self.blockRow(self, grid, nextIndex, true, false);
 				//$(grid).find("[data-name='deleteAction']").find("#cloneIdx" + nextIndex).show();
 				//$(grid).find("[data-name='deleteAction']").find("#infoIdx" + nextIndex).hide();
 				$(grid).find(".actions #saveMov").show();
@@ -882,7 +892,7 @@ var movementController2 = {
 		}).length;
 
 		for (var i = 0; i < totalRows; i++) {
-			self.blockRow(self, self.downGrid, i, true);
+			self.blockRow(self, self.downGrid, i, true, true);
 		}
 
 		// upGrid
@@ -893,7 +903,7 @@ var movementController2 = {
 		}).length;
 
 		for (var j = 0; j < upRows; j++) {
-			self.blockRow(self, self.upGrid, j, true);
+			self.blockRow(self, self.upGrid, j, true, true);
 		}
 	},
 	getNextIndex : function(grid) {

@@ -102,10 +102,11 @@
 							<table class="table table-striped table-bordered table-hover" id="formalityList">
 							<thead>
 							<tr>
+								<th style="visible:false;">id</th>
 								<th>Solicitud</th>
 								<th>Justificación</th>
 								<th>Distrito</th>
-								<th>Trámite</th>
+								<th>Tipo Transacción</th>
 								<th>Importe</th>
 								<th>Fecha Creación</th>
 								<th>Siguiente Etapa</th>
@@ -115,11 +116,11 @@
 							<tbody>
 								<c:forEach items="${inboxList}" var="inboxItem">
 									<tr class="odd gradeX">
-	
+										<td style="visible:false;">${inboxItem.requestId}</td>
 										<td>${inboxItem.folio}</td>
 										<td>${inboxItem.justification}</td>
 										<td>${inboxItem.districtDescription}</td>
-										<td>${inboxItem.formalityDescription}</td>
+										<td>${inboxItem.transactionType}</td>
 										
 										<td>${inboxItem.totalAmountStr}</td>
 										<td>${inboxItem.creationDateStr}</td>

@@ -1796,7 +1796,14 @@ function initMyTramiteListPage(){
             "infoEmpty": "No hay registros disponibles",
             "infoFiltered": "(filtered from _MAX_ total records)"
         },
-        bFilter: true, bInfo: true, bLengthChange:false, ordering:true
+        bFilter: true, bInfo: true, bLengthChange:false, ordering:true,
+        "order": [[ 0, "desc" ]],
+        "columnDefs": [
+           {
+               "targets": [ 0 ],
+               "visible": false
+           }
+       ]
     });
 	
 	// Filtro de datatable por fecha
@@ -1843,7 +1850,17 @@ function initTramiteListPage() {
             "infoEmpty": "No hay registros disponibles",
             "infoFiltered": "(filtered from _MAX_ total records)"
         },
-        bFilter: true, bInfo: true, bLengthChange:false, ordering:true
+        bFilter: true,
+        bInfo: true, 
+        bLengthChange:false, 
+        ordering:true,
+        "order": [[ 0, "desc" ]],
+        "columnDefs": [
+           {
+               "targets": [ 0 ],
+               "visible": false
+           }
+       ]
     });
 	
 	// Filtro de datatable por fecha
@@ -2016,6 +2033,9 @@ function movements2Capture() {
 	var requestForm = $('#requestForm');
 
 	$('#saveAndContinue').click(function(e) {
+		requestForm.find(".pk").prop("disabled",false);
+		requestForm.find(".entry").prop("disabled",false);
+		requestForm.find(".monthAmount").prop("disabled",false);
 		//var isCorrect = movementController.validate();
 		requestForm.find('#nextStageValueCode').val("SOLCOMP");
 		submitAjaxJQ('requestForm', 'dashboard', '');
@@ -2124,6 +2144,11 @@ function expenseCapture() {
 			window.showNotification("error", "Capture una cuenta para continuar");
 		}else{
 			//var isCorrect = movementController.validate();
+			
+			$(document).find("#requestForm").find(".pk").prop("disabled",false);
+			$(document).find("#requestForm").find(".entry").prop("disabled",false);
+			$(document).find("#requestForm").find(".monthAmount").prop("disabled",false);
+			
 			requestForm.find('#nextStageValueCode').val("SOLCOMP");
 			submitAjaxJQ('requestForm', 'dashboard', '');
 		}

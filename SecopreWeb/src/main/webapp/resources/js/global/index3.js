@@ -100,6 +100,7 @@ var Index = function() {
         },
 
         initCharts: function() {
+        	/*
             if (Morris.EventEmitter) {
                 // Use Morris.Area instead of Morris.Line
                 dashboardMainChart = Morris.Area({
@@ -140,8 +141,8 @@ var Index = function() {
                     hideHover: 'auto',
                     resize: true
                 });
-
             }
+            */
         },
 
         redrawCharts: function() {
