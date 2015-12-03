@@ -379,6 +379,7 @@
 						         WHERE ED.DISTRICT_ID = :districtId ) T
 						    ON E.ID = T.ENTRY_ID
 						   AND E.PROGRAMMATIC_ID = :programaticKeyId
+						   AND E.ACCOUNTING_TYPE = 'PARTIDA'
 						ORDER BY E.CODE   
 					]]>
 				</prop>
@@ -393,6 +394,7 @@
 						 ON E.PROGRAMMATIC_ID = PK.ID
 						 WHERE PK.YEAR = YEAR(CURDATE())
 						 AND ED.DISTRICT_ID = :districtId
+						 AND E.ACCOUNTING_TYPE = 'PARTIDA'
 						 ORDER BY E.CODE
 					]]>
 				</prop>				

@@ -90,10 +90,6 @@ public class EntryConfigController extends AuthController {
 			@RequestParam(value = "districtId", required = true) Long districtId,
 			ModelMap modelMap) {
 		Map<Long, String> entryMap = new HashMap<Long, String>();
-		Map<String, Object> propertiesMap = new HashMap<String, Object>();
-
-		propertiesMap.put("district",
-				baseService.findById(District.class, districtId));
 		List<Entry> entryList = accessNativeService
 				.getValidEntriesByDistrict(districtId);
 
