@@ -2069,6 +2069,32 @@ function initAuthorization() {
 	
 	var requestForm = $('#requestForm');
 
+	
+	/* botones para owners de autorizacion */
+	
+	//manda a siguiente firma
+	$('#backToCapture').click(function(e) {
+		alert("Regresando tramite a captura");
+		if($("#comments").val().length > 0){
+			requestForm.find('#nextStageValueCode').val("REGRESAR");
+			submitAjaxJQ('requestForm', 'dashboard', '');
+		}else{
+			window.showNotification("error", "Capture comentarios sobre el tramite");
+		}
+	});
+	
+	//manda a siguiente firma
+	$('#authorizateFormality').click(function(e) {
+		// alert("autorizando Tramite");
+		requestForm.find('#nextStageValueCode').val("SIGFIRMA");
+		submitAjaxJQ('requestForm', 'dashboard', '');
+	});
+	
+	
+	
+	/* botones propios de super usuario */
+	
+	//manda a tramite cancelado
 	$('#cancelFormality').click(function(e) {
 		// alert("Cancelando Tramite");
 		if($("#comments").val().length > 0){
@@ -2078,13 +2104,8 @@ function initAuthorization() {
 			window.showNotification("error", "capture comentarios de cancelacion");
 		}
 	});
-
-	$('#authorizateFormality').click(function(e) {
-		// alert("autorizando Tramite");
-		requestForm.find('#nextStageValueCode').val("SIGFIRMA");
-		submitAjaxJQ('requestForm', 'dashboard', '');
-	});
-
+	
+	//finalizar tramite
 	$('#finishFormality').click(function(e) {
 		// alert("autorizando Tramite y finalizar");
 		requestForm.find('#nextStageValueCode').val("CONTINUAR");

@@ -225,4 +225,7 @@ public interface AccessNativeService {
     List<District> getDistrictsByNotice(Long noticeId);
     
     EntryCurrentTotal getEntryCurrentTotals(Long districtId, Long entryId);
+    
+    /*Metodo para hacer rollback a request detail cuando de la autorizacion se regresa a captura*/
+    Request rollbackRequestDetail(Long requestId);
 }

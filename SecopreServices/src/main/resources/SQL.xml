@@ -347,7 +347,11 @@
 					<![CDATA[
 						SELECT H.REQUEST_ID,
 							   H.CONSECUTIVE,
-							   S1.DESCRIPTION ETAPA_INICiAL,
+							   SC1.ID STAGE_CONFIG_ID,
+							   SC1.IS_AUTHORIZATION IS_LAST_AUTHORIZATION,
+							   S1.DESCRIPTION ETAPA_INICIAL,
+							   SC1.ID NEXT_STAGE_CONFIG,
+							   SC1.IS_AUTHORIZATION IS_CURRENT_AUTHORIZATION,
 							   S2.DESCRIPTION SIGUIENTE_ETAPA,
 							   S.DESCRIPTION ESTATUS,
 							   H.LAST_UPDATE FECHA_CREACION,
@@ -371,6 +375,41 @@
 						AND H.USER_ID = U.ID
 					]]>
 				</prop>
+		
+			<prop key="GET_ACTIVE_REQUEST_HISTORY">
+					<![CDATA[
+						SELECT H.REQUEST_ID,
+							   H.CONSECUTIVE,
+							   SC1.ID STAGE_CONFIG_ID,
+							   SC1.IS_AUTHORIZATION IS_LAST_AUTHORIZATION,
+							   S1.DESCRIPTION ETAPA_INICIAL,
+							   SC1.ID NEXT_STAGE_CONFIG,
+							   SC1.IS_AUTHORIZATION IS_CURRENT_AUTHORIZATION,
+							   S2.DESCRIPTION SIGUIENTE_ETAPA,
+							   S.DESCRIPTION ESTATUS,
+							   H.LAST_UPDATE FECHA_CREACION,
+							   H.COMMENTS,
+							   U.USERNAME
+						FROM secopre.REQUEST_HISTORY H,
+							 secopre.WORKFLOW_CONFIG W,
+							 secopre.STAGE_CONFIG SC1,
+							 secopre.STAGE_CONFIG SC2,
+							 secopre.STAGE S1,
+							 secopre.STAGE S2,
+							 secopre.STATUS S,
+							 secopre.USER U
+						where H.REQUEST_ID = :requestId
+						AND H.WORKFLOW_CONFIG_ID = W.ID
+						AND W.STAGE_CONFIG_ID = SC1.ID
+						AND W.NEXT_STAGE_CONFIG = SC2.ID
+						AND SC1.STAGE_ID = S1.ID
+						AND SC2.STAGE_ID = S2.ID
+						AND W.STATUS_ID = S.ID
+						AND H.USER_ID = U.ID
+						AND H.ACTIVE = 1
+					]]>
+				</prop>
+	
 	
 				<prop key="GET_VALID_ENTRIES">
 					<![CDATA[

@@ -49,17 +49,20 @@
 									<div class="row">
 										<div class="col-md-offset-2 col-md-10">
 											
-											<button type="button" class="btn default" onclick="sendRequestJQ('auth/tram/list','dashboard','noAction()','GET');">Regresar a Mis Tramites</button>
+											<button type="button" class="btn default" onclick="sendRequestJQ('auth/tram/list','dashboard','noAction()','GET');">Regresar a Bandeja de Trámites</button>
 											
-											<c:if test="${authorization.canUserAuthorize || authorization.superUser}">
-												<button type="button" class="btn default" id="cancelFormality" >Cancelar Solicitud</button>
+											<!-- si es el dueño de la etapa y no es superusuario  puede regresar a captura o autorizar -->
+											<c:if test="${authorization.canUserAuthorize == true && authorization.superUser == false}">
+												<button type="button" class="btn red" id="backToCapture" >Regresar trámite a captura</button>
+												<button type="button" class="btn green" id="authorizateFormality">Autorizar trámite</button>
 											</c:if>
-											<c:if test="${authorization.canUserAuthorize && authorization.moreSignatures}">
-												<button type="button" class="btn green" id="authorizateFormality">Autorizar</button>
+											
+											<!-- si es el dueño de la etapa y no es superusuario  puede regresar a captura o autorizar -->
+											<c:if test="${authorization.superUser == true}">
+												<button type="button" class="btn red" id="cancelFormality" >Cancelar Trámite</button>
+												<button type="button" class="btn green" id="finishFormality">Finalizar Trámite</button>
 											</c:if>
-											<c:if test="${(authorization.superUser) || (authorization.canUserAuthorize && !(authorization.moreSignatures))}">
-												<button type="button" class="btn green" id="finishFormality">Finalizar Tramite</button>
-											</c:if>
+											
 										</div>
 									</div>
 								</div>
