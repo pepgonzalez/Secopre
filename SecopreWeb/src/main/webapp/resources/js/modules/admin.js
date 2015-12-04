@@ -2006,6 +2006,7 @@ function movements2Capture() {
 	
 	$(document).find('.numbersOnly').keyup(function () { 
 		this.value = this.value.replace(/[^0-9\.]/g,'');
+		this.value = parseFloat(Math.round( parseInt(this.value) * 100) / 100).toFixed(2);
 	});
 
 	// var movementController = {};
