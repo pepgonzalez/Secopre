@@ -1796,7 +1796,14 @@ function initMyTramiteListPage(){
             "infoEmpty": "No hay registros disponibles",
             "infoFiltered": "(filtered from _MAX_ total records)"
         },
-        bFilter: true, bInfo: true, bLengthChange:false, ordering:true
+        bFilter: true, bInfo: true, bLengthChange:false, ordering:true,
+        "order": [[ 0, "desc" ]],
+        "columnDefs": [
+           {
+               "targets": [ 0 ],
+               "visible": false
+           }
+       ]
     });
 	
 	// Filtro de datatable por fecha
@@ -1843,7 +1850,17 @@ function initTramiteListPage() {
             "infoEmpty": "No hay registros disponibles",
             "infoFiltered": "(filtered from _MAX_ total records)"
         },
-        bFilter: true, bInfo: true, bLengthChange:false, ordering:true
+        bFilter: true,
+        bInfo: true, 
+        bLengthChange:false, 
+        ordering:true,
+        "order": [[ 0, "desc" ]],
+        "columnDefs": [
+           {
+               "targets": [ 0 ],
+               "visible": false
+           }
+       ]
     });
 	
 	// Filtro de datatable por fecha
@@ -1913,6 +1930,18 @@ function showKeyData(programaticKeyId){
 	});
 }
 
+function initUploadAnnualBudget(){
+	var requestForm = $('#requestForm');
+	
+	var file = requestForm.find('#attachment').val();
+	
+	if(file.length <= 0){
+		window.showNotification("error", "Debe seleccionar un archivo para continuar");
+		return;
+	}
+
+	submitFileAjaxJQTest('requestForm', 'dashboard', '',false);	
+}
 function initUpload() {
 
 	var requestForm = $('#requestForm');
@@ -1930,7 +1959,7 @@ function initUpload() {
 			return; 
 		}
 		
-		submitFileAjaxJQTest('requestForm', 'dashboard', '');
+		submitFileAjaxJQTest('requestForm', 'dashboard', '', true);
 // submitFileAjaxJQ('requestForm', 'dashboard', '');
 	});
 }
@@ -1989,6 +2018,7 @@ function movements2Capture() {
 	
 	$(document).find('.numbersOnly').keyup(function () { 
 		this.value = this.value.replace(/[^0-9\.]/g,'');
+		this.value = parseFloat(Math.round( parseInt(this.value) * 100) / 100).toFixed(2);
 	});
 
 	// var movementController = {};
@@ -2016,6 +2046,9 @@ function movements2Capture() {
 	var requestForm = $('#requestForm');
 
 	$('#saveAndContinue').click(function(e) {
+		requestForm.find(".pk").prop("disabled",false);
+		requestForm.find(".entry").prop("disabled",false);
+		requestForm.find(".monthAmount").prop("disabled",false);
 		//var isCorrect = movementController.validate();
 		requestForm.find('#nextStageValueCode').val("SOLCOMP");
 		submitAjaxJQ('requestForm', 'dashboard', '');
@@ -2048,6 +2081,32 @@ function initAuthorization() {
 	
 	var requestForm = $('#requestForm');
 
+	
+	/* botones para owners de autorizacion */
+	
+	//manda a siguiente firma
+	$('#backToCapture').click(function(e) {
+		alert("Regresando tramite a captura");
+		if($("#comments").val().length > 0){
+			requestForm.find('#nextStageValueCode').val("REGRESAR");
+			submitAjaxJQ('requestForm', 'dashboard', '');
+		}else{
+			window.showNotification("error", "Capture comentarios sobre el tramite");
+		}
+	});
+	
+	//manda a siguiente firma
+	$('#authorizateFormality').click(function(e) {
+		// alert("autorizando Tramite");
+		requestForm.find('#nextStageValueCode').val("SIGFIRMA");
+		submitAjaxJQ('requestForm', 'dashboard', '');
+	});
+	
+	
+	
+	/* botones propios de super usuario */
+	
+	//manda a tramite cancelado
 	$('#cancelFormality').click(function(e) {
 		// alert("Cancelando Tramite");
 		if($("#comments").val().length > 0){
@@ -2057,13 +2116,8 @@ function initAuthorization() {
 			window.showNotification("error", "capture comentarios de cancelacion");
 		}
 	});
-
-	$('#authorizateFormality').click(function(e) {
-		// alert("autorizando Tramite");
-		requestForm.find('#nextStageValueCode').val("SIGFIRMA");
-		submitAjaxJQ('requestForm', 'dashboard', '');
-	});
-
+	
+	//finalizar tramite
 	$('#finishFormality').click(function(e) {
 		// alert("autorizando Tramite y finalizar");
 		requestForm.find('#nextStageValueCode').val("CONTINUAR");
@@ -2124,6 +2178,11 @@ function expenseCapture() {
 			window.showNotification("error", "Capture una cuenta para continuar");
 		}else{
 			//var isCorrect = movementController.validate();
+			
+			$(document).find("#requestForm").find(".pk").prop("disabled",false);
+			$(document).find("#requestForm").find(".entry").prop("disabled",false);
+			$(document).find("#requestForm").find(".monthAmount").prop("disabled",false);
+			
 			requestForm.find('#nextStageValueCode').val("SOLCOMP");
 			submitAjaxJQ('requestForm', 'dashboard', '');
 		}

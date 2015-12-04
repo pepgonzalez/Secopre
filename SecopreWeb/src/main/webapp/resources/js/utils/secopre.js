@@ -130,21 +130,24 @@ function submitAjaxJQWithAction(formId, targetId, after, action) {
 }
 
 //using FormData() object
-function submitFileAjaxJQTest(formId, targetId, after){
+function submitFileAjaxJQTest(formId, targetId, after, addExtraData){
   var frm = $('#' + formId);
   var action = frm.attr('action');
   var oMyForm = new FormData();
   oMyForm.append("attachment", attachment.files[0]);
 
-  var requestId = $('#requestId').val();
-  var stageConfigId = $('#stageConfigId').val();
   
-  //alert("requestId: " + requestId);
-  //alert("stageConfigId: " + stageConfigId);
-  
-  //se cargan las propiedades del request y el stageConfig actual
-    oMyForm.append("requestId", requestId);  
-    oMyForm.append("stageConfigId", stageConfigId);  
+  if(addExtraData == true){
+	  var requestId = $('#requestId').val();
+	  var stageConfigId = $('#stageConfigId').val();
+	  
+	  //alert("requestId: " + requestId);
+	  //alert("stageConfigId: " + stageConfigId);
+	  
+	  //se cargan las propiedades del request y el stageConfig actual
+	    oMyForm.append("requestId", requestId);  
+	    oMyForm.append("stageConfigId", stageConfigId);  	  
+  }
 
 	var header = $("meta[name='_csrf_header']").attr("content");
 	var token = $("meta[name='_csrf']").attr("content");

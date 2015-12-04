@@ -55,7 +55,7 @@ public class BudgetController extends AuthController {
 		return SecopreConstans.MV_ADM_BUDGET;
 	}
 
-	@RequestMapping(value = "/upload", method = { RequestMethod.POST,
+	@RequestMapping(value = "adm/bugget/upload", method = { RequestMethod.POST,
 			RequestMethod.GET })
 	public String upload(
 			HttpServletRequest request,
@@ -65,7 +65,7 @@ public class BudgetController extends AuthController {
 		AnnualBudgetFile uploadItem = new AnnualBudgetFile();
 		uploadItem.setFile(file);
 
-		return null;
+		return SecopreConstans.MV__ADM_BUDGET_REDIRECT;
 	}
 
 	@RequestMapping(value = "adm/budget/search", method = RequestMethod.POST)
