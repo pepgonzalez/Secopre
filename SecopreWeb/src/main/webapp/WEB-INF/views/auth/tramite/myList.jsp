@@ -26,12 +26,6 @@
 											</button>
 											<ul class="dropdown-menu pull-right">
 												<li>
-													<a href="javascript:;"><spring:message code="application.print"/></a>
-												</li>
-												<li>
-													<a href="javascript:;"><spring:message code="application.export.pdf"/></a>
-												</li>
-												<li>
 													<a href="javascript:;"><spring:message code="application.export.excel"/></a>
 												</li>
 											</ul>
