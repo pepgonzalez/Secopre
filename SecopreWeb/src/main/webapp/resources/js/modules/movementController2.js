@@ -112,7 +112,13 @@ var movementController2 = {
 				var element = $(e);
 				var rowId = element.attr("id");
 
-				self.startSlider(self, idx, parseInt(new Date().getMonth()), grid);
+				
+				//fix para sacar las fechas actuales guardadas del movimiento
+				
+				var initialMonth = parseInt(element.find(self.getId(grid, idx, "initialMonthId")).val());
+				var finalMonth = parseInt(element.find(self.getId(grid, idx, "finalMonthId")).val());
+				
+				self.startSlider(self, idx, initialMonth, finalMonth, grid);
 
 				self.addRemoveEvent(self, grid, idx);
 				self.addInfoEvent(self, grid, idx);
@@ -180,6 +186,9 @@ var movementController2 = {
 		});
 
 		var saveBtn = grd.find(".actions #saveMov").on("click",function() {
+			$(document).find("#requestForm").find(".pk").prop("disabled",false);
+			$(document).find("#requestForm").find(".entry").prop("disabled",false);
+			$(document).find("#requestForm").find(".monthAmount").prop("disabled",false);
 			submitAjaxJQWithAction('requestForm', 'dashboard','movements2Capture','auth/wf/capture/partial/movements2');
 		});
 		
@@ -253,88 +262,55 @@ var movementController2 = {
 		if (isComplementary) {
 			// se oculta lo que no debe ir, o se desabilita
 			e.find("[data-name='deleteAction'] a").hide();
-			e.find("[data-name='programaticKey'] select").val(
-					data.programaticKeyId).attr("readonly", "true");
+			e.find("[data-name='programaticKey'] select").val(data.programaticKeyId).attr("readonly", "true");
 
 			e.find("[data-name='sliderControl']").hide();
 			e.find("[data-name='monthLabels']").attr("colspan", "2");
 			e.find("[data-name='initialMonthId']").val(data.initialMonth);
 			e.find("[data-name='finalMonthId']").val(data.finalMonthId);
-			e.find("[data-name='monthAmount'] input").val(data.monthAmount)
-					.attr("readonly", "true");
-
+			e.find("[data-name='monthAmount'] input").val(data.monthAmount).attr("readonly", "true");
 		}
 
 		grd.find("tbody").append(e);
 
-		grd
-				.find('tbody')
-				.find('tr')
-				.each(
-						function() {
+		grd.find('tbody').find('tr').each(function() {
 
-							$(this)
-									.find("[data-name='programaticKey'] select")
-									.each(
-											function() {
-												var currentSelect = $(this);
-												currentSelect
-														.qtip({
-															content : {
-																text : function(
-																		event,
-																		api) {
+			$(this).find("[data-name='programaticKey'] select").each(function() {
+				var currentSelect = $(this);
+				currentSelect.qtip({
+					content : {
+						text : function(event,api) {
+							var header = $("meta[name='_csrf_header']").attr("content");
+							var token = $("meta[name='_csrf']").attr("content");
+							$.ajax({
+								url : 'wf/pk/'+ currentSelect.val(),
+								beforeSend : function(xhr) {
+									xhr.setRequestHeader(header,token);
+								},
+								success : function(data) {
+									api.set('content.text',data);
+								}
+							});
 
-																	var header = $(
-																			"meta[name='_csrf_header']")
-																			.attr(
-																					"content");
-																	var token = $(
-																			"meta[name='_csrf']")
-																			.attr(
-																					"content");
-																	$
-																			.ajax({
-																				url : 'wf/pk/'
-																						+ currentSelect
-																								.val(),
-																				beforeSend : function(
-																						xhr) {
-																					xhr
-																							.setRequestHeader(
-																									header,
-																									token);
-																				},
-																				success : function(
-																						data) {
-																					api
-																							.set(
-																									'content.text',
-																									data);
-																				}
-																			});
+							return '<div class="tooltip-popup" style="display:block;"><div class="qtip-titlebar"><div id="qtip-{id}-title" class="qtip-title">Cargando...</div></div></div>';
+						},
+						position : {
+							my : 'top left',
+							at : 'bottom right'
+						},
+						hide : {
+							fixed : true,
+							delay : 400
+						},
+						style : {
+							classes : "ui-tooltip-shadow"
+						}
+					}
+				});
+			});
+		});
 
-																	return '<div class="tooltip-popup" style="display:block;"><div class="qtip-titlebar"><div id="qtip-{id}-title" class="qtip-title">Cargando...</div></div></div>';
-																},
-																position : {
-																	my : 'top left',
-																	at : 'bottom right'
-																},
-																hide : {
-																	fixed : true,
-																	delay : 400
-																},
-																style : {
-																	classes : "ui-tooltip-shadow"
-																}
-															}
-														});
-											});
-						});
-
-		self
-				.startSlider(self, nextIndex, parseInt(new Date().getMonth()),
-						grid);
+		self.startSlider(self, nextIndex, parseInt(new Date().getMonth()), 11, grid);
 		self.addOnChangeEvent(self, grid, nextIndex, "programaticKeyId", true);
 		self.addOnChangeEvent(self, grid, nextIndex, "entryId", false);
 		self.addRemoveEvent(self, grid, nextIndex);
@@ -346,31 +322,18 @@ var movementController2 = {
 
 		if (isComplementary) {
 			// se filtra
-			self
-					.getEntriesByProgramaticKeyAndDistrict(
-							data.programaticKeyId,
-							function(response) {
+			self.getEntriesByProgramaticKeyAndDistrict(data.programaticKeyId,function(response) {
 
-								var entrySelect = $(document).find(
-										self.getId(grid, nextIndex, "entryId"));
+				var entrySelect = $(document).find(self.getId(grid, nextIndex, "entryId"));
 
-								entrySelect.empty();
-								entrySelect
-										.append('<option value="-1">Seleccione..</option>');
-								$
-										.each(
-												response,
-												function(index, item) {
-													if (parseInt(item.id) != parseInt(data.entryId)) {
-														entrySelect
-																.append('<option value="'
-																		+ item.id
-																		+ '">'
-																		+ item.name
-																		+ '</option>');
-													}
-												});
-							});
+				entrySelect.empty();
+				entrySelect.append('<option value="-1">Seleccione..</option>');
+				$.each(response,function(index, item) {
+					if (parseInt(item.id) != parseInt(data.entryId)) {
+						entrySelect.append('<option value="'+ item.id+ '">' + item.name + '</option>');
+					}
+				});
+			});
 			// se dispara la actualizacion de montos
 			$(self.getId(grid, nextIndex, "monthAmount")).blur();
 
@@ -395,15 +358,25 @@ var movementController2 = {
 		data.monthAmount = monthAmount;
 		return data;
 	},
-	blockRow : function(self, grid, index, keepSlider) {
+	blockRow : function(self, grid, index, keepSlider, forceDisabled) {
 		var keepSlider = keepSlider || false;
 		$(self.getId(grid, index, "programaticKeyId")).attr("readonly", "true");
 		$(self.getId(grid, index, "entryId")).attr("readonly", "true");
 		$(self.getId(grid, index, "monthAmount")).attr("readonly", "true");
 		$(self.getId(grid, index, "totalAmount")).attr("readonly", "true");
+		
+		if(forceDisabled){
+			$(self.getId(grid, index, "programaticKeyId")).attr("readonly", "true").prop("disabled",true);
+			$(self.getId(grid, index, "entryId")).attr("readonly", "true").prop("disabled",true);
+			$(self.getId(grid, index, "monthAmount")).attr("readonly", "true").prop("disabled",true);
+		}
+		
 		var sliderId = self.getSliderId(grid) + index;
 		if (keepSlider) {
-			$(sliderId)[0].setAttribute('disabled', true);
+			var sl = $(sliderId)[0];
+			if(sl){
+				sl.setAttribute('disabled', true);
+			}
 		} else {
 			$(sliderId).hide();
 		}
@@ -449,7 +422,7 @@ var movementController2 = {
 
 			function blockRecord() {
 				// se bloquea la version actual
-				self.blockRow(self, grid, nextIndex, true);
+				self.blockRow(self, grid, nextIndex, true, false);
 				//$(grid).find("[data-name='deleteAction']").find("#cloneIdx" + nextIndex).show();
 				//$(grid).find("[data-name='deleteAction']").find("#infoIdx" + nextIndex).hide();
 				$(grid).find(".actions #saveMov").show();
@@ -563,16 +536,11 @@ var movementController2 = {
 	},
 	getCurrentEntries : function(grid, index) {
 		var currentEntries = [];
-		var filteredRows = $(grid)
-				.find("tbody tr:not(#noMovs)")
-				.filter(
-						function() {
-							var flag = $(this).find(
-									"[data-name='removedElement']");
-							var rowNumber = parseInt($(this).attr(
-									"data-rownumber"));
-							return ((parseInt(flag.val()) <= 0) && (index != rowNumber));
-						});
+		var filteredRows = $(grid).find("tbody tr:not(#noMovs)").filter(function() {
+			var flag = $(this).find("[data-name='removedElement']");
+			var rowNumber = parseInt($(this).attr("data-rownumber"));
+			return ((parseInt(flag.val()) <= 0) && (index != rowNumber));
+		});
 
 		filteredRows.each(function(idx, e) {
 			var row = $(e);
@@ -787,7 +755,7 @@ var movementController2 = {
 			$(document).find("#saveAndContinue").hide();
 		});
 	},
-	startSlider : function(self, indice, initialMonth, grid) {
+	startSlider : function(self, indice, initialMonth, finalMonth, grid) {
 
 		var id = self.getSliderId(grid) + indice;
 
@@ -797,16 +765,14 @@ var movementController2 = {
 			connect : true,
 			behaviour : 'tap',
 			step : 1,
-			start : [ initialMonth, 11 ],
+			start : [ initialMonth, finalMonth ],
 			range : {
 				'min' : [ initialMonth ],
-				'max' : [ 11 ]
+				'max' : [ finalMonth ]
 			}
 		});
 
-		var months = [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-				"Julio", "Agosto", "Septiembre", "Octubre", "Noviembre",
-				"Diciembre" ];
+		var months = [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio","Julio", "Agosto", "Septiembre", "Octubre", "Noviembre","Diciembre" ];
 		function myValue(value) {
 			$(this).text(months[parseInt(value)]);
 		}
@@ -817,17 +783,17 @@ var movementController2 = {
 		var initialMonthId = self.getId(grid, indice, "initialMonthId");
 		var finalMonthId = self.getId(grid, indice, "finalMonthId");
 
-		$(document).find(id).Link('lower').to($(document).find(initialMonthId),
-				intValue);
-		$(document).find(id).Link('upper').to($(document).find(finalMonthId),
-				intValue);
+		$(document).find(id).Link('lower').to($(document).find(initialMonthId),intValue);
+		$(document).find(id).Link('upper').to($(document).find(finalMonthId),intValue);
 
-		$(document).find(id).Link('lower').to(
-				$(document).find(self.getId(grid, indice, "lower-offset")),
-				myValue);
-		$(document).find(id).Link('upper').to(
-				$(document).find(self.getId(grid, indice, "upper-offset")),
-				myValue);
+		$(document).find(id).Link('lower').to($(document).find(self.getId(grid, indice, "lower-offset")),myValue);
+		$(document).find(id).Link('upper').to($(document).find(self.getId(grid, indice, "upper-offset")),myValue);
+		
+		$(document).find(initialMonthId).val(initialMonth);
+		$(document).find(finalMonthId).val(finalMonth);
+		
+		$(document).find(self.getId(grid, indice, "lower-offset")).text(months[initialMonth]);
+		$(document).find(self.getId(grid, indice, "upper-offset")).text(months[finalMonth]);
 
 		var availableMonths = {};
 		for (var i = parseInt(new Date().getMonth()); i <= 11; i++) {
@@ -841,117 +807,65 @@ var movementController2 = {
 		}
 
 		// evento para actualizar los totales cuando cambia el valor del slider
-		$(document)
-				.find(id)
-				.on(
-						'change',
-						function() {
-							// $(self.getId(grid, indice,
-							// "monthAmount")).blur();
-
-							self.monthsController = true;
-
-							// obtenemos los valores de partida y llave
-							// programatica
-							var currentEntryId = parseInt($(
-									self.getId(grid, indice, "entryId")).val());
-							var currentProgramaticKeyId = parseInt($(
-									self
-											.getId(grid, indice,
-													"programaticKeyId")).val());
-							var currentInitialMonthId = parseInt($(
-									self.getId(grid, indice, "initialMonthId"))
-									.val());
-							var currentFinalMonthId = parseInt($(
-									self.getId(grid, indice, "finalMonthId"))
-									.val());
-
-							if (currentEntryId < 0
-									|| currentProgramaticKeyId < 0) {
-								window
-										.showNotification("error",
-												"Seleccione llave programatica y Partida antes de continuar");
-								self.monthsController = false;
-								return;
-							}
-
-							// obtenemos todos los registros activos en el grid
-							// que no son yo, activos y con misma partida
-							var brotherEntries = $(grid)
-									.find("tbody tr:not(#noMovs)")
-									.filter(
-											function() {
-
-												var flag = $(this)
-														.find(
-																"[data-name='removedElement']")
-														.val();
-												var initialMonthId = $(this)
-														.find(
-																"[data-name='initialMonthId']")
-														.val();
-												var finalMonthId = $(this)
-														.find(
-																"[data-name='finalMonthId']")
-														.val();
-
-												var programaticKeyId = $(this)
-														.find(
-																"[data-name='programaticKey'] select")
-														.val();
-												var entry = $(this)
-														.find(
-																"[data-name='entry'] select")
-														.val();
-												var index = $(this).attr(
-														"data-rownumber");
-
-												if (flag <= 0
-														&& index != indice
-														&& programaticKeyId == currentProgramaticKeyId
-														&& entry == currentEntryId) {
-													return true;
-												} else {
-													return false;
-												}
-											});
-
-							// si hay al menos un registro hermano
-							if (brotherEntries.length > 0) {
-								// por cada hermano, se agregan los meses que ya
-								// tiene marcados
-								brotherEntries
-										.each(function(idx, r) {
-											var e = $(r);
-											var brotherInitialMonthId = e
-													.find(
-															"[data-name='initialMonthId']")
-													.val();
-											var brotherFinalMonthId = e
-													.find(
-															"[data-name='finalMonthId']")
-													.val();
-											setAvailableMonths(
-													brotherInitialMonthId,
-													brotherFinalMonthId);
-										});
-							}
-
-							for (var y = currentInitialMonthId; y <= currentFinalMonthId; y++) {
-								var isSelected = availableMonths[y];
-								if (isSelected) {
-									window
-											.showNotification(
-													"error",
-													"El mes de "
-															+ months[y]
-															+ " ya fue seleccionado en otro movimiento. Verifique.");
-									$(self.getId(grid, indice, "monthAmount"))
-											.val("0");
-									self.monthsController = false;
-								}
-							}
-						});
+		$(document).find(id).on('change',function() {
+			// $(self.getId(grid, indice,"monthAmount")).blur();
+	
+			self.monthsController = true;
+	
+			// obtenemos los valores de partida y llave
+			// programatica
+			var currentEntryId = parseInt($(self.getId(grid, indice, "entryId")).val());
+			var currentProgramaticKeyId = parseInt($(self.getId(grid, indice,"programaticKeyId")).val());
+			var currentInitialMonthId = parseInt($(self.getId(grid, indice, "initialMonthId")).val());
+			var currentFinalMonthId = parseInt($(self.getId(grid, indice, "finalMonthId")).val());
+	
+			if (currentEntryId < 0 || currentProgramaticKeyId < 0) {
+				window.showNotification("error","Seleccione llave programatica y Partida antes de continuar");
+				self.monthsController = false;
+				return;
+			}
+	
+			// obtenemos todos los registros activos en el grid
+			// que no son yo, activos y con misma partida
+			var brotherEntries = $(grid).find("tbody tr:not(#noMovs)").filter(
+				function() {
+	
+					var flag = $(this).find("[data-name='removedElement']").val();
+					var initialMonthId = $(this).find("[data-name='initialMonthId']").val();
+					var finalMonthId = $(this).find("[data-name='finalMonthId']").val();
+	
+					var programaticKeyId = $(this).find("[data-name='programaticKey'] select").val();
+					var entry = $(this).find("[data-name='entry'] select").val();
+					var index = $(this).attr("data-rownumber");
+	
+					if (flag <= 0 && index != indice && programaticKeyId == currentProgramaticKeyId && entry == currentEntryId) {
+						return true;
+					} else {
+						return false;
+					}
+				});
+	
+			// si hay al menos un registro hermano
+			if (brotherEntries.length > 0) {
+				// por cada hermano, se agregan los meses que ya
+				// tiene marcados
+				brotherEntries.each(function(idx, r) {
+					var e = $(r);
+					var brotherInitialMonthId = e.find("[data-name='initialMonthId']").val();
+					var brotherFinalMonthId = e.find("[data-name='finalMonthId']").val();
+					setAvailableMonths(brotherInitialMonthId,brotherFinalMonthId);
+				});
+			}
+	
+			for (var y = currentInitialMonthId; y <= currentFinalMonthId; y++) {
+				var isSelected = availableMonths[y];
+				if (isSelected) {
+					window.showNotification("error","El mes de "+ months[y]+ " ya fue seleccionado en otro movimiento. Verifique.");
+					$(self.getId(grid, indice, "monthAmount")).val("0");
+					self.monthsController = false;
+				}
+			}
+		});
 	},
 	startComponent : function() {
 		this.linkComponent(this.upGrid);
@@ -978,7 +892,7 @@ var movementController2 = {
 		}).length;
 
 		for (var i = 0; i < totalRows; i++) {
-			self.blockRow(self, self.downGrid, i, true);
+			self.blockRow(self, self.downGrid, i, true, true);
 		}
 
 		// upGrid
@@ -989,7 +903,7 @@ var movementController2 = {
 		}).length;
 
 		for (var j = 0; j < upRows; j++) {
-			self.blockRow(self, self.upGrid, j, true);
+			self.blockRow(self, self.upGrid, j, true, true);
 		}
 	},
 	getNextIndex : function(grid) {
@@ -1028,8 +942,7 @@ var movementController2 = {
 			movementType : function(movementType) {
 				if (parseInt(movementType.val()) <= 0) {
 					this.notif("error", "Seleccione un tipo de movimiento");
-					movementType.closest('[data-name="movementTypeContainer"]')
-							.addClass("has-error");
+					movementType.closest('[data-name="movementTypeContainer"]').addClass("has-error");
 					return false;
 				}
 				return true;
@@ -1056,15 +969,11 @@ var movementController2 = {
 						self.updateTotal(self, self.upGrid);
 						self.updateTotal(self, self.downGrid);
 
-						var movAlza = parseFloat($(document).find(
-								"#upMovementsTotal").text());
-						var movBaja = parseFloat($(document).find(
-								"#downMovementsTotal").text());
+						var movAlza = parseFloat($(document).find("#upMovementsTotal").text());
+						var movBaja = parseFloat($(document).find("#downMovementsTotal").text());
 
 						if ((movAlza - movBaja) != 0) {
-							this
-									.notif("error",
-											"la suma de los movimientos de aumento y disminución deben resultar 0.");
+							this.notif("error","la suma de los movimientos de aumento y disminución deben resultar 0.");
 							return false;
 						} else {
 							console.log("validacion completa");
@@ -1077,12 +986,11 @@ var movementController2 = {
 				var grid = $(gridId);
 				var totalRows = grid.find("tbody tr:not(#noMovs)").length;
 
-				var filteredRows = grid.find("tbody tr:not(#noMovs)").filter(
-						function() {
-							var flag = $(this).find(
-									"[data-name='removedElement']");
-							return (parseInt(flag.val()) <= 0);
-						});
+				var filteredRows = grid.find("tbody tr:not(#noMovs)").filter(function() {
+					var flag = $(this).find(
+							"[data-name='removedElement']");
+					return (parseInt(flag.val()) <= 0);
+				});
 
 				if (filteredRows.length <= 0) {
 					this.notif("error", "debe capturar al menos un movimiento");

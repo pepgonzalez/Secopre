@@ -51,6 +51,7 @@
 							<table class="table table-striped table-bordered table-hover" id="formalityList">
 							<thead>
 							<tr>
+								<th style="visible:false;">id</th>
 								<th>Solicitud</th>
 								<th>Justificación</th>
 								<th>Distrito</th>
@@ -58,12 +59,13 @@
 								<th>Importe</th>
 								<th>Fecha Creación</th>
 								<th>Siguiente Etapa</th>
+								<th>Opciones</th>
 							</tr>
 							</thead>
 							<tbody>
 								<c:forEach items="${inboxList}" var="inboxItem">
 									<tr class="odd gradeX">
-	
+										<td style="visible:false;">${inboxItem.requestId}</td>
 										<td>${inboxItem.folio}</td>
 										<td>${inboxItem.justification}</td>
 										<td>${inboxItem.districtDescription}</td>
@@ -71,6 +73,13 @@
 										<td>${inboxItem.totalAmountStr}</td>
 										<td>${inboxItem.creationDateStr}</td>
 										<td>${inboxItem.nextDescription}</td>
+										<td>
+											<c:if test="${inboxItem.isOperated == true}">
+												<a href="#" onclick="openResourceNative('wf/download/format/${inboxItem.requestId}','dashboard','()','GET');">
+													Descargar Formato
+												</a>
+											</c:if>
+										</td>
 									</tr>							
 								</c:forEach>
 							</tbody>

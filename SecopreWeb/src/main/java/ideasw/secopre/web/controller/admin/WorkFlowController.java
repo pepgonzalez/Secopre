@@ -1,10 +1,14 @@
 package ideasw.secopre.web.controller.admin;
 
+import ideasw.secopre.constants.PropertyConstants;
 import ideasw.secopre.dto.Authorization;
 import ideasw.secopre.dto.EntryBalance;
 import ideasw.secopre.dto.EntryCurrentTotal;
 import ideasw.secopre.dto.EntryFilter;
 import ideasw.secopre.dto.Movement;
+import ideasw.secopre.dto.Property;
+import ideasw.secopre.dto.Report;
+import ideasw.secopre.dto.ReportParameter;
 import ideasw.secopre.dto.Request;
 import ideasw.secopre.dto.RequestHistory;
 import ideasw.secopre.enums.StatusEntry;
@@ -17,6 +21,7 @@ import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.AccessNativeService;
 import ideasw.secopre.service.EntryConfigService;
 import ideasw.secopre.service.MovementsService;
+import ideasw.secopre.service.ReportService;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
 
@@ -61,6 +66,9 @@ public class WorkFlowController extends AuthController {
 	
 	@Autowired
 	private EntryConfigService entryConfigService;
+	
+	@Autowired
+	private ReportService reportService;
 
 	/*
 	 * Metodo para obtener la forma de captura de movimientos
@@ -422,20 +430,19 @@ public class WorkFlowController extends AuthController {
 	 * */
 	@RequestMapping(value = "wf/download/{requestId}", method = RequestMethod.GET)
 	public void getFile(@PathVariable("requestId") Long requestId, HttpServletResponse response) {
-    try {
-      
-	  	Request request = accessNativeService.getRequestById(requestId);
-      	InputStream is = new FileInputStream(request.getResourcePath());
-      	org.apache.commons.io.IOUtils.copy(is, response.getOutputStream());
-      	
-      	response.setContentType("application/x-download"); 
-      	response.setHeader("Content-disposition", "attachment; filename=" + request.getResourcePath());
-      	response.flushBuffer();
-      	
-    } catch (IOException ex) {
-      	LOG.debug("Ocurrio un error al intentar descargar el archivo" + ex.toString());
-    }
-
+	    try {
+	      
+		  	Request request = accessNativeService.getRequestById(requestId);
+	      	InputStream is = new FileInputStream(request.getResourcePath());
+	      	org.apache.commons.io.IOUtils.copy(is, response.getOutputStream());
+	      	
+	      	response.setContentType("application/x-download"); 
+	      	response.setHeader("Content-disposition", "attachment; filename=" + request.getResourcePath());
+	      	response.flushBuffer();
+	      	
+	    } catch (IOException ex) {
+	      	LOG.debug("Ocurrio un error al intentar descargar el archivo" + ex.toString());
+	    }
 	}
 	
 	/*
@@ -525,6 +532,25 @@ public class WorkFlowController extends AuthController {
 
 		model.addAttribute("dueDates", dueDates);
 		return SecopreConstans.MV_TRAM_DUE_DATES;
+	}
+	
+	/*Metodo para descargar el formato base del tramite concluido*/
+	@RequestMapping(value = "wf/download/format/{requestId}", method = RequestMethod.GET)
+	public void getFormatFile(@PathVariable("requestId") Long requestId, HttpServletResponse response) throws Exception {
+	    try {
+	    	
+	    	Property p = accessNativeService.getPropertyByCode(PropertyConstants.OPERATED_MOVEMENT_REPORT_ID);
+	    	
+	    	ReportParameter params = new ReportParameter();
+	    	params.setRequestId(requestId.toString());
+	    	
+	    	Report report = reportService.getReport(p.getLongValue(), params);
+			
+	    	super.flushReport(response, report);
+	      	
+	    } catch (IOException ex) {
+	      	LOG.debug("Ocurrio un error al intentar descargar el archivo" + ex.toString());
+	    }
 	}
 }
 

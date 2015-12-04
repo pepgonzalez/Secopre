@@ -47,7 +47,6 @@
 
 	<link href='<c:url value="/resources/css/plugins/daterangepicker-bs3.css"/>' rel="stylesheet" type="text/css"/>
 	<link href='<c:url value="/resources/css/plugins/fullcalendar.min.css"/>' rel="stylesheet" type="text/css"/>
-	<link href='<c:url value="/resources/css/plugins/morris.css"/>' rel="stylesheet" type="text/css"/>
 	
 	<link href='<c:url value="/resources/css/plugins/bootstrap-fileinput.css"/>' rel="stylesheet" type="text/css"/>
 	<link href='<c:url value="/resources/css/plugins/profile.css"/>' rel="stylesheet" type="text/css"/>
@@ -146,7 +145,6 @@
 	<!-- END CORE PLUGINS -->
 	<!-- BEGIN PAGE LEVEL PLUGINS -->
 	<!-- IMPORTANT! fullcalendar depends on jquery-ui.min.js for drag anddrop support -->
-	<script src='<c:url value="/resources/js/plugins/morris.min.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/raphael-min.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/bootstrap-fileinput.js"/>' type="text/javascript"></script>	
 	<script src='<c:url value="/resources/js/plugins/jquery.sparkline.min.js"/>' type="text/javascript"></script>

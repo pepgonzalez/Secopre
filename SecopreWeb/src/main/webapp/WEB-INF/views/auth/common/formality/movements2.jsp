@@ -65,13 +65,13 @@
 									</td>
 									
 									<td data-name="programaticKey">
-										<form:select path="downMovements[${i.index}].programaticKeyId" class="form-control input-small movementComponent">
+										<form:select path="downMovements[${i.index}].programaticKeyId" class="form-control input-small movementComponent pk" value="${mov.programaticKeyId}">
 											<form:option value="-1" label="Seleccione..."/>
 						    				<form:options items="${programaticKeys}" />
 										</form:select>
 									</td>
 									<td data-name="entry">
-										<form:select path="downMovements[${i.index}].entryId" class="form-control input-small movementComponent">
+										<form:select path="downMovements[${i.index}].entryId" class="form-control input-small movementComponent entry" value="${mov.entryId}">
 											<form:option value="-1" label="Seleccione..."/>
 						    				<form:options items="${entries}" />
 										</form:select>
@@ -86,7 +86,7 @@
 											<span id="downMovements${i.index}.lower-offset"></span>-<span id="downMovements${i.index}.upper-offset"></span>
 										</div>
 									<td data-name="monthAmount">
-										<form:input path="downMovements[${i.index}].monthAmount" class="form-control input-small numbersOnly movementComponent"/>
+										<form:input path="downMovements[${i.index}].monthAmount" class="form-control input-small numbersOnly movementComponent monthAmount"/>
 									</td>
 									
 									<td data-name="totalAmount">
@@ -162,13 +162,13 @@
   									</td>
 									
 									<td data-name="programaticKey">
-										<form:select path="upMovements[${i.index}].programaticKeyId" class="form-control input-small movementComponent">
+										<form:select path="upMovements[${i.index}].programaticKeyId" class="form-control input-small movementComponent pk" value="${mov.programaticKeyId}">
 											<form:option value="-1" label="Seleccione..."/>
 						    				<form:options items="${programaticKeys}" />
 										</form:select>
 									</td>
 									<td data-name="entry">
-										<form:select path="upMovements[${i.index}].entryId" class="form-control input-small movementComponent">
+										<form:select path="upMovements[${i.index}].entryId" class="form-control input-small movementComponent entry" value="${mov.entryId}">
 											<form:option value="-1" label="Seleccione..."/>
 						    				<form:options items="${entries}" />
 										</form:select>
@@ -183,7 +183,7 @@
 											<span id="upMovements${i.index}.lower-offset"></span>-<span id="upMovements${i.index}.upper-offset"></span>
 										</div>
 									<td data-name="monthAmount">
-										<form:input path="upMovements[${i.index}].monthAmount" class="form-control input-small numbersOnly movementComponent"/>
+										<form:input path="upMovements[${i.index}].monthAmount" class="form-control input-small numbersOnly movementComponent monthAmount"/>
 									</td>
 									
 									<td data-name="totalAmount">

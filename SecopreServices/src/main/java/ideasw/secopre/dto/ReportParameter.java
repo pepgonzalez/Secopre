@@ -37,6 +37,7 @@ public class ReportParameter {
 	private String finalMonthId;
 	private String programaticKeyId;
 	private String entryId;
+	private String requestId;
 	
 	//opciones para parametros dinamicos del tipo select
 	private Map<Long, String> parameterOptions;
@@ -153,5 +154,11 @@ public class ReportParameter {
 	}
 	public void setEntryId(String entryId) {
 		this.entryId = entryId;
+	}
+	public String getRequestId() {
+		return requestId;
+	}
+	public void setRequestId(String requestId) {
+		this.requestId = requestId;
 	}
 }

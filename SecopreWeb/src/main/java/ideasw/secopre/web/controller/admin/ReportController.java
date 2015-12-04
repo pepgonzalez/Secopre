@@ -70,6 +70,9 @@ public class ReportController extends AuthController {
 		LOG.info("Descargando reportId : " +  reportId);
 		Report report = reportService.getReport(reportId);
 		
+		super.flushReport(response, report);
+		
+		/*
 		String fileName = report.getDescription() + "." + report.getReportType().toLowerCase();
 		
 		String REPORT_TYPE_PDF = "application/pdf";
@@ -83,6 +86,7 @@ public class ReportController extends AuthController {
 		  outputStream.write(report.getReport());
 		  outputStream.flush();
 		  outputStream.close();
+		*/
 	}
 	
 	

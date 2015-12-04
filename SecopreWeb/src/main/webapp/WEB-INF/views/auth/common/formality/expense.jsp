@@ -58,19 +58,19 @@
 									</td>
 									
 									<td data-name="programaticKey">
-										<form:select path="downMovements[${i.index}].programaticKeyId" class="form-control">
+										<form:select path="downMovements[${i.index}].programaticKeyId" class="form-control pk" value="${mov.programaticKeyId}">
 											<form:option value="-1" label="Seleccione..."/>
 						    				<form:options items="${programaticKeys}" />
 										</form:select>
 									</td>
 									<td data-name="entry">
-										<form:select path="downMovements[${i.index}].entryId" class="form-control">
+										<form:select path="downMovements[${i.index}].entryId" class="form-control entry" value="${mov.entryId}">
 											<form:option value="-1" label="Seleccione..."/>
 						    				<form:options items="${entries}" />
 										</form:select>
 									</td>
 									<td data-name="monthAmount">
-										<form:input path="downMovements[${i.index}].monthAmount" class="form-control numbersOnly"/>
+										<form:input path="downMovements[${i.index}].monthAmount" class="form-control numbersOnly monthAmount"/>
 									</td>
 									
 									<td data-name="totalAmount">
