@@ -76,6 +76,7 @@ public class WorkFlowController extends AuthController {
 	 * param requestId		- folio en cuestion
 	 * param stageConfigId	- etapa actual del folio
 	 * */
+	/*
 	@RequestMapping(value = "wf/capture/{formalityCode}/{requestId}/{stageConfigId}", method = { RequestMethod.GET })
 	public String showMovementsCapture(
 			@PathVariable("requestId") Long requestId, @PathVariable("stageConfigId") Long stageConfigId, @PathVariable("formalityCode") String formalityCode,
@@ -105,6 +106,8 @@ public class WorkFlowController extends AuthController {
 	 * Metodo para guardar el listado de movimientos y avanzar a la etapa correspondiente
 	 * param requestForm - Objeto con el listado de movimientos capturados 
 	 * */
+	
+	/*
 	@RequestMapping(value = "wf/capture/{movementCode}", method = { RequestMethod.POST })
 	public String saveMovements(@ModelAttribute("requestForm") Request requestForm, BindingResult result, ModelMap model, 
 			RedirectAttributes attributes, Principal principal, HttpServletRequest request) throws Exception{
@@ -136,8 +139,9 @@ public class WorkFlowController extends AuthController {
 			model.addAttribute("nextAction", "sendRequestJQ('auth/tram/list','dashboard','initTramiteListPage()','GET');");
 			return SecopreConstans.MV_TRAM_EXCEPTION;
 		}
-		*/
+		*
 	}
+	 */
 
 	
 	/*-----------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -156,6 +160,7 @@ public class WorkFlowController extends AuthController {
 			ModelMap model, RedirectAttributes attributes, Principal principal) {
 		
 		LOG.info("Cargando informacion parcial");
+		
 		Request requestForm = accessNativeService.getRequestAndPartialDetailById(requestId);
 
 		requestForm.setStageConfigId(stageConfigId);
@@ -167,6 +172,13 @@ public class WorkFlowController extends AuthController {
 			requestForm.setMovementTypeId(-1L);
 		}
 
+		if(requestForm.getCurrentStage().isLastAuthorization() && requestForm.getCurrentStage().getComments().length() > 0){
+			List<String> msgs = new ArrayList<String>();
+			msgs.add(requestForm.getCurrentStage().getCompleteComments());
+			
+			model.addAttribute("messages", msgs);
+			model.addAttribute("existMessages", 1);
+		}
 		
 		model.addAttribute("movementTypes", accessNativeService.getMovementTypesMap());
 		model.addAttribute("programaticKeys", accessNativeService.getProgramaticKeysMap());
@@ -201,7 +213,7 @@ public class WorkFlowController extends AuthController {
 	 * */
 	@RequestMapping(value = "wf/capture/partial/{movementCode}", method = { RequestMethod.POST })
 	public String saveMovementsV2(@ModelAttribute("requestForm") Request requestForm, BindingResult result, ModelMap model, 
-			RedirectAttributes attributes, Principal principal, HttpServletRequest request) throws Exception{
+			RedirectAttributes attributes, Principal principal, HttpServletRequest request,final RedirectAttributes redirectAttributes){
 		
 		LOG.info("iniciando guardado parcial de movimientos");
 		
@@ -224,14 +236,16 @@ public class WorkFlowController extends AuthController {
 			LOG.info("Redirigiendo a carga del listado");
 			return "redirect:/auth/wf/capture/partial/" + requestForm.getFormalityCode() + "/" + requestForm.getRequestId() + "/" + requestForm.getStageConfigId() + "/1";
 		
-		}catch(Exception ex){
-			LOG.error(ex.getMessage());
+		}catch(Exception ex2){
+			ex2.printStackTrace();
+			LOG.error(ex2.getMessage());
 			List<String> errors = new ArrayList<String>();
-			errors.add(ex.getMessage());
+			errors.add("Error interno del sistema. Contacte a su administrador por favor.");
 			
-			model.addAttribute("errors", errors);
-			model.addAttribute("nextAction", "sendRequestJQ('auth/tram/list','dashboard','initTramiteListPage()','GET');");
-			return SecopreConstans.MV_TRAM_EXCEPTION;
+			redirectAttributes.addFlashAttribute("errors", errors);
+			redirectAttributes.addFlashAttribute("existErrors", 1);
+			
+			return "redirect:/auth/wf/capture/partial/" + requestForm.getFormalityCode() + "/" + requestForm.getRequestId() + "/" + requestForm.getStageConfigId() + "/1";
 		}
 	}
 	
@@ -324,6 +338,12 @@ public class WorkFlowController extends AuthController {
 	@RequestMapping(value = "wf/authorization", method = { RequestMethod.POST })
 	public String authorizeCancelOrFinishFormality( @ModelAttribute("requestForm") Request requestForm, ModelMap model, RedirectAttributes attributes, Principal principal) {
 
+		//si voy a regresar a captura, muevo la informacion de detalle a mirror
+		if("REGRESAR".equals(requestForm.getNextStageValueCode())){
+			Request r = accessNativeService.rollbackRequestDetail(requestForm.getRequestId());
+			movementsService.savePartialRequest(r);
+		}
+		
 		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
 		accessNativeService.invokeNextStage(requestForm, loggedUser.getId());
 

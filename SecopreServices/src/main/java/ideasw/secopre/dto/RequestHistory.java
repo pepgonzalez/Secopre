@@ -22,7 +22,13 @@ public class RequestHistory {
 	private Long requestId;
 	private Long consecutive;
 	private String initialStage;
+	private Long stageConfigId;
+	private boolean isLastAuthorization;
+	
 	private String finalStage;
+	private Long nextStageConfig;
+	private boolean isCurrentAuthorization;
+	
 	private String status;
 	private Date creationDate;
 	private String comments;
@@ -76,5 +82,33 @@ public class RequestHistory {
 	}
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	public Long getStageConfigId() {
+		return stageConfigId;
+	}
+	public void setStageConfigId(Long stageConfigId) {
+		this.stageConfigId = stageConfigId;
+	}
+	public boolean isLastAuthorization() {
+		return isLastAuthorization;
+	}
+	public void setLastAuthorization(boolean isLastAuthorization) {
+		this.isLastAuthorization = isLastAuthorization;
+	}
+	public Long getNextStageConfig() {
+		return nextStageConfig;
+	}
+	public void setNextStageConfig(Long nextStageConfig) {
+		this.nextStageConfig = nextStageConfig;
+	}
+	public boolean isCurrentAuthorization() {
+		return isCurrentAuthorization;
+	}
+	public void setCurrentAuthorization(boolean isCurrentAuthorization) {
+		this.isCurrentAuthorization = isCurrentAuthorization;
+	}
+	
+	public String getCompleteComments(){
+		return "Usuario: " + this.getUsername() + " - Fecha: " + this.getCreationDate() + " - Observaciones: "  + this.getComments();
 	}
 }

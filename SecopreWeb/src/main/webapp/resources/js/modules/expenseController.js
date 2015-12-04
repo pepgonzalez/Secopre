@@ -127,6 +127,9 @@ var expenseController = {
 		});
 		
 		var saveBtn = grd.find(".actions #saveMov").on("click",function() {
+			$(document).find("#requestForm").find(".pk").prop("disabled",false);
+			$(document).find("#requestForm").find(".entry").prop("disabled",false);
+			$(document).find("#requestForm").find(".monthAmount").prop("disabled",false);
 			submitAjaxJQWithAction('requestForm', 'dashboard','movements2Capture','auth/wf/capture/partial/expense');
 		});
 	},
@@ -213,11 +216,18 @@ var expenseController = {
 			console.log(data);
 			return data;
 	},
-	blockRow : function(self, grid, index){
+	blockRow : function(self, grid, index, forceDisabled){
 		$(self.getId(grid, index, "programaticKeyId")).attr("readonly", "true");
 		$(self.getId(grid, index, "entryId")).attr("readonly", "true");
 		$(self.getId(grid, index, "monthAmount")).attr("readonly", "true");
 		$(self.getId(grid, index, "totalAmount")).attr("readonly", "true");
+		
+		if(forceDisabled){
+			$(self.getId(grid, index, "programaticKeyId")).attr("readonly", "true").prop("disabled",true);
+			$(self.getId(grid, index, "entryId")).attr("readonly", "true").prop("disabled",true);
+			$(self.getId(grid, index, "monthAmount")).attr("readonly", "true").prop("disabled",true);
+		}
+		
 		var sliderId = self.getSliderId(grid) + index;
 		$(sliderId).hide();
 	},
@@ -259,7 +269,7 @@ var expenseController = {
 			
 			function blockRecord() {
 				// se bloquea la version actual
-				self.blockRow(self, grid, nextIndex, true);
+				self.blockRow(self, grid, nextIndex, false);
 				//$(grid).find("[data-name='deleteAction']").find("#cloneIdx" + nextIndex).show();
 				//$(grid).find("[data-name='deleteAction']").find("#infoIdx" + nextIndex).hide();
 				$(grid).find(".actions #saveMov").show();
@@ -273,7 +283,7 @@ var expenseController = {
 					self.addMovementRow(self, self.upGrid, true, data);
 					
 					//se bloquea la version actual
-					self.blockRow(self, grid, nextIndex);
+					self.blockRow(self, grid, nextIndex, false);
 				}
 			}
 			
@@ -580,7 +590,7 @@ var expenseController = {
 		}).length;		
 		
 		for(var i = 0; i < totalRows; i++){
-			self.blockRow(self, self.downGrid, i);
+			self.blockRow(self, self.downGrid, i, true);
 		}
 		
 		//upGrid

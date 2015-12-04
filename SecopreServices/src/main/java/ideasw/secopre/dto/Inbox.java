@@ -15,6 +15,7 @@ public class Inbox {
 	private String resourcePath;
 	private Long formalityId;
 	private String formalityDescription;
+	private String transactionType;
 	private Long workFlowConfigId;
 	private Long stageConfigId;
 	private String description;
@@ -206,5 +207,11 @@ public class Inbox {
 	}
 	public void setOperated(boolean isOperated) {
 		this.isOperated = isOperated;
+	}
+	public String getTransactionType() {
+		return transactionType;
+	}
+	public void setTransactionType(String transactionType) {
+		this.transactionType = transactionType;
 	}
 }
