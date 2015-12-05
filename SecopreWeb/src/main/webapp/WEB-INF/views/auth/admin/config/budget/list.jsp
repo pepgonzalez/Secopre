@@ -18,7 +18,7 @@
 						
 						<div class="portlet-body form">
 							<!-- formulario -->	
-							<form:form cssClass="form-horizontal" enctype="multipart/form-data" method="POST" accept-charset="utf-8" id="requestForm" action="auth/wf/upload">
+							<form:form cssClass="form-horizontal" enctype="multipart/form-data" method="POST" accept-charset="utf-8" id="requestForm" action="auth/adm/bugget/upload">
 							
 								<div class="form-body">
 									
@@ -43,7 +43,7 @@
 										</div>										
 										<div class="col-md-3">
 <%-- 											<button type="button" class="btn default" onclick="sendRequestJQ('auth/tram/list','dashboard','initTramiteListPage()','GET');"><spring:message code="application.back"/></button> --%>
-											<button type="button" class="btn green fileinput-button" id="uploadFile"><i class="fa fa-plus"></i>Subir Archivo</button>
+											<button type="button" onclick="initUploadAnnualBudget();" class="btn green fileinput-button" id="uploadFile"><i class="fa fa-plus"></i>Subir Archivo</button>
 										</div>				
 									</div>
 									<div class="form-group form-md-line-input">

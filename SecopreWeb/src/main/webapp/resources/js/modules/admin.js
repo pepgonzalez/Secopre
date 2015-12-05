@@ -1930,6 +1930,18 @@ function showKeyData(programaticKeyId){
 	});
 }
 
+function initUploadAnnualBudget(){
+	var requestForm = $('#requestForm');
+	
+	var file = requestForm.find('#attachment').val();
+	
+	if(file.length <= 0){
+		window.showNotification("error", "Debe seleccionar un archivo para continuar");
+		return;
+	}
+
+	submitFileAjaxJQTest('requestForm', 'dashboard', '',false);	
+}
 function initUpload() {
 
 	var requestForm = $('#requestForm');
@@ -1947,7 +1959,7 @@ function initUpload() {
 			return; 
 		}
 		
-		submitFileAjaxJQTest('requestForm', 'dashboard', '');
+		submitFileAjaxJQTest('requestForm', 'dashboard', '', true);
 // submitFileAjaxJQ('requestForm', 'dashboard', '');
 	});
 }
