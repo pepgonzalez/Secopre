@@ -63,7 +63,7 @@ var expenseController = {
 		var grd = $(grid);
 		var totalId = (grid === self.upGrid ? "#upMovementsTotal" : "#downMovementsTotal");
 		
-		var gridTotal = 0;
+		var gridTotal = parseFloat(0);
 		
 		if(!turnDownIteration){
 			//iteracion sobre las filas
@@ -80,7 +80,8 @@ var expenseController = {
 				}
 			});
 		}
-		grd.find(totalId).html((gridTotal));	
+		gridTotal = gridTotal.toFixed(2);
+		grd.find(totalId).find(".val").empty().html((gridTotal));	
 	},
 	getSliderId : function(grid){
 		var direction = (grid == this.upGrid ? "up" : "down");
@@ -96,6 +97,14 @@ var expenseController = {
 			grd.find("tbody tr").each(function(idx, e){
 				var element = $(e);
 				var rowId = element.attr("id");	
+				
+				//fix para dar formato a los montos
+				var monthAmount = parseFloat(element.find(self.getId(grid, idx, "monthAmount")).val());
+				monthAmount = monthAmount.toFixed(2);
+				element.find(self.getId(grid, idx, "monthAmount")).val(monthAmount);
+				
+				var totalAmount = parseFloat(element.find(self.getId(grid, idx, "totalAmount")).val()).toFixed(2);
+				element.find(self.getId(grid, idx, "totalAmount")).val(totalAmount);
 
 				//self.startSlider(self, idx, parseInt(new Date().getMonth()), grid);		
 				self.addRemoveEvent(self, grid, idx);
@@ -248,12 +257,12 @@ var expenseController = {
 			var districtId = parseInt($("#districtId").val());
 			var entryId = parseInt($(self.getId(grid, nextIndex, "entryId")).val());
 			
-			var total = 0;
+			var total = parseFloat(0);
 			var that = this;
 			
 			function updateTotalAmounts(){
 				//se calcula el monto total del movimiento
-				total = ((finalMonth - initialMonth) + 1) * that.value;					
+				total = parseFloat(((finalMonth - initialMonth) + 1) * that.value);					
 				
 				//si el monto es mayor a cero, se elimina el error
 				if (parseInt(that.value) > 0){
@@ -261,7 +270,7 @@ var expenseController = {
 				}
 				
 				//guardamos el monto total en total amount	
-				$(self.getId(grid, nextIndex, "totalAmount")).val(total);
+				$(self.getId(grid, nextIndex, "totalAmount")).val(total.toFixed(2));
 				
 				//se invoca update para actualizar los totales del grid
 				self.updateTotal(self, grid);

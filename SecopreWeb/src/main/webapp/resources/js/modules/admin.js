@@ -1953,10 +1953,6 @@ function initUpload() {
 }
 
 function movementsCapture() {
-	
-	$(document).find('.numbersOnly').keyup(function () { 
-		this.value = this.value.replace(/[^0-9\.]/g,'');
-	});
 
 	// var movementController = {};
 	
@@ -2003,12 +1999,6 @@ function movementsCapture() {
 /* MOVEMENTS CAPTURE 2*/
 
 function movements2Capture() {
-	
-	$(document).find('.numbersOnly').keyup(function () { 
-		this.value = this.value.replace(/[^0-9\.]/g,'');
-		this.value = parseFloat(Math.round( parseInt(this.value) * 100) / 100).toFixed(2);
-	});
-
 	// var movementController = {};
 	
 	// Controlador tipo de movimiento
@@ -2118,10 +2108,6 @@ function initAuthorization() {
 
 
 function expenseCapture() {
-	
-	$(document).find('.numbersOnly').keyup(function () { 
-		this.value = this.value.replace(/[^0-9\.]/g,'');
-	});
 
 	// var movementController = {};
 	

@@ -86,11 +86,11 @@
 											<span id="downMovements${i.index}.lower-offset"></span>-<span id="downMovements${i.index}.upper-offset"></span>
 										</div>
 									<td data-name="monthAmount">
-										<form:input path="downMovements[${i.index}].monthAmount" class="form-control input-small numbersOnly movementComponent monthAmount"/>
+										<span>$</span><form:input path="downMovements[${i.index}].monthAmount" class="form-control input-small numbersOnly movementComponent monthAmount" style="display:inline-block!Important;"/>
 									</td>
 									
 									<td data-name="totalAmount">
-										<form:input path="downMovements[${i.index}].totalAmount" class="form-control input-xsmall numbersOnly movementComponent"/>
+										<span>$</span><form:input path="downMovements[${i.index}].totalAmount" class="form-control input-xsmall numbersOnly movementComponent" style="display:inline-block!Important;"/>
 									</td>
 									
 									<form:hidden path="downMovements[${i.index}].initialMonthId" class="form-control" data-name="initialMonthId"/>
@@ -109,7 +109,9 @@
 		<div>
 			<div class="text-rigth">
 				<div class="btn">Total:</div>
-				<a href="#myModal1" role="button" class="btn green" data-toggle="modal" id="downMovementsTotal">0.00</a>
+				<a href="#myModal1" role="button" class="btn green" data-toggle="modal" id="downMovementsTotal">
+					<span>$ </span><span class="val">0.00</span>
+				</a>
 			</div>
 		</div>
 	</div>
@@ -183,11 +185,11 @@
 											<span id="upMovements${i.index}.lower-offset"></span>-<span id="upMovements${i.index}.upper-offset"></span>
 										</div>
 									<td data-name="monthAmount">
-										<form:input path="upMovements[${i.index}].monthAmount" class="form-control input-small numbersOnly movementComponent monthAmount"/>
+										<span>$</span><form:input path="upMovements[${i.index}].monthAmount" class="form-control input-small numbersOnly movementComponent monthAmount" style="display:inline-block!Important;"/>
 									</td>
 									
 									<td data-name="totalAmount">
-										<form:input path="upMovements[${i.index}].totalAmount" class="form-control input-xsmall numbersOnly movementComponent"/>
+										<span>$</span><form:input path="upMovements[${i.index}].totalAmount" class="form-control input-xsmall numbersOnly movementComponent" style="display:inline-block!Important;"/>
 									</td>
 					
 									<form:hidden path="upMovements[${i.index}].initialMonthId" class="form-control" data-name="initialMonthId"/>
@@ -207,7 +209,9 @@
 		<div>
 			<div class="text-rigth">
 				<div class="btn">Total:</div>
-				<a href="#myModal1" role="button" class="btn green" data-toggle="modal" id="upMovementsTotal">0.00</a>
+				<a href="#myModal1" role="button" class="btn green" data-toggle="modal" id="upMovementsTotal">
+					<span>$ </span><span class="val">0.00</span>
+				</a>
 			</div>
 		</div>
 	</div>
@@ -244,11 +248,11 @@
 				<span data-name="lower-offset"></span>-<span data-name="upper-offset"></span>
 			</div>
 		<td data-name="monthAmount">
-			<form:input path="upMovements" class="form-control input-small numbersOnly movementComponent"/>
+			<span>$</span><form:input path="upMovements" class="form-control input-small numbersOnly movementComponent" style="display:inline-block!Important;"/>
 		</td>
 		
 		<td data-name="totalAmount">
-			<form:input path="upMovements" class="form-control input-xsmall numbersOnly movementComponent" readonly="true"/>
+			<span>$</span><form:input path="upMovements" class="form-control input-xsmall numbersOnly movementComponent" style="display:inline-block!Important;" readonly="true"/>
 		</td>
 		
 		<form:hidden path="upMovements" class="form-control" data-name="initialMonthId"/>
