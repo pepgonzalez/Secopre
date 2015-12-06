@@ -2,15 +2,15 @@
 			<!-- BEGIN PAGE HEAD -->
 			<div class="page-head">
 				<!-- BEGIN PAGE TITLE -->
-				<div class="page-title">
-					<h1>Parametros<small>  Fechas de Corte</small></h1>
-				</div>
+<!-- 				<div class="page-title"> -->
+<!-- 					<h1>Parametros<small>  Fechas de Corte</small></h1> -->
+<!-- 				</div> -->
 			</div>
 			<!-- END PAGE HEAD -->
 			<!-- BEGIN PAGE BREADCRUMB -->
 			<ul class="page-breadcrumb breadcrumb">
 				<li>
-					<a href="javascript:;">Parametros</a><i class="fa fa-circle"></i>
+					<a href="javascript:initDueDateList();">Parámetros</a><i class="fa fa-circle"></i>
 				</li>
 				<li class="active">
 					 Fechas de Corte

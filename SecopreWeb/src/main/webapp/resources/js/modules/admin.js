@@ -691,7 +691,7 @@ function initEntryByDistrict(){
  
 	$('#byDistrictTable').DataTable({		
 		 "language": {
-	            "lengthMenu": "_MENU_ Registros por pagina",
+	            "lengthMenu": "_MENU_ Registros por página",
 	            "zeroRecords": "No existen registros",
 	            "info": "Mostrando pagina _PAGE_ de _PAGES_",
 	            "infoEmpty": "No hay registros disponibles",
@@ -760,7 +760,7 @@ function initPage(page) {
     });
 	$('#' + page + 'Table').DataTable({		
 			 "language": {
-		            "lengthMenu": "_MENU_ Registros por pagina",
+		            "lengthMenu": "_MENU_ Registros por página",
 		            "zeroRecords": "No existen registros",
 		            "info": "Mostrando pagina _PAGE_ de _PAGES_",
 		            "infoEmpty": "No hay registros disponibles",
@@ -1790,7 +1790,7 @@ function initPersonValidations() {
 function initMyTramiteListPage(){
 	var formalityDatatable = $('#formalityList').DataTable({
         "language": {
-            "lengthMenu": "_MENU_ Registros por pagina",
+            "lengthMenu": "_MENU_ Registros por página",
             "zeroRecords": "No existen registros",
             "info": "Mostrando pagina _PAGE_ de _PAGES_",
             "infoEmpty": "No hay registros disponibles",
@@ -1844,7 +1844,7 @@ function initTramiteListPage() {
 	
 	var formalityDatatable = $('#formalityList').DataTable({
         "language": {
-            "lengthMenu": "_MENU_ Registros por pagina",
+            "lengthMenu": "_MENU_ Registros por página",
             "zeroRecords": "No existen registros",
             "info": "Mostrando pagina _PAGE_ de _PAGES_",
             "infoEmpty": "No hay registros disponibles",
@@ -1930,6 +1930,18 @@ function showKeyData(programaticKeyId){
 	});
 }
 
+function initUploadAnnualBudget(){
+	var requestForm = $('#requestForm');
+	
+	var file = requestForm.find('#attachment').val();
+	
+	if(file.length <= 0){
+		window.showNotification("error", "Debe seleccionar un archivo para continuar");
+		return;
+	}
+
+	submitFileAjaxJQTest('requestForm', 'dashboard', '',false);	
+}
 function initUpload() {
 
 	var requestForm = $('#requestForm');
@@ -1947,16 +1959,12 @@ function initUpload() {
 			return; 
 		}
 		
-		submitFileAjaxJQTest('requestForm', 'dashboard', '');
+		submitFileAjaxJQTest('requestForm', 'dashboard', '', true);
 // submitFileAjaxJQ('requestForm', 'dashboard', '');
 	});
 }
 
 function movementsCapture() {
-	
-	$(document).find('.numbersOnly').keyup(function () { 
-		this.value = this.value.replace(/[^0-9\.]/g,'');
-	});
 
 	// var movementController = {};
 	
@@ -2003,11 +2011,6 @@ function movementsCapture() {
 /* MOVEMENTS CAPTURE 2*/
 
 function movements2Capture() {
-	
-	$(document).find('.numbersOnly').keyup(function () { 
-		this.value = this.value.replace(/[^0-9\.]/g,'');
-	});
-
 	// var movementController = {};
 	
 	// Controlador tipo de movimiento
@@ -2068,6 +2071,32 @@ function initAuthorization() {
 	
 	var requestForm = $('#requestForm');
 
+	
+	/* botones para owners de autorizacion */
+	
+	//manda a siguiente firma
+	$('#backToCapture').click(function(e) {
+		alert("Regresando tramite a captura");
+		if($("#comments").val().length > 0){
+			requestForm.find('#nextStageValueCode').val("REGRESAR");
+			submitAjaxJQ('requestForm', 'dashboard', '');
+		}else{
+			window.showNotification("error", "Capture comentarios sobre el tramite");
+		}
+	});
+	
+	//manda a siguiente firma
+	$('#authorizateFormality').click(function(e) {
+		// alert("autorizando Tramite");
+		requestForm.find('#nextStageValueCode').val("SIGFIRMA");
+		submitAjaxJQ('requestForm', 'dashboard', '');
+	});
+	
+	
+	
+	/* botones propios de super usuario */
+	
+	//manda a tramite cancelado
 	$('#cancelFormality').click(function(e) {
 		// alert("Cancelando Tramite");
 		if($("#comments").val().length > 0){
@@ -2077,13 +2106,8 @@ function initAuthorization() {
 			window.showNotification("error", "capture comentarios de cancelacion");
 		}
 	});
-
-	$('#authorizateFormality').click(function(e) {
-		// alert("autorizando Tramite");
-		requestForm.find('#nextStageValueCode').val("SIGFIRMA");
-		submitAjaxJQ('requestForm', 'dashboard', '');
-	});
-
+	
+	//finalizar tramite
 	$('#finishFormality').click(function(e) {
 		// alert("autorizando Tramite y finalizar");
 		requestForm.find('#nextStageValueCode').val("CONTINUAR");
@@ -2096,10 +2120,6 @@ function initAuthorization() {
 
 
 function expenseCapture() {
-	
-	$(document).find('.numbersOnly').keyup(function () { 
-		this.value = this.value.replace(/[^0-9\.]/g,'');
-	});
 
 	// var movementController = {};
 	
@@ -2161,7 +2181,7 @@ function initReports(){
 	
 	var reportTable = $('#reportList').DataTable({
         "language": {
-            "lengthMenu": "_MENU_ Registros por pagina",
+            "lengthMenu": "_MENU_ Registros por página",
             "zeroRecords": "No existen registros",
             "info": "Mostrando pagina _PAGE_ de _PAGES_",
             "infoEmpty": "No hay registros disponibles",
