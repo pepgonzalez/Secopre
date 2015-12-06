@@ -34,6 +34,7 @@ public class Request {
 	
 	//historia
 	private List<RequestHistory> requestHistory = new ArrayList<RequestHistory>();
+	private RequestHistory currentStage;
 	
 	private String comments;
 	
@@ -201,5 +202,11 @@ public class Request {
 	}
 	public void setFormalityName(String formalityName) {
 		this.formalityName = formalityName;
+	}
+	public RequestHistory getCurrentStage() {
+		return currentStage;
+	}
+	public void setCurrentStage(RequestHistory currentStage) {
+		this.currentStage = currentStage;
 	}
 }

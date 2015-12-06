@@ -36,6 +36,12 @@ public class MovementsServiceImpl extends AccessNativeServiceBaseImpl implements
 	static final Logger LOG = LoggerFactory.getLogger(MovementsServiceImpl.class);
 	
 	
+	public void rollbackRequestDetail(Request request){
+		//obtengo lo movimientoss de request detail
+		//los borro de request detail
+		//los inserto en mirror
+	}
+	
 	@Override
 	public boolean isValidMovement(Long requestId, Long movementTypeId) throws EntryDistrictException {
 		boolean isValid = true;

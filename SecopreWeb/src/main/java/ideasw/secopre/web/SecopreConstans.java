@@ -105,9 +105,9 @@ public class SecopreConstans {
 	public static final String MV_ADM_PROFILE = "auth/admin/profile/profiles";
 	public static final String MV_ADM_PROFILE_ACCOUNT = "auth/admin/profile/profileAccount";
 	
-	//####Modulo de partidas
+	//####Modulo de presupuesto anual
 	public static final String MV_ADM_BUDGET = "auth/admin/config/budget/list";
-	
+	public static final String MV__ADM_BUDGET_REDIRECT = "redirect:/adm/bugget";
 
 		
 }

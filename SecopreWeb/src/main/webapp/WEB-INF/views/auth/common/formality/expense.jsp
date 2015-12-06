@@ -70,11 +70,11 @@
 										</form:select>
 									</td>
 									<td data-name="monthAmount">
-										<form:input path="downMovements[${i.index}].monthAmount" class="form-control numbersOnly monthAmount"/>
+										<span>$</span><form:input path="downMovements[${i.index}].monthAmount" class="form-control numbersOnly monthAmount" style="display:inline-block!Important;"/>
 									</td>
 									
 									<td data-name="totalAmount">
-										<form:input path="downMovements[${i.index}].totalAmount" class="form-control input-xsmall numbersOnly movementComponent"/>
+										<span>$</span><form:input path="downMovements[${i.index}].totalAmount" class="form-control input-xsmall numbersOnly movementComponent" style="display:inline-block!Important;"/>
 									</td>
 					
 									<form:hidden path="downMovements[${i.index}].initialMonthId" class="form-control" data-name="initialMonthId"/>
@@ -94,7 +94,9 @@
 		<div>
 			<div class="text-rigth">
 				<div class="btn">Total:</div>
-				<a href="#myModal1" role="button" class="btn green" data-toggle="modal" id="downMovementsTotal">0.00</a>
+				<a href="#myModal1" role="button" class="btn green" data-toggle="modal" id="downMovementsTotal">
+				<span>$ </span><span class="val">0.00</span>
+				</a>
 			</div>
 		</div>
 	</div>
@@ -124,11 +126,11 @@
 		</td>
 		
 		<td data-name="monthAmount">
-			<form:input path="upMovements" class="form-control numbersOnly"/>
+			<span>$</span><form:input path="upMovements" class="form-control numbersOnly" style="display:inline-block!Important;"/>
 		</td>
 		
 		<td data-name="totalAmount">
-			<form:input path="upMovements" class="form-control input-xsmall numbersOnly movementComponent" readonly="true"/>
+			<span>$</span><form:input path="upMovements" class="form-control input-xsmall numbersOnly movementComponent" style="display:inline-block!Important;" readonly="true"/>
 		</td>
 		<form:hidden path="upMovements" class="form-control" data-name="initialMonthId"/>
 		<form:hidden path="upMovements" class="form-control" data-name="finalMonthId"/>

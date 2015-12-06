@@ -130,6 +130,11 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		return this.queryForList(RequestHistory.class, queryContainer.getSQL(SQLConstants.GET_REQUEST_HISTORY), namedParameters, new RequestHistoryMapper());
 	}
 	
+	public RequestHistory getActiveRequestHistory(Long requestId){
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("requestId", requestId);	
+		return this.queryForList(RequestHistory.class, queryContainer.getSQL(SQLConstants.GET_ACTIVE_REQUEST_HISTORY), namedParameters, new RequestHistoryMapper()).get(0);
+	}
+	
 	
 	public void invokeNextStage(Request request, Long userId){
 		this.invokeNextStage(request.getRequestId(), request.getNextStageValueCode(), request.getStageConfigId(), userId, request.getComments(), 0);
@@ -504,19 +509,26 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	}
 	
 	public Request getRequestAndPartialDetailById(Long requestId) {
+		
+		//se obtiene el request
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("requestId", requestId);
 		List<Request> list = this.queryForList(Request.class, queryContainer.getSQL(SQLConstants.GET_REQUEST_BY_ID), namedParameters, new RequestMapper());
 		Request r =  list.get(0);
+		
+		//se obtienen los movimientos de mirror
 		r.setMovements(this.getRequestPartialDetailByRequestId(requestId));
 
-		//se obtiene requestConfig
+		//se asigna el nombre del tramite
 		RequestConfig config = this.getRequestConfigById(r.getRequestId());
-
 		Formality formality =  getFormalityById(config.getFormalityId());
 		String formalityName = formality.getDescription();
 
 		r.setFormalityName(formalityName);
-
+		
+		//se obtiene la transicion actual del tramite
+		RequestHistory rh = this.getActiveRequestHistory(requestId);
+		r.setCurrentStage(rh);
+		
 		return r;
 	}
 
@@ -934,6 +946,15 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	public EntryCurrentTotal getEntryCurrentTotals(Long districtId, Long entryId) {
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("districtId", districtId).addValue("entryId", entryId);	
 		return this.queryForList(EntryCurrentTotal.class, queryContainer.getSQL(SQLConstants.GET_ENTRY_CURRENT_TOTALS), namedParameters, new EntryCurrentTotalMapper()).get(0);
+	}
+	
+	public Request rollbackRequestDetail(Long requestId){
+		//se obtiene la informacion de requestDetail
+		Request requestForm = this.getRequestAndDetailById(requestId);
+		//se borra requestDetail
+		int clean = this.cleanRequestDetail(requestForm.getRequestId());
+		//se inserta en requestDetailMirror
+		return requestForm;
 	}
 
 }
