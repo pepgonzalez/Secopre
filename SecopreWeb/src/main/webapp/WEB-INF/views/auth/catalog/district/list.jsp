@@ -46,6 +46,7 @@
 									<input type="checkbox" class="group-checkable" data-set="#districtTable .checkboxes"/>
 								</th>
 								<th><spring:message code="application.pages.catalog.district.number"/></th>
+								<th><spring:message code="application.pages.catalog.district.entidad"/></th>
 								<th><spring:message code="application.pages.catalog.district.state"/></th>
 								<th><spring:message code="application.pages.catalog.district.address"/></th>
 								<th><spring:message code="application.pages.catalog.district.email"/></th>
@@ -62,6 +63,9 @@
 									</td>
 									<td>
 									     ${districtItem.number}
+									</td>
+									<td>
+									     ${districtItem.entity}
 									</td>
 									<td>
 										 ${districtItem.state.name}

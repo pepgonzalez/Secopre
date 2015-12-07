@@ -63,7 +63,7 @@
 											<%@ include file="/WEB-INF/views/auth/common/alertForm.jsp"%>
 
 											<div class="tab-pane active" id="tab1">
-												<h3 class="block">Proporcionar datos generales</h3>
+												<h3 class="block">Información de Distritos</h3>
 												<div class="form-body">													
 													
 													
@@ -77,6 +77,22 @@
 																<div class="form-control-focus">
 																</div>
 																<span id="number-error" class="help-block help-block-error"><spring:message code="application.pages.catalog.district.number.help"/></span>
+																<i class="fa fa-bars"></i>
+															</div>
+														</div>
+													</div>
+													
+													
+													<div class="form-group form-md-line-input">
+														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.district.entidad"/>
+															<span class="required">* </span>
+														</label>
+														<div class="col-md-10">
+															<div class="input-icon">
+																<input id=entity name="entity" value="${district.entity}" type="text" class="form-control" placeholder='<spring:message code="application.pages.catalog.district.entidad.placeholder"/>'>
+																<div class="form-control-focus">
+																</div>
+																<span id="entity-error" class="help-block help-block-error"><spring:message code="application.pages.catalog.district.entidad.help"/></span>
 																<i class="fa fa-bars"></i>
 															</div>
 														</div>
@@ -271,6 +287,15 @@
 													</label>
 										            <div class="col-md-4">
 											           <p class="form-control-static" data-display="number"></p>
+										            </div>
+									            </div>
+									       
+									            <div class="form-group">
+										            <label class="control-label col-md-3"><spring:message
+													code="application.pages.catalog.district.entidad" />
+													</label>
+										            <div class="col-md-4">
+											           <p class="form-control-static" data-display="entity"></p>
 										            </div>
 									            </div>
 									            

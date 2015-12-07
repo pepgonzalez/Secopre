@@ -55,7 +55,7 @@
 											<%@ include file="/WEB-INF/views/auth/common/alertForm.jsp"%>
 
 											<div class="tab-pane active" id="tab1">
-												<h3 class="block">Proporcionar datos personales</h3>
+												<h3 class="block">Proporcionar Datos Personales</h3>
 												<div class="form-body">													
 													
 													
@@ -185,33 +185,33 @@
 														</div>
 													</div>
 													
-													<div class="form-group form-md-line-input has-danger">
-														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.twitter"/>
-														</label>
-														<div class="col-md-10">
-															<div class="input-icon">
-																<input id="twitter" name="twitter" value="${person.twitter}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.twitter.placeholder"/>'>
-																<div class="form-control-focus">
-																</div>
-																<span id="twitter-error" class="help-block help-block-error"><spring:message code="application.pages.admin.persons.twitter.help"/></span>
-																<i class="fa fa-twitter on fa-square-o"></i>
-															</div>
-														</div>
-													</div>	
+<!-- 													<div class="form-group form-md-line-input has-danger"> -->
+<%-- 														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.twitter"/> --%>
+<!-- 														</label> -->
+<!-- 														<div class="col-md-10"> -->
+<!-- 															<div class="input-icon"> -->
+<%-- 																<input id="twitter" name="twitter" value="${person.twitter}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.twitter.placeholder"/>'> --%>
+<!-- 																<div class="form-control-focus"> -->
+<!-- 																</div> -->
+<%-- 																<span id="twitter-error" class="help-block help-block-error"><spring:message code="application.pages.admin.persons.twitter.help"/></span> --%>
+<!-- 																<i class="fa fa-twitter on fa-square-o"></i> -->
+<!-- 															</div> -->
+<!-- 														</div> -->
+<!-- 													</div>	 -->
 													
-													<div class="form-group form-md-line-input has-danger">
-														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.facebook"/>
-														</label>
-														<div class="col-md-10">
-															<div class="input-icon">
-																<input id="facebook" name="facebook" value="${person.facebook}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.facebook.placeholder"/>'>
-																<div class="form-control-focus">
-																</div>
-																<span class="help-block"><spring:message code="application.pages.admin.persons.facebook.help"/></span>
-																<i class="fa fa-facebook"></i>
-															</div>
-														</div>
-													</div>	
+<!-- 													<div class="form-group form-md-line-input has-danger"> -->
+<%-- 														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.facebook"/> --%>
+<!-- 														</label> -->
+<!-- 														<div class="col-md-10"> -->
+<!-- 															<div class="input-icon"> -->
+<%-- 																<input id="facebook" name="facebook" value="${person.facebook}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.facebook.placeholder"/>'> --%>
+<!-- 																<div class="form-control-focus"> -->
+<!-- 																</div> -->
+<%-- 																<span class="help-block"><spring:message code="application.pages.admin.persons.facebook.help"/></span> --%>
+<!-- 																<i class="fa fa-facebook"></i> -->
+<!-- 															</div> -->
+<!-- 														</div> -->
+<!-- 													</div>	 -->
 													
 													<div class="form-group form-md-line-input has-danger">
 														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.webSite"/>
@@ -401,24 +401,24 @@
 										           </div>
 									            </div>	
 									            
-									            <div class="form-group">
-										           <label class="control-label col-md-3"><spring:message
-													  code="application.pages.admin.persons.twitter" />
-											       </label>
-										           <div class="col-md-4">
-											         <p class="form-control-static" data-display="twitter"></p>
-										           </div>
-									            </div>										            									            									            					
+<!-- 									            <div class="form-group"> -->
+<%-- 										           <label class="control-label col-md-3"><spring:message --%>
+<%-- 													  code="application.pages.admin.persons.twitter" /> --%>
+<!-- 											       </label> -->
+<!-- 										           <div class="col-md-4"> -->
+<!-- 											         <p class="form-control-static" data-display="twitter"></p> -->
+<!-- 										           </div> -->
+<!-- 									            </div>										            									            									            					 -->
 													
 													
-									            <div class="form-group">
-										           <label class="control-label col-md-3"><spring:message
-													  code="application.pages.admin.persons.facebook" />
-											       </label>
-										           <div class="col-md-4">
-											         <p class="form-control-static" data-display="facebook"></p>
-										           </div>
-									            </div>	
+<!-- 									            <div class="form-group"> -->
+<%-- 										           <label class="control-label col-md-3"><spring:message --%>
+<%-- 													  code="application.pages.admin.persons.facebook" /> --%>
+<!-- 											       </label> -->
+<!-- 										           <div class="col-md-4"> -->
+<!-- 											         <p class="form-control-static" data-display="facebook"></p> -->
+<!-- 										           </div> -->
+<!-- 									            </div>	 -->
 									            
 									            													
 									            <div class="form-group">

@@ -457,6 +457,7 @@
 							  ON D.ADDRESS_ID = A.id
 							    LEFT OUTER JOIN STATE S
 							  ON S.id = D.STATE_ID
+							  ORDER BY CONVERT(D.NUMBER,UNSIGNED INTEGER)
 					]]>
 				</prop>
 				
@@ -471,6 +472,7 @@
 						       JOIN (SELECT DISTINCT(ED.DISTRICT_ID) FROM secopre.ENTRYDISTRICT ED) T ON (D.ID = T.DISTRICT_ID)
 						       JOIN secopre.STATE S ON (D.STATE_ID = S.ID)
 						       JOIN secopre.DISTRICT_USER DU ON (DU.DISTRICT_ID = D.ID AND DU.USER_ID =  :userId)
+						       ORDER BY CONVERT(D.NUMBER,UNSIGNED INTEGER)
 					]]>
 				</prop>
 				
@@ -990,6 +992,7 @@
 							ON D.ADDRESS_ID = A.id
 						       JOIN secopre.STATE S ON (D.STATE_ID = S.ID)
 						       JOIN secopre.NOTICE_DISTRICT NU ON (NU.DISTRICT_ID = D.ID AND NU.NOTICE_ID =  :noticeId)	
+						     ORDER BY CONVERT(D.NUMBER,UNSIGNED INTEGER)
 					]]>
 				</prop>
 				

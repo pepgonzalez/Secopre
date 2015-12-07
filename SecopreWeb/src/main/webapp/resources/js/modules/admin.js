@@ -691,7 +691,7 @@ function initEntryByDistrict(){
  
 	$('#byDistrictTable').DataTable({		
 		 "language": {
-	            "lengthMenu": "_MENU_ Registros por página",
+	            "lengthMenu": "_MENU_ Registros por pagina",
 	            "zeroRecords": "No existen registros",
 	            "info": "Mostrando pagina _PAGE_ de _PAGES_",
 	            "infoEmpty": "No hay registros disponibles",
@@ -760,7 +760,7 @@ function initPage(page) {
     });
 	$('#' + page + 'Table').DataTable({		
 			 "language": {
-		            "lengthMenu": "_MENU_ Registros por página",
+		            "lengthMenu": "_MENU_ Registros por pagina",
 		            "zeroRecords": "No existen registros",
 		            "info": "Mostrando pagina _PAGE_ de _PAGES_",
 		            "infoEmpty": "No hay registros disponibles",
@@ -1790,7 +1790,7 @@ function initPersonValidations() {
 function initMyTramiteListPage(){
 	var formalityDatatable = $('#formalityList').DataTable({
         "language": {
-            "lengthMenu": "_MENU_ Registros por página",
+            "lengthMenu": "_MENU_ Registros por pagina",
             "zeroRecords": "No existen registros",
             "info": "Mostrando pagina _PAGE_ de _PAGES_",
             "infoEmpty": "No hay registros disponibles",
@@ -1844,7 +1844,7 @@ function initTramiteListPage() {
 	
 	var formalityDatatable = $('#formalityList').DataTable({
         "language": {
-            "lengthMenu": "_MENU_ Registros por página",
+            "lengthMenu": "_MENU_ Registros por pagina",
             "zeroRecords": "No existen registros",
             "info": "Mostrando pagina _PAGE_ de _PAGES_",
             "infoEmpty": "No hay registros disponibles",
@@ -2181,7 +2181,7 @@ function initReports(){
 	
 	var reportTable = $('#reportList').DataTable({
         "language": {
-            "lengthMenu": "_MENU_ Registros por página",
+            "lengthMenu": "_MENU_ Registros por pagina",
             "zeroRecords": "No existen registros",
             "info": "Mostrando pagina _PAGE_ de _PAGES_",
             "infoEmpty": "No hay registros disponibles",
