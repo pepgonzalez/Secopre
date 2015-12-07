@@ -140,6 +140,7 @@ public class DistrictController extends AuthController {
 			   districtEdit.setNumber(district.getNumber());
 			   districtEdit.setState(district.getState());
 			   districtEdit.setTelephone(district.getTelephone());
+			   districtEdit.setEntity(district.getEntity());
 
 			   district = districtEdit;
 			}

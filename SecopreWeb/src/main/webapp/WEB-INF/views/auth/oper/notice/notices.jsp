@@ -2,9 +2,9 @@
 			<!-- BEGIN PAGE HEAD -->
 			<div class="page-head">
 				<!-- BEGIN PAGE TITLE -->
-				<div class="page-title">
-					<h1>Catalogos<small> Avisos</small></h1>
-				</div>
+<!-- 				<div class="page-title"> -->
+<!-- 					<h1>Catalogos<small> Avisos</small></h1> -->
+<!-- 				</div> -->
 			</div>
 			<!-- END PAGE HEAD -->
 			<!-- BEGIN PAGE BREADCRUMB -->

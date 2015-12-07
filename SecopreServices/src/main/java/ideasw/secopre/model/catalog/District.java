@@ -40,6 +40,9 @@ public class District extends AuditEntity implements Persistible {
 	@Column(name = "NUMBER", nullable = false, length = 150)
 	private String number;
 	
+	@Column(name = "ENTITY",  length = 50)
+	private String entity;
+	
 	@ManyToOne
 	@PrimaryKeyJoinColumn(name = "STATE_ID", referencedColumnName = "ID")
 	private State state;
@@ -197,6 +200,14 @@ public class District extends AuditEntity implements Persistible {
 		} else if (!number.equals(other.number))
 			return false;
 		return true;
+	}
+
+	public String getEntity() {
+		return entity;
+	}
+
+	public void setEntity(String entity) {
+		this.entity = entity;
 	}
 
 

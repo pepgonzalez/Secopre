@@ -72,30 +72,28 @@ var movementController2 = {
 	updateTotal : function(self, grid, turnDownIteration) {
 		turnDownIteration = turnDownIteration || false;
 		var grd = $(grid);
-		var totalId = (grid === self.upGrid ? "#upMovementsTotal"
-				: "#downMovementsTotal");
+		var totalId = (grid === self.upGrid ? "#upMovementsTotal" : "#downMovementsTotal");
 
-		var gridTotal = 0;
+		var gridTotal = parseFloat(0);
 
 		if (!turnDownIteration) {
 			// iteracion sobre las filas
-			grd.find("tbody tr:not(#noMovs)").each(
-					function(idx, e) {
+			grd.find("tbody tr:not(#noMovs)").each(function(idx, e) {
 						var row = $(e);
-						var isRemovedRow = row.find(
-								"[data-name='removedElement']").val();
+						var isRemovedRow = row.find("[data-name='removedElement']").val();
 
 						// solo considera las filas no eliminadas
 						if (parseInt(isRemovedRow) == 0) {
-							var totalAmount = row
-									.find("[data-name='totalAmount'] input");
+							var totalAmount = row.find("[data-name='totalAmount'] input");
 							if (totalAmount.val().length > 0) {
 								gridTotal += parseFloat(totalAmount.val());
 							}
 						}
 					});
 		}
-		grd.find(totalId).html((gridTotal));
+		
+		gridTotal = gridTotal.toFixed(2);
+		grd.find(totalId).find(".val").empty().html((gridTotal));
 	},
 	getSliderId : function(grid) {
 		var direction = (grid == this.upGrid ? "up" : "down");
@@ -119,6 +117,14 @@ var movementController2 = {
 				var finalMonth = parseInt(element.find(self.getId(grid, idx, "finalMonthId")).val());
 				
 				self.startSlider(self, idx, initialMonth, finalMonth, grid);
+				
+				//fix para dar formato a los montos
+				var monthAmount = parseFloat(element.find(self.getId(grid, idx, "monthAmount")).val());
+				monthAmount = monthAmount.toFixed(2);
+				element.find(self.getId(grid, idx, "monthAmount")).val(monthAmount);
+				
+				var totalAmount = parseFloat(element.find(self.getId(grid, idx, "totalAmount")).val()).toFixed(2);
+				element.find(self.getId(grid, idx, "totalAmount")).val(totalAmount);
 
 				self.addRemoveEvent(self, grid, idx);
 				self.addInfoEvent(self, grid, idx);
@@ -392,6 +398,9 @@ var movementController2 = {
 		// validacion de montos al perder el foco
 		ma
 		.blur(function() {
+			
+			var float = parseFloat(this.value);
+			this.value = float.toFixed(2);
 
 			var finalMonth = parseInt($(self.getId(grid, nextIndex, "finalMonthId")).val());
 			var initialMonth = parseInt($(self.getId(grid, nextIndex, "initialMonthId")).val());
@@ -401,12 +410,12 @@ var movementController2 = {
 			var districtId = parseInt($("#districtId").val());
 			var entryId = parseInt($(self.getId(grid, nextIndex, "entryId")).val());
 
-			var total = 0;
+			var total = parseFloat(0);
 			var that = this;
 
 			function updateTotalAmounts() {
 				// se calcula el monto total del movimiento
-				total = ((finalMonth - initialMonth) + 1) * that.value;
+				total = parseFloat(((finalMonth - initialMonth) + 1) * that.value);
 
 				// si el monto es mayor a cero, se elimina el error
 				if (parseInt(that.value) > 0) {
@@ -414,7 +423,7 @@ var movementController2 = {
 				}
 
 				// guardamos el monto total en total amount
-				$(self.getId(grid, nextIndex, "totalAmount")).val(total);
+				$(self.getId(grid, nextIndex, "totalAmount")).val(total.toFixed(2));
 
 				// se invoca update para actualizar los totales del grid
 				self.updateTotal(self, grid);

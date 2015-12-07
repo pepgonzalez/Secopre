@@ -49,7 +49,7 @@
 											<%@ include file="/WEB-INF/views/auth/common/alertForm.jsp"%>
 
 											<div class="tab-pane active" id="tab1">
-												<h3 class="block">Proporcionar Información de Avisos</h3>
+												<h3 class="block">Información de Avisos</h3>
 												<div class="form-body">													
 													<div class="form-group form-md">
 														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.notice.registerDate"/>

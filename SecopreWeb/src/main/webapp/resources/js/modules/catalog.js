@@ -494,6 +494,10 @@ function initDistrictValidations() {
 				maxlength : 10,
 				required : true
 			},
+			entity : {
+				maxlength : 50,
+				required : true
+			},
 			"state.id" : {
 				required : true
 			},
