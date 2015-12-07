@@ -1933,14 +1933,25 @@ function showKeyData(programaticKeyId){
 function initUploadAnnualBudget(){
 	var requestForm = $('#requestForm');
 	
-	var file = requestForm.find('#attachment').val();
-	
-	if(file.length <= 0){
-		window.showNotification("error", "Debe seleccionar un archivo para continuar");
-		return;
-	}
+	$('#uploadFile').click(function(e) {
+		var file = requestForm.find('#attachment').val();
+		
+		if(file.length <= 0){
+			window.showNotification("error", "Debe seleccionar un archivo para continuar");
+			return;
+		}
 
-	submitFileAjaxJQTest('requestForm', 'dashboard', '',false);	
+		submitFileAjaxJQTest('requestForm', 'dashboard', '',false);	
+		
+	});
+	$('#getEntriesTemplate').click(function(e){
+		openResourceNative('report/download/18','dashboard','','GET');
+	});
+	
+	$('#cloneEntries').click(function(e){
+		openResourceNative('report/download/18','dashboard','','GET');
+	});
+	
 }
 function initUpload() {
 
@@ -1965,10 +1976,6 @@ function initUpload() {
 }
 
 function movementsCapture() {
-	
-	$(document).find('.numbersOnly').keyup(function () { 
-		this.value = this.value.replace(/[^0-9\.]/g,'');
-	});
 
 	// var movementController = {};
 	
@@ -2015,12 +2022,6 @@ function movementsCapture() {
 /* MOVEMENTS CAPTURE 2*/
 
 function movements2Capture() {
-	
-	$(document).find('.numbersOnly').keyup(function () { 
-		this.value = this.value.replace(/[^0-9\.]/g,'');
-		this.value = parseFloat(Math.round( parseInt(this.value) * 100) / 100).toFixed(2);
-	});
-
 	// var movementController = {};
 	
 	// Controlador tipo de movimiento
@@ -2130,10 +2131,6 @@ function initAuthorization() {
 
 
 function expenseCapture() {
-	
-	$(document).find('.numbersOnly').keyup(function () { 
-		this.value = this.value.replace(/[^0-9\.]/g,'');
-	});
 
 	// var movementController = {};
 	

@@ -60,11 +60,17 @@ public class BudgetController extends AuthController {
 	public String upload(
 			HttpServletRequest request,
 			HttpServletResponse response,
-			@RequestParam(defaultValue = "", value = "file") MultipartFile file,
-			ModelMap model) {
+			@RequestParam("attachment") MultipartFile attachment,
+			ModelMap model, Principal principal) {
 		AnnualBudgetFile uploadItem = new AnnualBudgetFile();
-		uploadItem.setFile(file);
+		
+		uploadItem.setFile(attachment);
 
+		try {
+			entryConfigService.importExcel(uploadItem, principal.getName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return SecopreConstans.MV__ADM_BUDGET_REDIRECT;
 	}
 

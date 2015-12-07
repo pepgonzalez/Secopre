@@ -27,3 +27,13 @@
 			</div>
 
 			<!-- END SAMPLE FORM PORTLET-->
+
+<script type="text/javascript">
+<!--
+$( document ).ready(function() {
+	$('#submitRequestForm').click(function(e){
+		submitAjaxJQ('submit_form', 'list_ByDistrict', 'initEntryByDistrict()');
+	});	
+});
+//-->
+</script>			

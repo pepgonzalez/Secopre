@@ -28,12 +28,15 @@
 									<div class="form-group form-md-line-input">
 										<div class="col-md-3">
 											<div class="btn-group">
-												<button id="sample_editable_1_new" class="btn green"
-													onclick="openResourceNative('report/download/18','dashboard','','GET');">
-													Obtener plantilla de Carga</button>
+												<button id="cloneEntries" class="btn red">Clonar Partidas</button>
 											</div>
 										</div>
-										<div class="col-md-6">
+										<div class="col-md-3">
+											<div class="btn-group">
+												<button id="getEntriesTemplate" class="btn blue">Obtener plantilla de Carga</button>
+											</div>
+										</div>
+										<div class="col-md-4">
 											<input type="file" size="1" name="attachment" id="attachment" accept="*.doc,*.docx,*.pdf, *.xls, *.xlsx" class="btn default"/>
 											<div class="form-control-focus">
 											</div>
@@ -41,9 +44,9 @@
 												<spring:message code="application.pages.tramite.add.notEmpty"/>
 											</span>
 										</div>										
-										<div class="col-md-3">
+										<div class="col-md2">
 <%-- 											<button type="button" class="btn default" onclick="sendRequestJQ('auth/tram/list','dashboard','initTramiteListPage()','GET');"><spring:message code="application.back"/></button> --%>
-											<button type="button" onclick="initUploadAnnualBudget();" class="btn green fileinput-button" id="uploadFile"><i class="fa fa-plus"></i>Subir Archivo</button>
+											<button type="button" class="btn green fileinput-button" id="uploadFile"><i class="fa fa-plus"></i>Subir Archivo</button>
 										</div>				
 									</div>
 									<div class="form-group form-md-line-input">
@@ -66,3 +69,11 @@
 			<div id="list_ByDistrict">
 				<%@ include file="/WEB-INF/views/auth/admin/config/entry/byDistrict.jsp"%>
 			</div>
+
+<script type="text/javascript">
+<!--
+$( document ).ready(function() {
+	initUploadAnnualBudget();
+});
+//-->
+</script>			

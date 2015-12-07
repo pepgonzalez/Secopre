@@ -10,13 +10,15 @@ import java.util.List;
 
 public interface EntryConfigService {
 
-	
-	public Long importExcel(AnnualBudgetFile fileBean,String username) throws Exception;
+	public Long importExcel(AnnualBudgetFile fileBean, String username)
+			throws Exception;
 
 	public boolean cloneEntries(String userId) throws Exception;
 
 	public boolean updateEntries(List<UpdateEntry> updateList) throws Exception;
 
 	public EntryBalance getEntryBalance(EntryFilter filter, StatusEntry status);
+
+	public boolean existEntriesInConfig();
 
 }

@@ -107,7 +107,7 @@ public class SecopreConstans {
 	
 	//####Modulo de presupuesto anual
 	public static final String MV_ADM_BUDGET = "auth/admin/config/budget/list";
-	public static final String MV__ADM_BUDGET_REDIRECT = "redirect:/adm/bugget";
+	public static final String MV__ADM_BUDGET_REDIRECT = "redirect:/auth/adm/bugget";
 
 		
 }
