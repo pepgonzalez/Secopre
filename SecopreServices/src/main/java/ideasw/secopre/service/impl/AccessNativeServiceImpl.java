@@ -649,9 +649,11 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	@Override	
 	public List<Entry> getEntries(Long districtId, Long programaticKeyId) {
 
-		SqlParameterSource namedParameters = new MapSqlParameterSource()
-				.addValue("programaticKeyId", programaticKeyId)
-				.addValue("districtId", districtId);
+		LOG.info("Obteniendo partidas disponibles para distrito: " + districtId);
+		LOG.info("Obteniendo partidas disponibles para partida: " + programaticKeyId);
+		
+		
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("programaticKeyId", programaticKeyId).addValue("districtId", districtId);
 		List<Entry> list = this.queryForList(Entry.class, queryContainer.getSQL(SQLConstants.GET_VALID_ENTRIES), namedParameters, new EntryMapper());	
 		return list;
 

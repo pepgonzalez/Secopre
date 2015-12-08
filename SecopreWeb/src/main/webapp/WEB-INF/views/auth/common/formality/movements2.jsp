@@ -235,7 +235,6 @@
 		<td data-name="entry">
 			<form:select path="upMovements" class="form-control input-small movementComponent">
 				<form:option value="-1" label="Seleccione..."/>
-	  			<form:options items="${entries}" />
 			</form:select>
 		</td>
 		<td data-name="sliderControl">
