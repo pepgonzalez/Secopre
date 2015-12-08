@@ -227,5 +227,5 @@ public interface AccessNativeService {
     EntryCurrentTotal getEntryCurrentTotals(Long districtId, Long entryId);
     
     /*Metodo para hacer rollback a request detail cuando de la autorizacion se regresa a captura*/
-    Request rollbackRequestDetail(Long requestId);
+    Request rollbackRequestDetail(Long requestId) throws Exception;
 }

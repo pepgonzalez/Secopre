@@ -2087,7 +2087,6 @@ function initAuthorization() {
 	
 	//manda a siguiente firma
 	$('#backToCapture').click(function(e) {
-		alert("Regresando tramite a captura");
 		if($("#comments").val().length > 0){
 			requestForm.find('#nextStageValueCode').val("REGRESAR");
 			submitAjaxJQ('requestForm', 'dashboard', '');

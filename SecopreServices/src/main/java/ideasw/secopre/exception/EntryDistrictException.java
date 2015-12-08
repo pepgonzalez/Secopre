@@ -22,4 +22,8 @@ public class EntryDistrictException extends Exception {
 	public EntryDistrictException(String districtId, String entryId, String month, Double currentAmount, Double amount){
 		super("Error al tratar de afectar distrito: " + districtId + ", partida: " + entryId + ", mes: " + month + " con monto: " + amount + ". Saldo disponible: " + currentAmount);
 	}
+	
+	public EntryDistrictException(String districtId, String entryCode, String entryId, String month, Double currentAmount, Double amount){
+		super("Error al tratar de afectar distrito: " + districtId + ", partida: " + entryCode + " - "+ entryId + ", mes: " + month + " con monto: " + amount + ". Saldo disponible: " + currentAmount);
+	}
 }

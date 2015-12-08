@@ -57,10 +57,12 @@
 									<td data-name="deleteAction" class="buttonColumn">
 										<a href="javascript:;" class="btn default btn-xs red movementComponent" id="rmvIdx${i.index}"><i class="fa fa-times"></i></a>
   										<c:if test="${mov.isSaved}">
-  											<a href="javascript:;" class="btn blue btn-xs default lastButton movementComponent cloneButton" id="cloneIdx${i.index}"><i class="fa fa-copy"></i></a>	
+  											<a href="javascript:;" class="btn blue btn-xs default movementComponent cloneButton" id="cloneIdx${i.index}"><i class="fa fa-copy"></i></a>
+  											<a href="javascript:;" class="btn btn-xs green lastButton movementComponent editButton" id="editIdx${i.index}"><i class="fa fa-edit"></i></a>
+  											<a href="javascript:;" class="btn grey-cascade btn-xs default movementComponent infoButton" id="infoIdx${i.index}"><i class="fa fa-info-circle"></i></a>	
 										</c:if>
 										<c:if test="${mov.isSaved == false}">
-											<a href="javascript:;" class="btn grey-cascade btn-xs default movementComponent" id="infoIdx${i.index}"><i class="fa fa-info-circle"></i></a>
+											<a href="javascript:;" class="btn grey-cascade btn-xs default movementComponent infoButton" id="infoIdx${i.index}"><i class="fa fa-info-circle"></i></a>
 										</c:if>
 									</td>
 									
@@ -156,10 +158,12 @@
 									<td data-name="deleteAction" class="buttonColumn">
 										<a href="javascript:;" class="btn default btn-xs red movementComponent" id="rmvIdx${i.index}"><i class="fa fa-times"></i></a>
   										<c:if test="${mov.isSaved}">
-  											<a href="javascript:;" class="btn blue btn-xs default lastButton movementComponent cloneButton" id="cloneIdx${i.index}"><i class="fa fa-copy"></i></a>	
+  											<a href="javascript:;" class="btn blue btn-xs default lastButton movementComponent cloneButton" id="cloneIdx${i.index}"><i class="fa fa-copy"></i></a>
+  											<a href="javascript:;" class="btn btn-xs green lastButton movementComponent editButton" id="editIdx${i.index}"><i class="fa fa-edit"></i></a>
+  											<a href="javascript:;" class="btn grey-cascade btn-xs default movementComponent infoButton" id="infoIdx${i.index}"><i class="fa fa-info-circle"></i></a>		
 										</c:if>
 										<c:if test="${mov.isSaved == false}">
-											<a href="javascript:;" class="btn grey-cascade btn-xs default movementComponent" id="infoIdx${i.index}"><i class="fa fa-info-circle"></i></a>
+											<a href="javascript:;" class="btn grey-cascade btn-xs default movementComponent infoButton" id="infoIdx${i.index}"><i class="fa fa-info-circle"></i></a>
 										</c:if>
   									</td>
 									
@@ -223,7 +227,7 @@
 	
 		<td data-name="deleteAction" class="buttonColumn">
   			<a href="javascript:;" class="btn default btn-xs red movementComponent" id="rowDeleteButton"><i class="fa fa-times"></i></a>
-  			<a href="javascript:;" class="btn grey-cascade btn-xs default lastButton movementComponent" id="rowInfoButton"><i class="fa fa-info-circle"></i></a>
+  			<a href="javascript:;" class="btn grey-cascade btn-xs default movementComponent" id="rowInfoButton"><i class="fa fa-info-circle"></i></a>
 		</td>
 		
 		<td data-name="programaticKey">

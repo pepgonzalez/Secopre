@@ -129,6 +129,7 @@ var movementController2 = {
 				self.addRemoveEvent(self, grid, idx);
 				self.addInfoEvent(self, grid, idx);
 				self.addCloneEvent(self, grid, idx);
+				self.addEditEvent(self, grid, idx);
 
 				// asignar eventos de cambio
 				self.addOnChangeEvent(self, grid, idx,"programaticKeyId", true);
@@ -186,8 +187,9 @@ var movementController2 = {
 			
 			//se borran todos los botones de clonacion que existan
 			$(document).find(".cloneButton").hide();
-			
+			$(document).find(".editButton").hide();
 			$(document).find(".addButton").hide();
+			
 			$(document).find("#saveAndContinue").hide();
 		});
 
@@ -197,6 +199,9 @@ var movementController2 = {
 			$(document).find("#requestForm").find(".monthAmount").prop("disabled",false);
 			submitAjaxJQWithAction('requestForm', 'dashboard','movements2Capture','auth/wf/capture/partial/movements2');
 		});
+		
+		// se ocultan los botones de informacion
+		$(document).find(".infoButton").hide();
 		
 		// se oculta el boton de guardar
 		saveBtn.hide();
@@ -387,6 +392,29 @@ var movementController2 = {
 			$(sliderId).hide();
 		}
 	},
+	unblockRow : function(self, grid, index, keepSlider, forceDisabled){
+		var keepSlider = keepSlider || false;
+		$(self.getId(grid, index, "programaticKeyId")).removeAttr("readonly", "false");
+		$(self.getId(grid, index, "entryId")).removeAttr("readonly", "false");
+		$(self.getId(grid, index, "monthAmount")).removeAttr("readonly", "false");
+		$(self.getId(grid, index, "totalAmount")).removeAttr("readonly", "false");
+		
+		if(forceDisabled){
+			$(self.getId(grid, index, "programaticKeyId")).removeAttr("readonly", "false").prop("disabled",false);
+			$(self.getId(grid, index, "entryId")).removeAttr("readonly", "false").prop("disabled",false);
+			$(self.getId(grid, index, "monthAmount")).removeAttr("readonly", "false").prop("disabled",false);
+		}
+		
+		var sliderId = self.getSliderId(grid) + index;
+		if (keepSlider) {
+			var sl = $(sliderId)[0];
+			if(sl){
+				sl.setAttribute('disabled', false);
+			}
+		} else {
+			$(sliderId).show();
+		}
+	},
 	updateAmounts : function(self, grid, nextIndex, element) {
 		var ma = $(document).find(self.getId(grid, nextIndex, element));
 
@@ -558,13 +586,41 @@ var movementController2 = {
 		});
 		return currentEntries;
 	},
+	getAllSelectedEntries:function(self, grid, index){
+		var currentEntries = [];
+		var downFilteredRows = $(self.downGrid).find("tbody tr:not(#noMovs)").filter(function() {
+			var flag = $(this).find("[data-name='removedElement']");
+			var rowNumber = parseInt($(this).attr("data-rownumber"));
+			return ((parseInt(flag.val()) <= 0) && (grid != self.downGrid || index != rowNumber));
+		});
+
+		downFilteredRows.each(function(idx, e) {
+			var row = $(e);
+			var entry = parseInt(row.find("[data-name='entry'] select").val());
+			currentEntries.push(entry);
+		});
+		
+		var upFilteredRows = $(self.upGrid).find("tbody tr:not(#noMovs)").filter(function() {
+			var flag = $(this).find("[data-name='removedElement']");
+			var rowNumber = parseInt($(this).attr("data-rownumber"));
+			return ((parseInt(flag.val()) <= 0) && (grid != self.upGrid || index != rowNumber));
+		});
+
+		upFilteredRows.each(function(idx, e) {
+			var row = $(e);
+			var entry = parseInt(row.find("[data-name='entry'] select").val());
+			currentEntries.push(entry);
+		});
+		return currentEntries;
+	},
 	addOnChangeEvent : function(self, grid, indice, element, ajaxCall) {
 		var id = self.getId(grid, indice, element);
 		$(document).find(id).on("change",function(e) {
 
 			var currentEntries = [];
-			if ((self.isCompensatedMovement()) && (grid == self.downGrid)) {
-				currentEntries = self.getCurrentEntries(grid,indice);
+			if ((self.isCompensatedMovement()) || (grid == self.downGrid)) {
+				//currentEntries = self.getCurrentEntries(grid,indice);
+				currentEntries = self.getAllSelectedEntries(self, grid, indice);
 			}
 			
 			console.log("partidas actuales en grid: ");
@@ -685,7 +741,7 @@ var movementController2 = {
 		
 		//se borran todos los botones de clonacion que existan
 		$(document).find(".cloneButton").show();
-		
+		$(document).find(".editButton").show();
 		$(document).find(".addButton").show();
 		$(document).find("#saveAndContinue").show();
 		$(document).find("#currentTotals").hide();
@@ -742,8 +798,7 @@ var movementController2 = {
 		});
 	},
 	addCloneEvent : function(self, grid, indice) {
-		var a = $(grid).find("[data-name='deleteAction']").find(
-				"#cloneIdx" + indice);
+		var a = $(grid).find("[data-name='deleteAction']").find("#cloneIdx" + indice);
 
 		a.on("click", function() {
 
@@ -761,7 +816,26 @@ var movementController2 = {
 			//se borran todos los botones de clonacion que existan
 			$(document).find(".cloneButton").hide();
 			$(document).find(".addButton").hide();
+			$(document).find(".editButton").hide();
 			$(document).find("#saveAndContinue").hide();
+		});
+	},
+	addEditEvent : function(self, grid, indice){
+		var a = $(grid).find("[data-name='deleteAction']").find("#editIdx" + indice);
+
+		a.on("click", function() {
+
+			self.unblockRow(self, grid, indice, true, true);
+						
+			a.hide();
+			$(grid).find("#addMov").hide();
+			//se borran todos los botones de clonacion que existan
+			$(document).find(".cloneButton").hide();
+			$(document).find(".addButton").hide();
+			$(document).find(".editButton").hide();
+			$(document).find("#saveAndContinue").hide();
+			
+			$(grid).find("[data-name='deleteAction']").find("#infoIdx" + indice).show();
 		});
 	},
 	startSlider : function(self, indice, initialMonth, finalMonth, grid) {

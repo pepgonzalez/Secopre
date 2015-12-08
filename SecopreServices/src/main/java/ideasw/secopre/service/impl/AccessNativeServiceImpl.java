@@ -432,7 +432,7 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 						//TODO validar los montos de nuevo y modificar saldo comprometido si es finalizar captura
 						if (request.getNextStageValueCode().equals("SOLCOMP")){
 							if((entry.getBudgetAmountAssign() - entry.getCommittedAmount()) < m.getMonthAmount()){
-								throw new EntryDistrictException(entry.getDistrict().getNumber(), entry.getEntry().getDescription(), 
+								throw new EntryDistrictException(entry.getDistrict().getNumber(), entry.getEntry().getCode().toString(), entry.getEntry().getDescription(), 
 																entry.getMonthString(), (entry.getBudgetAmountAssign() - entry.getCommittedAmount()), m.getMonthAmount());
 							}	
 							
@@ -452,6 +452,43 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 				this.insertMovement(m);
 				//LOG.info("Request_detail obtenido: " + id);
 				//m.setRequestDetailId(id);
+			}
+		}
+	}
+	
+	
+	private void rollbackMovementList(List<Movement> list, Request request) throws Exception{
+		
+		LOG.info("---------------------------------------------------------------------------");
+		LOG.info("Cantidad de movimientos a dar rollback: " + list.size());
+		LOG.info("---------------------------------------------------------------------------");
+
+		
+		for(Movement m : list){
+			
+			//si no es un elemento eliminado
+			if(m.getRemovedElement() == 0){
+				
+				//se afectan a las partidas
+				if(m.getMovementTypeId().intValue() < 0){
+					
+					//en los movimientos de disminucion se compromete el saldo
+					for(int i = m.getInitialMonthId(); i <= m.getFinalMonthId(); i++){
+						
+						//Se obtiene el balance actual de la partida distrito mes
+						EntryDistrict entry = this.getEntryBalance(request.getDistrictId(), m.getEntryId(), new Long(i));
+						if (entry == null){
+							throw new EntryDistrictException(request.getDistrictId(), m.getEntryId(), new Long(i), m.getMonthAmount());
+						}
+						//TODO validar los montos de nuevo y modificar saldo comprometido si es finalizar captura
+						//se actualiza el movimiento
+						LOG.info("Actualizando saldo comprometido a partida");
+						entry.setCommittedAmount(entry.getCommittedAmount() - m.getMonthAmount());
+						baseService.update(entry);
+					}
+					
+				}
+				
 			}
 		}
 	}
@@ -950,10 +987,12 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		return this.queryForList(EntryCurrentTotal.class, queryContainer.getSQL(SQLConstants.GET_ENTRY_CURRENT_TOTALS), namedParameters, new EntryCurrentTotalMapper()).get(0);
 	}
 	
-	public Request rollbackRequestDetail(Long requestId){
+	public Request rollbackRequestDetail(Long requestId) throws Exception{
 		//se obtiene la informacion de requestDetail
 		Request requestForm = this.getRequestAndDetailById(requestId);
-		//se borra requestDetail
+		//se da rollback a saldo comprometido de movimientos a la baja
+		this.rollbackMovementList(requestForm.getDownMovements(), requestForm);
+		
 		int clean = this.cleanRequestDetail(requestForm.getRequestId());
 		//se inserta en requestDetailMirror
 		return requestForm;
