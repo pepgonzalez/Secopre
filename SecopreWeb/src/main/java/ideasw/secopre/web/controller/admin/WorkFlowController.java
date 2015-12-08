@@ -336,7 +336,7 @@ public class WorkFlowController extends AuthController {
 	 * param requestForm	- Obtiene el codigo de salida de la etapa en funcion del resultado de la autorizacion
 	 * */
 	@RequestMapping(value = "wf/authorization", method = { RequestMethod.POST })
-	public String authorizeCancelOrFinishFormality( @ModelAttribute("requestForm") Request requestForm, ModelMap model, RedirectAttributes attributes, Principal principal) {
+	public String authorizeCancelOrFinishFormality( @ModelAttribute("requestForm") Request requestForm, ModelMap model, RedirectAttributes attributes, Principal principal) throws Exception {
 
 		//si voy a regresar a captura, muevo la informacion de detalle a mirror
 		if("REGRESAR".equals(requestForm.getNextStageValueCode())){

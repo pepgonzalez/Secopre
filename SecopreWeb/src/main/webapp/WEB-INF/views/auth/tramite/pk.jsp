@@ -18,12 +18,16 @@
 						<td><a href="#">${pk.code}</a></td>
 					</tr>
 					<tr>
-						<td><a href="#">Actividad:</a></td>
-						<td><a href="#">${pk.activity}</a></td>
-					</tr>
-					<tr>
 						<td><a href="#">Finalidad:</a></td>
 						<td><a href="#">${pk.finality}</a></td>
+					</tr>
+					<tr>
+						<td><a href="#">Sub-función:</a></td>
+						<td><a href="#">${pk.subfunction}</a></td>
+					</tr>
+					<tr>
+						<td><a href="#">Actividad:</a></td>
+						<td><a href="#">${pk.activity}</a></td>
 					</tr>
 					<tr>
 						<td><a href="#">Pres. Programa:</a></td>
