@@ -15,6 +15,8 @@
 								</a>
 							</div>
 						</div>
+
+						<jsp:include page="/WEB-INF/views/auth/tramite/exception.jsp" flush="true"/>
 						
 						<div class="portlet-body form">
 							<!-- formulario -->	

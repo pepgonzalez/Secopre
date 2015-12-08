@@ -13,7 +13,7 @@
 						</div>
 						<div class="portlet-body form">
 							<!-- formulario -->	
-							<form:form action="auth/adm/budget/search" class="form-horizontal" id="submit_form"  modelAttribute="entryFilter" method="GET"  novalidate="novalidate">
+							<form:form action="auth/cfg/entry/search" class="form-horizontal" id="submit_form"  modelAttribute="entryFilter" method="GET"  novalidate="novalidate">
 								<div class="row">
 									<div class="col-md-6">
 										<label class="col-md-2 control-label" for="stateId" style="text-align:left;">Entidad</label>

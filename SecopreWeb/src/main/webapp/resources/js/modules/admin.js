@@ -1933,6 +1933,8 @@ function showKeyData(programaticKeyId){
 function initUploadAnnualBudget(){
 	var requestForm = $('#requestForm');
 	
+	$('#submit_form').attr('action', 'auth/adm/budget/search');
+	
 	$('#uploadFile').click(function(e) {
 		var file = requestForm.find('#attachment').val();
 		
@@ -1949,7 +1951,8 @@ function initUploadAnnualBudget(){
 	});
 	
 	$('#cloneEntries').click(function(e){
-		openResourceNative('report/download/18','dashboard','','GET');
+		sendRequestJQ('auth/adm/bugget/clone','dashboard','','GET');
+		
 	});
 	
 }
@@ -2087,7 +2090,6 @@ function initAuthorization() {
 	
 	//manda a siguiente firma
 	$('#backToCapture').click(function(e) {
-		alert("Regresando tramite a captura");
 		if($("#comments").val().length > 0){
 			requestForm.find('#nextStageValueCode').val("REGRESAR");
 			submitAjaxJQ('requestForm', 'dashboard', '');

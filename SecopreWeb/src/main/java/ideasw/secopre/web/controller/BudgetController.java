@@ -9,6 +9,8 @@ import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -57,19 +59,25 @@ public class BudgetController extends AuthController {
 
 	@RequestMapping(value = "adm/bugget/upload", method = { RequestMethod.POST,
 			RequestMethod.GET })
-	public String upload(
-			HttpServletRequest request,
+	public String upload(HttpServletRequest request,
 			HttpServletResponse response,
 			@RequestParam("attachment") MultipartFile attachment,
-			ModelMap model, Principal principal) {
+			ModelMap model, Principal principal,
+			RedirectAttributes redirectAttributes) {
 		AnnualBudgetFile uploadItem = new AnnualBudgetFile();
-		
+
 		uploadItem.setFile(attachment);
 
 		try {
 			entryConfigService.importExcel(uploadItem, principal.getName());
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			List<String> errors = new ArrayList<String>();
+			errors.add(ex.getMessage());
+
+			redirectAttributes.addFlashAttribute("errors", errors);
+			redirectAttributes.addFlashAttribute("existErrors", 1);
+
 		}
 		return SecopreConstans.MV__ADM_BUDGET_REDIRECT;
 	}
@@ -83,6 +91,23 @@ public class BudgetController extends AuthController {
 		model.addAttribute("balance", balance);
 		model.addAttribute("entryFilter", entryFilter);
 		return "auth/admin/config/entry/byDistrict";
+	}
+
+	@RequestMapping(value = "adm/bugget/clone", method = { RequestMethod.POST,
+			RequestMethod.GET })
+	public String clone(ModelMap model, Principal principal,
+			RedirectAttributes redirectAttributes) {
+		try {
+			entryConfigService.cloneEntries(principal.getName());
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			List<String> errors = new ArrayList<String>();
+			errors.add(ex.getMessage());
+
+			redirectAttributes.addFlashAttribute("errors", errors);
+			redirectAttributes.addFlashAttribute("existErrors", 1);
+		}
+		return SecopreConstans.MV__ADM_BUDGET_REDIRECT;
 	}
 
 }

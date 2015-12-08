@@ -124,8 +124,7 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 				queryContainer.getSQL(SQLConstants.GET_ENTRY_DETAIL));
 		MapSqlParameterSource params = new MapSqlParameterSource();
 
-		sql.append(" AND E.STATUS = :status");
-		params.addValue("status", status.name());
+		sql.append(" AND E.STATUS = '" +status.name() + "' " );
 
 		if (filter.getStateId() != null) {
 			sql.append(" AND S.ID = :stateid");
@@ -184,8 +183,7 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 		sql.append(" secopre.STATE S ON D.STATE_ID = S.ID ");
 		sql.append(" WHERE");
 		sql.append(" PK.YEAR = YEAR(CURDATE())");
-		sql.append(" AND E.STATUS = :status ");
-		params.addValue("status", status.name());
+		sql.append(" AND E.STATUS = '" + status.name() + "'");
 
 		String groupBy = " GROUP BY ";
 		if (filter.getStateId() != null) {
@@ -226,11 +224,10 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 	public Long importExcel(AnnualBudgetFile fileBean, String username)
 			throws Exception {
 
-		// Valida que existan partidas en configuracion, de lo contrario las
-		// crea.
+		// Valida que existan partidas en configuracion
 		if (!existEntriesInConfig()) {
-			// Crea las partidas para el año siguiente.
-//			this.cloneEntries(username);
+			throw new EntryDistrictException(
+					"No Existen partidas registradas para el siguiente año, la operacion no puede ser efectuada.");
 		}
 
 		List<EntryDistrictDetail> allRows = new ArrayList<EntryDistrictDetail>(
@@ -413,7 +410,7 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 		sql.append(" INNER JOIN");
 		sql.append(" secopre.STATE S ON D.STATE_ID = S.ID ");
 		sql.append(" WHERE");
-		sql.append(" PK.YEAR = YEAR(CURDATE())");
+		sql.append(" PK.YEAR = YEAR(CURDATE()) + 1");
 		sql.append(" AND E.STATUS = 'CONFIG' ");
 
 		Integer total = this.queryForObject(Integer.class, sql.toString(), new MapSqlParameterSource());

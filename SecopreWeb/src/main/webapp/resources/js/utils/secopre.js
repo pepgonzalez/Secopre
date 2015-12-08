@@ -167,7 +167,21 @@ function submitFileAjaxJQTest(formId, targetId, after, addExtraData){
     	$("#" + targetId).html("");
 		$('#' + targetId).html(data);
 		unblockPage();
-    }
+		// Mensaje Exito
+		showNotification('success', 'La operacion se realizo correctamente!!');
+
+    },
+	complete : function(jqXHR) {
+		if (after !== null) {
+			eval(after);
+		}
+		unblockPage();
+	},
+	error : function(xhr, ajaxOptions, thrownError) {
+		unblockPage();
+		// Mensaje error
+		showNotification('error','Ocurrio un error al ejecutar su peticion:' + thrownError);
+	}
   });
 }
 function submitFileAjaxJQ(formId, targetId, after) {
