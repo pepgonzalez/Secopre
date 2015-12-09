@@ -31,30 +31,45 @@ public class ProgrammaticKey extends AuditEntity implements Persistible {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	@Column(name = "CODE", nullable = false)
-	private String code;
-
-	@Column(name = "YEAR", nullable = false)
+	
+	@Column(name = "YEAR", nullable = true)
 	private Integer year;
+	
+	@Column(name = "RAMO", nullable = true)
+	private String ramo;
+	
+	@Column(name = "UNIT_RESPONSABLE", nullable = true)
+	private String unitResponsable;
+	
+	@Column(name = "PROGRAM", nullable = true)
+	private String program;
+	
+	@Column(name = "FINANCING_SOURCE", nullable = true)
+	private String financingSource;
+	
+	@Column(name = "FUNCTIONAL_GROUP", nullable = true)
+	private String functionalGroup;
+	
+	@Column(name = "ACTIVITY", nullable = true)
+	private String activity;
 	
 	@Column(name = "FUNCTION", nullable = true)
 	private String function;
 	
-	@Column(name = "FINALITY", nullable = true)
-	private String finality;
-	
-	@Column(name = "SUBFUNCTION", nullable = true)
-	private String subfunction;
-
-	@Column(name = "ACTIVITY", nullable = true)
-	private String activity;
-	
 	@Column(name = "PROGRAM_BUDGET", nullable = true)
 	private String programBudget;
 	
-	@Column(name = "UNIT_RESPONSABLE", nullable = true)
-	private String unitResponsable;
+	@Column(name = "SUBFUNCTION", nullable = true)
+	private String subfunction;
+	
+	@Column(name = "EXPENSE_TYPE", nullable = true)
+	private String expenseType;
+	
+	@Column(name = "CODE", nullable = true)
+	private String code;
+	
+	@Column(name = "FINALITY", nullable = true)
+	private String finality;
 	
 	@Transient
 	private String description;
@@ -159,6 +174,46 @@ public class ProgrammaticKey extends AuditEntity implements Persistible {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getRamo() {
+		return ramo;
+	}
+
+	public void setRamo(String ramo) {
+		this.ramo = ramo;
+	}
+
+	public String getProgram() {
+		return program;
+	}
+
+	public void setProgram(String program) {
+		this.program = program;
+	}
+
+	public String getFinancingSource() {
+		return financingSource;
+	}
+
+	public void setFinancingSource(String financingSource) {
+		this.financingSource = financingSource;
+	}
+
+	public String getFunctionalGroup() {
+		return functionalGroup;
+	}
+
+	public void setFunctionalGroup(String functionalGroup) {
+		this.functionalGroup = functionalGroup;
+	}
+
+	public String getExpenseType() {
+		return expenseType;
+	}
+
+	public void setExpenseType(String expenseType) {
+		this.expenseType = expenseType;
 	}
 
 }

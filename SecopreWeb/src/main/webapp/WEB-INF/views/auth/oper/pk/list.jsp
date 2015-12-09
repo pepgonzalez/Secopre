@@ -45,14 +45,18 @@
 								<th class="table-checkbox">
 									<input type="checkbox" class="group-checkable" data-set="#programmaticKeyTable .checkboxes"/>
 								</th>
-								<th><spring:message code="application.pages.catalog.programmaticKey.code"/></th>
+<%-- 								<th><spring:message code="application.pages.catalog.programmaticKey.code"/></th> --%>
 								<th><spring:message code="application.pages.catalog.programmaticKey.year"/></th>
-								<th><spring:message code="application.pages.catalog.programmaticKey.function"/></th>
-								<th><spring:message code="application.pages.catalog.programmaticKey.finality"/></th>
-								<th><spring:message code="application.pages.catalog.programmaticKey.subfunction"/></th>
-								<th><spring:message code="application.pages.catalog.programmaticKey.activity"/></th>
-								<th><spring:message code="application.pages.catalog.programmaticKey.programBudget"/></th>
+								<th><spring:message code="application.pages.catalog.programmaticKey.ramo"/></th>
 								<th><spring:message code="application.pages.catalog.programmaticKey.unitResponsable"/></th>
+								<th><spring:message code="application.pages.catalog.programmaticKey.program"/></th>
+								<th><spring:message code="application.pages.catalog.programmaticKey.financingSource"/></th>								
+								<th><spring:message code="application.pages.catalog.programmaticKey.functionalGroup"/></th>		
+								<th><spring:message code="application.pages.catalog.programmaticKey.activity"/></th>							
+								<th><spring:message code="application.pages.catalog.programmaticKey.function"/></th>
+								<th><spring:message code="application.pages.catalog.programmaticKey.programBudget"/></th>								
+								<th><spring:message code="application.pages.catalog.programmaticKey.subfunction"/></th>
+								<th><spring:message code="application.pages.catalog.programmaticKey.expenseType"/></th>
 								<th><spring:message code="application.active"/></th>
 								<th><spring:message code="application.actions"/></th>
 							</tr>
@@ -63,27 +67,41 @@
 									<td>
 										<input type="checkbox" class="checkboxes" value="1"/>
 									</td>
-									<td>${programmaticKeyItem.code}</td>
+<!-- 									<td> -->
+<%-- 									     ${programmaticKeyItem.code} --%>
+<!-- 									</td> -->
 									<td>
 										 ${programmaticKeyItem.year}
 									</td>
 									<td>
-										 ${programmaticKeyItem.function}
+										 ${programmaticKeyItem.ramo}
 									</td>
 									<td>
-										 ${programmaticKeyItem.finality}
+										 ${programmaticKeyItem.unitResponsable}
 									</td>
 									<td>
-										 ${programmaticKeyItem.subfunction}
+										 ${programmaticKeyItem.program}
+									</td>
+									<td>
+										 ${programmaticKeyItem.financingSource}
+									</td>
+									<td>
+										 ${programmaticKeyItem.functionalGroup}
 									</td>
 									<td>
 										 ${programmaticKeyItem.activity}
 									</td>
 									<td>
+										 ${programmaticKeyItem.function}
+									</td>
+									<td>
 										 ${programmaticKeyItem.programBudget}
 									</td>
 									<td>
-										 ${programmaticKeyItem.unitResponsable}
+										 ${programmaticKeyItem.subfunction}
+									</td>
+									<td>
+										 ${programmaticKeyItem.expenseType}
 									</td>
 									
 									

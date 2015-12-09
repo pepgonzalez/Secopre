@@ -49,18 +49,25 @@ public class ProgrammaticKeyController extends AuthController {
 			else
 			{
 				ProgrammaticKey pkEdit = baseService.findById(ProgrammaticKey.class , pk.getId());
-				pkEdit.setFunction(pk.getFunction());
-				pkEdit.setFinality(pk.getFinality());
+				pkEdit.setYear(pk.getYear());
+				pkEdit.setRamo(pk.getRamo());
+				pkEdit.setUnitResponsable(pk.getUnitResponsable());
+				pkEdit.setProgram(pk.getProgram());
+				pkEdit.setFinancingSource(pk.getFinancingSource());
+				pkEdit.setFunctionalGroup(pk.getFunctionalGroup());
 				pkEdit.setActivity(pk.getActivity());
-				pkEdit.setCode(pk.getCode());
+				pkEdit.setFunction(pk.getFunction());
 				pkEdit.setProgramBudget(pk.getProgramBudget());
 				pkEdit.setSubfunction(pk.getSubfunction());
-				pkEdit.setUnitResponsable(pk.getUnitResponsable());
+				pkEdit.setExpenseType(pk.getExpenseType());			
+				pkEdit.setFinality(pk.getFinality());
+				pkEdit.setCode(pk.getCode());
 				pk=pkEdit;
 			}
 			
 			baseService.save(pk);
 		} catch (Exception e) {	
+			e.printStackTrace();
 			model.addAttribute(
 					"errors",
 					initErrors("Ocurrio un error al insertar el puesto:"

@@ -711,8 +711,8 @@ function initNoticeValidations() {
 			noticeInfo : {
 				maxlength : 250,
 				required : true
-			},
-			districts : "required"
+			}
+//			,districts : "required"
 		},
 		 messages: {  
 			 registerDateStr:   {  
@@ -1302,13 +1302,25 @@ function initProgrammaticKeyValidations() {
 		focusInvalid : false, // do not focus the last invalid input
 		rules : {
 			code : {
-				maxlength : 50,
+				maxlength : 30,
 				required : true
 			},
 			year : {
 				maxlength : 4,
 				required : true,
 				number : true
+			},
+			ramo : {
+				required : true,
+				maxlength : 10
+			},
+			program : {
+				required : true,
+				maxlength : 10
+			},
+			financingSource : {
+				required : true,
+				maxlength : 10
 			},
 			"function" : {
 				required : true,
@@ -1322,18 +1334,23 @@ function initProgrammaticKeyValidations() {
 				required : true,
 				maxlength : 10
 			},
-			programBudget : {
+			expenseType : {
 				required : true,
-				maxlength : 30
+				maxlength : 10
+			},
+			functionalGroup : {
+				required : true,
+				maxlength : 10
 			},
 			unitResponsable : {
 				required : true,
 				maxlength : 30
-			},
-			finality : {
-				required : true,
-				maxlength : 10
 			}
+//			,
+//			finality : {
+//				required : true,
+//				maxlength : 10
+//			}
 		},
 
 		invalidHandler : function(event, validator) { // display error alert
