@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -53,7 +54,12 @@ public class AccessNativeServiceBaseImpl {
 		return sql.getTsadbitntstDataSource().getConnection();
 	}
 
-	public void executeCall(String sp, SqlParameterSource params) {
-		sql.getJdbcTemplate().update(sp, params);
+	public void executeSp(String spName, SqlParameterSource params) {
+		
+		SimpleJdbcCall jdbcCall = sql.getSimpleJdbcCall();
+		
+		jdbcCall.withProcedureName(spName);
+		jdbcCall.withSchemaName(SecopreJdbcTemplate.SECOPRE_SCHEMA);
+		
 	}
 }

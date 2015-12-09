@@ -29,26 +29,33 @@
 									
 									<div class="form-group form-md-line-input">
 										<div class="col-md-3">
-											<div class="btn-group">
-												<button id="cloneEntries" class="btn red">Clonar Partidas</button>
-											</div>
+											<c:if test="${entriesNextYear == 0}">
+												<div class="btn-group">
+													<a id="cloneEntries" class="btn red">Clonar Partidas</a>
+												</div>											
+											</c:if>
 										</div>
 										<div class="col-md-3">
-											<div class="btn-group">
-												<button id="getEntriesTemplate" class="btn blue">Obtener plantilla de Carga</button>
-											</div>
+											<c:if test="${entriesNextYear > 0}">
+												<div class="btn-group">
+													<a id="getEntriesTemplate" class="btn blue">Obtener plantilla de Carga</a>
+												</div>
+											</c:if>
 										</div>
 										<div class="col-md-4">
-											<input type="file" size="1" name="attachment" id="attachment" accept="*.doc,*.docx,*.pdf, *.xls, *.xlsx" class="btn default"/>
-											<div class="form-control-focus">
-											</div>
-											<span class="help-block">
-												<spring:message code="application.pages.tramite.add.notEmpty"/>
-											</span>
+											<c:if test="${entriesNextYear > 0}">
+												<input type="file" size="1" name="attachment" id="attachment" accept="*.doc,*.docx,*.pdf, *.xls, *.xlsx" class="btn default"/>
+												<div class="form-control-focus">
+												</div>
+												<span class="help-block">
+													<spring:message code="application.pages.tramite.add.notEmpty"/>
+												</span>
+											</c:if>
 										</div>										
 										<div class="col-md2">
-<%-- 											<button type="button" class="btn default" onclick="sendRequestJQ('auth/tram/list','dashboard','initTramiteListPage()','GET');"><spring:message code="application.back"/></button> --%>
-											<button type="button" class="btn green fileinput-button" id="uploadFile"><i class="fa fa-plus"></i>Subir Archivo</button>
+											<c:if test="${entriesNextYear > 0}">
+												<button type="button" class="btn green fileinput-button" id="uploadFile"><i class="fa fa-plus"></i>Subir Archivo</button>
+											</c:if>
 										</div>				
 									</div>
 									<div class="form-group form-md-line-input">
@@ -63,15 +70,15 @@
 					<!-- END SAMPLE FORM PORTLET-->
 				</div>
 			</div>
-
-			<div id="filter_ByDistrict">
-				<%@ include file="/WEB-INF/views/auth/admin/config/entry/filter.jsp"%>
-			</div>
-
-			<div id="list_ByDistrict">
-				<%@ include file="/WEB-INF/views/auth/admin/config/entry/byDistrict.jsp"%>
-			</div>
-
+			<c:if test="${entriesNextYear > 0}">
+				<div id="filter_ByDistrict">
+					<%@ include file="/WEB-INF/views/auth/admin/config/entry/filter.jsp"%>
+				</div>
+	
+				<div id="list_ByDistrict">
+					<%@ include file="/WEB-INF/views/auth/admin/config/entry/byDistrict.jsp"%>
+				</div>
+			</c:if>
 <script type="text/javascript">
 <!--
 $( document ).ready(function() {

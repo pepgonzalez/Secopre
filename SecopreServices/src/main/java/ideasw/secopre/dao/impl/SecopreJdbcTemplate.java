@@ -23,6 +23,7 @@ public class SecopreJdbcTemplate {
 	static final Logger LOG = LoggerFactory
 			.getLogger(SecopreJdbcTemplate.class);
 
+	public static final String SECOPRE_SCHEMA = "secopre";
 	/**
 	 * Datasource vinculado ala BD de BD2
 	 */
