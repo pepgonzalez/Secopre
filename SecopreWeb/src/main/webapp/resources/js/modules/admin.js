@@ -64,10 +64,10 @@ function initProfileValidations() {
 			},
 			telephone : {
 				required : true,
-				maxlength:12
+				maxlength:30
 			},
 			mobileTelepone : {
-				maxlength:12
+				maxlength:30
 			},
 			webSite : {maxlength:100},
 			nickname : {
@@ -1579,7 +1579,7 @@ function initPersonValidations() {
 				// phone : true,
 				required : true,
 				// minlength:10,
-				maxlength:12
+				maxlength:30
 			},
 			mobileTelepone : {
 				// phone : true,
