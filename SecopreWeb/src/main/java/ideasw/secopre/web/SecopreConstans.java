@@ -101,6 +101,11 @@ public class SecopreConstans {
 	public static final String MV_CAT_DUEDATE_ADD = "auth/param/dueDate/add";	
 	public static final String MV_CAT_DUEDATE_LIST = "auth/param/dueDate/list";	
 	
+	//####Modulo de Catalogos Director####//
+	public static final String MV_CAT_DIRECTOR      = "auth/param/director/director";
+	public static final String MV_CAT_DIRECTOR_ADD  = "auth/param/director/add";	
+	public static final String MV_CAT_DIRECTOR_LIST = "auth/param/director/list";	
+	
 	//####Modulo de Perfil Usuario####//
 	public static final String MV_ADM_PROFILE = "auth/admin/profile/profiles";
 	public static final String MV_ADM_PROFILE_ACCOUNT = "auth/admin/profile/profileAccount";

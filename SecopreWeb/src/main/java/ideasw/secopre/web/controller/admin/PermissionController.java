@@ -1,5 +1,6 @@
 package ideasw.secopre.web.controller.admin;
 
+import ideasw.secopre.model.security.Menu;
 import ideasw.secopre.model.security.Path;
 import ideasw.secopre.model.security.Permission;
 import ideasw.secopre.service.AccessService;
@@ -61,6 +62,20 @@ public class PermissionController extends AuthController {
 	@RequestMapping(value = "adm/perm/add", method = RequestMethod.POST)
 	public String add(@ModelAttribute("permission") Permission permission, ModelMap model) {
 		try {
+			
+			
+			if(permission.getId() == null)
+			{
+				permission.setActive(Boolean.TRUE);
+			}
+			else
+			{
+			   Permission permissionEdit = baseService.findById(Permission.class , permission.getId());	
+			   permissionEdit.setName(permission.getName());  
+			   permissionEdit.setPath(permission.getPath());  
+			   permission = permissionEdit;
+			}
+			
 			baseService.save(permission);
 		} catch (Exception e) {
 			e.getStackTrace();

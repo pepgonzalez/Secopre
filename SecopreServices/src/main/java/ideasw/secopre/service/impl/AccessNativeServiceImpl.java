@@ -1044,5 +1044,10 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		Long pkId = this.queryForObject(Long.class, queryContainer.getSQL(SQLConstants.GET_ACTIVE_PK), params);
 		return baseService.findById(ProgrammaticKey.class, pkId);
 	}
+	
+	@Override
+	public List<User> getDirectors() {
+        return this.queryForList(User.class, queryContainer.getSQL(SQLConstants.GET_LIST_DIRECTORS), null, new UserMapper());
+	}
 
 }

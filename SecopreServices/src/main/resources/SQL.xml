@@ -1060,7 +1060,18 @@
 						GROUP BY DISTRICT_ID, ENTRY_ID
 						ORDER BY DISTRICT_ID, ENTRY_ID
 					]]>
-				</prop>										
+				</prop>	
+				
+				<prop key="GET_LIST_DIRECTORS">
+					<![CDATA[
+                          SELECT U.ID,U.ACTIVE,AVATAR, EMAIL, HAS_CHAT_ACTIVE, NICKNAME, PASSWORD,USERNAME, DASHBOARD_ID, PERSON_ID
+                           FROM USER U, POSITION P
+                          WHERE U.POSITION_ID = P.ID
+                            AND ES_DIRECTOR = 1
+					]]>
+				</prop>
+				
+													
 			</props>				
 		</property>
 	</bean>

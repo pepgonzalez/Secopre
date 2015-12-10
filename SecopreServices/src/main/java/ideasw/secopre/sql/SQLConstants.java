@@ -36,6 +36,8 @@ public class SQLConstants {
 	public static final String GET_LIST_DISTRICTS = "GET_LIST_DISTRICTS";	
 	public static final String GET_LIST_ENTRIES = "GET_LIST_ENTRIES";	
 	public static final String GET_DISTRICT_LIST_BY_NOTICE = "GET_DISTRICT_LIST_BY_NOTICE";
+	public static final String GET_LIST_DIRECTORS = "GET_LIST_DIRECTORS";
+	
 	
 	//Querys para clonacion de partidas
 	public static final String VALIDATE_ENTRIES_NEXT_YEAR = "VALIDATE_ENTRIES_NEXT_YEAR";

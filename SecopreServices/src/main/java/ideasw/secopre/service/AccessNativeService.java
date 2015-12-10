@@ -231,4 +231,7 @@ public interface AccessNativeService {
     Request rollbackRequestDetail(Long requestId) throws Exception;
 
     ProgrammaticKey getActiveProgramaticKey();
+    
+	/*Metodo para obtener los directores*/
+	List<User> getDirectors();
 }

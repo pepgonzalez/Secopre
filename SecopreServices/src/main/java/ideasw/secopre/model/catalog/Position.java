@@ -31,6 +31,9 @@ public class Position extends AuditEntity implements Persistible {
 	@Column(name = "NAME")
 	@Size(max = 50)
 	private String name;
+	
+	@Column(name = "ES_DIRECTOR")
+	private Long isDirector;
 
 	/**
 	 * @return the id
@@ -76,5 +79,15 @@ public class Position extends AuditEntity implements Persistible {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public Long getIsDirector() {
+		return isDirector;
+	}
+
+	public void setIsDirector(Long isDirector) {
+		this.isDirector = isDirector;
+	}
+
+
 
 }
