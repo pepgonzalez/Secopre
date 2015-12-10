@@ -303,7 +303,6 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 			ed.setMonth(m.getId() - 1 );
 			ed.setActivo(true);
 			ed.setCreatedBy(folio);
-			ed.setCreateDate(new Date());
 			
 			baseService.persistAndReturnId(ed);
 		}
