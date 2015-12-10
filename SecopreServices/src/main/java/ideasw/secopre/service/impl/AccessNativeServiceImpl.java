@@ -285,6 +285,10 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	
 	private void loadEntryDistrict(Long entryId, Long districtId, String folio){
 		
+		LOG.info("partida: " + entryId);
+		LOG.info("districtId: " + districtId);
+		LOG.info("folio: " + folio);
+		
 		District d = baseService.findById(District.class, districtId);
 		Entry e = baseService.findById(Entry.class, entryId);
 		

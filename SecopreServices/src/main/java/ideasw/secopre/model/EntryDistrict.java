@@ -29,11 +29,11 @@ public class EntryDistrict extends AuditEntity implements Persistible {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "DISTRICT_ID", nullable = false, updatable = false)
 	private District district;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "ENTRY_ID", nullable = false, updatable = false)
 	private Entry entry;
 
