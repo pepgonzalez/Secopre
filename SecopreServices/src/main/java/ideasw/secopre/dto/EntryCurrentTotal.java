@@ -9,6 +9,7 @@ public class EntryCurrentTotal {
 	private String state;
 	private Long entryId;
 	private String entryDescription;
+	private String entryCode;
 	
 	private Double totalAmount;
 	private Double enero;
@@ -136,5 +137,11 @@ public class EntryCurrentTotal {
 	
 	public String getDesc(){
 		return this.getState() + " (" + this.getDistrictNumber() + ") - " + this.getEntryDescription();
+	}
+	public String getEntryCode() {
+		return entryCode;
+	}
+	public void setEntryCode(String entryCode) {
+		this.entryCode = entryCode;
 	}
 }

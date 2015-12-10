@@ -2263,3 +2263,28 @@ function showDueDates(){
 function noAction(){
 	console.log("Window js content embed in jsp");
 }
+
+function entriesCapture(){
+	
+	$(document).find("#entryCode").keyup(function() {
+		this.value = this.value.replace(/[^0-9\.]/g, '');
+	});
+	
+	var requestForm = $('#requestForm');
+	
+	$(document).find('#saveAndContinue').click(function(e) {
+		
+		var code = $(document).find("#entryCode").val();
+		var description = $(document).find("#entryDescription").val();
+		
+		if(code.length <= 0 || description.length <= 0){
+			window.showNotification("error", "Capture código y descripción de partida para continuar");
+		}else{
+			requestForm.find('#nextStageValueCode').val("SOLCOMP");
+			submitAjaxJQ('requestForm', 'dashboard', '');
+		}
+	});
+	
+	
+	
+}

@@ -14,6 +14,7 @@ import ideasw.secopre.dto.Property;
 import ideasw.secopre.model.DueDate;
 import ideasw.secopre.model.Entry;
 import ideasw.secopre.model.EntryDistrict;
+import ideasw.secopre.model.ProgrammaticKey;
 import ideasw.secopre.model.catalog.District;
 import ideasw.secopre.model.security.Permission;
 import ideasw.secopre.model.security.Role;
@@ -228,4 +229,6 @@ public interface AccessNativeService {
     
     /*Metodo para hacer rollback a request detail cuando de la autorizacion se regresa a captura*/
     Request rollbackRequestDetail(Long requestId) throws Exception;
+
+    ProgrammaticKey getActiveProgramaticKey();
 }

@@ -8,6 +8,8 @@ import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import ideasw.secopre.model.Entry;
+
 /**
  * Clase de estereotipo DTO para el manejo de informacion base de un tramite
  * {@link Formality}
@@ -23,6 +25,7 @@ public class Request {
 	private String justification;
 	private String folio;
 	private String resourcePath;
+	private Long entryId;
 
 	//variables correspondientes a REQUEST DETAIL
 	private Long movementTypeId;
@@ -52,6 +55,9 @@ public class Request {
 	//variable para mostrar el nombre del tramite dinamico en capturas completas
 	private String formalityName;
 		
+	//pojo para tramite de gestion de partidas
+	private Entry entry;
+	
 	public String getFormalityCode() {
 		return formalityCode;
 	}
@@ -208,5 +214,17 @@ public class Request {
 	}
 	public void setCurrentStage(RequestHistory currentStage) {
 		this.currentStage = currentStage;
+	}
+	public Entry getEntry() {
+		return entry;
+	}
+	public void setEntry(Entry entry) {
+		this.entry = entry;
+	}
+	public Long getEntryId() {
+		return entryId;
+	}
+	public void setEntryId(Long entryId) {
+		this.entryId = entryId;
 	}
 }
