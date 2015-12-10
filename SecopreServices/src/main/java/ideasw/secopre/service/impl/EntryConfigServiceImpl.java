@@ -89,13 +89,9 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 	}
 
 	public Integer numberEntriesNextYear() {
-		SqlParameterSource params = new MapSqlParameterSource();
-		Integer numberEntries = this.queryForObject(Integer.class,
+		int numberEntries = this.queryForObject(Integer.class,
 				queryContainer.getSQL(SQLConstants.VALIDATE_ENTRIES_NEXT_YEAR),
-				params);
-		if (numberEntries == null) {
-			return Integer.valueOf(0);
-		}
+				new MapSqlParameterSource());
 		return numberEntries;
 	}
 
@@ -428,10 +424,10 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 		sql.append(" PK.YEAR = YEAR(CURDATE()) + 1");
 		sql.append(" AND E.STATUS = 'CONFIG' ");
 
-		Integer total = this.queryForObject(Integer.class, sql.toString(),
+		int total = this.queryForObject(Integer.class, sql.toString(),
 				new MapSqlParameterSource());
 
-		if (total != null && total.intValue() > 0) {
+		if (total > 0) {
 			return true;
 		}
 

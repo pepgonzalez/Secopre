@@ -545,7 +545,7 @@
 				<prop key="VALIDATE_ENTRIES_NEXT_YEAR">
 					<![CDATA[
 						SELECT 
-							COUNT(*) 
+							COUNT(*) AS TOTAL
 						FROM 
 							secopre.ENTRY E 
 							INNER JOIN secopre.PROGRAMMATIC_KEY PK ON E.PROGRAMMATIC_ID = PK.ID 
