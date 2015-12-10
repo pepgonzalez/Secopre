@@ -20,7 +20,7 @@
 							<!-- formulario -->	
 							<div>
 								<form:form cssClass="form-horizontal" method="POST" modelAttribute="requestForm" id="requestForm" 
-								           action="auth/wf/capture/next/movements2" novalidate="novalidate">
+								           action="auth/wf/capture/${requestForm.formalityCode}" novalidate="novalidate">
 							
 									<div class="form-body">
 										<!-- Se incluyen los DIV de alertamiento en formularios -->

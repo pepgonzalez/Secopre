@@ -88,4 +88,8 @@ public class SQLConstants {
 	
 	public static final String GET_ENTRY_CURRENT_TOTALS = "GET_ENTRY_CURRENT_TOTALS";
 	
+	public static final String EXIST_ENTRY_CODE = "EXIST_ENTRY_CODE";
+	
+	public static final String GET_ACTIVE_PK = "GET_ACTIVE_PK";
+	
 }

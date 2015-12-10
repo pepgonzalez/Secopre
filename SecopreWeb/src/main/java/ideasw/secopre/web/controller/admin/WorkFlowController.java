@@ -11,9 +11,11 @@ import ideasw.secopre.dto.Report;
 import ideasw.secopre.dto.ReportParameter;
 import ideasw.secopre.dto.Request;
 import ideasw.secopre.dto.RequestHistory;
+import ideasw.secopre.enums.AccountingType;
 import ideasw.secopre.enums.StatusEntry;
 import ideasw.secopre.exception.EntryDistrictException;
 import ideasw.secopre.model.DueDate;
+import ideasw.secopre.model.Entry;
 import ideasw.secopre.model.EntryDistrict;
 import ideasw.secopre.model.ProgrammaticKey;
 import ideasw.secopre.model.catalog.District;
@@ -32,7 +34,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -69,82 +74,6 @@ public class WorkFlowController extends AuthController {
 	
 	@Autowired
 	private ReportService reportService;
-
-	/*
-	 * Metodo para obtener la forma de captura de movimientos
-	 * param formalityCode 	- forma que sera cargada
-	 * param requestId		- folio en cuestion
-	 * param stageConfigId	- etapa actual del folio
-	 * */
-	/*
-	@RequestMapping(value = "wf/capture/{formalityCode}/{requestId}/{stageConfigId}", method = { RequestMethod.GET })
-	public String showMovementsCapture(
-			@PathVariable("requestId") Long requestId, @PathVariable("stageConfigId") Long stageConfigId, @PathVariable("formalityCode") String formalityCode,
-			ModelMap model, RedirectAttributes attributes, Principal principal) {
-
-		Request requestForm = accessNativeService.getRequestAndDetailById(requestId);
-
-		requestForm.setStageConfigId(stageConfigId);
-		requestForm.setFormalityCode(formalityCode);
-				
-		if (requestForm.getMovementTypeId() != null && requestForm.getMovementTypeId().intValue() > 0){
-			requestForm.setMovementTypeId(requestForm.getMovementTypeId());
-		}else{
-			requestForm.setMovementTypeId(-1L);
-		}
-
-		model.addAttribute("movementTypes", accessNativeService.getMovementTypesMap());
-		model.addAttribute("programaticKeys", accessNativeService.getProgramaticKeysMap());
-		model.addAttribute("entries", accessNativeService.getEntriesMap(-1L));
-		model.addAttribute("months", accessNativeService.getMonthsMap());
-		model.addAttribute("requestForm", requestForm);
-
-		return SecopreConstans.MV_TRAM_CAPTURE;
-	}
-
-	/*
-	 * Metodo para guardar el listado de movimientos y avanzar a la etapa correspondiente
-	 * param requestForm - Objeto con el listado de movimientos capturados 
-	 * */
-	
-	/*
-	@RequestMapping(value = "wf/capture/{movementCode}", method = { RequestMethod.POST })
-	public String saveMovements(@ModelAttribute("requestForm") Request requestForm, BindingResult result, ModelMap model, 
-			RedirectAttributes attributes, Principal principal, HttpServletRequest request) throws Exception{
-
-		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
-		
-		LOG.info("Alza");
-		for(Movement m : requestForm.getUpMovements()){
-			LOG.info(m.toString());
-		}
-		
-		LOG.info("baja");
-		for(Movement m : requestForm.getDownMovements()){
-			LOG.info(m.toString());
-		}
-		
-		//try{
-			accessNativeService.insertOrUpdateRequestDetail(requestForm);
-			accessNativeService.invokeNextStage(requestForm, loggedUser.getId());
-			return SecopreConstans.MV_TRAM_LIST_REDIRECT;
-		
-		/*
-		}catch(Exception ex){
-			LOG.error(ex.getMessage());
-			List<String> errors = new ArrayList<String>();
-			errors.add(ex.getMessage());
-			
-			model.addAttribute("errors", errors);
-			model.addAttribute("nextAction", "sendRequestJQ('auth/tram/list','dashboard','initTramiteListPage()','GET');");
-			return SecopreConstans.MV_TRAM_EXCEPTION;
-		}
-		*
-	}
-	 */
-
-	
-	/*-----------------------------------------------------------------------------------------------------------------------------------------------------*/
 	
 	/*
 	 * Metodo para obtener la forma de captura de movimientos
@@ -162,7 +91,14 @@ public class WorkFlowController extends AuthController {
 		LOG.info("Cargando informacion parcial");
 		
 		Request requestForm = accessNativeService.getRequestAndPartialDetailById(requestId);
-
+		
+		if(requestForm.getEntryId() != null && requestForm.getEntryId() > 0){
+			Entry e = baseService.findById(Entry.class, requestForm.getEntryId());
+			requestForm.setEntry(e);
+		}else{
+			requestForm.setEntry(new Entry());
+		}
+		
 		requestForm.setStageConfigId(stageConfigId);
 		requestForm.setFormalityCode(formalityCode);
 				
@@ -249,7 +185,7 @@ public class WorkFlowController extends AuthController {
 		}
 	}
 	
-	@RequestMapping(value = "wf/capture/next/{movementCode}", method = { RequestMethod.POST })
+	@RequestMapping(value = "wf/capture/movements2", method = { RequestMethod.POST })
 	public String saveMovementsAndAdvance(@ModelAttribute("requestForm") Request requestForm, BindingResult result, ModelMap model, 
 			RedirectAttributes attributes, Principal principal, HttpServletRequest request, final RedirectAttributes redirectAttributes) throws Exception{
 		
@@ -299,6 +235,88 @@ public class WorkFlowController extends AuthController {
 	}
 	
 	
+	//proceso para guardar la partida actual
+	
+	@RequestMapping(value = "wf/capture/entries", method = { RequestMethod.POST })
+	public String saveEntry(@ModelAttribute("requestForm") Request requestForm, BindingResult result, ModelMap model, 
+			RedirectAttributes attributes, Principal principal, HttpServletRequest request, final RedirectAttributes redirectAttributes) throws Exception{
+		
+		LOG.info("iniciando guardado de partida");
+		
+		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
+		
+		try{
+			
+			Request r = accessNativeService.getRequestById(requestForm.getRequestId());
+			Entry entry = new Entry();
+			
+			if(r.getEntryId() != null && r.getEntryId() > 0){
+				
+				entry = baseService.findById(Entry.class, r.getEntryId());
+				entry.setCode(requestForm.getEntry().getCode());
+				entry.setName(requestForm.getEntry().getDescription());
+				entry.setDescription(requestForm.getEntry().getDescription());		
+				baseService.save(entry);
+				
+			}else{
+			
+				LOG.info("codigo: " + requestForm.getEntry().getCode());
+				LOG.info("descipcion: " + requestForm.getEntry().getDescription());
+				
+				entry = new Entry();
+				entry.setCode(requestForm.getEntry().getCode());
+				entry.setName(requestForm.getEntry().getDescription());
+				entry.setDescription(requestForm.getEntry().getDescription());			
+				entry.setAccountingType(AccountingType.PARTIDA);
+				ProgrammaticKey pk = accessNativeService.getActiveProgramaticKey();
+				entry.setProgrammaticKey(pk);
+				entry.setStatus(StatusEntry.INACTIVE);
+				entry.setActivo(false);
+				entry.setCreateDate(new Date());
+				entry.setCreatedBy(loggedUser.getUsername());
+				
+				Long entryId = (Long) baseService.persistAndReturnId(entry);
+				
+				r.setEntryId(entryId);		
+				r = accessNativeService.insertOrUpdateRequestData(r);	
+		
+			}
+			Map<String, Object> propertiesMap = new HashMap<String, Object>();
+			propertiesMap.put("code", requestForm.getEntry().getCode());
+			propertiesMap.put("status", StatusEntry.ACTIVE);
+			List<Entry> currentEntries = baseService.findByProperties(Entry.class, propertiesMap);
+			
+			if(currentEntries != null && currentEntries.size() > 0){
+				throw new EntryDistrictException("El código " + requestForm.getEntry().getCode() + " ya se encuentra actualmente asociado a la partida: " + currentEntries.get(0).getDescription() + ". Verifique.");
+			}else{
+				accessNativeService.invokeNextStage(requestForm, loggedUser.getId());
+				LOG.info("Redirigiendo al listado de movimientos");
+				return SecopreConstans.MV_TRAM_LIST_REDIRECT;
+			}
+						
+		}catch(EntryDistrictException ex){
+			ex.printStackTrace();
+			LOG.error(ex.getMessage());
+			List<String> errors = new ArrayList<String>();
+			errors.add(ex.getMessage());
+			
+			redirectAttributes.addFlashAttribute("errors", errors);
+			redirectAttributes.addFlashAttribute("existErrors", 1);
+			
+			return "redirect:/auth/wf/capture/partial/" + requestForm.getFormalityCode() + "/" + requestForm.getRequestId() + "/" + requestForm.getStageConfigId() + "/1";
+		}catch(Exception ex2){
+			ex2.printStackTrace();
+			LOG.error(ex2.getMessage());
+			List<String> errors = new ArrayList<String>();
+			errors.add("Error interno del sistema. Contacte a su administrador por favor.");
+			
+			redirectAttributes.addFlashAttribute("errors", errors);
+			redirectAttributes.addFlashAttribute("existErrors", 1);
+			
+			return "redirect:/auth/wf/capture/partial/" + requestForm.getFormalityCode() + "/" + requestForm.getRequestId() + "/" + requestForm.getStageConfigId() + "/1";
+		}
+	}
+	
 	
 	/*
 	 * Metodo para mostrar la autorizacion del folio correspondiente a la siguiente etapa
@@ -313,6 +331,10 @@ public class WorkFlowController extends AuthController {
 		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
 
 		Request requestForm = accessNativeService.getRequestAndDetailById(requestId);
+		if(requestForm.getEntryId() != null && requestForm.getEntryId() > 0){
+			Entry e = baseService.findById(Entry.class, requestForm.getEntryId());
+			requestForm.setEntry(e);
+		}
 		requestForm.setStageConfigId(stageConfigId);
 		requestForm.setAuthorizationForm(true);
 		

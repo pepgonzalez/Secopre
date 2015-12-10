@@ -18,6 +18,7 @@ import ideasw.secopre.dto.StageConfig;
 import ideasw.secopre.dto.UserMovement;
 import ideasw.secopre.dto.WorkFlowConfig;
 import ideasw.secopre.enums.Month;
+import ideasw.secopre.enums.StatusEntry;
 import ideasw.secopre.enums.WorkFlowCode;
 import ideasw.secopre.exception.EntryDistrictException;
 import ideasw.secopre.model.DueDate;
@@ -242,6 +243,9 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 				baseService.update(entry);
 			}
 		}	
+		
+		//si la cancelo, no le hago nada a la partida, la dejo de evidencia inactivada
+		
 	}
 	
 	private void runOperation(Long requestId){
@@ -268,6 +272,40 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 				baseService.update(entry);
 			}
 		}	
+		
+		if(request.getEntryId() != null && request.getEntryId() > 0){
+			//se activa la partida
+			Entry e = baseService.findById(Entry.class, request.getEntryId());
+			e.setActivo(true);
+			e.setStatus(StatusEntry.ACTIVE);
+			baseService.update(e);
+			this.loadEntryDistrict(e.getId(), request.getDistrictId(), request.getFolio());
+		}
+	}
+	
+	private void loadEntryDistrict(Long entryId, Long districtId, String folio){
+		
+		LOG.info("partida: " + entryId);
+		LOG.info("districtId: " + districtId);
+		LOG.info("folio: " + folio);
+		
+		District d = baseService.findById(District.class, districtId);
+		Entry e = baseService.findById(Entry.class, entryId);
+		
+		for(Month m : Month.values()){
+			EntryDistrict ed = new EntryDistrict();
+			ed.setDistrict(d);
+			ed.setEntry(e);
+			ed.setAnnualAmount(0D);
+			ed.setBudgetAmount(0D);
+			ed.setBudgetAmountAssign(0D);
+			ed.setCommittedAmount(0D);
+			ed.setMonth(m.getId() - 1 );
+			ed.setActivo(true);
+			ed.setCreatedBy(folio);
+			
+			baseService.persistAndReturnId(ed);
+		}
 	}
 	
 	private StageConfig getStageConfigById(Long stageConfigId){
@@ -358,7 +396,8 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 				.addValue("justification", request.getJustification())
 				.addValue("movementTypeId", request.getMovementTypeId())
 				.addValue("resourcePath", request.getResourcePath())
-				.addValue("certifiedAccount", request.getCertifiedAccount());
+				.addValue("certifiedAccount", request.getCertifiedAccount())
+				.addValue("entryId", request.getEntryId());
 		return this.insertOrUpdate(queryContainer.getSQL(SQLConstants.INSERT_OR_UPDATE_REQUEST), params);
 	}
 	
@@ -387,6 +426,7 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		
 		baseRequest.setMovementTypeId(request.getMovementTypeId());
 		baseRequest.setCertifiedAccount(request.getCertifiedAccount());
+		baseRequest.setEntryId(request.getEntryId());
 		
 		request.setDistrictId(baseRequest.getDistrictId());
 		
@@ -996,6 +1036,12 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		int clean = this.cleanRequestDetail(requestForm.getRequestId());
 		//se inserta en requestDetailMirror
 		return requestForm;
+	}
+	
+	public ProgrammaticKey getActiveProgramaticKey(){
+		SqlParameterSource params = new MapSqlParameterSource();
+		Long pkId = this.queryForObject(Long.class, queryContainer.getSQL(SQLConstants.GET_ACTIVE_PK), params);
+		return baseService.findById(ProgrammaticKey.class, pkId);
 	}
 
 }
