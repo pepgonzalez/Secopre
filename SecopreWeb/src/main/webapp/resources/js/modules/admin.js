@@ -2278,9 +2278,11 @@ function entriesCapture(){
 		
 		var code = $(document).find("#entryCode").val();
 		var description = $(document).find("#entryDescription").val();
+		var pk = $(document).find("#pk").val();
 		
-		if(code.length <= 0 || description.length <= 0){
-			window.showNotification("error", "Capture código y descripción de partida para continuar");
+		
+		if(code.length <= 0 || description.length <= 0 || parseInt(pk) <= 0){
+			window.showNotification("error", "Capture codigo, descripcion y clave de partida para continuar");
 		}else{
 			requestForm.find('#nextStageValueCode').val("SOLCOMP");
 			submitAjaxJQ('requestForm', 'dashboard', '');

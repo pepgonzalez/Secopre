@@ -20,8 +20,16 @@
 				<spring:message code="application.pages.tramite.add.selectFormality"/>
 			</span>
 	</div>
-</div>
 
+	<label class="col-md-4 control-label" for="formalityId">Clave Programatica:</label>	
+	<div class="col-md-8">
+		<form:select path="entry.programmaticKey.id" id="pk" class="form-control input-small movementComponent pk" value="${mov.programaticKeyId}">
+			<form:option value="-1" label="Seleccione..."/>
+  				<form:options items="${programaticKeys}" />
+		</form:select>
+			
+	</div>
+</div>
 
 
 <c:if test="${executeInnerJs == 1}">

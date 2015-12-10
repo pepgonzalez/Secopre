@@ -8,6 +8,7 @@ import ideasw.secopre.enums.StatusEntry;
 import ideasw.secopre.model.base.AuditEntity;
 import ideasw.secopre.model.base.Persistible;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -50,8 +51,8 @@ public class Entry extends AuditEntity implements Persistible {
 	private String description;
 
 	//(cascade = CascadeType.ALL)
-	@ManyToOne
-	@JoinColumn(name = "PROGRAMMATIC_ID", nullable = false, updatable = false)
+	@ManyToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "PROGRAMMATIC_ID", nullable = false, updatable = true)
 	private ProgrammaticKey programmaticKey;
 	
 
