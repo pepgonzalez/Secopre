@@ -255,8 +255,12 @@ public class WorkFlowController extends AuthController {
 				entry = baseService.findById(Entry.class, r.getEntryId());
 				entry.setCode(requestForm.getEntry().getCode());
 				entry.setName(requestForm.getEntry().getDescription());
-				entry.setDescription(requestForm.getEntry().getDescription());		
-				baseService.save(entry);
+				entry.setDescription(requestForm.getEntry().getDescription());	
+				LOG.info("Clave programatica: " + requestForm.getEntry().getProgrammaticKey().getId());
+				ProgrammaticKey pk = baseService.findById(ProgrammaticKey.class, requestForm.getEntry().getProgrammaticKey().getId());
+				LOG.info("Clave nueva: " + pk.getCode());
+				entry.setProgrammaticKey(pk);
+				baseService.update(entry);
 				
 			}else{
 			
@@ -266,10 +270,12 @@ public class WorkFlowController extends AuthController {
 				entry = new Entry();
 				entry.setCode(requestForm.getEntry().getCode());
 				entry.setName(requestForm.getEntry().getDescription());
-				entry.setDescription(requestForm.getEntry().getDescription());			
-				entry.setAccountingType(AccountingType.PARTIDA);
-				ProgrammaticKey pk = accessNativeService.getActiveProgramaticKey();
+				entry.setDescription(requestForm.getEntry().getDescription());	
+				
+				ProgrammaticKey pk = baseService.findById(ProgrammaticKey.class, requestForm.getEntry().getProgrammaticKey().getId());
 				entry.setProgrammaticKey(pk);
+				
+				entry.setAccountingType(AccountingType.PARTIDA);
 				entry.setStatus(StatusEntry.INACTIVE);
 				entry.setActivo(false);
 				entry.setCreateDate(new Date());
