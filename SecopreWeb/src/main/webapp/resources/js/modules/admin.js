@@ -64,10 +64,10 @@ function initProfileValidations() {
 			},
 			telephone : {
 				required : true,
-				maxlength:12
+				maxlength:30
 			},
 			mobileTelepone : {
-				maxlength:12
+				maxlength:30
 			},
 			webSite : {maxlength:100},
 			nickname : {
@@ -1579,7 +1579,7 @@ function initPersonValidations() {
 				// phone : true,
 				required : true,
 				// minlength:10,
-				maxlength:12
+				maxlength:30
 			},
 			mobileTelepone : {
 				// phone : true,
@@ -1931,11 +1931,12 @@ function showKeyData(programaticKeyId){
 }
 
 function initUploadAnnualBudget(){
-	var requestForm = $('#requestForm');
 	
 	$('#submit_form').attr('action', 'auth/adm/budget/search');
 	
 	$('#uploadFile').click(function(e) {
+		var requestForm = $('#requestForm');
+
 		var file = requestForm.find('#attachment').val();
 		
 		if(file.length <= 0){
@@ -1951,7 +1952,8 @@ function initUploadAnnualBudget(){
 	});
 	
 	$('#cloneEntries').click(function(e){
-		sendRequestJQ('auth/adm/bugget/clone','dashboard','','GET');
+		$('#submit_form').attr('action', 'auth/adm/bugget/clone');
+		sendRequestJQ('auth/adm/bugget/clone', 'dashboard', 'initUploadAnnualBudget()');
 		
 	});
 	

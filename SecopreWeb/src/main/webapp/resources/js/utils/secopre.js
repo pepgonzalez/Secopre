@@ -257,12 +257,20 @@ function sendRequestJQ(actionURL, targetId, after, method) {
 		success : function(data) {
 			$("#" + targetId).html("");
 			$('#' + targetId).html(data);
+
 		},
 		complete : function(jqXHR) {
 			if (after !== null && after.length > 2) {
 				eval(after);
 			}
 			unblockPage();
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			unblockPage();
+			// Mensaje error
+			showNotification('error',
+					'Ocurrio un error al ejecutar su peticion:'
+							+ thrownError);
 		},
 		type : method
 	});

@@ -53,6 +53,7 @@ public class BudgetController extends AuthController {
 		model.addAttribute("entidadList",
 				secopreCache.getStateByUserMap(principal.getName()));
 		model.addAttribute("balance", new EntryBalance());
+		model.addAttribute("entriesNextYear", entryConfigService.numberEntriesNextYear());
 
 		return SecopreConstans.MV_ADM_BUDGET;
 	}

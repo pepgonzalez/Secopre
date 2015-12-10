@@ -84,12 +84,11 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 							+ e.getMessage());
 
 		}
-
 		// retorna true
 		return true;
 	}
 
-	private Integer numberEntriesNextYear() {
+	public Integer numberEntriesNextYear() {
 		SqlParameterSource params = new MapSqlParameterSource();
 		Integer numberEntries = this.queryForObject(Integer.class,
 				queryContainer.getSQL(SQLConstants.VALIDATE_ENTRIES_NEXT_YEAR),
@@ -101,10 +100,9 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 	}
 
 	private void callSPCloneEntries(String userId) {
-		SqlParameterSource params = new MapSqlParameterSource().addValue(
-				"userId", userId);
-		this.executeCall(queryContainer.getSQL(SQLConstants.CLONE_ENTRIES),
-				params);
+		SqlParameterSource in = new MapSqlParameterSource().addValue("userId",
+				userId);
+		this.executeSp(queryContainer.getSQL(SQLConstants.CLONE_ENTRIES), in);
 	}
 
 	@Override
@@ -124,7 +122,7 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 				queryContainer.getSQL(SQLConstants.GET_ENTRY_DETAIL));
 		MapSqlParameterSource params = new MapSqlParameterSource();
 
-		sql.append(" AND E.STATUS = '" +status.name() + "' " );
+		sql.append(" AND E.STATUS = '" + status.name() + "' ");
 
 		if (filter.getStateId() != null) {
 			sql.append(" AND S.ID = :stateid");
@@ -231,7 +229,7 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 		}
 
 		List<EntryDistrictDetail> allRows = new ArrayList<EntryDistrictDetail>(
-				0);	
+				0);
 		// si no genero excepcion al clonar las entidades actualizar los saldos
 
 		try {
@@ -249,10 +247,10 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 			EntryDistrictDetail detail = null;
 
 			DataFormatter fmt = new DataFormatter();
-			
+
 			while (rowIterator.hasNext()) {
 				Row row = rowIterator.next();
-				detail = getBudgetDetail(row,fmt);
+				detail = getBudgetDetail(row, fmt);
 				if (detail != null) {
 					allRows.add(detail);
 				}
@@ -264,16 +262,18 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 		} catch (InvalidFormatException e) {
 			LOG.error("InvalidFormatException", e);
 		}
-		
-		//Inserta los objetos Obtenidos:
+
+		// Inserta los objetos Obtenidos:
 		insertEntriesByDistrict(allRows, username);
 		return null;
 	}
 
-	private void insertEntriesByDistrict(List<EntryDistrictDetail> allRows, String username){
-		StringBuffer sb = new StringBuffer("INSER INTO secopre.ENTRYDISTRICT (ANNUAL_AMOUNT,BUDGET_AMOUNT,BUDGET_AMOUNT_ASSIGN," );
+	private void insertEntriesByDistrict(List<EntryDistrictDetail> allRows,
+			String username) {
+		StringBuffer sb = new StringBuffer(
+				"INSER INTO secopre.ENTRYDISTRICT (ANNUAL_AMOUNT,BUDGET_AMOUNT,BUDGET_AMOUNT_ASSIGN,");
 		sb.append("COMMITTED_AMOUNT,MONTH,DISTRICT_ID,ENTRY_ID,ACTIVE,CREATE_DATE,CREATED_BY,UPDATE_DATE,UPDATED_BY) VALUES ");
-		for(EntryDistrictDetail detail: allRows){
+		for (EntryDistrictDetail detail : allRows) {
 			sb.append(getInsertMonth(detail, 0, detail.getJanuary(), username));
 			sb.append(getInsertMonth(detail, 1, detail.getFebruary(), username));
 			sb.append(getInsertMonth(detail, 2, detail.getMarch(), username));
@@ -285,11 +285,11 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 			sb.append(getInsertMonth(detail, 8, detail.getSeptember(), username));
 			sb.append(getInsertMonth(detail, 9, detail.getOctober(), username));
 			sb.append(getInsertMonth(detail, 10, detail.getNovember(), username));
-			sb.append(getInsertMonth(detail, 11, detail.getDecember(), username));			
+			sb.append(getInsertMonth(detail, 11, detail.getDecember(), username));
 		}
-		
 
-		LOG.info("SQL Insert ====> "+ sb.toString().substring(0,sb.length()-1));
+		LOG.info("SQL Insert ====> "
+				+ sb.toString().substring(0, sb.length() - 1));
 	}
 
 	private String getInsertMonth(EntryDistrictDetail detail, int month,
@@ -312,67 +312,82 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 
 		return insert.toString();
 	}
-	private EntryDistrictDetail getBudgetDetail(Row row,DataFormatter fmt) {
+
+	private EntryDistrictDetail getBudgetDetail(Row row, DataFormatter fmt) {
 		Iterator<Cell> cellIterator = row.cellIterator();
 		int cellCount = 0;
-		EntryDistrictDetail entryDistrict = new EntryDistrictDetail();;
+		EntryDistrictDetail entryDistrict = new EntryDistrictDetail();
+		;
 		StringBuffer sb = new StringBuffer();
 		String cellValue = "";
 		while (cellIterator.hasNext()) {
 			Cell cell = cellIterator.next();
-						
-            switch (cell.getCellType()) {
-            
-            case Cell.CELL_TYPE_NUMERIC:
-            	cellValue = cell.getNumericCellValue() + "";
-            	break;
-            case Cell.CELL_TYPE_STRING:
-            	cellValue = cell.getStringCellValue();
-            	break;
-            }	
-            
+
+			switch (cell.getCellType()) {
+
+			case Cell.CELL_TYPE_NUMERIC:
+				cellValue = cell.getNumericCellValue() + "";
+				break;
+			case Cell.CELL_TYPE_STRING:
+				cellValue = cell.getStringCellValue();
+				break;
+			}
+
 			sb.append(fmt.formatCellValue(cell));
-			if(cellCount == 1 && cellValue.equals("") && !isNumeric(cellValue) ){
+			if (cellCount == 1 && cellValue.equals("") && !isNumeric(cellValue)) {
 				break;
 			}
 			// Almacenar Informacion
-			if (cellCount == 1 && isNumeric(cellValue)) { // Es el ID del distrito
+			if (cellCount == 1 && isNumeric(cellValue)) { // Es el ID del
+															// distrito
 				entryDistrict.setDistrictId(Long.valueOf(cellValue));
-			} else if (cellCount == 3 && isNumeric(cellValue)) {// Es el id de la partida
-				entryDistrict
-						.setEntryId(Long.valueOf(cellValue));
-			} else if (cellCount == 5 && isNumeric(cellValue)) {// Es el monto anual
+			} else if (cellCount == 3 && isNumeric(cellValue)) {// Es el id de
+																// la partida
+				entryDistrict.setEntryId(Long.valueOf(cellValue));
+			} else if (cellCount == 5 && isNumeric(cellValue)) {// Es el monto
+																// anual
 				entryDistrict.setAnnualAmount(Double.valueOf(cellValue));
-			} else if (cellCount == 6 && isNumeric(cellValue)) {// Es el monto de Enero
+			} else if (cellCount == 6 && isNumeric(cellValue)) {// Es el monto
+																// de Enero
 				entryDistrict.setJanuary(Double.valueOf(cellValue));
-			} else if (cellCount == 7 && isNumeric(cellValue)) {// Es el monto de Febrero
+			} else if (cellCount == 7 && isNumeric(cellValue)) {// Es el monto
+																// de Febrero
 				entryDistrict.setFebruary(Double.valueOf(cellValue));
-			} else if (cellCount == 8 && isNumeric(cellValue)) {// Es el monto de Marzo
-				entryDistrict
-						.setMarch(Double.valueOf(cellValue));
-			} else if (cellCount == 9 && isNumeric(cellValue)) {// Es el monto de Abril
-				entryDistrict
-						.setApril(Double.valueOf(cellValue));
-			} else if (cellCount == 10 && isNumeric(cellValue)) {// Es el monto de Mayo
+			} else if (cellCount == 8 && isNumeric(cellValue)) {// Es el monto
+																// de Marzo
+				entryDistrict.setMarch(Double.valueOf(cellValue));
+			} else if (cellCount == 9 && isNumeric(cellValue)) {// Es el monto
+																// de Abril
+				entryDistrict.setApril(Double.valueOf(cellValue));
+			} else if (cellCount == 10 && isNumeric(cellValue)) {// Es el monto
+																	// de Mayo
 				entryDistrict.setMay(Double.valueOf(cellValue));
-			} else if (cellCount == 11 && isNumeric(cellValue)) {// Es el monto de Junio
-				entryDistrict
-						.setJune(Double.valueOf(cellValue));
-			} else if (cellCount == 12 && isNumeric(cellValue)) {// Es el monto de Julio
-				entryDistrict
-						.setJuly(Double.valueOf(cellValue));
-			} else if (cellCount == 13 && isNumeric(cellValue)) {// Es el monto de Agosto
+			} else if (cellCount == 11 && isNumeric(cellValue)) {// Es el monto
+																	// de Junio
+				entryDistrict.setJune(Double.valueOf(cellValue));
+			} else if (cellCount == 12 && isNumeric(cellValue)) {// Es el monto
+																	// de Julio
+				entryDistrict.setJuly(Double.valueOf(cellValue));
+			} else if (cellCount == 13 && isNumeric(cellValue)) {// Es el monto
+																	// de Agosto
 				entryDistrict.setAugust(Double.valueOf(cellValue));
-			} else if (cellCount == 14 && isNumeric(cellValue)) {// Es el monto de Septiembre
+			} else if (cellCount == 14 && isNumeric(cellValue)) {// Es el monto
+																	// de
+																	// Septiembre
 				entryDistrict.setSeptember(Double.valueOf(cellValue));
-			} else if (cellCount == 15 && isNumeric(cellValue)) {// Es el monto de Octubre
+			} else if (cellCount == 15 && isNumeric(cellValue)) {// Es el monto
+																	// de
+																	// Octubre
 				entryDistrict.setOctober(Double.valueOf(cellValue));
-			} else if (cellCount == 16 && isNumeric(cellValue)) {// Es el monto de Noviembre
+			} else if (cellCount == 16 && isNumeric(cellValue)) {// Es el monto
+																	// de
+																	// Noviembre
 				entryDistrict.setNovember(Double.valueOf(cellValue));
-			} else if (cellCount == 17 && isNumeric(cellValue)) {// Es el monto de Diciembre
+			} else if (cellCount == 17 && isNumeric(cellValue)) {// Es el monto
+																	// de
+																	// Diciembre
 				entryDistrict.setDecember(Double.valueOf(cellValue));
 			}
-
 
 			cellCount++;
 		}
@@ -413,13 +428,14 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 		sql.append(" PK.YEAR = YEAR(CURDATE()) + 1");
 		sql.append(" AND E.STATUS = 'CONFIG' ");
 
-		Integer total = this.queryForObject(Integer.class, sql.toString(), new MapSqlParameterSource());
-		
-		if(total != null && total.intValue() >0 ){
+		Integer total = this.queryForObject(Integer.class, sql.toString(),
+				new MapSqlParameterSource());
+
+		if (total != null && total.intValue() > 0) {
 			return true;
 		}
-		
+
 		return false;
-		
+
 	}
 }

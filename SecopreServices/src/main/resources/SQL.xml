@@ -545,19 +545,20 @@
 				<prop key="VALIDATE_ENTRIES_NEXT_YEAR">
 					<![CDATA[
 						SELECT 
-						    COUNT(*)
-						FROM
-						    SECOPRE.entry E
-						        INNER JOIN
-						    SECOPRE.programmatic_key PK ON E.PROGRAMMATIC_ID = PK.ID
-						WHERE
-						    PK.YEAR = YEAR(CURDATE()) + 1
+							COUNT(*) 
+						FROM 
+							secopre.ENTRY E 
+							INNER JOIN secopre.PROGRAMMATIC_KEY PK ON E.PROGRAMMATIC_ID = PK.ID 
+						WHERE 
+							PK.YEAR = YEAR(
+								CURDATE()
+							) + 1
 					]]>
 				</prop>
 
 				<prop key="CLONE_ENTRIES">
 					<![CDATA[	
-						CALL secopre.CLONE_ENTRIES(:userId);
+						CLONE_ENTRIES
 					]]>
 				</prop>
 
