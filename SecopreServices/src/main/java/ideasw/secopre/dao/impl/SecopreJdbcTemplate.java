@@ -32,6 +32,7 @@ public class SecopreJdbcTemplate {
 
 	@Autowired
 	private DataSource tsadbitntstDataSource;
+
 	/**
 	 * retorna el {@link DataSource} en caso que se requiera realizar una
 	 * conexion JDBC
@@ -41,7 +42,7 @@ public class SecopreJdbcTemplate {
 	public DataSource getSecopreDataSource() {
 		return dataSource;
 	}
-	
+
 	public DataSource getTsadbitntstDataSource() {
 		return tsadbitntstDataSource;
 	}
@@ -54,9 +55,8 @@ public class SecopreJdbcTemplate {
 	public JdbcTemplate getJdbcTemplate() {
 		return new JdbcTemplate(dataSource);
 	}
-	
-	
-	public NamedParameterJdbcTemplate getNamedParameterJdbcTemplate(){
+
+	public NamedParameterJdbcTemplate getNamedParameterJdbcTemplate() {
 		return new NamedParameterJdbcTemplate(dataSource);
 	}
 
@@ -69,8 +69,10 @@ public class SecopreJdbcTemplate {
 	public SimpleJdbcCall getSimpleJdbcCall() {
 		return new SimpleJdbcCall(dataSource);
 	}
-	
-	public SimpleJdbcInsert getSimpleJdbcInsert(String table, String columnKey){
-		return new SimpleJdbcInsert(dataSource).withTableName(table).usingGeneratedKeyColumns(columnKey);
+
+	public SimpleJdbcInsert getSimpleJdbcInsert(String table, String columnKey) {
+		return new SimpleJdbcInsert(dataSource).withTableName(table)
+				.usingGeneratedKeyColumns(columnKey);
 	}
+
 }

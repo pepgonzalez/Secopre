@@ -100,8 +100,9 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 	}
 
 	private void callSPCloneEntries(String userId) {
-		this.executeSp(queryContainer.getSQL(SQLConstants.CLONE_ENTRIES),
-				new MapSqlParameterSource());
+		SqlParameterSource in = new MapSqlParameterSource().addValue("userId",
+				userId);
+		this.executeSp(queryContainer.getSQL(SQLConstants.CLONE_ENTRIES), in);
 	}
 
 	@Override
