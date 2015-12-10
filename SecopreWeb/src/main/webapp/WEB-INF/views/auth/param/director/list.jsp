@@ -65,7 +65,8 @@
 <%-- 									     ${directorItem.initialDateStr} --%>
 <!-- 									</td> -->
 									<td>
-									    null
+									     ${directorItem.user.person.name}
+									     ${directorItem.user.person.fatherLastName}
 									</td>
 									<td>
 									     ${directorItem.initialDateStr}
@@ -74,7 +75,7 @@
 										 ${directorItem.finalDateStr}
 									</td>
 									<td>
-									     ${directorItem.legen}
+									     ${directorItem.legend}
 									</td>
 
 									<td>
