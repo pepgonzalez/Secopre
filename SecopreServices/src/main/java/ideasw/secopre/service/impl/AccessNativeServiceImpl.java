@@ -1077,5 +1077,53 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
         return this.queryForList(Rectification.class, queryContainer.getSQL(SQLConstants.GET_RECTIFICATION_INBOX), null, new RectificationMapper());
 	}
 
-
+	
+	private String getMonthById(Long monthId){
+		for(Month m : Month.values()){
+			if (m.getId().longValue() == monthId.longValue()){
+				return m.name();
+			}
+		}
+		return null;
+	}
+	
+	
+	public boolean moveBugdetAmountToNextMonth(Long districtId, Long entryId, Long monthNumber) throws Exception{
+		boolean result = true;
+		
+		District d = baseService.findById(District.class, districtId);
+		Entry e = baseService.findById(Entry.class, entryId);
+		String month = this.getMonthById(monthNumber);
+		
+		/*
+		 * 1.Se obtiene el detalle de la partida recibida
+		 * 2.Si existe saldo comprometido se genera excepcion
+		 * 3.Si el mes recibido es diciembre se genera excepcion
+		 * 4.Se agrega el monto recibido al siguiente mes
+		 * */
+		EntryDistrict currentEntry = this.getEntryBalance(districtId, entryId, monthNumber);
+		if (currentEntry == null){
+			throw new EntryDistrictException(d.getNumber().toString(), e.getDescription(), month);
+		}
+		
+		if(currentEntry.getCommittedAmount().longValue() > 0){
+			throw new EntryDistrictException("Existe saldo comprometido en distrito: " + d.getNumber() +  ", partida: " + e.getDescription() + ", mes: " + month + ". Verifique.");
+		}
+		
+		if(monthNumber.longValue() == Month.DICIEMBRE.getId().longValue()){
+			throw new EntryDistrictException("No es posible realizar calendarizacion de saldos del mes de " +  month +". Verifique.");
+		}
+		
+		//se agrega saldo a partida de siguiente mes
+		EntryDistrict nextMonthEntry = this.getEntryBalance(districtId, entryId, monthNumber + 1);
+		nextMonthEntry.setBudgetAmountAssign(nextMonthEntry.getBudgetAmountAssign() + currentEntry.getBudgetAmountAssign());
+		baseService.update(nextMonthEntry);
+		
+		//se resta el saldo sumado a la partida en cuestion
+		currentEntry.setBudgetAmountAssign(currentEntry.getBudgetAmountAssign() - currentEntry.getBudgetAmountAssign());
+		baseService.update(currentEntry);
+		
+		return result;
+	}
+	
 }

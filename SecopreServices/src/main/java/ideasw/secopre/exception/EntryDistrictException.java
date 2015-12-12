@@ -15,6 +15,14 @@ public class EntryDistrictException extends Exception {
 		super(message);
 	}
 	
+	public EntryDistrictException(Long districtId, Long entryId, Long month){
+		super("Error al tratar de afectar distrito: " + districtId + ", partida: " + entryId + ", mes: " + month + ". Verifique.");
+	}
+	
+	public EntryDistrictException(String districtId, String entryId, String month){
+		super("Error al tratar de afectar distrito: " + districtId + ", partida: " + entryId + ", mes: " + month + ". Verifique.");
+	}
+	
 	public EntryDistrictException(Long districtId, Long entryId, Long month, Double amount){
 		super("Error al tratar de afectar distrito: " + districtId + ", partida: " + entryId + ", mes: " + month + "con monto:" + amount );
 	}

@@ -241,4 +241,7 @@ public interface AccessNativeService {
 	
 	/*rectificaciones*/
 	boolean fullRollbackMovement(List<Movement> list, Request request) throws Exception;
+
+	boolean moveBugdetAmountToNextMonth(Long districtId, Long entryId, Long monthNumber) throws Exception;
 }
+
