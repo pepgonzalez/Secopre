@@ -4,6 +4,7 @@ import ideasw.secopre.dto.Authorization;
 import ideasw.secopre.dto.EntryCurrentTotal;
 import ideasw.secopre.dto.Formality;
 import ideasw.secopre.dto.Inbox;
+import ideasw.secopre.dto.Movement;
 import ideasw.secopre.dto.Report;
 import ideasw.secopre.dto.ReportParameter;
 import ideasw.secopre.dto.Request;
@@ -11,6 +12,7 @@ import ideasw.secopre.dto.RequestHistory;
 import ideasw.secopre.dto.UserMovement;
 import ideasw.secopre.dto.Notification;
 import ideasw.secopre.dto.Property;
+import ideasw.secopre.dto.Rectification;
 import ideasw.secopre.model.DueDate;
 import ideasw.secopre.model.Entry;
 import ideasw.secopre.model.EntryDistrict;
@@ -234,4 +236,9 @@ public interface AccessNativeService {
     
 	/*Metodo para obtener los directores*/
 	List<User> getDirectors();
+
+	List<Rectification> getRectificationInbox();
+	
+	/*rectificaciones*/
+	boolean fullRollbackMovement(List<Movement> list, Request request) throws Exception;
 }

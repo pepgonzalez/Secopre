@@ -152,18 +152,7 @@ public class WorkFlowController extends AuthController {
 			RedirectAttributes attributes, Principal principal, HttpServletRequest request,final RedirectAttributes redirectAttributes){
 		
 		LOG.info("iniciando guardado parcial de movimientos");
-		
 		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
-		
-		LOG.info("Alza");
-		for(Movement m : requestForm.getUpMovements()){
-			LOG.info(m.toString());
-		}
-		
-		LOG.info("baja");
-		for(Movement m : requestForm.getDownMovements()){
-			LOG.info(m.toString());
-		}
 		
 		try{
 			requestForm = accessNativeService.insertOrUpdateRequestData(requestForm);
@@ -190,6 +179,55 @@ public class WorkFlowController extends AuthController {
 			RedirectAttributes attributes, Principal principal, HttpServletRequest request, final RedirectAttributes redirectAttributes) throws Exception{
 		
 		LOG.info("iniciando guardado de movimientos y validando operacion");
+		
+		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
+		
+		try{
+			requestForm = accessNativeService.insertOrUpdateRequestData(requestForm);
+			//se actualiza la informacion de guardado parcial
+			movementsService.savePartialRequest(requestForm);
+			
+			//valida los movimientos (al menos uno y totales compensado)
+			movementsService.isValidMovement(requestForm.getRequestId(), requestForm.getMovementTypeId());
+			
+			//si es valido el movimiento, pasar a tabla de datalle y comprometer segun sea el caso
+			accessNativeService.insertOrUpdateRequestDetail(requestForm);
+			accessNativeService.invokeNextStage(requestForm, loggedUser.getId());
+			
+			//se borra la tabla espejo
+			movementsService.cleanMirrorMovements(requestForm.getRequestId());
+			
+			LOG.info("Redirigiendo al listado de movimientos");
+			return SecopreConstans.MV_TRAM_LIST_REDIRECT;
+		
+		}catch(EntryDistrictException ex){
+			ex.printStackTrace();
+			LOG.error(ex.getMessage());
+			List<String> errors = new ArrayList<String>();
+			errors.add(ex.getMessage());
+			
+			redirectAttributes.addFlashAttribute("errors", errors);
+			redirectAttributes.addFlashAttribute("existErrors", 1);
+			
+			return "redirect:/auth/wf/capture/partial/" + requestForm.getFormalityCode() + "/" + requestForm.getRequestId() + "/" + requestForm.getStageConfigId() + "/1";
+		}catch(Exception ex2){
+			ex2.printStackTrace();
+			LOG.error(ex2.getMessage());
+			List<String> errors = new ArrayList<String>();
+			errors.add("Error interno del sistema. Contacte a su administrador por favor.");
+			
+			redirectAttributes.addFlashAttribute("errors", errors);
+			redirectAttributes.addFlashAttribute("existErrors", 1);
+			
+			return "redirect:/auth/wf/capture/partial/" + requestForm.getFormalityCode() + "/" + requestForm.getRequestId() + "/" + requestForm.getStageConfigId() + "/1";
+		}
+	}
+	
+	@RequestMapping(value = "wf/capture/expense", method = { RequestMethod.POST })
+	public String saveExpense(@ModelAttribute("requestForm") Request requestForm, BindingResult result, ModelMap model, 
+			RedirectAttributes attributes, Principal principal, HttpServletRequest request, final RedirectAttributes redirectAttributes) throws Exception{
+		
+		LOG.info("guardando gasto");
 		
 		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
 		
@@ -599,6 +637,49 @@ public class WorkFlowController extends AuthController {
 	    } catch (IOException ex) {
 	      	LOG.debug("Ocurrio un error al intentar descargar el archivo" + ex.toString());
 	    }
+	}
+	
+	
+
+	@RequestMapping(value = "wf/rectification/{requestId}", method = { RequestMethod.GET })
+	public String startRectification( @PathVariable("requestId") Long requestId, ModelMap model, RedirectAttributes attributes, Principal principal) throws Exception {
+
+		LOG.info("Iniciando rectification del requestId: " + requestId);
+
+		/*
+		 * 1. obtener el detalle de el movimiento
+		 * 2. reasignar los saldos a las partidas correspondientes
+		 * 3. iniciar nuevo tramite de gastos igual que original, con nuevo id
+		 * 4. avanzar folio nuevo de etapa
+		 * 5. generar request detail mirror con monto de request id
+		 * 6. actualizar folio padre con id de request de rectificacion
+		 * */
+		
+		Request baseRequest = accessNativeService.getRequestAndDetailById(requestId);
+		Request rectificationRequest = accessNativeService.getRequestAndDetailById(requestId);
+		
+		boolean result = accessNativeService.fullRollbackMovement(baseRequest.getDownMovements(), baseRequest);
+		
+		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);			
+		District district= baseService.findById(District.class, baseRequest.getDistrictId());
+		Long newRequestId = accessNativeService.getRequestNextConsecutive();	
+		String newFolio = "DTO-" +  district.getNumber() + "/" + newRequestId + " (Rectificacion: "+ baseRequest.getFolio() +")";
+		
+		rectificationRequest.setRequestId(newRequestId);
+		rectificationRequest.setFolio(newFolio);
+		rectificationRequest.setUpMovements(new ArrayList<Movement>());
+		rectificationRequest.setDownMovements(new ArrayList<Movement>());
+		accessNativeService.startFormality(rectificationRequest, loggedUser.getId());
+
+		rectificationRequest.setDownMovements(baseRequest.getDownMovements());
+		movementsService.savePartialRequest(rectificationRequest);
+
+		baseRequest.setRectificationId(newRequestId);
+		baseRequest = accessNativeService.insertOrUpdateRequestData(baseRequest);
+		
+		LOG.info("Rectificacion realizada exitosamente");
+		
+		return SecopreConstans.MV_TRAM_LIST_REDIRECT;
 	}
 }
 

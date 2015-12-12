@@ -2288,7 +2288,33 @@ function entriesCapture(){
 			submitAjaxJQ('requestForm', 'dashboard', '');
 		}
 	});
-	
-	
-	
 }
+
+function rectificationList(){
+	
+	var formalityDatatable = $('#rectificationList').DataTable({
+        "language": {
+            "lengthMenu": "_MENU_ Registros por pagina",
+            "zeroRecords": "No existen registros",
+            "info": "Mostrando pagina _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay registros disponibles",
+            "infoFiltered": "(filtered from _MAX_ total records)"
+        },
+        bFilter: true, bInfo: true, bLengthChange:false, ordering:true,
+        "order": [[ 0, "desc" ]],
+        "columnDefs": [
+           {
+               "targets": [ 0 ],
+               "visible": false
+           }
+       ]
+    });
+	
+	// Filtro de datatable por fecha
+	$(document).find('#rectificationDateSearch').on( 'keyup', function () {
+		formalityDatatable.search( this.value ).draw();
+	});
+	
+	$(document).find(".dataTables_filter").hide();
+}
+

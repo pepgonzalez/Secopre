@@ -2,6 +2,7 @@ package ideasw.secopre.web.controller.admin;
 
 import ideasw.secopre.dto.Formality;
 import ideasw.secopre.dto.Inbox;
+import ideasw.secopre.dto.Rectification;
 import ideasw.secopre.dto.Request;
 import ideasw.secopre.model.catalog.District;
 import ideasw.secopre.model.security.User;
@@ -103,6 +104,18 @@ public class TramiteController extends AuthController {
 		
 		model.addAttribute("inboxList", inboxList);	
 		return SecopreConstans.MV_TRAM_MY_LIST;
+	}
+	
+	@RequestMapping(value = "tram/rectification", method = { RequestMethod.GET })
+	public String showRectificationList(ModelMap model, RedirectAttributes attributes,  Principal principal) {
+		
+		System.out.println("showRectificationList");
+		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
+
+		List<Rectification> rectificationList = accessNativeService.getRectificationInbox();
+		
+		model.addAttribute("inboxList", rectificationList);	
+		return SecopreConstans.MV_TRAM_RECTIFICATION;
 	}
 	
 }

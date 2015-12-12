@@ -9,6 +9,7 @@ import ideasw.secopre.dto.Inbox;
 import ideasw.secopre.dto.Movement;
 import ideasw.secopre.dto.Notification;
 import ideasw.secopre.dto.Property;
+import ideasw.secopre.dto.Rectification;
 import ideasw.secopre.dto.Report;
 import ideasw.secopre.dto.ReportParameter;
 import ideasw.secopre.dto.Request;
@@ -43,6 +44,7 @@ import ideasw.secopre.service.impl.mapper.MovementMapper;
 import ideasw.secopre.service.impl.mapper.NotificationMapper;
 import ideasw.secopre.service.impl.mapper.PermissionMapper;
 import ideasw.secopre.service.impl.mapper.PropertyMapper;
+import ideasw.secopre.service.impl.mapper.RectificationMapper;
 import ideasw.secopre.service.impl.mapper.ReportMapper;
 import ideasw.secopre.service.impl.mapper.ReportParameterMapper;
 import ideasw.secopre.service.impl.mapper.RequestConfigMapper;
@@ -325,6 +327,9 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	}
 	
 	private List<WorkFlowConfig> getRequestWorkFlowConfig(Long requestId, String wfConfigCode, Long stageConfigId) {
+		LOG.info("requestId: " + requestId);
+		LOG.info("wfConfigCode: " + wfConfigCode);
+		LOG.info("stageConfigId: " + stageConfigId);
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("requestId", requestId).addValue("wfConfigCode", wfConfigCode).addValue("stageConfigId", stageConfigId);	
 		return this.queryForList(WorkFlowConfig.class, queryContainer.getSQL(SQLConstants.GET_REQUEST_WORKFLOW_CONFIG), namedParameters, new WorkFlowConfigMapper());
 	}
@@ -397,7 +402,8 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 				.addValue("movementTypeId", request.getMovementTypeId())
 				.addValue("resourcePath", request.getResourcePath())
 				.addValue("certifiedAccount", request.getCertifiedAccount())
-				.addValue("entryId", request.getEntryId());
+				.addValue("entryId", request.getEntryId())
+				.addValue("rectificationId", request.getRectificationId());
 		return this.insertOrUpdate(queryContainer.getSQL(SQLConstants.INSERT_OR_UPDATE_REQUEST), params);
 	}
 	
@@ -427,6 +433,7 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		baseRequest.setMovementTypeId(request.getMovementTypeId());
 		baseRequest.setCertifiedAccount(request.getCertifiedAccount());
 		baseRequest.setEntryId(request.getEntryId());
+		baseRequest.setRectificationId(request.getRectificationId());
 		
 		request.setDistrictId(baseRequest.getDistrictId());
 		
@@ -533,6 +540,21 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		}
 	}
 	
+	public boolean fullRollbackMovement(List<Movement> list, Request request) throws Exception{
+		for (Movement m : list){
+			for(int i = m.getInitialMonthId(); i <= m.getFinalMonthId(); i++){
+				EntryDistrict entry = this.getEntryBalance(request.getDistrictId(), m.getEntryId(), new Long(i));
+				if (entry == null){
+					throw new EntryDistrictException(request.getDistrictId(), m.getEntryId(), new Long(i), m.getMonthAmount());
+				}
+				LOG.info("Reasignando saldo a partida");
+				entry.setBudgetAmountAssign(entry.getBudgetAmountAssign() + m.getMonthAmount());
+				baseService.update(entry);
+			}
+		}
+		return true;
+	}
+	
 	private int insertMovement(Movement m){
 		SqlParameterSource params = new MapSqlParameterSource()
 				.addValue("requestId", m.getRequestId())
@@ -581,6 +603,7 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		String formalityName = formality.getDescription();
 
 		r.setFormalityName(formalityName);
+		r.setFormalityId(config.getFormalityId());
 
 		return r;
 	}
@@ -1048,5 +1071,11 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	public List<User> getDirectors() {
         return this.queryForList(User.class, queryContainer.getSQL(SQLConstants.GET_LIST_DIRECTORS), null, new UserMapper());
 	}
+	
+	@Override
+	public List<Rectification> getRectificationInbox() {
+        return this.queryForList(Rectification.class, queryContainer.getSQL(SQLConstants.GET_RECTIFICATION_INBOX), null, new RectificationMapper());
+	}
+
 
 }

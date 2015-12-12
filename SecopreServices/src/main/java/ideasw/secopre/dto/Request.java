@@ -26,6 +26,7 @@ public class Request {
 	private String folio;
 	private String resourcePath;
 	private Long entryId;
+	private Long rectificationId;
 
 	//variables correspondientes a REQUEST DETAIL
 	private Long movementTypeId;
@@ -226,5 +227,11 @@ public class Request {
 	}
 	public void setEntryId(Long entryId) {
 		this.entryId = entryId;
+	}
+	public Long getRectificationId() {
+		return rectificationId;
+	}
+	public void setRectificationId(Long rectificationId) {
+		this.rectificationId = rectificationId;
 	}
 }

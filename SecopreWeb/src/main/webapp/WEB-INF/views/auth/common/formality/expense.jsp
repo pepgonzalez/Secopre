@@ -51,7 +51,8 @@
 								<tr data-name="rowContainer" id="row${i.index}" data-rowNumber="${i.index}">
 									
 									<td data-name="deleteAction" class="buttonColumn">
-  										<a href="javascript:;" class="btn default btn-xs red" id="rmvIdx${i.index}"><i class="fa fa-times"></i></a>
+  										<a href="javascript:;" class="btn default btn-xs red movementComponent" id="rmvIdx${i.index}"><i class="fa fa-times"></i></a>
+  										 <a href="javascript:;" class="btn btn-xs green lastButton movementComponent editButton" id="editIdx${i.index}"><i class="fa fa-edit"></i></a>
   										<c:if test="${mov.isSaved == false}">
 											<a href="javascript:;" class="btn grey-cascade btn-xs default movementComponent" id="infoIdx${i.index}"><i class="fa fa-info-circle"></i></a>
 										</c:if>
@@ -64,17 +65,17 @@
 										</form:select>
 									</td>
 									<td data-name="entry">
-										<form:select path="downMovements[${i.index}].entryId" class="form-control entry" value="${mov.entryId}">
+										<form:select path="downMovements[${i.index}].entryId" class="form-control entry input-large" value="${mov.entryId}">
 											<form:option value="-1" label="Seleccione..."/>
-						    				<form:options items="${entries}" />
+											<form:options items="${entries}" />
 										</form:select>
 									</td>
 									<td data-name="monthAmount">
-										<span>$</span><form:input path="downMovements[${i.index}].monthAmount" class="form-control numbersOnly monthAmount" style="display:inline-block!Important;"/>
+										<span>$</span><form:input path="downMovements[${i.index}].monthAmount" class="form-control input-small numbersOnly monthAmount" style="display:inline-block!Important;"/>
 									</td>
 									
 									<td data-name="totalAmount">
-										<span>$</span><form:input path="downMovements[${i.index}].totalAmount" class="form-control input-xsmall numbersOnly movementComponent" style="display:inline-block!Important;"/>
+										<span>$</span><form:input path="downMovements[${i.index}].totalAmount" class="form-control input-small numbersOnly movementComponent" style="display:inline-block!Important;"/>
 									</td>
 					
 									<form:hidden path="downMovements[${i.index}].initialMonthId" class="form-control" data-name="initialMonthId"/>
@@ -109,28 +110,28 @@
 	<tr data-name="rowContainer">
 	
 		<td data-name="deleteAction" class="buttonColumn">
-  			<a href="javascript:;" class="btn default btn-xs red" id="rowDeleteButton"><i class="fa fa-times"></i></a>
-  			<a href="javascript:;" class="btn grey-cascade btn-xs default lastButton" id="rowInfoButton"><i class="fa fa-info-circle"></i></a>
+  			<a href="javascript:;" class="btn default btn-xs red movementComponent" id="rowDeleteButton"><i class="fa fa-times"></i></a>
+  			<a href="javascript:;" class="btn grey-cascade btn-xs default movementComponent" id="rowInfoButton"><i class="fa fa-info-circle"></i></a>
 		</td>
 		
 		<td data-name="programaticKey">
-			<form:select path="upMovements" class="form-control">
+			<form:select path="upMovements" class="form-control pk">
 				<form:option value="-1" label="Seleccione..."/>
 	  			<form:options items="${programaticKeys}" />
 			</form:select>
 		</td>
 		<td data-name="entry">
-			<form:select path="upMovements" class="form-control">
+			<form:select path="upMovements" class="form-control entry input-large">
 				<form:option value="-1" label="Seleccione..."/>
 			</form:select>
 		</td>
 		
 		<td data-name="monthAmount">
-			<span>$</span><form:input path="upMovements" class="form-control numbersOnly" style="display:inline-block!Important;"/>
+			<span>$</span><form:input path="upMovements" class="form-control input-small numbersOnly movementComponent" style="display:inline-block!Important;"/>
 		</td>
 		
 		<td data-name="totalAmount">
-			<span>$</span><form:input path="upMovements" class="form-control input-xsmall numbersOnly movementComponent" style="display:inline-block!Important;" readonly="true"/>
+			<span>$</span><form:input path="upMovements" class="form-control input-small numbersOnly movementComponent" style="display:inline-block!Important;" readonly="true"/>
 		</td>
 		<form:hidden path="upMovements" class="form-control" data-name="initialMonthId"/>
 		<form:hidden path="upMovements" class="form-control" data-name="finalMonthId"/>

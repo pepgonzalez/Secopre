@@ -241,6 +241,40 @@
 					]]>
 				</prop>
 				
+				
+				<prop key="GET_RECTIFICATION_INBOX">
+					<![CDATA[
+						SELECT R.ID,
+							   R.FOLIO,
+							   R.JUSTIFICATION,
+							   F.DESCRIPTION,
+							   RC.LAST_UPDATE,
+							   (SELECT SUM(TOTAL_AMOUNT) FROM secopre.REQUEST_DETAIL RD WHERE RD.REQUEST_ID = R.ID) AS TOTAL,
+							   U.USERNAME,
+							   (CASE WHEN R.RECTIFICATION_ID IS NOT NULL THEN 1 ELSE 0 END) AS HAS_RECTIFICATION,
+							   (SELECT RR.FOLIO FROM secopre.REQUEST RR WHERE RR.ID = R.RECTIFICATION_ID) RECTIFICATED_FOLIO
+						  FROM secopre.REQUEST_CONFIG RC,
+						  	   secopre.REQUEST_HISTORY RH,
+						  	   secopre.WORKFLOW_CONFIG WC,
+						  	   secopre.STAGE_CONFIG SC,
+						  	   secopre.REQUEST R,
+						  	   secopre.FORMALITY F,
+						  	   secopre.USER U
+						 WHERE RC.FORMALITY_ID = 2
+						   AND RC.LAST_UPDATE >= DATE_FORMAT(SYSDATE(), '%Y-%m-01')
+						   AND RC.REQUEST_ID = RH.REQUEST_ID
+						   AND RH.ACTIVE = 1
+						   AND RH.WORKFLOW_CONFIG_ID = WC.ID
+						   AND WC.NEXT_STAGE_CONFIG = SC.ID
+						   AND SC.IS_OPERATED = 1
+						   AND RH.REQUEST_ID = R.ID
+						   AND RC.FORMALITY_ID = F.ID
+						   AND U.ID = RH.USER_ID
+					]]>
+				</prop>
+				
+				
+				
 				<prop key="GET_REQUEST_BY_ID">
 					<![CDATA[
 						SELECT R.ID AS REQUEST_ID,
@@ -259,13 +293,14 @@
 				<prop key="INSERT_OR_UPDATE_REQUEST">
 					<![CDATA[
 						INSERT INTO secopre.REQUEST
-						(ID, FOLIO, DISTRICT_ID, JUSTIFICATION, RESOURCE_PATH, MOVEMENT_TYPE_ID, LAST_UPDATE, ACTIVE, CERTIFIED_ACCOUNT, ENTRY_ID)
+						(ID, FOLIO, DISTRICT_ID, JUSTIFICATION, RESOURCE_PATH, MOVEMENT_TYPE_ID, LAST_UPDATE, ACTIVE, CERTIFIED_ACCOUNT, ENTRY_ID, RECTIFICATION_ID)
 						VALUES
-						(:requestId, :folio, :districtId, :justification, :resourcePath, :movementTypeId,  SYSDATE(), 1, :certifiedAccount, :entryId)
+						(:requestId, :folio, :districtId, :justification, :resourcePath, :movementTypeId,  SYSDATE(), 1, :certifiedAccount, :entryId, :rectificationId)
 						ON DUPLICATE KEY UPDATE RESOURCE_PATH = VALUES(RESOURCE_PATH),
 												MOVEMENT_TYPE_ID = VALUES(MOVEMENT_TYPE_ID),
 												CERTIFIED_ACCOUNT = VALUES(CERTIFIED_ACCOUNT),
-												ENTRY_ID = VALUES(ENTRY_ID)
+												ENTRY_ID = VALUES(ENTRY_ID),
+												RECTIFICATION_ID = VALUES(RECTIFICATION_ID)
 					]]>
 				</prop>
 
