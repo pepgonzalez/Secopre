@@ -25,7 +25,7 @@
 												<span class="number">
 												1 </span>
 												<span class="desc">
-												<i class="fa fa-check"></i> Histórico de Directores </span>
+												<i class="fa fa-check"></i> Captura Histórico de Directores </span>
 												</a>
 											</li>
 											<li>
@@ -128,6 +128,16 @@
 	
 												
 									            <h4 class="form-section">Histórico de Directores</h4>
+									         
+									            <div class="form-group">
+										           <label class="control-label col-md-3"><spring:message
+													  code="application.pages.param.director.director" />
+											       </label>
+										           <div class="col-md-4">
+											         <p class="form-control-static" data-display="directors"></p>
+										           </div>
+									            </div>		
+									            
 									            <div class="form-group">
 										            <label class="control-label col-md-3"><spring:message
 													code="application.pages.param.director.initialDate" />
@@ -136,6 +146,7 @@
 											           <p class="form-control-static" data-display="initialDateStr"></p>
 										            </div>
 									            </div>
+									            
 									            <div class="form-group">
 										           <label class="control-label col-md-3"><spring:message
 													  code="application.pages.param.director.finalDate" />
@@ -143,7 +154,19 @@
 										           <div class="col-md-4">
 											         <p class="form-control-static" data-display="finalDateStr"></p>
 										           </div>
+									            </div>		
+									            
+					
+													
+									            <div class="form-group">
+										           <label class="control-label col-md-3"><spring:message
+													  code="application.pages.param.director.legend" />
+											       </label>
+										           <div class="col-md-4">
+											         <p class="form-control-static" data-display="legend"></p>
+										           </div>
 									            </div>							
+																		
 													
 																								
 											</div>

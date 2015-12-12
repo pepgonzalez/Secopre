@@ -2,27 +2,21 @@ package ideasw.secopre.web.controller.config;
 
 import ideasw.secopre.model.Director;
 import ideasw.secopre.model.catalog.Person;
-import ideasw.secopre.model.security.Menu;
 import ideasw.secopre.model.security.User;
-import ideasw.secopre.utils.time.TimeUtils;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.joda.time.DateTime;
-import org.joda.time.Interval;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -62,26 +56,27 @@ public class DirectorController extends AuthController {
 	public String add(@ModelAttribute("director") Director director, ModelMap model) {
 		try {
 			
-//			if(director.getId() == null)
-//			{
-//				director.setActive(Boolean.TRUE);
-//			}
-//			else
-//			{
-//			   Director directorEdit = baseService.findById(Director.class , director.getId());	
-//			   directorEdit.setInitialDate(director.getInitialDate());
-//			   directorEdit.setDescription(menu.getDescription());
-//			   directorEdit.setCssClass(menu.getCssClass());
-//			   director = directorEdit;
-//			}
-//			
-			director.setActive(Boolean.TRUE);
+			if(director.getId() == null)
+			{
+				director.setActive(Boolean.TRUE);
+			}
+			else
+			{
+			   Director directorEdit = baseService.findById(Director.class , director.getId());	
+			   directorEdit.setInitialDate(director.getInitialDate());
+			   directorEdit.setFinalDate(director.getFinalDate());
+			   directorEdit.setActive(director.isActive());
+			   directorEdit.setUser(director.getUser());
+			   directorEdit.setLegend(director.getLegend());
+			   director = directorEdit;
+			}
+
 			baseService.save(director);
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute(
 					"errors",
-					initErrors("Ocurrio un error al insertar la fecha de corte:"
+					initErrors("Ocurrio un error al insertar el historico de directores:"
 							+ e.getMessage()));
 		}
 		return SecopreConstans.MV_CAT_DIRECTOR_LIST;
@@ -91,8 +86,21 @@ public class DirectorController extends AuthController {
 			RequestMethod.POST })
 	public String edit(ModelMap model, RedirectAttributes attributes,
 			@RequestParam("id") Long id) {
+		
 		Director director = baseService.findById(Director.class, id);
 		model.addAttribute("director", director);
+		List<User> userList = accessNativeService.getDirectors();
+		//Lista de Personas
+		HashMap<Long, String> directorMap = new HashMap<Long, String>();
+		for (User user : userList) {
+			Person person = new Person();
+			person = baseService.findById(Person.class, user.getPerson().getId());
+			directorMap.put(user.getId() ,person.getName().concat(" ").concat(person.getSecondName().concat(" ").concat(person.getFatherLastName().concat(" ").concat(person.getMotherLastName()))) );
+		}
+		model.addAttribute("directors", directorMap);
+		
+		
+
 		return SecopreConstans.MV_CAT_DIRECTOR_ADD;
 	}
 

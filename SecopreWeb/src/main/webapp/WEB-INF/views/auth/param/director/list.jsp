@@ -80,7 +80,7 @@
 
 									<td>
 									<c:choose>
-									    <c:when test="${director.active}">
+									    <c:when test="${directorItem.active}">
 									   
 									        Activo
 									    
@@ -103,13 +103,13 @@
 										</button>
 
 									    <c:choose>
-									       <c:when test="${director.active}">
-									          <button id="btn_edit"  type="button" class="btn edit-xs btn-warning btn-xs" onclick="changeStatus('auth/param/director/changeStatus?id=${director.id}&activo=${!director.active}' ,'dashboard','initDirectorList()');">
+									       <c:when test="${directorItem.active}">
+									          <button id="btn_edit"  type="button" class="btn edit-xs btn-warning btn-xs" onclick="changeStatus('auth/param/director/changeStatus?id=${directorItem.id}&activo=${!directorItem.active}' ,'dashboard','initDirectorList()');">
 										      <i class="fa fa-minus-square xs"></i>
 										      </button>
 									       </c:when>    
 									       <c:otherwise>
-									          <button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="changeStatus('auth/param/director/changeStatus?id=${director.id}&activo=${!director.active}' ,'dashboard','initDirectorList()');">
+									          <button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="changeStatus('auth/param/director/changeStatus?id=${directorItem.id}&activo=${!directorItem.active}' ,'dashboard','initDirectorList()');">
 										      <i class="fa fa-check-square xs"></i>
 										      </button> 
 									       

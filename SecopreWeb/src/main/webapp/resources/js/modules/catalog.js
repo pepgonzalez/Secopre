@@ -37,6 +37,13 @@ function initDirectorValidations() {
 			finalDateStr : {
 				required : true,
 				australianDate : true
+			},
+			legend : {
+				required : true,
+				maxlength : 200
+			},
+			"user.id" : {
+				required : true
 			}
 		},
 		messages : {
@@ -212,9 +219,9 @@ function initDirectorValidations() {
 //			}
 //			
 //
-//			if (form.valid() == false) {
-//				return false;
-//			}
+			if (form.valid() == false) {
+				return false;
+			}
 
 			handleTitle(tab, navigation, index);
 		},
