@@ -10,6 +10,9 @@ import ideasw.secopre.exception.EntryDistrictException;
 import ideasw.secopre.model.EntryDistrict;
 import ideasw.secopre.service.BaseService;
 import ideasw.secopre.service.EntryConfigService;
+import ideasw.secopre.service.executors.ExecuteJdbc;
+import ideasw.secopre.service.executors.ExecuteJdbcTask;
+import ideasw.secopre.service.executors.ExecutorPoolService;
 import ideasw.secopre.service.impl.mapper.EntryDistrictDetailMapper;
 import ideasw.secopre.service.impl.mapper.EntryDistrictMapper;
 import ideasw.secopre.sql.QueryContainer;
@@ -17,6 +20,7 @@ import ideasw.secopre.sql.SQLConstants;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -95,7 +99,7 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 		return numberEntries;
 	}
 
-	private void callSPCloneEntries(String userId) {
+	private void callSPCloneEntries(String userId) throws SQLException {
 		SqlParameterSource in = new MapSqlParameterSource().addValue("userId",
 				userId);
 		this.executeSp(queryContainer.getSQL(SQLConstants.CLONE_ENTRIES), in);
@@ -118,6 +122,11 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 				queryContainer.getSQL(SQLConstants.GET_ENTRY_DETAIL));
 		MapSqlParameterSource params = new MapSqlParameterSource();
 
+		if(status.equals(StatusEntry.CONFIG)){
+			sql.append(" AND PK.YEAR = YEAR(CURDATE()) + 1");			
+		}else{
+			sql.append(" AND PK.YEAR = YEAR(CURDATE())");			
+		}
 		sql.append(" AND E.STATUS = '" + status.name() + "' ");
 
 		if (filter.getStateId() != null) {
@@ -176,7 +185,11 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 		sql.append(" INNER JOIN");
 		sql.append(" secopre.STATE S ON D.STATE_ID = S.ID ");
 		sql.append(" WHERE");
-		sql.append(" PK.YEAR = YEAR(CURDATE())");
+		if(status.equals(StatusEntry.CONFIG)){
+			sql.append(" PK.YEAR = YEAR(CURDATE()) + 1");			
+		}else{
+			sql.append(" PK.YEAR = YEAR(CURDATE())");			
+		}
 		sql.append(" AND E.STATUS = '" + status.name() + "'");
 
 		String groupBy = " GROUP BY ";
@@ -259,53 +272,92 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 			LOG.error("InvalidFormatException", e);
 		}
 
-		// Inserta los objetos Obtenidos:
-		insertEntriesByDistrict(allRows, username);
+		// actualiza los objetos Obtenidos:
+		updateEntriesByDistrict(allRows, username);
 		return null;
 	}
 
-	private void insertEntriesByDistrict(List<EntryDistrictDetail> allRows,
+	private void updateEntriesByDistrict(List<EntryDistrictDetail> allRows,
 			String username) {
-		StringBuffer sb = new StringBuffer(
-				"INSER INTO secopre.ENTRYDISTRICT (ANNUAL_AMOUNT,BUDGET_AMOUNT,BUDGET_AMOUNT_ASSIGN,");
-		sb.append("COMMITTED_AMOUNT,MONTH,DISTRICT_ID,ENTRY_ID,ACTIVE,CREATE_DATE,CREATED_BY,UPDATE_DATE,UPDATED_BY) VALUES ");
+		List<String> batchStatements = new ArrayList<String>(0);
+		String statement = null;
+		String[] statementArray = null;
 		for (EntryDistrictDetail detail : allRows) {
-			sb.append(getInsertMonth(detail, 0, detail.getJanuary(), username));
-			sb.append(getInsertMonth(detail, 1, detail.getFebruary(), username));
-			sb.append(getInsertMonth(detail, 2, detail.getMarch(), username));
-			sb.append(getInsertMonth(detail, 3, detail.getApril(), username));
-			sb.append(getInsertMonth(detail, 4, detail.getMay(), username));
-			sb.append(getInsertMonth(detail, 5, detail.getJune(), username));
-			sb.append(getInsertMonth(detail, 6, detail.getJuly(), username));
-			sb.append(getInsertMonth(detail, 7, detail.getAugust(), username));
-			sb.append(getInsertMonth(detail, 8, detail.getSeptember(), username));
-			sb.append(getInsertMonth(detail, 9, detail.getOctober(), username));
-			sb.append(getInsertMonth(detail, 10, detail.getNovember(), username));
-			sb.append(getInsertMonth(detail, 11, detail.getDecember(), username));
+			statement = getInsertMonth(detail, 0, detail.getJanuary(), username);
+			if(statement != null)
+				batchStatements.add(statement);
+			statement = getInsertMonth(detail, 1, detail.getFebruary(), username);
+			if(statement != null)
+				batchStatements.add(statement);
+			
+			statement = getInsertMonth(detail, 2, detail.getMarch(), username);
+			if(statement != null)
+				batchStatements.add(statement);	
+			
+			statement = getInsertMonth(detail, 3, detail.getApril(), username);
+			if(statement != null)
+				batchStatements.add(statement);	
+
+			statement = getInsertMonth(detail, 4, detail.getMay(), username);
+			if(statement != null)
+				batchStatements.add(statement);	
+			
+			statement = getInsertMonth(detail, 5, detail.getJune(), username);
+			if(statement != null)
+				batchStatements.add(statement);	
+			
+			statement = getInsertMonth(detail, 6, detail.getJuly(), username);
+			if(statement != null)
+				batchStatements.add(statement);	
+			
+			statement = getInsertMonth(detail, 7, detail.getAugust(), username);
+			if(statement != null)
+				batchStatements.add(statement);	
+
+			statement = getInsertMonth(detail, 8, detail.getSeptember(), username);
+			if(statement != null)
+				batchStatements.add(statement);	
+			
+			statement = getInsertMonth(detail, 9, detail.getOctober(), username);
+			if(statement != null)
+				batchStatements.add(statement);	
+			
+			statement = getInsertMonth(detail, 10, detail.getNovember(), username);
+			if(statement != null)
+				batchStatements.add(statement);	
+			
+			statement = getInsertMonth(detail, 11, detail.getDecember(), username);
+			if(statement != null)
+				batchStatements.add(statement);	
+			
+			if(!batchStatements.isEmpty()){
+				statementArray =  batchStatements.toArray(new String[batchStatements.size()]);
+				ExecutorPoolService.getService().execute(new ExecuteJdbcTask(statementArray));
+//				try {
+//					new ExecuteJdbc().executeJdbcData(this.getJdbcTemplate(), statementArray);
+//				} catch (SQLException e) {
+//					LOG.info("SQLException  ======>" + e.getMessage());
+//					e.printStackTrace();
+//				}
+			}
+				
 		}
 
-		LOG.info("SQL Insert ====> "
-				+ sb.toString().substring(0, sb.length() - 1));
+		LOG.info("Update Realizado ");
 	}
 
 	private String getInsertMonth(EntryDistrictDetail detail, int month,
 			Double amount, String username) {
-
+		if(detail.getAnnualAmount().intValue()== 0 && amount.intValue() == 0){
+			return null;
+		}
 		StringBuffer insert = new StringBuffer();
-		insert.append("(");
-		insert.append(detail.getAnnualAmount()).append(",");
-		insert.append(detail.getBudgetAmount()).append(",");
-		insert.append(amount).append(",");
-		insert.append(detail.getCommittedAmount()).append(",");
-		insert.append(month).append(",");
-		insert.append(detail.getDistrictId()).append(",");
-		insert.append(detail.getEntryId()).append(",");
-		insert.append("1").append(",");
-		insert.append("now()").append(",");
-		insert.append("'").append(username).append("'").append(",");
-		insert.append("now()").append(",");
-		insert.append("'").append(username).append("'").append("),");
-
+		insert.append(" UPDATE secopre.ENTRYDISTRICT set ANNUAL_AMOUNT = ").append(detail.getAnnualAmount()).append(",");
+		insert.append(" BUDGET_AMOUNT = ").append(detail.getAnnualAmount()).append(",");
+		insert.append(" BUDGET_AMOUNT_ASSIGN = ").append(amount);
+		insert.append(" WHERE DISTRICT_ID = ").append(detail.getDistrictId()).append(" AND ");
+		insert.append(" ENTRY_ID = ").append(detail.getEntryId()).append(" AND ");
+		insert.append(" MONTH = ").append(month);
 		return insert.toString();
 	}
 

@@ -1953,9 +1953,13 @@ function initUploadAnnualBudget(){
 	
 	$('#cloneEntries').click(function(e){
 		$('#submit_form').attr('action', 'auth/adm/bugget/clone');
-		sendRequestJQ('auth/adm/bugget/clone', 'dashboard', 'initUploadAnnualBudget()');
+		sendRequestJQ('auth/adm/bugget/clone', 'dashboard', 'initUploadAnnualBudget();initEntryByDistrict();');
 		
 	});
+	$('#submitRequestFormFilter').click(function(e){
+		submitAjaxJQ('submit_form','list_ByDistrict','initEntryByDistrict();');
+	});	
+	
 	
 }
 function initUpload() {

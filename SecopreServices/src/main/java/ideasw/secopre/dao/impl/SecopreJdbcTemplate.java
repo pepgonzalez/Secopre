@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
  * @author jorge.canoc@gmail.com
  *
  */
-@Component
+@Component("secopreJdbcTemplate")
 public class SecopreJdbcTemplate {
 	static final Logger LOG = LoggerFactory
 			.getLogger(SecopreJdbcTemplate.class);

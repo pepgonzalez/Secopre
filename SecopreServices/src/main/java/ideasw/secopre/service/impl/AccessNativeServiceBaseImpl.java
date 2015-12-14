@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Service;
@@ -52,26 +53,26 @@ public class AccessNativeServiceBaseImpl {
 		return sql.getSecopreDataSource().getConnection();
 	}
 
+	public JdbcTemplate getJdbcTemplate() throws SQLException {
+		return sql.getJdbcTemplate();
+	}	
 	public Connection getTsadbitntstConnection() throws SQLException {
 		return sql.getTsadbitntstDataSource().getConnection();
 	}
 
-	public void executeSp(String spName, SqlParameterSource params) {
-		final String procedureCall = "{call secopre.demoSp(?,?)}";
+	public void executeSp(String spName, SqlParameterSource params)throws SQLException {
+		final String procedureCall = "{call secopre.CLONE_ENTRIES()}";
 
 		Connection connection = null;
+
 		try {
 			connection = sql.getJdbcTemplate().getDataSource().getConnection();
 			CallableStatement callableSt = connection
 					.prepareCall(procedureCall);
-			callableSt.setString(1, "abcdefg");
-			callableSt.setInt(2, 1);
+//			callableSt.setString(1, "abcdefg");
+//			callableSt.setInt(2, 1);
 			// callableSt.registerOutParameter(2, Types.INTEGER);
 			boolean hadResults = callableSt.execute();
-
-		} catch (SQLException e) {
-
-			e.printStackTrace();
 
 		} finally {
 

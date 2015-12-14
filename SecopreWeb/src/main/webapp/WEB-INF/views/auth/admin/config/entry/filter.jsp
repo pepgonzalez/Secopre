@@ -65,7 +65,7 @@
 										</div>
 									</div>
 									<div class="col-md-2">
-										<button type="button" class="btn green" id="submitRequestForm" onclick="submitAjaxJQ('submit_form', 'list_ByDistrict', 'initEntryByDistrict()');">Consultar</button>
+										<a class="btn green" id="submitRequestFormFilter" onclick="submitAjaxJQ('submit_form', 'list_ByDistrict', 'initEntryByDistrict()');">Consultar</a>
 									</div>
 									
 									<div class="row">
