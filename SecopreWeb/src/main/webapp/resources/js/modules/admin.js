@@ -2296,6 +2296,8 @@ function entriesCapture(){
 
 function rectificationList(){
 	
+	
+	
 	var formalityDatatable = $('#rectificationList').DataTable({
         "language": {
             "lengthMenu": "_MENU_ Registros por pagina",
