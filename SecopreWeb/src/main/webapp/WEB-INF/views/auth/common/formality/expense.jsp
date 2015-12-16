@@ -59,19 +59,19 @@
 									</td>
 									
 									<td data-name="programaticKey">
-										<form:select path="downMovements[${i.index}].programaticKeyId" class="form-control pk" value="${mov.programaticKeyId}">
+										<form:select path="downMovements[${i.index}].programaticKeyId" class="form-control pk movementComponent" value="${mov.programaticKeyId}">
 											<form:option value="-1" label="Seleccione..."/>
 						    				<form:options items="${programaticKeys}" />
 										</form:select>
 									</td>
 									<td data-name="entry">
-										<form:select path="downMovements[${i.index}].entryId" class="form-control entry input-large" value="${mov.entryId}">
+										<form:select path="downMovements[${i.index}].entryId" class="form-control entry input-large movementComponent" value="${mov.entryId}">
 											<form:option value="-1" label="Seleccione..."/>
 											<form:options items="${entries}" />
 										</form:select>
 									</td>
 									<td data-name="monthAmount">
-										<span>$</span><form:input path="downMovements[${i.index}].monthAmount" class="form-control input-small numbersOnly monthAmount" style="display:inline-block!Important;"/>
+										<span>$</span><form:input path="downMovements[${i.index}].monthAmount" class="form-control input-small numbersOnly monthAmount movementComponent" style="display:inline-block!Important;"/>
 									</td>
 									
 									<td data-name="totalAmount">
@@ -115,19 +115,20 @@
 		</td>
 		
 		<td data-name="programaticKey">
-			<form:select path="upMovements" class="form-control pk">
+			<form:select path="upMovements" class="form-control pk movementComponent">
 				<form:option value="-1" label="Seleccione..."/>
 	  			<form:options items="${programaticKeys}" />
 			</form:select>
 		</td>
 		<td data-name="entry">
-			<form:select path="upMovements" class="form-control entry input-large">
+			<form:select path="upMovements" class="form-control entry input-large movementComponent">
 				<form:option value="-1" label="Seleccione..."/>
+				<form:options items="${entries}" />
 			</form:select>
 		</td>
 		
 		<td data-name="monthAmount">
-			<span>$</span><form:input path="upMovements" class="form-control input-small numbersOnly movementComponent" style="display:inline-block!Important;"/>
+			<span>$</span><form:input path="upMovements" class="form-control input-small numbersOnly monthAmount movementComponent" style="display:inline-block!Important;"/>
 		</td>
 		
 		<td data-name="totalAmount">

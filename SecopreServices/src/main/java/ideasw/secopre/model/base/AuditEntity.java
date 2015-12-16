@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @MappedSuperclass
 public abstract class AuditEntity {
@@ -12,8 +14,12 @@ public abstract class AuditEntity {
 	private String createdBy;
 	@Column(name = "UPDATED_BY",nullable = true)
 	private String updatedBy;
+	
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "CREATE_DATE",nullable = true)
 	private Date createDate;
+	
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "UPDATE_DATE",nullable = true)
 	private Date updateDate;
 	@Column(name = "ACTIVE",nullable = true)
