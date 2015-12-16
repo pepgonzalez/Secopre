@@ -421,6 +421,8 @@ var movementController2 = {
 		// funcion para cambiar siempre a numericos
 		ma.keyup(function() {
 			this.value = this.value.replace(/[^0-9\.]/g, '');
+			var float = parseFloat(this.value);
+			this.value = float.toFixed(2);
 		});
 
 		// validacion de montos al perder el foco

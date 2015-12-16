@@ -268,11 +268,31 @@ var expenseController = {
 	updateAmounts : function(self, grid, nextIndex, element){
 		var ma = $(document).find(self.getId(grid, nextIndex, element));
 		
+		function formatNumberField() {
+		    // unformat the value
+		    var value = this.value.replace(/[^0-9\.]/g, '');
+		    
+		    function format(num){
+		        var n = num.toString(), p = n.indexOf('.');
+		        return n.replace(/\d(?=(?:\d{3})+(?:\.|$))/g, function($0, i){
+		            return p<0 || i<p ? ($0+',') : $0;
+		        });
+		    }
+		    
+		    this.value  = format(value);
+		}
+
+		
 		// funcion para cambiar siempre a numericos
-		ma.keyup(function(){this.value = this.value.replace(/[^0-9\.]/g,'');});
+		ma.keyup(formatNumberField);
 		
 		// validacion de montos al perder el foco
 		ma.blur(function(){
+			var numeric = this.value.replace(/[^0-9\.]/g, '');
+			this.value = numeric;
+			
+			var float = parseFloat(this.value);
+			this.value = float.toFixed(2);
 			
 			var finalMonth = parseInt($(self.getId(grid, nextIndex, "finalMonthId")).val());
 			var initialMonth = parseInt($(self.getId(grid, nextIndex, "initialMonthId")).val());

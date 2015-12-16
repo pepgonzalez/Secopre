@@ -241,7 +241,7 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 			//iteracion sobre los meses del movimiento
 			for(int i= mov.getInitialMonthId(); i<= mov.getFinalMonthId();i++){
 				EntryDistrict entry = this.getEntryBalance(request.getDistrictId(), mov.getEntryId(), new Long(i));
-				entry.setCommittedAmount((entry.getCommittedAmount() - mov.getMonthAmount()));
+				entry.setCommittedAmount((entry.getCommittedAmount() - mov.getMonthAmountValue()));
 				baseService.update(entry);
 			}
 		}	
@@ -259,8 +259,8 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 			//iteracion sobre los meses del movimiento
 			for(int i= mov.getInitialMonthId(); i<= mov.getFinalMonthId();i++){
 				EntryDistrict entry = this.getEntryBalance(request.getDistrictId(), mov.getEntryId(), new Long(i));
-				entry.setCommittedAmount((entry.getCommittedAmount() - mov.getMonthAmount()));
-				entry.setBudgetAmountAssign((entry.getBudgetAmountAssign() - mov.getMonthAmount()));
+				entry.setCommittedAmount((entry.getCommittedAmount() - mov.getMonthAmountValue()));
+				entry.setBudgetAmountAssign((entry.getBudgetAmountAssign() - mov.getMonthAmountValue()));
 				baseService.update(entry);
 			}
 		}	
@@ -270,7 +270,7 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 			//iteracion sobre los meses del movimiento
 			for(int i= mov.getInitialMonthId(); i<= mov.getFinalMonthId();i++){
 				EntryDistrict entry = this.getEntryBalance(request.getDistrictId(), mov.getEntryId(), new Long(i));
-				entry.setBudgetAmountAssign((entry.getBudgetAmountAssign() + mov.getMonthAmount()));
+				entry.setBudgetAmountAssign((entry.getBudgetAmountAssign() + mov.getMonthAmountValue()));
 				baseService.update(entry);
 			}
 		}	
@@ -474,18 +474,18 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 						//Se obtiene el balance actual de la partida distrito mes
 						EntryDistrict entry = this.getEntryBalance(request.getDistrictId(), m.getEntryId(), new Long(i));
 						if (entry == null){
-							throw new EntryDistrictException(request.getDistrictId(), m.getEntryId(), new Long(i), m.getMonthAmount());
+							throw new EntryDistrictException(request.getDistrictId(), m.getEntryId(), new Long(i), m.getMonthAmountValue());
 						}
 						//TODO validar los montos de nuevo y modificar saldo comprometido si es finalizar captura
 						if (request.getNextStageValueCode().equals("SOLCOMP")){
-							if((entry.getBudgetAmountAssign() - entry.getCommittedAmount()) < m.getMonthAmount()){
+							if((entry.getBudgetAmountAssign() - entry.getCommittedAmount()) < m.getMonthAmountValue()){
 								throw new EntryDistrictException(entry.getDistrict().getNumber(), entry.getEntry().getCode().toString(), entry.getEntry().getDescription(), 
-																entry.getMonthString(), (entry.getBudgetAmountAssign() - entry.getCommittedAmount()), m.getMonthAmount());
+																entry.getMonthString(), (entry.getBudgetAmountAssign() - entry.getCommittedAmount()), m.getMonthAmountValue());
 							}	
 							
 							//se actualiza el movimiento
 							LOG.info("Actualizando saldo comprometido a partida");
-							entry.setCommittedAmount(entry.getCommittedAmount() + m.getMonthAmount());
+							entry.setCommittedAmount(entry.getCommittedAmount() + m.getMonthAmountValue());
 							baseService.update(entry);
 						}
 					}
@@ -525,12 +525,12 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 						//Se obtiene el balance actual de la partida distrito mes
 						EntryDistrict entry = this.getEntryBalance(request.getDistrictId(), m.getEntryId(), new Long(i));
 						if (entry == null){
-							throw new EntryDistrictException(request.getDistrictId(), m.getEntryId(), new Long(i), m.getMonthAmount());
+							throw new EntryDistrictException(request.getDistrictId(), m.getEntryId(), new Long(i), m.getMonthAmountValue());
 						}
 						//TODO validar los montos de nuevo y modificar saldo comprometido si es finalizar captura
 						//se actualiza el movimiento
 						LOG.info("Actualizando saldo comprometido a partida");
-						entry.setCommittedAmount(entry.getCommittedAmount() - m.getMonthAmount());
+						entry.setCommittedAmount(entry.getCommittedAmount() - m.getMonthAmountValue());
 						baseService.update(entry);
 					}
 					
@@ -545,10 +545,10 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 			for(int i = m.getInitialMonthId(); i <= m.getFinalMonthId(); i++){
 				EntryDistrict entry = this.getEntryBalance(request.getDistrictId(), m.getEntryId(), new Long(i));
 				if (entry == null){
-					throw new EntryDistrictException(request.getDistrictId(), m.getEntryId(), new Long(i), m.getMonthAmount());
+					throw new EntryDistrictException(request.getDistrictId(), m.getEntryId(), new Long(i), m.getMonthAmountValue());
 				}
 				LOG.info("Reasignando saldo a partida");
-				entry.setBudgetAmountAssign(entry.getBudgetAmountAssign() + m.getMonthAmount());
+				entry.setBudgetAmountAssign(entry.getBudgetAmountAssign() + m.getMonthAmountValue());
 				baseService.update(entry);
 			}
 		}

@@ -1,5 +1,6 @@
 package ideasw.secopre.dto;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,8 +25,11 @@ public class Movement {
 	private Long entryId;
 	private Integer initialMonthId;
 	private Integer finalMonthId;
-	private Double monthAmount;
-	private Double totalAmount;
+	private String monthAmount;
+	private String totalAmount;
+	
+	private Double monthAmountValue;
+	private Double totalAmountValue;
 	
 	private boolean isSaved;
 	
@@ -73,18 +77,23 @@ public class Movement {
 	public void setFinalMonthId(Integer finalMonthId) {
 		this.finalMonthId = finalMonthId;
 	}
-	public Double getMonthAmount() {
-		return monthAmount;
+	public String getMonthAmount() {
+		DecimalFormat formatter = new DecimalFormat("###,###,###.##");
+		return formatter.format((this.monthAmountValue == null ? 0 : this.monthAmountValue));
 	}
-	public void setMonthAmount(Double monthAmount) {
+	public void setMonthAmount(String monthAmount) {
 		this.monthAmount = monthAmount;
+		this.monthAmountValue = new Double(monthAmount.replace(",",""));
 	}
-	public Double getTotalAmount() {
+	public String getTotalAmount() {
 		int months = (this.finalMonthId.intValue() - this.initialMonthId.intValue()) + 1;
-		return this.monthAmount * months;
+		Double total =  this.monthAmountValue * months;
+		DecimalFormat formatter = new DecimalFormat("###,###,###.##");
+		return formatter.format((total == null ? 0 : total));
 	}
-	public void setTotalAmount(Double totalAmount) {
+	public void setTotalAmount(String totalAmount) {
 		this.totalAmount = totalAmount;
+		this.totalAmountValue = new Double(totalAmount.replace(",",""));
 	}
 	public Integer getRemovedElement() {
 		return removedElement;
@@ -103,6 +112,8 @@ public class Movement {
 		", finalMonthId: " + this.finalMonthId + 
 		", monthAmount: " + this.monthAmount + 
 		", totalAmount: " + this.getTotalAmount() + 
+		", monthAmountValue: " + this.monthAmountValue + 
+		", totalAmountValue: " + this.totalAmountValue + 
 		", isSaved: " + this.isSaved + "}";
 	}
 
@@ -134,6 +145,18 @@ public class Movement {
 	}
 	public void setIsSaved(boolean isSaved) {
 		this.isSaved = isSaved;
+	}
+	public Double getMonthAmountValue() {
+		return monthAmountValue;
+	}
+	public void setMonthAmountValue(Double monthAmountValue) {
+		this.monthAmountValue = monthAmountValue;
+	}
+	public Double getTotalAmountValue() {
+		return totalAmountValue;
+	}
+	public void setTotalAmountValue(Double totalAmountValue) {
+		this.totalAmountValue = totalAmountValue;
 	}
 
 }

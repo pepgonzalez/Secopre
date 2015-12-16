@@ -18,8 +18,8 @@ public class MovementMapper implements RowMapper<Object> {
 		 mov.setEntryId(rs.getLong("ENTRY_ID"));
 		 mov.setInitialMonthId(rs.getInt("INITIAL_MONTH"));
 		 mov.setFinalMonthId(rs.getInt("FINAL_MONTH"));
-		 mov.setMonthAmount(rs.getDouble("MONTH_AMOUNT"));
-		 mov.setTotalAmount(rs.getDouble("TOTAL_AMOUNT"));
+		 mov.setMonthAmountValue(rs.getDouble("MONTH_AMOUNT"));
+		 mov.setTotalAmountValue(rs.getDouble("TOTAL_AMOUNT"));
 		 mov.setIsSaved(true);
 		 return mov;   
 	 }    

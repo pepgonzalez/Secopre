@@ -113,8 +113,8 @@ public class MovementsServiceImpl extends AccessNativeServiceBaseImpl implements
 				.addValue("entryId", m.getEntryId())
 				.addValue("initialMonth", m.getInitialMonthId())
 				.addValue("finalMonth", m.getFinalMonthId())
-				.addValue("monthAmount", m.getMonthAmount())
-				.addValue("totalAmount", m.getTotalAmount())
+				.addValue("monthAmount", m.getMonthAmountValue())
+				.addValue("totalAmount", m.getTotalAmountValue())
 				.addValue("active", 1);
 		LOG.info("insertando movimiento");
 		LOG.info(m.toString());
