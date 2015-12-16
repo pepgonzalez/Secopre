@@ -29,6 +29,11 @@
 									
 									<div class="form-group form-md-line-input">
 										<div class="col-md-3">
+											<c:if test="${entriesNextYear > 0}">
+												<div class="btn-group">
+													<a id="cloneEntries" class="btn red">Liberar Presupuesto</a>
+												</div>																						
+											</c:if>
 											<c:if test="${entriesNextYear == 0}">
 												<div class="btn-group">
 													<a id="cloneEntries" class="btn red">Clonar Partidas</a>

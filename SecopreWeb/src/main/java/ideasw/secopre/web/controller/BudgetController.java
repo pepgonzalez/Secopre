@@ -110,5 +110,20 @@ public class BudgetController extends AuthController {
 		}
 		return SecopreConstans.MV__ADM_BUDGET_REDIRECT;
 	}
+	@RequestMapping(value = "adm/bugget/release", method = { RequestMethod.POST,
+			RequestMethod.GET })
+	public String release(ModelMap model, Principal principal,
+			RedirectAttributes redirectAttributes) {
+		try {
+			entryConfigService.releaseBudget(principal.getName());
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			List<String> errors = new ArrayList<String>();
+			errors.add(ex.getMessage());
 
+			redirectAttributes.addFlashAttribute("errors", errors);
+			redirectAttributes.addFlashAttribute("existErrors", 1);
+		}
+		return SecopreConstans.MV__ADM_BUDGET_REDIRECT;
+	}
 }
