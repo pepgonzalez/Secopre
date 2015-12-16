@@ -2223,7 +2223,8 @@ function initReportParamCapture(){
 		if(inputType == "date"){
 			input.datepicker({
 			  	  format: 'dd/mm/yyyy',
-			  	  autoclose: true
+			  	  autoclose: true,
+			  	  language: 'es'
 			  });
 		}
 	});

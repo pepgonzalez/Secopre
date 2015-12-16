@@ -21,6 +21,7 @@ public class DistrictMapper implements RowMapper<Object> {
 		district.setId(rs.getLong("ID"));
 		district.setNumber(rs.getString("DESCRIPTION"));
 		district.setActivo(rs.getBoolean("ACTIVE"));
+		district.setEntity(rs.getString("ENTITY"));
 	
 		district.setEmail(rs.getString("EMAIL"));
         district.setTelephone(rs.getString("TELEPHONE"));
