@@ -316,7 +316,6 @@ public class WorkFlowController extends AuthController {
 				entry.setAccountingType(AccountingType.PARTIDA);
 				entry.setStatus(StatusEntry.INACTIVE);
 				entry.setActivo(false);
-				entry.setCreateDate(new Date());
 				entry.setCreatedBy(loggedUser.getUsername());
 				
 				Long entryId = (Long) baseService.persistAndReturnId(entry);
