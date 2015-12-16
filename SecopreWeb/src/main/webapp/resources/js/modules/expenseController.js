@@ -75,13 +75,29 @@ var expenseController = {
 				if(parseInt(isRemovedRow) == 0){
 					var totalAmount = row.find("[data-name='totalAmount'] input");
 					if (totalAmount.val().length > 0){
-						gridTotal += parseFloat(totalAmount.val());
+						gridTotal += parseFloat(totalAmount.val().replace(/[^0-9\.]/g, ''));
 					}
 				}
 			});
 		}
 		gridTotal = gridTotal.toFixed(2);
-		grd.find(totalId).find(".val").empty().html((gridTotal));	
+		
+		function formatNumberField(x) {
+		    // unformat the value
+		    var value = x.replace(/[^0-9\.]/g, '');
+		    
+		    function format(num){
+		        var n = num.toString(), p = n.indexOf('.');
+		        return n.replace(/\d(?=(?:\d{3})+(?:\.|$))/g, function($0, i){
+		            return p<0 || i<p ? ($0+',') : $0;
+		        });
+		    }
+		    
+		    x  = format(value);
+		    return x;
+		}
+		
+		grd.find(totalId).find(".val").empty().html((formatNumberField(gridTotal)));	
 	},
 	getSliderId : function(grid){
 		var direction = (grid == this.upGrid ? "up" : "down");
@@ -99,12 +115,12 @@ var expenseController = {
 				var rowId = element.attr("id");	
 				
 				//fix para dar formato a los montos
-				var monthAmount = parseFloat(element.find(self.getId(grid, idx, "monthAmount")).val());
-				monthAmount = monthAmount.toFixed(2);
-				element.find(self.getId(grid, idx, "monthAmount")).val(monthAmount);
+				//var monthAmount = parseFloat(element.find(self.getId(grid, idx, "monthAmount")).val());
+				//monthAmount = monthAmount.toFixed(2);
+				//element.find(self.getId(grid, idx, "monthAmount")).val(monthAmount);
 				
-				var totalAmount = parseFloat(element.find(self.getId(grid, idx, "totalAmount")).val()).toFixed(2);
-				element.find(self.getId(grid, idx, "totalAmount")).val(totalAmount);
+				//var totalAmount = parseFloat(element.find(self.getId(grid, idx, "totalAmount")).val()).toFixed(2);
+				//element.find(self.getId(grid, idx, "totalAmount")).val(totalAmount);
 
 				//self.startSlider(self, idx, parseInt(new Date().getMonth()), grid);		
 				self.addRemoveEvent(self, grid, idx);
@@ -230,7 +246,7 @@ var expenseController = {
 	blockRow : function(self, grid, index, forceDisabled){
 		$(self.getId(grid, index, "programaticKeyId")).attr("readonly", "true");
 		$(self.getId(grid, index, "entryId")).attr("readonly", "true");
-		$(self.getId(grid, index, "monthAmount")).attr("readonly", "true");
+		$(self.getId(grid, index, "monthAmount")).attr("readonly", "true").keyup();
 		$(self.getId(grid, index, "totalAmount")).attr("readonly", "true");
 		
 		if(forceDisabled){
@@ -282,6 +298,8 @@ var expenseController = {
 		    this.value  = format(value);
 		}
 
+		var totalInput = $(document).find(self.getId(grid, nextIndex, "totalAmount"));
+		totalInput.keyup(formatNumberField);
 		
 		// funcion para cambiar siempre a numericos
 		ma.keyup(formatNumberField);
@@ -315,7 +333,7 @@ var expenseController = {
 				}
 				
 				//guardamos el monto total en total amount	
-				$(self.getId(grid, nextIndex, "totalAmount")).val(total.toFixed(2));
+				$(self.getId(grid, nextIndex, "totalAmount")).val(total.toFixed(2)).keyup();
 				
 				//se invoca update para actualizar los totales del grid
 				self.updateTotal(self, grid);

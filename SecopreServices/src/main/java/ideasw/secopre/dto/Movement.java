@@ -79,7 +79,9 @@ public class Movement {
 	}
 	public String getMonthAmount() {
 		DecimalFormat formatter = new DecimalFormat("###,###,###.##");
-		return formatter.format((this.monthAmountValue == null ? 0 : this.monthAmountValue));
+		String result =  formatter.format((this.monthAmountValue == null ? 0 : this.monthAmountValue));
+		System.out.println("resultado de formato: " + result);
+		return result;
 	}
 	public void setMonthAmount(String monthAmount) {
 		this.monthAmount = monthAmount;
@@ -89,7 +91,9 @@ public class Movement {
 		int months = (this.finalMonthId.intValue() - this.initialMonthId.intValue()) + 1;
 		Double total =  this.monthAmountValue * months;
 		DecimalFormat formatter = new DecimalFormat("###,###,###.##");
-		return formatter.format((total == null ? 0 : total));
+		String result=  formatter.format((total == null ? 0 : total));
+		System.out.println("resultado de formato: " + result);
+		return result;
 	}
 	public void setTotalAmount(String totalAmount) {
 		this.totalAmount = totalAmount;
