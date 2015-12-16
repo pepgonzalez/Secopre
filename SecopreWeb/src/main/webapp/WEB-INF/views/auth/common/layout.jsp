@@ -141,6 +141,9 @@
 	<script src='<c:url value="/resources/js/plugins/jquery.uniform.min.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/bootstrap-switch.min.js"/>' type="text/javascript"></script>
     <script src='<c:url value="/resources/js/plugins/bootstrap-datepicker.min.js"/>' type="text/javascript"></script>
+    <script src='<c:url value="/resources/js/plugins/bootstrap-datepicker.es.js"/>' type="text/javascript"></script>
+    
+    
 	
 	<!-- END CORE PLUGINS -->
 	<!-- BEGIN PAGE LEVEL PLUGINS -->

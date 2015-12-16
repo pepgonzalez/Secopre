@@ -92,7 +92,6 @@ public class NoticeController extends AuthController {
             else
             {    
             	Notice noticeEdit = baseService.findById(Notice.class , notice.getId());
-            	noticeEdit.setActivo(notice.getActivo());
             	noticeEdit.setDisplayDate(notice.getDisplayDate());
             	noticeEdit.setRegisterDate(notice.getRegisterDate());
             	noticeEdit.setNoticeInfo(notice.getNoticeInfo());

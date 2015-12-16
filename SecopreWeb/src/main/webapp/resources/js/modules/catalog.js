@@ -3,11 +3,13 @@ function initDirectorCat() {
 	initDirectorValidations();
     $('#initialDateStr').datepicker({
     	  format: 'dd/mm/yyyy',
-    	  autoclose: true
+    	  autoclose: true,
+    	  language: 'es'
     });
     $('#finalDateStr').datepicker({
     	  format: 'dd/mm/yyyy',
-    	  autoclose: true
+    	  autoclose: true,
+    	  language: 'es'
     });
 }
 
@@ -261,11 +263,13 @@ function initDueDateCat() {
 	initDueDateValidations();
     $('#dueDateStr').datepicker({
     	  format: 'dd/mm/yyyy',
-    	  autoclose: true
+    	  autoclose: true,
+    	  language: 'es'
     });
     $('#maxBlockDateStr').datepicker({
     	  format: 'dd/mm/yyyy',
-    	  autoclose: true
+    	  autoclose: true,
+    	  language: 'es'
     });
 }
 
@@ -405,11 +409,13 @@ function initNoticeCat(noticeId) {
 	 $('select').select2();
 	    $('#registerDateStr').datepicker({
 	    	  autoclose: true,
-	    	  format: 'dd/mm/yyyy'
+	    	  format: 'dd/mm/yyyy',
+	    	  language: 'es'
 	    });
 	    $('#displayDateStr').datepicker({
 	    	  autoclose: true,
-	    	  format: 'dd/mm/yyyy'
+	    	  format: 'dd/mm/yyyy',
+	    	  language: 'es'
 	    });
 	    $('#districts').multiSelect({ includeSelectAllOption: true});
 	    
