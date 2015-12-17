@@ -2325,3 +2325,10 @@ function rectificationList(){
 	$(document).find(".dataTables_filter").hide();
 }
 
+
+function exportToExcel(id, callback){	
+	$(id).DataTable().destroy();
+	$(id).tableExport({type:'excel',escape:'false'});
+	callback();
+	
+}

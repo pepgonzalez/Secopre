@@ -42,6 +42,8 @@ public class SQLConstants {
 	//Querys para clonacion de partidas
 	public static final String VALIDATE_ENTRIES_NEXT_YEAR = "VALIDATE_ENTRIES_NEXT_YEAR";
 	public static final String CLONE_ENTRIES = "CLONE_ENTRIES";
+	public static final String RELEASE_BUDGET = "RELEASE_BUDGET";
+
 	
 	//obtiene todas las partidas asociadas a un llave programatica con saldo disponible
 	public static final String GET_ENTRY_DETAIL = "GET_ENTRY_DETAIL";

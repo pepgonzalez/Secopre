@@ -107,7 +107,7 @@
 <!-- 																<span class="input-group-addon">  -->
 <!-- 																  <i class="icon-user"></i> -->
 <!-- 																</span>  -->
-																<form:select path="district.state.id"  name="state.id" class="form-control">
+																<form:select path="district.state.id"  name="state" class="form-control">
 																   <form:option value="" label="Seleccione..."/>
 					    										   <form:options items="${states}" />
 																</form:select>
@@ -128,7 +128,7 @@
 <!-- 																<span class="input-group-addon"> -->
 <!-- 																	<i class="fa fa-envelope"></i> -->
 <!-- 																</span>  -->
-																<input name="email" id="email" value="${district.email}" class="form-control" placeholder='<spring:message code="application.pages.catalog.district.email.placeholder"/>'>
+																<input name="email" id="email" type="email" value="${district.email}" class="form-control" placeholder='<spring:message code="application.pages.catalog.district.email.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
 																<span id="email-error" class="help-block help-block-error">
@@ -304,7 +304,7 @@
 													  code="application.pages.catalog.district.state" />
 											       </label>
 										           <div class="col-md-4">
-											         <p class="form-control-static" data-display="state.id"></p>
+											         <p class="form-control-static" data-display="district.state.id"></p>
 										           </div>
 									            </div>	
 									            
@@ -328,7 +328,25 @@
 										           </div>
 									            </div>		
 									            
-
+									            <div class="form-group">
+										           <label class="control-label col-md-3"><spring:message
+													  code="application.pages.admin.persons.gender" />
+											       </label>
+										           <div class="col-md-4">
+											         <p class="form-control-static" data-display="gender"></p>
+										           </div>
+									            </div>		
+									            
+									            <div class="form-group">
+										           <label class="control-label col-md-3"><spring:message
+													  code="application.pages.admin.persons.telephone" />
+											       </label>
+										           <div class="col-md-4">
+											         <p class="form-control-static" data-display="telephone"></p>
+										           </div>
+									            </div>	
+									            
+						
 									            
 									            <div class="form-group">
 										           <label class="control-label col-md-3"><spring:message

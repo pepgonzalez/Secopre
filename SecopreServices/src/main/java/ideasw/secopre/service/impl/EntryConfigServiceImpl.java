@@ -10,7 +10,6 @@ import ideasw.secopre.exception.EntryDistrictException;
 import ideasw.secopre.model.EntryDistrict;
 import ideasw.secopre.service.BaseService;
 import ideasw.secopre.service.EntryConfigService;
-import ideasw.secopre.service.executors.ExecuteJdbc;
 import ideasw.secopre.service.executors.ExecuteJdbcTask;
 import ideasw.secopre.service.executors.ExecutorPoolService;
 import ideasw.secopre.service.impl.mapper.EntryDistrictDetailMapper;
@@ -443,7 +442,7 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 				|| entryDistrict.getEntryId() == null) {
 			entryDistrict = null;
 		}
-		LOG.info("CELL ===>" + sb.toString());
+		LOG.debug("CELL ===>" + sb.toString());
 		return entryDistrict;
 
 	}
@@ -485,5 +484,25 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 
 		return false;
 
+	}
+
+	@Override
+	public boolean releaseBudget(String userId) throws Exception {
+		try{
+			callSPRelease(userId);
+		}catch (Exception e){
+			LOG.error("Error al ejectuar la liberacion del presupuesto", e);
+			LOG.info("Error al ejectuar la liberacion del presupuesto", e);
+			throw new EntryDistrictException(
+							 "El presupuesto no pudo ser liberado, informe al administrador: " + e.getMessage());
+			
+		}
+		return true;
+	}
+
+	private void callSPRelease(String userId) throws SQLException {
+		SqlParameterSource in = new MapSqlParameterSource().addValue("userId",
+				userId);
+		this.executeSp(queryContainer.getSQL(SQLConstants.RELEASE_BUDGET), in);
 	}
 }

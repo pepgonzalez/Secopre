@@ -26,7 +26,7 @@
 											</button>
 											<ul class="dropdown-menu pull-right">
 												<li>
-													<a href="javascript:;"><spring:message code="application.export.excel"/></a>
+													<a href="javascript:;" onclick="exportToExcel('#rectificationList', rectificationList);"><spring:message code="application.export.excel"/></a>
 												</li>
 											</ul>
 										</div>

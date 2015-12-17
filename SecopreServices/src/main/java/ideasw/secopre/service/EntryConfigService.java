@@ -23,4 +23,6 @@ public interface EntryConfigService {
 	
 	public Integer numberEntriesNextYear();
 
+	public boolean releaseBudget(String userId) throws Exception;
+	
 }
