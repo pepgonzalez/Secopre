@@ -83,7 +83,7 @@ public class NoticeController extends AuthController {
 
 	@RequestMapping(value = "oper/notice/add", method = RequestMethod.POST)
 	public String add(@ModelAttribute("notice") Notice notice,
-			@RequestParam("districts") String district, ModelMap model) {
+			@RequestParam(value="districts",required = true, defaultValue = "") String district, ModelMap model) {
 		try {
             if(notice.getId()==null)
             {
@@ -98,15 +98,19 @@ public class NoticeController extends AuthController {
             	noticeEdit.setId(notice.getId());
             	notice = noticeEdit;
             }
-			List<District> distritList = new ArrayList<District>();
-			List<String> items = Arrays.asList(district.split("\\s*,\\s*"));
-
-			for (String distrid : items) {
-				District distr = baseService.findById(District.class,
-						Long.parseLong(distrid));
-				distritList.add(distr);
-				notice.setDistrs(distritList);
-			}
+            
+            if (!district.equals(""))
+            {
+				List<District> distritList = new ArrayList<District>();
+				List<String> items = Arrays.asList(district.split("\\s*,\\s*"));
+	
+				for (String distrid : items) {
+					District distr = baseService.findById(District.class,
+							Long.parseLong(distrid));
+					distritList.add(distr);
+					notice.setDistrs(distritList);
+				}
+            }
 			
 			baseService.save(notice);
 		} catch (Exception e) {
@@ -119,6 +123,36 @@ public class NoticeController extends AuthController {
 		}
 		return SecopreConstans.MV_CAT_NOTICE_LIST;
 	}
+	
+//	@RequestMapping(value = "oper/notice/add", method = RequestMethod.POST)
+//	public String add(@ModelAttribute("notice") Notice notice, ModelMap model) {
+//		try {
+//            if(notice.getId()==null)
+//            {
+//            	notice.setActivo(Boolean.TRUE);
+//            }
+//            else
+//            {    
+//            	Notice noticeEdit = baseService.findById(Notice.class , notice.getId());
+//            	noticeEdit.setDisplayDate(notice.getDisplayDate());
+//            	noticeEdit.setRegisterDate(notice.getRegisterDate());
+//            	noticeEdit.setNoticeInfo(notice.getNoticeInfo());
+//            	noticeEdit.setId(notice.getId());
+//            	notice = noticeEdit;
+//            }
+//			
+//			baseService.save(notice);
+//		} catch (Exception e) {
+//			e.getStackTrace();
+//			e.printStackTrace();
+//			model.addAttribute(
+//					"errors",
+//					initErrors("Ocurrio un error al insertar el aviso:"
+//							+ e.getMessage()));
+//		}
+//		return SecopreConstans.MV_CAT_NOTICE_LIST;
+//	}
+//
 
 	@RequestMapping(value = "oper/notice/delete", method = RequestMethod.POST)
 	public String delete(ModelMap model, @RequestParam("id") Long id) {
