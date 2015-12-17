@@ -20,13 +20,17 @@
 
 			<!-- FORMULARIO AGREGAR AVISOS-->
 			<div id="add_Notice">
-				<%@ include file="/WEB-INF/views/auth/oper/notice/add.jsp"%>
+				<!-- 
+<%-- 				<%@ include file="/WEB-INF/views/auth/oper/notice/add.jsp" flush="true"%> --%>
+				-->
+				<jsp:include page="/WEB-INF/views/auth/oper/notice/add.jsp" flush="true"/>
 			</div>
 			<!-- TERMINA FORMULARIO AGREGAR AVISOS -->
 			
 			<!-- LISTA AVISOS -->
 			<div id="list_Notice">
-				<%@ include file="/WEB-INF/views/auth/oper/notice/list.jsp"%>
+<%-- 				<%@ include file="/WEB-INF/views/auth/oper/notice/list.jsp"%> --%>
+				<jsp:include page="/WEB-INF/views/auth/oper/notice/list.jsp" flush="true"/>
 			</div>
 			<!-- TERMINA LISTA AVISOS -->			
 
