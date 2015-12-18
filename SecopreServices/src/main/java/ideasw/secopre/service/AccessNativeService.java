@@ -243,5 +243,7 @@ public interface AccessNativeService {
 	boolean fullRollbackMovement(List<Movement> list, Request request) throws Exception;
 
 	boolean moveBugdetAmountToNextMonth(Long districtId, Long entryId, Long monthNumber) throws Exception;
+
+	Map<Long, String> getProgramaticKeysFullMap();
 }
 

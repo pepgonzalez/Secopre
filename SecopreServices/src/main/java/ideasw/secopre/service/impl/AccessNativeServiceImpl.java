@@ -683,6 +683,17 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		return map;
 	}
 	
+	@Override
+	public Map<Long, String> getProgramaticKeysFullMap() {
+		int year = Calendar.getInstance().get(Calendar.YEAR);
+		List<ProgrammaticKey> l = baseService.findByProperty(ProgrammaticKey.class, "year", year);
+		Map<Long, String> map = new HashMap<Long, String>();
+		for(ProgrammaticKey k : l){
+			map.put(k.getId(), k.getFullKey());
+		}
+		return map;
+	}
+	
 	public Map<Long, String> getEntriesMap(){
 		List<Entry> l = new ArrayList<Entry>();
 		l = baseService.findAll(Entry.class);

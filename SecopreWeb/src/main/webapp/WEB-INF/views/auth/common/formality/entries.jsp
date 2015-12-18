@@ -25,7 +25,7 @@
 	<div class="col-md-8">
 		<form:select path="entry.programmaticKey.id" id="pk" class="form-control input-small movementComponent pk" value="${mov.programaticKeyId}">
 			<form:option value="-1" label="Seleccione..."/>
-  				<form:options items="${programaticKeys}" />
+  				<form:options items="${programaticKeysFull}" />
 		</form:select>
 			
 	</div>

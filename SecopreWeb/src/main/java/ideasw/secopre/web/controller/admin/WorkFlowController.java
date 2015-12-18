@@ -118,6 +118,7 @@ public class WorkFlowController extends AuthController {
 		
 		model.addAttribute("movementTypes", accessNativeService.getMovementTypesMap());
 		model.addAttribute("programaticKeys", accessNativeService.getProgramaticKeysMap());
+		model.addAttribute("programaticKeysFull", accessNativeService.getProgramaticKeysFullMap());
 		model.addAttribute("entries", accessNativeService.getEntriesMap(-1L));
 		model.addAttribute("months", accessNativeService.getMonthsMap());
 		model.addAttribute("requestForm", requestForm);

@@ -2070,8 +2070,8 @@ function movements2Capture() {
 
 function initAuthorization() {
 	
-	$(document).find("input").attr("readonly","true");
-	$(document).find("select").attr("readonly","true");
+	$(document).find("input").attr("readonly","true").prop("disabled",true);
+	$(document).find("select").attr("readonly","true").prop("disabled",true);
 
 	movementController2.startComponent();
 	
@@ -2097,6 +2097,10 @@ function initAuthorization() {
 	//manda a siguiente firma
 	$('#backToCapture').click(function(e) {
 		if($("#comments").val().length > 0){
+			
+			$(document).find("input").attr("readonly","true").prop("disabled",false);
+			$(document).find("select").attr("readonly","true").prop("disabled",false);
+			
 			requestForm.find('#nextStageValueCode').val("REGRESAR");
 			submitAjaxJQ('requestForm', 'dashboard', '');
 		}else{
@@ -2107,6 +2111,9 @@ function initAuthorization() {
 	//manda a siguiente firma
 	$('#authorizateFormality').click(function(e) {
 		// alert("autorizando Tramite");
+		$(document).find("input").attr("readonly","true").prop("disabled",false);
+		$(document).find("select").attr("readonly","true").prop("disabled",false);
+		
 		requestForm.find('#nextStageValueCode').val("SIGFIRMA");
 		submitAjaxJQ('requestForm', 'dashboard', '');
 	});
@@ -2119,6 +2126,10 @@ function initAuthorization() {
 	$('#cancelFormality').click(function(e) {
 		// alert("Cancelando Tramite");
 		if($("#comments").val().length > 0){
+			
+			$(document).find("input").attr("readonly","true").prop("disabled",false);
+			$(document).find("select").attr("readonly","true").prop("disabled",false);
+			
 			requestForm.find('#nextStageValueCode').val("CANCELAR");
 			submitAjaxJQ('requestForm', 'dashboard', '');
 		}else{
@@ -2129,6 +2140,9 @@ function initAuthorization() {
 	//finalizar tramite
 	$('#finishFormality').click(function(e) {
 		// alert("autorizando Tramite y finalizar");
+		$(document).find("input").attr("readonly","true").prop("disabled",false);
+		$(document).find("select").attr("readonly","true").prop("disabled",false);
+		
 		requestForm.find('#nextStageValueCode').val("CONTINUAR");
 		submitAjaxJQ('requestForm', 'dashboard', '');
 	});

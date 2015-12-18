@@ -53,13 +53,15 @@
 											
 											<!-- si es el dueño de la etapa y no es superusuario  puede regresar a captura o autorizar -->
 											<c:if test="${authorization.canUserAuthorize == true && authorization.superUser == false}">
-												<button type="button" class="btn red" id="backToCapture" >Regresar trámite a captura</button>
+												<button type="button" class="btn red" id="cancelFormality" >Cancelar Trámite</button>
+												<button type="button" class="btn yellow" id="backToCapture" >Regresar a Captura</button>
 												<button type="button" class="btn green" id="authorizateFormality">Autorizar trámite</button>
 											</c:if>
 											
 											<!-- si es el dueño de la etapa y no es superusuario  puede regresar a captura o autorizar -->
 											<c:if test="${authorization.superUser == true}">
 												<button type="button" class="btn red" id="cancelFormality" >Cancelar Trámite</button>
+												<button type="button" class="btn yellow" id="backToCapture" >Regresar a Captura</button>
 												<button type="button" class="btn green" id="finishFormality">Finalizar Trámite</button>
 											</c:if>
 											
