@@ -245,5 +245,9 @@ public interface AccessNativeService {
 	boolean moveBugdetAmountToNextMonth(Long districtId, Long entryId, Long monthNumber) throws Exception;
 
 	Map<Long, String> getProgramaticKeysFullMap();
+	
+	/*Metodo para validar si un distrito ya existe para un role*/
+	boolean hasDistrictRole(Long districtId, Long roleId);
+	
 }
 

@@ -83,7 +83,9 @@ public class UserController extends AuthController {
 		model.addAttribute("positions", positionMap);
 		
 		//Lista de Distritos
-		model.addAttribute("districts", secopreCache.getAlldistricts());
+		//model.addAttribute("districts", secopreCache.getAlldistricts());
+		
+		model.addAttribute("districts", secopreCache.getValidDistricts());
 		
 		return SecopreConstans.MV_ADM_USR;
 	}
@@ -354,6 +356,37 @@ public class UserController extends AuthController {
 		
 		returnObject.put("result", result);
 		return returnObject;
+	}
+	
+	@RequestMapping(value = "adm/usr/getDistrictsByUserRole/{roles}/{distrs}", method= {RequestMethod.GET})
+	public @ResponseBody Map<String, Object> getDistrictsByUserRole(@PathVariable("roles") String roles, @PathVariable("distrs") String distritos){
+		Map<String, Object> returnObject = new HashMap<String, Object>();
+		
+		List<String> itemsDist = Arrays.asList(distritos.split("\\s*,\\s*"));
+		List<String> itemsRoles = Arrays.asList(roles.split("\\s*,\\s*"));
+	    String result ="valido";
+		for (String roleId : itemsRoles) {		
+			for (String districtId : itemsDist) {
+				
+				District district= baseService.findById(District.class, Long.parseLong(districtId));
+				Role role= baseService.findById(Role.class, Long.parseLong(roleId));
+				
+				if (accessNativeService.hasDistrictRole(Long.parseLong(districtId), Long.parseLong(roleId)))
+				{  
+					 result = "El distrito " + "DTO-" +district.getNumber() + " ya tiene asignado una persona con el rol " + role.getName() + "."; 
+						
+					 returnObject.put("result", result);
+					 return returnObject;
+					
+				}
+				
+			}
+		}
+		
+		returnObject.put("result", result);
+		return returnObject;
+		
+
 	}
 	
 }

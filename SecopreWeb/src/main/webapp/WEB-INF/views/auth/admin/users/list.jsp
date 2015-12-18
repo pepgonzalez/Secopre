@@ -32,7 +32,7 @@
 											</button>
 											<ul class="dropdown-menu pull-right">
 												<li>
-													<a  id="exportToXLS"href="javascript:;"><spring:message code="application.export.excel"/></a>
+													<a  id="exportToXLS"href="javascript:;" onclick="exportToExcel('#UserTable', initUserList());"><spring:message code="application.export.excel"/></a>
 												</li>
 											</ul>
 										</div>

@@ -209,7 +209,7 @@
 										<div class="col-md-4">
 											<select multiple="multiple" class="multi-select" id="roles" name="roles">
 												<c:forEach items="${roles}" var="role">
-														<option value="${role.id}">${role.rolename} </option> 
+														<option value="${role.id}">${role.name} </option> 
 												</c:forEach>
 											</select>											
 										</div>

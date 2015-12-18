@@ -32,7 +32,7 @@
 											</button>
 											<ul class="dropdown-menu pull-right">
 												<li>
-													<a href="javascript:;"><spring:message code="application.export.excel"/></a>
+													<a href="javascript:;" onclick="exportToExcel('#ProgrammaticKeyTable', initProgrammaticKeyList());"><spring:message code="application.export.excel"/></a>
 												</li>
 											</ul>
 										</div>
@@ -49,14 +49,21 @@
 								<th><spring:message code="application.pages.catalog.programmaticKey.year"/></th>
 								<th><spring:message code="application.pages.catalog.programmaticKey.ramo"/></th>
 								<th><spring:message code="application.pages.catalog.programmaticKey.unitResponsable"/></th>
-								<th><spring:message code="application.pages.catalog.programmaticKey.program"/></th>
-								<th><spring:message code="application.pages.catalog.programmaticKey.financingSource"/></th>								
-								<th><spring:message code="application.pages.catalog.programmaticKey.functionalGroup"/></th>		
-								<th><spring:message code="application.pages.catalog.programmaticKey.activity"/></th>							
-								<th><spring:message code="application.pages.catalog.programmaticKey.function"/></th>
-								<th><spring:message code="application.pages.catalog.programmaticKey.programBudget"/></th>								
+								<th><spring:message code="application.pages.catalog.programmaticKey.functionalGroup"/></th>	
+							    <th><spring:message code="application.pages.catalog.programmaticKey.function"/></th>
 								<th><spring:message code="application.pages.catalog.programmaticKey.subfunction"/></th>
-								<th><spring:message code="application.pages.catalog.programmaticKey.expenseType"/></th>
+								
+								<th><spring:message code="application.pages.catalog.programmaticKey.program"/></th>
+								<th><spring:message code="application.pages.catalog.programmaticKey.activity"/></th>	
+									<th><spring:message code="application.pages.catalog.programmaticKey.programBudget"/></th>	
+									<th><spring:message code="application.pages.catalog.programmaticKey.expenseType"/></th>
+								<th><spring:message code="application.pages.catalog.programmaticKey.financingSource"/></th>								
+									
+														
+							
+														
+				
+								
 								<th><spring:message code="application.active"/></th>
 								<th><spring:message code="application.actions"/></th>
 							</tr>

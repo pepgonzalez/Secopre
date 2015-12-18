@@ -1184,6 +1184,8 @@ function initPermValidations() {
 	});
 }
 
+	
+
 function initUserValidations() {
 
 	var form = $('#submit_form');
@@ -1416,6 +1418,32 @@ function initUserValidations() {
 		}
 		Metronic.scrollTo($('.page-title'));
 	}
+	
+	
+	var hasDistrictRole = function() {
+		var validator="";
+		var roles = $("#roles").val();
+		var distrs = $("#distrs").val();
+		var actionURL = "auth/adm/usr/getDistrictsByUserRole/" + roles + "/" + distrs;
+		var method = method || "POST";
+		var header = $("meta[name='_csrf_header']").attr("content");
+		var token = $("meta[name='_csrf']").attr("content");
+		$.ajax({
+			url : context + '/' + actionURL,
+			async: false,
+			beforeSend : function(xhr) {
+				xhr.setRequestHeader(header, token);
+			},
+			success : function(data) {
+				result=data.result;
+				validator = result
+				//alert(validator);
+				return validator;
+				
+			}
+		});
+		return validator;
+	}
 
 	// default form wizard
 	$('#form_wizard_1').bootstrapWizard({
@@ -1429,13 +1457,28 @@ function initUserValidations() {
 			 */
 		},
 		onNext : function(tab, navigation, index) {
-
-			success.hide();
-			error.hide();
-
+			var total = navigation.find('li').length;
+			var current = index + 1;
+			
+			 
 			if (form.valid() == false) {
 				return false;
 			}
+			
+			if(index==3)
+			{			
+				var valArr = hasDistrictRole();
+				if ( valArr!='valido') {
+					bootbox.alert(valArr + "Favor de validar"); 
+					return false;
+				}
+				
+			}
+			
+
+			
+			success.hide();
+			error.hide();
 
 			handleTitle(tab, navigation, index);
 		},

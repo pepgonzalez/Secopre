@@ -37,6 +37,7 @@ public class SQLConstants {
 	public static final String GET_LIST_ENTRIES = "GET_LIST_ENTRIES";	
 	public static final String GET_DISTRICT_LIST_BY_NOTICE = "GET_DISTRICT_LIST_BY_NOTICE";
 	public static final String GET_LIST_DIRECTORS = "GET_LIST_DIRECTORS";
+	public static final String HAS_DISTRICT_ROLE = "HAS_DISTRICT_ROLE";
 	
 	
 	//Querys para clonacion de partidas

@@ -1105,6 +1105,17 @@
 					]]>
 				</prop>
 				
+				<prop key="HAS_DISTRICT_ROLE">
+					<![CDATA[
+					SELECT COUNT(*)
+	  				  FROM DISTRICT_USER DU,
+	       			       USER_ROLE UR
+	 				 WHERE DU.USER_ID = UR.USER_ID
+	   				   AND ROLE_ID     = :roleId
+	   				   AND DISTRICT_ID = :districtId
+					]]>
+				</prop>
+				
 													
 			</props>				
 		</property>

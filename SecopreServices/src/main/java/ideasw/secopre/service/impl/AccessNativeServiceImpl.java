@@ -1137,4 +1137,12 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		return result;
 	}
 	
+	
+	/*Metodo para validar si un distrito ya existe para un role*/
+
+	public boolean hasDistrictRole(Long districtId, Long roleId){
+		SqlParameterSource params = new MapSqlParameterSource().addValue("districtId", districtId).addValue("roleId", roleId);
+		return (this.queryForObject(Integer.class, queryContainer.getSQL(SQLConstants.HAS_DISTRICT_ROLE), params) > 0);		
+	}
+	
 }
