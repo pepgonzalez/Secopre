@@ -34,6 +34,7 @@ import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.AccessNativeService;
 import ideasw.secopre.service.BaseService;
 import ideasw.secopre.service.impl.mapper.DistrictMapper;
+import ideasw.secopre.service.impl.mapper.EntryComparator;
 import ideasw.secopre.service.impl.mapper.EntryCurrentTotalMapper;
 import ideasw.secopre.service.impl.mapper.EntryMapper;
 import ideasw.secopre.service.impl.mapper.FormalityMapper;
@@ -65,6 +66,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -698,6 +700,7 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		List<Entry> l = new ArrayList<Entry>();
 		l = baseService.findAll(Entry.class);
 		Map<Long, String> map = new HashMap<Long, String>();
+		Collections.sort(l, new EntryComparator());
 		for (Entry e : l){
 			map.put(e.getId(), e.getName());
 		}
@@ -729,6 +732,9 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		}else{
 			l = baseService.findAll(Entry.class);
 		}
+		
+		Collections.sort(l, new EntryComparator());
+		
 		Map<Long, String> map = new HashMap<Long, String>();
 		for (Entry e : l){
 			map.put(e.getId(), e.getCode() + " - "+e.getName());
