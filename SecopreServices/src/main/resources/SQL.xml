@@ -454,15 +454,16 @@
 	
 				<prop key="GET_VALID_ENTRIES">
 					<![CDATA[
-						SELECT E.ID, E.NAME, E.CODE
+						SELECT E.ID, E.NAME, E.CODE, P.CODE
 						  FROM secopre.ENTRY E
+						  LEFT JOIN secopre.ENTRY P ON (E.ENTRY_CONCEPT_ID = P.ID)
 						  JOIN (SELECT DISTINCT DISTRICT_ID, ENTRY_ID 
 						          FROM secopre.ENTRYDISTRICT ED 
 						         WHERE ED.DISTRICT_ID = :districtId ) T
 						    ON E.ID = T.ENTRY_ID
 						   AND E.PROGRAMMATIC_ID = :programaticKeyId
 						   AND E.ACCOUNTING_TYPE = 'PARTIDA'
-						ORDER BY E.CODE   
+						ORDER BY P.CODE, E.CODE   
 					]]>
 				</prop>
 				
