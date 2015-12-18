@@ -315,7 +315,7 @@ public class WorkFlowController extends AuthController {
 				entry.setProgrammaticKey(pk);
 				
 				entry.setAccountingType(AccountingType.PARTIDA);
-				entry.setStatus(StatusEntry.INACTIVE);
+				//entry.setStatus(StatusEntry.INACTIVE);
 				entry.setActivo(false);
 				entry.setCreatedBy(loggedUser.getUsername());
 				

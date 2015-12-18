@@ -99,7 +99,7 @@ table.popupContainer tbody {
 table.popupContainer tr td a{
          display:block;
          width:100%;
-         padding: 10px;
+         padding: 4px;
 }
 
 .popupContainer .qtip-content{
