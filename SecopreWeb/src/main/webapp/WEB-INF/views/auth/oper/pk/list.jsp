@@ -80,32 +80,39 @@
 										 ${programmaticKeyItem.unitResponsable}
 									</td>
 									<td>
-										 ${programmaticKeyItem.program}
-									</td>
-									<td>
-										 ${programmaticKeyItem.financingSource}
-									</td>
-									<td>
-										 ${programmaticKeyItem.functionalGroup}
-									</td>
-									<td>
-										 ${programmaticKeyItem.activity}
+										 ${programmaticKeyItem.functionalGroup}										
 									</td>
 									<td>
 										 ${programmaticKeyItem.function}
 									</td>
 									<td>
-										 ${programmaticKeyItem.programBudget}
-									</td>
-									<td>
 										 ${programmaticKeyItem.subfunction}
+									</td>	
+									<td>
+										 ${programmaticKeyItem.program}
+									</td>	
+									
+									<td>
+										 ${programmaticKeyItem.activity}
 									</td>
+									
+									
+
+									<td>
+										 ${programmaticKeyItem.code}
+									</td>
+									
+									
 									<td>
 										 ${programmaticKeyItem.expenseType}
 									</td>
 									
-									
-									
+																																		
+									<td>
+										 ${programmaticKeyItem.financingSource}
+									</td>
+
+
 									<td>
 									<c:choose>
 									    <c:when test="${programmaticKeyItem.activo}">
