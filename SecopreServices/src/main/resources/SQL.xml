@@ -1110,9 +1110,20 @@
 					<![CDATA[
 					SELECT COUNT(*)
 	  				  FROM DISTRICT_USER DU,
-	       			       USER_ROLE UR
+	       			       USER_ROLE UR,
+	       			              ( SELECT   D.ENTITY, D.ID, CONCAT('DTO-',D.NUMBER) AS DESCRIPTION,
+							       EMAIL,TELEPHONE, D.ACTIVE, A.NUMBER NUMBER_EXT, A.STREET, A.COLONY, A.CITY, S.id STATE_ID, S.CODE, S.NAME, A.id ADDRESS_ID
+							       FROM secopre.DISTRICT D JOIN
+							(SELECT DISTINCT(ED.DISTRICT_ID) FROM secopre.ENTRYDISTRICT ED) T
+								ON (D.ID = T.DISTRICT_ID)
+							LEFT OUTER JOIN ADDRESS A
+							  ON D.ADDRESS_ID = A.id
+							    LEFT OUTER JOIN STATE S
+							  ON S.id = D.STATE_ID
+							  ORDER BY CONVERT(D.NUMBER,UNSIGNED INTEGER)   )    D
 	 				 WHERE DU.USER_ID = UR.USER_ID
-	   				   AND ROLE_ID     = :roleId
+	   				   AND ROLE_ID     =  :roleId
+	   				   AND D.ID = DU.DISTRICT_ID
 	   				   AND DISTRICT_ID = :districtId
 					]]>
 				</prop>

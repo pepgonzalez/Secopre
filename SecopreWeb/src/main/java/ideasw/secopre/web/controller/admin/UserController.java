@@ -254,7 +254,8 @@ public class UserController extends AuthController {
 		model.addAttribute("roles", baseService.findAll(Role.class));
 		
 		//Lista de Distritos
-		model.addAttribute("districts", secopreCache.getAlldistricts());
+		//model.addAttribute("districts", secopreCache.getAlldistricts());
+		model.addAttribute("districts", secopreCache.getValidDistricts());
 
 		return SecopreConstans.MV_ADM_USR_EDIT;
 	}
