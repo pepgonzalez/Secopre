@@ -143,7 +143,6 @@
        
 													<table class="popupContainer">
 														<tbody>
-															<c:if test="${inboxItem.requestFinished == true}">
 																<tr>
 																	<td>
 																		<a href="#" onclick="showDataHistory('${inboxItem.requestId}')" >
@@ -151,7 +150,7 @@
 																		</a>
 																	</td>
 																</tr>
-															</c:if>
+															
 															<c:if test="${inboxItem.hasDocument}">
 																<tr>
 																	<td>
@@ -162,19 +161,6 @@
 																</tr>
 															</c:if>
 															
-															<c:if test="${inboxItem.requestFinished == false}">
-																<c:if test="${inboxItem.hasDocument == false}">
-																
-																	<tr>
-																		<td>
-																			<a href="#" class="disabled">
-																				Sin opciones Disponibles
-																			</a>
-																		</td>
-																	</tr>
-																
-																</c:if>
-															</c:if>
 														</tbody>
 													</table>
 												</div>

@@ -610,6 +610,17 @@ public class WorkFlowController extends AuthController {
 		return SecopreConstans.MV_TRAM_HISTORY;
 	}
 	
+	@RequestMapping(value = "wf/getComments/{requestId}", method = { RequestMethod.GET })
+	public String getComments(@PathVariable("requestId") Long requestId, ModelMap model, RedirectAttributes attributes, Principal principal) {
+
+		Request requestForm = new Request();
+		List<RequestHistory> requestHistory = accessNativeService.getRequestHistory(requestId);
+		requestForm.setRequestHistory(requestHistory);
+
+		model.addAttribute("requestForm", requestForm);
+		return SecopreConstans.MV_TRAM_HISTORY;
+	}
+	
 	/*Metodo para obtener el detalle distrito - llave programatica - mes */
 	@RequestMapping(value = "wf/entryAmounts/{district}/{programaticKey}/{entry}", method = { RequestMethod.GET })
 	public String getAmountsDetail(@PathVariable("district") Long districtId,

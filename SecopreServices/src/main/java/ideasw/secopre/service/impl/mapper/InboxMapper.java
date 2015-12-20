@@ -36,6 +36,7 @@ public class InboxMapper implements RowMapper<Object> {
 		 	inbox.setCreationDate(rs.getDate("CREATION_DATE"));
 		 	inbox.setCanceled(rs.getBoolean("IS_CANCELED"));
 		 	inbox.setOperated(rs.getBoolean("IS_OPERATED"));
+		 	inbox.setHasComments(rs.getInt("HAS_COMMENTS") > 0);
 			return inbox;
 	 }    
 } 

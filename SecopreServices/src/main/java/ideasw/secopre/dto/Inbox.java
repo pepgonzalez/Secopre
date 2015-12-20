@@ -28,6 +28,7 @@ public class Inbox {
 	private String captureForm;
 	private Long statusId;
 	private String nextDescription;
+	private boolean hasComments;
 	
 	private boolean isCanceled;
 	private boolean isOperated;
@@ -213,5 +214,11 @@ public class Inbox {
 	}
 	public void setTransactionType(String transactionType) {
 		this.transactionType = transactionType;
+	}
+	public boolean getHasComments() {
+		return hasComments;
+	}
+	public void setHasComments(boolean hasComments) {
+		this.hasComments = hasComments;
 	}
 }
