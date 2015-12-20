@@ -149,22 +149,4 @@ public class EntryConfigController extends AuthController {
 
 		return SecopreConstans.MV_CAT_ENTRY_ADD;
 	}
-	// TODO: Realizar los siguientes Metodos
-	/**
-	 * Clonar partidas: este metodo debe clonar los siguientes elementos: Claves
-	 * Programaticas del año en curso y asignarle el año siguiente Partidas
-	 * asignadas a las claves actuales, ligarlas a la nuevas claves
-	 * programaticas.
-	 * 
-	 * Generar Template XLSX: este metodo debe generar un template para que
-	 * permita actualizar el saldo anual asignado, la distribucion de saldo es
-	 * proporcional en todos los meses
-	 * 
-	 * Actualizar Saldos de Partidas: este metodo debe permitir recibir el
-	 * archivo generado en el metodo anterior y actualizar las partidas con la
-	 * informacion asignada
-	 * 
-	 * Borrar/Agregar/Editar Se realizara por la opcion de catalogos
-	 */
-
 }

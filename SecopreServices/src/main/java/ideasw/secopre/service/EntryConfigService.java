@@ -20,9 +20,11 @@ public interface EntryConfigService {
 	public EntryBalance getEntryBalance(EntryFilter filter, StatusEntry status);
 
 	public boolean existEntriesInConfig();
-	
+
 	public Integer numberEntriesNextYear();
 
 	public boolean releaseBudget(String userId) throws Exception;
-	
+
+	public boolean schedulingBalance(EntryFilter filter) throws Exception;
+
 }
