@@ -5,6 +5,7 @@ import ideasw.secopre.dto.EntryBalance;
 import ideasw.secopre.dto.EntryDistrictDetail;
 import ideasw.secopre.dto.EntryFilter;
 import ideasw.secopre.dto.UpdateEntry;
+import ideasw.secopre.enums.Month;
 import ideasw.secopre.enums.StatusEntry;
 import ideasw.secopre.exception.EntryDistrictException;
 import ideasw.secopre.model.EntryDistrict;
@@ -27,7 +28,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.collections4.map.HashedMap;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
@@ -158,6 +161,9 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 		if (entryList != null && !entryList.isEmpty()) {
 
 			for (EntryDistrictDetail item : entryList) {
+				if(filter.getMonths() != null && filter.getMonths().length > 0){
+					removeBalance(item, filter.getMonths());
+				}
 				anualAmount += item.getAnnualAmount();
 			}
 		}
@@ -170,6 +176,39 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 		return balance;
 	}
 
+	private void removeBalance(EntryDistrictDetail item, Integer[] months){
+		Map<Long,Double> balance = new HashedMap<Long,Double>(); 
+		for(Integer month: months){
+			balance.put(Long.valueOf(month), 0D);
+		}
+		if(!balance.containsKey(Month.ENERO.getId() - 1))
+			item.setJanuary(0D);
+		if(!balance.containsKey(Month.FEBRERO.getId() - 1))
+			item.setFebruary(0D);
+		if(!balance.containsKey(Month.MARZO.getId() - 1))
+			item.setMarch(0D);
+		if(!balance.containsKey(Month.ABRIL.getId() - 1))
+			item.setApril(0D);
+		if(!balance.containsKey(Month.MAYO.getId() - 1))
+			item.setMay(0D);
+		if(!balance.containsKey(Month.JUNIO.getId() - 1))
+			item.setJune(0D);
+		if(!balance.containsKey(Month.JULIO.getId() - 1))
+			item.setJuly(0D);
+		if(!balance.containsKey(Month.AGOSTO.getId() - 1))
+			item.setAugust(0D);
+		if(!balance.containsKey(Month.SEPTIEMBRE.getId() - 1))
+			item.setSeptember(0D);
+		if(!balance.containsKey(Month.OCTUBRE.getId() - 1))
+			item.setOctober(0D);
+		if(!balance.containsKey(Month.NOVIEMBRE.getId() - 1))
+			item.setNovember(0D);
+		if(!balance.containsKey(Month.DICIEMBRE.getId() - 1))
+			item.setDecember(0D);
+
+		
+	}
+	
 	private EntryDistrict getBalance(EntryFilter filter, StatusEntry status) {
 		StringBuffer sql = new StringBuffer("");
 		MapSqlParameterSource params = new MapSqlParameterSource();
