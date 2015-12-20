@@ -512,7 +512,8 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 				.addValue("resourcePath", request.getResourcePath())
 				.addValue("certifiedAccount", request.getCertifiedAccount())
 				.addValue("entryId", request.getEntryId())
-				.addValue("rectificationId", request.getRectificationId());
+				.addValue("rectificationId", request.getRectificationId())
+				.addValue("expenseDescription", request.getExpenseDescription());
 		return this.insertOrUpdate(queryContainer.getSQL(SQLConstants.INSERT_OR_UPDATE_REQUEST), params);
 	}
 	
@@ -557,6 +558,7 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		baseRequest.setCertifiedAccount(request.getCertifiedAccount());
 		baseRequest.setEntryId(request.getEntryId());
 		baseRequest.setRectificationId(request.getRectificationId());
+		baseRequest.setExpenseDescription(request.getExpenseDescription());
 		
 		request.setDistrictId(baseRequest.getDistrictId());
 		

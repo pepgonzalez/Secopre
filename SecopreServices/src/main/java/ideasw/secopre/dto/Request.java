@@ -52,7 +52,8 @@ public class Request {
 	
 	//variable para gastos
 	private String certifiedAccount;
-
+	private String expenseDescription;
+	
 	//variable para mostrar el nombre del tramite dinamico en capturas completas
 	private String formalityName;
 		
@@ -233,5 +234,11 @@ public class Request {
 	}
 	public void setRectificationId(Long rectificationId) {
 		this.rectificationId = rectificationId;
+	}
+	public String getExpenseDescription() {
+		return expenseDescription;
+	}
+	public void setExpenseDescription(String expenseDescription) {
+		this.expenseDescription = expenseDescription;
 	}
 }

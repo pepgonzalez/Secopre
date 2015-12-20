@@ -146,6 +146,7 @@ public class WorkFlowController extends AuthController {
 		model.addAttribute("months", accessNativeService.getMonthsMap());
 		model.addAttribute("requestForm", requestForm);
 		model.addAttribute("executeInnerJs", executeInnerJs);
+		model.addAttribute("folio", requestForm.getFolio());
 
 		return SecopreConstans.MV_TRAM_CAPTURE;
 	}
@@ -457,6 +458,7 @@ public class WorkFlowController extends AuthController {
 		model.addAttribute("months", accessNativeService.getMonthsMap());
 		model.addAttribute("requestForm", requestForm);
 		model.addAttribute("authorization", authorization);
+		model.addAttribute("folio", requestForm.getFolio());
 
 		return SecopreConstans.MV_TRAM_AUTH;
 	}
