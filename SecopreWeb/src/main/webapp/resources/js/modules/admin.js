@@ -1,3 +1,29 @@
+
+function initScheduling(){
+	$('select').select2();
+	$("select#stateId").change(function(){
+		blockPage();
+		 $("select#districtId").html('');
+		 $("select#entryId").html('');
+         $.getJSON("cfg/entry/getDistricts",{stateId: $(this).val()}, function(j){
+              var options = '<option value="">Seleccione... </option>';
+              var json = eval(j);
+              $.each(json, function(key, value) {
+            	  options += '<option value="' + key + '">' + value + '</option>';
+              });        
+   			  unblockPage();            
+              $("select#districtId").html(options);
+            });
+     });
+	$('#shcedulingAction').click(function(e){
+//		sendRequestJQ('auth/cat/person/list', 'dashboard', 'initPersonPage()');
+		submitAjaxJQ('requestForm','dashboard','initScheduling();');
+	});
+	$('#submitRequestFormFilter').click(function(e){
+		submitAjaxJQ('requestForm','list_ByDistrict','initEntryByDistrict();');
+	});		
+}
+
 function annualBudget(){
 	initEntryByDistrict();
 }
@@ -2173,6 +2199,13 @@ function initAuthorization() {
 		$(document).find("#backToCapture").hide();
 	}
 	
+	if($(document).find("#accountingType").length > 0){
+		var type = $(document).find("#accountingType").val();
+		if(type == "CONCEPTO"){
+			$(document).find("#conceptOptions").hide();
+		}
+	}
+	
 	var requestForm = $('#requestForm');
 
 	
@@ -2375,20 +2408,39 @@ function entriesCapture(){
 		this.value = this.value.replace(/[^0-9\.]/g, '');
 	});
 	
+	$(document).find("#accountingType").on("change",function(e) {
+		var currentSelect = $(this).val();
+		if(currentSelect != "PARTIDA"){
+			$(document).find("#conceptOptions").val("-1").hide();
+		}else{
+			$(document).find("#conceptOptions").show();
+		}
+	});
+	
 	var requestForm = $('#requestForm');
 	
 	$(document).find('#saveAndContinue').click(function(e) {
 		
+		var type = $(document).find("#accountingType").val();
 		var code = $(document).find("#entryCode").val();
 		var description = $(document).find("#entryDescription").val();
 		var pk = $(document).find("#pk").val();
+		var concept = $(document).find("#concept").val();
 		
+		if(type == "-1"){
+			window.showNotification("error", "Seleccione el tipo de partida antes de continuar");
+			return;
+		}
 		
 		if(code.length <= 0 || description.length <= 0 || parseInt(pk) <= 0){
 			window.showNotification("error", "Capture codigo, descripcion y clave de partida para continuar");
 		}else{
+			if(type == "PARTIDA" && parseInt(concept) < 0){
+				window.showNotification("error", "Seleccione el concepto para asociar la partida");
+			}else{
 			requestForm.find('#nextStageValueCode').val("SOLCOMP");
 			submitAjaxJQ('requestForm', 'dashboard', '');
+			}
 		}
 	});
 }

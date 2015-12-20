@@ -94,6 +94,12 @@ public class WorkFlowController extends AuthController {
 		
 		if(requestForm.getEntryId() != null && requestForm.getEntryId() > 0){
 			Entry e = baseService.findById(Entry.class, requestForm.getEntryId());
+			ProgrammaticKey p = baseService.findById(ProgrammaticKey.class, e.getProgrammaticKey().getId());
+			e.setProgrammaticKey(p);
+			if(e.getConcept() != null){
+				Entry concept = baseService.findById(Entry.class, e.getConcept().getId());
+				e.setConcept(concept);
+			}
 			requestForm.setEntry(e);
 		}else{
 			requestForm.setEntry(new Entry());
@@ -115,6 +121,23 @@ public class WorkFlowController extends AuthController {
 			model.addAttribute("messages", msgs);
 			model.addAttribute("existMessages", 1);
 		}
+		
+		//informacion requerida en tramite de partidas
+		Map<String, String> accountingType = new HashMap<String, String>();
+		for (AccountingType account : AccountingType.values()){
+			accountingType.put(account.name(), account.name());
+		}
+		
+		List<Entry> conceptList = baseService.findByProperty(Entry.class, "accountingType", AccountingType.CONCEPTO);
+		
+		LOG.info("Listado de conceptos: " + conceptList.size());
+		
+		Map<Long, String> conceptMap = new HashMap<Long, String>();
+		for(Entry e : conceptList){
+			conceptMap.put(e.getId(), e.getCode() + " - " + e.getDescription());
+		}
+		model.addAttribute("accountingTypes", accountingType);
+		model.addAttribute("concepts", conceptMap);
 		
 		model.addAttribute("movementTypes", accessNativeService.getMovementTypesMap());
 		model.addAttribute("programaticKeys", accessNativeService.getProgramaticKeysMap());
@@ -295,6 +318,11 @@ public class WorkFlowController extends AuthController {
 				entry.setCode(requestForm.getEntry().getCode());
 				entry.setName(requestForm.getEntry().getDescription());
 				entry.setDescription(requestForm.getEntry().getDescription());	
+				entry.setAccountingType(requestForm.getEntry().getAccountingType());
+				if (entry.getAccountingType() == AccountingType.PARTIDA){
+					entry.setConcept(baseService.findById(Entry.class, requestForm.getEntry().getConcept().getId()));
+				}
+				
 				LOG.info("Clave programatica: " + requestForm.getEntry().getProgrammaticKey().getId());
 				ProgrammaticKey pk = baseService.findById(ProgrammaticKey.class, requestForm.getEntry().getProgrammaticKey().getId());
 				LOG.info("Clave nueva: " + pk.getCode());
@@ -314,8 +342,13 @@ public class WorkFlowController extends AuthController {
 				ProgrammaticKey pk = baseService.findById(ProgrammaticKey.class, requestForm.getEntry().getProgrammaticKey().getId());
 				entry.setProgrammaticKey(pk);
 				
-				entry.setAccountingType(AccountingType.PARTIDA);
-				//entry.setStatus(StatusEntry.INACTIVE);
+				entry.setAccountingType(requestForm.getEntry().getAccountingType());
+				
+				if (entry.getAccountingType() == AccountingType.PARTIDA){
+					entry.setConcept(baseService.findById(Entry.class, requestForm.getEntry().getConcept().getId()));
+				}
+				
+				entry.setStatus(StatusEntry.INACTIVE);
 				entry.setActivo(false);
 				entry.setCreatedBy(loggedUser.getUsername());
 				
@@ -327,7 +360,6 @@ public class WorkFlowController extends AuthController {
 			}
 			Map<String, Object> propertiesMap = new HashMap<String, Object>();
 			propertiesMap.put("code", requestForm.getEntry().getCode());
-			propertiesMap.put("status", StatusEntry.ACTIVE);
 			List<Entry> currentEntries = baseService.findByProperties(Entry.class, propertiesMap);
 			
 			if(currentEntries != null && currentEntries.size() > 0){
@@ -377,6 +409,10 @@ public class WorkFlowController extends AuthController {
 		Request requestForm = accessNativeService.getRequestAndDetailById(requestId);
 		if(requestForm.getEntryId() != null && requestForm.getEntryId() > 0){
 			Entry e = baseService.findById(Entry.class, requestForm.getEntryId());
+			if(e.getConcept() != null){
+				e.setConcept(baseService.findById(Entry.class, e.getConcept().getId()));
+			}
+			e.setProgrammaticKey(baseService.findById(ProgrammaticKey.class, e.getProgrammaticKey().getId()));
 			requestForm.setEntry(e);
 		}
 		requestForm.setStageConfigId(stageConfigId);
@@ -386,6 +422,24 @@ public class WorkFlowController extends AuthController {
 
 		// se obtienen valores de authorizacion
 		Authorization authorization = accessNativeService.getAuthorization(requestForm, loggedUser);
+		
+		//informacion requerida en tramite de partidas
+		Map<String, String> accountingType = new HashMap<String, String>();
+		for (AccountingType account : AccountingType.values()){
+			accountingType.put(account.name(), account.name());
+		}
+		
+		List<Entry> conceptList = baseService.findByProperty(Entry.class, "accountingType", AccountingType.CONCEPTO);
+		
+		LOG.info("Listado de conceptos: " + conceptList.size());
+		
+		Map<Long, String> conceptMap = new HashMap<Long, String>();
+		for(Entry e : conceptList){
+			conceptMap.put(e.getId(), e.getCode() + " - " + e.getDescription());
+		}
+		model.addAttribute("accountingTypes", accountingType);
+		model.addAttribute("concepts", conceptMap);
+		model.addAttribute("programaticKeysFull", accessNativeService.getProgramaticKeysFullMap());
 
 		model.addAttribute("movementTypes", accessNativeService.getMovementTypesMap());
 		model.addAttribute("programaticKeys", accessNativeService.getProgramaticKeysMap());
