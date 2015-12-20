@@ -88,7 +88,7 @@
 																		</a>
 																	</td>
 																</tr>
-															<c:if test="${inboxItem.isOperated == true}">
+															<c:if test="${inboxItem.isOperated == true && inboxItem.formalityId != 3}">
 																<tr>
 																	<td>
 																		<a href="#" onclick="openResourceNative('wf/download/format/${inboxItem.requestId}','dashboard','()','GET');">
