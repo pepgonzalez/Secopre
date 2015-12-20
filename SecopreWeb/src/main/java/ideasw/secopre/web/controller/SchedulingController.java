@@ -47,7 +47,8 @@ public class SchedulingController extends AuthController {
 
 			redirectAttributes.addFlashAttribute("errors", errors);
 			redirectAttributes.addFlashAttribute("existErrors", 1);
-
+			return SecopreConstans.MV_ADM_SCHEDULING_REDIRECT;
+			
 		}
 
 		try {
