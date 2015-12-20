@@ -1,3 +1,29 @@
+
+function initScheduling(){
+	$('select').select2();
+	$("select#stateId").change(function(){
+		blockPage();
+		 $("select#districtId").html('');
+		 $("select#entryId").html('');
+         $.getJSON("cfg/entry/getDistricts",{stateId: $(this).val()}, function(j){
+              var options = '<option value="">Seleccione... </option>';
+              var json = eval(j);
+              $.each(json, function(key, value) {
+            	  options += '<option value="' + key + '">' + value + '</option>';
+              });        
+   			  unblockPage();            
+              $("select#districtId").html(options);
+            });
+     });
+	$('#shcedulingAction').click(function(e){
+//		sendRequestJQ('auth/cat/person/list', 'dashboard', 'initPersonPage()');
+		submitAjaxJQ('requestForm','dashboard','initScheduling();');
+	});
+	$('#submitRequestFormFilter').click(function(e){
+		submitAjaxJQ('requestForm','list_ByDistrict','initEntryByDistrict();');
+	});		
+}
+
 function annualBudget(){
 	initEntryByDistrict();
 }
