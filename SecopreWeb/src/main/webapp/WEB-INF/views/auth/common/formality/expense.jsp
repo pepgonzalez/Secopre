@@ -14,6 +14,18 @@
 	</div>
 </div>
 
+<!-- captura de clave de partida -->
+<div class="form-group form-md-line-input">
+	<label class="col-md-2 control-label" for="formalityId">Descripción:</label>
+	<div class="col-md-10">
+			<form:input path="expenseDescription" id="expenseDescriptionId" class="form-control"></form:input>
+			<div class="form-control-focus"></div>
+			<span class="help-block">
+				<spring:message code="application.pages.tramite.add.selectFormality"/>
+			</span>
+	</div>
+</div>
+
 <!-- grid de movimientos de disminucion -->
 <div class="portlet box green" id="substractComponent">
 	<div class="portlet-title">
