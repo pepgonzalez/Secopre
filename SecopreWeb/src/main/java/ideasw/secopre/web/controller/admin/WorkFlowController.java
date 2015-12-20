@@ -360,7 +360,17 @@ public class WorkFlowController extends AuthController {
 			}
 			Map<String, Object> propertiesMap = new HashMap<String, Object>();
 			propertiesMap.put("code", requestForm.getEntry().getCode());
-			List<Entry> currentEntries = baseService.findByProperties(Entry.class, propertiesMap);
+			List<Entry> el = baseService.findByProperties(Entry.class, propertiesMap);
+			
+			List<Entry> currentEntries = new ArrayList<Entry>();
+			
+			if(entry.getId() != null && entry.getId().longValue() > 0){
+				for(Entry e : el){
+					if (e.getId().longValue() != entry.getId().longValue()){
+						currentEntries.add(e);
+					}
+				}
+			}
 			
 			if(currentEntries != null && currentEntries.size() > 0){
 				throw new EntryDistrictException("El código " + requestForm.getEntry().getCode() + " ya se encuentra actualmente asociado a la partida: " + currentEntries.get(0).getDescription() + ". Verifique.");

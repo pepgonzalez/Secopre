@@ -78,20 +78,14 @@
 								   F.WORKFLOW_ID,
 								   F.AUTHORIZATION_ID,
 								   F.CODE,
-								   W.DESCRIPTION WF_DESC,
-								   W.FIRST_STAGE_CFG,
-								   SCR.ROLE_ID,
-								   R.ROLENAME,
 								   F.CREATE_VALIDATION,
 								   F.PROCESS_AFTER_CREATION
 							  FROM secopre.FORMALITY F,
-							  	   secopre.WORKFLOW W,
-							  	   secopre.STAGE_CONFIG_ROLE SCR,
+							  	   secopre.FORMALITY_ROLE FR,
 							  	   secopre.ROLE R,
 							  	   secopre.USER_ROLE UR
-							 WHERE F.WORKFLOW_ID = W.ID
-							   AND W.FIRST_STAGE_CFG = SCR.STAGE_CONFIG_ID
-							   AND SCR.ROLE_ID = R.ID
+							 WHERE F.ID = FR.FORMALITY_ID
+							   AND FR.ROLE_ID = R.ID
 							   AND R.ID = UR.ROLE_ID
 							   AND UR.USER_ID = :userId
 							) T

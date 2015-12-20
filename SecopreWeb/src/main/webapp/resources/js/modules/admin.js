@@ -2417,6 +2417,10 @@ function entriesCapture(){
 		}
 	});
 	
+	if($(document).find("#accountingType").val() != "PARTIDA"){
+		$(document).find("#conceptOptions").hide();
+	}
+	
 	var requestForm = $('#requestForm');
 	
 	$(document).find('#saveAndContinue').click(function(e) {
