@@ -1,11 +1,13 @@
 package ideasw.secopre.model;
 
-import ideasw.secopre.model.base.AuditEntity;
-import ideasw.secopre.model.base.Persistible;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+
+import ideasw.secopre.model.base.AuditEntity;
+import ideasw.secopre.model.base.Persistible;
+import ideasw.secopre.model.catalog.District;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +19,16 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
+import org.hibernate.envers.RelationTargetAuditMode;
+
 
 /**
  * Clase que modela las fechas corte dentro de la aplicacion Secopre
@@ -50,6 +62,16 @@ public class DueDate extends AuditEntity implements Persistible {
 
 	@Transient
 	private String maxBlockDateStr;
+	
+	
+	@NotAudited
+    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+    @ManyToMany(cascade=CascadeType.MERGE, fetch=FetchType.EAGER)
+    @JoinTable(name = "DUEDATE_DISTRICT",
+        joinColumns = {@JoinColumn(name="DUEDATE_ID")},
+        inverseJoinColumns = {@JoinColumn(name="DISTRICT_ID")}
+    )
+    private List<District> distrs;
 
 	/**
 	 * @return the id
@@ -135,5 +157,13 @@ public class DueDate extends AuditEntity implements Persistible {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public List<District> getDistrs() {
+		return distrs;
+	}
+
+	public void setDistrs(List<District> distrs) {
+		this.distrs = distrs;
 	}
 }

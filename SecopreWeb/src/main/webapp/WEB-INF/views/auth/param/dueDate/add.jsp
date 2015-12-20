@@ -88,7 +88,22 @@
 																<spring:message code="application.pages.param.dueDate.maxBlockDate.help"/>
 																</span>														
 														</div>
-													</div>																				       																				
+													</div>	
+													
+													<div class="form-group form-md">
+															<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.notice.district"/>
+															<span class="required"> * </span>
+															</label>
+															<div class="col-md-4">
+																<select multiple="multiple" class="multi-select" id="districts" name="districts">
+																	<c:forEach items="${districts}" var="district">
+																			<option value="${district.id}">${district.number} </option> 
+																	</c:forEach>
+																</select>											
+															</div>
+													</div>
+													
+																																       																				
 										        </div>
 											</div>
 
@@ -113,7 +128,16 @@
 										           <div class="col-md-4">
 											         <p class="form-control-static" data-display="maxBlockDateStr"></p>
 										           </div>
-									            </div>							
+									            </div>	
+									            
+									            <div class="form-group">
+										            <label class="control-label col-md-3"><spring:message
+													code="application.pages.catalog.notice.district" />
+													</label>
+										            <div class="col-md-4">
+											           <p class="form-control-static" data-display="districts"></p>
+										            </div>
+									            </div>										        						
 													
 																								
 											</div>
@@ -130,7 +154,8 @@
 													   </a>  
 												 </c:when>   
 									             <c:otherwise>		
-											           <a href="javascript:showList('DueDate');" class="btn red" >
+<!-- 											           <a href="javascript:showList('DueDate');" class="btn red" > -->
+											            <a href="javascript:initDueDateList();" class="btn red" >
 													   <spring:message code="application.cancel"/> <i class="fa fa-times"></i>
 													   </a>  	
 									             </c:otherwise>

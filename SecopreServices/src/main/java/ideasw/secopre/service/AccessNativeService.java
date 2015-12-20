@@ -255,5 +255,8 @@ public interface AccessNativeService {
 
 	int insertOrUpdateMasiveDetail(Request request) throws Exception;
 	
+	/*Servicio para obtener todas los distritos que pertenece a una fecha de corte*/
+    List<District> getDistrictsByDueDate(Long dueDateId);
+	
 }
 

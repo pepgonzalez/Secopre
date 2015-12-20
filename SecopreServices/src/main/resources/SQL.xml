@@ -1154,6 +1154,20 @@
 				   AND SC.IS_AUTHORIZATION = 1
    					]]>
 				</prop>			
+				
+				<prop key="GET_DISTRICT_LIST_BY_DUEDATE">
+					<![CDATA[
+				           SELECT D.ENTITY,D.ID, 
+						       CONCAT(S.NAME, ' (DTO-',D.NUMBER,')') AS DESCRIPTION,
+						       EMAIL,TELEPHONE, D.ACTIVE, A.NUMBER NUMBER_EXT, A.STREET, A.COLONY, A.CITY, S.id STATE_ID, S.CODE, S.NAME, A.id ADDRESS_ID
+						  FROM secopre.DISTRICT D 
+						  LEFT OUTER JOIN ADDRESS A
+							ON D.ADDRESS_ID = A.id
+						       JOIN secopre.STATE S ON (D.STATE_ID = S.ID)
+						       JOIN secopre.DUEDATE_DISTRICT NU ON (NU.DISTRICT_ID = D.ID AND NU.DUEDATE_ID =  :dueDateId)	
+						     ORDER BY CONVERT(D.NUMBER,UNSIGNED INTEGER)
+					]]>
+				</prop>
 													
 			</props>				
 		</property>

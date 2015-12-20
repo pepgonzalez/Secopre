@@ -80,7 +80,7 @@
 									</td>		
 
 									<td>
-										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/param/dueDate/edit?id=${dueDateItem.id}' ,'dashboard','initDueDateCat()');">
+										<button id="btn_edit"  type="button" class="btn edit-xs btn-success btn-xs" onclick="sendRequestJQ('auth/param/dueDate/edit?id=${dueDateItem.id}' ,'dashboard','initDueDateCat(${dueDateItem.id})');">
 										 <i class="fa fa-edit xs"></i>
 										</button>
 										

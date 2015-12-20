@@ -1,22 +1,23 @@
 package ideasw.secopre.web.controller.config;
 
 import ideasw.secopre.model.DueDate;
+import ideasw.secopre.model.catalog.District;
 import ideasw.secopre.utils.time.TimeUtils;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.joda.time.DateTime;
-import org.joda.time.Interval;
+import org.joda.time.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
-
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,16 +47,38 @@ public class DueDateController extends AuthController {
 		DueDate dueDate = new DueDate();
 		model.addAttribute("dueDateList", baseService.findAll(DueDate.class));
 		model.addAttribute("dueDate", dueDate);
+		model.addAttribute("districts", secopreCache.getValidDistricts());
 		return SecopreConstans.MV_CAT_DUEDATE;
 	}
 
 	@RequestMapping(value = "param/dueDate/add", method = RequestMethod.POST)
-	public String add(@ModelAttribute("dueDate") DueDate dueDate, ModelMap model) {
+	public String add(@ModelAttribute("dueDate") DueDate dueDate, @RequestParam(value="districts",required = true, defaultValue = "") String district, ModelMap model) {
 		try {
-			dueDate.setActivo(Boolean.TRUE);
+			if(dueDate.getId()==null)
+            {
+				dueDate.setActivo(Boolean.TRUE);
+            }
+			else
+			{
+				DueDate dueDateEdit = baseService.findById(DueDate.class , dueDate.getId());
+				dueDateEdit.setDueDate(dueDate.getDueDate());
+				dueDateEdit.setMaxBlockDate(dueDate.getMaxBlockDate());
+				dueDate = dueDateEdit;				
+			}
 			
-			
-			
+	        if (!district.equals(""))
+	            {
+					List<District> distritList = new ArrayList<District>();
+					List<String> items = Arrays.asList(district.split("\\s*,\\s*"));
+		
+					for (String distrid : items) {
+						District distr = baseService.findById(District.class,
+								Long.parseLong(distrid));
+						distritList.add(distr);
+						dueDate.setDistrs(distritList);
+					}
+	            }
+
 			baseService.save(dueDate);
 		} catch (Exception e) {
 			model.addAttribute(
@@ -74,6 +97,7 @@ public class DueDateController extends AuthController {
 		// String dueDateStr = dueDate.getDueDateStr();
 		// dueDate.setDueDateStr(dueDateStr);
 		model.addAttribute("dueDate", dueDate);
+		model.addAttribute("districts", secopreCache.getValidDistricts());
 		return SecopreConstans.MV_CAT_DUEDATE_ADD;
 	}
 
@@ -147,7 +171,7 @@ public class DueDateController extends AuthController {
 	}
 	
 	boolean isWithinRange(Date testDate,Date startDate,Date endDate) {
-		return testDate.after(startDate) && testDate.before(endDate);
+		return (testDate.after(startDate)||testDate.equals(startDate)) && (testDate.before(endDate)||testDate.equals(endDate));
 	}
 	
 	@RequestMapping(value = "param/dueDate/isDueDateValid", method= {RequestMethod.GET})
@@ -163,6 +187,8 @@ public class DueDateController extends AuthController {
         	boolean isValid = false;
         	boolean isValidDueDate = false;
         	boolean isValidMaxBlockDate = false;
+        	boolean isValidDueDate2 = false;
+        	boolean isValidMaxBlockDate2 = false;
     		
     		
     		if (dueDate.getDueDate().after(dueDate.getMaxBlockDate()))
@@ -180,9 +206,24 @@ public class DueDateController extends AuthController {
     		
         
 	    		for (DueDate item : allActives) {
+	    			
 	    			isValidDueDate = isWithinRange(dueDate.getDueDate(),item.getDueDate(),item.getMaxBlockDate());
-	    			isValidMaxBlockDate = isWithinRange(dueDate.getMaxBlockDate(),item.getDueDate(),item.getMaxBlockDate());
-	    			if(isValidMaxBlockDate || isValidDueDate)
+                    isValidMaxBlockDate = isWithinRange(dueDate.getMaxBlockDate(),item.getDueDate(),item.getMaxBlockDate());
+                    
+                    isValidDueDate2 = isWithinRange(item.getDueDate() ,dueDate.getDueDate(),dueDate.getMaxBlockDate());
+                    isValidMaxBlockDate2 = isWithinRange(item.getMaxBlockDate(),dueDate.getDueDate(),dueDate.getMaxBlockDate());
+	    			
+//                    DateTime dateTime1 = new DateTime(item.getDueDate());
+//                    dateTime1.plusDays(1);
+//                    Date dateNew1 = dateTime1.toDate();
+//	    			isValidDueDate = isWithinRange(dateNew1 ,dueDate.getDueDate(),dueDate.getMaxBlockDate());
+//	    			
+//	    			DateTime dateTime2 = new DateTime(dueDate.getMaxBlockDate());
+//	                dateTime2.plusDays(1);
+//	                Date dateNew2 = dateTime2.toDate();
+//	    			isValidMaxBlockDate = isWithinRange(dateNew2,dueDate.getDueDate(),dueDate.getMaxBlockDate());
+	    		
+	    			if(isValidMaxBlockDate || isValidDueDate|| isValidDueDate2|| isValidMaxBlockDate2)
 	    			{
 	    				isValid=true;
 	    				result="1";
@@ -208,7 +249,39 @@ public class DueDateController extends AuthController {
 		return returnObject;
 	}
 	
-	
+	@RequestMapping(value = "oper/notice/getDistrictsByDueDate/{dueDateId}", method= {RequestMethod.GET})
+	public @ResponseBody Map<String, Object> getDistrictsByDueDate(@PathVariable("dueDateId") Long dueDateId){
+		Map<String, Object> returnObject = new HashMap<String, Object>();
+		//Listado de Distritos
+		List<District> districts  = accessNativeService.getDistrictsByDueDate(dueDateId);
+		
+		 //List of numbers we want to concatenate
+	    List<Long> numbers = new ArrayList<Long>();
+	    for (District r : districts) {
+	    	numbers.add(r.getId());
+		}
+
+	    //The string builder used to construct the string
+	    StringBuilder commaSepValueBuilder = new StringBuilder();
+
+	    //Looping through the list
+	    for ( int i = 0; i< numbers.size(); i++){
+	      //append the value into the builder
+	      commaSepValueBuilder.append(numbers.get(i));
+
+	      //if the value is not the last element of the list
+	      //then append the comma(,) as well
+	      if ( i != numbers.size()-1){
+	        commaSepValueBuilder.append(",");
+	      }
+	    }
+	    System.out.println(commaSepValueBuilder.toString());
+		
+	    String result = commaSepValueBuilder.toString().trim();
+		
+		returnObject.put("result", result);
+		return returnObject;
+	}
 	
 
 }

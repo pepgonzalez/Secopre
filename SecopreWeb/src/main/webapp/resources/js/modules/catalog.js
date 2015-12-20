@@ -259,9 +259,9 @@ function initDirectorValidations() {
 }
 
 
-function initDueDateCat() {
+function initDueDateCat(dueDateId) {
 	initPage('DueDate');
-	initDueDateValidations();
+	initDueDateValidations(dueDateId);
     $('#dueDateStr').datepicker({
     	  format: 'dd/mm/yyyy',
     	  autoclose: true,
@@ -272,6 +272,47 @@ function initDueDateCat() {
     	  autoclose: true,
     	  language: 'es'
     });
+    $('#districts').multiSelect({ includeSelectAllOption: true});
+    
+	var apiCallUnblock = function(actionURL, callback) {
+		var method = method || "POST";
+		var header = $("meta[name='_csrf_header']").attr("content");
+		var token = $("meta[name='_csrf']").attr("content");
+		$.ajax({
+			url : context + '/' + actionURL,
+			beforeSend : function(xhr) {
+				xhr.setRequestHeader(header, token);
+			},
+			success : function(data) {
+				callback(data);
+				
+			}
+		});
+	};
+	
+	if(dueDateId!=null)
+	{
+
+	   apiCallUnblock("auth/oper/notice/getDistrictsByDueDate/" + dueDateId, function(data)
+			   {	
+			      var valArr=data.result.split(',');
+			      $("#districts").val(valArr);
+			      $("#districts").multiSelect("refresh");
+			   });	   
+	   
+	}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
 
 function initDueDateList() {
@@ -455,11 +496,11 @@ function initNoticeList() {
 }
 
 
-function validaFechas() {
+function validaFechas(dueDateId) {
 	var validator=false;
 	var dueDateStr = $('#dueDateStr').val();
 	var maxBlockDateStr = $('#maxBlockDateStr').val();
-	var actionURL = "auth/param/dueDate/isDueDateValid?dueDateStr=" + dueDateStr + "&maxBlockDateStr=" + maxBlockDateStr;
+	var actionURL = "auth/param/dueDate/isDueDateValid?dueDateStr=" + dueDateStr + "&maxBlockDateStr=" + maxBlockDateStr ;
 	var method = method || "POST";
 	var header = $("meta[name='_csrf_header']").attr("content");
 	var token = $("meta[name='_csrf']").attr("content");
@@ -484,7 +525,7 @@ function validaFechas() {
 	return validator;
 }
 
-function initDueDateValidations() {
+function initDueDateValidations(dueDateId) {
 
 	var form = $('#submit_form');
 	var error = $('.alert-danger', form);
@@ -692,16 +733,19 @@ function initDueDateValidations() {
 			
 			//alert('vamos a validar la fecha')
 			//alert(validaFechas());
-			var res = validaFechas();
-			if (res == 1) {
-				//alert('salio falso')
-				bootbox.alert("El rango de fechas seleccionado se sobrepone a un rango existente. Favor de validar"); 
-				return false;
-			}
-			else if (res == 2)	
+			if(dueDateId==null)
 			{
-				bootbox.alert("Fecha de corte es mayor que Fecha maxima de bloqueo. Favor de validar"); 
-				return false;
+				var res = validaFechas(dueDateId);
+				if (res == 1) {
+					//alert('salio falso')
+					bootbox.alert("El rango de fechas seleccionado se sobrepone a un rango existente. Favor de validar"); 
+					return false;
+				}
+				else if (res == 2)	
+				{
+					bootbox.alert("Fecha de corte es mayor que Fecha maxima de bloqueo. Favor de validar"); 
+					return false;
+				}
 			}
 			
 

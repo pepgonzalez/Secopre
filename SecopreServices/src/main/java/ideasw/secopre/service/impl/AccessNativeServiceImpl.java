@@ -1336,4 +1336,13 @@ private void insertMasiveMovements(List<Movement> list, Request request) throws 
 		LOG.info("total de partidas encontradas: " + list.size());
 		return list;
 	}
+	
+	@Override
+	public List<District> getDistrictsByDueDate(Long dueDateId) {
+		SqlParameterSource namedParameters = new MapSqlParameterSource()
+		.addValue("dueDateId", dueDateId);
+        return this.queryForList(District.class, queryContainer.getSQL(SQLConstants.GET_DISTRICT_LIST_BY_DUEDATE), namedParameters, new DistrictMapper());
+	}
+	
+	
 }
