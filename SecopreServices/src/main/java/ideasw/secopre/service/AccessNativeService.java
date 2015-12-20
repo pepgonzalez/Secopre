@@ -248,6 +248,12 @@ public interface AccessNativeService {
 	
 	/*Metodo para validar si un distrito ya existe para un role*/
 	boolean hasDistrictRole(Long districtId, Long roleId);
+
+	Formality getFormalityById(Long formalityId);
+
+	List<EntryDistrict> getEntriesByDistrict(Long districtId, Long month);
+
+	int insertOrUpdateMasiveDetail(Request request) throws Exception;
 	
 }
 

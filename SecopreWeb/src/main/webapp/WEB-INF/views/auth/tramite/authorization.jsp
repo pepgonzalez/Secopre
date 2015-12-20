@@ -28,6 +28,7 @@
 									<form:hidden path="stageConfigId" />
 									<form:hidden path="nextStageValueCode" id="nextStageValueCode" />
 									<form:hidden path="movementTypeId" id="movementTypeId" />
+									<form:hidden path="formalityId" id="formalityId"/>
 									
 									<jsp:include page="/WEB-INF/views/auth/common/formality/${authorization.formalityCode}.jsp" flush="true"/>
 									

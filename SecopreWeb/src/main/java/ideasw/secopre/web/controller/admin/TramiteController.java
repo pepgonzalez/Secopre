@@ -2,18 +2,28 @@ package ideasw.secopre.web.controller.admin;
 
 import ideasw.secopre.dto.Formality;
 import ideasw.secopre.dto.Inbox;
+import ideasw.secopre.dto.Movement;
 import ideasw.secopre.dto.Rectification;
 import ideasw.secopre.dto.Request;
+import ideasw.secopre.model.EntryDistrict;
 import ideasw.secopre.model.catalog.District;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.jfree.util.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,6 +34,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class TramiteController extends AuthController {
 
+	static final Logger LOG = LoggerFactory
+			.getLogger(TramiteController.class);
 	
 	@RequestMapping(value = "tram/add", method = { RequestMethod.GET })
 	public String showFormalityForm(ModelMap model, RedirectAttributes attributes,  Principal principal) {
@@ -57,12 +69,12 @@ public class TramiteController extends AuthController {
 
 		List<Inbox> inboxList = accessNativeService.getInboxByUserId(loggedUser.getId());
 		
-		Map<String,Boolean> canCapture = accessNativeService.canUserCapture(loggedUser.getId());
+		//Map<String,Boolean> canCapture = accessNativeService.canUserCapture(loggedUser.getId());
 		
 		model.addAttribute("inboxList", inboxList);
-		model.addAttribute("canUserCapture", canCapture.get("canUserCapture"));
-		model.addAttribute("hasUserRequestInProcess", canCapture.get("hasUserRequestInProcess"));
-		model.addAttribute("isValidDate", canCapture.get("isValidDate"));
+		model.addAttribute("canUserCapture", true);
+		model.addAttribute("hasUserRequestInProcess", false);
+		model.addAttribute("isValidDate", true);
 		
 				
 		return SecopreConstans.MV_TRAM_LIST;
@@ -86,13 +98,70 @@ public class TramiteController extends AuthController {
 			
 			accessNativeService.startFormality(requestForm, loggedUser.getId());
 			
+			Formality f = accessNativeService.getFormalityById(requestForm.getFormalityId());
+			if(f.getProcessAfterCreation() != null && f.getProcessAfterCreation().length() > 0 ){
+				LOG.info("Ejecutando metodo complementario");
+				this.executeComplementMethod(f.getProcessAfterCreation(), requestForm);
+			}else{
+				LOG.info("Tramite no requiere de ejecucion complementaria");
+			}
+			
 			return "redirect:/auth/tram/list";
 		}catch(Exception ex){
 			System.out.println(ex);
+			ex.printStackTrace();
 			return "redirect:/auth/tram/list";
 		}
 	}
 	
+	public void executeComplementMethod(String method, Request requestForm) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException{
+		Class[] paramTypes = new Class[]{Request.class};		
+		 String dataSourceMethod = method;
+		 Method methodObject = this.getClass().getMethod(dataSourceMethod, paramTypes);
+		 methodObject.invoke(this, new Object[] { requestForm });
+	}
+	
+	public void masiveReduction(Request request){
+		LOG.info("-- Ejecutando metodo complementario: masiveReduction" );
+		
+		Long districtId = request.getDistrictId();
+		Calendar c = Calendar.getInstance();
+		c.setTime(new Date());
+		int currentMonth = c.get(Calendar.MONTH);
+		
+		LOG.info("Generando paquete masivo para distrito: " + districtId + ", mes: " + currentMonth);
+		
+		List<EntryDistrict> entryList = accessNativeService.getEntriesByDistrict(districtId, new Long(currentMonth));
+		
+		LOG.info("creando listado de movimientos de disminucion");
+		
+		List<Movement> movements = new ArrayList<Movement>();
+		for(EntryDistrict entry : entryList){
+			Movement m = new Movement();
+			
+			m.setRequestId(request.getRequestId());
+			m.setMovementTypeId(-1L);
+			m.setProgramaticKeyId(entry.getEntry().getProgrammaticKey().getId());
+			m.setEntryId(entry.getEntry().getId());
+			m.setInitialMonthId(currentMonth);
+			m.setFinalMonthId(currentMonth);
+			m.setMonthAmount(entry.getBudgetAmountAssign().toString());
+			m.setTotalAmount(entry.getBudgetAmountAssign().toString());			
+			movements.add(m);
+		}
+		
+		LOG.info("asignando movimientos a tramite, total de movimientos: " + movements);
+		request.setDownMovements(movements);
+		
+		LOG.info("Guardando detalle de movimiento masivo");
+		try {
+			accessNativeService.insertOrUpdateMasiveDetail(request);
+			LOG.info("Fin de la ejecucion complementaria");
+		} catch (Exception e) {
+			LOG.info("Ocurrio un error durante el guardado de movimientos de tramite masivo: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
 	
 	@RequestMapping(value = "tram/mylist", method = { RequestMethod.GET })
 	public String showMyFormalityList(ModelMap model, RedirectAttributes attributes,  Principal principal) {

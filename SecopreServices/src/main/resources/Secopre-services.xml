@@ -61,7 +61,7 @@ http://www.springframework.org/schema/jee/spring-jee.xsd">
 
 	<bean id="jpaAdapter"
 		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"
-		p:database="${jpa.database}" p:showSql="${jpa.showSql}">
+		p:database="${jpa.database}" p:showSql="false">
 	</bean>
 
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"

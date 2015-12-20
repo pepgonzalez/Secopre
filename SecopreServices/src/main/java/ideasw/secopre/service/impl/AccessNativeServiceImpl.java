@@ -59,6 +59,7 @@ import ideasw.secopre.service.impl.mapper.WorkFlowConfigMapper;
 import ideasw.secopre.sql.QueryContainer;
 import ideasw.secopre.sql.SQLConstants;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -97,7 +98,24 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	 * */
 	public List<Formality> getFormalityAvailableByUser(User user) {
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("userId", user.getId());	
-		return this.queryForList(Formality.class, queryContainer.getSQL(SQLConstants.GET_FORMALITY_FROM_USER_ID), namedParameters, new FormalityMapper());
+		List<Formality> formalityList = this.queryForList(Formality.class, queryContainer.getSQL(SQLConstants.GET_FORMALITY_FROM_USER_ID), namedParameters, new FormalityMapper());
+		
+		Map<String, Boolean> authorities = canUserCapture(user.getId());
+		List<Formality> toRemove = new ArrayList<Formality>();
+		if(!authorities.get("canUserCapture")){
+			for(Formality f : formalityList){
+				if(f.getCreateValidation()){
+					toRemove.add(f);
+				}
+			}
+		}
+		for(Formality f : toRemove){
+			formalityList.remove(f);
+		}
+		
+		LOG.info("Total de tramites disponibles: " + formalityList.size());
+		
+		return formalityList;
 	}
 
 	/*
@@ -150,6 +168,18 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		.addValue("requestId", requestId)
 		.addValue("uploadedFilePath", uploadedFilePath);
 		return this.insertOrUpdate(queryContainer.getSQL(SQLConstants.UPDATE_UPLOADED_FILE_IN_REQUEST), namedParameters);
+	}
+	
+	public int updateRequestDetail(Movement m){
+		SqlParameterSource namedParameters = new MapSqlParameterSource()
+				.addValue("programaticKeyId", m.getProgramaticKeyId())
+				.addValue("entryId", m.getEntryId())
+				.addValue("initialMonth", m.getInitialMonthId())
+				.addValue("finalMonth", m.getFinalMonthId())
+				.addValue("monthAmount", m.getMonthAmountValue())
+				.addValue("totalAmount", m.getTotalAmountValue())
+				.addValue("requestDetailId", m.getRequestDetailId());
+				return this.insertOrUpdate(queryContainer.getSQL(SQLConstants.UPDATE_REQUEST_DETAIL), namedParameters);
 	}
 	
 	
@@ -256,35 +286,111 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		//se obtiene el detalle del folio
 		Request request = this.getRequestAndDetailById(requestId);
 		
+		Formality f = this.getFormalityById(request.getFormalityId());
+		
+		
+		LOG.info("Operacion de movimiento");
+		LOG.info("Validando si tramite requiere de operacion compleja");
+		if (f.getProcessAfterCreation() != null && f.getProcessAfterCreation().length() > 0){
+			LOG.info("Operando por operacion compleja: " + f.getProcessAfterCreation());
+			try {
+				executeComplementMethod(f.getProcessAfterCreation(), request);
+			} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+				LOG.info("Error al ejecutar operacion compleja");
+				e.printStackTrace();
+			}
+		}else{
+			LOG.info("Operando por ejecucion tradicional");
+
+		
+			//se realizan las disminuciones
+			for(Movement mov : request.getDownMovements()){
+				//iteracion sobre los meses del movimiento
+				for(int i= mov.getInitialMonthId(); i<= mov.getFinalMonthId();i++){
+					EntryDistrict entry = this.getEntryBalance(request.getDistrictId(), mov.getEntryId(), new Long(i));
+					entry.setCommittedAmount((entry.getCommittedAmount() - mov.getMonthAmountValue()));
+					entry.setBudgetAmountAssign((entry.getBudgetAmountAssign() - mov.getMonthAmountValue()));
+					baseService.update(entry);
+				}
+			}	
+			
+			// se realizan los movimientos a la alza
+			for(Movement mov : request.getUpMovements()){
+				//iteracion sobre los meses del movimiento
+				for(int i= mov.getInitialMonthId(); i<= mov.getFinalMonthId();i++){
+					EntryDistrict entry = this.getEntryBalance(request.getDistrictId(), mov.getEntryId(), new Long(i));
+					entry.setBudgetAmountAssign((entry.getBudgetAmountAssign() + mov.getMonthAmountValue()));
+					baseService.update(entry);
+				}
+			}	
+			
+			if(request.getEntryId() != null && request.getEntryId() > 0){
+				//se activa la partida
+				Entry e = baseService.findById(Entry.class, request.getEntryId());
+				e.setActivo(true);
+				e.setStatus(StatusEntry.ACTIVE);
+				baseService.update(e);
+				this.loadEntryDistrict(e.getId(), request.getDistrictId(), request.getFolio());
+			}
+		}
+	}
+	
+	public void executeComplementMethod(String method, Request requestForm) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException{
+		Class[] paramTypes = new Class[]{Request.class};		
+		 String dataSourceMethod = method;
+		 Method methodObject = this.getClass().getMethod(dataSourceMethod, paramTypes);
+		 methodObject.invoke(this, new Object[] { requestForm });
+	}
+	
+	public void masiveReduction(Request request){
+		LOG.info("-- Ejecutando metodo complementario: masiveReduction" );
+		
+		Long districtId = request.getDistrictId();
+		Calendar c = Calendar.getInstance();
+		c.setTime(new Date());
+		int currentMonth = c.get(Calendar.MONTH);
+		LOG.info("cancelando todos los tramites en autorizacion con movimientos relacionados al distrito: " + request.getDistrictId() + ", mes: " + currentMonth);
+		
+		List<Request> requestList = this.getRequestsToCancelByDistrictAndMonth(districtId, new Long(currentMonth), request.getRequestId());
+		
+		LOG.info("Total de registros a cancelar: " + requestList.size());
+		
+		for(Request r: requestList){
+			Request requestToCancel = this.getRequestAndDetailById(r.getRequestId());
+			LOG.info("Cancelando folio: " + requestToCancel.getFolio());
+			this.invokeNextStage(requestToCancel.getRequestId(), WorkflowConstants.CANCEL_FORMALITY, requestToCancel.getStageConfigId(), -1L, "Cancelacion por reduccion masiva de folio: " + request.getFolio(), 0);
+		}
+		
+		LOG.info("Operando operacion masiva");
 		//se realizan las disminuciones
 		for(Movement mov : request.getDownMovements()){
 			//iteracion sobre los meses del movimiento
 			for(int i= mov.getInitialMonthId(); i<= mov.getFinalMonthId();i++){
 				EntryDistrict entry = this.getEntryBalance(request.getDistrictId(), mov.getEntryId(), new Long(i));
 				entry.setCommittedAmount((entry.getCommittedAmount() - mov.getMonthAmountValue()));
+				
+				if (entry.getBudgetAmountAssign().doubleValue() != mov.getMonthAmountValue().doubleValue()){
+					LOG.info("Monto de partida " + entry.getEntry().getId() + " cambio durante autorizacion de masivo, actualizando");
+					mov.setMonthAmount(entry.getBudgetAmountAssign().toString());
+					mov.setTotalAmount(entry.getBudgetAmountAssign().toString());
+					this.updateRequestDetail(mov);
+				}
+				
+				LOG.info("Operando partida: " + entry.getEntry().getId());
 				entry.setBudgetAmountAssign((entry.getBudgetAmountAssign() - mov.getMonthAmountValue()));
 				baseService.update(entry);
 			}
 		}	
-		
-		// se realizan los movimientos a la alza
-		for(Movement mov : request.getUpMovements()){
-			//iteracion sobre los meses del movimiento
-			for(int i= mov.getInitialMonthId(); i<= mov.getFinalMonthId();i++){
-				EntryDistrict entry = this.getEntryBalance(request.getDistrictId(), mov.getEntryId(), new Long(i));
-				entry.setBudgetAmountAssign((entry.getBudgetAmountAssign() + mov.getMonthAmountValue()));
-				baseService.update(entry);
-			}
-		}	
-		
-		if(request.getEntryId() != null && request.getEntryId() > 0){
-			//se activa la partida
-			Entry e = baseService.findById(Entry.class, request.getEntryId());
-			e.setActivo(true);
-			e.setStatus(StatusEntry.ACTIVE);
-			baseService.update(e);
-			this.loadEntryDistrict(e.getId(), request.getDistrictId(), request.getFolio());
-		}
+		LOG.info("Fin de la operacion");
+	}
+	
+	private List<Request> getRequestsToCancelByDistrictAndMonth(Long districtId, Long month, Long requestId){
+		SqlParameterSource namedParameters = new MapSqlParameterSource()
+				.addValue("requestId", requestId)
+				.addValue("month", month)
+				.addValue("districtId", districtId);
+		List<Request> list = this.queryForList(Request.class, queryContainer.getSQL(SQLConstants.GET_MASIVE_REQUEST_TO_CANCEL), namedParameters, new RequestMapper());
+		return list;
 	}
 	
 	private void loadEntryDistrict(Long entryId, Long districtId, String folio){
@@ -384,7 +490,8 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		return this.insertOrUpdate(queryContainer.getSQL(SQLConstants.INSERT_REQUEST_CONFIG), params);
 	}
 	
-	private Formality getFormalityById(Long formalityId){		
+	@Override
+	public Formality getFormalityById(Long formalityId){		
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("formalityId", formalityId);
 		List<Formality> list = this.queryForList(Formality.class, queryContainer.getSQL(SQLConstants.GET_FORMALITY_BY_ID), namedParameters, new FormalityMapper());
 		return list.get(0);
@@ -429,6 +536,20 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	}
 	
 	
+	@Override
+	public int insertOrUpdateMasiveDetail(Request request) throws Exception{
+		
+		LOG.info("Limpiando detalle de movimientos");
+		int clean = this.cleanRequestDetail(request.getRequestId());
+		LOG.info("Detalle de movimientos eliminado");
+		
+		LOG.info("Insertando movimientos de disminucion");
+		this.insertMasiveMovements(request.getDownMovements(), request);
+		LOG.info("Movimientos de disminucion terminado");
+		return 0;
+	}
+	
+	
 	public Request insertOrUpdateRequestData(Request request){
 		Request baseRequest = this.getRequestById(request.getRequestId());
 		
@@ -447,9 +568,49 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	}
 
 	private int cleanRequestDetail(Long requestId){
-		SqlParameterSource params = new MapSqlParameterSource()
-				.addValue("requestId", requestId);
+		SqlParameterSource params = new MapSqlParameterSource().addValue("requestId", requestId);
 		return this.insertOrUpdate(queryContainer.getSQL(SQLConstants.CLEAN_REQUEST_DETAIL), params);
+	}
+	
+private void insertMasiveMovements(List<Movement> list, Request request) throws Exception{
+		
+		LOG.info("---------------------------------------------------------------------------");
+		LOG.info("Cantidad de movimientos a actualizar: " + list.size());
+		LOG.info("Tipo de guardado: " + request.getNextStageValueCode());
+		LOG.info("Request id: " + request.getRequestId());
+		LOG.info("---------------------------------------------------------------------------");
+
+		
+		for(Movement m : list){
+			
+			//si no es un elemento eliminado
+			if(m.getRemovedElement() == 0){
+				
+				//se afectan a las partidas
+				if(m.getMovementTypeId().intValue() < 0){
+					
+					//en los movimientos de disminucion se compromete el saldo
+					for(int i = m.getInitialMonthId(); i <= m.getFinalMonthId(); i++){
+						
+						//Se obtiene el balance actual de la partida distrito mes
+						EntryDistrict entry = this.getEntryBalance(request.getDistrictId(), m.getEntryId(), new Long(i));
+						if (entry == null){
+							throw new EntryDistrictException(request.getDistrictId(), m.getEntryId(), new Long(i), m.getMonthAmountValue());
+						}
+							
+						//se actualiza el movimiento
+						LOG.info("Actualizando saldo comprometido a partida");
+						entry.setCommittedAmount(entry.getCommittedAmount() + m.getMonthAmountValue());
+						baseService.update(entry);
+						
+					}
+					
+				}
+				
+				m.setRequestId(request.getRequestId());
+				this.insertMovement(m);
+			}
+		}
 	}
 	
 	
@@ -606,6 +767,8 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 
 		r.setFormalityName(formalityName);
 		r.setFormalityId(config.getFormalityId());
+		
+		r.setStageConfigId(this.getActiveRequestHistory(requestId).getStageConfigId());
 
 		return r;
 	}
@@ -1150,5 +1313,27 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		SqlParameterSource params = new MapSqlParameterSource().addValue("districtId", districtId).addValue("roleId", roleId);
 		return (this.queryForObject(Integer.class, queryContainer.getSQL(SQLConstants.HAS_DISTRICT_ROLE), params) > 0);		
 	}
-	
+
+	@Override
+	public List<EntryDistrict> getEntriesByDistrict(Long districtId, Long month) {
+		
+		LOG.info("buscando partidas por distrito mes");
+		
+		Map<String, Object> propertiesMap = new HashMap<String, Object>();
+		propertiesMap.put("district", baseService.findById(District.class, districtId));
+		propertiesMap.put("month", month);
+		
+		List<EntryDistrict> list = baseService.findByProperties(EntryDistrict.class, propertiesMap);
+		if(list != null && list.size() > 0){
+			for(EntryDistrict entry : list){
+				if(entry != null){
+					entry.setMonthString(this.getMonthsMap().get(entry.getMonth() + 1));
+				}
+			}
+		}else{
+			list = new ArrayList<EntryDistrict>();
+		}
+		LOG.info("total de partidas encontradas: " + list.size());
+		return list;
+	}
 }

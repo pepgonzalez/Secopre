@@ -10,6 +10,12 @@
 <!-- 	<logger name="org.springframework.web.context.ContextLoader" level="DEBUG" additivity="false"> -->
 <!-- 	    <appender-ref ref="STDOUT" /> -->
 <!-- 	</logger> -->
+
+	<logger name="org.hibernate">
+  		<level value="error"/> 
+	</logger>	
+	<logger name="org.hibernate.SQL" level="error" />
+	
     <root level="INFO">
         <appender-ref ref="STDOUT" />
     </root>

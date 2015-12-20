@@ -97,5 +97,5 @@ public class SQLConstants {
 	
 	public static final String GET_ACTIVE_PK = "GET_ACTIVE_PK";
 	public static final String GET_RECTIFICATION_INBOX = "GET_RECTIFICATION_INBOX";
-	
+	public static final String GET_MASIVE_REQUEST_TO_CANCEL = "GET_MASIVE_REQUEST_TO_CANCEL";
 }

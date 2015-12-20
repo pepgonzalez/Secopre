@@ -16,6 +16,8 @@ public class FormalityMapper implements RowMapper<Object> {
 			formality.setWorkFlowId(rs.getLong("WORKFLOW_ID"));
 			formality.setAuthorizationId(rs.getLong("AUTHORIZATION_ID"));
 			formality.setCode(rs.getString("CODE"));
+			formality.setCreateValidation(rs.getBoolean("CREATE_VALIDATION"));
+			formality.setProcessAfterCreation(rs.getString("PROCESS_AFTER_CREATION"));
 			return formality;   
 	 }    
 } 

@@ -72,7 +72,7 @@
 						
 				<prop key="GET_FORMALITY_FROM_USER_ID">
 					<![CDATA[
-						SELECT DISTINCT (T.ID) AS FORMALITY_ID, T.F_DESC AS DESCRIPTION, T.WORKFLOW_ID, T.AUTHORIZATION_ID, T.CODE FROM (
+						SELECT DISTINCT (T.ID) AS FORMALITY_ID, T.F_DESC AS DESCRIPTION, T.WORKFLOW_ID, T.AUTHORIZATION_ID, T.CODE, T.CREATE_VALIDATION, T.PROCESS_AFTER_CREATION FROM (
 							SELECT F.ID,
 								   F.DESCRIPTION F_DESC,
 								   F.WORKFLOW_ID,
@@ -81,7 +81,9 @@
 								   W.DESCRIPTION WF_DESC,
 								   W.FIRST_STAGE_CFG,
 								   SCR.ROLE_ID,
-								   R.ROLENAME
+								   R.ROLENAME,
+								   F.CREATE_VALIDATION,
+								   F.PROCESS_AFTER_CREATION
 							  FROM secopre.FORMALITY F,
 							  	   secopre.WORKFLOW W,
 							  	   secopre.STAGE_CONFIG_ROLE SCR,
@@ -110,7 +112,9 @@
 							   LAST_UPDATE,
 							   ACTIVE, 
 							   AUTHORIZATION_ID,
-							   CODE
+							   CODE,
+							   CREATE_VALIDATION,
+							   PROCESS_AFTER_CREATION
 					      FROM secopre.FORMALITY WHERE ID = :formalityId
 					]]>
 				</prop>		
@@ -1110,13 +1114,50 @@
 					<![CDATA[
 					SELECT COUNT(*)
 	  				  FROM DISTRICT_USER DU,
-	       			       USER_ROLE UR
+	       			       USER_ROLE UR,
+	       			              ( SELECT   D.ENTITY, D.ID, CONCAT('DTO-',D.NUMBER) AS DESCRIPTION,
+							       EMAIL,TELEPHONE, D.ACTIVE, A.NUMBER NUMBER_EXT, A.STREET, A.COLONY, A.CITY, S.id STATE_ID, S.CODE, S.NAME, A.id ADDRESS_ID
+							       FROM secopre.DISTRICT D JOIN
+							(SELECT DISTINCT(ED.DISTRICT_ID) FROM secopre.ENTRYDISTRICT ED) T
+								ON (D.ID = T.DISTRICT_ID)
+							LEFT OUTER JOIN ADDRESS A
+							  ON D.ADDRESS_ID = A.id
+							    LEFT OUTER JOIN STATE S
+							  ON S.id = D.STATE_ID
+							  ORDER BY CONVERT(D.NUMBER,UNSIGNED INTEGER)   )    D
 	 				 WHERE DU.USER_ID = UR.USER_ID
-	   				   AND ROLE_ID     = :roleId
+	   				   AND ROLE_ID     =  :roleId
+	   				   AND D.ID = DU.DISTRICT_ID
 	   				   AND DISTRICT_ID = :districtId
 					]]>
 				</prop>
-				
+
+				<prop key="GET_MASIVE_REQUEST_TO_CANCEL">
+					<![CDATA[
+				SELECT DISTINCT R.ID AS REQUEST_ID,
+							   R.FOLIO,
+							   R.DISTRICT_ID,
+							   R.JUSTIFICATION,
+							   R.RESOURCE_PATH,
+							   R.MOVEMENT_TYPE_ID,
+							   R.CERTIFIED_ACCOUNT,
+							   R.ENTRY_ID 
+				  FROM secopre.REQUEST R,
+				  	   secopre.REQUEST_DETAIL RD,
+				  	   secopre.REQUEST_HISTORY RH,
+				  	   secopre.WORKFLOW_CONFIG WC,
+				  	   secopre.STAGE_CONFIG SC
+				 WHERE R.ID = RD.REQUEST_ID
+				   AND R.DISTRICT_ID = :districtId
+				   AND (:month BETWEEN RD.INITIAL_MONTH AND RD.FINAL_MONTH)
+				   AND R.ID <> :requestId
+				   AND R.ID = RH.REQUEST_ID
+				   AND RH.ACTIVE = 1
+				   AND WC.ID = RH.WORKFLOW_CONFIG_ID
+				   AND WC.NEXT_STAGE_CONFIG = SC.ID
+				   AND SC.IS_AUTHORIZATION = 1
+   					]]>
+				</prop>			
 													
 			</props>				
 		</property>

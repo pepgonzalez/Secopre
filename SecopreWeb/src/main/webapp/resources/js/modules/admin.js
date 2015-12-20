@@ -1584,7 +1584,36 @@ function initTramitePage() {
 
 	$('#submitRequestForm').click(function() {
 		if (requestForm.valid()) {
-			submitAjaxJQ('requestForm', 'dashboard', '');
+			
+			var formalityId = $(document).find("#formalityId").val();
+			
+			if(parseInt(formalityId) == 4){
+				
+				bootbox.dialog({
+			         message: "Si se autoriza &eacute;ste movimiento, todos los tramites en proceso de autorizaci&oacute;n relacionados al distrito ser&aacute;n cancelados automaticamente. &iquest;Desea continuar?",
+			         title: "Tramite de reducci&oacute;n Masiva por distrito",
+		        	 buttons: {
+		        		    success: {
+		        		      label: "Continuar",
+		        		      className: "btn-success",
+		        		      callback: function() {
+		        		    	  submitAjaxJQ('requestForm', 'dashboard', '');
+		        		      }
+		        		    },
+		        		    cancel: {
+		        		      label: "Cancelar",
+		        		      className: "btn-danger",
+		        		      callback: function() {
+		        		      }
+		        		    }
+		        		  }
+			    });
+				
+				
+			}else{
+				submitAjaxJQ('requestForm', 'dashboard', '');
+			}
+			
 		}
 	});
 }
@@ -1861,7 +1890,6 @@ function initTramiteListPage() {
 	
 	var canEdit = $(document).find("#canCaptureValue").val();	
 	if(canEdit == "false"){
-		console.log("usuario no puede capturar iniciando tooltip");
 		$(document).find(".canCaptureButton").each(function(){
 			console.log("seteando tooltip");
 			$(this).qtip({
@@ -1881,8 +1909,6 @@ function initTramiteListPage() {
 			     }
 			});
 		});
-	}else{
-		console.log("usuario puede capturar");
 	}
 	
 	var formalityDatatable = $('#formalityList').DataTable({
@@ -1970,6 +1996,13 @@ function showKeyData(programaticKeyId){
 	
 	apiCall("auth/wf/pk/" + programaticKeyId, function(data){
 		clousure(data);
+	});
+}
+
+function existRequestInProcess(districtId, callback){
+	
+	apiCall("auth/API/get/requestInProcess/" + districtId, function(data){
+		callback(data);
 	});
 }
 
@@ -2113,11 +2146,15 @@ function movements2Capture() {
 
 function initAuthorization() {
 	
+	var formalityId = $(document).find("#formalityId").val();
+	
 	$(document).find("input").attr("readonly","true").prop("disabled",true);
 	$(document).find("select").attr("readonly","true").prop("disabled",true);
 
-	movementController2.startComponent();
-	
+	if(parseInt(formalityId) != 4){
+		movementController2.startComponent();
+	}
+
 	$(document).find("[data-name='sliderControl']").hide();
 	$(document).find("[data-name='deleteAction']").html("");
 	$(document).find("[data-name='monthLabels']").attr("colspan","2");
@@ -2130,6 +2167,10 @@ function initAuthorization() {
 	}
 	if(tipoMov == 2){
 		$("#addComponent").hide();
+	}
+	
+	if(parseInt(formalityId) == 4){
+		$(document).find("#backToCapture").hide();
 	}
 	
 	var requestForm = $('#requestForm');

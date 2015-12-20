@@ -80,7 +80,6 @@ public class Movement {
 	public String getMonthAmount() {
 		DecimalFormat formatter = new DecimalFormat("###,###,###.##");
 		String result =  formatter.format((this.monthAmountValue == null ? 0 : this.monthAmountValue));
-		System.out.println("resultado de formato: " + result);
 		return result;
 	}
 	public void setMonthAmount(String monthAmount) {
@@ -92,7 +91,6 @@ public class Movement {
 		Double total =  this.monthAmountValue * months;
 		DecimalFormat formatter = new DecimalFormat("###,###,###.##");
 		String result=  formatter.format((total == null ? 0 : total));
-		System.out.println("resultado de formato: " + result);
 		return result;
 	}
 	public void setTotalAmount(String totalAmount) {

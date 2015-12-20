@@ -32,6 +32,7 @@
 										<form:hidden path="nextStageValueCode" id="nextStageValueCode" />
 										<form:hidden path="districtId" id="districtId"/>
 										<form:hidden path="formalityCode" id="formalityCode"/>
+										<form:hidden path="formalityId" id="formalityId"/>
 										
 										<jsp:include page="/WEB-INF/views/auth/tramite/exception.jsp" flush="true"/>
 										  

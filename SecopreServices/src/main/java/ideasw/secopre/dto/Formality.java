@@ -14,7 +14,8 @@ public class Formality {
 	private Long workFlowId;
 	private Long authorizationId;
 	private String code;
-	
+	private Boolean createValidation;
+	private String processAfterCreation;
 
 	public String getCode() {
 		return code;
@@ -54,5 +55,17 @@ public class Formality {
 			   "formalityId: " + formalityId +
 			   ", description: " + description + 
 			   ", workFlowId: " + workFlowId + "}";
+	}
+	public Boolean getCreateValidation() {
+		return createValidation;
+	}
+	public void setCreateValidation(Boolean createValidation) {
+		this.createValidation = createValidation;
+	}
+	public String getProcessAfterCreation() {
+		return processAfterCreation;
+	}
+	public void setProcessAfterCreation(String processAfterCreation) {
+		this.processAfterCreation = processAfterCreation;
 	}
 }

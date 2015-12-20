@@ -69,7 +69,7 @@
 								<div class="form-actions margin-top-10">
 									<div class="row">
 										<div class="col-md-offset-2 col-md-10">
-											<button type="button" class="btn default" onclick="sendRequestJQ('auth/tram/list','dashboard','initTramiteListPage()','GET');"><spring:message code="application.back"/></button>
+											<button type="button" class="btn default" onclick="sendRequestJQ('auth/tram/list','dashboard','noAction()','GET');"><spring:message code="application.back"/></button>
 											<button type="button" class="btn green" id="submitRequestForm"><spring:message code="application.pages.tramite.add.crear"/></button>
 										</div>
 									</div>
