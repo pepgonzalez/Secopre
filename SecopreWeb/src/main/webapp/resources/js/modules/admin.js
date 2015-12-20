@@ -1904,6 +1904,26 @@ function initMyTramiteListPage(){
        ]
     });
 	
+	console.log("iniciando tooltip de elementos en lista");
+	$(document).find(".tooltip-control").each(function(){
+		$(this).qtip({
+			 content: {
+				 text: $(this).next(".tooltip-popup")
+		     },
+		     position:{
+		    	 my: 'top right',
+		         at: 'bottom left'
+		     },
+		     hide: {
+	           fixed: true,
+	           delay: 400
+	         },
+		     style: {
+		    	 classes: "ui-tooltip-shadow"
+		     }
+		});
+	});
+	
 	// Filtro de datatable por fecha
 	$(document).find('#formalityDateSearch').on( 'keyup', function () {
 		formalityDatatable.search( this.value ).draw();

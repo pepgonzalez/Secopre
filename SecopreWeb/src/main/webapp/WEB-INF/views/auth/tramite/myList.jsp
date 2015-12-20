@@ -68,11 +68,40 @@
 										<td>${inboxItem.creationDateStr}</td>
 										<td>${inboxItem.nextDescription}</td>
 										<td>
-											<c:if test="${inboxItem.isOperated == true}">
-												<a href="#" onclick="openResourceNative('wf/download/format/${inboxItem.requestId}','dashboard','()','GET');">
-													Descargar Formato
-												</a>
-											</c:if>
+											
+											<a href="javascript:;" class="btn btn-xs tooltip-control"><i class="fa fa-folder-open"></i></a>
+											
+											<!-- tooltip popup -->
+											<div class="tooltip-popup">
+											 	<div class="qtip-titlebar">
+										        	<div id="qtip-{id}-title" class="qtip-title">Opciones</div>
+										    	</div>
+										    	
+										    	<div id="qtip-{id}-content" class="qtip-content ui-widget-content" aria-atomic="true">
+       
+													<table class="popupContainer">
+														<tbody>
+																<tr>
+																	<td>
+																		<a href="#" onclick="showDataHistory('${inboxItem.requestId}')" >
+																			Ver historia del Folio
+																		</a>
+																	</td>
+																</tr>
+															<c:if test="${inboxItem.isOperated == true}">
+																<tr>
+																	<td>
+																		<a href="#" onclick="openResourceNative('wf/download/format/${inboxItem.requestId}','dashboard','()','GET');">
+																			Descargar Formato
+																		</a>
+																	</td>
+																</tr>
+															</c:if>
+															
+														</tbody>
+													</table>
+												</div>
+											</div>
 										</td>
 									</tr>							
 								</c:forEach>
