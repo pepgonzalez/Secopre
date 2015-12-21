@@ -865,7 +865,7 @@ private void insertMasiveMovements(List<Movement> list, Request request) throws 
 		List<Entry> l = new ArrayList<Entry>();
 		l = baseService.findAll(Entry.class);
 		Map<Long, String> map = new HashMap<Long, String>();
-		Collections.sort(l, new EntryComparator());
+//		Collections.sort(l, new EntryComparator());
 		for (Entry e : l){
 			map.put(e.getId(), e.getName());
 		}
@@ -898,7 +898,7 @@ private void insertMasiveMovements(List<Movement> list, Request request) throws 
 			l = baseService.findAll(Entry.class);
 		}
 		
-		Collections.sort(l, new EntryComparator());
+//		Collections.sort(l, new EntryComparator());
 		
 		Map<Long, String> map = new HashMap<Long, String>();
 		for (Entry e : l){
