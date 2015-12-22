@@ -124,34 +124,54 @@
 													</div>	
 													
 															
-													<div class="form-group form-md-line-input has-danger">
+<!-- 													<div class="form-group form-md-line-input has-danger"> -->
+<%-- 													<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.gender"/> --%>
+<!-- 										  			<span class="required">* </span>  -->
+<!-- 												    </label> -->
+<!-- 													   <div class="col-md-4"> -->
+<!-- 										                            <div class="md-radio-inline"> -->
+<!-- 																				<div class="md-radio"> -->
+<%-- 																				    <form:radiobutton path="person.gender"  id="gender1" value="MASCULINO" class="md-radiobtn" name="gender"/> --%>
+<!-- 																					<label for="gender1"> -->
+<!-- 																					<span></span> -->
+<!-- 																					<span class="check"></span> -->
+<!-- 																					<span class="box"></span> -->
+<%-- 																					<spring:message code="application.pages.admin.persons.gender1"/> --%>
+<!-- 																					 </label> -->
+<!-- 																				</div> -->
+<!-- 																				<div class="md-radio"> -->
+<%-- 																				    <form:radiobutton path="person.gender" id="gender2" value="FEMENINO" class="md-radiobtn" name="gender"/> --%>
+<!-- 																					<label for="gender2"> -->
+<!-- 																					<span></span> -->
+<!-- 																					<span class="check"></span> -->
+<!-- 																					<span class="box"></span> -->
+<%-- 																					<spring:message code="application.pages.admin.persons.gender2"/> --%>
+<!-- 																					</label> -->
+<!-- 																				</div> -->
+<!-- 																			</div> -->
+<!-- 																<div class="form-control-focus"></div> -->
+<%-- 																<span id="gender-error" class="help-block help-block-error"><spring:message code="application.pages.admin.persons.motherLastName.help"/></span> --%>
+<!-- 												          </div> -->
+<!-- 												    </div> -->
+
+
+												    <div class="form-group form-md-line-input has-danger">
 													<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.gender"/>
 										  			<span class="required">* </span> 
 												    </label>
 													   <div class="col-md-4">
-										                            <div class="md-radio-inline">
-																				<div class="md-radio">
-																				    <form:radiobutton path="person.gender"  id="gender1" value="MASCULINO" class="md-radiobtn" name="gender"/>
-																					<label for="gender1">
-																					<span></span>
-																					<span class="check"></span>
-																					<span class="box"></span>
-																					<spring:message code="application.pages.admin.persons.gender1"/>
-																					 </label>
-																				</div>
-																				<div class="md-radio">
-																				    <form:radiobutton path="person.gender" id="gender2" value="FEMENINO" class="md-radiobtn" name="gender"/>
-																					<label for="gender2">
-																					<span></span>
-																					<span class="check"></span>
-																					<span class="box"></span>
-																					<spring:message code="application.pages.admin.persons.gender2"/>
-																					</label>
-																				</div>
-																			</div>
+													      <div class="input-group">
+																<span class="input-group-addon"> 
+																  <i class="icon-user"></i>
+																</span> 																
+																<form:select path="person.gender"  name="gender" class="form-control">
+												                    <form:option value="" label="Seleccione..."/>
+												                    <form:options items="${genders}" />
+												                </form:select>
+						
 																<div class="form-control-focus"></div>
-																<span id="gender-error" class="help-block help-block-error"><spring:message code="application.pages.admin.persons.motherLastName.help"/></span>
 												          </div>
+													   </div>
 												    </div>
 													
 													<div class="form-group form-md-line-input has-danger">
@@ -382,6 +402,10 @@
 										           </div>
 									            </div>		
 									            
+<%-- 									            <c:when test="${gender.MASCULINO == 'MASCULINO'}"> --%>
+<!-- 									            1 -->
+<%-- 									             </c:when>   --%>
+									             
 									            <div class="form-group">
 										           <label class="control-label col-md-3"><spring:message
 													  code="application.pages.admin.persons.telephone" />

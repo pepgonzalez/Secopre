@@ -168,6 +168,7 @@ public class ProgrammaticKey extends AuditEntity implements Persistible {
 	}
 
 	public String getDescription() {
+//		description = getFullKey();
 		return description;
 		//return this.function.concat(" ").concat(this.finality).concat(" ").concat(this.subfunction).concat(" ").concat(activity).concat(" ").concat(programBudget).concat(" ").concat(this.unitResponsable);
 	}

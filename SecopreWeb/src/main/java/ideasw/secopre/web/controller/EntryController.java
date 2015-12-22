@@ -61,7 +61,7 @@ public class EntryController extends AuthController {
 
 		HashMap<Long, String> pkMap = new HashMap<Long, String>();
 		for (ProgrammaticKey p : programmaticKeyList) {
-			pkMap.put(p.getId(), p.getCode());
+			pkMap.put(p.getId(), p.getFullKey());
 		}
 
 		// TODO: filtral distritos por usuario
@@ -75,14 +75,29 @@ public class EntryController extends AuthController {
 	@RequestMapping(value = "oper/entry/add", method = RequestMethod.POST)
 	public String add(@ModelAttribute("entry") Entry entry, ModelMap model) {
 		try {
-			entry.setActivo(Boolean.TRUE);
+			if(entry.getId() == null)
+			{
+				entry.setActivo(Boolean.TRUE);
+			}
+			else
+			{
+				Entry entryEdit = baseService.findById(Entry.class, entry.getId());
+				entryEdit.setCode(entry.getCode());
+				entryEdit.setAccountingType(entry.getAccountingType());
+				entryEdit.setConcept(entry.getConcept());
+				entryEdit.setName(entry.getName());
+				entryEdit.setProgrammaticKey(entry.getProgrammaticKey());
+				entryEdit.setDescription(entry.getDescription());
+				entry = entryEdit;
+			}
+		
 			baseService.save(entry);
 		} catch (Exception e) {
 			e.getStackTrace();
 			e.printStackTrace();
 			model.addAttribute(
 					"errors",
-					initErrors("Ocurrio un error al insertar el puesto:"
+					initErrors("Ocurrio un error al insertar la partida:"
 							+ e.getMessage()));
 		}
 		return SecopreConstans.MV_CAT_ENTRY_LIST;

@@ -134,7 +134,7 @@
 													  code="application.pages.param.director.director" />
 											       </label>
 										           <div class="col-md-4">
-											         <p class="form-control-static" data-display="directors"></p>
+											         <p class="form-control-static" data-display="user.id"></p>
 										           </div>
 									            </div>		
 									            

@@ -149,7 +149,7 @@
 													code="application.pages.catalog.entry.entry" />
 													</label>
 										            <div class="col-md-4">
-											           <p class="form-control-static" data-display="name"></p>
+											           <p class="form-control-static" data-display="code"></p>
 										            </div>
 									            </div>
 									            <div class="form-group">

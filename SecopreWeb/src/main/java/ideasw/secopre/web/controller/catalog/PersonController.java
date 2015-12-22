@@ -3,6 +3,7 @@ package ideasw.secopre.web.controller.catalog;
 import java.util.HashMap;
 import java.util.List;
 
+import ideasw.secopre.enums.AccountingType;
 import ideasw.secopre.enums.Gender;
 import ideasw.secopre.dto.Request;
 import ideasw.secopre.model.catalog.Address;
@@ -56,7 +57,7 @@ public class PersonController extends AuthController {
 		model.addAttribute("roles", baseService.findAll(Role.class));
 		model.addAttribute("permissions", baseService.findAll(Permission.class));
 		model.addAttribute("address", address);
-		model.addAttribute("gender",  Gender.values());
+		model.addAttribute("genders", Gender.values());
 				
 		Request requestForm = new Request();
 		

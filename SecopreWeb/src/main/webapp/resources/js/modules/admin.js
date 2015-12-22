@@ -1689,7 +1689,7 @@ function initPersonValidations() {
 			},
 			twitter : {},
 			facebook : {},
-			webSite : {url: true},
+			webSite : {},
 			"stateDTO.id" : {
 				required : true
 			},

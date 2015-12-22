@@ -37,14 +37,27 @@ public class DirectorController extends AuthController {
 		model.addAttribute("director", director);
 		
 		model.addAttribute("directores", accessNativeService.getDirectors());
-		
+		String position = null;
 		List<User> userList = accessNativeService.getDirectors();
+		
 		//Lista de Personas
 		HashMap<Long, String> directorMap = new HashMap<Long, String>();
 		for (User user : userList) {
+			User fullUser = baseService.findById(User.class , user.getId());	
+			position = fullUser.getPosition().getDescription();
+			
 			Person person = new Person();
 			person = baseService.findById(Person.class, user.getPerson().getId());
-			directorMap.put(user.getId() ,person.getName().concat(" ").concat(person.getSecondName().concat(" ").concat(person.getFatherLastName().concat(" ").concat(person.getMotherLastName()))) );
+			if (position != null)
+			{
+			directorMap.put(user.getId() ,person.getName().concat(" ").concat(person.getSecondName().concat(" ").
+					concat(person.getFatherLastName().concat(" ").concat(person.getMotherLastName().concat(" - ").concat(position) ))) );
+			}
+			else
+			{
+				directorMap.put(user.getId() ,person.getName().concat(" ").concat(person.getSecondName().concat(" ").
+						concat(person.getFatherLastName().concat(" ").concat(person.getMotherLastName() ))) );	
+			}
 		}
 		model.addAttribute("directors", directorMap);
 		
