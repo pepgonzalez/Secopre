@@ -257,6 +257,8 @@ public interface AccessNativeService {
 	
 	/*Servicio para obtener todas los distritos que pertenece a una fecha de corte*/
     List<District> getDistrictsByDueDate(Long dueDateId);
+
+	Map<Long, String> getEntriesWithCodeMap();
 	
 }
 

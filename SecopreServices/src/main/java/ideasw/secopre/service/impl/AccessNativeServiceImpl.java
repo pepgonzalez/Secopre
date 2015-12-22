@@ -18,6 +18,7 @@ import ideasw.secopre.dto.RequestHistory;
 import ideasw.secopre.dto.StageConfig;
 import ideasw.secopre.dto.UserMovement;
 import ideasw.secopre.dto.WorkFlowConfig;
+import ideasw.secopre.enums.AccountingType;
 import ideasw.secopre.enums.Month;
 import ideasw.secopre.enums.StatusEntry;
 import ideasw.secopre.enums.WorkFlowCode;
@@ -862,12 +863,26 @@ private void insertMasiveMovements(List<Movement> list, Request request) throws 
 	}
 	
 	public Map<Long, String> getEntriesMap(){
-		List<Entry> l = new ArrayList<Entry>();
-		l = baseService.findAll(Entry.class);
+		
+		List<Entry> list = this.queryForList(Entry.class, queryContainer.getSQL(SQLConstants.GET_SORTED_ENTRIES), new MapSqlParameterSource(), new EntryMapper());	
+ 		
 		Map<Long, String> map = new HashMap<Long, String>();
-//		Collections.sort(l, new EntryComparator());
-		for (Entry e : l){
+		
+		for (Entry e : list){
 			map.put(e.getId(), e.getName());
+		}
+		return map;
+	}
+	
+	@Override
+	public Map<Long, String> getEntriesWithCodeMap(){
+		
+		List<Entry> list = this.queryForList(Entry.class, queryContainer.getSQL(SQLConstants.GET_SORTED_ENTRIES), new MapSqlParameterSource(), new EntryMapper());	
+ 		
+		Map<Long, String> map = new HashMap<Long, String>();
+		
+		for (Entry e : list){
+			map.put(e.getId(), e.getCode() +  " - " + e.getName());
 		}
 		return map;
 	}
@@ -893,13 +908,12 @@ private void insertMasiveMovements(List<Movement> list, Request request) throws 
 	public Map<Long, String> getEntriesMap(Long programaticKey) {
 		List<Entry> l = new ArrayList<Entry>();
 		if(programaticKey.longValue() > 0){
-			l = baseService.findByProperty(Entry.class, "programmaticKey", baseService.findById(ProgrammaticKey.class, programaticKey));
+			MapSqlParameterSource params = new MapSqlParameterSource().addValue("programaticId", programaticKey);
+			l = this.queryForList(Entry.class, queryContainer.getSQL(SQLConstants.GET_SORTED_ENTRIES_BY_PK), params, new EntryMapper());	
 		}else{
-			l = baseService.findAll(Entry.class);
+			l = this.queryForList(Entry.class, queryContainer.getSQL(SQLConstants.GET_SORTED_ENTRIES), new MapSqlParameterSource(), new EntryMapper());	
 		}
-		
-//		Collections.sort(l, new EntryComparator());
-		
+
 		Map<Long, String> map = new HashMap<Long, String>();
 		for (Entry e : l){
 			map.put(e.getId(), e.getCode() + " - "+e.getName());
@@ -918,7 +932,11 @@ private void insertMasiveMovements(List<Movement> list, Request request) throws 
 
 	@Override
 	public Map<Long, String> getMovementTypesMap() {
-		List<MovementType> movementTypes = baseService.findAll(MovementType.class);	
+		
+		Map<String, Object> propertiesMap = new HashMap<String, Object>();
+		propertiesMap.put("isElegible", 1);
+				
+		List<MovementType> movementTypes = baseService.findByProperties(MovementType.class, propertiesMap);	
 		Map<Long, String> map = new HashMap<Long, String>();
 		for(MovementType mov : movementTypes){
 			map.put(mov.getId(), mov.getDescription());
@@ -951,9 +969,7 @@ private void insertMasiveMovements(List<Movement> list, Request request) throws 
 		SqlParameterSource namedParameters = new MapSqlParameterSource()
 				.addValue("districtId", districtId);
 
-		List<Entry> list = this.queryForList(Entry.class, queryContainer
-				.getSQL(SQLConstants.GET_VALID_ENTRIES_BY_DISTRIC),
-				namedParameters, new EntryMapper());
+		List<Entry> list = this.queryForList(Entry.class, queryContainer.getSQL(SQLConstants.GET_VALID_ENTRIES_BY_DISTRIC), namedParameters, new EntryMapper());
 		return list;
 
 	}
@@ -1324,6 +1340,8 @@ private void insertMasiveMovements(List<Movement> list, Request request) throws 
 		Map<String, Object> propertiesMap = new HashMap<String, Object>();
 		propertiesMap.put("district", baseService.findById(District.class, districtId));
 		propertiesMap.put("month", month);
+		propertiesMap.put("entry.status", StatusEntry.ACTIVE);
+		propertiesMap.put("entry.accountingType", AccountingType.PARTIDA);
 		
 		List<EntryDistrict> list = baseService.findByProperties(EntryDistrict.class, propertiesMap);
 		if(list != null && list.size() > 0){

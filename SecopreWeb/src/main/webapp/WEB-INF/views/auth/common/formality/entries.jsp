@@ -7,7 +7,7 @@
 	
 	<label class="col-md-4 control-label" for="accountingType">Tipo de Partida:</label>
 	<div class="col-md-8">
-			<form:select path="entry.accountingType" id="accountingType" class="form-control input-small movementComponent pk" value="${mov.entry.accountingType}">
+		<form:select path="entry.accountingType" id="accountingType" class="form-control input-small movementComponent pk" value="${mov.entry.accountingType}">
 			<form:option value="-1" label="Seleccione..."/>
   				<form:options items="${accountingTypes}" />
 		</form:select>

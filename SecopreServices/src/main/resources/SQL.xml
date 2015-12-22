@@ -53,9 +53,14 @@
 						WHERE T.DISTRICT_ID = D.ID
 						AND T.ENTRY_ID = E.ID
 						AND E.PROGRAMMATIC_ID = PK.ID
+<<<<<<< HEAD
 						AND S.ID = D.STATE_ID	
 						AND E.STATUS = 'ACTIVE'
 						ORDER BY E.CODE
+=======
+						AND S.ID = D.STATE_ID
+						AND E.STATUS = 'ACTIVE'
+>>>>>>> 2f2eee05335d5a5b8a2d87b36a7f64ee1b2da296
 					]]>
 				</prop>	
 				<prop key="UPDATE_UPLOADED_FILE_IN_REQUEST">
