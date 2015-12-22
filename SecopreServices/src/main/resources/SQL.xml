@@ -54,6 +54,7 @@
 						AND T.ENTRY_ID = E.ID
 						AND E.PROGRAMMATIC_ID = PK.ID
 						AND S.ID = D.STATE_ID
+						AND E.STATUS = 'ACTIVE'
 					]]>
 				</prop>	
 				<prop key="UPDATE_UPLOADED_FILE_IN_REQUEST">
@@ -457,7 +458,7 @@
 	
 				<prop key="GET_VALID_ENTRIES">
 					<![CDATA[
-						SELECT E.ID, E.NAME, E.CODE, P.CODE
+						SELECT E.ID, E.NAME, E.CODE, E.PROGRAMMATIC_ID, E.ENTRY_CONCEPT_ID
 						  FROM secopre.ENTRY E
 						  LEFT JOIN secopre.ENTRY P ON (E.ENTRY_CONCEPT_ID = P.ID)
 						  JOIN (SELECT DISTINCT DISTRICT_ID, ENTRY_ID 
@@ -466,22 +467,28 @@
 						    ON E.ID = T.ENTRY_ID
 						   AND E.PROGRAMMATIC_ID = :programaticKeyId
 						   AND E.ACCOUNTING_TYPE = 'PARTIDA'
+						   AND E.STATUS = 'ACTIVE'
 						ORDER BY P.CODE, E.CODE   
 					]]>
 				</prop>
 				
 				<prop key="GET_VALID_ENTRIES_BY_DISTRIC">
 					<![CDATA[
-						SELECT DISTINCT E.ID, E.NAME, E.CODE
-						 FROM secopre.ENTRY E
-						 INNER JOIN secopre.ENTRYDISTRICT ED 
-						 ON E.ID = ED.ENTRY_ID
-						 INNER JOIN secopre.PROGRAMMATIC_KEY PK
-						 ON E.PROGRAMMATIC_ID = PK.ID
-						 WHERE PK.YEAR = YEAR(CURDATE())
-						 AND ED.DISTRICT_ID = :districtId
-						 AND E.ACCOUNTING_TYPE = 'PARTIDA'
-						 ORDER BY E.CODE
+						SELECT DISTINCT E.ID, E.NAME, E.CODE, E.PROGRAMMATIC_ID, E.ENTRY_CONCEPT_ID
+						  FROM secopre.ENTRY E, 
+						  	   secopre.ENTRY C,
+						  	   secopre.ENTRYDISTRICT ED,
+						  	   secopre.PROGRAMMATIC_KEY PK
+						 WHERE E.ID = ED.ENTRY_ID
+						   AND E.ENTRY_CONCEPT_ID = C.ID
+						   AND E.ACCOUNTING_TYPE = 'PARTIDA'
+						   AND E.PROGRAMMATIC_ID = PK.ID
+						   AND PK.YEAR = YEAR(NOW())
+						   AND PK.ACTIVE = 1
+						   AND E.ACTIVE = 1
+						   AND ED.DISTRICT_ID = :districtId
+						   AND E.STATUS = 'ACTIVE'
+						ORDER BY C.CODE, E.CODE
 					]]>
 				</prop>				
 				<prop key="GET_STAGE_CONFIG_BY_ID">
@@ -591,6 +598,7 @@
 							PK.YEAR = YEAR(
 								CURDATE()
 							) + 1
+							AND E.STATUS = 'ACTIVE'
 					]]>
 				</prop>
 
@@ -807,6 +815,7 @@
 						 WHERE ED.DISTRICT_ID = D.ID
 						   AND ED.ENTRY_ID = E.ID
 						   AND E.PROGRAMMATIC_ID = PK.ID
+						   AND E.STATUS = 'ACTIVE'
 						ORDER BY ED.DISTRICT_ID, ED.ENTRY_ID, ED.MONTH ASC, ANNUAL_AMOUNT DESC
 						LIMIT 100
 					]]>
@@ -1097,6 +1106,7 @@
 						AND T.ENTRY_ID = E.ID
 						AND D.ID = :districtId
 						AND E.ID = :entryId
+						AND E.STATUS = 'ACTIVE'
 						AND D.STATE_ID = S.ID
 						GROUP BY DISTRICT_ID, ENTRY_ID
 						ORDER BY DISTRICT_ID, ENTRY_ID
@@ -1173,6 +1183,41 @@
 						       JOIN secopre.DUEDATE_DISTRICT NU ON (NU.DISTRICT_ID = D.ID AND NU.DUEDATE_ID =  :dueDateId)	
 						     ORDER BY CONVERT(D.NUMBER,UNSIGNED INTEGER)
 					]]>
+				</prop>
+				
+				<prop key="GET_SORTED_ENTRIES">
+					<![CDATA[
+							SELECT E.* 
+							  FROM secopre.ENTRY E,
+							  	   secopre.ENTRY C,
+							  	   secopre.PROGRAMMATIC_KEY PK
+							 WHERE E.PROGRAMMATIC_ID = PK.ID
+							   AND PK.YEAR = YEAR(NOW())
+							   AND E.ACCOUNTING_TYPE = 'PARTIDA'
+							   AND E.ENTRY_CONCEPT_ID = C.ID
+							   AND PK.ACTIVE = 1
+							   AND E.ACTIVE = 1
+							   AND E.STATUS = 'ACTIVE'
+							ORDER BY C.CODE, E.CODE
+				]]>
+				</prop>
+				
+				<prop key="GET_SORTED_ENTRIES_BY_PK">
+					<![CDATA[
+							SELECT E.* 
+							  FROM secopre.ENTRY E,
+							  	   secopre.ENTRY C,
+							  	   secopre.PROGRAMMATIC_KEY PK
+							 WHERE E.PROGRAMMATIC_ID = PK.ID
+							   AND PK.YEAR = YEAR(NOW())
+							   AND E.ACCOUNTING_TYPE = 'PARTIDA'
+							   AND E.ENTRY_CONCEPT_ID = C.ID
+							   AND PK.ACTIVE = 1
+							   AND E.ACTIVE = 1
+							   AND PK.ID = :programaticId
+							   AND E.STATUS = 'ACTIVE'
+							ORDER BY C.CODE, E.CODE
+				]]>
 				</prop>
 													
 			</props>				

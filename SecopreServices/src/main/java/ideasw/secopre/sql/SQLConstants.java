@@ -99,4 +99,6 @@ public class SQLConstants {
 	public static final String GET_ACTIVE_PK = "GET_ACTIVE_PK";
 	public static final String GET_RECTIFICATION_INBOX = "GET_RECTIFICATION_INBOX";
 	public static final String GET_MASIVE_REQUEST_TO_CANCEL = "GET_MASIVE_REQUEST_TO_CANCEL";
+	public static final String GET_SORTED_ENTRIES = "GET_SORTED_ENTRIES";
+	public static final String GET_SORTED_ENTRIES_BY_PK = "GET_SORTED_ENTRIES_BY_PK";
 }

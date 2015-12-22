@@ -28,6 +28,9 @@ public class MovementType implements Persistible {
 
 	@Column(name = "CODE", nullable = false, length = 50)
 	private String code;
+	
+	@Column(name = "IS_ELEGIBLE", nullable = false, length = 1)
+	private Integer isElegible;
 
 	/**
 	 * @return the id
@@ -72,5 +75,13 @@ public class MovementType implements Persistible {
 	 */
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public Integer getIsElegible() {
+		return isElegible;
+	}
+
+	public void setIsElegible(Integer isElegible) {
+		this.isElegible = isElegible;
 	}
 }
