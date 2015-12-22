@@ -18,6 +18,7 @@ import ideasw.secopre.dto.RequestHistory;
 import ideasw.secopre.dto.StageConfig;
 import ideasw.secopre.dto.UserMovement;
 import ideasw.secopre.dto.WorkFlowConfig;
+import ideasw.secopre.enums.AccountingType;
 import ideasw.secopre.enums.Month;
 import ideasw.secopre.enums.StatusEntry;
 import ideasw.secopre.enums.WorkFlowCode;
@@ -1326,7 +1327,8 @@ private void insertMasiveMovements(List<Movement> list, Request request) throws 
 		Map<String, Object> propertiesMap = new HashMap<String, Object>();
 		propertiesMap.put("district", baseService.findById(District.class, districtId));
 		propertiesMap.put("month", month);
-		propertiesMap.put("entry.status", "ACTIVE");
+		propertiesMap.put("entry.status", StatusEntry.ACTIVE);
+		propertiesMap.put("entry.accountingType", AccountingType.PARTIDA);
 		
 		List<EntryDistrict> list = baseService.findByProperties(EntryDistrict.class, propertiesMap);
 		if(list != null && list.size() > 0){
