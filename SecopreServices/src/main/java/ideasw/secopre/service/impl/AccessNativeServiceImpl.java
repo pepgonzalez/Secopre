@@ -874,6 +874,19 @@ private void insertMasiveMovements(List<Movement> list, Request request) throws 
 		return map;
 	}
 	
+	@Override
+	public Map<Long, String> getEntriesWithCodeMap(){
+		
+		List<Entry> list = this.queryForList(Entry.class, queryContainer.getSQL(SQLConstants.GET_SORTED_ENTRIES), new MapSqlParameterSource(), new EntryMapper());	
+ 		
+		Map<Long, String> map = new HashMap<Long, String>();
+		
+		for (Entry e : list){
+			map.put(e.getId(), e.getCode() +  " - " + e.getName());
+		}
+		return map;
+	}
+	
 	public Map<Long, String> getDistrictsMap(){
 		List<District> l = new ArrayList<District>();
 		l = baseService.findAll(District.class);
