@@ -9,9 +9,9 @@
 		                                </div>
 		                                <div class="details">
 		                                    <div class="number">
-		                                        <span data-counter="counterup" data-value='<c:out value="${balance.annualAmount}"/>'><c:out value="${balance.annualAmount}"/></span> $
+		                                        <span data-counter="counterup" data-value='23,580.00'><c:out value="${balance.annualAmount}"/></span> $
 		                                    </div>
-		                                    <div class="desc">Presupuesto Anual</div>
+		                                    <div class="desc">Presupuesto Anual </div>
 		                                </div>
 		                                <a class="more" href="javascript:;">
 		                                    <i class="m-icon-swapright m-icon-white"></i>
@@ -25,8 +25,8 @@
 		                                </div>
 		                                <div class="details">
 		                                    <div class="number">
-		                                        <span data-counter="counterup" data-value="<c:out value="${balance.budgetAsing}"/>"><c:out value="${balance.budgetAsing}"/></span> $
-		                                    	<div class="desc">Presupuesto Modificado</div>
+		                                        <span data-counter="counterup" data-value=" <c:out value="${balance.budgetAsing}"/>"><c:out value="${balance.budgetAsing}"/></span> $
+		                                    	<div class="desc">Presupuesto Modificado </div>
 		                                    </div>
 		                                </div>
 		                                <a class="more" href="javascript:;">
