@@ -598,7 +598,7 @@
 							PK.YEAR = YEAR(
 								CURDATE()
 							) + 1
-							AND E.STATUS = 'ACTIVE'
+							AND E.STATUS = 'CONFIG'
 					]]>
 				</prop>
 
