@@ -103,27 +103,47 @@
 											</div>
 										</div>
 										
-										<div class="form-group form-md-line-input has-danger">
-										   <label class="col-md-3 control-label" for="form_control_1"><spring:message
-													code="application.pages.admin.users.hasChatActive" /> <span
-												class="required">* </span> 
-										   </label>
-										   <div class="col-md-9">
-										       <div class="input-group"> 
-										          <span class="input-group-addon"> <i
-														class="fa fa-weixin"></i>
-												  </span>
-												  <div class="md-checkbox">
-											      <input type="checkbox" class="md-check" id="hasChatActive" name="hasChatActive">
-											      <label for="hasChatActive">
-											      <span class="inc"></span>
-											      <span class="check"></span>
-											      <span class="box"></span>
-											       </label>
-											      </div>
-											   </div>
+										
+									   <div class="form-group form-md-line-input has-danger">
+										<label class="col-md-3 control-label" for="form_control_1"><spring:message code="application.pages.admin.users.hasChatActive"/>
+										   <span class="required">* </span> 
+										</label>
+										<div class="col-md-4">
+										   <div class="input-icon">
+												<form:select path="user.hasChatActive"  name="hasChatActive" class="form-control">
+												    <form:option value="0" label="No"/>
+												   <form:option value="1" label="Si"/>
+	    										
+												</form:select>
+												<div class="form-control-focus"></div>
+												<span id="person-error" class="help-block help-block-error">
+												</span>
+												 <i class="fa fa-weixin"></i>
 										   </div>
 										</div>
+										</div>
+										
+<!-- 										<div class="form-group form-md-line-input has-danger"> -->
+<%-- 										   <label class="col-md-3 control-label" for="form_control_1"><spring:message --%>
+<%-- 													code="application.pages.admin.users.hasChatActive" /> <span --%>
+<!-- 												class="required">* </span>  -->
+<!-- 										   </label> -->
+<!-- 										   <div class="col-md-9"> -->
+<!-- 										       <div class="input-group">  -->
+<!-- 										          <span class="input-group-addon"> <i -->
+<!-- 														class="fa fa-weixin"></i> -->
+<!-- 												  </span> -->
+<!-- 												  <div class="md-checkbox"> -->
+<!-- 											      <input type="checkbox" class="md-check" id="hasChatActive" name="hasChatActive"> -->
+<!-- 											      <label for="hasChatActive"> -->
+<!-- 											      <span class="inc"></span> -->
+<!-- 											      <span class="check"></span> -->
+<!-- 											      <span class="box"></span> -->
+<!-- 											       </label> -->
+<!-- 											      </div> -->
+<!-- 											   </div> -->
+<!-- 										   </div> -->
+<!-- 										</div> -->
 										
 																			
 										<div class="form-group form-md-line-input has-danger">
