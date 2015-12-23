@@ -128,16 +128,11 @@ public class WorkFlowController extends AuthController {
 			accountingType.put(account.name(), account.name());
 		}
 		
-		List<Entry> conceptList = baseService.findByProperty(Entry.class, "accountingType", AccountingType.CONCEPTO);
-		
-		LOG.info("Listado de conceptos: " + conceptList.size());
-		
-		Map<Long, String> conceptMap = new HashMap<Long, String>();
-		for(Entry e : conceptList){
-			conceptMap.put(e.getId(), e.getCode() + " - " + e.getDescription());
-		}
+		//Map<Long, String> conceptMap= accessNativeService.getConceptsMap();
+		List<Entry> concepts = accessNativeService.getConceptsMap();
+			
 		model.addAttribute("accountingTypes", accountingType);
-		model.addAttribute("concepts", conceptMap);
+		model.addAttribute("conceptsList", concepts);
 		
 		model.addAttribute("movementTypes", accessNativeService.getMovementTypesMap());
 		model.addAttribute("programaticKeys", accessNativeService.getProgramaticKeysMap());
@@ -440,16 +435,10 @@ public class WorkFlowController extends AuthController {
 			accountingType.put(account.name(), account.name());
 		}
 		
-		List<Entry> conceptList = baseService.findByProperty(Entry.class, "accountingType", AccountingType.CONCEPTO);
+		List<Entry> concepts = accessNativeService.getConceptsMap();
 		
-		LOG.info("Listado de conceptos: " + conceptList.size());
-		
-		Map<Long, String> conceptMap = new HashMap<Long, String>();
-		for(Entry e : conceptList){
-			conceptMap.put(e.getId(), e.getCode() + " - " + e.getDescription());
-		}
+		model.addAttribute("conceptsList", concepts);
 		model.addAttribute("accountingTypes", accountingType);
-		model.addAttribute("concepts", conceptMap);
 		model.addAttribute("programaticKeysFull", accessNativeService.getProgramaticKeysFullMap());
 
 		model.addAttribute("movementTypes", accessNativeService.getMovementTypesMap());
@@ -740,7 +729,7 @@ public class WorkFlowController extends AuthController {
 		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);			
 		District district= baseService.findById(District.class, baseRequest.getDistrictId());
 		Long newRequestId = accessNativeService.getRequestNextConsecutive();	
-		String newFolio = "DTO-" +  district.getNumber() + "/" + newRequestId + " (Rectificacion: "+ baseRequest.getFolio() +")";
+		String newFolio = "DTO-" +  district.getNumber() + "/" + newRequestId;
 		
 		rectificationRequest.setRequestId(newRequestId);
 		rectificationRequest.setFolio(newFolio);

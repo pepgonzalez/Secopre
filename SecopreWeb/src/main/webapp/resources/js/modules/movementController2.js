@@ -134,12 +134,12 @@ var movementController2 = {
 				self.startSlider(self, idx, initialMonth, finalMonth, grid);
 				
 				//fix para dar formato a los montos
-				//var monthAmount = parseFloat(element.find(self.getId(grid, idx, "monthAmount")).val());
-				//monthAmount = monthAmount.toFixed(2);
-				//element.find(self.getId(grid, idx, "monthAmount")).val(monthAmount);
+				var monthAmount = parseFloat(element.find(self.getId(grid, idx, "monthAmount")).val());
+				monthAmount = monthAmount.toFixed(2);
+				element.find(self.getId(grid, idx, "monthAmount")).val(monthAmount);
 				
-				//var totalAmount = parseFloat(element.find(self.getId(grid, idx, "totalAmount")).val()).toFixed(2);
-				//element.find(self.getId(grid, idx, "totalAmount")).val(totalAmount);
+				var totalAmount = parseFloat(element.find(self.getId(grid, idx, "totalAmount")).val()).toFixed(2);
+				element.find(self.getId(grid, idx, "totalAmount")).val(totalAmount);
 
 				self.addRemoveEvent(self, grid, idx);
 				self.addInfoEvent(self, grid, idx);

@@ -43,7 +43,9 @@
 	<div class="col-md-8">
 		<form:select path="entry.concept.id" id="concept" class="form-control input-small movementComponent pk" value="${mov.entry.concept.id}">
 			<form:option value="-1" label="Seleccione..."/>
-  				<form:options items="${concepts}" />
+			<c:forEach items="${conceptsList}" var="concept">
+				<form:option value="${concept.id}" label="${concept.codeAndDescription}"/>
+			</c:forEach>
 		</form:select>		
 	</div>
 	</div>

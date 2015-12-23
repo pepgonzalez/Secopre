@@ -248,6 +248,7 @@
 						SELECT R.ID,
 							   R.FOLIO,
 							   R.JUSTIFICATION,
+							   R.CERTIFIED_ACCOUNT,
 							   F.DESCRIPTION,
 							   RC.LAST_UPDATE,
 							   (SELECT SUM(TOTAL_AMOUNT) FROM secopre.REQUEST_DETAIL RD WHERE RD.REQUEST_ID = R.ID) AS TOTAL,
@@ -598,7 +599,7 @@
 							PK.YEAR = YEAR(
 								CURDATE()
 							) + 1
-							AND E.STATUS = 'ACTIVE'
+							AND E.STATUS = 'CONFIG'
 					]]>
 				</prop>
 
@@ -1219,6 +1220,21 @@
 							   AND E.STATUS = 'ACTIVE'
 							ORDER BY C.CODE, E.CODE
 				]]>
+				</prop>
+				
+				<prop key="GET_SORTED_CONCEPTS">
+					<![CDATA[
+							SELECT E.* 
+							  FROM secopre.ENTRY E,
+							  	   secopre.PROGRAMMATIC_KEY PK
+							 WHERE E.PROGRAMMATIC_ID = PK.ID
+							   AND PK.YEAR = YEAR(NOW())
+							   AND E.ACCOUNTING_TYPE = 'CONCEPTO'
+							   AND PK.ACTIVE = 1
+							   AND E.ACTIVE = 1
+							   AND E.STATUS = 'ACTIVE'
+							ORDER BY E.CODE
+					]]>
 				</prop>
 													
 			</props>				

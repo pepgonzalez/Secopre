@@ -83,11 +83,11 @@
 										</form:select>
 									</td>
 									<td data-name="monthAmount">
-										<span>$</span><form:input path="downMovements[${i.index}].monthAmount" class="form-control input-small numbersOnly monthAmount movementComponent" style="display:inline-block!Important;"/>
+										<span>$</span><form:input path="downMovements[${i.index}].monthAmount" class="form-control input-small numbersOnly monthAmount movementComponent right" style="display:inline-block!Important;"/>
 									</td>
 									
 									<td data-name="totalAmount">
-										<span>$</span><form:input path="downMovements[${i.index}].totalAmount" class="form-control input-small numbersOnly movementComponent" style="display:inline-block!Important;"/>
+										<span>$</span><form:input path="downMovements[${i.index}].totalAmount" class="form-control input-small numbersOnly movementComponent right" style="display:inline-block!Important;"/>
 									</td>
 					
 									<form:hidden path="downMovements[${i.index}].initialMonthId" class="form-control" data-name="initialMonthId"/>
@@ -140,11 +140,11 @@
 		</td>
 		
 		<td data-name="monthAmount">
-			<span>$</span><form:input path="upMovements" class="form-control input-small numbersOnly monthAmount movementComponent" style="display:inline-block!Important;"/>
+			<span>$</span><form:input path="upMovements" class="form-control input-small numbersOnly monthAmount movementComponent right" style="display:inline-block!Important;"/>
 		</td>
 		
 		<td data-name="totalAmount">
-			<span>$</span><form:input path="upMovements" class="form-control input-small numbersOnly movementComponent" style="display:inline-block!Important;" readonly="true"/>
+			<span>$</span><form:input path="upMovements" class="form-control input-small numbersOnly movementComponent right" style="display:inline-block!Important;" readonly="true"/>
 		</td>
 		<form:hidden path="upMovements" class="form-control" data-name="initialMonthId"/>
 		<form:hidden path="upMovements" class="form-control" data-name="finalMonthId"/>

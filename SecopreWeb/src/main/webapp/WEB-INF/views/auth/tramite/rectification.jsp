@@ -49,6 +49,7 @@
 								<th>Folio</th>
 								<th>Justificación</th>
 								<th>Trámite</th>
+								<th>Cuenta por liquidar</th>
 								<th>Importe</th>
 								<th>Fecha Creación</th>
 								<th>Usuario que autorizó</th>
@@ -62,7 +63,8 @@
 										<td>${inboxItem.folio}</td>
 										<td>${inboxItem.justification}</td>
 										<td>${inboxItem.formalityDescription}</td>
-										<td>${inboxItem.totalAmount}</td>
+										<td>${inboxItem.certifiedAccount}</td>
+										<td>${inboxItem.totalAmountString}</td>
 										<td>${inboxItem.creationDate}</td>
 										<td>${inboxItem.userName}</td>
 										<td>

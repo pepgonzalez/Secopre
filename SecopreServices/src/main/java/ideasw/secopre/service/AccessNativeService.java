@@ -259,6 +259,8 @@ public interface AccessNativeService {
     List<District> getDistrictsByDueDate(Long dueDateId);
 
 	Map<Long, String> getEntriesWithCodeMap();
+
+	List<Entry> getConceptsMap();
 	
 }
 

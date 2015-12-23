@@ -1,5 +1,6 @@
 package ideasw.secopre.dto;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 
 public class Rectification {
@@ -13,6 +14,9 @@ public class Rectification {
 	private String userName;
 	private boolean hasRectification;
 	private String rectificationFolio;
+	private String certifiedAccount;
+	private String totalAmountString;
+	
 	public Long getRequestId() {
 		return requestId;
 	}
@@ -66,5 +70,19 @@ public class Rectification {
 	}
 	public void setRectificationFolio(String rectificationFolio) {
 		this.rectificationFolio = rectificationFolio;
+	}
+	public String getCertifiedAccount() {
+		return certifiedAccount;
+	}
+	public void setCertifiedAccount(String certifiedAccount) {
+		this.certifiedAccount = certifiedAccount;
+	}
+	public String getTotalAmountString() {
+		DecimalFormat formatter = new DecimalFormat("$###,###,##0.00");
+		String result=  formatter.format(this.totalAmount);
+		return result;
+	}
+	public void setTotalAmountString(String totalAmountString) {
+		this.totalAmountString = totalAmountString;
 	}
 }

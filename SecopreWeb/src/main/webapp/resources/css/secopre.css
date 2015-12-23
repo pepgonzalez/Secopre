@@ -1,3 +1,4 @@
+
 /*
 	ESTILOS DE APOYO SECOPRE
 */
@@ -144,4 +145,8 @@ table.popupContainer tr td a{
 
 .numbersOnly::before { 
     content: "$";
+}
+
+.right { 
+	text-align: right!Important; 
 }

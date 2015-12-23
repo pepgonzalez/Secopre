@@ -875,6 +875,11 @@ private void insertMasiveMovements(List<Movement> list, Request request) throws 
 	}
 	
 	@Override
+	public List<Entry> getConceptsMap(){	
+		return this.queryForList(Entry.class, queryContainer.getSQL(SQLConstants.GET_SORTED_CONCEPTS), new MapSqlParameterSource(), new EntryMapper());	
+	}
+	
+	@Override
 	public Map<Long, String> getEntriesWithCodeMap(){
 		
 		List<Entry> list = this.queryForList(Entry.class, queryContainer.getSQL(SQLConstants.GET_SORTED_ENTRIES), new MapSqlParameterSource(), new EntryMapper());	

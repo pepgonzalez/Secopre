@@ -23,6 +23,7 @@ public class RectificationMapper implements RowMapper<Object> {
 		r.setUserName(rs.getString("USERNAME"));
 		r.setHasRectification(rs.getBoolean("HAS_RECTIFICATION"));
 		r.setRectificationFolio(rs.getString("RECTIFICATED_FOLIO"));
+		r.setCertifiedAccount(rs.getString("CERTIFIED_ACCOUNT"));
 		
 		return r;   
 	 }    

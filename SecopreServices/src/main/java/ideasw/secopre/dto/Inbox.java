@@ -1,6 +1,7 @@
 package ideasw.secopre.dto;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -195,7 +196,9 @@ public class Inbox {
 	}
 	
 	public String getTotalAmountStr(){
-		return String.format("%1$,.2f", this.totalAmount);
+		DecimalFormat formatter = new DecimalFormat("$###,###,##0.00");
+		String result=  formatter.format(this.totalAmount);
+		return result;
 	}
 	public boolean getIsCanceled() {
 		return isCanceled;

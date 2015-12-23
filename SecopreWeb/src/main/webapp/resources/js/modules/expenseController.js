@@ -115,12 +115,12 @@ var expenseController = {
 				var rowId = element.attr("id");	
 				
 				//fix para dar formato a los montos
-				//var monthAmount = parseFloat(element.find(self.getId(grid, idx, "monthAmount")).val());
-				//monthAmount = monthAmount.toFixed(2);
-				//element.find(self.getId(grid, idx, "monthAmount")).val(monthAmount);
+				var monthAmount = parseFloat(element.find(self.getId(grid, idx, "monthAmount")).val());
+				monthAmount = monthAmount.toFixed(2);
+				element.find(self.getId(grid, idx, "monthAmount")).val(monthAmount);
 				
-				//var totalAmount = parseFloat(element.find(self.getId(grid, idx, "totalAmount")).val()).toFixed(2);
-				//element.find(self.getId(grid, idx, "totalAmount")).val(totalAmount);
+				var totalAmount = parseFloat(element.find(self.getId(grid, idx, "totalAmount")).val()).toFixed(2);
+				element.find(self.getId(grid, idx, "totalAmount")).val(totalAmount);
 
 				//self.startSlider(self, idx, parseInt(new Date().getMonth()), grid);		
 				self.addRemoveEvent(self, grid, idx);
