@@ -54,7 +54,6 @@
 						AND T.ENTRY_ID = E.ID
 						AND E.PROGRAMMATIC_ID = PK.ID
 						AND S.ID = D.STATE_ID	
-						AND E.STATUS = 'ACTIVE'
 					]]>
 				</prop>	
 				<prop key="UPDATE_UPLOADED_FILE_IN_REQUEST">
