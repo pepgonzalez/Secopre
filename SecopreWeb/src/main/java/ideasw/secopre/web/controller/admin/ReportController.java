@@ -99,6 +99,8 @@ public class ReportController extends AuthController {
 		ReportParameter params = new ReportParameter();
 		params.setReportId(report.getReportId());
 		
+		//TODO validacion distritos en reportes
+		
 		model.addAttribute("reportParameters", report.getReportParameters());
 		model.addAttribute("reportParametersForm",params);
 		model.addAttribute("reportName", report.getDescription());

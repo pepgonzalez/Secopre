@@ -1235,9 +1235,10 @@
 							   AND E.STATUS = 'ACTIVE'
 							ORDER BY E.CODE
 					]]>
-				</prop>
-													
-			</props>				
+				</prop>											
+			</props>	
+			
+						
 		</property>
 	</bean>
 </beans>
