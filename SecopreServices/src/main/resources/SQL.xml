@@ -1235,6 +1235,12 @@
 							   AND E.STATUS = 'ACTIVE'
 							ORDER BY E.CODE
 					]]>
+				</prop>	
+				
+				<prop key="GET_EMPLOYMENT_WITH_FULL_DISTRICT_SELECTION">
+					<![CDATA[
+						SELECT REFD.* FROM secopre.REPORT_EMPLOYMENT_FOR_DISTRICT REFD
+					]]>
 				</prop>											
 			</props>	
 			
