@@ -45,6 +45,7 @@ var SecopreChat = function(){
 	 * funcion privada para activar una plantilla 
 	 */
 	function _activateTemplate(id) {
+		console.log("cargando plantilla: " + id);
 	    var t = document.querySelector(id);
 	    return document.importNode(t.content, true);
 	}

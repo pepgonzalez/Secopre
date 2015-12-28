@@ -8,8 +8,7 @@ public class ExecutorPoolService {
 	private static ExecutorService threadPool = null;
 
 	public static void initPool() {
-		threadPool = Executors.newFixedThreadPool(maxPoolSize,
-				Executors.defaultThreadFactory());
+		threadPool = Executors.newFixedThreadPool(maxPoolSize,Executors.defaultThreadFactory());
 	}
 
 	public static ExecutorService getService() {

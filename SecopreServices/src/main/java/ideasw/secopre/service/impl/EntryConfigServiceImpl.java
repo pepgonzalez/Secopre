@@ -277,17 +277,14 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 
 		// Valida que existan partidas en configuracion
 		if (!existEntriesInConfig()) {
-			throw new EntryDistrictException(
-					"No Existen partidas registradas para el siguiente año, la operacion no puede ser efectuada.");
+			throw new EntryDistrictException("No Existen partidas registradas para el siguiente año, la operacion no puede ser efectuada.");
 		}
 
-		List<EntryDistrictDetail> allRows = new ArrayList<EntryDistrictDetail>(
-				0);
+		List<EntryDistrictDetail> allRows = new ArrayList<EntryDistrictDetail>(0);
 		// si no genero excepcion al clonar las entidades actualizar los saldos
 
 		try {
-			ByteArrayInputStream bis = new ByteArrayInputStream(fileBean
-					.getFile().getBytes());
+			ByteArrayInputStream bis = new ByteArrayInputStream(fileBean.getFile().getBytes());
 			// Parsea el ByteArrayInputStream a Workbook
 			Workbook workbook = WorkbookFactory.create(bis);
 
@@ -307,13 +304,16 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 				if (detail != null) {
 					allRows.add(detail);
 				}
-
 			}
+			
+			LOG.info("Total de registros a actualizar: " + allRows.size());
 
 		} catch (IOException e) {
 			LOG.error("IOException", e);
+			e.printStackTrace();
 		} catch (InvalidFormatException e) {
 			LOG.error("InvalidFormatException", e);
+			e.printStackTrace();
 		}
 
 		// actualiza los objetos Obtenidos:
@@ -321,8 +321,7 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 		return null;
 	}
 
-	private void updateEntriesByDistrict(List<EntryDistrictDetail> allRows,
-			String username) {
+	private void updateEntriesByDistrict(List<EntryDistrictDetail> allRows, String username) {
 		List<String> batchStatements = new ArrayList<String>(0);
 		String statement = null;
 		String[] statementArray = null;
@@ -330,8 +329,7 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 			statement = getInsertMonth(detail, 0, detail.getJanuary(), username);
 			if (statement != null)
 				batchStatements.add(statement);
-			statement = getInsertMonth(detail, 1, detail.getFebruary(),
-					username);
+			statement = getInsertMonth(detail, 1, detail.getFebruary(), username);
 			if (statement != null)
 				batchStatements.add(statement);
 
@@ -359,8 +357,7 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 			if (statement != null)
 				batchStatements.add(statement);
 
-			statement = getInsertMonth(detail, 8, detail.getSeptember(),
-					username);
+			statement = getInsertMonth(detail, 8, detail.getSeptember(),username);
 			if (statement != null)
 				batchStatements.add(statement);
 
@@ -368,21 +365,17 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 			if (statement != null)
 				batchStatements.add(statement);
 
-			statement = getInsertMonth(detail, 10, detail.getNovember(),
-					username);
+			statement = getInsertMonth(detail, 10, detail.getNovember(),username);
 			if (statement != null)
 				batchStatements.add(statement);
 
-			statement = getInsertMonth(detail, 11, detail.getDecember(),
-					username);
+			statement = getInsertMonth(detail, 11, detail.getDecember(),username);
 			if (statement != null)
 				batchStatements.add(statement);
 
 			if (!batchStatements.isEmpty()) {
-				statementArray = batchStatements
-						.toArray(new String[batchStatements.size()]);
-				ExecutorPoolService.getService().execute(
-						new ExecuteJdbcTask(statementArray));
+				statementArray = batchStatements.toArray(new String[batchStatements.size()]);
+				ExecutorPoolService.getService().execute(new ExecuteJdbcTask(statementArray));
 				// try {
 				// new ExecuteJdbc().executeJdbcData(this.getJdbcTemplate(),
 				// statementArray);
@@ -397,15 +390,14 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 		LOG.info("Update Realizado ");
 	}
 
-	private String getInsertMonth(EntryDistrictDetail detail, int month,
-			Double amount, String username) {
+	private String getInsertMonth(EntryDistrictDetail detail, int month, Double amount, String username) {
 		if (detail.getAnnualAmount().intValue() == 0 && amount.intValue() == 0) {
 			return null;
 		}
 		StringBuffer insert = new StringBuffer();
 		insert.append(" UPDATE secopre.ENTRYDISTRICT set ANNUAL_AMOUNT = ")
 				.append(detail.getAnnualAmount()).append(",");
-		insert.append(" BUDGET_AMOUNT = ").append(detail.getAnnualAmount())
+		insert.append(" BUDGET_AMOUNT = ").append(amount)
 				.append(",");
 		insert.append(" BUDGET_AMOUNT_ASSIGN = ").append(amount);
 		insert.append(" WHERE DISTRICT_ID = ").append(detail.getDistrictId())
@@ -441,52 +433,53 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 				break;
 			}
 			// Almacenar Informacion
-			if (cellCount == 1 && isNumeric(cellValue)) { // Es el ID del
+			if (cellCount == 0 && isNumeric(cellValue)) { // Es el ID del
 															// distrito
-				entryDistrict.setDistrictId(Long.valueOf(cellValue));
-			} else if (cellCount == 3 && isNumeric(cellValue)) {// Es el id de
+				entryDistrict.setDistrictId(Long.valueOf((new Double(cellValue).intValue())));
+				
+			} else if (cellCount == 2 && isNumeric(cellValue.trim())) {// Es el id de
 																// la partida
-				entryDistrict.setEntryId(Long.valueOf(cellValue));
-			} else if (cellCount == 6 && isNumeric(cellValue)) {// Es el monto
+				entryDistrict.setEntryId(Long.valueOf((new Double(cellValue).intValue())));
+			} else if (cellCount == 5 && isNumeric(cellValue)) {// Es el monto
 																// anual
 				entryDistrict.setAnnualAmount(Double.valueOf(cellValue));
-			} else if (cellCount == 7 && isNumeric(cellValue)) {// Es el monto
+			} else if (cellCount == 6 && isNumeric(cellValue)) {// Es el monto
 																// de Enero
 				entryDistrict.setJanuary(Double.valueOf(cellValue));
-			} else if (cellCount == 8 && isNumeric(cellValue)) {// Es el monto
+			} else if (cellCount == 7 && isNumeric(cellValue)) {// Es el monto
 																// de Febrero
 				entryDistrict.setFebruary(Double.valueOf(cellValue));
-			} else if (cellCount == 9 && isNumeric(cellValue)) {// Es el monto
+			} else if (cellCount == 8 && isNumeric(cellValue)) {// Es el monto
 																// de Marzo
 				entryDistrict.setMarch(Double.valueOf(cellValue));
-			} else if (cellCount == 10 && isNumeric(cellValue)) {// Es el monto
+			} else if (cellCount == 9 && isNumeric(cellValue)) {// Es el monto
 																// de Abril
 				entryDistrict.setApril(Double.valueOf(cellValue));
-			} else if (cellCount == 11 && isNumeric(cellValue)) {// Es el monto
+			} else if (cellCount == 10 && isNumeric(cellValue)) {// Es el monto
 																	// de Mayo
 				entryDistrict.setMay(Double.valueOf(cellValue));
-			} else if (cellCount == 12 && isNumeric(cellValue)) {// Es el monto
+			} else if (cellCount == 11 && isNumeric(cellValue)) {// Es el monto
 																	// de Junio
 				entryDistrict.setJune(Double.valueOf(cellValue));
-			} else if (cellCount == 13 && isNumeric(cellValue)) {// Es el monto
+			} else if (cellCount == 12 && isNumeric(cellValue)) {// Es el monto
 																	// de Julio
 				entryDistrict.setJuly(Double.valueOf(cellValue));
-			} else if (cellCount == 14 && isNumeric(cellValue)) {// Es el monto
+			} else if (cellCount == 13 && isNumeric(cellValue)) {// Es el monto
 																	// de Agosto
 				entryDistrict.setAugust(Double.valueOf(cellValue));
-			} else if (cellCount == 15 && isNumeric(cellValue)) {// Es el monto
+			} else if (cellCount == 14 && isNumeric(cellValue)) {// Es el monto
 																	// de
 																	// Septiembre
 				entryDistrict.setSeptember(Double.valueOf(cellValue));
-			} else if (cellCount == 16 && isNumeric(cellValue)) {// Es el monto
+			} else if (cellCount == 15 && isNumeric(cellValue)) {// Es el monto
 																	// de
 																	// Octubre
 				entryDistrict.setOctober(Double.valueOf(cellValue));
-			} else if (cellCount == 17 && isNumeric(cellValue)) {// Es el monto
+			} else if (cellCount == 16 && isNumeric(cellValue)) {// Es el monto
 																	// de
 																	// Noviembre
 				entryDistrict.setNovember(Double.valueOf(cellValue));
-			} else if (cellCount == 18 && isNumeric(cellValue)) {// Es el monto
+			} else if (cellCount == 17 && isNumeric(cellValue)) {// Es el monto
 																	// de
 																	// Diciembre
 				entryDistrict.setDecember(Double.valueOf(cellValue));
@@ -494,9 +487,11 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 
 			cellCount++;
 		}
-		if (entryDistrict.getAnnualAmount() == null
-				|| entryDistrict.getEntryId() == null) {
+		if (entryDistrict.getAnnualAmount() == null || entryDistrict.getEntryId() == null || entryDistrict.getDistrictId() == null) {
 			entryDistrict = null;
+			LOG.info("desechando row inválido: " + cellCount);
+		}else{
+			LOG.info("row de excel obtenido: " +  cellCount);
 		}
 		LOG.debug("CELL ===>" + sb.toString());
 		return entryDistrict;
