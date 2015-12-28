@@ -102,4 +102,5 @@ public class SQLConstants {
 	public static final String GET_SORTED_ENTRIES = "GET_SORTED_ENTRIES";
 	public static final String GET_SORTED_CONCEPTS = "GET_SORTED_CONCEPTS";
 	public static final String GET_SORTED_ENTRIES_BY_PK = "GET_SORTED_ENTRIES_BY_PK";
+	public static final String GET_EMPLOYMENT_WITH_FULL_DISTRICT_SELECTION = "GET_EMPLOYMENT_WITH_FULL_DISTRICT_SELECTION";
 }

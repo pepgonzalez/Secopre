@@ -459,7 +459,23 @@ function initNoticeCat(noticeId) {
 	    	  format: 'dd/mm/yyyy',
 	    	  language: 'es'
 	    });
-	    $('#districts').multiSelect({ includeSelectAllOption: true});
+	    $('#districts').multiSelect({ 
+	    	  allSelectedText: 'All', 
+	            numberDisplayed: 1,
+	            buttonWidth: '100%',
+	            includeSelectAllOption: true
+	    	
+	    });
+	    
+	    $('#select-all').click(function(){
+	    	  $('#districts').multiSelect('select_all');
+	    	  return false;
+	    	});
+	    
+	    	$('#deselect-all').click(function(){
+	    	  $('#districts').multiSelect('deselect_all');
+	    	  return false;
+	    	});
 	    
 		var apiCallUnblock = function(actionURL, callback) {
 			var method = method || "POST";

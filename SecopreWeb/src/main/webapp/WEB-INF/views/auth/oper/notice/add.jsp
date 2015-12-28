@@ -117,16 +117,26 @@
 															<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.catalog.notice.district"/>
 															<span class="required"> * </span>
 															</label>
-															<div class="col-md-4">
-																<select multiple="multiple" class="multi-select" id="districts" name="districts">
+															<div class="col-md-4" max-height="50">
+																<select multiple="multiple" class="multi-select" id="districts" name="districts" style="position: absolute" >
 																	<c:forEach items="${districts}" var="district">
 																			<option value="${district.id}">${district.number} </option> 
 																	</c:forEach>
 																</select>											
 															</div>
-													</div>
-														
 													
+													</div>
+													
+													
+														<div class="row">
+															<div class="col-md-offset-2 col-md-9">		
+														    <a href="#" id='select-all' class="btn select">
+															<i class="m-icon-swapright"></i> Agregar Todos </a>
+															
+															<a href="#" id='deselect-all' class="btn select">
+															<i class="m-icon-swapleft"></i> Quitar Todos </a>
+													        </div>
+													    </div>
 													
 																																												       																				
 										        </div>
