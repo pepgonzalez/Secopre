@@ -401,7 +401,7 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 
 		insert.append(" WHERE D.NUMBER = '").append(detail.getDistrictNumber()).append("' AND ");
 		insert.append(" E.CODE = '").append(detail.getEntryCode()).append("' AND ");
-		insert.append(" ED.MONTH = ").append(month).append("' AND ");
+		insert.append(" ED.MONTH = ").append(month).append(" AND ");
 		insert.append(" PK.YEAR = YEAR(NOW()) + 1");
 
 //		insert.append(" WHERE DISTRICT_ID = ").append(detail.getDistrictId())

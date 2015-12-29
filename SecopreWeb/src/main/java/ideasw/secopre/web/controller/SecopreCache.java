@@ -116,7 +116,7 @@ public class SecopreCache {
 		List<District> districts = getDistrictsByUser(username);
 		Map<Long, String> districtsMap = new HashMap<Long, String>();
 		for (District item : districts) {
-			districtsMap.put(item.getId(), item.getState().getName() + " DTO-"
+			districtsMap.put(item.getId(), item.getEntity() + " DTO-"
 					+ item.getNumber());
 		}
 		return districtsMap;
