@@ -73,6 +73,7 @@ var SecopreChat = function(){
 	 * funcion privada para actualizar el contador de conversaciones pendientes del id recibido
 	 */
 	function _updateNotificationCounter(id, value){
+		console.log("actualizando contador");
 		var counter = $(id);
 		if (value == 0 ){
 			counter.hide();
@@ -393,6 +394,8 @@ var SecopreChat = function(){
 	 */
 	function _processAllConversations(r){
 		
+		console.log("procesando mensajes: " + r.length);
+		
 		if (!($('body').hasClass('page-quick-sidebar-open'))){
 			
 			$('body').addClass('page-quick-sidebar-open'); 
@@ -442,6 +445,8 @@ var SecopreChat = function(){
 			
 			$("#all_conversations_container").append(element);
 		});	
+		
+		console.log("actualizando contador de mensajes pendientes: " + pendingMessages);
 		
 		_updateNotificationCounter("#pndConvCounter", pendingMessages);
 	}
@@ -592,6 +597,7 @@ var SecopreChat = function(){
 	/*funcion para mostrar todas las conversaciones*/
 	this.loadAllConversations = function (){
 		var userId = parseInt( $("#loggedUserId").val());
+		console.log("cargando conversaciones de usuario: " + userId);
 		//_getAjaxRequest("http://localhost:3000/v1/chat/getConversations/" + userId + "/0/11", _processAllConversations);
 		_getAjaxRequest(urls.getConversations + userId + "/0/11", _processAllConversations);
 	};
