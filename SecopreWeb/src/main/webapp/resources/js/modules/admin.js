@@ -2069,7 +2069,7 @@ function initUploadAnnualBudget(){
 			return;
 		}
 
-		submitFileAjaxJQTest('requestForm', 'dashboard', '',false);	
+		submitFileAjaxJQTest('requestForm', 'dashboard', 'initUploadAnnualBudget();initEntryByDistrict();',false);	
 		
 	});
 	$('#getEntriesTemplate').click(function(e){
