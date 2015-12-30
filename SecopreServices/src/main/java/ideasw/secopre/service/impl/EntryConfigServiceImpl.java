@@ -322,10 +322,13 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 	}
 
 	private void updateEntriesByDistrict(List<EntryDistrictDetail> allRows, String username) {
-		List<String> batchStatements = new ArrayList<String>(0);
+		List<String> batchStatements = null;
 		String statement = null;
-		String[] statementArray = null;
+		
 		for (EntryDistrictDetail detail : allRows) {
+			batchStatements = new ArrayList<String>(0);
+			String[] statementArray = null;
+			
 			statement = getInsertMonth(detail, 0, detail.getJanuary(), username);
 			if (statement != null)
 				batchStatements.add(statement);
