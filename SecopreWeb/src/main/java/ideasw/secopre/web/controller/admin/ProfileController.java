@@ -179,6 +179,24 @@ public class ProfileController extends AuthController {
 		return SecopreConstans.MV_ADM_PROFILE;
 	}
 	
+	@RequestMapping(value = "adm/profile/changeAvatar/{idUser}", method = RequestMethod.POST )
+	public String changeAvatar(ModelMap model,
+			@ModelAttribute("user") User user,
+			@PathVariable("idUser") Long idUser, Principal principal,
+			HttpServletRequest request) {
+		
+		User userEdit = baseService.findById(User.class, idUser);
+		if(user.getPassword()!=null)
+		{
+		userEdit.setPassword(Encryption.encrypByBCrypt(user.getPassword()));
+		}
+	
+		baseService.save(userEdit);
+
+		return SecopreConstans.MV_ADM_PROFILE;
+	}	
+
+	
 	@RequestMapping(value = "adm/profile/checkPasswordExist/{password}", method= {RequestMethod.GET})
 	public @ResponseBody Map<String, Object> checkPasswordExist(ModelMap model,@PathVariable("password") String password,Principal principal){
 		boolean password_verified = false;

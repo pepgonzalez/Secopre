@@ -45,6 +45,7 @@ function showOverview()
 function initProfilePage() {
 	initProfileValidations();
 	initPasswordValidations();
+	initAvatarValidations();
 	$('select').select2();
 }
 
@@ -612,6 +613,270 @@ function initPasswordValidations() {
 	$('#submitRequestPassword').click(function() {
 		if (form.valid()) {
 			submitAjaxJQ('password_form', 'dashboard', 'showProfile()');
+		}
+	});
+}
+
+
+function initAvatarValidations() {
+
+	var form = $('#avatar_form');
+	var error = $('.alert-danger', form);
+	var success = $('.alert-success', form);
+	// alert('validando');
+	form.validate({
+		doNotHideMessage : true,
+		errorElement : 'span', // default input error message container
+		errorClass : 'help-block help-block-error', // default input error
+		// message class
+		focusInvalid : false, // do not focus the last invalid input
+		// ignore : "", // validate all fields including form hidden input
+		rules : {
+			apassword : {
+				pwcheck_exist : true,
+				required : true
+			},
+			password : {
+				required : true,
+				minlength : 8,
+				maxlength : 20,
+				pwcheck_valid : true,
+				pwcheck_digit : true,
+				pwcheck_upper : true
+			},
+			rpassword : {
+				required : true,
+				equalTo : "#password"
+			}
+		},
+	    messages : {
+		password : {
+    		pwcheck_valid : "El password contiene caracteres no válidos. Verifique",
+    		pwcheck_digit : "El password debe de tener al menos un número",
+    		pwcheck_upper : "El password debe tener al menos una letra mayúscula"
+	     },
+	    apassword : {
+	    	pwcheck_exist : "El password no coincide con el actual. Verifique"
+		     }
+	   },
+
+		invalidHandler : function(event, validator) { // display error alert
+			// on form submit
+			success.hide();
+			error.show();
+			Metronic.scrollTo(error, -50);
+		},
+
+		errorPlacement : function(error, element) { // render error placement
+			// for each input type
+			var icon = $(element).parent('.input-icon').children('i');
+			icon.removeClass('fa-check').addClass("fa-warning");
+			icon.attr("data-original-title", error.text()).tooltip({
+				'container' : 'body'
+			});
+			
+			 if (element.parent(".input-group").size() > 0) {
+                 error.insertAfter(element.parent(".input-group"));
+             } else if (element.attr("data-error-container")) { 
+                 error.appendTo(element.attr("data-error-container"));
+             } else if (element.parents('.radio-list').size() > 0) { 
+                 error.appendTo(element.parents('.radio-list').attr("data-error-container"));
+             } else if (element.parents('.radio-inline').size() > 0) { 
+                 error.appendTo(element.parents('.radio-inline').attr("data-error-container"));
+             } else if (element.parents('.checkbox-list').size() > 0) {
+                 error.appendTo(element.parents('.checkbox-list').attr("data-error-container"));
+             } else if (element.parents('.checkbox-inline').size() > 0) { 
+                 error.appendTo(element.parents('.checkbox-inline').attr("data-error-container"));
+             } else {
+                 error.insertAfter(element); // for other inputs, just
+												// perform default behavior
+             }
+		},
+
+		highlight : function(element) { // hightlight error inputs
+			$(element).closest('.form-group').removeClass('has-success')
+					.addClass('has-error'); // set error class to the control
+			// group
+		},
+
+		unhighlight : function(element) { // revert the change done by
+			// hightlight
+			$(element).closest('.form-group').removeClass('has-error'); // set
+			// error
+			// class
+			// to
+			// the
+			// control
+			// group
+		},
+
+		success : function(label, element) {
+			var icon = $(element).parent('.input-icon').children('i');
+			$(element).closest('.form-group').removeClass('has-error')
+					.addClass('has-success'); // set success class to the
+			// control group
+			icon.removeClass("fa-warning").addClass("fa-check");
+		},
+
+		submitHandler : function(form) {
+			success.show();
+			error.hide();
+			form[0].submit(); // submit the form
+		}
+	});
+	
+	var validator;
+	
+	var apiCallUnblock = function(actionURL, callback) {
+		var method = method || "POST";
+		var header = $("meta[name='_csrf_header']").attr("content");
+		var token = $("meta[name='_csrf']").attr("content");
+		$.ajax({
+			url : context + '/' + actionURL,
+			beforeSend : function(xhr) {
+				xhr.setRequestHeader(header, token);
+			},
+			success : function(data) {
+				callback(data);
+				
+			}
+		});
+	};
+
+	$.validator.addMethod(
+		    "pwcheck_exist",
+		    function(value, element) {
+		    	apiCallUnblock("auth/adm/profile/checkPasswordExist/" + value, function(data){
+					
+					result=data.result;
+					if (result==0){
+						validator = true;
+		    		}else{
+		    			validator = false;
+		    		}	
+		    	});
+		    	
+		    return validator;	
+		    });
+	
+	$.validator.addMethod("pwcheck_valid", function(value) {
+		   return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value)
+		});
+	
+	$.validator.addMethod("pwcheck_upper", function(value) {
+		   return  /[A-Z]/.test(value) // has a lowercase letter
+		});
+	
+	$.validator.addMethod("pwcheck_digit", function(value) {
+		   return /\d/.test(value) // has a digit
+		});
+   
+
+	var displayConfirm = function() {
+		$('#tab3 .form-control-static', form).each(
+				function() {
+					var input = $('[name="' + $(this).attr("data-display")
+							+ '"]', form);
+					if (input.is(":radio")) {
+						input = $('[name="' + $(this).attr("data-display")
+								+ '"]:checked', form);
+					}
+					if (input.is(":text") || input.is("textarea")) {
+						$(this).html(input.val());
+					} else if (input.is("select")) {
+						var elements = [];
+						input.each(function() {
+							var selectedOption = $(this)
+									.find('option:selected');
+							elements.push(selectedOption.text());
+						});
+						$(this).html(elements.join("<br>"));
+					} else if (input.is(":radio") && input.is(":checked")) {
+						$(this).html(input.attr("data-title"));
+					} else {
+						$(this).html($("input[name='email']").val());
+					}
+				});
+	}
+
+	var handleTitle = function(tab, navigation, index) {
+		var total = navigation.find('li').length;
+		var current = index + 1;
+		// set wizard title
+		$('.step-title', $('#form_wizard_1')).text(
+				'Paso ' + (index + 1) + ' de ' + total);
+		// set done steps
+		jQuery('li', $('#form_wizard_1')).removeClass("done");
+		var li_list = navigation.find('li');
+		for (var i = 0; i < index; i++) {
+			jQuery(li_list[i]).addClass("done");
+		}
+
+		if (current == 1) {
+			$('#form_wizard_1').find('.button-previous').hide();
+		} else {
+			$('#form_wizard_1').find('.button-previous').show();
+		}
+
+		if (current >= total) {
+			$('#form_wizard_1').find('.button-next').hide();
+			$('#form_wizard_1').find('.button-submit').show();
+			displayConfirm();
+		} else {
+			$('#form_wizard_1').find('.button-next').show();
+			$('#form_wizard_1').find('.button-submit').hide();
+		}
+		Metronic.scrollTo($('.page-title'));
+	}
+
+	// default form wizard
+	$('#form_wizard_1').bootstrapWizard({
+		'nextSelector' : '.button-next',
+		'previousSelector' : '.button-previous',
+		onTabClick : function(tab, navigation, index, clickedIndex) {
+			return false;
+			/*
+			 * success.hide(); error.hide(); if (form.valid() == false) { return
+			 * false; } handleTitle(tab, navigation, clickedIndex);
+			 */
+		},
+		onNext : function(tab, navigation, index) {
+
+			success.hide();
+			error.hide();
+
+			if (form.valid() == false) {
+				return false;
+			}
+
+			handleTitle(tab, navigation, index);
+		},
+		onPrevious : function(tab, navigation, index) {
+
+			success.hide();
+			error.hide();
+
+			handleTitle(tab, navigation, index);
+		},
+		onTabShow : function(tab, navigation, index) {
+			var total = navigation.find('li').length;
+			var current = index + 1;
+			var $percent = (current / total) * 100;
+			$('#form_wizard_1').find('.progress-bar').css({
+				width : $percent + '%'
+			});
+		}
+	});
+
+	$('#form_wizard_1').find('.button-previous').hide();
+	$('#form_wizard_1 .button-submit').click(function() {
+		// formId, targetId,after
+		// submitAjaxJQ('submit_form','dashboard','');
+	}).hide();
+
+	$('#submitRequestAvatar').click(function() {
+		if (form.valid()) {
+			submitAjaxJQ('avatar_form', 'dashboard', 'showProfile()');
 		}
 	});
 }
@@ -2069,7 +2334,7 @@ function initUploadAnnualBudget(){
 			return;
 		}
 
-		submitFileAjaxJQTest('requestForm', 'dashboard', '',false);	
+		submitFileAjaxJQTest('requestForm', 'dashboard', 'initUploadAnnualBudget();initEntryByDistrict();',false);	
 		
 	});
 	$('#getEntriesTemplate').click(function(e){

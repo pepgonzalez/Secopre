@@ -117,7 +117,7 @@
 												<form id="avatar_form" action="auth/adm/profile/changeAvatar/${user.id}" method="POST" novalidate="novalidate">
 														<div class="fileinput fileinput-new" data-provides="fileinput">
 															<div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-															   <img id="loggedUserAvatar" alt="" class="img-responsive" src='<c:url value="/resources/img/users/${loggedUser.avatar}"/>' />
+															   <img id="avatar" alt="" class="img-responsive" src='<c:url value="/resources/img/users/${loggedUser.avatar}"/>' />
 <!-- 																<img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt=""/> -->
 															</div>
 															<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;">
@@ -128,7 +128,7 @@
 																Seleccione Imagen </span>
 																<span class="fileinput-exists">
 																Cambiar </span>
-																<input type="file" name="..."  value="/resources/img/users/${loggedUser.avatar}">
+																<input type="file" name="avatar" id="avatar" value="/resources/img/users/${loggedUser.avatar}">
 																</span>
 																<a href="javascript:;" class="btn default fileinput-exists" data-dismiss="fileinput">
 																Borrar </a>
@@ -142,8 +142,7 @@
 														</div>
 													
 													<div class="margin-top-10">
-														<a href="javascript:;" class="btn green-haze">
-														Guardar </a>
+														<button type="button" class="btn blue button-submit" id="submitRequestAvatar"><spring:message code="application.save"/></button>
 														<a href="javascript:;" class="btn default">
 														Cancelar </a>
 													</div>
