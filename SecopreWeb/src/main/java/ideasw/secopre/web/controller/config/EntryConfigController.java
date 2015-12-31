@@ -79,7 +79,7 @@ public class EntryConfigController extends AuthController {
 				District.class, propertiesMap);
 
 		for (District item : districtList) {
-			entryMap.put(item.getId(), item.getState().getName() + " DTO-"
+			entryMap.put(item.getId(), item.getEntity() + " DTO-"
 					+ item.getNumber());
 		}
 		return entryMap;

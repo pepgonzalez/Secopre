@@ -322,10 +322,13 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 	}
 
 	private void updateEntriesByDistrict(List<EntryDistrictDetail> allRows, String username) {
-		List<String> batchStatements = new ArrayList<String>(0);
+		List<String> batchStatements = null;
 		String statement = null;
-		String[] statementArray = null;
+		
 		for (EntryDistrictDetail detail : allRows) {
+			batchStatements = new ArrayList<String>(0);
+			String[] statementArray = null;
+			
 			statement = getInsertMonth(detail, 0, detail.getJanuary(), username);
 			if (statement != null)
 				batchStatements.add(statement);
@@ -376,13 +379,6 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 			if (!batchStatements.isEmpty()) {
 				statementArray = batchStatements.toArray(new String[batchStatements.size()]);
 				ExecutorPoolService.getService().execute(new ExecuteJdbcTask(statementArray));
-				// try {
-				// new ExecuteJdbc().executeJdbcData(this.getJdbcTemplate(),
-				// statementArray);
-				// } catch (SQLException e) {
-				// LOG.info("SQLException  ======>" + e.getMessage());
-				// e.printStackTrace();
-				// }
 			}
 
 		}
@@ -395,16 +391,27 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 			return null;
 		}
 		StringBuffer insert = new StringBuffer();
-		insert.append(" UPDATE secopre.ENTRYDISTRICT set ANNUAL_AMOUNT = ")
+		
+		insert.append(" UPDATE secopre.ENTRYDISTRICT AS ED  ");
+		insert.append(" INNER JOIN secopre.ENTRY AS E ON ED.ENTRY_ID = E.ID ");
+		insert.append(" INNER JOIN secopre.DISTRICT AS D ON ED.DISTRICT_ID = D.ID ");
+		insert.append(" INNER JOIN secopre.PROGRAMMATIC_KEY AS PK ON E.PROGRAMMATIC_ID = PK.ID ");	
+		insert.append(" set ED.ANNUAL_AMOUNT = ")
 				.append(detail.getAnnualAmount()).append(",");
-		insert.append(" BUDGET_AMOUNT = ").append(amount)
+		insert.append(" ED.BUDGET_AMOUNT = ").append(amount)
 				.append(",");
-		insert.append(" BUDGET_AMOUNT_ASSIGN = ").append(amount);
-		insert.append(" WHERE DISTRICT_ID = ").append(detail.getDistrictId())
-				.append(" AND ");
-		insert.append(" ENTRY_ID = ").append(detail.getEntryId())
-				.append(" AND ");
-		insert.append(" MONTH = ").append(month);
+		insert.append(" ED.BUDGET_AMOUNT_ASSIGN = ").append(amount);
+
+		insert.append(" WHERE D.NUMBER = '").append(detail.getDistrictNumber()).append("' AND ");
+		insert.append(" E.CODE = '").append(detail.getEntryCode()).append("' AND ");
+		insert.append(" ED.MONTH = ").append(month).append(" AND ");
+		insert.append(" PK.YEAR = YEAR(NOW()) + 1");
+
+//		insert.append(" WHERE DISTRICT_ID = ").append(detail.getDistrictId())
+//				.append(" AND ");
+//		insert.append(" ENTRY_ID = ").append(detail.getEntryId())
+//				.append(" AND ");
+//		insert.append(" MONTH = ").append(month);
 		return insert.toString();
 	}
 
@@ -437,10 +444,18 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 															// distrito
 				entryDistrict.setDistrictId(Long.valueOf((new Double(cellValue).intValue())));
 				
-			} else if (cellCount == 2 && isNumeric(cellValue.trim())) {// Es el id de
+			} else if (cellCount == 1 && cellValue != null) {// Es el numero del distrito
+				
+				entryDistrict.setDistrictNumber(cellValue.trim());
+			
+		    }else if (cellCount == 2 && isNumeric(cellValue.trim())) {// Es el id de
 																// la partida
 				entryDistrict.setEntryId(Long.valueOf((new Double(cellValue).intValue())));
-			} else if (cellCount == 5 && isNumeric(cellValue)) {// Es el monto
+			} else if (cellCount == 3 && cellValue != null) {// Es el codigo de la partida
+				
+				entryDistrict.setEntryCode(cellValue.trim());
+			
+		    } else if (cellCount == 5 && isNumeric(cellValue)) {// Es el monto
 																// anual
 				entryDistrict.setAnnualAmount(Double.valueOf(cellValue));
 			} else if (cellCount == 6 && isNumeric(cellValue)) {// Es el monto
