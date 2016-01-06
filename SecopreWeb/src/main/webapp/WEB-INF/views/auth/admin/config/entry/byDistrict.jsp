@@ -59,7 +59,7 @@
 		                                </div>
 		                                <div class="details">
 		                                    <div class="number"> 
-		                                        <span data-counter="counterup" data-value="<fmt:formatNumber value="${balance.budgetAsing - balance.budgetCommit}" maxFractionDigits="2"/>"><c:out value="${balance.budgetAsing - balance.budgetCommit}"/></span> $
+		                                        <span data-counter="counterup" data-value="<fmt:formatNumber value="${balance.budgetAsing - balance.budgetCommit }" maxFractionDigits="2"/>"><c:out value="${balance.budgetAsing - balance.budgetCommit}"/></span> $
 		                                    	<div class="desc"> Disponible</div>
 		                                    </div>
 		                                </div>
@@ -135,18 +135,18 @@
 														<td>${entryItem.stateName}</td>
 														<td>${entryItem.districtNumber}</td>
 														<td>${entryItem.entryCode}</td>												
-														<td><fmt:formatNumber value="${entryItem.january}" type="currency"/></td>
-														<td><fmt:formatNumber value="${entryItem.february}" type="currency"/></td>
-														<td><fmt:formatNumber value="${entryItem.march}" type="currency"/></td>
-														<td><fmt:formatNumber value="${entryItem.april}" type="currency"/></td>
-														<td><fmt:formatNumber value="${entryItem.may}" type="currency"/></td>												
-														<td><fmt:formatNumber value="${entryItem.june}" type="currency"/></td>
-														<td><fmt:formatNumber value="${entryItem.july}" type="currency"/></td>
-														<td><fmt:formatNumber value="${entryItem.august}" type="currency"/></td>
-														<td><fmt:formatNumber value="${entryItem.september}" type="currency"/></td>
-														<td><fmt:formatNumber value="${entryItem.october}" type="currency"/></td>												
-														<td><fmt:formatNumber value="${entryItem.november}" type="currency"/></td>
-														<td><fmt:formatNumber value="${entryItem.december}" type="currency"/></td>													
+														<td><fmt:formatNumber value="${entryItem.january}" maxFractionDigits="2"/></td>
+														<td><fmt:formatNumber value="${entryItem.february}" maxFractionDigits="2"/></td>
+														<td><fmt:formatNumber value="${entryItem.march}" maxFractionDigits="2"/></td>
+														<td><fmt:formatNumber value="${entryItem.april}" maxFractionDigits="2"/></td>
+														<td><fmt:formatNumber value="${entryItem.may}" maxFractionDigits="2"/></td>												
+														<td><fmt:formatNumber value="${entryItem.june}" maxFractionDigits="2"/></td>
+														<td><fmt:formatNumber value="${entryItem.july}" maxFractionDigits="2"/></td>
+														<td><fmt:formatNumber value="${entryItem.august}" maxFractionDigits="2"/></td>
+														<td><fmt:formatNumber value="${entryItem.september}" maxFractionDigits="2"/></td>
+														<td><fmt:formatNumber value="${entryItem.october}" maxFractionDigits="2"/></td>												
+														<td><fmt:formatNumber value="${entryItem.november}" maxFractionDigits="2"/></td>
+														<td><fmt:formatNumber value="${entryItem.december}" maxFractionDigits="2"/></td>													
 													</tr>
 
 												</c:forEach>

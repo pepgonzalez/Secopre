@@ -29,12 +29,12 @@
 									
 									<div class="form-group form-md-line-input">
 										<div class="col-md-3">
-											<c:if test="${entriesNextYear > 0}">
+											<c:if test="${entriesInConfig == true}">
 												<div class="btn-group">
 													<a id="cloneEntries" class="btn red">Liberar Presupuesto</a>
 												</div>																						
 											</c:if>
-											<c:if test="${entriesNextYear == 0}">
+											<c:if test="${entriesInConfig == false}">
 												<div class="btn-group">
 													<a id="cloneEntries" class="btn red">Clonar Partidas</a>
 												</div>											
@@ -75,7 +75,7 @@
 					<!-- END SAMPLE FORM PORTLET-->
 				</div>
 			</div>
-			<c:if test="${entriesNextYear > 0}">
+			<c:if test="${entriesInConfig == true}">
 				<div id="filter_ByDistrict">
 					<%@ include file="/WEB-INF/views/auth/admin/config/entry/filter.jsp"%>
 				</div>
