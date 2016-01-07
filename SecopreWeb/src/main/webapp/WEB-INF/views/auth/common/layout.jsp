@@ -211,7 +211,7 @@
 	<!-- END PAGE LEVEL CUSTOM SCRIPTS -->
 	
 	<!-- scripts para modulo de chat -->
-	<script src="http://189.210.196.197:3000/socket.io/socket.io.js" type="text/javascript"></script>
+	<script src="http://172.17.0.51:3000/socket.io/socket.io.js" type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/utils/secopreChatModule.js"/>' type="text/javascript"></script>
 
 
