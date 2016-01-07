@@ -3,7 +3,7 @@ express = require('express');
 var cors = require('cors');
 //var corsOptions = { origin : 'http://smartsecopre.ddns.net:8080'}
 
-var whitelist = ['http://smartsecopre.ddns.net:8080', 'http://192.168.228.1:8888','http://189.183.32.111:8888','http://localhost:8888','http://189.210.196.197:8080','http://172.17.0.51:8080'];
+var whitelist = ['http://smartsecopre.ddns.net:8080', 'http://192.168.228.1:8888','http://189.183.32.111:8888','http://localhost:8888','http://189.210.196.197:8080','http://172.17.0.51:8080','http://172.17.0.51:3000'];
 var corsOptions = {
   origin: function(origin, callback){
     var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
