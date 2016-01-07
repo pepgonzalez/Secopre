@@ -6,7 +6,7 @@ var DBPool =  mysql.createPool({
         user     : 'secopre',
         password : 'secopre123',
         database : 'secopre',
-        debug    :  true,
+        debug    :  false,
         multipleStatements: true
     });
 
