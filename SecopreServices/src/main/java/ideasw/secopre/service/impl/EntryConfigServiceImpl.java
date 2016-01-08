@@ -128,6 +128,10 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 
 		StringBuffer sql = new StringBuffer(
 				queryContainer.getSQL(SQLConstants.GET_ENTRY_DETAIL));
+		if(filter.getType()){
+			sql = new StringBuffer(
+					queryContainer.getSQL(SQLConstants.GET_ENTRY_DETAIL_MOD));
+		}
 		MapSqlParameterSource params = new MapSqlParameterSource();
 
 		if (status.equals(StatusEntry.ACTIVE)) {
