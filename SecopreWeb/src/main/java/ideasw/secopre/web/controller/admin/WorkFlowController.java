@@ -573,17 +573,59 @@ public class WorkFlowController extends AuthController {
 	public void getFile(@PathVariable("requestId") Long requestId, HttpServletResponse response) {
 	    try {
 	      
+	    	String REPORT_TYPE_DOWNLOAD = "application/x-download";
+	    	
 		  	Request request = accessNativeService.getRequestById(requestId);
-	      	InputStream is = new FileInputStream(request.getResourcePath());
-	      	org.apache.commons.io.IOUtils.copy(is, response.getOutputStream());
+		  	File f = new File(request.getResourcePath());
+		  	InputStream is = new FileInputStream(request.getResourcePath());
 	      	
-	      	response.setContentType("application/x-download"); 
-	      	response.setHeader("Content-disposition", "attachment; filename=" + request.getResourcePath());
-	      	response.flushBuffer();
+	      	String resourcePath = request.getResourcePath();
+	      	String split[] = resourcePath.split("\\.");
+	      	if(split.length > 1){
+	      		response.setContentType(getContentTypeFromExtension(split[split.length - 1].toUpperCase()));
+	      	}else{
+		      	response.setContentType(REPORT_TYPE_DOWNLOAD); 
+	      	}
+	      	
+	      	response.setHeader("Content-disposition", "attachment;filename=" + request.getResourcePath());
+	      	response.setContentLength((int) f.length());
+	      	org.apache.commons.io.IOUtils.copy(is, response.getOutputStream());
 	      	
 	    } catch (IOException ex) {
 	      	LOG.debug("Ocurrio un error al intentar descargar el archivo" + ex.toString());
 	    }
+	}
+	
+	private String getContentTypeFromExtension(String extension){
+		String REPORT_TYPE_PDF = "application/pdf";
+		String REPORT_TYPE_XLS = "application/vnd.ms-excel";
+		String REPORT_TYPE_XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+		String REPORT_TYPE_DOC = "application/msword";
+		String REPORT_TYPE_DOCX = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+		String REPORT_TYPE_DOWNLOAD = "application/x-download";
+		String contentType = REPORT_TYPE_DOWNLOAD;
+		
+		switch(extension){
+			case "PDF":
+				contentType = REPORT_TYPE_PDF;
+				break;
+			case "XLS":
+				contentType = REPORT_TYPE_XLS;
+				break;
+			case "XLSX":
+				contentType = REPORT_TYPE_XLSX;
+				break;
+			case "DOC":
+				contentType = REPORT_TYPE_DOC;
+				break;
+			case "DOCX":
+				contentType = REPORT_TYPE_DOCX;
+				break;
+			default:
+				contentType = REPORT_TYPE_DOWNLOAD;
+		}
+		System.out.println("contentType: " + contentType);
+		return contentType;
 	}
 	
 	/*

@@ -20,11 +20,13 @@ public class AuthController extends ControllerBase {
 		
 		String fileName = report.getDescription() + "." + report.getReportType().toLowerCase();
 		
-		 OutputStream outputStream  = response.getOutputStream();
+		  OutputStream outputStream  = response.getOutputStream();
+		  
 		  response.setContentType(report.getReportType().equals("PDF") ? REPORT_TYPE_PDF : REPORT_TYPE_XLS);
 		  response.setContentLength(report.getReport().length);
 		  response.addHeader("Content-Disposition","attachment;filename="+fileName);
 		  response.setBufferSize(1024 * 15);
+		  
 		  outputStream.write(report.getReport());
 		  outputStream.flush();
 		  outputStream.close();
