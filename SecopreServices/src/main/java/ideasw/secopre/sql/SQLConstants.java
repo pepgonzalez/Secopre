@@ -65,6 +65,7 @@ public class SQLConstants {
 	public static final String GET_REPORT_RESOURCE = "GET_REPORT_RESOURCE";
 	public static final String GET_SUBREPORTS_BY_ID = "GET_SUBREPORTS_BY_ID";
 	public static final String GET_REPORT_PARAMETERS = "GET_REPORT_PARAMETERS";
+	public static final String GET_REPORT_IMAGES = "GET_REPORT_IMAGES";
 	public static final String GET_CREATED_FORMALITIES_BY_USER = "GET_CREATED_FORMALITIES_BY_USER";
 	public static final String GET_USER_MOVEMENT_ACTIONS = "GET_USER_MOVEMENT_ACTIONS";
 	

@@ -1,5 +1,6 @@
 package ideasw.secopre.service.impl;
 
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -9,6 +10,8 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.imageio.ImageIO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,6 +94,13 @@ public class ReportServiceImpl extends AccessNativeServiceBaseImpl implements Re
 		if(reportParamsList.size() > 0){
 			loadUserParameters(report, parameters, reportParamsList, params);
 		}
+
+		List<ReportParameter> reportImages = nativeService.getReportImages(report.getReportId());
+		
+		if(reportImages.size() > 0){
+			LOG.info("cargando imagenes: " + reportImages.size());
+			loadReportImages(parameters, reportImages);
+		}
 		
 		LOG.info("total de parametros: " + parameters.size());
 		
@@ -123,6 +133,14 @@ public class ReportServiceImpl extends AccessNativeServiceBaseImpl implements Re
 			 String paramValue = (String) method.invoke(params);
 			 LOG.info("resultado: " + paramValue);
 			 parameters.put(parameter.getParameterName(), paramValue);
+		}
+	}
+	
+	private void loadReportImages(Map<String, Object> parameters, List<ReportParameter> reportParamsList) throws Exception{
+		for(ReportParameter parameter : reportParamsList){
+			InputStream reportStream = parameter.getReportImage().getBinaryStream();
+			BufferedImage image = ImageIO.read(reportStream);
+			parameters.put(parameter.getParameterName(), image);
 		}
 	}
 	

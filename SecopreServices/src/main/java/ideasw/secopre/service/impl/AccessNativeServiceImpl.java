@@ -47,6 +47,7 @@ import ideasw.secopre.service.impl.mapper.NotificationMapper;
 import ideasw.secopre.service.impl.mapper.PermissionMapper;
 import ideasw.secopre.service.impl.mapper.PropertyMapper;
 import ideasw.secopre.service.impl.mapper.RectificationMapper;
+import ideasw.secopre.service.impl.mapper.ReportImageMapper;
 import ideasw.secopre.service.impl.mapper.ReportMapper;
 import ideasw.secopre.service.impl.mapper.ReportParameterMapper;
 import ideasw.secopre.service.impl.mapper.RequestConfigMapper;
@@ -1054,6 +1055,12 @@ private void insertMasiveMovements(List<Movement> list, Request request) throws 
 				 reportParameter.setParameterOptions(parameterOptions);
 			}
 		}
+		return reportParameterList;
+	}
+	
+	public List<ReportParameter> getReportImages(Long reportId) throws Exception{
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("reportId", reportId);
+		List<ReportParameter> reportParameterList = this.queryForList(ReportParameter.class, queryContainer.getSQL(SQLConstants.GET_REPORT_IMAGES), namedParameters, new ReportImageMapper());
 		return reportParameterList;
 	}
 	

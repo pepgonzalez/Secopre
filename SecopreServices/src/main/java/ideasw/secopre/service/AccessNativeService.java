@@ -175,6 +175,9 @@ public interface AccessNativeService {
      /*Metodo para obtener los parametros de un reporte*/
      List<ReportParameter> getParametersById(Long reportId) throws Exception;
      
+     /*Metodo para obtener las images de un reporte*/
+     List<ReportParameter> getReportImages(Long reportId) throws Exception;
+     
      /*Servicio para obtener las ultimas partidas creadas por el usuario*/
      List<UserMovement> getCreatedFormalitiesByUserId(Long userId, int totalMovements);
      

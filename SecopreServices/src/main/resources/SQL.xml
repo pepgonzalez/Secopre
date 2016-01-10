@@ -738,6 +738,18 @@
 						 AND RPC.REPORT_ID = :reportId
 					]]>
 				</prop>
+							   
+				<prop key="GET_REPORT_IMAGES">
+					<![CDATA[
+						SELECT RIC.PARAMETER_NAME,
+								   RI.DESCRIPTION,
+								   RI.IMAGE
+							  FROM secopre.REPORT_IMAGE_CONFIG RIC,
+							  	   secopre.REPORT_IMAGE RI
+							 WHERE RIC.REPORT_IMAGE_ID = RI.ID
+							   AND RIC.REPORT_ID = :reportId
+					]]>
+				</prop>
 				
 				<prop key="GET_CREATED_FORMALITIES_BY_USER">
 					<![CDATA[
