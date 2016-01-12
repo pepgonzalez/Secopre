@@ -19,7 +19,7 @@ public interface EntryConfigService {
 
 	public EntryBalance getEntryBalance(EntryFilter filter, StatusEntry status);
 
-	public boolean existEntriesInConfig();
+	public boolean existEntriesInConfig(boolean currentYear);
 
 	public Integer numberEntriesNextYear();
 

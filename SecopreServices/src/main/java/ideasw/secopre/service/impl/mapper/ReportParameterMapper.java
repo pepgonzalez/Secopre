@@ -11,7 +11,6 @@ public class ReportParameterMapper implements RowMapper<Object> {
 	 
 	public ReportParameter mapRow(ResultSet rs, int rowNum) throws SQLException {    
 		ReportParameter reportParameter = new ReportParameter();
-		
 		reportParameter.setReportId(rs.getLong("REPORT_ID"));
 		reportParameter.setParameterName(rs.getString("PARAMETER_NAME"));
 		reportParameter.setParameterPath(rs.getString("PARAMETER_PATH"));
@@ -22,5 +21,6 @@ public class ReportParameterMapper implements RowMapper<Object> {
 		reportParameter.setCreationDate(rs.getDate("CREATION_DATE"));
 		reportParameter.setActive(rs.getBoolean("ACTIVE"));
 		return reportParameter;
+		
 	 }    
 } 

@@ -9,6 +9,16 @@ public class EntryFilter {
 	private Long entryId;
 
 	private Integer[] months;
+	
+	private Boolean type;
+
+	public Boolean getType() {
+		return type;
+	}
+
+	public void setType(Boolean type) {
+		this.type = type;
+	}
 
 	public Long getDistrictId() {
 		return districtId;

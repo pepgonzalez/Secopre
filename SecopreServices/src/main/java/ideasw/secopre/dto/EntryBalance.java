@@ -20,7 +20,8 @@ public class EntryBalance {
 	}
 
 	public Double getBudgetAmount() {
-		return budgetAmount;
+		
+		return budgetAmount == null? 0D:budgetAmount;
 	}
 
 	public void setBudgetAmount(Double budgetAmount) {
@@ -28,7 +29,7 @@ public class EntryBalance {
 	}
 
 	public Double getBudgetAsing() {
-		return budgetAsing;
+		return budgetAsing==null ?0D:budgetAsing;
 	}
 
 	public void setBudgetAsing(Double budgetAsing) {
@@ -36,7 +37,7 @@ public class EntryBalance {
 	}
 
 	public Double getBudgetCommit() {
-		return budgetCommit;
+		return budgetCommit == null?0D:budgetCommit;
 	}
 
 	public void setBudgetCommit(Double budgetCommit) {

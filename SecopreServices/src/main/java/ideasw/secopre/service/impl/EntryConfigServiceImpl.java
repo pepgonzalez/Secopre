@@ -128,11 +128,13 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 
 		StringBuffer sql = new StringBuffer(
 				queryContainer.getSQL(SQLConstants.GET_ENTRY_DETAIL));
+		if(filter.getType()){
+			sql = new StringBuffer(
+					queryContainer.getSQL(SQLConstants.GET_ENTRY_DETAIL_MOD));
+		}
 		MapSqlParameterSource params = new MapSqlParameterSource();
 
-		if (status.equals(StatusEntry.CONFIG)) {
-			sql.append(" AND PK.YEAR = YEAR(CURDATE()) + 1");
-		} else {
+		if (status.equals(StatusEntry.ACTIVE)) {
 			sql.append(" AND PK.YEAR = YEAR(CURDATE())");
 		}
 		sql.append(" AND E.STATUS = '" + status.name() + "' ");
@@ -214,9 +216,9 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 		MapSqlParameterSource params = new MapSqlParameterSource();
 
 		sql.append("SELECT ");
-		sql.append("SUM(ED.BUDGET_AMOUNT) AS BUDGET_AMOUNT,");
-		sql.append("SUM(ED.BUDGET_AMOUNT_ASSIGN) AS BUDGET_AMOUNT_ASSIGN,");
-		sql.append("SUM(ED.COMMITTED_AMOUNT) AS COMMITTED_AMOUNT,");
+		sql.append("IFNULL(SUM(ED.BUDGET_AMOUNT),0) AS BUDGET_AMOUNT,");
+		sql.append("IFNULL(SUM(ED.BUDGET_AMOUNT_ASSIGN),0) AS BUDGET_AMOUNT_ASSIGN,");
+		sql.append("IFNULL(SUM(ED.COMMITTED_AMOUNT),0) AS COMMITTED_AMOUNT,");
 		sql.append("S.ID AS STATE, D.ID AS DISTRICT, E.ID AS ENTRY");
 		sql.append(" FROM ");
 		sql.append(" secopre.ENTRY E");
@@ -229,12 +231,11 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 		sql.append(" INNER JOIN");
 		sql.append(" secopre.STATE S ON D.STATE_ID = S.ID ");
 		sql.append(" WHERE");
-		if (status.equals(StatusEntry.CONFIG)) {
-			sql.append(" PK.YEAR = YEAR(CURDATE()) + 1");
-		} else {
-			sql.append(" PK.YEAR = YEAR(CURDATE())");
+		sql.append(" E.STATUS = '" + status.name() + "'");
+
+		if (status.equals(StatusEntry.ACTIVE)) {
+			sql.append(" AND PK.YEAR = YEAR(CURDATE())");
 		}
-		sql.append(" AND E.STATUS = '" + status.name() + "'");
 
 		String groupBy = " GROUP BY ";
 		if (filter.getStateId() != null) {
@@ -276,7 +277,7 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 			throws Exception {
 
 		// Valida que existan partidas en configuracion
-		if (!existEntriesInConfig()) {
+		if (!existEntriesInConfig(false)) {
 			throw new EntryDistrictException("No Existen partidas registradas para el siguiente año, la operacion no puede ser efectuada.");
 		}
 
@@ -524,7 +525,7 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 	}
 
 	@Override
-	public boolean existEntriesInConfig() {
+	public boolean existEntriesInConfig(boolean currentYear) {
 		StringBuffer sql = new StringBuffer("");
 		sql.append(" SELECT COUNT(*)  AS TOTAL ");
 		sql.append(" FROM ");
@@ -538,7 +539,12 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 		sql.append(" INNER JOIN");
 		sql.append(" secopre.STATE S ON D.STATE_ID = S.ID ");
 		sql.append(" WHERE");
-		sql.append(" PK.YEAR = YEAR(CURDATE()) + 1");
+		if(currentYear){
+			sql.append(" PK.YEAR = YEAR(CURDATE())");
+		}else{
+			sql.append(" PK.YEAR = YEAR(CURDATE()) + 1");
+		}
+		
 		sql.append(" AND E.STATUS = 'CONFIG' ");
 
 		int total = this.queryForObject(Integer.class, sql.toString(),

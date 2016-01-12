@@ -3,15 +3,15 @@ utils = new SecopreUtils();
 
 urls = {
 		//chat : "http://localhost:3000"
-		chat : "http://189.210.196.197:3000/",
-		updateSeen : "http://189.210.196.197:3000/" + "v1/chat/updateSeen/",
-		getConversation : "http://189.210.196.197:3000/" + "v1/chat/getConversation/",
-		getConversations : "http://189.210.196.197:3000/" + "v1/chat/getConversations/",
-		getFrecuentUsers : "http://189.210.196.197:3000/" +  "v1/chat/getFrecuentUsers/",
-		createConversation : "http://189.210.196.197:3000/" + "v1/chat/createConversation/",
-		getMoreMessages : "http://189.210.196.197:3000/" +  "v1/chat/getMoreMsgs/",
-		getConversationId : "http://189.210.196.197:3000/" + "v1/chat/getConversationId/",
-		ping : "http://189.210.196.197:3000/" + "v1/",
+		chat : "http://172.17.0.51:3000/",
+		updateSeen : "http://172.17.0.51:3000/" + "v1/chat/updateSeen/",
+		getConversation : "http://172.17.0.51:3000/" + "v1/chat/getConversation/",
+		getConversations : "http://172.17.0.51:3000/" + "v1/chat/getConversations/",
+		getFrecuentUsers : "http://172.17.0.51:3000/" +  "v1/chat/getFrecuentUsers/",
+		createConversation : "http://172.17.0.51:3000/" + "v1/chat/createConversation/",
+		getMoreMessages : "http://172.17.0.51:3000/" +  "v1/chat/getMoreMsgs/",
+		getConversationId : "http://172.17.0.51:3000/" + "v1/chat/getConversationId/",
+		ping : "http://172.17.0.51:3000/" + "v1/",
 }
 
 

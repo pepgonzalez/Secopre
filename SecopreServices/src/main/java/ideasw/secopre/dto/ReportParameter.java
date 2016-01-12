@@ -1,5 +1,6 @@
 package ideasw.secopre.dto;
 
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -42,6 +43,9 @@ public class ReportParameter {
 	//opciones para parametros dinamicos del tipo select
 	private Map<Long, String> parameterOptions;
 	
+	//datos de reporte
+	private Blob reportImage;
+	private Long reportImageId;
 	
 	public Long getReportId() {
 		return reportId;
@@ -160,5 +164,17 @@ public class ReportParameter {
 	}
 	public void setRequestId(String requestId) {
 		this.requestId = requestId;
+	}
+	public Blob getReportImage() {
+		return reportImage;
+	}
+	public void setReportImage(Blob reportImage) {
+		this.reportImage = reportImage;
+	}
+	public Long getReportImageId() {
+		return reportImageId;
+	}
+	public void setReportImageId(Long reportImageId) {
+		this.reportImageId = reportImageId;
 	}
 }

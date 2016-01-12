@@ -33,14 +33,14 @@
 																		
 								</div>
 								<div class="row">
-									<div class="col-md-6">
+									<div class="col-md-4">
 										<label class="col-md-2 control-label" for="entryId" style="text-align:left;">Partida</label>
 										<form:select path="entryId" id="entryId" class="form-control">
 										   	<form:option value="" label="Seleccione..."/>
 										</form:select>
 									</div>									
 									
-									<div class="col-md-4">
+									<div class="col-md-3">
 										<label for="select2-input-group-append" class="control-label">Meses</label>
 										<div class="input-group select2-bootstrap-prepend">
 	                                         <span class="input-group-btn">
@@ -64,9 +64,16 @@
                                              </select>
 										</div>
 									</div>
+									<div class="col-md-3">
+										<label class="col-md-2 control-label" for="entryId" style="text-align:left;">Modificado</label>
+										<form:select path="type"  name="type" class="form-control">
+										    <form:option value="0" label="No"/>
+										   <form:option value="1" label="Si"/>
+										</form:select>
+									</div>
 									<div class="col-md-2">
 										<a class="btn green" id="submitRequestFormFilter" onclick="submitAjaxJQ('submit_form', 'list_ByDistrict', 'initEntryByDistrict()');">Consultar</a>
-									</div>
+									</div>									
 									
 									<div class="row">
 									</div>
