@@ -25,6 +25,13 @@
 				</button>
 				<ul class="dropdown-menu" role="menu">
 					<li>
+						<a href="#" onclick="openResourceNative('wf/downloadFile/MANUAL','dashboard','()','GET');">
+							<i class="icon-help"></i>Manual de usuario</a>
+						</a>
+						
+					</li>
+					<!--  
+					<li>
 						<a href="javascript:;">
 						<i class="icon-docs"></i> Nuevo Chat </a>
 					</li>
@@ -39,6 +46,7 @@
 						<i class="icon-flag"></i> Pendientes <span class="badge badge-success">5</span>
 						</a>
 					</li>
+					-->
 				</ul>
 			</div>
 		</div>

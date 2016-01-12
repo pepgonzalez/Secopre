@@ -596,6 +596,51 @@ public class WorkFlowController extends AuthController {
 	    }
 	}
 	
+	/*
+	 * Metodo para realizar la descarga del archivo anexo al folio
+	 * param requestId
+	 * */
+	@RequestMapping(value = "wf/downloadFile/{propertyCode}", method = RequestMethod.GET)
+	public void downloadFile(@PathVariable("propertyCode") String propertyCode, HttpServletResponse response) {
+	    try {
+	      
+	    	String REPORT_TYPE_DOWNLOAD = "application/x-download";
+	    	
+	    	System.out.println("Descargando archivo: " + propertyCode);
+	    	
+	    	Property p = accessNativeService.getPropertyByCode(propertyCode);
+	    	
+		  	File f = new File(p.getDescription());
+		  	InputStream is = new FileInputStream(p.getValue());
+	      	
+	      	String split[] = p.getDescription().split("\\.");
+	      	if(split.length > 1){
+	      		response.setContentType(getContentTypeFromExtension(split[split.length - 1].toUpperCase()));
+	      	}else{
+		      	response.setContentType(REPORT_TYPE_DOWNLOAD); 
+	      	}
+	      	
+	      	response.setHeader("Content-disposition", "attachment;filename=" + p.getDescription());
+	      	response.setContentLength((int) f.length());
+	      	//org.apache.commons.io.IOUtils.copy(is, response.getOutputStream());
+	      	//response.flushBuffer();
+	      	
+	      	byte[] buffer = new byte[4096];
+	        int bytesRead = -1;
+	         
+	        while ((bytesRead = is.read(buffer)) != -1) {
+	            response.getOutputStream().write(buffer, 0, bytesRead);
+	        }
+	         
+	        is.close();
+	        response.getOutputStream().close();     
+	      	
+	    } catch (IOException ex) {
+	    	ex.printStackTrace();
+	      	LOG.debug("Ocurrio un error al intentar descargar el archivo" + ex.toString());
+	    }
+	}
+	
 	private String getContentTypeFromExtension(String extension){
 		String REPORT_TYPE_PDF = "application/pdf";
 		String REPORT_TYPE_XLS = "application/vnd.ms-excel";
