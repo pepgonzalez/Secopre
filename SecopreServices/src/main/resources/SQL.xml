@@ -5,6 +5,57 @@
 	<bean id="queryContainer" class="ideasw.secopre.sql.QueryContainer">
 		<property name="queries">
 			<props>
+				<prop key="GET_ENTRY_DETAIL_MOD">
+					<![CDATA[
+						SELECT S.ID AS STATE_ID,
+							   S.NAME AS STATE_NAME,
+							   DISTRICT_ID AS DISTRICT_ID ,
+							   D.NUMBER AS DISTRICT_NUMBER,
+							   ENTRY_ID AS ENTRY_ID,
+							   E.DESCRIPTION AS ENTRY_DESCRIPTION,
+							   E.CODE AS ENTRY_CODE,
+							   ANNUAL_AMOUNT AS ANNUAL_AMOUNT ,
+							   SUM(ENERO) AS ENERO,
+							   SUM(FEBRERO) AS FEBRERO,
+							   SUM(MARZO) AS MARZO,
+							   SUM(ABRIL) AS ABRIL,
+							   SUM(MAYO) AS MAYO,
+							   SUM(JUNIO) AS JUNIO,
+							   SUM(JULIO) AS JULIO,
+							   SUM(AGOSTO) AS AGOSTO,
+							   SUM(SEPTIEMBRE) AS SEPTIEMBRE,
+							   SUM(OCTUBRE) AS OCTUBRE,
+							   SUM(NOVIEMBRE) AS NOVIEMBRE,
+							   SUM(DICIEMBRE) AS DICIEMBRE
+						  FROM (
+						SELECT ED.DISTRICT_ID,
+							   ED.ENTRY_ID,
+							   ED.ANNUAL_AMOUNT AS ANNUAL_AMOUNT,
+							   ED.MONTH,
+							   CASE WHEN MONTH = 0 THEN ED.BUDGET_AMOUNT_ASSIGN - ED.COMMITTED_AMOUNT ELSE 0 END AS ENERO,
+							   CASE WHEN MONTH = 1 THEN ED.BUDGET_AMOUNT_ASSIGN - ED.COMMITTED_AMOUNT ELSE 0 END AS FEBRERO,
+							   CASE WHEN MONTH = 2 THEN ED.BUDGET_AMOUNT_ASSIGN - ED.COMMITTED_AMOUNT ELSE 0 END AS MARZO,
+							   CASE WHEN MONTH = 3 THEN ED.BUDGET_AMOUNT_ASSIGN - ED.COMMITTED_AMOUNT ELSE 0 END AS ABRIL,
+							   CASE WHEN MONTH = 4 THEN ED.BUDGET_AMOUNT_ASSIGN - ED.COMMITTED_AMOUNT ELSE 0 END AS MAYO,
+							   CASE WHEN MONTH = 5 THEN ED.BUDGET_AMOUNT_ASSIGN - ED.COMMITTED_AMOUNT ELSE 0 END AS JUNIO,
+							   CASE WHEN MONTH = 6 THEN ED.BUDGET_AMOUNT_ASSIGN - ED.COMMITTED_AMOUNT ELSE 0 END AS JULIO,
+							   CASE WHEN MONTH = 7 THEN ED.BUDGET_AMOUNT_ASSIGN - ED.COMMITTED_AMOUNT ELSE 0 END AS AGOSTO,
+							   CASE WHEN MONTH = 8 THEN ED.BUDGET_AMOUNT_ASSIGN - ED.COMMITTED_AMOUNT ELSE 0 END AS SEPTIEMBRE,
+							   CASE WHEN MONTH = 9 THEN ED.BUDGET_AMOUNT_ASSIGN - ED.COMMITTED_AMOUNT ELSE 0 END AS OCTUBRE,
+							   CASE WHEN MONTH = 10 THEN ED.BUDGET_AMOUNT_ASSIGN - ED.COMMITTED_AMOUNT ELSE 0 END AS NOVIEMBRE,
+							   CASE WHEN MONTH = 11 THEN ED.BUDGET_AMOUNT_ASSIGN - ED.COMMITTED_AMOUNT ELSE 0 END AS DICIEMBRE
+						  FROM secopre.ENTRYDISTRICT ED 
+						) T,
+						  secopre.ENTRY E,
+						  secopre.DISTRICT D,
+						  secopre.PROGRAMMATIC_KEY PK,
+						  secopre.STATE S
+						WHERE T.DISTRICT_ID = D.ID
+						AND T.ENTRY_ID = E.ID
+						AND E.PROGRAMMATIC_ID = PK.ID
+						AND S.ID = D.STATE_ID	
+					]]>
+				</prop>	
 				<prop key="GET_ENTRY_DETAIL">
 					<![CDATA[
 						SELECT S.ID AS STATE_ID,
@@ -652,11 +703,28 @@
 				
 				<prop key="GET_PERMISSION_LIST_BY_ROLE">
 					<![CDATA[
-							SELECT p.ID PERMISSION_ID, p.NAME NAME
-							  FROM ROLE_PERMISSION rp, 
-							       PERMISSION p
-							 WHERE rp.permission_id = p.id
-							   AND rp.role_id = :idRole
+						SELECT p.ID          PERMISSION_ID, 
+						       p.NAME        NAME, 
+						       rp.role_id    ROLEID ,
+						       p.path_id     PATH_ID, 
+						       pt.URL        PATH_URL,
+						       m.id          MENU_ID,
+						       m.NAME        MENU_NAME,
+						       m.PARENT_ID   MENU_PARENT_ID,
+						       m.MENU_ORDER  MENU_ORDER,
+						       m.JSID        MENU_JSID,
+						       m.JSFUNCTION  MENU_JSFUNCTION ,
+						       m.DESCRIPTION MENU_DESCRIPTION,
+						       m.CSSCLASS    MENU_CSSCLASS,
+						       m.ACTIVE      MENU_ACTIVE
+						  FROM ROLE_PERMISSION rp
+						  JOIN PERMISSION p
+						    ON rp.permission_id = p.id
+						  LEFT OUTER JOIN PATH pt
+						    ON pt.id = p.path_id
+						  LEFT OUTER JOIN MENU m
+						    ON m.id = pt.menu_id
+						   AND rp.role_id = :idRole
 					]]>
 				</prop>					
 				
@@ -685,6 +753,18 @@
 						  	   secopre.REPORT_PARAMETER RP
 						 WHERE RPC.PARAMETER_ID = RP.ID
 						 AND RPC.REPORT_ID = :reportId
+					]]>
+				</prop>
+				
+				<prop key="GET_REPORT_IMAGES">
+					<![CDATA[
+						SELECT RIC.PARAMETER_NAME,
+								   RI.DESCRIPTION,
+								   RI.IMAGE
+							  FROM secopre.REPORT_IMAGE_CONFIG RIC,
+							  	   secopre.REPORT_IMAGE RI
+							 WHERE RIC.REPORT_IMAGE_ID = RI.ID
+							   AND RIC.REPORT_ID = :reportId
 					]]>
 				</prop>
 				
@@ -1240,7 +1320,17 @@
 					<![CDATA[
 						SELECT REFD.* FROM secopre.REPORT_EMPLOYMENT_FOR_DISTRICT REFD
 					]]>
-				</prop>											
+				</prop>	
+				
+				<prop key="GET_USER_BY_USERNAME">
+					<![CDATA[
+							SELECT U.id , U.USERNAME USERNAME, U.PERSON_ID,
+							       ACTIVE, AVATAR, EMAIL, HAS_CHAT_ACTIVE, NICKNAME, PASSWORD, DASHBOARD_ID
+						  	  FROM USER U
+						  	 WHERE U.username = :username
+					]]>
+				</prop>
+														
 			</props>	
 			
 						

@@ -203,7 +203,10 @@ public class UserController extends AuthController {
 		// Se colocan los menus del usuario en session
 		request.getSession().setAttribute("menus", accessService.getMenuByUserName(name));
 		
-		User loggedUser = baseService.findByProperty(User.class, "username", name).get(0);
+		//User loggedUser = baseService.findByProperty(User.class, "username", name).get(0);
+		User loggedUser = accessNativeService.getUserByUsename(name);
+	    List<Role> authorities = accessNativeService.getRolesByUser(loggedUser.getId());
+	    loggedUser.setAuthorities(authorities);
 		
 		model.addAttribute("loggedUser", loggedUser);
 

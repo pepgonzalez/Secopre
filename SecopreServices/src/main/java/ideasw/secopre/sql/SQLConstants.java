@@ -39,7 +39,7 @@ public class SQLConstants {
 	public static final String GET_LIST_DIRECTORS = "GET_LIST_DIRECTORS";
 	public static final String HAS_DISTRICT_ROLE = "HAS_DISTRICT_ROLE";
 	public static final String GET_DISTRICT_LIST_BY_DUEDATE = "GET_DISTRICT_LIST_BY_DUEDATE";
-	
+	public static final String GET_USER_BY_USERNAME = "GET_USER_BY_USERNAME";
 	
 	//Querys para clonacion de partidas
 	public static final String VALIDATE_ENTRIES_NEXT_YEAR = "VALIDATE_ENTRIES_NEXT_YEAR";
@@ -49,6 +49,7 @@ public class SQLConstants {
 	
 	//obtiene todas las partidas asociadas a un llave programatica con saldo disponible
 	public static final String GET_ENTRY_DETAIL = "GET_ENTRY_DETAIL";
+	public static final String GET_ENTRY_DETAIL_MOD = "GET_ENTRY_DETAIL_MOD";
 	public static final String GET_VALID_ENTRIES = "GET_VALID_ENTRIES";
 	public static final String GET_DISTRICT_ENTRIES_JPQL = "GET_DISTRICT_ENTRIES_JPQL";
 	public static final String GET_VALID_ENTRIES_BY_DISTRIC = "GET_VALID_ENTRIES_BY_DISTRIC";
@@ -64,6 +65,7 @@ public class SQLConstants {
 	public static final String GET_REPORT_RESOURCE = "GET_REPORT_RESOURCE";
 	public static final String GET_SUBREPORTS_BY_ID = "GET_SUBREPORTS_BY_ID";
 	public static final String GET_REPORT_PARAMETERS = "GET_REPORT_PARAMETERS";
+	public static final String GET_REPORT_IMAGES = "GET_REPORT_IMAGES";
 	public static final String GET_CREATED_FORMALITIES_BY_USER = "GET_CREATED_FORMALITIES_BY_USER";
 	public static final String GET_USER_MOVEMENT_ACTIONS = "GET_USER_MOVEMENT_ACTIONS";
 	

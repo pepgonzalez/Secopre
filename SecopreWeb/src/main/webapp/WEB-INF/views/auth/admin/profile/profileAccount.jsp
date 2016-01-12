@@ -32,22 +32,22 @@
 												
 													<div class="form-group">
 														<label class="control-label">Primer Nombre</label>
-														<input name=name type="text" value="${person.name}"  placeholder="John" class="form-control"/>
+														<input readonly="true" name=name type="text" value="${person.name}"  placeholder="John" class="form-control"/>
 													</div>
 													
 													<div class="form-group">
 														<label class="control-label">Segundo Nombre</label>
-														<input name=secondName type="text"  value="${person.secondName}" placeholder="" class="form-control"/>
+														<input readonly="true" name=secondName type="text"  value="${person.secondName}" placeholder="" class="form-control"/>
 													</div>
 													
 													<div class="form-group">
 														<label class="control-label">Apellido Paterno</label>
-														<input name=fatherLastName type="text" value="${person.fatherLastName}" placeholder="" class="form-control"/>
+														<input readonly="true" name=fatherLastName type="text" value="${person.fatherLastName}" placeholder="" class="form-control"/>
 													</div>
 													
 													<div class="form-group">
 														<label class="control-label">Apellido Materno</label>
-														<input name=motherLastName type="text" value="${person.motherLastName}"  placeholder="" class="form-control"/>
+														<input readonly="true" name=motherLastName type="text" value="${person.motherLastName}"  placeholder="" class="form-control"/>
 													</div>
 													
 													<div class="form-group">
@@ -57,14 +57,14 @@
 													
 													<div class="form-group">
 														<label class="control-label"><spring:message code="application.pages.admin.users.email" /></label>
-														<input name=email type="text" value="${user.email}"  class="form-control"/>
+														<input readonly="true" name=email type="text" value="${user.email}"  class="form-control"/>
 													</div>
 																										
 													<label class="control-label">Ocupación</label>			
 													<div class="form-group">
 					
-													   		<form:select path="user.position.id"  name="positions" class="form-control input-large">
-															   <form:option value="" label="Seleccione..."/>
+													   		<form:select path="user.position.id"  name="positions" class="form-control input-large" disabled="true">
+															   <form:option  value="" label="Seleccione..."/>
 				    										   <form:options items="${positions}" />
 															</form:select>
 													</div>

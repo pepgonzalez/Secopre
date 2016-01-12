@@ -47,6 +47,7 @@ import ideasw.secopre.service.impl.mapper.NotificationMapper;
 import ideasw.secopre.service.impl.mapper.PermissionMapper;
 import ideasw.secopre.service.impl.mapper.PropertyMapper;
 import ideasw.secopre.service.impl.mapper.RectificationMapper;
+import ideasw.secopre.service.impl.mapper.ReportImageMapper;
 import ideasw.secopre.service.impl.mapper.ReportMapper;
 import ideasw.secopre.service.impl.mapper.ReportParameterMapper;
 import ideasw.secopre.service.impl.mapper.RequestConfigMapper;
@@ -1057,6 +1058,12 @@ private void insertMasiveMovements(List<Movement> list, Request request) throws 
 		return reportParameterList;
 	}
 	
+	public List<ReportParameter> getReportImages(Long reportId) throws Exception{
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("reportId", reportId);
+		List<ReportParameter> reportParameterList = this.queryForList(ReportParameter.class, queryContainer.getSQL(SQLConstants.GET_REPORT_IMAGES), namedParameters, new ReportImageMapper());
+		return reportParameterList;
+	}
+	
 	public Connection getSecopreDSConnection() throws SQLException{
 		return super.getSecopreConnection();
 	}
@@ -1367,6 +1374,14 @@ private void insertMasiveMovements(List<Movement> list, Request request) throws 
 		SqlParameterSource namedParameters = new MapSqlParameterSource()
 		.addValue("dueDateId", dueDateId);
         return this.queryForList(District.class, queryContainer.getSQL(SQLConstants.GET_DISTRICT_LIST_BY_DUEDATE), namedParameters, new DistrictMapper());
+	}
+	
+	@Override
+	public User getUserByUsename(String username) {
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("username", username);
+		List<User> list = this.queryForList(User.class, queryContainer.getSQL(SQLConstants.GET_USER_BY_USERNAME), namedParameters, new UserMapper());
+		User u =  list.get(0);
+		return u;
 	}
 	
 	

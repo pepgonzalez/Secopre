@@ -1,6 +1,10 @@
 package ideasw.secopre.web.security;
 
+import java.util.List;
+
+import ideasw.secopre.model.security.Role;
 import ideasw.secopre.model.security.User;
+import ideasw.secopre.service.AccessNativeService;
 import ideasw.secopre.service.AccessService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +22,19 @@ public class UserSecurityService implements UserDetailsService {
 
 	@Autowired
 	AccessService accessService;
+	
+	@Autowired
+	private AccessNativeService accessNativeService;
 
 	@Transactional(readOnly = true)
 	@Override
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
-		User user = accessService.loadUserByUsername(username);
+//		User user2 = accessService.loadUserByUsername(username);
+		User user = accessNativeService.getUserByUsename(username);
+	    List<Role> authorities = accessNativeService.getRolesByUser(user.getId());
+	    user.setAuthorities(authorities);
+		
 		if (user == null)
 			throw new UsernameNotFoundException("El usuario: " + username
 					+ " no esta registrado en el sistema");

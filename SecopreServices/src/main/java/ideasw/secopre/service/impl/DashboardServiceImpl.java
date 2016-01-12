@@ -73,38 +73,44 @@ public class DashboardServiceImpl extends AccessNativeServiceBaseImpl implements
 		for (District district : districts) {
 			list+=district.getId()+",";
 		}
-
-		// Busca primero una aviso por el alguno de los distritos.
-		StringBuffer buffer = new StringBuffer();
-		buffer.append("SELECT N.* ");
-		buffer.append("FROM secopre.NOTICE N ");
-		buffer.append("INNER JOIN secopre.NOTICE_DISTRICT ND ");
-		buffer.append("ON N.ID = ND.NOTICE_ID ");
-		buffer.append("WHERE ND.DISTRICT_ID IN ( "+list.substring(0, list.length()-1)+" ) ");
-		buffer.append("AND DISPLAY_DATE = DATE('"+TimeUtils.defaultDateFormat.format(new Date())+"') ");
-		buffer.append("AND ACTIVE = 1 ");
-		buffer.append("ORDER BY N.REGISTER_DATE ");
-
-		List<Notice> notices = this.queryForList(Notice.class, buffer.toString(), params, new NoticeMapper());
-
-		if (notices != null && !notices.isEmpty() ) {
-			return notices.get(0);
-		}
-	
-		// En caso que no exista algun aviso busca uno general;
-		buffer = new StringBuffer();
-		buffer.append("SELECT N.* ");
-		buffer.append("FROM secopre.NOTICE N ");
-		buffer.append("WHERE N.DISPLAY_DATE = DATE('"+TimeUtils.defaultDateFormat.format(new Date())+"') ");
-		buffer.append("AND N.ID NOT IN (SELECT ND.NOTICE_ID FROM secopre.NOTICE_DISTRICT ND) ");
-		buffer.append("AND N.ACTIVE = 1 ");
-
-		notices = this.queryForList(Notice.class, buffer.toString(), params, new NoticeMapper());
+        
 		
-		if (notices != null && !notices.isEmpty() ) {
-			return notices.get(0);
-		}
+		if(list.length()!=0)		
+		{
+			StringBuffer buffer = new StringBuffer();
+			// Busca primero una aviso por el alguno de los distritos.
+		
+			buffer.append("SELECT N.* ");
+			buffer.append("FROM secopre.NOTICE N ");
+			buffer.append("INNER JOIN secopre.NOTICE_DISTRICT ND ");
+			buffer.append("ON N.ID = ND.NOTICE_ID ");
+			buffer.append("WHERE ND.DISTRICT_ID IN ( "+list.substring(0, list.length()-1)+" ) ");
+			buffer.append("AND DISPLAY_DATE = DATE('"+TimeUtils.defaultDateFormat.format(new Date())+"') ");
+			buffer.append("AND ACTIVE = 1 ");
+			buffer.append("ORDER BY N.REGISTER_DATE ");
+	
+			List<Notice> notices = this.queryForList(Notice.class, buffer.toString(), params, new NoticeMapper());
+	
+			if (notices != null && !notices.isEmpty() ) {
+				return notices.get(0);
+			}
+			
+			// En caso que no exista algun aviso busca uno general;
+			buffer = new StringBuffer();
+			buffer.append("SELECT N.* ");
+			buffer.append("FROM secopre.NOTICE N ");
+			buffer.append("WHERE N.DISPLAY_DATE = DATE('"+TimeUtils.defaultDateFormat.format(new Date())+"') ");
+			buffer.append("AND N.ID NOT IN (SELECT ND.NOTICE_ID FROM secopre.NOTICE_DISTRICT ND) ");
+			buffer.append("AND N.ACTIVE = 1 ");
 
+			notices = this.queryForList(Notice.class, buffer.toString(), params, new NoticeMapper());
+			
+			if (notices != null && !notices.isEmpty() ) {
+				return notices.get(0);
+			}
+			
+	    }
+	
 		return null;
 	}
 }

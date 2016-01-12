@@ -7,6 +7,7 @@ import ideasw.secopre.model.security.Permission;
 import ideasw.secopre.model.security.Role;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.model.security.UserAccess;
+import ideasw.secopre.service.AccessNativeService;
 import ideasw.secopre.service.AccessService;
 
 import java.util.ArrayList;
@@ -25,6 +26,9 @@ public class AccessServiceImpl implements AccessService {
 
 	@Autowired
 	JpaDao jpaDao;
+	
+	@Autowired
+	private AccessNativeService accessNativeService;
 
 	@Override
 	public User loadUserByUsername(String username) {
@@ -41,14 +45,20 @@ public class AccessServiceImpl implements AccessService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<RenderSingleMenu> getMenuByUserName(String username) {
-		User user = loadUserByUsername(username);
+		//User user = loadUserByUsername(username);
+		User user = accessNativeService.getUserByUsename(username);
+	    List<Role> authorities = accessNativeService.getRolesByUser(user.getId());
+	    user.setAuthorities(authorities);
+		
+		
 		List<Role> roles = (List<Role>) user.getAuthorities();
 		List<Menu> menus = new ArrayList<Menu>(0);
 
 		if (roles != null && !roles.isEmpty()) {
 
 			for (Role role : roles) {
-				List<Permission> permissions = role.getPermissions();
+				
+				List<Permission> permissions = accessNativeService.getPermissionsByRole(role.getId());
 				if (permissions != null && !permissions.isEmpty()) {
 					for (Permission permission : permissions) {
 						if (permission.getPath() != null && permission.getPath().getMenu() != null)

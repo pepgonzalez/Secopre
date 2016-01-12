@@ -90,7 +90,6 @@ function initProfileValidations() {
 				maxlength : 30
 			},
 			telephone : {
-				required : true,
 				maxlength:30
 			},
 			mobileTelepone : {
@@ -2028,13 +2027,13 @@ function initPersonValidations() {
 		}
 	});
 	
-	$.validator.addMethod(
-		    "telephone",
-		    function(value, element) {
-		        // put your own logic here, this is just a (crappy) example
-		        return value.match(/^\d\d?\/\d\d?\/\d\d\d\d$/); "[0-9\-\(\)\s]+"
-		    }
-		);
+//	$.validator.addMethod(
+//		    "telephone",
+//		    function(value, element) {
+//		        // put your own logic here, this is just a (crappy) example
+//		        return value.match(/^\d\d?\/\d\d?\/\d\d\d\d$/); "[0-9\-\(\)\s]+"
+//		    }
+//		);
 
 	$.validator.addMethod("phone", function(phone_number, element) {
 	    phone_number = phone_number.replace(/\s+/g, ""); 
