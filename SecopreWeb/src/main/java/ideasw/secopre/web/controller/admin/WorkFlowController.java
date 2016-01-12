@@ -612,9 +612,7 @@ public class WorkFlowController extends AuthController {
 	    	Property p = accessNativeService.getPropertyByCode(propertyCode);
 	    	
 		  	File f = new File(p.getDescription());
-		  	InputStream is = new FileInputStream(p.getValue());
-	      	
-		  	OutputStream out = response.getOutputStream();
+		  	InputStream is = new FileInputStream(p.getValue());	      	
 		  	
 	      	String split[] = p.getDescription().split("\\.");
 	      	if(split.length > 1){
@@ -624,8 +622,8 @@ public class WorkFlowController extends AuthController {
 	      	}
 	      	
 	      	response.setHeader("Content-disposition", "attachment;filename=" + p.getDescription());
-	      	response.setContentLength((int) f.length());      	
 	      	org.apache.commons.io.IOUtils.copy(is, response.getOutputStream());
+	      	response.flushBuffer();
 	     
 	      	
 	    } catch (IOException ex) {
