@@ -32,6 +32,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -611,8 +612,10 @@ public class WorkFlowController extends AuthController {
 	    	Property p = accessNativeService.getPropertyByCode(propertyCode);
 	    	
 		  	File f = new File(p.getDescription());
-		  	InputStream is = new FileInputStream(p.getValue());
+		  	FileInputStream is = new FileInputStream(p.getValue());
 	      	
+		  	OutputStream out = response.getOutputStream();
+		  	
 	      	String split[] = p.getDescription().split("\\.");
 	      	if(split.length > 1){
 	      		response.setContentType(getContentTypeFromExtension(split[split.length - 1].toUpperCase()));
@@ -629,11 +632,11 @@ public class WorkFlowController extends AuthController {
 	        int bytesRead = -1;
 	         
 	        while ((bytesRead = is.read(buffer)) != -1) {
-	            response.getOutputStream().write(buffer, 0, bytesRead);
+	            out.write(buffer, 0, bytesRead);
 	        }
 	         
 	        is.close();
-	        response.getOutputStream().close();     
+	        out.flush();     
 	      	
 	    } catch (IOException ex) {
 	    	ex.printStackTrace();
