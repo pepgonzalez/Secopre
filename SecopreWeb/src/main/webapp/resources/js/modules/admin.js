@@ -923,7 +923,7 @@ function initRoleList() {
 
 function initUserPage(idUser) {
 	initPage('User');
-	initUserValidations(idUser);
+	idations(idUser);
 	$('#roles').multiSelect({
 		 includeSelectAllOption: true
 	});
@@ -1755,18 +1755,18 @@ function initUserValidations(idUser) {
 				return false;
 			}
 			
-			if(idUser==null)
-			{
-				if(index==3)
-				{			
-					var valArr = hasDistrictRole();
-					if ( valArr!='valido') {
-						bootbox.alert(valArr + " Favor de validar"); 
-						return false;
-					}
-					
-				}
-			}
+//			if(idUser==null)
+//			{
+//				if(index==3)
+//				{			
+//					var valArr = hasDistrictRole();
+//					if ( valArr!='valido') {
+//						bootbox.alert(valArr + " Favor de validar"); 
+//						return false;
+//					}
+//					
+//				}
+//			}
 			
 
 			
