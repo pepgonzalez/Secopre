@@ -923,7 +923,7 @@ function initRoleList() {
 
 function initUserPage(idUser) {
 	initPage('User');
-	idations(idUser);
+	initUserValidations(idUser);
 	$('#roles').multiSelect({
 		 includeSelectAllOption: true
 	});
