@@ -604,10 +604,12 @@
 							   RS.DATASOURCE DATASOURCE
 						  FROM secopre.REPORT R,
 						  	   secopre.USER_ROLE UR,
-						  	   secopre.REPORT_SOURCE RS
+						  	   secopre.REPORT_SOURCE RS,
+						  	   secopre.ROLE_PERMISSION RP
 						 WHERE R.ACTIVE = 1
 						   AND R.PARENT_REPORT_ID IS NULL
-						   AND R.ROLE_OWNER = UR.ROLE_ID
+						   AND R.ROLE_OWNER = RP.PERMISSION_ID
+						   AND UR.ROLE_ID = RP.ROLE_ID
 						   AND UR.USER_ID = :userId
 						   AND R.REPORT_SOURCE_ID = RS.ID
 					]]>
