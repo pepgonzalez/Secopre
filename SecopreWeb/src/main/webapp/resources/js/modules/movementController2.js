@@ -660,9 +660,6 @@ var movementController2 = {
 				//currentEntries = self.getCurrentEntries(grid,indice);
 				currentEntries = self.getAllSelectedEntries(self, grid, indice);
 			}
-			
-			console.log("partidas actuales en grid: ");
-			console.log(currentEntries);
 
 			var currentSelect = $(this);
 
@@ -796,7 +793,6 @@ var movementController2 = {
 			var isSaved = row.find(self.getId(grid, indice, "isSaved")).val();
 
 			if (isSaved == "true") {
-				console.log("elemento ya guardado, borrando y recargando");
 
 				var requestDetailId = row.find(self.getId(grid, indice, "requestDetailId")).val();
 				var formalityCode = $(document).find("#formalityCode").val();
@@ -804,10 +800,8 @@ var movementController2 = {
 				var requestId = $(document).find("#requestId").val();
 
 				var url = "auth/wf/capture/delete/" + requestDetailId + "/"+ formalityCode + "/" + requestId + "/" + stageConfigId + "/1";
-				console.log("url: " + url);
 				submitAjaxJQWithAction('requestForm', 'dashboard','movements2Capture', url);
 			} else {
-				console.log("elemento no guardado, borrando");
 				self.removeRow(self, grid, indice);
 			}
 		});
@@ -1004,7 +998,6 @@ var movementController2 = {
 	},
 	blockCompensatedData : function() {
 		// downgrid, se bloquean los rows
-		console.log("bloqueando registros de carga inicial");
 
 		var self = this;
 		var totalRows = $(this.downGrid).find("tbody tr:not(#noMovs)").filter(function() {
@@ -1072,15 +1065,9 @@ var movementController2 = {
 				switch (movementTypeId) {
 				case 1:
 					var res = this.validateComponent(self.upGrid);
-					if (res) {
-						console.log("validacion completa");
-					}
 					return res;
 				case 2:
 					var res = this.validateComponent(self.downGrid);
-					if (res) {
-						console.log("validacion completa");
-					}
 					return res;
 				case 3:
 					var resUp = this.validateComponent(self.upGrid);
@@ -1096,8 +1083,6 @@ var movementController2 = {
 						if ((movAlza - movBaja) != 0) {
 							this.notif("error","la suma de los movimientos de aumento y disminución deben resultar 0.");
 							return false;
-						} else {
-							console.log("validacion completa");
 						}
 					}
 					return (resUp && resDown);
