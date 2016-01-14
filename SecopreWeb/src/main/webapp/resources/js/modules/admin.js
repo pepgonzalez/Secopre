@@ -1962,7 +1962,7 @@ function initPersonValidations() {
 			},
 			street : {
 				required : true,
-				maxlength : 30
+				maxlength : 150
 			},
 			number : {
 				required : true,
@@ -2171,7 +2171,6 @@ function initMyTramiteListPage(){
        ]
     });
 	
-	console.log("iniciando tooltip de elementos en lista");
 	$(document).find(".tooltip-control").each(function(){
 		$(this).qtip({
 			 content: {
@@ -2204,7 +2203,6 @@ function initTramiteListPage() {
 	var canEdit = $(document).find("#canCaptureValue").val();	
 	if(canEdit == "false"){
 		$(document).find(".canCaptureButton").each(function(){
-			console.log("seteando tooltip");
 			$(this).qtip({
 				 content: {
 					 text: $(this).next(".tooltip-popup")
@@ -2253,7 +2251,6 @@ function initTramiteListPage() {
 	$(document).find(".dataTables_filter").hide();
 	
 	//tooltip
-	console.log("iniciando tooltip de elementos en lista");
 	$(document).find(".tooltip-control").each(function(){
 		$(this).qtip({
 			 content: {
@@ -2614,7 +2611,6 @@ function expenseCapture() {
 
 
 function initReports(){
-	console.log("iniciando listado de reportes");
 	
 	var reportTable = $('#reportList').DataTable({
         "language": {
@@ -2631,7 +2627,6 @@ function initReports(){
 }
 
 function initReportParamCapture(){
-	console.log("iniciando js de captura de parametros");
 	
 	$(document).find("#reportParametersForm").find("input").each(function(idx,e){
 		var input = $(e);
@@ -2648,7 +2643,6 @@ function initReportParamCapture(){
 	});
 	
 	$('#downloadReport').click(function(e) {
-		console.log("descargando forma");
 		
 		var isFormOk = true;
 		$(document).find("#reportParametersForm").find("input").each(function(idx, e){
@@ -2686,7 +2680,6 @@ function showDueDates(){
 }
 
 function noAction(){
-	console.log("Window js content embed in jsp");
 }
 
 function entriesCapture(){
