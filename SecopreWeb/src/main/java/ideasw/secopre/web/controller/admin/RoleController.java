@@ -74,15 +74,21 @@ public class RoleController extends AuthController {
 			   role = roleEdit;
 			}
 			
-			List<Permission> permissionList  = new ArrayList<Permission>();
-			List<String> items = Arrays.asList(permission.split("\\s*,\\s*"));
 			
-			for (String permid : items) {
-				Permission perm= baseService.findById(Permission.class, Long.parseLong(permid));
-				permissionList.add(perm);	
-			}
-			role.setPermissions(permissionList);
+			if (permission!=null)
+			{   
 				
+				accessNativeService.cleanRolePermission(role.getId());
+				List<Permission> permissionList  = new ArrayList<Permission>();
+				List<String> items = Arrays.asList(permission.split("\\s*,\\s*"));
+				
+				for (String permid : items) {
+					Permission perm= baseService.findById(Permission.class, Long.parseLong(permid));
+					permissionList.add(perm);	
+				}
+			role.setPermissions(permissionList);
+			}	
+			
 			baseService.save(role);
 		} catch (Exception e) {
 			model.addAttribute(

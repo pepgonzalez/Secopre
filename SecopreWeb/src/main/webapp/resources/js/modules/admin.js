@@ -905,6 +905,16 @@ function initRolePage(idRole) {
 		});
 	};
 	
+    $('#select-all').click(function(){
+  	  $('#perms').multiSelect('select_all');
+  	  return false;
+  	});
+  
+  	$('#deselect-all').click(function(){
+  	  $('#perms').multiSelect('deselect_all');
+  	  return false;
+  	});
+	
 	if(idRole!=null)
 	{
 	   apiCallUnblock("auth/adm/role/getPermissions/" + idRole, function(data)

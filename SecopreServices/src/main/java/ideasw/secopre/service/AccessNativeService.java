@@ -267,5 +267,7 @@ public interface AccessNativeService {
 	
 	User getUserByUsename(String username);
 	
+	int cleanRolePermission(Long roleId) throws Exception;
+	
 }
 

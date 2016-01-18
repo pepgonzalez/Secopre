@@ -112,7 +112,7 @@
 											class="required"> * </span>
 										</label>
 										<div class="col-md-4">
-											<select multiple="multiple" class="multi-select" id="perms" name="perms">
+											<select multiple="multiple" class="multi-select" id="perms" name="perms" style="position: absolute" >
 												<c:forEach items="${perms}" var="permission">
 													<option value="${permission.id}">${permission.name} </option>
 												</c:forEach>
@@ -120,8 +120,19 @@
 										</div>
 									</div>
 									<div class="form-group">&nbsp;</div>
-									<div class="form-group">&nbsp;</div>
-								</div>									  
+									
+									<div class="row">
+															<div class="col-md-offset-3 col-md-9">		
+														    <a href="#" id='select-all' class="btn select">
+															<i class="m-icon-swapright"></i> Agregar Todos </a>
+															
+															<a href="#" id='deselect-all' class="btn select">
+															<i class="m-icon-swapleft"></i> Quitar Todos </a>
+													        </div>
+									</div>	
+								</div>	
+								
+							  
 									  
 
 								<div class="tab-pane" id="tab3">

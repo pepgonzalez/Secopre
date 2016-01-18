@@ -1384,5 +1384,11 @@ private void insertMasiveMovements(List<Movement> list, Request request) throws 
 		return u;
 	}
 	
+	@Override
+	public int cleanRolePermission(Long roleId){
+		SqlParameterSource params = new MapSqlParameterSource().addValue("roleId", roleId);
+		return this.insertOrUpdate(queryContainer.getSQL(SQLConstants.CLEAN_ROLE_PERMISSION), params);
+	}
+	
 	
 }
