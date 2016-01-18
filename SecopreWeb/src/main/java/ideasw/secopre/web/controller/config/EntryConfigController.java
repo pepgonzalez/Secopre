@@ -70,7 +70,7 @@ public class EntryConfigController extends AuthController {
 	@RequestMapping(value = "cfg/entry/getDistricts")
 	public @ResponseBody Map<Long, String> getDistricts(
 			@RequestParam(value = "stateId", required = true) Long stateId,
-			ModelMap modelMap) {
+			ModelMap modelMap, Principal principal) {
 		Map<Long, String> entryMap = new HashMap<Long, String>();
 		Map<String, Object> propertiesMap = new HashMap<String, Object>();
 		
@@ -78,9 +78,15 @@ public class EntryConfigController extends AuthController {
 		List<District> districtList = baseService.findByPropertiesWithOrder(
 				District.class, propertiesMap);
 
+		List<District> districtsByUser = secopreCache.getDistrictsByUser(principal.getName());
+		
 		for (District item : districtList) {
-			entryMap.put(item.getId(), item.getEntity() + " DTO-"
-					+ item.getNumber());
+			for(District district:  districtsByUser){
+				if(item.getId().intValue() == district.getId().intValue()){
+					entryMap.put(item.getId(), item.getEntity() + " DTO-"
+							+ item.getNumber());					
+				}
+			}
 		}
 		return entryMap;
 	}
