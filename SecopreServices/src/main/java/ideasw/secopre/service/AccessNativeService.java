@@ -69,6 +69,8 @@ public interface AccessNativeService {
 	 */
 	Long getRequestNextConsecutive();
 	
+	 Long getRequestByDistrictNextConsecutive(Long districtId);
+	
 	/*
 	 * Metodo para obtener la informacion general del tramite
 	 * param requestId - identificador del tramite

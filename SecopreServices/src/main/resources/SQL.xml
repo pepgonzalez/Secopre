@@ -151,6 +151,12 @@
 					]]>
 				</prop>
 				
+				<prop key="GET_REQUEST_BY_DISTRICT_NEXT_CONSECUTIVE">
+					<![CDATA[
+						SELECT IFNULL( (COUNT(id) + 1), 1) as CONSECUTIVE FROM secopre.REQUEST WHERE DISTRICT_ID = :districtId;
+					]]>
+				</prop>
+				
 				<prop key="GET_FORMALITY_BY_ID">
 					<![CDATA[
 						SELECT ID AS FORMALITY_ID,

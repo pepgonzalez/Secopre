@@ -459,6 +459,13 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		return this.queryForObject(Long.class, queryContainer.getSQL(SQLConstants.GET_REQUEST_NEXT_CONSECUTIVE), params);
 	}
 	
+	public Long getRequestByDistrictNextConsecutive(Long districtId){
+		SqlParameterSource params = new MapSqlParameterSource()
+				.addValue("districtId", districtId);
+		return this.queryForObject(Long.class, queryContainer.getSQL(SQLConstants.GET_REQUEST_BY_DISTRICT_NEXT_CONSECUTIVE), params);
+	}
+	
+	
 	private int canUserAuthorize(Long authorizationId, Long stageConfigId, Long userId){
 		SqlParameterSource params = new MapSqlParameterSource()
 				.addValue("authorizationId", authorizationId)

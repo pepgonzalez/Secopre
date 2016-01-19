@@ -91,10 +91,16 @@ public class TramiteController extends AuthController {
 			District district= baseService.findById(District.class, requestForm.getDistrictId());
 			Long requestId = accessNativeService.getRequestNextConsecutive();
 			
-			String folio = "DTO-" +  district.getNumber() + "/" + requestId;
+			
+			
+			Long requestIdByDistrict = accessNativeService.getRequestByDistrictNextConsecutive(requestForm.getDistrictId());
+			
+			//String folio = "DTO-" +  district.getNumber() + "/" + requestId;
+			String folio = "DTO-" +  district.getNumber() + "/" + requestIdByDistrict;
 			
 			requestForm.setRequestId(requestId);
 			requestForm.setFolio(folio);
+			requestForm.setRequestIdByDistrict(requestIdByDistrict);
 			
 			accessNativeService.startFormality(requestForm, loggedUser.getId());
 			

@@ -27,6 +27,7 @@ public class Request {
 	private String resourcePath;
 	private Long entryId;
 	private Long rectificationId;
+	private Long requestIdByDistrict;
 
 	//variables correspondientes a REQUEST DETAIL
 	private Long movementTypeId;
@@ -240,5 +241,11 @@ public class Request {
 	}
 	public void setExpenseDescription(String expenseDescription) {
 		this.expenseDescription = expenseDescription;
+	}
+	public Long getRequestIdByDistrict() {
+		return requestIdByDistrict;
+	}
+	public void setRequestIdByDistrict(Long requestIdByDistrict) {
+		this.requestIdByDistrict = requestIdByDistrict;
 	}
 }
