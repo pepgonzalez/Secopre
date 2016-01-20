@@ -1,17 +1,17 @@
 /*utilidades*/
 utils = new SecopreUtils();
-
+//var URL_SERVER = "http://www.tribunalesagrarios.gob.mx:3000/";
 urls = {
 		//chat : "http://localhost:3000"
-		chat : "http://172.17.0.51:3000/",
-		updateSeen : "http://172.17.0.51:3000/" + "v1/chat/updateSeen/",
-		getConversation : "http://172.17.0.51:3000/" + "v1/chat/getConversation/",
-		getConversations : "http://172.17.0.51:3000/" + "v1/chat/getConversations/",
-		getFrecuentUsers : "http://172.17.0.51:3000/" +  "v1/chat/getFrecuentUsers/",
-		createConversation : "http://172.17.0.51:3000/" + "v1/chat/createConversation/",
-		getMoreMessages : "http://172.17.0.51:3000/" +  "v1/chat/getMoreMsgs/",
-		getConversationId : "http://172.17.0.51:3000/" + "v1/chat/getConversationId/",
-		ping : "http://172.17.0.51:3000/" + "v1/",
+		chat : utils.Constants.SOCKET_URL,
+		updateSeen : utils.Constants.SOCKET_URL + "v1/chat/updateSeen/",
+		getConversation : utils.Constants.SOCKET_URL + "v1/chat/getConversation/",
+		getConversations : utils.Constants.SOCKET_URL + "v1/chat/getConversations/",
+		getFrecuentUsers : utils.Constants.SOCKET_URL +  "v1/chat/getFrecuentUsers/",
+		createConversation : utils.Constants.SOCKET_URL + "v1/chat/createConversation/",
+		getMoreMessages : utils.Constants.SOCKET_URL +  "v1/chat/getMoreMsgs/",
+		getConversationId : utils.Constants.SOCKET_URL + "v1/chat/getConversationId/",
+		ping : utils.Constants.SOCKET_URL + "v1/",
 }
 
 

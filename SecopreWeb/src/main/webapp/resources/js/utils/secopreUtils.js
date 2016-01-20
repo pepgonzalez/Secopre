@@ -84,9 +84,9 @@ SecopreUtils = function(){
 				ONLINE_USER_TEMPLATE : "#onlineUserTemplate",
 				FINDED_USER_TEMPLATE : "#finded_users_template"
 			},
-			SOCKET_URL : 'http://172.17.0.51:3000/',
+			SOCKET_URL : 'http://www.tribunalesagrarios.gob.mx:3000/',
 			Api : {
-				BASE : 'http://172.17.0.51:3000/v1/chat/'
+				BASE : 'http://www.tribunalesagrarios.gob.mx:3000/v1/chat/'
 			}
 	}
 	
