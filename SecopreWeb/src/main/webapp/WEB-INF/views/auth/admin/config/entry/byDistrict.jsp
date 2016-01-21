@@ -1,5 +1,5 @@
 <%@ include file="/WEB-INF/views/auth/common/springTags.jsp"%>
-<fmt:setLocale value="en_US"/>
+
 		                    <!-- BEGIN DASHBOARD STATS 1-->
 		                    <div class="row">
 		                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -9,7 +9,7 @@
 		                                </div>
 		                                <div class="details">
 		                                    <div class="number">
-		                                       $ <span data-counter="counterup" data-value='<fmt:formatNumber value="${balance.annualAmount}"  type="currency" pattern="#,##0.00"/>'><c:out value="${balance.annualAmount}"/></span>
+		                                       <span data-counter="counterup" data-value='<c:out value="${balance.annualAmountStr}"/>'><c:out value="${balance.annualAmountStr}"/></span>
 		                                    </div>
 		                                    <div class="desc">Presupuesto Anual </div>
 		                                </div>
@@ -25,7 +25,7 @@
 		                                </div>
 		                                <div class="details">
 		                                    <div class="number">
-		                                        $ <span data-counter="counterup" data-value="<fmt:formatNumber value="${balance.budgetAsing}" type="currency" pattern="#,##0.00"/>"><c:out value="${balance.budgetAsing}"/></span>
+		                                        <span data-counter="counterup" data-value="<c:out value="${balance.budgetAsingStr}"/>"><c:out value="${balance.budgetAsing}"/></span>
 		                                    	<div class="desc">Presupuesto Modificado </div>
 		                                    </div>
 		                                </div>
@@ -42,7 +42,7 @@
 		                                </div>
 		                                <div class="details">
 		                                    <div class="number">
-		                                       $ <span data-counter="counterup" data-value="<fmt:formatNumber value="${balance.budgetCommit}" type="currency" pattern="#,##0.00"/>"><c:out value="${balance.budgetCommit}"/></span>
+		                                       <span data-counter="counterup" data-value="<c:out value="${balance.budgetCommitStr}"/>"><c:out value="${balance.budgetCommitStr}"/></span>
 		                                    </div>
 		                                    <div class="desc">Total Comprometido</div>
 		                                </div>
@@ -59,7 +59,7 @@
 		                                </div>
 		                                <div class="details">
 		                                    <div class="number"> 
-		                                        $ <span data-counter="counterup" data-value="<fmt:formatNumber value="${balance.budgetAsing - balance.budgetCommit }" type="currency" pattern="#,##0.00"/>"><c:out value="${balance.budgetAsing - balance.budgetCommit}"/></span>
+		                                        <span data-counter="counterup" data-value="<c:out value="${balance.availableStr}"/>"><c:out value="${balance.availableStr}"/></span>
 		                                    	<div class="desc"> Disponible</div>
 		                                    </div>
 		                                </div>
@@ -136,18 +136,18 @@
 														<td>${entryItem.stateName}</td>
 														<td>${entryItem.districtNumber}</td>
 														<td>${entryItem.entryCode}</td>												
-														<td><fmt:formatNumber value="${entryItem.january}" type="currency" pattern="$ #,##0.00"/></td>
-														<td><fmt:formatNumber value="${entryItem.february}" type="currency" pattern="$ #,##0.00"/></td>
-														<td><fmt:formatNumber value="${entryItem.march}" type="currency" pattern="$ #,##0.00"/></td>
-														<td><fmt:formatNumber value="${entryItem.april}"  type="currency" pattern="$ #,##0.00"/></td>
-														<td><fmt:formatNumber value="${entryItem.may}"  type="currency" pattern="$ #,##0.00"/></td>												
-														<td><fmt:formatNumber value="${entryItem.june}" type="currency" pattern="$ #,##0.00"/></td>
-														<td><fmt:formatNumber value="${entryItem.july}" type="currency" pattern="$ #,##0.00"/></td>
-														<td><fmt:formatNumber value="${entryItem.august}" type="currency" pattern="$ #,##0.00"/></td>
-														<td><fmt:formatNumber value="${entryItem.september}" type="currency" pattern="$ #,##0.00"/></td>
-														<td><fmt:formatNumber value="${entryItem.october}" type="currency" pattern="$ #,##0.00"/></td>												
-														<td><fmt:formatNumber value="${entryItem.november}" type="currency" pattern="$ #,##0.00"/></td>
-														<td><fmt:formatNumber value="${entryItem.december}" type="currency" pattern="$ #,##0.00"/></td>													
+														<td>${entryItem.januaryStr}</td>
+														<td>${entryItem.februaryStr}</td>
+														<td>${entryItem.marchStr}</td>
+														<td>${entryItem.aprilStr}</td>
+														<td>${entryItem.mayStr}</td>												
+														<td>${entryItem.juneStr}</td>
+														<td>${entryItem.julyStr}</td>
+														<td>${entryItem.augustStr}</td>
+														<td>${entryItem.septemberStr}</td>
+														<td>${entryItem.octoberStr}</td>												
+														<td>${entryItem.novemberStr}</td>
+														<td>${entryItem.decemberStr}</td>													
 													</tr>
 
 												</c:forEach>

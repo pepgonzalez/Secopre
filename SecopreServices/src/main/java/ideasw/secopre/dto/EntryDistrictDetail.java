@@ -1,7 +1,11 @@
 package ideasw.secopre.dto;
 
+import java.text.DecimalFormat;
+
 
 public class EntryDistrictDetail {
+
+	DecimalFormat formatter = new DecimalFormat("###,###,###.00");
 
 	private Long stateId;
 	private String stateName;
@@ -112,6 +116,10 @@ public class EntryDistrictDetail {
 	public Double getJanuary() {
 		return january;
 	}
+	public String getJanuaryStr() {
+		return january == null ? "$ " + formatter.format(0D) : "$ "
+				+ formatter.format(january);
+	}
 
 	public void setJanuary(Double january) {
 		this.january = january;
@@ -120,7 +128,10 @@ public class EntryDistrictDetail {
 	public Double getFebruary() {
 		return february;
 	}
-
+	public String getFebruaryStr() {
+		return february == null ? "$ " + formatter.format(0D) : "$ "
+				+ formatter.format(february);
+	}
 	public void setFebruary(Double february) {
 		this.february = february;
 	}
@@ -128,7 +139,10 @@ public class EntryDistrictDetail {
 	public Double getMarch() {
 		return march;
 	}
-
+	public String getMarchStr() {
+		return march == null ? "$ " + formatter.format(0D) : "$ "
+				+ formatter.format(march);
+	}
 	public void setMarch(Double march) {
 		this.march = march;
 	}
@@ -136,7 +150,10 @@ public class EntryDistrictDetail {
 	public Double getApril() {
 		return april;
 	}
-
+	public String getAprilStr() {
+		return april == null ? "$ " + formatter.format(0D) : "$ "
+				+ formatter.format(april);
+	}
 	public void setApril(Double april) {
 		this.april = april;
 	}
@@ -144,11 +161,17 @@ public class EntryDistrictDetail {
 	public Double getMay() {
 		return may;
 	}
-
+	public String getMayStr() {
+		return may == null ? "$ " + formatter.format(0D) : "$ "
+				+ formatter.format(may);
+	}
 	public void setMay(Double may) {
 		this.may = may;
 	}
-
+	public String getJuneStr() {
+		return june == null ? "$ " + formatter.format(0D) : "$ "
+				+ formatter.format(june);
+	}
 	public Double getJune() {
 		return june;
 	}
@@ -161,6 +184,10 @@ public class EntryDistrictDetail {
 		return july;
 	}
 
+	public String getJulyStr() {
+		return july == null ? "$ " + formatter.format(0D) : "$ "
+				+ formatter.format(july);
+	}	
 	public void setJuly(Double july) {
 		this.july = july;
 	}
@@ -168,7 +195,10 @@ public class EntryDistrictDetail {
 	public Double getAugust() {
 		return august;
 	}
-
+	public String getAugustStr() {
+		return august == null ? "$ " + formatter.format(0D) : "$ "
+				+ formatter.format(august);
+	}	
 	public void setAugust(Double august) {
 		this.august = august;
 	}
@@ -177,6 +207,11 @@ public class EntryDistrictDetail {
 		return september;
 	}
 
+	public String getSeptemberStr() {
+		return september == null ? "$ " + formatter.format(0D) : "$ "
+				+ formatter.format(september);
+	}		
+	
 	public void setSeptember(Double september) {
 		this.september = september;
 	}
@@ -185,6 +220,11 @@ public class EntryDistrictDetail {
 		return october;
 	}
 
+	public String getOctoberStr() {
+		return october == null ? "$ " + formatter.format(0D) : "$ "
+				+ formatter.format(october);
+	}		
+	
 	public void setOctober(Double october) {
 		this.october = october;
 	}
@@ -193,6 +233,10 @@ public class EntryDistrictDetail {
 		return november;
 	}
 
+	public String getNovemberStr() {
+		return november == null ? "$ " + formatter.format(0D) : "$ "
+				+ formatter.format(november);
+	}		
 	public void setNovember(Double november) {
 		this.november = november;
 	}
@@ -201,6 +245,11 @@ public class EntryDistrictDetail {
 		return december;
 	}
 
+	public String getDecemberStr() {
+		return december == null ? "$ " + formatter.format(0D) : "$ "
+				+ formatter.format(december);
+	}
+	
 	public void setDecember(Double december) {
 		this.december = december;
 	}
