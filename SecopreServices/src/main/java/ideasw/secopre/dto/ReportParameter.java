@@ -46,6 +46,7 @@ public class ReportParameter {
 	//datos de reporte
 	private Blob reportImage;
 	private Long reportImageId;
+	private String reportImageMethod;
 	
 	public Long getReportId() {
 		return reportId;
@@ -176,5 +177,11 @@ public class ReportParameter {
 	}
 	public void setReportImageId(Long reportImageId) {
 		this.reportImageId = reportImageId;
+	}
+	public String getReportImageMethod() {
+		return reportImageMethod;
+	}
+	public void setReportImageMethod(String reportImageMethod) {
+		this.reportImageMethod = reportImageMethod;
 	}
 }

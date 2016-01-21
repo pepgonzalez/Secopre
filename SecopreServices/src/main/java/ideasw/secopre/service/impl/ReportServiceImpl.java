@@ -3,6 +3,7 @@ package ideasw.secopre.service.impl;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.sql.Blob;
@@ -13,6 +14,9 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.general.DefaultPieDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,14 +58,14 @@ public class ReportServiceImpl extends AccessNativeServiceBaseImpl implements Re
 	
 	static final Logger LOG = LoggerFactory.getLogger(ReportServiceImpl.class);
 
-	private Report getReportCompiledObject(Long reportId, ReportParameter params) throws Exception{
+	private Report getReportCompiledObject(Long reportId, Long userId, ReportParameter params) throws Exception{
 		Report report = this.getReportById(reportId);
 		report.setResource(this.getReportResource(reportId));
 
 		JasperReport jasperReport = getCompiledReport(report);
 		
 		//se llena el reporte
-		fillReport(jasperReport, report, params);
+		fillReport(jasperReport, report, params, userId);
 		
 		return report;
 	}
@@ -83,8 +87,9 @@ public class ReportServiceImpl extends AccessNativeServiceBaseImpl implements Re
 		return jasperReport;
 	}
 	
-	private void fillReport(JasperReport jasperReport, Report report, ReportParameter params) throws Exception{
+	private void fillReport(JasperReport jasperReport, Report report, ReportParameter params, Long userId) throws Exception{
 		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("P_USER_ID", userId);
 		
 		loadDataSource(report, parameters);
 		loadSubReports(report, parameters);
@@ -138,10 +143,41 @@ public class ReportServiceImpl extends AccessNativeServiceBaseImpl implements Re
 	
 	private void loadReportImages(Map<String, Object> parameters, List<ReportParameter> reportParamsList) throws Exception{
 		for(ReportParameter parameter : reportParamsList){
-			InputStream reportStream = parameter.getReportImage().getBinaryStream();
-			BufferedImage image = ImageIO.read(reportStream);
-			parameters.put(parameter.getParameterName(), image);
+			
+			if(parameter.getReportImageMethod() == null || parameter.getReportImageMethod().length() <= 0){
+				InputStream reportStream = parameter.getReportImage().getBinaryStream();
+				BufferedImage image = ImageIO.read(reportStream);
+				parameters.put(parameter.getParameterName(), image);
+			}else{
+				Method method = this.getClass().getMethod(parameter.getReportImageMethod());
+				InputStream reportStream = (InputStream) method.invoke(this);
+				BufferedImage image = ImageIO.read(reportStream);
+				parameters.put(parameter.getParameterName(), image);
+			}
 		}
+	}
+	
+	public InputStream getEntryBalanceByCurrentMonth(){
+		DefaultPieDataset dataSet = new DefaultPieDataset();
+        dataSet.setValue("China", 19.64);
+        dataSet.setValue("India", 17.3);
+        dataSet.setValue("United States", 4.54);
+        dataSet.setValue("Indonesia", 3.4);
+        dataSet.setValue("Brazil", 2.83);
+        dataSet.setValue("Pakistan", 2.48);
+        dataSet.setValue("Bangladesh", 2.38);
+ 
+        JFreeChart chart = ChartFactory.createPieChart("World Population by countries", dataSet, true, true, false);
+        BufferedImage objBufferedImage = chart.createBufferedImage(1000, 1000);
+        ByteArrayOutputStream bas = new ByteArrayOutputStream();
+        try {
+            ImageIO.write(objBufferedImage, "png", bas);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        InputStream is = new ByteArrayInputStream(bas.toByteArray());
+        return is;
 	}
 	
 	private String getParamGetter(String param){
@@ -210,15 +246,15 @@ public class ReportServiceImpl extends AccessNativeServiceBaseImpl implements Re
 
 
 	@Override
-	public Report getReport(Long reportId) throws Exception {
-		Report report = this.getReportCompiledObject(reportId, null);
+	public Report getReport(Long reportId, Long userId) throws Exception {
+		Report report = this.getReportCompiledObject(reportId, userId, null);
 		return report;
 	}
 
 	@Override
-	public Report getReport(Long reportId, ReportParameter params) throws Exception {
+	public Report getReport(Long reportId, Long userId, ReportParameter params) throws Exception {
 		// TODO Auto-generated method stub
-		Report report = this.getReportCompiledObject(reportId, params);
+		Report report = this.getReportCompiledObject(reportId, userId, params);
 		return report;
 	}	
 

@@ -316,6 +316,7 @@ public class WorkFlowController extends AuthController {
 				entry.setName(requestForm.getEntry().getDescription());
 				entry.setDescription(requestForm.getEntry().getDescription());	
 				entry.setAccountingType(requestForm.getEntry().getAccountingType());
+				
 				if (entry.getAccountingType() == AccountingType.PARTIDA){
 					entry.setConcept(baseService.findById(Entry.class, requestForm.getEntry().getConcept().getId()));
 				}
@@ -349,15 +350,47 @@ public class WorkFlowController extends AuthController {
 				entry.setActivo(false);
 				entry.setCreatedBy(loggedUser.getUsername());
 				
-				Long entryId = (Long) baseService.persistAndReturnId(entry);
+				//si es nuevo, se valida que el codigo no exista ya
+				Map<String, Object> propertiesMap = new HashMap<String, Object>();
+				propertiesMap.put("code", requestForm.getEntry().getCode());
+				List<Entry> currentEntriesWithCode = baseService.findByProperties(Entry.class, propertiesMap);
 				
+				if(currentEntriesWithCode != null && currentEntriesWithCode.size() > 0){
+					for(Entry e : currentEntriesWithCode){
+						//si esta activa, significa que alguien ya la opero
+						if(e.getStatus() == StatusEntry.ACTIVE){
+							throw new EntryDistrictException("El código " + requestForm.getEntry().getCode() + " ya se encuentra actualmente asociado a la partida: " + e.getDescription() + ". Verifique.");
+						}
+						//si no esta activa, probablemente alguien la creó
+						else if(e.getStatus() == StatusEntry.INACTIVE){
+							Long requestId = accessNativeService.getRequestByEntryId(e.getId());
+							if(requestId > 0 && requestId.longValue() != r.getRequestId()){
+								Request requestCurrentEntry = accessNativeService.getRequestById(requestId);
+								throw new EntryDistrictException("El código " + requestForm.getEntry().getCode() + " se encuentra asociado a partida: " 
+								+ e.getDescription() + " la cual fue creada mediante el folio: "+ requestCurrentEntry.getFolio() + ", "
+								+ "mismo que se encuentra en trámite. Verifique.");
+							}
+						}
+					}
+				}
+				
+				//guardando partida
+				Long entryId = (Long) baseService.persistAndReturnId(entry);			
 				r.setEntryId(entryId);		
 				r = accessNativeService.insertOrUpdateRequestData(r);	
 		
 			}
+			
+			accessNativeService.invokeNextStage(requestForm, loggedUser.getId());
+			LOG.info("Redirigiendo al listado de movimientos");
+			return SecopreConstans.MV_TRAM_LIST_REDIRECT;
+			
+			/*
 			Map<String, Object> propertiesMap = new HashMap<String, Object>();
 			propertiesMap.put("code", requestForm.getEntry().getCode());
 			List<Entry> el = baseService.findByProperties(Entry.class, propertiesMap);
+			
+			LOG.info("Total de partidas con codigo: " +  requestForm.getEntry().getCode() + ": " + el.size());
 			
 			List<Entry> currentEntries = new ArrayList<Entry>();
 			
@@ -376,9 +409,10 @@ public class WorkFlowController extends AuthController {
 				LOG.info("Redirigiendo al listado de movimientos");
 				return SecopreConstans.MV_TRAM_LIST_REDIRECT;
 			}
+			*/
 						
 		}catch(EntryDistrictException ex){
-			ex.printStackTrace();
+			//ex.printStackTrace();
 			LOG.error(ex.getMessage());
 			List<String> errors = new ArrayList<String>();
 			errors.add(ex.getMessage());
@@ -388,7 +422,7 @@ public class WorkFlowController extends AuthController {
 			
 			return "redirect:/auth/wf/capture/partial/" + requestForm.getFormalityCode() + "/" + requestForm.getRequestId() + "/" + requestForm.getStageConfigId() + "/1";
 		}catch(Exception ex2){
-			ex2.printStackTrace();
+			//ex2.printStackTrace();
 			LOG.error(ex2.getMessage());
 			List<String> errors = new ArrayList<String>();
 			errors.add("Error interno del sistema. Contacte a su administrador por favor.");
@@ -766,7 +800,7 @@ public class WorkFlowController extends AuthController {
 	
 	/*Metodo para descargar el formato base del tramite concluido*/
 	@RequestMapping(value = "wf/download/format/{requestId}", method = RequestMethod.GET)
-	public void getFormatFile(@PathVariable("requestId") Long requestId, HttpServletResponse response) throws Exception {
+	public void getFormatFile(@PathVariable("requestId") Long requestId, Principal principal, HttpServletResponse response) throws Exception {
 	    try {
 	    	
 	    	Property p = accessNativeService.getPropertyByCode(PropertyConstants.OPERATED_MOVEMENT_REPORT_ID);
@@ -774,7 +808,8 @@ public class WorkFlowController extends AuthController {
 	    	ReportParameter params = new ReportParameter();
 	    	params.setRequestId(requestId.toString());
 	    	
-	    	Report report = reportService.getReport(p.getLongValue(), params);
+			User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);				    	
+	    	Report report = reportService.getReport(p.getLongValue(), loggedUser.getId(), params);
 			
 	    	super.flushReport(response, report);
 	      	

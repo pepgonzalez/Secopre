@@ -109,6 +109,13 @@
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
 		</dependency>
+		
+		 <dependency>
+      		<groupId>jfree</groupId>
+      		<artifactId>jfreechart</artifactId>
+      		<version>1.0.12</version>
+   		</dependency>
+   
 	</dependencies>
 	<!-- JETTY configuration -->
 	<profiles>
