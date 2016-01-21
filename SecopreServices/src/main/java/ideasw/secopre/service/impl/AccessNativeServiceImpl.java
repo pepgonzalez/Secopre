@@ -281,6 +281,10 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		}	
 		
 		//si la cancelo, no le hago nada a la partida, la dejo de evidencia inactivada
+		if(request.getEntryId() != null && request.getEntryId().longValue() > 0){
+			Entry e = baseService.findById(Entry.class, request.getEntryId());
+			baseService.remove(e);
+		}
 		
 	}
 	
@@ -452,6 +456,11 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 	private int getNextConsecutive(Long requestId){
 		SqlParameterSource params = new MapSqlParameterSource().addValue("requestId", requestId);
 		return this.queryForObject(Integer.class, queryContainer.getSQL(SQLConstants.GET_NEXT_CONSECUTIVE), params);
+	}
+	
+	public Long getRequestByEntryId(Long entryId){
+		SqlParameterSource params = new MapSqlParameterSource().addValue("entryId", entryId);
+		return this.queryForObject(Long.class, queryContainer.getSQL(SQLConstants.GET_REQUEST_BY_ENTRY), params);
 	}
 	
 	public Long getRequestNextConsecutive(){

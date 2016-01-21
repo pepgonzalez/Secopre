@@ -66,27 +66,13 @@ public class ReportController extends AuthController {
 	}
 	
 	@RequestMapping(value = "report/download/{reportId}", method ={RequestMethod.GET})
-	public void downloadReport(@PathVariable("reportId") Long reportId, HttpServletResponse response) throws Exception{
+	public void downloadReport(@PathVariable("reportId") Long reportId, HttpServletResponse response,  Principal principal) throws Exception{
 		LOG.info("Descargando reportId : " +  reportId);
-		Report report = reportService.getReport(reportId);
+		
+		User u = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
+		Report report = reportService.getReport(reportId, u.getId());
 		
 		super.flushReport(response, report);
-		
-		/*
-		String fileName = report.getDescription() + "." + report.getReportType().toLowerCase();
-		
-		String REPORT_TYPE_PDF = "application/pdf";
-		String REPORT_TYPE_XLS = "application/vnd.ms-excel";
-		
-		 OutputStream outputStream  = response.getOutputStream();
-		  response.setContentType(report.getReportType().equals("PDF") ? REPORT_TYPE_PDF : REPORT_TYPE_XLS);
-		  response.setContentLength(report.getReport().length);
-		  response.addHeader("Content-Disposition","attachment;filename="+fileName);
-		  response.setBufferSize(1024 * 15);
-		  outputStream.write(report.getReport());
-		  outputStream.flush();
-		  outputStream.close();
-		*/
 	}
 	
 	
@@ -114,7 +100,9 @@ public class ReportController extends AuthController {
 		LOG.info("Descargando reporte con parametros");
 		LOG.info(reportParameterForm.toString());
 		
-		Report report = reportService.getReport(reportParameterForm.getReportId(), reportParameterForm);
+		User u = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
+		
+		Report report = reportService.getReport(reportParameterForm.getReportId(), u.getId(), reportParameterForm);
 		
 		String fileName = report.getDescription() + "." + report.getReportType().toLowerCase();
 		

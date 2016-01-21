@@ -271,5 +271,7 @@ public interface AccessNativeService {
 	
 	int cleanRolePermission(Long roleId) throws Exception;
 	
+	Long getRequestByEntryId(Long entryId);
+	
 }
 

@@ -84,4 +84,5 @@ public class SQLConstants {
 	public static final String GET_SORTED_ENTRIES_BY_PK = "GET_SORTED_ENTRIES_BY_PK";
 	public static final String GET_EMPLOYMENT_WITH_FULL_DISTRICT_SELECTION = "GET_EMPLOYMENT_WITH_FULL_DISTRICT_SELECTION";
 	public static final String CLEAN_ROLE_PERMISSION = "CLEAN_ROLE_PERMISSION";
+	public static final String GET_REQUEST_BY_ENTRY = "GET_REQUEST_BY_ENTRY";
 }

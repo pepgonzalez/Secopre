@@ -771,7 +771,8 @@
 					<![CDATA[
 						SELECT RIC.PARAMETER_NAME,
 								   RI.DESCRIPTION,
-								   RI.IMAGE
+								   RI.IMAGE,
+								   RI.METHOD
 							  FROM secopre.REPORT_IMAGE_CONFIG RIC,
 							  	   secopre.REPORT_IMAGE RI
 							 WHERE RIC.REPORT_IMAGE_ID = RI.ID
@@ -1347,6 +1348,16 @@
 						DELETE FROM secopre.ROLE_PERMISSION WHERE ROLE_ID = :roleId
 					]]>
 				</prop>	
+				
+				<prop key="GET_REQUEST_BY_ENTRY">
+					<![CDATA[
+						SELECT IFNULL(MAX(T.ID),0) AS ID FROM (
+							SELECT R.ID
+							  FROM secopre.REQUEST R
+							 WHERE R.ENTRY_ID = :entryId
+							) T
+					]]>
+				</prop>
 														
 						
 			</props>	

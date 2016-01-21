@@ -14,6 +14,7 @@ public class ReportImageMapper implements RowMapper<Object> {
 		
 		reportParameter.setParameterName(rs.getString("PARAMETER_NAME"));
 		reportParameter.setReportImage(rs.getBlob("IMAGE"));
+		reportParameter.setReportImageMethod(rs.getString("METHOD"));
 		return reportParameter;
 	 }    
 } 
