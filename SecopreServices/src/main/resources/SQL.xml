@@ -416,11 +416,13 @@
 					<![CDATA[
 					SELECT COUNT(*) AS CAN_AUTHORIZE 
 					  FROM secopre.AUTHORIZATION_CONFIG AC,
-					  	   secopre.USER U
+					  	   secopre.USER U,
+					  	   secopre.AUTHORIZATION_CONFIG_POSITION ACP
 					 WHERE AC.AUTHORIZATION_ID = :authorizationId
 					   AND AC.STAGE_CONFIG_ID = :stageConfigId
-					   AND AC.POSITION_ID = U.POSITION_ID
-					   AND U.ID = :userId	
+					   AND AC.ID = ACP.AUTHORIZATION_CONFIG_ID
+					   AND ACP.POSITION_ID = U.POSITION_ID
+					   AND U.ID = :userId		
 					]]>
 				</prop>
 				
