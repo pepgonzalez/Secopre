@@ -7,8 +7,11 @@ var Q = function(){
 	this.loadQueries = function(callback){
 
 		var parser = new xml2js.Parser({explicitArray:false});
+
+		/*__dirname retorna el directorio donde se encuentra el script que se esta ejecutando*/
+
 		var dirname = __dirname;
-		console.log(dirname);
+		//console.log(dirname);
 		fs.readFile(__dirname + '/sql.xml', function(err, data) {
 			if(err){
 				console.log("error al cargar xml" + err);

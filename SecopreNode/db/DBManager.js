@@ -1,5 +1,6 @@
 var mysql     =    require('mysql');
 
+
 var DBPool =  mysql.createPool({
         connectionLimit : 100,
         host     : '172.17.0.50',
@@ -10,7 +11,19 @@ var DBPool =  mysql.createPool({
         multipleStatements: true
     });
 
+/*
+var DBPool =  mysql.createPool({
+        connectionLimit : 100,
+        host     : '127.0.0.1',
+        user     : 'secopre',
+        password : 'secopre',
+        database : 'secopre',
+        debug    :  false,
+        multipleStatements: true
+    });
+*/
 var Q = require('./SQLManager');
+
 var QueryManager = new Q();
 QueryManager.loadQueries(function(r){
     QueryManager.q = r;
@@ -35,8 +48,8 @@ var DBManager = function(config){
             connection.query(q, params, function(error, resultado){
                 connection.release();
                 if(error){
-                    console.log("Error al consultar el query: " + q );
-                    console.log("ERROR: " + error);
+                    //console.log("Error al consultar el query: " + q );
+                    //console.log("ERROR: " + error);
                     return;
                 }
                 //ejecutamos el callback con el
@@ -86,7 +99,7 @@ var DBManager = function(config){
                 //console.log(p);
                 connection.query(q, p, function(error, resultado){
                     if (error){
-                        console.log("error de consulta en query: " + error);
+                        //console.log("error de consulta en query: " + error);
                         callback({});
                     }
                     _cb(resultado);

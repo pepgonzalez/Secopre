@@ -94,8 +94,8 @@ var SecopreSocket = function(config){
 
 		socket.on('search_user', processUserSearch);
 
-		console.log("DATA_____________")
-		console.log(data);
+		//console.log("DATA_____________")
+		//console.log(data);
 		//se inicia la conexion
 		DB.processQuery("startUserConnection", [data.userId, socket.id], pushConnectedUsers);
 
@@ -125,12 +125,12 @@ var SecopreSocket = function(config){
 
 
 	//funcion para hacer pooling a la base de datos en busqueda de nueva informacion
-	setInterval(searchForNotifications, 3000);
+	//setInterval(searchForNotifications, 3000);
 
 	function searchForNotifications(){
 		DB.processQuery("getNewNotifications", [], function(r){
-			console.log("resultados: ");
-			console.log(r);
+			console.log("buscando notificaciones");
+			//console.log(r);
 		});
 	}
 }

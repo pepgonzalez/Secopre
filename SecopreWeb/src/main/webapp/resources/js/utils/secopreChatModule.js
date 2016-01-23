@@ -1,8 +1,6 @@
 /*utilidades*/
 utils = new SecopreUtils();
-//var URL_SERVER = "http://www.tribunalesagrarios.gob.mx:3000/";
 urls = {
-		//chat : "http://localhost:3000"
 		chat : utils.Constants.SOCKET_URL,
 		updateSeen : utils.Constants.SOCKET_URL + "v1/chat/updateSeen/",
 		getConversation : utils.Constants.SOCKET_URL + "v1/chat/getConversation/",
@@ -294,7 +292,6 @@ var SecopreChat = function(){
 		/*actualiza el estatus si es necesario*/
 		if (c.dir == 'IN' && c.status == 0){
 			$.ajax({
-				//url: "http://localhost:3000/v1/chat/updateSeen/" + c.id,
 				url: urls.updateSeen + c.id,
 				dataType: 'json'
 			}).done(function(r) {
@@ -828,7 +825,6 @@ $(document).ready(function(){
 		var miUrl = urls.ping;		
 		$.ajax({
 		      type: "GET",
-		      //url: "http://localhost:3000/v1/",
 		      url: miUrl,
 		      success: function (response) {
 		    	
