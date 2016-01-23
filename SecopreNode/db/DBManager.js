@@ -25,7 +25,7 @@ var DBManager = function(config){
         DBPool.getConnection(function(error, connection){
             //si error, logueo y trueno
             if(error){
-                console.log("Error de al obtener la conexion: " + error);
+                //console.log("Error de al obtener la conexion: " + error);
                 connection.release();
                 return;
             }
@@ -49,7 +49,7 @@ var DBManager = function(config){
         DBPool.getConnection(function (error, connection){
             if (error){
                 connection.release();
-                console.log("Error al obtener la connexion");
+                //console.log("Error al obtener la connexion");
                 callback({});
             }
             var q = QueryManager.getQuery(key);
@@ -61,7 +61,7 @@ var DBManager = function(config){
 
             var clients = params.length;
 
-            console.log("usuarios conectados: " + clients);
+            //console.log("usuarios conectados: " + clients);
 
             for (var i = 0; i < params.length; i ++){
 
@@ -82,8 +82,8 @@ var DBManager = function(config){
                 }
 
                 var p = getParams(param, aditionalParams);
-                console.log("parametros de consulta");
-                console.log(p);
+                //console.log("parametros de consulta");
+                //console.log(p);
                 connection.query(q, p, function(error, resultado){
                     if (error){
                         console.log("error de consulta en query: " + error);
