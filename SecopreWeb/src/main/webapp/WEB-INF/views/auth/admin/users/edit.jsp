@@ -148,6 +148,27 @@
 										</div>
 										</div>
 										
+										<div class="form-group form-md-line-input has-danger">
+										<label class="col-md-3 control-label" for="form_control_1"><spring:message code="application.pages.admin.users.selectPosition"/>
+										   <span class="required">* </span> 
+										</label>
+										<div class="col-md-4">
+										   <div class="input-icon">
+												<form:select path="user.position.id"  name="position" class="form-control">
+												   <form:option value="" label="Seleccione..."/>
+	    										   <form:options items="${positions}" />
+												</form:select>
+												<div class="form-control-focus"></div>
+												<span id="person-error" class="help-block help-block-error">
+													<spring:message code="application.pages.admin.users.selectPosition"/>
+												</span>
+												 <i class="icon-user"></i>
+										   </div>
+										</div>
+										</div>										
+										
+										
+										
 									</div>
 								</div>
 								<div class="tab-pane" id="tab2">
@@ -233,6 +254,13 @@
 											<p class="form-control-static" data-display="roles"></p>
 										</div>
 									</div>
+<!-- 									<h4 class="form-section">Puesto</h4> -->
+<!-- 									<div class="form-group"> -->
+<!-- 										<label class="control-label col-md-3">Puesto:</label> -->
+<!-- 										<div class="col-md-4"> -->
+<!-- 											<p class="form-control-static" data-display="user.position.id"></p> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
 <!-- 									<h4 class="form-section">Permisos</h4> -->
 <!-- 									<div class="form-group"> -->
 <!-- 										<label class="control-label col-md-3">Permisos:</label> -->

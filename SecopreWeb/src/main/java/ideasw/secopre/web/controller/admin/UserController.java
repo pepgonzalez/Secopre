@@ -129,6 +129,7 @@ public class UserController extends AuthController {
 			   userEdit.setEmail(user.getEmail());
 			   userEdit.setHasChatActive(user.getHasChatActive());
 			   userEdit.setPerson(user.getPerson());
+			   userEdit.setPosition(user.getPosition());
 
 			   user=userEdit;
 			}
@@ -259,6 +260,14 @@ public class UserController extends AuthController {
 		//Lista de Distritos
 		//model.addAttribute("districts", secopreCache.getAlldistricts());
 		model.addAttribute("districts", secopreCache.getValidDistricts());
+		
+		//Lista de Position
+		List<Position> position = baseService.findAll(Position.class);
+		HashMap<Long, String> positionMap = new HashMap<Long, String>();
+		for (Position p : position) {
+			positionMap.put(p.getId(), p.getName());
+		}
+		model.addAttribute("positions", positionMap);
 
 		return SecopreConstans.MV_ADM_USR_EDIT;
 	}
