@@ -1,6 +1,8 @@
 package ideasw.secopre.web.controller.admin;
 
+import ideasw.secopre.constants.PropertyConstants;
 import ideasw.secopre.dto.Notification;
+import ideasw.secopre.dto.Property;
 import ideasw.secopre.model.catalog.District;
 import ideasw.secopre.model.catalog.Person;
 import ideasw.secopre.model.catalog.Position;
@@ -401,5 +403,22 @@ public class UserController extends AuthController {
 		
 
 	}
-	
+	@RequestMapping(value = "adm/usr/resetPass", method = RequestMethod.POST)
+	public String resetPass(ModelMap model, @RequestParam("id") Long id) {
+		try {
+			User user = baseService.findById(User.class, id);
+			if (user != null) {
+				Property p = accessNativeService
+						.getPropertyByCode(PropertyConstants.PASSWORD_DEFAULT);
+				user.setPassword(Encryption.encrypByBCrypt(p.getValue()));
+				baseService.update(user);
+			}
+		} catch (Exception e) {
+			model.addAttribute(
+					"errors",
+					initErrors("Ocurrio un error al resetear el Usuario:"
+							+ e.getMessage()));
+		}
+		return "redirect:/auth/adm/usr/list";
+	}	
 }
