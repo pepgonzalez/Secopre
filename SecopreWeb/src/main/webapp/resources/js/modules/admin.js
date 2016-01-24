@@ -92,6 +92,9 @@ function initProfileValidations() {
 			telephone : {
 				maxlength:30
 			},
+			extension : {
+				maxlength:12
+			},
 			mobileTelepone : {
 				maxlength:30
 			},
