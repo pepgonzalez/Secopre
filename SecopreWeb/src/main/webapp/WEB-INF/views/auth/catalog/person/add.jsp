@@ -192,7 +192,6 @@
 													
 													<div class="form-group form-md-line-input has-danger">
 														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.mobileTelepone"/>
-														<span class="required">* </span>
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
@@ -205,6 +204,21 @@
 														</div>
 													</div>
 													
+													
+													<div class="form-group form-md-line-input has-danger">
+														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.extension"/>
+														</label>
+														<div class="col-md-10">
+															<div class="input-icon">
+																<input id="extension" name="extension" value="${person.extension}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.extension.placeholder"/>'
+																aria-required="true" aria-describedby="name-error" aria-invalid="true">
+																<div class="form-control-focus">
+																</div>
+																<span id="telephone-error" class="help-block help-block-error"><spring:message code="application.pages.admin.persons.extension.help"/></span>
+																<i class="fa fa-tty"></i>
+															</div>
+														</div>
+													</div>														
 <!-- 													<div class="form-group form-md-line-input has-danger"> -->
 <%-- 														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.twitter"/> --%>
 <!-- 														</label> -->

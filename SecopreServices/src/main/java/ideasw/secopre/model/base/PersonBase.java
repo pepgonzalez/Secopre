@@ -48,6 +48,9 @@ public class PersonBase extends AuditEntity {
 
 	@Column(name = "TELEPHONE",nullable = true, length = 30)
 	private String telephone;
+	
+	@Column(name = "EXTENSION",nullable = true, length = 30)
+	private String extension;
 
 	@Column(name = "MOBILE_TELEPHONE",nullable = true, length = 30)
 	private String mobileTelepone;
@@ -265,6 +268,14 @@ public class PersonBase extends AuditEntity {
 
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+
+	public String getExtension() {
+		return extension;
+	}
+
+	public void setExtension(String extension) {
+		this.extension = extension;
 	}
 
 
