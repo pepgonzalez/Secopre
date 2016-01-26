@@ -2495,9 +2495,9 @@ function initAuthorization() {
 		$("#addComponent").hide();
 	}
 	//se oculta el monto total en autorizacion para compensados
-	if(tipoMov == 3){
-		$("#substractComponent").find(".substractTotalPanel").hide();
-	}
+	//if(tipoMov == 3){
+	//	$("#substractComponent").find(".substractTotalPanel").hide();
+	//}
 	
 	if(parseInt(formalityId) == 4){
 		$(document).find("#backToCapture").hide();

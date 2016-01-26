@@ -141,12 +141,14 @@ var movementController2 = {
 				monthAmount = monthAmount.toFixed(2);				
 				element.find(self.getId(grid, idx, "monthAmount")).val(monthAmount);
 				
+				/*
 				var totalOriginalValue = element.find(self.getId(grid, idx, "totalAmount")).val();
 				var totalStr = totalOriginalValue.replace(",","");
 				//var totalAmount = parseFloat(element.find(self.getId(grid, idx, "totalAmount")).val()).toFixed(2);
 				var totalAmount = parseFloat(totalStr).toFixed(2);
 				element.find(self.getId(grid, idx, "totalAmount")).val(totalAmount);
-
+				 */
+				
 				self.addRemoveEvent(self, grid, idx);
 				self.addInfoEvent(self, grid, idx);
 				self.addCloneEvent(self, grid, idx);
@@ -488,8 +490,17 @@ var movementController2 = {
 					self.removeClassError(self.getId(grid, nextIndex,"monthAmount"));
 				}
 
+				function format(num){
+			        var n = num.toString(), p = n.indexOf('.');
+			        return n.replace(/\d(?=(?:\d{3})+(?:\.|$))/g, function($0, i){
+			            return p<0 || i<p ? ($0+',') : $0;
+			        });
+			    }
+				
+				var montoTotalPorRegistro = format(total.toFixed(2));
+				
 				// guardamos el monto total en total amount
-				$(self.getId(grid, nextIndex, "totalAmount")).val(total.toFixed(2)).keyup();
+				$(self.getId(grid, nextIndex, "totalAmount")).val(montoTotalPorRegistro).keyup();
 
 				// se invoca update para actualizar los totales del grid
 				self.updateTotal(self, grid);
