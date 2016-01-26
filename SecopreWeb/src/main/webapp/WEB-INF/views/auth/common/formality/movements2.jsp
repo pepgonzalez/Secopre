@@ -108,7 +108,7 @@
 				</tbody>
 			</table>
 		</div>
-		<div>
+		<div class="substractTotalPanel">
 			<div class="text-rigth">
 				<div class="btn">Total:</div>
 				<a href="#myModal1" role="button" class="btn green" data-toggle="modal" id="downMovementsTotal">
@@ -210,7 +210,7 @@
 				</tbody>
 			</table>
 		</div>
-		<div>
+		<div class="addTotalPanel">
 			<div class="text-rigth">
 				<div class="btn">Total:</div>
 				<a href="#myModal1" role="button" class="btn green" data-toggle="modal" id="upMovementsTotal">
