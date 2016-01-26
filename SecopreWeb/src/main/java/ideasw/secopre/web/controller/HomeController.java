@@ -48,7 +48,7 @@ public class HomeController extends ControllerBase {
 	 * @return pagina JSP
 	 */
 	// Spring Security see this :
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView login(
 			@RequestParam(value = "error", required = false) String error) {
 		ModelAndView model = new ModelAndView();

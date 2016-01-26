@@ -2180,7 +2180,8 @@ function initMyTramiteListPage(){
            {
                "targets": [ 0 ],
                "visible": false
-           }
+           },
+           { "sClass": "right", "aTargets": [ 5 ] }
        ]
     });
 	
@@ -2252,7 +2253,8 @@ function initTramiteListPage() {
            {
                "targets": [ 0 ],
                "visible": false
-           }
+           },
+           { "sClass": "right", "aTargets": [ 5 ] }
        ]
     });
 	
@@ -2765,7 +2767,8 @@ function rectificationList(){
            {
                "targets": [ 0 ],
                "visible": false
-           }
+           },
+           { "sClass": "right", "aTargets": [ 5 ] }
        ]
     });
 	
