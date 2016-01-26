@@ -10,7 +10,7 @@
 			<!-- BEGIN PAGE BREADCRUMB -->
 			<ul class="page-breadcrumb breadcrumb">
 				<li>
-					<a href="javascript:;">Administracion</a><i class="fa fa-circle"></i>
+					<a href="javascript:;">Administración</a><i class="fa fa-circle"></i>
 				</li>
 				<li class="active">
 					 Personas
