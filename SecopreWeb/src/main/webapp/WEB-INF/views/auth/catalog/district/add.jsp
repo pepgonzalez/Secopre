@@ -304,7 +304,7 @@
 													  code="application.pages.catalog.district.state" />
 											       </label>
 										           <div class="col-md-4">
-											         <p class="form-control-static" data-display="district.state.id"></p>
+											         <p class="form-control-static" data-display="state.id"></p>
 										           </div>
 									            </div>	
 									            
@@ -327,26 +327,7 @@
 											         <p class="form-control-static" data-display="telephone"></p>
 										           </div>
 									            </div>		
-									            
-									            <div class="form-group">
-										           <label class="control-label col-md-3"><spring:message
-													  code="application.pages.admin.persons.gender" />
-											       </label>
-										           <div class="col-md-4">
-											         <p class="form-control-static" data-display="gender"></p>
-										           </div>
-									            </div>		
-									            
-									            <div class="form-group">
-										           <label class="control-label col-md-3"><spring:message
-													  code="application.pages.admin.persons.telephone" />
-											       </label>
-										           <div class="col-md-4">
-											         <p class="form-control-static" data-display="telephone"></p>
-										           </div>
-									            </div>	
-									            
-						
+									            	
 									            
 									            <div class="form-group">
 										           <label class="control-label col-md-3"><spring:message
@@ -403,7 +384,8 @@
 											<div class="col-md-offset-3 col-md-9">
 										      <c:choose>
 											     <c:when test="${district.id != null}">
-											           <a href="javascript:initDistrictList();" class="btn red" >
+<!-- 											           <a href="javascript:initDistrictList();" class="btn red" > -->
+											            <a href="javascript:showList('District');" class="btn red" >
 													   <spring:message code="application.cancel"/> <i class="fa fa-times"></i>
 													   </a>  
 												 </c:when>   

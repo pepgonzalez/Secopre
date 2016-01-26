@@ -10,7 +10,7 @@
 			<!-- BEGIN PAGE BREADCRUMB -->
 			<ul class="page-breadcrumb breadcrumb">
 				<li>
-					<a href="javascript:;">Catalogos </a><i class="fa fa-circle"></i>
+					<a href="javascript:;">Catálogos </a><i class="fa fa-circle"></i>
 				</li>
 				<li class="active">
 					 Distritos
