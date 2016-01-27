@@ -1,10 +1,16 @@
 package ideasw.secopre.web.controller;
 
 import ideasw.secopre.exception.ResourceNotFoundException;
+import ideasw.secopre.model.security.User;
+import ideasw.secopre.model.security.UserAccess;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.ControllerBase;
 
 import java.security.Principal;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -67,10 +73,23 @@ public class HomeController extends ControllerBase {
 	 */
 	// Spring Security see this :
 	@RequestMapping(value = "/logout", method = RequestMethod.POST)
-	public ModelAndView logout(
-			@RequestParam(value = "logout", required = false) String logout) {
+	public ModelAndView logout(HttpServletRequest request,
+			@RequestParam(value = "logout", required = false) String logout, Principal principal) {
 		ModelAndView model = new ModelAndView();
+		String jSessionId = request.getSession().getId();
+		String ipAddress = request.getRemoteAddr();
+		User user = secopreCache.getUser(principal.getName());
+		Map<String,Object>params = new HashMap<String, Object>(0);
+		params.put("jSessionId", jSessionId);
+		params.put("remoteIP", ipAddress);
+		params.put("user", user);
 		
+		 List<UserAccess> accessList = baseService.findByProperties(UserAccess.class, params);
+		
+		for(UserAccess access: accessList){
+			access.setLogoutDate(new Date());
+			baseService.update(access);
+		}
 		model.addObject("msg", "Salió de la aplicacion Exitosamente.");
 		
 		model.setViewName(SecopreConstans.MV_LOGIN);

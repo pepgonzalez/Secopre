@@ -3,10 +3,13 @@
  */
 package ideasw.secopre.web.security;
 
+import ideasw.secopre.model.security.UserAccess;
 import ideasw.secopre.service.AccessService;
+import ideasw.secopre.service.BaseService;
 import ideasw.secopre.web.SecopreConstans;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +37,9 @@ public class AuthenticationSuccessHandler extends
 	@Autowired
 	AccessService accessService;
 
+	@Autowired
+	BaseService baseService;
+	
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request,
 			HttpServletResponse response, Authentication authentication)
@@ -49,25 +55,36 @@ public class AuthenticationSuccessHandler extends
 		if (session != null) {
 			String redirectUrl = (String) session
 					.getAttribute("url_prior_login");
+			String jSessionId = request.getSession().getId();
+			// is client behind something?
+			String ipAddress = request.getHeader("X-FORWARDED-FOR");
+			ideasw.secopre.model.security.User userInBD = accessService
+					.loadUserByUsername(user.getUsername());
+			if (ipAddress == null) {
+				ipAddress = request.getRemoteAddr();
+			}
 			if (redirectUrl != null) {
 				request.getSession().removeAttribute(
 						SecopreConstans.USER_IN_SESSION);
 
-				ideasw.secopre.model.security.User userInBD = accessService
-						.loadUserByUsername(user.getUsername());
+
 
 				logger.info("User in session: " + userInBD.getUsername());
-				String jSessionId = request.getSession().getId();
-				// is client behind something?
-				String ipAddress = request.getHeader("X-FORWARDED-FOR");
-				if (ipAddress == null) {
-					ipAddress = request.getRemoteAddr();
-				}
+
 				accessService.onLoginSuccess(user.getUsername(), jSessionId,
 						ipAddress);
 				getRedirectStrategy().sendRedirect(request, response,
 						redirectUrl);
 			} else {
+				//Generate User Access
+				UserAccess access = new UserAccess();
+				
+				access.setjSessionId(jSessionId);
+				access.setLoginDate(new Date());
+				access.setRemoteIP(ipAddress);
+				access.setUser(userInBD);
+				
+				baseService.persist(access);
 				super.onAuthenticationSuccess(request, response, authentication);
 			}
 		} else {
