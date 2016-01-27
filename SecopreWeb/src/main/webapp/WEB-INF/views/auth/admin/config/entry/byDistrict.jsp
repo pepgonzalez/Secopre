@@ -115,18 +115,18 @@
 												<th>Entidad</th>
 												<th>Distrito</th>
 												<th>Partida</th>
-												<th>Enero</th>
-												<th>Febrero</th>
-												<th>Marzo</th>
-												<th>Abril</th>
-												<th>Mayo</th>
-												<th>Junio</th>
-												<th>Julio</th>
-												<th>Agosto</th>
+												<th>--Enero--</th>
+												<th>--Febrero--</th>
+												<th>---Marzo---</th>
+												<th>---Abril---</th>
+												<th>---Mayo---</th>
+												<th>---Junio---</th>
+												<th>---Julio---</th>
+												<th>--Agosto--</th>
 												<th>Septiembre</th>
-												<th>Octubre</th>
-												<th>Noviembre</th>
-												<th>Diciembre</th>
+												<th>--Octubre--</th>
+												<th>-Noviembre-</th>
+												<th>-Diciembre-</th>
 											</tr>
 											</thead>
 											<tbody>
@@ -136,18 +136,18 @@
 														<td>${entryItem.stateName}</td>
 														<td>${entryItem.districtNumber}</td>
 														<td>${entryItem.entryCode}</td>												
-														<td>${entryItem.januaryStr}</td>
-														<td>${entryItem.februaryStr}</td>
-														<td>${entryItem.marchStr}</td>
-														<td>${entryItem.aprilStr}</td>
-														<td>${entryItem.mayStr}</td>												
-														<td>${entryItem.juneStr}</td>
-														<td>${entryItem.julyStr}</td>
-														<td>${entryItem.augustStr}</td>
-														<td>${entryItem.septemberStr}</td>
-														<td>${entryItem.octoberStr}</td>												
-														<td>${entryItem.novemberStr}</td>
-														<td>${entryItem.decemberStr}</td>													
+														<td align="right">${entryItem.januaryStr}</td>
+														<td align="right">${entryItem.februaryStr}</td>
+														<td align="right">${entryItem.marchStr}</td>
+														<td align="right">${entryItem.aprilStr}</td>
+														<td align="right">${entryItem.mayStr}</td>												
+														<td align="right">${entryItem.juneStr}</td>
+														<td align="right">${entryItem.julyStr}</td>
+														<td align="right">${entryItem.augustStr}</td>
+														<td align="right">${entryItem.septemberStr}</td>
+														<td align="right">${entryItem.octoberStr}</td>												
+														<td align="right">${entryItem.novemberStr}</td>
+														<td align="right">${entryItem.decemberStr}</td>													
 													</tr>
 
 												</c:forEach>
