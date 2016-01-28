@@ -76,7 +76,7 @@ var SecopreChat = function(config){
         if (parseInt(userId) == parseInt(contactId)){
         	console.log("error al tratar de buscar conversacion entre mismo usuario");
         }else{
-	        DB.processQuery("existConversation", [userId, contactId], function(r){
+	        DB.processQuery("existConversation", [userId, contactId, userId, contactId], function(r){
 	        	res.json(r);
 	        });
         }

@@ -189,12 +189,14 @@
 
 	<existConversation>
 		<![CDATA[
-			SELECT IFNULL( 
+			SELECT (
+		CASE WHEN ? = ? THEN -1 ELSE
+		IFNULL( 
 				(SELECT CC.CONVERSATION_ID cId
 			  	   FROM secopre.CHAT_CONVERSATION CC
 			 	  WHERE CC.USER_ID = ?
 			        AND CC.CONVERSATION_ID IN (SELECT C2.CONVERSATION_ID FROM secopre.CHAT_CONVERSATION C2 WHERE C2.USER_ID = ?)
-				), -1) cId
+				), -1)  END)
 		]]>
 	</existConversation>
 
@@ -250,5 +252,11 @@
 			SELECT * FROM secopre.NOTIFICATION
 		]]>
 	</getNewNotifications>
+	
+	<getUserConnectionStatus>
+		<![CDATA[
+			SELECT * FROM secopre.REL_USER_CONNECTION RUC WHERE RUC.USER_ID = userId
+		]]>
+	</getUserConnectionStatus>
 	
 </queries>
