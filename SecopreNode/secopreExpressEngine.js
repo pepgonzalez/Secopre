@@ -8,7 +8,7 @@ var whitelist = ['http://189.183.32.111:8888',
                  'http://localhost:8080',
                  'http://189.210.196.197:8080',
                  'http://172.17.0.51:8080',
-                 'http://www.tribunalesagrarios.gob.mx:8080'];
+                 'http://tribunalesagrarios.gob.mx:8080'];
                  
 var corsOptions = {
   origin: function(origin, callback){
