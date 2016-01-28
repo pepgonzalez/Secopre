@@ -15,6 +15,7 @@ var SecopreSocket = function(config){
 			definicion de eventos
 		-------------------------------------*/
 
+		/*se valida si el usuario esta activo en otro lado, si es asi, se plancha el socket id con el activo actualmente*/
 		
 		//evento que gestiona la desconexion del usuario
 		socket.on('disconnect', function(){
