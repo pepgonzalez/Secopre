@@ -1,8 +1,8 @@
 var socketModule = require('socket.io');
 
 var SecopreSocket = function(config){
+	
 	config = config || {};
-
 	var DB = config.db;
 	
 	var io = socketModule.listen(config.server);
@@ -15,34 +15,33 @@ var SecopreSocket = function(config){
 			definicion de eventos
 		-------------------------------------*/
 
-		//al desconectar
+		
+		//evento que gestiona la desconexion del usuario
 		socket.on('disconnect', function(){
-			console.log("usuario desconectado: " + socket.id);
+			console.log("usuario desconectado: " + data.userId);
 			//se termina la conexion
+			console.log("elimando conexion de usuario: " + data.userId);
 			DB.processQuery("finishUserConnection",[socket.id], processDesconection);
 
         	function processDesconection(r){
-
+        		console.log("notificando que se ha desconectado el user id: " + data.userId);
         		DB.processQuery("getUser", [data.userId], function(r){
 					socket.broadcast.emit('chat_user_leave', r);
 				});
         	}
-
 		});
 
+		/*-----------------------------------------------------------------------------------------------------------------------------------*/
 		/*evento y funcion para notificar cuando se creó una conversacion*/
 		function newConversationNotification(r){
 			var cId = r.cId;
 			var me = r.me;
 			var userId = r.userId;
-			console.log("nueva conversacion creada");
-			console.log("conversationid: " +cId);
-			console.log("usuario que crea:" + me);
-			console.log("usuario 2 "+ userId);
+			console.log("nueva conversacion creada: conversationId: " +cId+ ", usuario que crea:" + me+ ", usuario 2: "+ userId);
 			//preguntamos si el usuario esta activo
 			//si esta activo, le notificamos para actualice el valor del elemento en el panel de usuarios en linea
+			console.log("preguntando si el usuario esta en linea: ");
 			DB.processQuery('isUserOnline', [userId], function(r){
-				console.log(r);
 				if (r[0].active == 1){
 					console.log("uusario activo, mandando notificacion");
 					io.to(r[0].socketId).emit('complement_cId', {"cId":cId, "userId": me});
@@ -51,11 +50,14 @@ var SecopreSocket = function(config){
 		};
 
 		socket.on('new_cId', newConversationNotification);
+		
+		/*------------------------------------------------------------------------------------------------------------------------------------*/
 
 		/*funcion generica para empujar un msj al socket si esta en linea y ejecutar el callback recibido*/
 		function pushEvent(event, userId, data, callback){
 			DB.processQuery('isUserOnline', [userId], function(res){
 				if (res[0].active == 1){
+					console.log("enviando evento " + event + " a socketid: " + res[0].data);
 					io.to(res[0].socketId).emit(event, data);
 				}
 				if (typeof callback === "function") {
@@ -64,6 +66,7 @@ var SecopreSocket = function(config){
 			});
 		}
 
+		/*------------------------------------------------------------------------------------------------------------------------------------*/
 		/*evento y funcion para procesar un nuevo mensaje*/
 		function processNewMessage(data){
 			DB.processQuery("insertMessage", [data.cId, data.me, data.userId, data.msg], function(r){
@@ -76,14 +79,9 @@ var SecopreSocket = function(config){
 		}
 
 		socket.on('new_message', processNewMessage);
-
-
+		
+		/*--------------------------------------------------------------------------------------------------------------------------------------*/
 		/*funcion y evento para busqueda de usuarios*/
-
-
-		/*----------------------------------
-			fin de definicion de eventos
-		------------------------------------*/
 		function processUserSearch(data){
 			console.log(data.me);
 			console.log(data.userName);
@@ -93,14 +91,16 @@ var SecopreSocket = function(config){
 		}
 
 		socket.on('search_user', processUserSearch);
+		
+		/*--------------------------------------------------------------------------------------------------------------------------------------*/
 
-		//console.log("DATA_____________")
-		//console.log(data);
+		console.log("registrando conexion de usuario en base de datos...");
 		//se inicia la conexion
 		DB.processQuery("startUserConnection", [data.userId, socket.id], pushConnectedUsers);
 
 		function pushNewConnectedUser(userId, callback){
 			DB.processQuery("getUser", [userId], function(r){
+				console.log("enviando evento de nuevo usuario conectado: " + userId);
 				socket.broadcast.emit('chat_new_user', r);
 				callback();
 			});
@@ -124,15 +124,18 @@ var SecopreSocket = function(config){
 	});
 
 
+	/*-----------------------------------------------------------------------------------------------------------------------------------*/
+	/*
 	//funcion para hacer pooling a la base de datos en busqueda de nueva informacion
-	//setInterval(searchForNotifications, 3000);
+	setInterval(searchForNotifications, 3000);
 
 	function searchForNotifications(){
 		DB.processQuery("getNewNotifications", [], function(r){
-			console.log("buscando notificaciones");
-			//console.log(r);
+			console.log("resultados: ");
+			console.log(r);
 		});
 	}
+	*/
 }
 
 module.exports = SecopreSocket;

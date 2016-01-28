@@ -1,6 +1,5 @@
 var mysql     =    require('mysql');
 
-
 var DBPool =  mysql.createPool({
         connectionLimit : 100,
         host     : '172.17.0.50',
@@ -11,19 +10,7 @@ var DBPool =  mysql.createPool({
         multipleStatements: true
     });
 
-/*
-var DBPool =  mysql.createPool({
-        connectionLimit : 100,
-        host     : '127.0.0.1',
-        user     : 'secopre',
-        password : 'secopre',
-        database : 'secopre',
-        debug    :  false,
-        multipleStatements: true
-    });
-*/
 var Q = require('./SQLManager');
-
 var QueryManager = new Q();
 QueryManager.loadQueries(function(r){
     QueryManager.q = r;
@@ -34,47 +21,51 @@ var DBManager = function(config){
 
 	this.processQuery = function(key, params, callback){
 
+		console.log("ejecutando consulta: " + key + ", con parametros: " + params);
+		
         //se obtiene una conneccion del pool de conexiones
         DBPool.getConnection(function(error, connection){
             //si error, logueo y trueno
             if(error){
-                //console.log("Error de al obtener la conexion: " + error);
+                console.log("Error de al obtener la conexion de base de datos: " + error);
                 connection.release();
                 return;
             }
 
             var q = QueryManager.getQuery(key);
-            //si todo ok, tiro mi query
             connection.query(q, params, function(error, resultado){
                 connection.release();
                 if(error){
-                    //console.log("Error al consultar el query: " + q );
-                    //console.log("ERROR: " + error);
+                    console.log("Error al realizar la consulta: " + q +": " + error);
                     return;
                 }
-                //ejecutamos el callback con el
+                //ejecutamos el callback con el resultado
+                console.log("ejecucion correcta, ejecutando callback con resultado");
                 callback(resultado);
             });
         });
 	};
 
     this.processMultipleQuery = function (key, params, aditionalParams, callback){
+        console.log("ejecutando consulta multiple: " + key + ", con parametros: " + params + " y parametros adicionales: " + aditionalParams);
+    	
+        console.log("obteniendo conexion de base de datos");
+    	
         DBPool.getConnection(function (error, connection){
-            if (error){
-                connection.release();
-                //console.log("Error al obtener la connexion");
-                callback({});
-            }
-            var q = QueryManager.getQuery(key);
-
             
+        	//se valida se pudo obtener la conexion a la base de datos
+    		if (error){
+                connection.release();
+                console.log("Error al obtener la connexion de base de datos");
+                return;
+            }
+            
+            var q = QueryManager.getQuery(key);
             var data = {};
             var d2 = [];
             
-
             var clients = params.length;
-
-            //console.log("usuarios conectados: " + clients);
+            console.log("total de sockets conectados: " + clients);
 
             for (var i = 0; i < params.length; i ++){
 
@@ -82,29 +73,12 @@ var DBManager = function(config){
 
                 function getParams(a, b){
                     var array = [];
-                    
-                    /*
-                    array.push(a);
-                    for (var m=0; m < b.length; m++){
-                        array.push(b[i]);
-                    }*/
                     array.push(b[0]);
                     array.push(a);
                     array.push(b[1]);
                     return array;
                 }
-
-                var p = getParams(param, aditionalParams);
-                //console.log("parametros de consulta");
-                //console.log(p);
-                connection.query(q, p, function(error, resultado){
-                    if (error){
-                        //console.log("error de consulta en query: " + error);
-                        callback({});
-                    }
-                    _cb(resultado);
-                });
-
+                
                 function _cb(r){
                     if(r.length > 0){
                         d2.push(r[0]);
@@ -113,6 +87,17 @@ var DBManager = function(config){
                         callback(d2);
                     }
                 }
+
+                var p = getParams(param, aditionalParams);
+                console.log("parametros de consulta de query : "  + key);
+                console.log(p);
+                connection.query(q, p, function(error, resultado){
+                    if (error){
+                        console.log("error de consulta en query: " + q + ": " + error);
+                        //callback({});
+                    }
+                    _cb(resultado);
+                });
             }
         });
     };
