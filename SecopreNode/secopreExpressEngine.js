@@ -73,13 +73,9 @@ var SecopreChat = function(config){
     this.expressServer.get('/v1/chat/getConversationId/:userId/:contactId', function(req, res){
         var userId = req.params.userId;
         var contactId = req.params.contactId;
-        if (parseInt(userId) == parseInt(contactId)){
-        	console.log("error al tratar de buscar conversacion entre mismo usuario");
-        }else{
-	        DB.processQuery("existConversation", [userId, contactId, userId, contactId], function(r){
+            DB.processQuery("existConversation", [userId, contactId, userId, contactId], function(r){
 	        	res.json(r);
 	        });
-        }
     });  
 
     /*proceso para crear un registro en la tabla de conversaciones*/
