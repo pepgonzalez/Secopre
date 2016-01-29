@@ -253,12 +253,22 @@ public class WorkFlowController extends AuthController {
 		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
 		
 		try{
+			//se valida si la cuenta por certificar ya esta capturada para el distrito
+			Request baseRequest = accessNativeService.getRequestById(requestForm.getRequestId());
+			boolean existsAccuountInDistrict = accessNativeService.existCeritifiedAccountInDistrict(baseRequest.getDistrictId(), requestForm.getCertifiedAccount(), requestForm.getRequestId());
+			
+			if(existsAccuountInDistrict){
+				throw new EntryDistrictException("La cuenta certificada capturada ( " + requestForm.getCertifiedAccount() + ") ya fue capturada para este distrito. Verifique");
+			}
+			
 			requestForm = accessNativeService.insertOrUpdateRequestData(requestForm);
 			//se actualiza la informacion de guardado parcial
 			movementsService.savePartialRequest(requestForm);
 			
 			//valida los movimientos (al menos uno y totales compensado)
 			movementsService.isValidMovement(requestForm.getRequestId(), requestForm.getMovementTypeId());
+
+			
 			
 			//si es valido el movimiento, pasar a tabla de datalle y comprometer segun sea el caso
 			accessNativeService.insertOrUpdateRequestDetail(requestForm);

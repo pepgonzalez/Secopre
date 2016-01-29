@@ -1369,6 +1369,15 @@
 					]]>
 				</prop>
 														
+				<prop key="EXIST_CERTIFIED_ACCOUNT_IN_DISTRICT">
+					<![CDATA[
+						select COUNT(*) AS EXISTE 
+						  FROM secopre.REQUEST R 
+						 WHERE R.DISTRICT_ID = :districtId 
+						   AND R.CERTIFIED_ACCOUNT = :account
+						   AND R.ID <> :me
+					]]>
+				</prop>
 						
 			</props>	
 			

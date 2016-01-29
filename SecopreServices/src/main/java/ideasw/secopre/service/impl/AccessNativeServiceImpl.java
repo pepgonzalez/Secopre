@@ -1164,6 +1164,11 @@ private void insertMasiveMovements(List<Movement> list, Request request) throws 
 		return this.queryForObject(Integer.class, queryContainer.getSQL(SQLConstants.IS_VALID_DATE_FOR_CAPTURE), params) > 0;			
 	}
 	
+	public boolean existCeritifiedAccountInDistrict(Long districtId, String account, Long requestId){
+		SqlParameterSource params = new MapSqlParameterSource().addValue("districtId", districtId).addValue("account", account).addValue("me", requestId);
+		return this.queryForObject(Integer.class, queryContainer.getSQL(SQLConstants.EXIST_CERTIFIED_ACCOUNT_IN_DISTRICT), params) > 0;			
+	}
+	
 	private int getActiveRequestInCapture(Long userId){
 		LOG.info("Buscando tramites en etapas de captura para el usuario: " + userId);
 		SqlParameterSource params = new MapSqlParameterSource().addValue("userId", userId);
