@@ -2166,24 +2166,6 @@ function initPersonValidations() {
 }
 
 function initMyTramiteListPage(){
-	var formalityDatatable = $('#formalityList').DataTable({
-        "language": {
-            "lengthMenu": "_MENU_ Registros por pagina",
-            "zeroRecords": "No existen registros",
-            "info": "Mostrando pagina _PAGE_ de _PAGES_",
-            "infoEmpty": "No hay registros disponibles",
-            "infoFiltered": "(filtered from _MAX_ total records)"
-        },
-        bFilter: true, bInfo: true, bLengthChange:false, ordering:true,
-        "order": [[ 0, "desc" ]],
-        "columnDefs": [
-           {
-               "targets": [ 0 ],
-               "visible": false
-           },
-           { "sClass": "right", "aTargets": [ 5 ] }
-       ]
-    });
 	
 	$(document).find(".tooltip-control").each(function(){
 		$(this).qtip({
@@ -2203,6 +2185,25 @@ function initMyTramiteListPage(){
 		     }
 		});
 	});
+	
+	var formalityDatatable = $('#formalityList').DataTable({
+        "language": {
+            "lengthMenu": "_MENU_ Registros por pagina",
+            "zeroRecords": "No existen registros",
+            "info": "Mostrando pagina _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay registros disponibles",
+            "infoFiltered": "(filtered from _MAX_ total records)"
+        },
+        bFilter: true, bInfo: true, bLengthChange:false, ordering:true,
+        "order": [[ 0, "desc" ]],
+        "columnDefs": [
+           {
+               "targets": [ 0 ],
+               "visible": false
+           },
+           { "sClass": "right", "aTargets": [ 5 ] }
+       ]
+    });
 	
 	// Filtro de datatable por fecha
 	$(document).find('#formalityDateSearch').on( 'keyup', function () {
@@ -2236,6 +2237,26 @@ function initTramiteListPage() {
 		});
 	}
 	
+	//tooltip
+	$(document).find(".tooltip-control").each(function(){
+		$(this).qtip({
+			 content: {
+				 text: $(this).next(".tooltip-popup")
+		     },
+		     position:{
+		    	 my: 'top right',
+		         at: 'bottom left'
+		     },
+		     hide: {
+	           fixed: true,
+	           delay: 400
+	         },
+		     style: {
+		    	 classes: "ui-tooltip-shadow"
+		     }
+		});
+	});
+	
 	var formalityDatatable = $('#formalityList').DataTable({
         "language": {
             "lengthMenu": "_MENU_ Registros por pagina",
@@ -2264,26 +2285,6 @@ function initTramiteListPage() {
 	});
 	
 	$(document).find(".dataTables_filter").hide();
-	
-	//tooltip
-	$(document).find(".tooltip-control").each(function(){
-		$(this).qtip({
-			 content: {
-				 text: $(this).next(".tooltip-popup")
-		     },
-		     position:{
-		    	 my: 'top right',
-		         at: 'bottom left'
-		     },
-		     hide: {
-	           fixed: true,
-	           delay: 400
-	         },
-		     style: {
-		    	 classes: "ui-tooltip-shadow"
-		     }
-		});
-	});
 	
 	updateMenu("#formalityMenu");
 }
