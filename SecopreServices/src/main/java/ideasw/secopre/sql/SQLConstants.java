@@ -16,6 +16,7 @@ public class SQLConstants {
 	public static final String INSERT_REQUEST_HISTORY = "INSERT_REQUEST_HISTORY";
 	public static final String GET_FORMALITY_INBOX = "GET_FORMALITY_INBOX";
 	public static final String GET_MY_FORMALITY_INBOX = "GET_MY_FORMALITY_INBOX";
+	public static final String GET_MY_FORMALITY_INBOX_2 = "GET_MY_FORMALITY_INBOX_2";
 	public static final String GET_REQUEST_WORKFLOW_CONFIG = "GET_REQUEST_WORKFLOW_CONFIG";
 	public static final String INACTIVATE_ACTIVE_STAGE = "INACTIVATE_ACTIVE_STAGE";
 	public static final String GET_REQUEST_BY_ID = "GET_REQUEST_BY_ID";
