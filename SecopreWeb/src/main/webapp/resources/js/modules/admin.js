@@ -2788,3 +2788,48 @@ function exportToExcel(id, callback){
 	callback();
 	
 }
+
+
+function initFinish() {
+	
+	var formalityId = $(document).find("#formalityId").val();
+	
+	$(document).find("input").attr("readonly","true").prop("disabled",true);
+	$(document).find("select").attr("readonly","true").prop("disabled",true);
+
+	if(parseInt(formalityId) != 4){
+		movementController2.startComponent();
+		movementController2.update(parseInt($("#movementTypeId").val()));
+	}
+
+	$(document).find("[data-name='sliderControl']").hide();
+	$(document).find("[data-name='deleteAction']").html("");
+	$(document).find("[data-name='monthLabels']").attr("colspan","2");
+	
+	var tipoMov = parseInt($(document).find("#movementTypeId").val());
+		
+	if(tipoMov == 1){
+		$("#substractComponent").hide();
+	}
+	if(tipoMov == 2){
+		$("#addComponent").hide();
+	}
+	
+	if(parseInt(formalityId) == 4){
+		$(document).find("#backToCapture").hide();
+	}
+	
+	if($(document).find("#accountingType").length > 0){
+		var type = $(document).find("#accountingType").val();
+		if(type == "CONCEPTO"){
+			$(document).find("#conceptOptions").hide();
+		}
+	}
+	
+	if(parseInt(formalityId) == 2){
+		$("#substractComponent").show();
+	}
+	
+	$(document).find(".authorizationButtonContainer").hide();
+	$(document).find(".addButton").hide();
+}

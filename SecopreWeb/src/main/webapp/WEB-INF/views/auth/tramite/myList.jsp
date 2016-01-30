@@ -66,7 +66,18 @@
 										<td>${inboxItem.formalityDescription}</td>
 										<td>${inboxItem.totalAmountStr}</td>
 										<td>${inboxItem.creationDateStr}</td>
-										<td>${inboxItem.nextDescription}</td>
+										
+										<td>
+											<c:if test="${inboxItem.requestFinished == true}">
+												<a href="#" onclick="sendRequestJQ('${inboxItem.nextStageURL}','dashboard','${inboxItem.nextStageJSFunction}','GET');">
+													${inboxItem.nextDescription}
+												</a>
+											</c:if>
+											<c:if test="${inboxItem.requestFinished == false}">
+												${inboxItem.nextDescription}
+											</c:if>
+										</td>
+										
 										<td>
 											
 											<a href="javascript:;" class="btn btn-xs tooltip-control"><i class="fa fa-folder-open"></i></a>
@@ -93,6 +104,15 @@
 																	<td>
 																		<a href="#" onclick="openResourceNative('wf/download/format/${inboxItem.requestId}','dashboard','()','GET');">
 																			Descargar Formato
+																		</a>
+																	</td>
+																</tr>
+															</c:if>
+															<c:if test="${inboxItem.hasDocument}">
+																<tr>
+																	<td>
+																		<a href="#" onclick="openResourceNative('wf/download/${inboxItem.requestId}','dashboard','()','GET');">
+																			Ver documento anexo
 																		</a>
 																	</td>
 																</tr>

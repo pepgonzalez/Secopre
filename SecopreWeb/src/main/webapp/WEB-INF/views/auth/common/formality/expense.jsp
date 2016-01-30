@@ -4,7 +4,7 @@
 
 <!-- captura de clave de partida -->
 <div class="form-group form-md-line-input">
-	<label class="col-md-2 control-label" for="formalityId">Cuenta por liquidar Certificada:</label>
+	<label class="col-md-2 control-label" for="certifiedAccountId">Cuenta por liquidar Certificada:</label>
 	<div class="col-md-4">
 			<form:input path="certifiedAccount" id="certifiedAccountId" class="form-control"></form:input>
 			<div class="form-control-focus"></div>
@@ -16,7 +16,7 @@
 
 <!-- captura de clave de partida -->
 <div class="form-group form-md-line-input">
-	<label class="col-md-2 control-label" for="formalityId">Descripción:</label>
+	<label class="col-md-2 control-label" for="expenseDescriptionId">Descripción:</label>
 	<div class="col-md-10">
 			<form:input path="expenseDescription" id="expenseDescriptionId" class="form-control"></form:input>
 			<div class="form-control-focus"></div>

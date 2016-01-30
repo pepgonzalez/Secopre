@@ -496,6 +496,59 @@ public class WorkFlowController extends AuthController {
 
 		return SecopreConstans.MV_TRAM_AUTH;
 	}
+	
+	
+	/*
+	 * Metodo para mostrar la autorizacion del folio correspondiente a la siguiente etapa
+	 * param requestId		- Folio en cuestion
+	 * param stageConfigId	- Etapa de autorizacion actual
+	 * */
+	@RequestMapping(value = "wf/finish/{requestId}/{stageConfigId}/{ijs}", method = { RequestMethod.GET })
+	public String showRequestDetail(@PathVariable("requestId") Long requestId, 
+			@PathVariable("stageConfigId") Long stageConfigId, 
+			@PathVariable("ijs") int ijs, ModelMap model, RedirectAttributes attributes, Principal principal) {
+
+		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
+
+		Request requestForm = accessNativeService.getRequestAndDetailById(requestId);
+		if(requestForm.getEntryId() != null && requestForm.getEntryId() > 0){
+			Entry e = baseService.findById(Entry.class, requestForm.getEntryId());
+			if(e.getConcept() != null){
+				e.setConcept(baseService.findById(Entry.class, e.getConcept().getId()));
+			}
+			e.setProgrammaticKey(baseService.findById(ProgrammaticKey.class, e.getProgrammaticKey().getId()));
+			requestForm.setEntry(e);
+		}
+		requestForm.setStageConfigId(stageConfigId);
+		requestForm.setAuthorizationForm(true);
+		
+		LOG.info("Request: " + requestForm);
+
+		// se obtienen valores de authorizacion
+		Authorization authorization = accessNativeService.getAuthorization(requestForm, loggedUser);
+		
+		//informacion requerida en tramite de partidas
+		Map<String, String> accountingType = new HashMap<String, String>();
+		for (AccountingType account : AccountingType.values()){
+			accountingType.put(account.name(), account.name());
+		}
+		
+		List<Entry> concepts = accessNativeService.getConceptsMap();
+		
+		model.addAttribute("conceptsList", concepts);
+		model.addAttribute("accountingTypes", accountingType);
+		model.addAttribute("programaticKeysFull", accessNativeService.getProgramaticKeysFullMap());
+
+		model.addAttribute("movementTypes", accessNativeService.getMovementTypesMap());
+		model.addAttribute("programaticKeys", accessNativeService.getProgramaticKeysMap());
+		model.addAttribute("entries", accessNativeService.getEntriesMap(-1L));
+		model.addAttribute("months", accessNativeService.getMonthsMap());
+		model.addAttribute("requestForm", requestForm);
+		model.addAttribute("authorization", authorization);
+		model.addAttribute("folio", requestForm.getFolio());
+
+		return SecopreConstans.MV_TRAM_AUTH;
+	}
 
 	/*
 	 * Metodo para avanzar la etapa correspondiente guardando los comentarios de authorizacion

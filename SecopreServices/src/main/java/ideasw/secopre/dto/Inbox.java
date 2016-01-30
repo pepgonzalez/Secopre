@@ -163,7 +163,13 @@ public class Inbox {
 	}
 	
 	public String getNextStageJSFunction(){
-		return (this.isAuthorization ? "initAuthorization()" : (this.isCapture ?  this.captureForm + "Capture()" : (this.captureForm != null && this.captureForm.equals("upload") ? "initUpload()" : "()")));
+		return (this.isAuthorization ? "initAuthorization()" : 
+					(this.isCapture ?  this.captureForm + "Capture()" : 
+						(this.captureForm != null && this.captureForm.equals("upload") ? "initUpload()" :
+							(this.requestFinished ? "initFinish()" : "()")
+						)
+					)
+				);
 	}
 
 	public boolean getHasDocument() {
