@@ -138,6 +138,41 @@ var expenseController = {
 				self.addOnChangeEvent(self, grid, idx, "entryId",false);	
 				self.updateAmounts(self, grid, idx, "monthAmount");
 				
+				$(grid).find("[data-name='programaticKey'] select").each(function() {
+					var currentSelect = $(this);
+					currentSelect.qtip({
+						content : {
+							text : function(event,api) {
+
+								var header = $("meta[name='_csrf_header']").attr("content");
+								var token = $("meta[name='_csrf']").attr("content");
+								$.ajax({
+									url : 'wf/pk/' + currentSelect.val(),
+									beforeSend : function(xhr) {
+										xhr.setRequestHeader(header,token);
+									},
+									success : function(data) {
+										api.set('content.text',data);
+									}
+								});
+
+								return '<div class="tooltip-popup" style="display:block;"><div class="qtip-titlebar"><div id="qtip-{id}-title" class="qtip-title">Cargando...</div></div></div>';
+							},
+							position : {
+								my : 'top left',
+								at : 'bottom right'
+							},
+							hide : {
+								fixed : true,
+								delay : 400
+							},
+							style : {
+								classes : "ui-tooltip-shadow"
+							}
+						}
+					});
+				});
+				
 			});
 			
 			self.updateTotal(self, grid);
@@ -223,6 +258,43 @@ var expenseController = {
 		.attr("id", self.getId(grid, nextIndex, "totalAmount", 2)).attr("value","0");
 				
 		grd.find("tbody").append(e);
+		
+		grd.find('tbody').find('tr').each(function() {
+
+			$(this).find("[data-name='programaticKey'] select").each(function() {
+				var currentSelect = $(this);
+				currentSelect.qtip({
+					content : {
+						text : function(event,api) {
+							var header = $("meta[name='_csrf_header']").attr("content");
+							var token = $("meta[name='_csrf']").attr("content");
+							$.ajax({
+								url : 'wf/pk/'+ currentSelect.val(),
+								beforeSend : function(xhr) {
+									xhr.setRequestHeader(header,token);
+								},
+								success : function(data) {
+									api.set('content.text',data);
+								}
+							});
+
+							return '<div class="tooltip-popup" style="display:block;"><div class="qtip-titlebar"><div id="qtip-{id}-title" class="qtip-title">Cargando...</div></div></div>';
+						},
+						position : {
+							my : 'top left',
+							at : 'bottom right'
+						},
+						hide : {
+							fixed : true,
+							delay : 400
+						},
+						style : {
+							classes : "ui-tooltip-shadow"
+						}
+					}
+				});
+			});
+		});
 		
 		//self.startSlider(self, nextIndex, parseInt(new Date().getMonth()), grid);
 		self.addOnChangeEvent(self, grid, nextIndex,"programaticKeyId",true);
@@ -479,7 +551,43 @@ var expenseController = {
 			
 			var currentEntries = self.getCurrentEntries(grid, indice);
 			
+			var currentSelect = $(this);
+
 			if(ajaxCall){
+				
+				currentSelect.qtip("destroy");
+
+				currentSelect.qtip({
+					content : {
+						text : function(event, api) {
+
+							var header = $("meta[name='_csrf_header']").attr("content");
+							var token = $("meta[name='_csrf']").attr("content");
+							$.ajax({
+								url : 'wf/pk/'+ currentSelect.val(),
+								beforeSend : function(xhr) {
+									xhr.setRequestHeader(header,token);
+								},
+								success : function(data) {
+									api.set('content.text',data);
+								}
+							});	
+
+							return '<div class="tooltip-popup" style="display:block;"><div class="qtip-titlebar"><div id="qtip-{id}-title" class="qtip-title">Cargando...</div></div></div>';
+						},
+						position : {
+							my : 'top left',
+							at : 'bottom right'
+						},
+						hide : {
+							fixed : true,
+							delay : 400
+						},
+						style : {
+							classes : "ui-tooltip-shadow"
+						}
+					}
+				});
 				
 				//preguntamos el id del distrito
 				var districtId = $("#districtId").val();

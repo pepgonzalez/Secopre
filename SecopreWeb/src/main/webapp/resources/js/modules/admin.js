@@ -2575,42 +2575,12 @@ function initAuthorization() {
 
 
 function expenseCapture() {
-
-	// var movementController = {};
 	
-	expenseController.startComponent();
-	
+	expenseController.startComponent();	
 	$(expenseController.downGrid).find("#saveMov").hide();
 	
-	//movementController2.startComponent();	
-	// se carga el movimiento seleccionado
-	// expenseController.update(parseInt($("#movementTypeId").val()));
-
 	var requestForm = $('#requestForm');
-
-	/*
-	$(document).find('#partialSave').on("click", function(e) {
-		alert("haciendo guardado parcial");
-		var isCorrect = expenseController.validate();
-		if (isCorrect){
-			requestForm.find('#nextStageValueCode').val("SOLPEND");
-			submitAjaxJQ('requestForm', 'dashboard', '');
-		}
-	});
-	*/
-
-	/*
-	$(document).find('#saveAndContinue').on("click", function(e) {
-		//alert("finalizando captura");
-		//var isCorrect = expenseController.validate();
-		if (isCorrect){
-			requestForm.find('#nextStageValueCode').val("SOLCOMP");
-			submitAjaxJQ('requestForm', 'dashboard', '');
-		}
-	});
-	*/
 	
-
 	$('#saveAndContinue').click(function(e) {
 		
 		var clave = $(document).find("#certifiedAccountId").val();
