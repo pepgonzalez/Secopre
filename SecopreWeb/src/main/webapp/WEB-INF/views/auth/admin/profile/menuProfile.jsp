@@ -4,7 +4,7 @@
 							<!-- SIDEBAR USERPIC -->
 							<div class="profile-userpic">
 <!-- 								<img alt="" class="img-responsive" src="../../assets/admin/pages/media/profile/profile_user.jpg"> -->
-								<img id="loggedUserAvatar" alt="" class="img-responsive" src='<c:url value="/resources/img/users/${loggedUser.avatar}"/>' />
+								<img id="loggedUserAvatar" alt="" class="img-responsive" src='<c:url value="${avatar}"/>' />
 							</div>
 							<!-- END SIDEBAR USERPIC -->
 							<!-- SIDEBAR USER TITLE -->

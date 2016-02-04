@@ -586,14 +586,21 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		int month = cal.get(Calendar.MONTH);
-		filter.setMonths(new Integer[] { month });
+		if(month == Calendar.JANUARY){
+			LOG.info("Error al calendarizar los saldos, en el mes de Enero no se puede realizar una calendarizacion de saldos");
+			throw new EntryDistrictException(
+					"Error al calendarizar los saldos, en el mes de Enero no se puede realizar una calendarizacion de saldos");			
+		}
+		
+		month = month - 1;
+		filter.setMonths(new Integer[] { month});
 
 		// Lanza error de que no se pueden calendarizar saldos
-		if (month == Calendar.DECEMBER) {
-			LOG.info("Error al calendarizar los saldos, en el mes de diciembre no se puede realizar una calendarizacion de saldos");
-			throw new EntryDistrictException(
-					"Error al calendarizar los saldos, en el mes de diciembre no se puede realizar una calendarizacion de saldos");
-		}
+//		if (month == Calendar.DECEMBER) {
+//			LOG.info("Error al calendarizar los saldos, en el mes de diciembre no se puede realizar una calendarizacion de saldos");
+//			throw new EntryDistrictException(
+//					"Error al calendarizar los saldos, en el mes de diciembre no se puede realizar una calendarizacion de saldos");
+//		}
 
 		EntryBalance balance = getEntryBalance(filter, StatusEntry.ACTIVE);
 
@@ -605,7 +612,7 @@ public class EntryConfigServiceImpl extends AccessNativeServiceBaseImpl
 							.moveBugdetAmountToNextMonth(
 									detail.getDistrictId(),
 									detail.getEntryId(), Long.valueOf(month));
-					LOG.error(success
+					LOG.info(success
 							+ " al calenzarizar el saldo de: Distrito => "
 							+ detail.getDistrictNumber() + "Partida =>"
 							+ detail.getEntryCode());

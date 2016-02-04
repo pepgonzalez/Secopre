@@ -44,6 +44,11 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	<!-- Definicion de listener -->
+<!-- 	<servlet-mapping> -->
+<!-- 		<servlet-name>FileServlet</servlet-name> -->
+<!-- 		<url-pattern>/file/*</url-pattern> -->
+<!-- 	</servlet-mapping> -->
+
 
 	<!-- listener inicializador del framework -->
 	<listener>
@@ -78,18 +83,5 @@
 		<welcome-file>views/secure/common/test.jsp</welcome-file>
 	</welcome-file-list>
 
-<!-- SOLO PARA JETTY SERVER -->
-<!-- 	<resource-ref> -->
-<!-- 		<description>Secopre Data Source</description> -->
-<!-- 		<res-ref-name>jdbc/dssecopre</res-ref-name> -->
-<!-- 		<res-type>javax.sql.DataSource</res-type> -->
-<!-- 		<res-auth>Container</res-auth> -->
-<!-- 	</resource-ref> -->
 
-<!-- 	<resource-ref> -->
-<!-- 		<description>Historico Data Source</description> -->
-<!-- 		<res-ref-name>jdbc/dstsadbitntst</res-ref-name> -->
-<!-- 		<res-type>javax.sql.DataSource</res-type> -->
-<!-- 		<res-auth>Container</res-auth> -->
-<!-- 	</resource-ref> -->
 </web-app>
