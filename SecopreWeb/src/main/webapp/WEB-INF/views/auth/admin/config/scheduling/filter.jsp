@@ -13,7 +13,9 @@
 						</div>
 						<div class="portlet-body form">
 							<!-- formulario -->	
+							<!--  
 							<form:form action="auth/cfg/entry/search" class="form-horizontal" id="submit_form"  modelAttribute="entryFilter" method="GET"  novalidate="novalidate">
+							-->
 								<div class="row">
 									<div class="col-md-6">
 										<label class="col-md-2 control-label" for="stateId" style="text-align:left;">Entidad</label>
@@ -41,8 +43,10 @@
 											<a id="shcedulingAction" class="btn blue">Calendarizar</a>
 										</div>
 									</div>
-								</div>				
+								</div>
+							 <!-- 				
 							 </form:form>
+							  -->
 						</div>
 													
 					</div>			
