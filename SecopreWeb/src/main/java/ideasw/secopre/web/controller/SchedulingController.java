@@ -50,7 +50,7 @@ public class SchedulingController extends AuthController {
 			return SecopreConstans.MV_ADM_SCHEDULING_REDIRECT;
 			
 		}
-		entryFilter.setType(Boolean.FALSE);
+		entryFilter.setType(Boolean.TRUE);
 		try {
 			entryConfigService.schedulingBalance(entryFilter);
 		} catch (Exception ex) {
