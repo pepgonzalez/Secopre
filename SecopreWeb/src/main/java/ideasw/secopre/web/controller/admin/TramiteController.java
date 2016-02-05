@@ -40,7 +40,6 @@ public class TramiteController extends AuthController {
 	@RequestMapping(value = "tram/add", method = { RequestMethod.GET })
 	public String showFormalityForm(ModelMap model, RedirectAttributes attributes,  Principal principal) {
 		
-		System.out.println("showFormalityForm");
 		
 		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
 		

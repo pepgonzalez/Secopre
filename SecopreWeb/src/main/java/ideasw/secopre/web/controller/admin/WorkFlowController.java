@@ -703,9 +703,7 @@ public class WorkFlowController extends AuthController {
 	    try {
 	      
 	    	String REPORT_TYPE_DOWNLOAD = "application/x-download";
-	    	
-	    	System.out.println("Descargando archivo: " + propertyCode);
-	    	
+	    		    	
 	    	Property p = accessNativeService.getPropertyByCode(propertyCode);
 	    	
 		  	File f = new File(p.getDescription());
@@ -757,7 +755,6 @@ public class WorkFlowController extends AuthController {
 			default:
 				contentType = REPORT_TYPE_DOWNLOAD;
 		}
-		System.out.println("contentType: " + contentType);
 		return contentType;
 	}
 	
