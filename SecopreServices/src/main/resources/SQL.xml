@@ -1274,10 +1274,23 @@
 				
 				<prop key="GET_LIST_DIRECTORS">
 					<![CDATA[
-                          SELECT U.ID,U.ACTIVE,AVATAR, EMAIL, HAS_CHAT_ACTIVE, NICKNAME, PASSWORD,USERNAME, DASHBOARD_ID, PERSON_ID
-                           FROM USER U, POSITION P
-                          WHERE U.POSITION_ID = P.ID
-                            AND ES_DIRECTOR IN (1,2,3)
+						   SELECT U.ID,U.ACTIVE,AVATAR, EMAIL, HAS_CHAT_ACTIVE, 
+							          NICKNAME, PASSWORD,USERNAME, DASHBOARD_ID, PERSON_ID, 
+							          P.DESCRIPTION,P.id POSITION_ID, P.NAME PUESTO_DESCRIPCION,
+							          PERSON.FATHER_LASTNAME, PERSON.MOTHER_LASTNAME, PERSON.NAME
+							     FROM USER U, 
+					                          POSITION P,
+					                          PERSON PERSON
+							    WHERE U.POSITION_ID = P.ID
+					                      AND PERSON.ID = PERSON_ID
+							      AND ES_DIRECTOR IN (1,2,3,4,5)
+							      AND U.ID NOT IN
+										      (
+										       SELECT USER_ID 
+										   FROM DIRECTOR
+										  WHERE ACTIVE = 1
+										  )
+							 ORDER BY P.DESCRIPTION
 					]]>
 				</prop>
 				

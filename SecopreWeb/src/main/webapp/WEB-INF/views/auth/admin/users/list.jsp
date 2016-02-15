@@ -90,9 +90,9 @@
 										 <i class="fa fa-edit xs"></i>
 										</button>
 										
-										<button id="btndelete"  type="button" class="btn delete btn-danger btn-xs" onclick="borrarRegistro('auth/adm/usr/delete?id=${userItem.id}','dashboard','initUserList()');"   >
-										<i class="fa fa-trash"></i> 
-										</button>
+<%-- 										<button id="btndelete"  type="button" class="btn delete btn-danger btn-xs" onclick="borrarRegistro('auth/adm/usr/delete?id=${userItem.id}','dashboard','initUserList()');"   > --%>
+<!-- 										<i class="fa fa-trash"></i>  -->
+<!-- 										</button> -->
 
 									    <c:choose>
 									       <c:when test="${userItem.active}">

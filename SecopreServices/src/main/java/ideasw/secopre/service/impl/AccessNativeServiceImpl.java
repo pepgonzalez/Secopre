@@ -23,6 +23,7 @@ import ideasw.secopre.enums.Month;
 import ideasw.secopre.enums.StatusEntry;
 import ideasw.secopre.enums.WorkFlowCode;
 import ideasw.secopre.exception.EntryDistrictException;
+import ideasw.secopre.model.Director;
 import ideasw.secopre.model.DueDate;
 import ideasw.secopre.model.Entry;
 import ideasw.secopre.model.EntryDistrict;
@@ -34,6 +35,7 @@ import ideasw.secopre.model.security.Role;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.AccessNativeService;
 import ideasw.secopre.service.BaseService;
+import ideasw.secopre.service.impl.mapper.DirectorMapper;
 import ideasw.secopre.service.impl.mapper.DistrictMapper;
 import ideasw.secopre.service.impl.mapper.EntryComparator;
 import ideasw.secopre.service.impl.mapper.EntryCurrentTotalMapper;
@@ -1299,8 +1301,8 @@ private void insertMasiveMovements(List<Movement> list, Request request) throws 
 	}
 	
 	@Override
-	public List<User> getDirectors() {
-        return this.queryForList(User.class, queryContainer.getSQL(SQLConstants.GET_LIST_DIRECTORS), null, new UserMapper());
+	public List<Director> getDirectors() {
+        return this.queryForList(Director.class, queryContainer.getSQL(SQLConstants.GET_LIST_DIRECTORS), null, new DirectorMapper());
 	}
 	
 	@Override

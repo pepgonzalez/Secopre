@@ -37,30 +37,32 @@ public class DirectorController extends AuthController {
 		model.addAttribute("director", director);
 		
 		model.addAttribute("directores", accessNativeService.getDirectors());
-		String position = null;
-		List<User> userList = accessNativeService.getDirectors();
+		List<Director> userList = accessNativeService.getDirectors();
 		
 		//Lista de Personas
 		HashMap<Long, String> directorMap = new HashMap<Long, String>();
-		for (User user : userList) {
-			User fullUser = baseService.findById(User.class , user.getId());	
-			position = fullUser.getPosition().getDescription();
+		
+		for (Director dir : userList) {
 			
-			Person person = new Person();
-			person = baseService.findById(Person.class, user.getPerson().getId());
-			if (position != null)
+			if (dir.getUser().getPerson().getSecondName()!=null)
 			{
-			directorMap.put(user.getId() ,person.getName().concat(" ").concat(person.getSecondName().concat(" ").
-					concat(person.getFatherLastName().concat(" ").concat(person.getMotherLastName().concat(" - ").concat(position) ))) );
+            directorMap.put(dir.getUser().getId() , dir.getUser().getPerson().getName().concat(" ").
+            		    concat(dir.getUser().getPerson().getSecondName().concat(" ").
+						concat(dir.getUser().getPerson().getFatherLastName().concat(" ").
+						concat(dir.getUser().getPerson().getMotherLastName().concat(" - ").		
+						concat(dir.getUser().getPosition().getName()) )))) ;
 			}
 			else
 			{
-				directorMap.put(user.getId() ,person.getName().concat(" ").concat(person.getSecondName().concat(" ").
-						concat(person.getFatherLastName().concat(" ").concat(person.getMotherLastName() ))) );	
+	        directorMap.put(dir.getUser().getId() , dir.getUser().getPerson().getName().concat(" ").
+						concat(dir.getUser().getPerson().getFatherLastName().concat(" ").
+						concat(dir.getUser().getPerson().getMotherLastName().concat(" - ").		
+						concat(dir.getUser().getPosition().getName()) ))) ;
 			}
-		}
-		model.addAttribute("directors", directorMap);
+			
+			}
 		
+		model.addAttribute("directors", directorMap);
 		
 		return SecopreConstans.MV_CAT_DIRECTOR;
 	}
@@ -102,14 +104,42 @@ public class DirectorController extends AuthController {
 		
 		Director director = baseService.findById(Director.class, id);
 		model.addAttribute("director", director);
-		List<User> userList = accessNativeService.getDirectors();
+		List<Director> userList = accessNativeService.getDirectors();
+		
+		
+//		//Lista de Personas
+//		HashMap<Long, String> directorMap = new HashMap<Long, String>();
+//		for (User user : userList) {
+//			Person person = new Person();
+//			person = baseService.findById(Person.class, user.getPerson().getId());
+//			directorMap.put(user.getId() ,person.getName().concat(" ").concat(person.getSecondName().concat(" ").concat(person.getFatherLastName().concat(" ").concat(person.getMotherLastName()))) );
+//		}
+		
 		//Lista de Personas
 		HashMap<Long, String> directorMap = new HashMap<Long, String>();
-		for (User user : userList) {
-			Person person = new Person();
-			person = baseService.findById(Person.class, user.getPerson().getId());
-			directorMap.put(user.getId() ,person.getName().concat(" ").concat(person.getSecondName().concat(" ").concat(person.getFatherLastName().concat(" ").concat(person.getMotherLastName()))) );
+		
+	for (Director dir : userList) {
+			
+		if (dir.getUser().getPerson().getSecondName()!=null)
+		{
+        directorMap.put(dir.getUser().getId() , dir.getUser().getPerson().getName().concat(" ").
+        		    concat(dir.getUser().getPerson().getSecondName().concat(" ").
+					concat(dir.getUser().getPerson().getFatherLastName().concat(" ").
+					concat(dir.getUser().getPerson().getMotherLastName().concat(" - ").		
+					concat(dir.getUser().getPosition().getName()) )))) ;
 		}
+		else
+		{
+        directorMap.put(dir.getUser().getId() , dir.getUser().getPerson().getName().concat(" ").
+					concat(dir.getUser().getPerson().getFatherLastName().concat(" ").
+					concat(dir.getUser().getPerson().getMotherLastName().concat(" - ").		
+					concat(dir.getUser().getPosition().getName()) ))) ;
+		}
+		
+		}
+		
+		
+		
 		model.addAttribute("directors", directorMap);
 		
 		
