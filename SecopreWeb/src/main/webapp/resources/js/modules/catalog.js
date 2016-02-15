@@ -1,4 +1,5 @@
 function initDirectorCat() {
+	 $('select').select2();
 	initPage('Director');
 	initDirectorValidations();
     $('#initialDateStr').datepicker({
@@ -42,7 +43,7 @@ function initDirectorValidations() {
 				australianDate : true
 			},
 			legend : {
-				required : true,
+//				required : true,
 				maxlength : 200
 			},
 			"user.id" : {

@@ -13,6 +13,7 @@ import ideasw.secopre.dto.UserMovement;
 import ideasw.secopre.dto.Notification;
 import ideasw.secopre.dto.Property;
 import ideasw.secopre.dto.Rectification;
+import ideasw.secopre.model.Director;
 import ideasw.secopre.model.DueDate;
 import ideasw.secopre.model.Entry;
 import ideasw.secopre.model.EntryDistrict;
@@ -240,7 +241,7 @@ public interface AccessNativeService {
     ProgrammaticKey getActiveProgramaticKey();
     
 	/*Metodo para obtener los directores*/
-	List<User> getDirectors();
+	List<Director> getDirectors();
 
 	List<Rectification> getRectificationInbox();
 	
