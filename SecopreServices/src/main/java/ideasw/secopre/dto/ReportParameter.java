@@ -40,6 +40,8 @@ public class ReportParameter {
 	private String entryId;
 	private String requestId;
 	
+	private String stateId;
+	
 	//opciones para parametros dinamicos del tipo select
 	private Map<Long, String> parameterOptions;
 	
@@ -183,5 +185,11 @@ public class ReportParameter {
 	}
 	public void setReportImageMethod(String reportImageMethod) {
 		this.reportImageMethod = reportImageMethod;
+	}
+	public String getStateId() {
+		return stateId;
+	}
+	public void setStateId(String stateId) {
+		this.stateId = stateId;
 	}
 }

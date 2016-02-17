@@ -30,6 +30,7 @@ import ideasw.secopre.model.EntryDistrict;
 import ideasw.secopre.model.ProgrammaticKey;
 import ideasw.secopre.model.catalog.District;
 import ideasw.secopre.model.catalog.MovementType;
+import ideasw.secopre.model.catalog.State;
 import ideasw.secopre.model.security.Permission;
 import ideasw.secopre.model.security.Role;
 import ideasw.secopre.model.security.User;
@@ -917,6 +918,16 @@ private void insertMasiveMovements(List<Movement> list, Request request) throws 
 		Map<Long, String> map = new HashMap<Long, String>();
 		for (District e : l){
 			map.put(e.getId(), e.getNumber());
+		}
+		return map;
+	}
+	
+	public Map<Long, String> getStatesMap(){
+		List<State> l = new ArrayList<State>();
+		l = baseService.findAll(State.class);
+		Map<Long, String> map = new HashMap<Long, String>();
+		for (State e : l){
+			map.put(e.getId(), e.getName());
 		}
 		return map;
 	}
