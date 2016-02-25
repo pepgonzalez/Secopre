@@ -901,7 +901,7 @@ public class WorkFlowController extends AuthController {
 		
 		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);			
 		District district= baseService.findById(District.class, baseRequest.getDistrictId());
-		Long newRequestId = accessNativeService.getRequestNextConsecutive();	
+		Long newRequestId = accessNativeService.getRequestByDistrictNextConsecutive(district.getId());	
 		String newFolio = "DTO-" +  district.getNumber() + "/" + newRequestId;
 		
 		rectificationRequest.setRequestId(newRequestId);
