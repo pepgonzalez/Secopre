@@ -432,7 +432,9 @@ var movementController2 = {
 		if (keepSlider) {
 			var sl = $(sliderId)[0];
 			if(sl){
-				sl.setAttribute('disabled', false);
+				//sl.setAttribute('disabled', false);
+				//sl.removeAttribute('disabled');
+				sl.removeAttribute('disabled');
 			}
 		} else {
 			$(sliderId).show();
@@ -894,7 +896,7 @@ var movementController2 = {
 			start : [ initialMonth, finalMonth ],
 			range : {
 				'min' : [ initialMonth ],
-				'max' : [ finalMonth ]
+				'max' : [ 11 ]
 			}
 		});
 
