@@ -488,7 +488,7 @@ var movementController2 = {
 				total = parseFloat(((finalMonth - initialMonth) + 1) * that.value);
 
 				// si el monto es mayor a cero, se elimina el error
-				if (parseInt(that.value) > 0) {
+				if (parseFloat(that.value) > 0) {
 					self.removeClassError(self.getId(grid, nextIndex,"monthAmount"));
 				}
 
@@ -530,7 +530,7 @@ var movementController2 = {
 			}
 
 			// si se capturó algo
-			if ((this.value.length > 0) && (parseInt(this.value) > 0)) {
+			if ((this.value.length > 0) && (parseFloat(this.value) > 0)) {
 
 				var movementType = parseInt($(self.getId(grid, nextIndex, "movementTypeId")).val());
 				var calls = [];
