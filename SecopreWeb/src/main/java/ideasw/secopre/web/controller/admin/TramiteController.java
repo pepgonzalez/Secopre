@@ -140,23 +140,35 @@ public class TramiteController extends AuthController {
 		
 		LOG.info("creando listado de movimientos de disminucion");
 		
+		
+		Double totalAmount = 0D;
+		
 		List<Movement> movements = new ArrayList<Movement>();
 		for(EntryDistrict entry : entryList){
-			Movement m = new Movement();
 			
-			m.setRequestId(request.getRequestId());
-			m.setMovementTypeId(-1L);
-			m.setProgramaticKeyId(entry.getEntry().getProgrammaticKey().getId());
-			m.setEntryId(entry.getEntry().getId());
-			m.setInitialMonthId(currentMonth);
-			m.setFinalMonthId(currentMonth);
-			m.setMonthAmount(entry.getBudgetAmountAssign().toString());
-			m.setTotalAmount(entry.getBudgetAmountAssign().toString());			
-			movements.add(m);
+			//se agrega siempre y cuando tenga saldo disponible
+			if (entry.getBudgetAmountAssign().doubleValue() > 0){
+			
+				Movement m = new Movement();
+				
+				m.setRequestId(request.getRequestId());
+				m.setMovementTypeId(-1L);
+				m.setProgramaticKeyId(entry.getEntry().getProgrammaticKey().getId());
+				m.setEntryId(entry.getEntry().getId());
+				m.setInitialMonthId(currentMonth);
+				m.setFinalMonthId(currentMonth);
+				m.setMonthAmount(entry.getBudgetAmountAssign().toString());
+				m.setTotalAmount(entry.getBudgetAmountAssign().toString());			
+				movements.add(m);
+				
+				totalAmount = totalAmount + entry.getBudgetAmountAssign();
+				
+			}
 		}
 		
 		LOG.info("asignando movimientos a tramite, total de movimientos: " + movements);
 		request.setDownMovements(movements);
+		request.setReduccionTotalAmount(totalAmount);
 		
 		LOG.info("Guardando detalle de movimiento masivo");
 		try {

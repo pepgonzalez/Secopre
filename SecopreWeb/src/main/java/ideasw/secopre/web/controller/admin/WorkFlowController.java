@@ -493,6 +493,10 @@ public class WorkFlowController extends AuthController {
 		model.addAttribute("requestForm", requestForm);
 		model.addAttribute("authorization", authorization);
 		model.addAttribute("folio", requestForm.getFolio());
+		
+		if(requestForm.getFormalityId() != null && requestForm.getFormalityId().longValue() == 4){
+			requestForm.setReduccionTotalAmount(requestForm.calculateReducctionTotalAmount());
+		}
 
 		return SecopreConstans.MV_TRAM_AUTH;
 	}

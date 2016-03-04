@@ -1,5 +1,6 @@
 package ideasw.secopre.dto;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -60,6 +61,10 @@ public class Request {
 		
 	//pojo para tramite de gestion de partidas
 	private Entry entry;
+	
+	//variable para guardar total de reduccion masiva y no hacer calculo en js
+	private Double reduccionTotalAmount;
+	private String reduccionTotalAmountStr;
 	
 	public String getFormalityCode() {
 		return formalityCode;
@@ -247,5 +252,27 @@ public class Request {
 	}
 	public void setRequestIdByDistrict(Long requestIdByDistrict) {
 		this.requestIdByDistrict = requestIdByDistrict;
+	}
+	public Double getReduccionTotalAmount() {
+		return reduccionTotalAmount;
+	}
+	
+	public void setReduccionTotalAmount(Double reduccionTotalAmount) {
+		this.reduccionTotalAmount = reduccionTotalAmount;
+	}
+	
+	public double calculateReducctionTotalAmount(){
+		Double d = 0D;
+		for(Movement m : this.downMovements){
+			d = d + m.getTotalAmountValue().doubleValue();
+		}
+		return d;
+	}
+	public String getReduccionTotalAmountStr() {
+		DecimalFormat formatter = new DecimalFormat("#,###.00");
+		return formatter.format(this.reduccionTotalAmount);
+	}
+	public void setReduccionTotalAmountStr(String reduccionTotalAmountStr) {
+		this.reduccionTotalAmountStr = reduccionTotalAmountStr;
 	}
 }

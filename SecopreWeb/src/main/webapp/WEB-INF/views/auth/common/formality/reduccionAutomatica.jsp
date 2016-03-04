@@ -62,11 +62,11 @@
 										</form:select>
 									</td>
 									<td data-name="monthAmount">
-										<span>$</span><form:input path="downMovements[${i.index}].monthAmount" class="form-control input-small numbersOnly monthAmount movementComponent" style="display:inline-block!Important;"/>
+										<span>$</span><form:input path="downMovements[${i.index}].monthAmount" class="form-control input-small numbersOnly monthAmount movementComponent right" style="display:inline-block!Important;"/>
 									</td>
 									
 									<td data-name="totalAmount">
-										<span>$</span><form:input path="downMovements[${i.index}].totalAmount" class="form-control input-small numbersOnly movementComponent" style="display:inline-block!Important;"/>
+										<span>$</span><form:input path="downMovements[${i.index}].totalAmount" class="form-control input-small numbersOnly movementComponent right" style="display:inline-block!Important;"/>
 									</td>
 					
 									<form:hidden path="downMovements[${i.index}].initialMonthId" class="form-control" data-name="initialMonthId"/>
@@ -83,6 +83,22 @@
 				</tbody>
 			</table>
 		</div>
+		
+		
+		<c:if test="${not empty requestForm.reduccionTotalAmount}">
+
+			<div class="substractTotalPanel">
+				<div class="text-rigth">
+					<div class="btn">Total:</div>
+					<a href="#myModal1" role="button" class="btn green" data-toggle="modal" id="downMovementsTotal">
+						<span>$ </span><span class="val">${requestForm.reduccionTotalAmountStr}</span>
+					</a>
+				</div>
+			</div>
+			
+		</c:if>
+		
+		
 	</div>
 </div>
 
