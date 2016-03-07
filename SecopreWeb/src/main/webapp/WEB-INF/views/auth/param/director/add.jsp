@@ -57,7 +57,7 @@
 															class="required"> * </span>
 														</label>
 														<div class="col-md-4">
-																<form:select path="director.user.id"  name="directors" class="form-control">
+																<form:select path="director.user.id"  name="director" class="form-control">
 																	   <form:option value="" label="Seleccione..."/>
 						    										   <form:options items="${directors}" />
 															   </form:select>										

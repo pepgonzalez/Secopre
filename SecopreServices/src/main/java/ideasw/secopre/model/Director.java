@@ -3,7 +3,7 @@
  */
 package ideasw.secopre.model;
 
-import ideasw.secopre.model.base.AuditEntity;
+
 import ideasw.secopre.model.base.Persistible;
 import ideasw.secopre.model.security.User;
 
@@ -25,10 +25,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.hibernate.envers.Audited;
-import org.hibernate.envers.NotAudited;
-import org.hibernate.envers.RelationTargetAuditMode;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+
 
 /**
  * Entidad que permite almacenar la informacion basica de un director, 
@@ -163,6 +160,10 @@ public class Director implements Persistible {
 
 	public void setLegend(String legend) {
 		this.legend = legend;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 

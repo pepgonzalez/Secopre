@@ -70,6 +70,18 @@ public class ReportServiceImpl extends AccessNativeServiceBaseImpl implements Re
 		return report;
 	}
 	
+	private Report getReportCompiledObject(Long reportId, Long userId, ReportParameter params, String reportType) throws Exception{
+		Report report = this.getReportById(reportId);
+		report.setResource(this.getReportResource(reportId));
+
+		JasperReport jasperReport = getCompiledReport(report);
+		
+		//se llena el reporte
+		fillReport(jasperReport, report, params, userId, reportType);
+		
+		return report;
+	}
+	
 	private JasperReport getCompiledReport(Report report) throws Exception{
 		Blob reportBlob = report.getResource();
 		InputStream reportStream = reportBlob.getBinaryStream();
@@ -113,6 +125,35 @@ public class ReportServiceImpl extends AccessNativeServiceBaseImpl implements Re
 		
 		jasperPrint = JasperFillManager.fillReport(jasperReport, parameters);
 		report.setReport(getBytes(jasperPrint, report.getReportType())); 
+	}
+	
+	private void fillReport(JasperReport jasperReport, Report report, ReportParameter params, Long userId, String reportType) throws Exception{
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("P_USER_ID", userId);
+		
+		loadDataSource(report, parameters);
+		loadSubReports(report, parameters);
+		
+		List<ReportParameter> reportParamsList = nativeService.getParametersById(report.getReportId());
+		
+		if(reportParamsList.size() > 0){
+			loadUserParameters(report, parameters, reportParamsList, params);
+		}
+
+		List<ReportParameter> reportImages = nativeService.getReportImages(report.getReportId());
+		
+		if(reportImages.size() > 0){
+			LOG.info("cargando imagenes: " + reportImages.size());
+			loadReportImages(parameters, reportImages);
+		}
+		
+		LOG.info("total de parametros: " + parameters.size());
+		
+		JasperPrint jasperPrint;
+		
+		jasperPrint = JasperFillManager.fillReport(jasperReport, parameters);
+		//report.setReport(getBytes(jasperPrint, report.getReportType())); 
+		report.setReport(getBytes(jasperPrint, reportType)); 
 	}
 	
 	private void loadSubReports(Report report, Map<String, Object> parameters) throws Exception{
@@ -248,6 +289,13 @@ public class ReportServiceImpl extends AccessNativeServiceBaseImpl implements Re
 	@Override
 	public Report getReport(Long reportId, Long userId) throws Exception {
 		Report report = this.getReportCompiledObject(reportId, userId, null);
+		return report;
+	}
+	
+	
+	@Override
+	public Report getReport(Long reportId, Long userId, String reportType) throws Exception {
+		Report report = this.getReportCompiledObject(reportId, userId, null,reportType);
 		return report;
 	}
 

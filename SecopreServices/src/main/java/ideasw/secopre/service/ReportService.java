@@ -13,4 +13,8 @@ public interface ReportService {
 	
 	Report getReport(Long reportId, Long userId, ReportParameter params) throws Exception;
 	
+	Report getReport(Long reportId, Long userId, String reportType) throws Exception;
+//	Report getReport(Long reportId, Long userId, ReportParameter params, String reportType)throws Exception;
+//	
+//	Report getReport(Long reportId, Long userId,  String reportType)throws Exception;
 }

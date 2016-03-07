@@ -242,6 +242,8 @@ public interface AccessNativeService {
     
 	/*Metodo para obtener los directores*/
 	List<Director> getDirectors();
+	
+	List<Director> getAllDirectors();
 
 	List<Rectification> getRectificationInbox();
 	

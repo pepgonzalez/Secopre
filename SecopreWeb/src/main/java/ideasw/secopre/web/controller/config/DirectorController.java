@@ -37,7 +37,7 @@ public class DirectorController extends AuthController {
 		model.addAttribute("director", director);
 		
 		model.addAttribute("directores", accessNativeService.getDirectors());
-		List<Director> userList = accessNativeService.getDirectors();
+		List<Director> userList = accessNativeService.getAllDirectors();
 		
 		//Lista de Personas
 		HashMap<Long, String> directorMap = new HashMap<Long, String>();
@@ -103,8 +103,10 @@ public class DirectorController extends AuthController {
 			@RequestParam("id") Long id) {
 		
 		Director director = baseService.findById(Director.class, id);
-		model.addAttribute("director", director);
-		List<Director> userList = accessNativeService.getDirectors();
+		model.addAttribute("director",director);
+		
+		List<Director> userList = accessNativeService.getAllDirectors();
+		model.addAttribute("userList",baseService.findAll(Director.class));
 		
 		
 //		//Lista de Personas
@@ -138,12 +140,8 @@ public class DirectorController extends AuthController {
 		
 		}
 		
+	    model.addAttribute("directors",directorMap);
 		
-		
-		model.addAttribute("directors", directorMap);
-		
-		
-
 		return SecopreConstans.MV_CAT_DIRECTOR_ADD;
 	}
 

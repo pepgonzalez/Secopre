@@ -1294,6 +1294,22 @@
 					]]>
 				</prop>
 				
+				<prop key="GET_ALL_LIST_DIRECTORS">
+					<![CDATA[
+						   SELECT U.ID,U.ACTIVE,AVATAR, EMAIL, HAS_CHAT_ACTIVE, 
+							          NICKNAME, PASSWORD,USERNAME, DASHBOARD_ID, PERSON_ID, 
+							          P.DESCRIPTION,P.id POSITION_ID, P.NAME PUESTO_DESCRIPCION,
+							          PERSON.FATHER_LASTNAME, PERSON.MOTHER_LASTNAME, PERSON.NAME
+							     FROM USER U, 
+					                          POSITION P,
+					                          PERSON PERSON
+							    WHERE U.POSITION_ID = P.ID
+					                      AND PERSON.ID = PERSON_ID
+							      AND ES_DIRECTOR IN (1,2,3,4,5)
+							 ORDER BY P.DESCRIPTION
+					]]>
+				</prop>
+				
 				<prop key="HAS_DISTRICT_ROLE">
 					<![CDATA[
 					SELECT COUNT(*)

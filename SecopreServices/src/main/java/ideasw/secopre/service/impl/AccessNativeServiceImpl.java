@@ -1317,6 +1317,11 @@ private void insertMasiveMovements(List<Movement> list, Request request) throws 
 	}
 	
 	@Override
+	public List<Director> getAllDirectors() {
+        return this.queryForList(Director.class, queryContainer.getSQL(SQLConstants.GET_ALL_LIST_DIRECTORS), null, new DirectorMapper());
+	}
+	
+	@Override
 	public List<Rectification> getRectificationInbox() {
         return this.queryForList(Rectification.class, queryContainer.getSQL(SQLConstants.GET_RECTIFICATION_INBOX), null, new RectificationMapper());
 	}

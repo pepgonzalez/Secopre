@@ -75,6 +75,17 @@ public class ReportController extends AuthController {
 		super.flushReport(response, report);
 	}
 	
+	@RequestMapping(value = "report/download/{reportId}/{reportType}", method ={RequestMethod.GET})
+	public void downloadReport(@PathVariable("reportId") Long reportId,@PathVariable("reportType") String reportType, HttpServletResponse response,  Principal principal) throws Exception{
+		LOG.info("Descargando reportId : " +  reportId);
+		LOG.info("Descargando reportType : " +  reportType);
+		
+		User u = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
+		Report report = reportService.getReport(reportId, u.getId(), reportType);
+		
+		super.flushReport(response, report);
+	}
+	
 	
 	@RequestMapping(value = "report/params/{reportId}", method ={RequestMethod.GET})
 	public String showReportParams(@PathVariable("reportId") Long reportId, ModelMap model, HttpServletResponse response) throws Exception{

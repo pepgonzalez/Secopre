@@ -1,5 +1,5 @@
 function initDirectorCat() {
-	 $('select').select2();
+    $('select').select2();
 	initPage('Director');
 	initDirectorValidations();
     $('#initialDateStr').datepicker({
@@ -13,6 +13,7 @@ function initDirectorCat() {
     	  autoclose: true,
     	  language: 'es'
     });
+
 }
 
 function initDirectorList() {
