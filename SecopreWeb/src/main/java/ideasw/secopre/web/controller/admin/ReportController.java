@@ -90,6 +90,7 @@ public class ReportController extends AuthController {
 	@RequestMapping(value = "report/params/{reportId}", method ={RequestMethod.GET})
 	public String showReportParams(@PathVariable("reportId") Long reportId, ModelMap model, HttpServletResponse response) throws Exception{
 		LOG.info("mostrando parametros de reportId : " +  reportId);
+	
 		
 		Report report = accessNativeService.getReportById(reportId);
 		
@@ -101,6 +102,26 @@ public class ReportController extends AuthController {
 		model.addAttribute("reportParameters", report.getReportParameters());
 		model.addAttribute("reportParametersForm",params);
 		model.addAttribute("reportName", report.getDescription());
+		
+		return SecopreConstans.MV_REPORT_PARAMS;
+	}
+	
+	@RequestMapping(value = "report/params/{reportId}/{reportType}", method ={RequestMethod.GET})
+	public String showReportParams(@PathVariable("reportId") Long reportId, @PathVariable("reportType") String reportType, ModelMap model, HttpServletResponse response) throws Exception{
+		LOG.info("mostrando parametros de reportId : " +  reportId);
+		LOG.info("Descargando reportType : " +  reportType);
+		
+		Report report = accessNativeService.getReportById(reportId);
+		
+		ReportParameter params = new ReportParameter();
+		params.setReportId(report.getReportId());
+		
+		//TODO validacion distritos en reportes
+		
+		model.addAttribute("reportParameters", report.getReportParameters());
+		model.addAttribute("reportParametersForm",params);
+		model.addAttribute("reportName", report.getDescription());
+		model.addAttribute("reportType", reportType);
 		
 		return SecopreConstans.MV_REPORT_PARAMS;
 	}
@@ -122,6 +143,31 @@ public class ReportController extends AuthController {
 		
 		OutputStream outputStream  = response.getOutputStream();
 		response.setContentType(report.getReportType().equals("PDF") ? REPORT_TYPE_PDF : REPORT_TYPE_XLS);
+		response.setContentLength(report.getReport().length);
+		response.addHeader("Content-Disposition","attachment;filename="+fileName);
+		response.setBufferSize(1024 * 15);
+		outputStream.write(report.getReport());
+		outputStream.flush();
+		outputStream.close();
+	}
+	
+	@RequestMapping(value = "report/download/paramReport/{reportType}", method = { RequestMethod.GET })
+	public void downloadParamReport(@ModelAttribute("reportParametersForm") ReportParameter reportParameterForm,@PathVariable("reportType") String reportType, BindingResult result, ModelMap model, 
+			RedirectAttributes attributes, Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		LOG.info("Descargando reporte con parametros");
+		LOG.info(reportParameterForm.toString());
+		
+		User u = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
+		
+		Report report = reportService.getReport(reportParameterForm.getReportId(), u.getId(), reportParameterForm);
+		
+		String fileName = report.getDescription() + "." + reportType.toLowerCase();
+		
+		String REPORT_TYPE_PDF = "application/pdf";
+		String REPORT_TYPE_XLS = "application/vnd.ms-excel";
+		
+		OutputStream outputStream  = response.getOutputStream();
+		response.setContentType(reportType.equals("PDF") ? REPORT_TYPE_PDF : REPORT_TYPE_XLS);
 		response.setContentLength(report.getReport().length);
 		response.addHeader("Content-Disposition","attachment;filename="+fileName);
 		response.setBufferSize(1024 * 15);

@@ -20,7 +20,7 @@
 							<!-- formulario -->	
 							<div>
 								<form:form cssClass="form-horizontal" method="POST" modelAttribute="reportParametersForm" id="reportParametersForm" 
-								           action="auth/report/download/paramReport" novalidate="novalidate">
+								           action="auth/report/download/paramReport/${reportType}" novalidate="novalidate">
 							
 									<div class="form-body">
 										<!-- Se incluyen los DIV de alertamiento en formularios -->

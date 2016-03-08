@@ -305,5 +305,12 @@ public class ReportServiceImpl extends AccessNativeServiceBaseImpl implements Re
 		Report report = this.getReportCompiledObject(reportId, userId, params);
 		return report;
 	}	
+	
+	@Override
+	public Report getReport(Long reportId, Long userId, ReportParameter params, String reportType) throws Exception {
+		// TODO Auto-generated method stub
+		Report report = this.getReportCompiledObject(reportId, userId, params, reportType);
+		return report;
+	}	
 
 }
