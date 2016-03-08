@@ -447,6 +447,13 @@ var expenseController = {
 			//si se capturó algo
 			if ( this.value.length > 0){
 				
+				if (parseInt(this.value) == 0){
+					window.showNotification("error", "Capture un monto para continuar");
+					ma.closest("[data-name='monthAmount']").addClass("has-error");
+					updateTotalAmounts();
+					return;
+				}
+				
 				var movementType = parseInt($(self.getId(grid, nextIndex, "movementTypeId")).val());
 				var calls = [];
 				

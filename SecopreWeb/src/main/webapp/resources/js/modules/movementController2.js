@@ -204,7 +204,7 @@ var movementController2 = {
 
 		// evento para agregar movimientos
 		var addBtn = grd.find(".actions #addMov").on("click", function() {
-			self.addMovementRow(self, grid, false);
+			self.addMovementRow(self, grid, false, null);
 			// al agregar me bloqueo hasta que la validacion correcta me desbloquee
 			grd.find(".actions #addMov").hide();
 			
@@ -229,7 +229,7 @@ var movementController2 = {
 		// se oculta el boton de guardar
 		saveBtn.hide();
 	},
-	addMovementRow : function(self, grid, isComplementary, data) {
+	addMovementRow : function(self, grid, isComplementary, data, minMonth) {
 		var grd = $(grid);
 		var nextIndex = self.getNextIndex(grd);
 
@@ -344,7 +344,11 @@ var movementController2 = {
 			});
 		});
 
-		self.startSlider(self, nextIndex, parseInt(new Date().getMonth()), 11, grid);
+		if (minMonth != null && parseInt(minMonth) > 0){
+			self.startSlider(self, nextIndex, parseInt(minMonth), 11, grid);
+		}else{
+			self.startSlider(self, nextIndex, parseInt(new Date().getMonth()), 11, grid);
+		}
 		self.addOnChangeEvent(self, grid, nextIndex, "programaticKeyId", true);
 		self.addOnChangeEvent(self, grid, nextIndex, "entryId", false);
 		self.addRemoveEvent(self, grid, nextIndex);
@@ -847,15 +851,86 @@ var movementController2 = {
 
 		a.on("click", function() {
 
-			self.addMovementRow(self, grid, false);
+			//se validan los meses actuales
+			
+			var programaticKey = $(document).find(self.getId(grid, indice, "programaticKeyId")).val();
+			var entry = $(document).find(self.getId(grid, indice, "entryId")).val();
+			var usedMonths = [];
+			var availableMonths = [];
+			
+			function addToUsedMonths(initialMonth, finalMonth){
+				for(var i = parseInt(initialMonth); i <= parseInt(finalMonth); i++){
+					usedMonths.push(i);
+				}
+			}
+			
+			var brotherEntries = $(grid).find("tbody tr:not(#noMovs)").filter(
+					function() {
+		
+						var flag = $(this).find("[data-name='removedElement']").val();
+						var initialMonthId = $(this).find("[data-name='initialMonthId']").val();
+						var finalMonthId = $(this).find("[data-name='finalMonthId']").val();
+		
+						var currentProgramaticKeyId = $(this).find("[data-name='programaticKey'] select").val();
+						var currentEntryId = $(this).find("[data-name='entry'] select").val();
+						var index = $(this).attr("data-rownumber");
+		
+						if (flag <= 0 && programaticKey == currentProgramaticKeyId && entry == currentEntryId) {
+							return true;
+						} else {
+							return false;
+						}
+					});
+			
+			// si hay al menos un registro hermano
+			if (brotherEntries.length > 0) {
+				// por cada hermano, se agregan los meses que ya
+				// tiene marcados
+				brotherEntries.each(function(idx, r) {
+					var e = $(r);
+					var brotherInitialMonthId = e.find("[data-name='initialMonthId']").val();
+					var brotherFinalMonthId = e.find("[data-name='finalMonthId']").val();
+					addToUsedMonths(brotherInitialMonthId,brotherFinalMonthId);
+				});
+			}
+			
+			for (var i = parseInt(new Date().getMonth()); i <= 11; i++){
+				var monthSelected = false;
+				
+				for (var j = 0; j < usedMonths.length; j++){
+					if (i == usedMonths[j]){
+						monthSelected = true;
+						break;
+					}
+				}
+				
+				if(!monthSelected){
+					availableMonths.push(i);
+				}
+			}
+			
+			if(availableMonths.length == 0){
+				window.showNotification("error","No existen meses disponibles para la captura de partida. Verifique.");
+				return;
+			}
+			
+			var minMonth = parseInt(availableMonths[0]);
+			
+			if(availableMonths.length > 1){
+				for(var i = 1; i < availableMonths.length; i++){
+					if(parseInt(availableMonths[i]) < minMonth){
+						minMonth = availableMonths[i];
+					}
+				}
+			}
+			
+			self.addMovementRow(self, grid, false, null, minMonth);
 			var row = $(this).parent().parent();
-
-			var programaticKey = row.find(self.getId(grid, indice, "programaticKeyId")).val();
-			var entry = row.find(self.getId(grid, indice, "entryId")).val();
 
 			$(document).find(self.getId(grid, indice + 1, "programaticKeyId")).val(programaticKey);
 			$(document).find(self.getId(grid, indice + 1, "entryId")).val(entry);
-		
+			
+			
 			a.hide();
 			$(grid).find("#addMov").hide();
 			//se borran todos los botones de clonacion que existan
