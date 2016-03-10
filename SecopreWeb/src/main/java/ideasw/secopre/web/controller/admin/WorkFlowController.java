@@ -395,32 +395,6 @@ public class WorkFlowController extends AuthController {
 			LOG.info("Redirigiendo al listado de movimientos");
 			return SecopreConstans.MV_TRAM_LIST_REDIRECT;
 			
-			/*
-			Map<String, Object> propertiesMap = new HashMap<String, Object>();
-			propertiesMap.put("code", requestForm.getEntry().getCode());
-			List<Entry> el = baseService.findByProperties(Entry.class, propertiesMap);
-			
-			LOG.info("Total de partidas con codigo: " +  requestForm.getEntry().getCode() + ": " + el.size());
-			
-			List<Entry> currentEntries = new ArrayList<Entry>();
-			
-			if(entry.getId() != null && entry.getId().longValue() > 0){
-				for(Entry e : el){
-					if (e.getId().longValue() != entry.getId().longValue()){
-						currentEntries.add(e);
-					}
-				}
-			}
-			
-			if(currentEntries != null && currentEntries.size() > 0){
-				throw new EntryDistrictException("El código " + requestForm.getEntry().getCode() + " ya se encuentra actualmente asociado a la partida: " + currentEntries.get(0).getDescription() + ". Verifique.");
-			}else{
-				accessNativeService.invokeNextStage(requestForm, loggedUser.getId());
-				LOG.info("Redirigiendo al listado de movimientos");
-				return SecopreConstans.MV_TRAM_LIST_REDIRECT;
-			}
-			*/
-						
 		}catch(EntryDistrictException ex){
 			//ex.printStackTrace();
 			LOG.error(ex.getMessage());

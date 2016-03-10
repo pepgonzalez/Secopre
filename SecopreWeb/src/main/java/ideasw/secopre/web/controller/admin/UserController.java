@@ -3,6 +3,7 @@ package ideasw.secopre.web.controller.admin;
 import ideasw.secopre.constants.PropertyConstants;
 import ideasw.secopre.dto.Notification;
 import ideasw.secopre.dto.Property;
+import ideasw.secopre.dto.UserMovement;
 import ideasw.secopre.model.catalog.District;
 import ideasw.secopre.model.catalog.Person;
 import ideasw.secopre.model.catalog.Position;
@@ -147,8 +148,6 @@ public class UserController extends AuthController {
 				
 			baseService.save(user);
 			
-			//Distritos
-			List<User> userList  = new ArrayList<User>();
 			List<String> itemsDist = Arrays.asList(districts.split("\\s*,\\s*"));
 			//userList.add(user);
 			
@@ -205,8 +204,7 @@ public class UserController extends AuthController {
 		model.addAttribute("username", name);
 		// Se colocan los menus del usuario en session
 		request.getSession().setAttribute("menus", accessService.getMenuByUserName(name));
-		
-		//User loggedUser = baseService.findByProperty(User.class, "username", name).get(0);
+
 		User loggedUser = accessNativeService.getUserByUsename(name);
 	    List<Role> authorities = accessNativeService.getRolesByUser(loggedUser.getId());
 	    loggedUser.setAuthorities(authorities);
@@ -218,6 +216,10 @@ public class UserController extends AuthController {
 		
 		model.addAttribute("notifications", notifications);
 		model.addAttribute("totalNotifications", notifications.size());
+
+		List<UserMovement> createdMovements = accessNativeService
+				.getCreatedFormalitiesByUserId(loggedUser.getId(), 10);
+		model.addAttribute("createdMovements", createdMovements);
 		
 		return SecopreConstans.AUTH_INDEX;
 	}

@@ -38,7 +38,6 @@ import ideasw.secopre.service.AccessNativeService;
 import ideasw.secopre.service.BaseService;
 import ideasw.secopre.service.impl.mapper.DirectorMapper;
 import ideasw.secopre.service.impl.mapper.DistrictMapper;
-import ideasw.secopre.service.impl.mapper.EntryComparator;
 import ideasw.secopre.service.impl.mapper.EntryCurrentTotalMapper;
 import ideasw.secopre.service.impl.mapper.EntryMapper;
 import ideasw.secopre.service.impl.mapper.FormalityMapper;
@@ -72,7 +71,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -339,7 +337,7 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 				e.setActivo(true);
 				e.setStatus(StatusEntry.ACTIVE);
 				baseService.update(e);
-				this.loadEntryDistrict(e.getId(), request.getDistrictId(), request.getFolio());
+				this.loadEntryDistrict(e.getId(), request.getFolio());
 			}
 		}
 	}
@@ -402,28 +400,28 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		return list;
 	}
 	
-	private void loadEntryDistrict(Long entryId, Long districtId, String folio){
+	private void loadEntryDistrict(Long entryId,String folio){
 		
-		LOG.info("partida: " + entryId);
-		LOG.info("districtId: " + districtId);
 		LOG.info("folio: " + folio);
-		
-		District d = baseService.findById(District.class, districtId);
 		Entry e = baseService.findById(Entry.class, entryId);
-		
-		for(Month m : Month.values()){
-			EntryDistrict ed = new EntryDistrict();
-			ed.setDistrict(d);
-			ed.setEntry(e);
-			ed.setAnnualAmount(0D);
-			ed.setBudgetAmount(0D);
-			ed.setBudgetAmountAssign(0D);
-			ed.setCommittedAmount(0D);
-			ed.setMonth(m.getId() - 1 );
-			ed.setActivo(true);
-			ed.setCreatedBy(folio);
-			
-			baseService.persistAndReturnId(ed);
+		List<District> dts =  baseService.findAll(District.class);
+		for(District d: dts){
+			LOG.info("entry code: " + e.getCode());
+			LOG.info("district Number: " + d.getNumber());
+			for(Month m : Month.values()){
+				EntryDistrict ed = new EntryDistrict();
+				ed.setDistrict(d);
+				ed.setEntry(e);
+				ed.setAnnualAmount(0D);
+				ed.setBudgetAmount(0D);
+				ed.setBudgetAmountAssign(0D);
+				ed.setCommittedAmount(0D);
+				ed.setMonth(m.getId() - 1 );
+				ed.setActivo(true);
+				ed.setCreatedBy(folio);				
+				baseService.persistAndReturnId(ed);
+			}
+
 		}
 	}
 	

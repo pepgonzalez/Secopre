@@ -90,7 +90,69 @@
                 </div>
             </div>
             <div class="clearfix"></div>
-
+            <div class="row">
+                <div class="col-md-12">
+					<!-- BEGIN PORTLET -->
+					<div class="portlet light ">
+						<div class="portlet-title">
+							<div class="caption caption-md">
+								<i class="icon-bar-chart theme-font hide"></i>
+								<span class="caption-subject font-blue-madison bold uppercase">Tus Trámites Recientes</span>
+								<span class="caption-helper hide">weekly stats...</span>
+							</div>
+						</div>
+						<div class="portlet-body">
+							<div class="table-scrollable table-scrollable-borderless">
+								<table class="table table-hover table-light">
+								<thead>
+								<tr class="uppercase">
+									<th>
+										 FOLIO
+									</th>
+									<th>
+										 TIPO MOVIMIENTO
+									</th>
+									<th>
+										 TRAMITE
+									</th>
+									<th>
+										 ESTATUS
+									</th>
+									<th>
+										 FECHA
+									</th>
+								</tr>
+								</thead>
+								
+								<tbody>
+								<c:forEach items="${createdMovements}" var="createdMovement">
+								<tr>
+									<td>
+										<a class="primary-link" href="javascript:;">  ${createdMovement.folio}</a>
+									</td>
+									<td>
+										 ${createdMovement.movementType}
+									</td>
+									<td>
+										 ${createdMovement.justification}
+									</td>
+									<td>
+										 ${createdMovement.formality}
+									</td>
+									<td>
+										<span class="bold theme-font">${createdMovement.creationDate}</span>
+									</td>
+								</tr>
+								</c:forEach>
+								</tbody>
+							  </table>
+							</div>
+						</div>
+					</div>
+					<!-- END PORTLET -->
+                
+                </div>
+            </div>	
 		</div>
 		
 		

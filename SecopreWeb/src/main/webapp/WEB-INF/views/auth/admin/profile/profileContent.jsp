@@ -10,58 +10,13 @@
 											<span class="caption-subject font-blue-madison bold uppercase">Tus Trámites Recientes</span>
 											<span class="caption-helper hide">weekly stats...</span>
 										</div>
-<!-- 										<div class="actions"> -->
-<!-- 											<div data-toggle="buttons" class="btn-group btn-group-devided"> -->
-<!-- 												<label class="btn btn-transparent grey-salsa btn-circle btn-sm active"> -->
-<!-- 												<input type="radio" id="option1" class="toggle" name="options">Today</label> -->
-<!-- 												<label class="btn btn-transparent grey-salsa btn-circle btn-sm"> -->
-<!-- 												<input type="radio" id="option2" class="toggle" name="options">Week</label> -->
-<!-- 												<label class="btn btn-transparent grey-salsa btn-circle btn-sm"> -->
-<!-- 												<input type="radio" id="option2" class="toggle" name="options">Month</label> -->
-<!-- 											</div> -->
-<!-- 										</div> -->
 									</div>
 									<div class="portlet-body">
-<!-- 										<div class="row number-stats margin-bottom-30"> -->
-<!-- 											<div class="col-md-6 col-sm-6 col-xs-6"> -->
-<!-- 												<div class="stat-left"> -->
-<!-- 													<div class="stat-chart"> -->
-<!-- 														do not line break "sparkline_bar" div. sparkline chart has an issue when the container div has line break -->
-<!-- 														<div id="sparkline_bar"><canvas style="display: inline-block; width: 90px; height: 45px; vertical-align: top;" width="90" height="45"></canvas></div> -->
-<!-- 													</div> -->
-<!-- 													<div class="stat-number"> -->
-<!-- 														<div class="title"> -->
-<!-- 															 Total -->
-<!-- 														</div> -->
-<!-- 														<div class="number"> -->
-<!-- 															 500 -->
-<!-- 														</div> -->
-<!-- 													</div> -->
-<!-- 												</div> -->
-<!-- 											</div> -->
-<!-- 											<div class="col-md-6 col-sm-6 col-xs-6"> -->
-<!-- 												<div class="stat-right"> -->
-<!-- 													<div class="stat-chart"> -->
-<!-- 														do not line break "sparkline_bar" div. sparkline chart has an issue when the container div has line break -->
-<!-- 														<div id="sparkline_bar2"><canvas style="display: inline-block; width: 90px; height: 45px; vertical-align: top;" width="90" height="45"></canvas></div> -->
-<!-- 													</div> -->
-<!-- 													<div class="stat-number"> -->
-<!-- 														<div class="title"> -->
-<!-- 															 New -->
-<!-- 														</div> -->
-<!-- 														<div class="number"> -->
-<!-- 															 719 -->
-<!-- 														</div> -->
-<!-- 													</div> -->
-<!-- 												</div> -->
-<!-- 											</div> -->
-<!-- 										</div> -->
 										<div class="table-scrollable table-scrollable-borderless">
 											<table class="table table-hover table-light">
 											<thead>
 											<tr class="uppercase">
 												<th>
-<!-- 												colspan="2" -->
 													 FOLIO
 												</th>
 												<th>
@@ -102,29 +57,6 @@
 											
 											
 											
-											
-<!-- 											<tr> -->
-<!-- 												<td class="fit"> -->
-<!-- 													<img src="../../assets/admin/layout3/img/avatar4.jpg" class="user-pic"> -->
-<!-- 												</td> -->
-<!-- 												<td> -->
-<!-- 													<a class="primary-link" href="javascript:;">Brain</a> -->
-<!-- 												</td> -->
-<!-- 												<td> -->
-<!-- 													 $345 -->
-<!-- 												</td> -->
-<!-- 												<td> -->
-<!-- 													 45 -->
-<!-- 												</td> -->
-<!-- 												<td> -->
-<!-- 													 124 -->
-<!-- 												</td> -->
-<!-- 												<td> -->
-<!-- 													<span class="bold theme-font">80%</span> -->
-<!-- 												</td> -->
-<!-- 											</tr> -->
-											
-				
 											
 											</tbody>
 										  </table>
