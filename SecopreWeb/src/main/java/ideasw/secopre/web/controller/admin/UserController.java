@@ -1,9 +1,11 @@
 package ideasw.secopre.web.controller.admin;
 
 import ideasw.secopre.constants.PropertyConstants;
+import ideasw.secopre.dto.EntryBalance;
 import ideasw.secopre.dto.Notification;
 import ideasw.secopre.dto.Property;
 import ideasw.secopre.dto.UserMovement;
+import ideasw.secopre.enums.StatusEntry;
 import ideasw.secopre.model.catalog.District;
 import ideasw.secopre.model.catalog.Person;
 import ideasw.secopre.model.catalog.Position;
@@ -220,6 +222,14 @@ public class UserController extends AuthController {
 		List<UserMovement> createdMovements = accessNativeService
 				.getCreatedFormalitiesByUserId(loggedUser.getId(), 10);
 		model.addAttribute("createdMovements", createdMovements);
+		
+		//Valida si tiene 1 distrito asignado
+		List<District> districts = secopreCache.getDistrictsByUser(loggedUser);
+		
+		//Calcular por movimientos 
+		if(districts != null){
+			//todo: 
+		}
 		
 		return SecopreConstans.AUTH_INDEX;
 	}

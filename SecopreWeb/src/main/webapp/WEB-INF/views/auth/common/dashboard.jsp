@@ -31,7 +31,7 @@
                             <div class="number">
                                 <span data-counter="counterup" data-value='<c:out value="${balance.annualAmount}"/>'><c:out value="${balance.annualAmount}"/></span> $
                             </div>
-                            <div class="desc">Presupuesto Anual</div>
+                            <div class="desc">Presupuesto Mensual</div>
                         </div>
                         <a class="more" href="javascript:;">
                             <i class="m-icon-swapright m-icon-white"></i>
