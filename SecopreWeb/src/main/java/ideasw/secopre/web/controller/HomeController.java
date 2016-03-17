@@ -72,7 +72,7 @@ public class HomeController extends ControllerBase {
 	 * @return pagina JSP
 	 */
 	// Spring Security see this :
-	@RequestMapping(value = "/logout", method = RequestMethod.POST)
+	@RequestMapping(value = "/logout", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView logout(HttpServletRequest request,
 			@RequestParam(value = "logout", required = false) String logout, Principal principal) {
 		ModelAndView model = new ModelAndView();

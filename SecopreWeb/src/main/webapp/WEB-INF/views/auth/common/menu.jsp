@@ -14,7 +14,7 @@
 			<!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
 			<ul id="menuList" class="page-sidebar-menu page-sidebar-menu-hover-submenu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
 				<li class="start active ">
-					<a href="javascript:;">
+					<a href="javascript:;" onclick="location.reload();">
 					<i class="icon-home"></i>
 					<span class="title">Mi Dashboard</span>
 					</a>
