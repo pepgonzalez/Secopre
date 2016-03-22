@@ -2,6 +2,7 @@ package ideasw.secopre.web.controller.admin;
 
 import ideasw.secopre.constants.PropertyConstants;
 import ideasw.secopre.dto.EntryBalance;
+import ideasw.secopre.dto.EntryFilter;
 import ideasw.secopre.dto.Notification;
 import ideasw.secopre.dto.Property;
 import ideasw.secopre.dto.UserMovement;
@@ -14,6 +15,7 @@ import ideasw.secopre.model.security.Role;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.AccessNativeService;
 import ideasw.secopre.service.AccessService;
+import ideasw.secopre.service.EntryConfigService;
 import ideasw.secopre.utils.encryption.Encryption;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
@@ -21,6 +23,8 @@ import ideasw.secopre.web.controller.base.AuthController;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,6 +66,9 @@ public class UserController extends AuthController {
 	@Autowired
 	private AccessNativeService accessNativeService;
 
+	@Autowired
+	private EntryConfigService entryConfigService;
+	
 	@RequestMapping(value = "adm/usr/list", method = { RequestMethod.GET,
 			RequestMethod.POST })
 	public String getUserList(ModelMap model, RedirectAttributes attributes) {
@@ -224,11 +231,22 @@ public class UserController extends AuthController {
 		model.addAttribute("createdMovements", createdMovements);
 		
 		//Valida si tiene 1 distrito asignado
-		List<District> districts = secopreCache.getDistrictsByUser(loggedUser);
+		List<District> districts = secopreCache.getDistrictsByUser(loggedUser.getUsername());
 		
 		//Calcular por movimientos 
 		if(districts != null){
-			//todo: 
+			// Setea el mes actual al filtro
+			java.util.Date date = new Date();
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date);
+			int month = cal.get(Calendar.MONTH);
+			
+			EntryFilter filter = new EntryFilter();
+			filter.setDistrictId(districts.get(0).getId());
+			filter.setMonths(new Integer[] { month});
+			
+			EntryBalance balance = entryConfigService.getEntryBalance(filter, StatusEntry.ACTIVE);
+			model.addAttribute("balance", balance);
 		}
 		
 		return SecopreConstans.AUTH_INDEX;
