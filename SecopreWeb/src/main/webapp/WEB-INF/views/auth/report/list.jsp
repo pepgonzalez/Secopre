@@ -1,5 +1,4 @@
 	<%@ include file="/WEB-INF/views/auth/common/springTags.jsp"%>
-			
 			<div class="row" style="display: inline;">
 				<div class="col-md-12">
 					<!-- BEGIN SAMPLE FORM PORTLET-->
