@@ -193,72 +193,75 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 			
 		int consecutive = this.getNextConsecutive(requestId);
 	
+		WorkFlowConfig transition;
+		
 		if(consecutive == 1){
 			LOG.info("Insertanto etapa inicial " + consecutive);
-			WorkFlowConfig transition = this.getRequestFirstWorkFlowConfig(requestId, valueCode).get(0);
-			this.insertTransition(requestId, transition, consecutive, userId, comments);
+			transition = this.getRequestFirstWorkFlowConfig(requestId, valueCode).get(0);
+			stageConfigId = transition.getStageConfigId();
+			//this.insertTransition(requestId, transition, consecutive, userId, comments);
 		}else{
 			LOG.info("Insertando consecutivo de etapa: " + consecutive);
-			WorkFlowConfig transition = this.getRequestWorkFlowConfig(requestId, valueCode, stageConfigId).get(0);
-			
-			//se obtiene la etapa actual
-			StageConfig currentStage = this.getStageConfigById(stageConfigId);
-			LOG.info("Etapa actual: " + currentStage);
-			
-			//validar si la siguiente etapa es operacion o cancelacion del tramite
-			StageConfig next = this.getStageConfigById(transition.getNextStageConfig());
-			LOG.info("Siguiente etapa:" + next);
-			
-			
-			//si la siguiente etapa es autorizacion y no es salto automatico, logica para identificar siguiente etapa
-			if (next.getIsAuthorization() && isAutomatic == 0 &&  !(currentStage.getIsAuthorization())){
-				LOG.info("siguiente etapa es etapa de autorizacion, validando privilegios del usuario");
-				//se valida si el usuario tiene el superRol de autorizacion configurado en el tramite
-				RequestConfig requestConfig = this.getRequestConfigById(requestId);
-				
-				RequestConfig config = this.getRequestConfigById(requestId);
-				Formality formality = this.getFormalityById(config.getFormalityId());
-				
-				int isSuperUser = this.isAuthorizationSuperUser(formality.getAuthorizationId(), userId);
-				LOG.info("Es usuario super usuario de configuracion: " + isSuperUser);
-				if (isSuperUser > 0){
-					LOG.info("Finalizando captura y operando movimiento");
-					invokeNextStage(requestId, WorkflowConstants.SUPER_ROLE_AUTHORIZATION, stageConfigId, userId, comments, 1);
-					return;
-				}
-				
-				//si no es super user, pregunto por el employment
-				String automaticAuthorizationCode = getAutomaticAuthorization(config.getAuthorizationId(), userId);
-				if(automaticAuthorizationCode.equals(WorkflowConstants.WF_NOT_AUTOMATIC_AUTHORIZATION)){
-					LOG.info("usuario no tiene privilegios de autorizacion automatica");
-				}else{
-					LOG.info("Autorizacion automatica por etapa: " + automaticAuthorizationCode);
-					invokeNextStage(requestId, automaticAuthorizationCode, stageConfigId, userId, comments, 1);
-					return;
-				}
-			}else{
-				LOG.info("omitiendo validacion de autorizaciones automaticas");
-			}
-			
-			
-			//si es etapa de cancelacion, se da rollback a los movimientos a la baja
-			if(next.getIsCanceled()){
-				//por cada movimiento a la baja, se resta el monto distrito-partida-mes, al saldo comprometido
-				this.runCancelation(requestId);
-			}
-			
-			//si la siguiente etapa es de tramite finalizado, opera los movimientos
-			if(next.getIsOperated()){
-				//por cada movimiento a la alza, se suma el monto al distrito-patida-mes, al saldo acumulado
-				//por cada movimiento a la baja, se resta el monto al distrito-partido-mes, al saldo comprometido y al saldo acumulado
-				this.runOperation(requestId);
-			}
-			
-			//operar o modificar monto comprometido si aplica
-			
-			this.inactivateActiveStage(requestId);
-			this.insertTransition(requestId, transition, consecutive, userId, comments);
+			transition = this.getRequestWorkFlowConfig(requestId, valueCode, stageConfigId).get(0);	
 		}
+		
+		//se obtiene la etapa actual
+		StageConfig currentStage = this.getStageConfigById(stageConfigId);
+		LOG.info("Etapa actual: " + currentStage);
+		
+		//validar si la siguiente etapa es operacion o cancelacion del tramite
+		StageConfig next = this.getStageConfigById(transition.getNextStageConfig());
+		LOG.info("Siguiente etapa:" + next);
+		
+		
+		//si la siguiente etapa es autorizacion y no es salto automatico, logica para identificar siguiente etapa
+		if (next.getIsAuthorization() && isAutomatic == 0 &&  !(currentStage.getIsAuthorization())){
+			LOG.info("siguiente etapa es etapa de autorizacion, validando privilegios del usuario");
+			//se valida si el usuario tiene el superRol de autorizacion configurado en el tramite
+			RequestConfig requestConfig = this.getRequestConfigById(requestId);
+			
+			RequestConfig config = this.getRequestConfigById(requestId);
+			Formality formality = this.getFormalityById(config.getFormalityId());
+			
+			int isSuperUser = this.isAuthorizationSuperUser(formality.getAuthorizationId(), userId);
+			LOG.info("Es usuario super usuario de configuracion: " + isSuperUser);
+			if (isSuperUser > 0){
+				LOG.info("Finalizando captura y operando movimiento");
+				invokeNextStage(requestId, WorkflowConstants.SUPER_ROLE_AUTHORIZATION, stageConfigId, userId, comments, 1);
+				return;
+			}
+			
+			//si no es super user, pregunto por el employment
+			String automaticAuthorizationCode = getAutomaticAuthorization(config.getAuthorizationId(), userId);
+			if(automaticAuthorizationCode.equals(WorkflowConstants.WF_NOT_AUTOMATIC_AUTHORIZATION)){
+				LOG.info("usuario no tiene privilegios de autorizacion automatica");
+			}else{
+				LOG.info("Autorizacion automatica por etapa: " + automaticAuthorizationCode);
+				invokeNextStage(requestId, automaticAuthorizationCode, stageConfigId, userId, comments, 1);
+				return;
+			}
+		}else{
+			LOG.info("omitiendo validacion de autorizaciones automaticas");
+		}
+		
+		
+		//si es etapa de cancelacion, se da rollback a los movimientos a la baja
+		if(next.getIsCanceled()){
+			//por cada movimiento a la baja, se resta el monto distrito-partida-mes, al saldo comprometido
+			this.runCancelation(requestId);
+		}
+		
+		//si la siguiente etapa es de tramite finalizado, opera los movimientos
+		if(next.getIsOperated()){
+			//por cada movimiento a la alza, se suma el monto al distrito-patida-mes, al saldo acumulado
+			//por cada movimiento a la baja, se resta el monto al distrito-partido-mes, al saldo comprometido y al saldo acumulado
+			this.runOperation(requestId);
+		}
+		
+		//operar o modificar monto comprometido si aplica
+		
+		this.inactivateActiveStage(requestId);
+		this.insertTransition(requestId, transition, consecutive, userId, comments);
 	}
 	
 	private String getAutomaticAuthorization(Long authorizationId, Long userId){
