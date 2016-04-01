@@ -2654,8 +2654,14 @@ function initReportParamCapture(){
 			}
 		});
 		
+		var reportType = $(document).find("#reportType").val();
+		
 		if(isFormOk){
-			openParamResourceNative('report/download/paramReport', 'reportParametersForm');
+			
+			if(reportType!=null)
+			   openParamResourceNative('report/download/paramReport/'+reportType, 'reportParametersForm');
+			else
+			   openParamResourceNative('report/download/paramReport', 'reportParametersForm');	
 		}
 	});
 }

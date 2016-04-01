@@ -128,6 +128,7 @@ public class ReportServiceImpl extends AccessNativeServiceBaseImpl implements Re
 	}
 	
 	private void fillReport(JasperReport jasperReport, Report report, ReportParameter params, Long userId, String reportType) throws Exception{
+		LOG.info("fillReport:" + reportType.toString() );
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("P_USER_ID", userId);
 		

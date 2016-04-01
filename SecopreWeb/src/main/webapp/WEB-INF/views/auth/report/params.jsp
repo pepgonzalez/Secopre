@@ -20,13 +20,16 @@
 							<!-- formulario -->	
 							<div>
 								<form:form cssClass="form-horizontal" method="POST" modelAttribute="reportParametersForm" id="reportParametersForm" 
-								           action="auth/report/download/paramReport" novalidate="novalidate">
+								           action="auth/report/download/paramReport/${reportType}" novalidate="novalidate">
 							
 									<div class="form-body">
 										<!-- Se incluyen los DIV de alertamiento en formularios -->
 										<%@ include file="/WEB-INF/views/auth/common/alertForm.jsp"%>
 										
 									<form:hidden path="reportId" />
+									
+									
+									<input id="reportType" name="reportType" type="hidden" value="${reportType}"/>
 										
 									<c:forEach items="${reportParameters}" var="reportParam">
 									

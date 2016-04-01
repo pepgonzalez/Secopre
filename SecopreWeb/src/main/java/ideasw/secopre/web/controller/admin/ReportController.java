@@ -67,6 +67,7 @@ public class ReportController extends AuthController {
 	
 	@RequestMapping(value = "report/download/{reportId}", method ={RequestMethod.GET})
 	public void downloadReport(@PathVariable("reportId") Long reportId, HttpServletResponse response,  Principal principal) throws Exception{
+		LOG.info("report/download/" +  reportId );
 		LOG.info("Descargando reportId : " +  reportId);
 		
 		User u = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
@@ -77,6 +78,7 @@ public class ReportController extends AuthController {
 	
 	@RequestMapping(value = "report/download/{reportId}/{reportType}", method ={RequestMethod.GET})
 	public void downloadReport(@PathVariable("reportId") Long reportId,@PathVariable("reportType") String reportType, HttpServletResponse response,  Principal principal) throws Exception{
+		LOG.info("report/download/" +  reportId + reportType.toString() );
 		LOG.info("Descargando reportId : " +  reportId);
 		LOG.info("Descargando reportType : " +  reportType);
 		
@@ -89,6 +91,7 @@ public class ReportController extends AuthController {
 	
 	@RequestMapping(value = "report/params/{reportId}", method ={RequestMethod.GET})
 	public String showReportParams(@PathVariable("reportId") Long reportId, ModelMap model, HttpServletResponse response) throws Exception{
+		LOG.info("report/params/" +  reportId );
 		LOG.info("mostrando parametros de reportId : " +  reportId);
 	
 		
@@ -102,12 +105,15 @@ public class ReportController extends AuthController {
 		model.addAttribute("reportParameters", report.getReportParameters());
 		model.addAttribute("reportParametersForm",params);
 		model.addAttribute("reportName", report.getDescription());
+		//aqui debemos mandarle el report type de la base
+		model.addAttribute("reportType", report.getReportType());
 		
 		return SecopreConstans.MV_REPORT_PARAMS;
 	}
 	
 	@RequestMapping(value = "report/params/{reportId}/{reportType}", method ={RequestMethod.GET})
 	public String showReportParams(@PathVariable("reportId") Long reportId, @PathVariable("reportType") String reportType, ModelMap model, HttpServletResponse response) throws Exception{
+		LOG.info("report/params/" +  reportId + reportType.toString() );
 		LOG.info("mostrando parametros de reportId : " +  reportId);
 		LOG.info("Descargando reportType : " +  reportType);
 		
@@ -158,8 +164,8 @@ public class ReportController extends AuthController {
 		LOG.info(reportParameterForm.toString());
 		
 		User u = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
-		
-		Report report = reportService.getReport(reportParameterForm.getReportId(), u.getId(), reportParameterForm);
+		Report report = reportService.getReport(reportParameterForm.getReportId(), u.getId(), reportParameterForm, reportType);
+//		Report report = reportService.getReport(reportParameterForm.getReportId(), u.getId(), reportParameterForm);
 		
 		String fileName = report.getDescription() + "." + reportType.toLowerCase();
 		
