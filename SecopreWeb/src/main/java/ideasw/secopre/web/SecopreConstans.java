@@ -71,6 +71,9 @@ public class SecopreConstans {
 	public static final String MV_CONF_ENTRY = "auth/admin/config/entry/entry";
 	public static final String MV_CONF_ENTRY_LIST = "auth/admin/config/entry/list";
 	
+	//popup
+	public static final String MV_POPUP_CONF_ENTRY = "popup/entryDistrict";
+	
 	
 	public static final String MV_CAT_PK = "auth/oper/pk/programmaticKey";
 	public static final String MV_CAT_PK_ADD = "auth/oper/pk/add";

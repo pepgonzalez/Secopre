@@ -87,6 +87,55 @@ function submitAjaxJQ(formId, targetId, after, isDownload) {
 			});
 }
 
+function submitAjaxJQPopup(formId, targetId, after, isDownload) {
+	var isDownload
+	var method = 'POST';
+	var frm = $('#' + formId);
+	var action = frm.attr('action');
+	
+	
+	var x = (frm !== undefined && frm !== null) ? frm.serialize(true) : null;
+		
+	var header = $("meta[name='_csrf_header']").attr("content");
+	var token = $("meta[name='_csrf']").attr("content");
+
+	var basePath = "http://" + document.location.host + "/Secopre/";
+	
+	var path = context + '/' + action;
+	
+	var finalPath = basePath + path;
+		
+	blockPage();
+	$
+			.ajax({
+				type : method,
+				url : finalPath,
+				data : (frm !== undefined && frm !== null) ? frm.serialize(true) : null,
+				beforeSend : function(xhr) {
+					xhr.setRequestHeader(header, token);
+				},
+				success : function(data) {
+					$("#" + targetId).html("");
+					$('#' + targetId).html(data);
+					// Mensaje Exito
+					showNotification('success',
+							'La operacion se realizo correctamente!!');
+				},
+				complete : function(jqXHR) {
+					if (after !== null) {
+						eval(after);
+					}
+					unblockPage();
+				},
+				error : function(xhr, ajaxOptions, thrownError) {
+					unblockPage();
+					// Mensaje error
+					showNotification('error',
+							'Ocurrio un error al ejecutar su peticion:'
+									+ thrownError);
+				}
+			});
+}
 
 function submitAjaxJQWithAction(formId, targetId, after, action) {
 	var method = 'POST';
@@ -258,6 +307,74 @@ function sendRequestJQ(actionURL, targetId, after, method) {
 			$("#" + targetId).html("");
 			$('#' + targetId).html(data);
 
+		},
+		complete : function(jqXHR) {
+			if (after !== null && after.length > 2) {
+				eval(after);
+			}
+			unblockPage();
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			unblockPage();
+			// Mensaje error
+			showNotification('error',
+					'Ocurrio un error al ejecutar su peticion:'
+							+ thrownError);
+		},
+		type : method
+	});
+}
+
+function sendRequestNewWindowJQ(actionURL, targetId, after, method) {
+	method = method || "POST";
+	var header = $("meta[name='_csrf_header']").attr("content");
+	var token = $("meta[name='_csrf']").attr("content");
+	blockPage();
+	
+	var theURL = context;
+	$.ajax({
+		url : context + '/' + actionURL,
+		beforeSend : function(xhr) {
+			xhr.setRequestHeader(header, token);
+		},
+		success : function(data) {
+			/*
+			$("#" + targetId).html("");
+			$('#' + targetId).html(data);
+			
+			
+			var url = "http://"+ window.location.host
+			
+			var popupHead = $("head");
+			var phx = popupHead;
+			
+			var popupBody = $("body");
+			var phb = popupBody;
+			
+			phx.find("link").each(function(index){
+				var link = $(this);
+				var path = $(link).attr("href");
+				if(path.startsWith("/")){
+					$(link).attr("href", url+path);
+				}
+			});
+			
+			phb.find("script").each(function(x){
+				var link = $(this);
+				var path = $(link).attr("src");
+				if(path != undefined && path.startsWith("/")){
+					$(link).attr("src", url+path);
+				}
+			});
+			
+			phb.find("#loading").remove();
+			
+			var headContent = phx.html();
+			var bodyContent = phb.html();
+			*/		
+			var win = window.open(context + "/" + actionURL, "Title", "scrollbars=yes, resizable=yes, width=780, height=200, top="+(screen.height-400)+", left="+(screen.width-840));
+			//win.document.head.innerHTML = headContent;
+			//win.document.body.innerHTML = bodyContent;
 		},
 		complete : function(jqXHR) {
 			if (after !== null && after.length > 2) {
