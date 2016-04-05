@@ -878,7 +878,7 @@ function initAvatarValidations() {
 
 	$('#submitRequestAvatar').click(function() {
 		if (form.valid()) {
-			submitAjaxJQ('avatar_form', 'dashboard', 'showProfile()');
+			submitFileAjaxJQTest('avatar_form', 'dashboard', 'showProfile()', true);
 		}
 	});
 }

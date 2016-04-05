@@ -35,7 +35,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 
 /**
  * Controller principal encargada del modulo de administracion de
@@ -118,14 +120,20 @@ public class ProfileController extends AuthController {
 		} else {
 			rootPath = SecopreConstans.SECOPRE_RESOURCES_WINDOWS_PATH;
 		}
-
+ 
+		String path=null;
 		// se guarda el archivo
 		if(user.getAvatar() != null){
+			path= rootPath + File.separator+ user.getAvatar();
 			model.addAttribute("avatar", rootPath + File.separator+ user.getAvatar());
 		}else{
-			model.addAttribute("avatar", rootPath + File.separator+ "default_avatar.jpg");
-			
+			path = rootPath + File.separator+ "default_avatar.jpg";	
 		}
+		
+		model.addAttribute("avatar", path);
+		
+		LOG.info(path.toString());
+		
 	
 		return SecopreConstans.MV_ADM_PROFILE;
 	}
@@ -205,12 +213,14 @@ public class ProfileController extends AuthController {
 		return SecopreConstans.MV_ADM_PROFILE;
 	}
 
-	@RequestMapping(value = "adm/profile/changeAvatar", method = RequestMethod.POST)
-	public String changeAvatar(HttpServletRequest request,
+	@RequestMapping(value = "adm/profile/changeAvatar", method =  { RequestMethod.POST,
+			RequestMethod.GET })
+	public void changeAvatar(HttpServletRequest request,
 			HttpServletResponse response,
 			@RequestParam("attachment") MultipartFile attachment,
 			ModelMap model, Principal principal,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes) 
+	{
 		String operativeSystem = System.getProperty("os.name").toLowerCase();
 		String rootPath = "";
 		try {
@@ -251,7 +261,7 @@ public class ProfileController extends AuthController {
 			LOG.error("Error al subir avatar", e);
 
 		}
-		return SecopreConstans.MV_ADM_PROFILE;
+	//	return SecopreConstans.MV_ADM_PROFILE;
 	}
 
 	@RequestMapping(value = "adm/profile/checkPasswordExist/{password}", method = { RequestMethod.GET })

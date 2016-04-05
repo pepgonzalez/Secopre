@@ -114,7 +114,7 @@
 												<p>
 													 Seleccione su Avantar, el cual será su identificador gráfico en este portal
 												</p>
-												<form id="avatar_form" action="auth/adm/profile/changeAvatar" method="POST" novalidate="novalidate">
+												<form id="avatar_form" action="auth/adm/profile/changeAvatar" method="POST" enctype="multipart/form-data">
 														<div class="fileinput fileinput-new" data-provides="fileinput">
 															<div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
 															   <img id="avatar" alt="" class="img-responsive" src='<c:url value="${avatar}"/>' />
@@ -128,7 +128,7 @@
 																Seleccione Imagen </span>
 																<span class="fileinput-exists">
 																Cambiar </span>
-																<input type="file" name="avatar" id="avatar" value="${avatar}">
+																<input type="file" id="attachment" name="attachment">
 																</span>
 																<a href="javascript:;" class="btn default fileinput-exists" data-dismiss="fileinput">
 																Borrar </a>
@@ -136,11 +136,9 @@
 														</div>
 														<div class="clearfix margin-top-10">
 															<span class="label label-danger">NOTA! </span>
-																	<span> Imagen de Máximo 2 MB </span> 
+																	<span> Imagen de Máximo 10 MB </span> 
 															
-<!-- 															<span>Atache image thumbnail is supported in Latest Firefox, Chrome, Opera, Safari and Internet Explorer 10 only </span> -->
 														</div>
-													
 													<div class="margin-top-10">
 														<button type="button" class="btn blue button-submit" id="submitRequestAvatar"><spring:message code="application.save"/></button>
 														<a href="javascript:;" class="btn default">
