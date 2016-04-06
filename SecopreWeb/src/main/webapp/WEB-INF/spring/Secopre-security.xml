@@ -21,7 +21,7 @@
 		<security:csrf />
 		<security:remember-me />
 		<security:session-management>
-			<security:concurrency-control error-if-maximum-exceeded="true" expired-url="/login?error" max-sessions="1"/>
+			<security:concurrency-control error-if-maximum-exceeded="true" expired-url="/login?error=2" max-sessions="1" />
 		</security:session-management>
 	</security:http>
 	
