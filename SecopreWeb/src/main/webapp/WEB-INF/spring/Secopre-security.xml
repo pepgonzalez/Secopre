@@ -20,9 +20,9 @@
     	<security:logout logout-url="/login?logout" logout-success-url="/" delete-cookies="JSESSIONID" />
 		<security:csrf />
 		<security:remember-me />
-<!-- 		<security:session-management> -->
-<!-- 			<security:concurrency-control error-if-maximum-exceeded="true" expired-url="/login?error" max-sessions="1"/> -->
-<!-- 		</security:session-management> -->
+		<security:session-management>
+			<security:concurrency-control error-if-maximum-exceeded="true" expired-url="/login?error" max-sessions="1"/>
+		</security:session-management>
 	</security:http>
 	
 	<bean id="daoAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
