@@ -883,7 +883,9 @@ public class WorkFlowController extends AuthController {
 		Long newRequestId = accessNativeService.getRequestByDistrictNextConsecutive(district.getId());	
 		String newFolio = "DTO-" +  district.getNumber() + "/" + newRequestId;
 		
-		rectificationRequest.setRequestId(newRequestId);
+		//rectificationRequest.setRequestId(newRequestId);
+		rectificationRequest.setRequestId(accessNativeService.getRequestNextConsecutive());
+		
 		rectificationRequest.setFolio(newFolio);
 		rectificationRequest.setUpMovements(new ArrayList<Movement>());
 		rectificationRequest.setDownMovements(new ArrayList<Movement>());
