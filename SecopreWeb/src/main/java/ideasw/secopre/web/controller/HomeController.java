@@ -59,7 +59,12 @@ public class HomeController extends ControllerBase {
 			@RequestParam(value = "error", required = false) String error) {
 		ModelAndView model = new ModelAndView();
 		if (error != null && !StringUtils.isEmpty(error)) {
-			model.addObject("error", "Credenciales Inválidas!");
+			if(error.equals("1")){
+				model.addObject("error", "Credenciales Inválidas!");				
+			}else{
+				model.addObject("error", "Sesion Inválida!");
+				
+			}
 		}
 		model.setViewName(SecopreConstans.MV_LOGIN);
 		return model;
@@ -103,7 +108,7 @@ public class HomeController extends ControllerBase {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/403", method = RequestMethod.GET)
+	@RequestMapping(value = "/403", method = { RequestMethod.GET, RequestMethod.POST })
 	public String accesssDenied(Principal user, ModelMap model) {
 		model.addAttribute("title", "Upsss! Lo sentimos no tienes permisos");
 		if (user != null) {
@@ -129,7 +134,7 @@ public class HomeController extends ControllerBase {
 	 * 
 	 * @param request
 	 */
-	@RequestMapping(value = "/404")
+	@RequestMapping(value = "/404",method = { RequestMethod.GET, RequestMethod.POST })
 	public void error404(HttpServletRequest req) {
 		String originalUri = (String) req
 				.getAttribute("javax.servlet.forward.request_uri");

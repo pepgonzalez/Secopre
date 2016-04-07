@@ -20,8 +20,8 @@
     	<security:logout logout-url="/login?logout" logout-success-url="/" delete-cookies="JSESSIONID" />
 		<security:csrf />
 		<security:remember-me />
-		<security:session-management>
-			<security:concurrency-control error-if-maximum-exceeded="true" expired-url="/login?error=2" max-sessions="1" />
+		<security:session-management invalid-session-url="/login?error=2" session-authentication-error-url="/login?error=2" session-fixation-protection="newSession">
+			<security:concurrency-control error-if-maximum-exceeded="true" max-sessions="1" />
 		</security:session-management>
 	</security:http>
 	
