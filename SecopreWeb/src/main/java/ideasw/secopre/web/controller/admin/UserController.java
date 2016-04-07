@@ -249,6 +249,29 @@ public class UserController extends AuthController {
 			model.addAttribute("balance", balance);
 		}
 		
+		//Avatar
+				String operativeSystem = System.getProperty("os.name").toLowerCase();
+				String rootPath = "";
+				if (operativeSystem.indexOf("nix") >= 0
+						|| operativeSystem.indexOf("nux") >= 0
+						|| operativeSystem.indexOf("aix") > 0) {
+					rootPath = SecopreConstans.SECOPRE_LOAD_IMAGE_LINUX_PATH;
+				} else {
+					rootPath = SecopreConstans.SECOPRE_LOAD_IMAGE_WINDOWS_PATH;
+				}
+		 
+				String path=null;
+				
+				if(loggedUser.getAvatar() != null){
+					path= rootPath + loggedUser.getAvatar();
+				}else{
+					path = rootPath + "default_avatar.jpg";	
+				}
+				
+				model.addAttribute("avatar", path);
+		
+		
+		
 		return SecopreConstans.AUTH_INDEX;
 	}
 	

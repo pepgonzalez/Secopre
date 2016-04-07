@@ -4,7 +4,7 @@
 							<!-- SIDEBAR USERPIC -->
 							<div class="profile-userpic">
 <!-- 								<img alt="" class="img-responsive" src="../../assets/admin/pages/media/profile/profile_user.jpg"> -->
-								<img id="loggedUserAvatar" alt="" class="img-responsive" src="C:/SecopreResources/pepgonzalez.jpg"/>
+								<img id="loggedUserAvatar" alt="" class="img-responsive" src=${avatar}/>
 							</div>
 							<!-- END SIDEBAR USERPIC -->
 							<!-- SIDEBAR USER TITLE -->
@@ -18,10 +18,10 @@
 							</div>
 							<!-- END SIDEBAR USER TITLE -->
 							<!-- SIDEBAR BUTTONS -->
-							<div class="profile-userbuttons">
-								<button class="btn btn-circle green-haze btn-sm" type="button">Follow</button>
-								<button class="btn btn-circle btn-danger btn-sm" type="button">Message</button>
-							</div>
+<!-- 							<div class="profile-userbuttons"> -->
+<!-- 								<button class="btn btn-circle green-haze btn-sm" type="button">Follow</button> -->
+<!-- 								<button class="btn btn-circle btn-danger btn-sm" type="button">Message</button> -->
+<!-- 							</div> -->
 							<!-- END SIDEBAR BUTTONS -->
 							<!-- SIDEBAR MENU -->
 							<div class="profile-usermenu">

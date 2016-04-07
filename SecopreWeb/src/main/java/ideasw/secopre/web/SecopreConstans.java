@@ -58,6 +58,8 @@ public class SecopreConstans {
 	
 	
 	//####Constantes de carga de archivos####//
+	public static final String SECOPRE_LOAD_IMAGE_WINDOWS_PATH = "../SecopreResources/";
+	public static final String SECOPRE_LOAD_IMAGE_LINUX_PATH = File.separator+"opt"+File.separator+"SecopreResources";
 	public static final String SECOPRE_RESOURCES_WINDOWS_PATH = "C:"+File.separator+"SecopreResources";
 	public static final String SECOPRE_RESOURCES_LINUX_PATH = File.separator+"opt"+File.separator+"SecopreResources";
 	public static final String DEFAULT_UPLOAD_FILE_NEXT_STAGE = "SOLCOMP";

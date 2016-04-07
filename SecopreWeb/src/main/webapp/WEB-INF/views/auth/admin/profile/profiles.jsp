@@ -82,20 +82,20 @@
 			<div class="page-head">
 				<!-- BEGIN PAGE TITLE -->
 				<div class="page-title">
-					<h1>Mi Perfil<small> Mi Cuenta</small></h1>
+					<h1>Mi Perfil<small>  </small></h1>
 				</div>
 			</div>
 			<!-- END PAGE HEAD -->
 			
-			<ul class="page-breadcrumb breadcrumb">
-				<li>
-					<a href="index.html">Home</a>
-					<i class="fa fa-circle"></i>
-				</li>
-				<li>
-					<a href="#">Mi Perfil</a>
-				</li>
-			</ul>
+<!-- 			<ul class="page-breadcrumb breadcrumb"> -->
+<!-- 				<li> -->
+<!-- 					<a href="index.html">Home</a> -->
+<!-- 					<i class="fa fa-circle"></i> -->
+<!-- 				</li> -->
+<!-- 				<li> -->
+<!-- 					<a href="#">Mi Perfil</a> -->
+<!-- 				</li> -->
+<!-- 			</ul> -->
 	
 	<!-- END HEADER -->
 

@@ -116,18 +116,17 @@ public class ProfileController extends AuthController {
 		if (operativeSystem.indexOf("nix") >= 0
 				|| operativeSystem.indexOf("nux") >= 0
 				|| operativeSystem.indexOf("aix") > 0) {
-			rootPath = SecopreConstans.SECOPRE_RESOURCES_LINUX_PATH;
+			rootPath = SecopreConstans.SECOPRE_LOAD_IMAGE_LINUX_PATH;
 		} else {
-			rootPath = SecopreConstans.SECOPRE_RESOURCES_WINDOWS_PATH;
+			rootPath = SecopreConstans.SECOPRE_LOAD_IMAGE_WINDOWS_PATH;
 		}
  
 		String path=null;
-		// se guarda el archivo
+		
 		if(user.getAvatar() != null){
-			path= rootPath + File.separator+ user.getAvatar();
-			model.addAttribute("avatar", rootPath + File.separator+ user.getAvatar());
+			path= rootPath + user.getAvatar();
 		}else{
-			path = rootPath + File.separator+ "default_avatar.jpg";	
+			path = rootPath + "default_avatar.jpg";	
 		}
 		
 		model.addAttribute("avatar", path);
@@ -161,6 +160,28 @@ public class ProfileController extends AuthController {
 			positionMap.put(p.getId(), p.getName());
 		}
 		model.addAttribute("positions", positionMap);
+		
+		//Avatar
+		String operativeSystem = System.getProperty("os.name").toLowerCase();
+		String rootPath = "";
+		if (operativeSystem.indexOf("nix") >= 0
+				|| operativeSystem.indexOf("nux") >= 0
+				|| operativeSystem.indexOf("aix") > 0) {
+			rootPath = SecopreConstans.SECOPRE_LOAD_IMAGE_LINUX_PATH;
+		} else {
+			rootPath = SecopreConstans.SECOPRE_LOAD_IMAGE_WINDOWS_PATH;
+		}
+ 
+		String path=null;
+		
+		if(user.getAvatar() != null){
+			path= rootPath + user.getAvatar();
+		}else{
+			path = rootPath + "default_avatar.jpg";	
+		}
+		
+		model.addAttribute("avatar", path);
+
 
 		return SecopreConstans.MV_ADM_PROFILE_ACCOUNT;
 	}
@@ -261,7 +282,7 @@ public class ProfileController extends AuthController {
 			LOG.error("Error al subir avatar", e);
 
 		}
-	//	return SecopreConstans.MV_ADM_PROFILE;
+		//return SecopreConstans.MV_ADM_PROFILE;
 	}
 
 	@RequestMapping(value = "adm/profile/checkPasswordExist/{password}", method = { RequestMethod.GET })

@@ -282,7 +282,7 @@
 						
 						<span class="username username-hide-on-mobile"> ${username} </span>
 						<!-- DOC: Do not remove below empty space(&nbsp;) as its purposely used -->
-						<img id="loggedUserAvatar" alt="" class="img-circle" src='<c:url value="/resources/img/users/${loggedUser.avatar}"/>' />
+						<img id="loggedUserAvatar" alt="" class="img-circle" src='<c:url value="${avatar}"/>' />
 						</a>
 						<ul class="dropdown-menu dropdown-menu-default">
 							<li>

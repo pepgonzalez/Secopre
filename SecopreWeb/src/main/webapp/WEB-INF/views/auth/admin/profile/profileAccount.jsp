@@ -135,8 +135,8 @@
 															</div>
 														</div>
 														<div class="clearfix margin-top-10">
-															<span class="label label-danger">NOTA! </span>
-																	<span> Imagen de Máximo 10 MB </span> 
+															<span class="label label-danger">NOTA!  </span>
+																	<span> Imagen de Máximo 5 MB y en formato jpg </span> 
 															
 														</div>
 													<div class="margin-top-10">
