@@ -10,6 +10,7 @@ public class SecopreConstans {
 	public static final String REDIRECT_ROOT_AUTH = "redirect:auth/";
 	public static final String AUTH_INDEX = "auth/common/layout";
 	public static final String MV_403 = "403";
+	public static final String MV_INVALID_SESSION = "invalidSession";
 	
 	//####Modulo Administracion Usuarios####//
 	public static final String MV_ADM_USR_LIST = "auth/admin/users/list";

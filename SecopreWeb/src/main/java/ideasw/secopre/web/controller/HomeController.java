@@ -100,7 +100,30 @@ public class HomeController extends ControllerBase {
 		model.setViewName(SecopreConstans.MV_LOGIN);
 		return model;
 	}
+	/***
+	 * Metodo que redireccion a una pagina custom los accesos no autorizados
+	 * 
+	 * @param user
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/invalidSession", method = { RequestMethod.GET, RequestMethod.POST })
+	public String invalidSession(Principal user, ModelMap model) {
+		model.addAttribute("title", "Upsss! Lo sentimos su session ha expirado");
+		if (user != null) {
+			model.addAttribute(
+					"message",
+					"Hola "
+							+ user.getName()
+							+ ", tu session expiro debido a que se inicio una nueva session desde otro navegador, por favor contacta a tu administrador!");
+		} else {
+			model.addAttribute(
+					"message",
+					"tu session expiro debido a que se inicio una nueva session desde otro navegador, por favor contacta a tu administrador!");
+		}
+		return SecopreConstans.MV_INVALID_SESSION;
 
+	}
 	/***
 	 * Metodo que redireccion a una pagina custom los accesos no autorizados
 	 * 

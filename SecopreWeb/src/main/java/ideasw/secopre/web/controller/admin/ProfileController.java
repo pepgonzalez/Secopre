@@ -13,6 +13,7 @@ import ideasw.secopre.web.controller.base.AuthController;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
@@ -35,9 +36,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 
 /**
  * Controller principal encargada del modulo de administracion de
@@ -66,6 +65,21 @@ public class ProfileController extends AuthController {
 
 	@Autowired
 	private AccessNativeService accessNativeService;
+
+	@ResponseBody
+	@RequestMapping(value = "img/{image}", method = { RequestMethod.GET })
+	public byte[] showImage(@PathVariable("image") String image,
+			ModelMap model, Principal principal, HttpServletRequest request)
+			throws IOException {
+		if(!image.contains(".jpg")){
+			image+=".jpg";
+		}
+		byte[] imagefs = org.apache.commons.io.FileUtils
+				.readFileToByteArray(new File(
+						SecopreConstans.SECOPRE_RESOURCES_LINUX_PATH
+								+ File.separator + image));
+		return imagefs;
+	}
 
 	@RequestMapping(value = "adm/profile/show", method = { RequestMethod.GET,
 			RequestMethod.POST })
@@ -109,31 +123,30 @@ public class ProfileController extends AuthController {
 			LOG.info(mov.toString());
 		}
 		model.addAttribute("totalmovs", totalmovs);
-		
-		//Avatar
+
+		// Avatar
 		String operativeSystem = System.getProperty("os.name").toLowerCase();
 		String rootPath = "";
 		if (operativeSystem.indexOf("nix") >= 0
 				|| operativeSystem.indexOf("nux") >= 0
 				|| operativeSystem.indexOf("aix") > 0) {
-			rootPath = SecopreConstans.SECOPRE_LOAD_IMAGE_LINUX_PATH;
+			rootPath = "img/";
 		} else {
 			rootPath = SecopreConstans.SECOPRE_LOAD_IMAGE_WINDOWS_PATH;
 		}
- 
-		String path=null;
-		
-		if(user.getAvatar() != null){
-			path= rootPath + user.getAvatar();
-		}else{
-			path = rootPath + "default_avatar.jpg";	
+
+		String path = null;
+
+		if (user.getAvatar() != null) {
+			path = rootPath + user.getAvatar();
+		} else {
+			path = rootPath + "default_avatar.jpg";
 		}
-		
+
 		model.addAttribute("avatar", path);
-		
+
 		LOG.info(path.toString());
-		
-	
+
 		return SecopreConstans.MV_ADM_PROFILE;
 	}
 
@@ -160,8 +173,8 @@ public class ProfileController extends AuthController {
 			positionMap.put(p.getId(), p.getName());
 		}
 		model.addAttribute("positions", positionMap);
-		
-		//Avatar
+
+		// Avatar
 		String operativeSystem = System.getProperty("os.name").toLowerCase();
 		String rootPath = "";
 		if (operativeSystem.indexOf("nix") >= 0
@@ -171,17 +184,16 @@ public class ProfileController extends AuthController {
 		} else {
 			rootPath = SecopreConstans.SECOPRE_LOAD_IMAGE_WINDOWS_PATH;
 		}
- 
-		String path=null;
-		
-		if(user.getAvatar() != null){
-			path= rootPath + user.getAvatar();
-		}else{
-			path = rootPath + "default_avatar.jpg";	
-		}
-		
-		model.addAttribute("avatar", path);
 
+		String path = null;
+
+		if (user.getAvatar() != null) {
+			path = rootPath + user.getAvatar();
+		} else {
+			path = rootPath + "default_avatar.jpg";
+		}
+
+		model.addAttribute("avatar", path);
 
 		return SecopreConstans.MV_ADM_PROFILE_ACCOUNT;
 	}
@@ -234,14 +246,13 @@ public class ProfileController extends AuthController {
 		return SecopreConstans.MV_ADM_PROFILE;
 	}
 
-	@RequestMapping(value = "adm/profile/changeAvatar", method =  { RequestMethod.POST,
-			RequestMethod.GET })
+	@RequestMapping(value = "adm/profile/changeAvatar", method = {
+			RequestMethod.POST, RequestMethod.GET })
 	public void changeAvatar(HttpServletRequest request,
 			HttpServletResponse response,
 			@RequestParam("attachment") MultipartFile attachment,
 			ModelMap model, Principal principal,
-			RedirectAttributes redirectAttributes) 
-	{
+			RedirectAttributes redirectAttributes) {
 		String operativeSystem = System.getProperty("os.name").toLowerCase();
 		String rootPath = "";
 		try {
@@ -275,14 +286,14 @@ public class ProfileController extends AuthController {
 
 			User user = secopreCache.getUser(principal.getName());
 			user.setAvatar(principal.getName() + ".jpg");
-			
+
 			baseService.update(user);
-			
+
 		} catch (Exception e) {
 			LOG.error("Error al subir avatar", e);
 
 		}
-		//return SecopreConstans.MV_ADM_PROFILE;
+		// return SecopreConstans.MV_ADM_PROFILE;
 	}
 
 	@RequestMapping(value = "adm/profile/checkPasswordExist/{password}", method = { RequestMethod.GET })

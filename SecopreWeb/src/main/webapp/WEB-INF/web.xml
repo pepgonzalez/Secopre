@@ -30,7 +30,6 @@
 		<session-timeout>30</session-timeout>
 		<tracking-mode>COOKIE</tracking-mode>
 	</session-config>
-
 	<!-- Definicion del Servlet principal y configuracion -->
 	<servlet>
 		<servlet-name>Secopre</servlet-name>

@@ -31,6 +31,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -68,6 +70,8 @@ public class UserController extends AuthController {
 
 	@Autowired
 	private EntryConfigService entryConfigService;
+	
+	static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 	
 	@RequestMapping(value = "adm/usr/list", method = { RequestMethod.GET,
 			RequestMethod.POST })
@@ -214,7 +218,9 @@ public class UserController extends AuthController {
 		// Se colocan los menus del usuario en session
 		request.getSession().setAttribute("menus", accessService.getMenuByUserName(name));
 
-		User loggedUser = accessNativeService.getUserByUsename(name);
+		User user = baseService.findByProperty(User.class, "username",
+				name).get(0);
+		User loggedUser = baseService.findById(User.class, user.getId());
 	    List<Role> authorities = accessNativeService.getRolesByUser(loggedUser.getId());
 	    loggedUser.setAuthorities(authorities);
 		
@@ -255,7 +261,7 @@ public class UserController extends AuthController {
 				if (operativeSystem.indexOf("nix") >= 0
 						|| operativeSystem.indexOf("nux") >= 0
 						|| operativeSystem.indexOf("aix") > 0) {
-					rootPath = SecopreConstans.SECOPRE_LOAD_IMAGE_LINUX_PATH;
+					rootPath = "img/";
 				} else {
 					rootPath = SecopreConstans.SECOPRE_LOAD_IMAGE_WINDOWS_PATH;
 				}
@@ -270,7 +276,7 @@ public class UserController extends AuthController {
 				
 				model.addAttribute("avatar", path);
 		
-		
+				LOG.info(path.toString());
 		
 		return SecopreConstans.AUTH_INDEX;
 	}
