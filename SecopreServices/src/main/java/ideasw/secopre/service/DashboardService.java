@@ -10,6 +10,6 @@ public interface DashboardService {
 
 	public List<String> getIndicators(User user);
 	
-	public Notice getNotice(User user, List<District> distritcs);
+	public List<Notice> getNotice(User user, List<District> distritcs);
 
 }

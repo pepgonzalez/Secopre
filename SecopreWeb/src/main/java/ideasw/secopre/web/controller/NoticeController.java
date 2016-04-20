@@ -171,11 +171,11 @@ public class NoticeController extends AuthController {
 	}
 
 	@RequestMapping(value = "oper/notice/getNotice")
-	public @ResponseBody Notice getNotice(ModelMap modelMap, Principal principal) {
+	public @ResponseBody List<Notice> getNotice(ModelMap modelMap, Principal principal) {
 		User user = secopreCache.getUser(principal.getName());
-		Notice notice = dashboardService.getNotice(user,
+		List<Notice> notices = dashboardService.getNotice(user,
 				secopreCache.getDistrictsByUser(user));
-		return notice;
+		return notices;
 	}
 	
 	@RequestMapping(value = "oper/notice/getDistrictsByNotice/{noticeId}", method= {RequestMethod.GET})

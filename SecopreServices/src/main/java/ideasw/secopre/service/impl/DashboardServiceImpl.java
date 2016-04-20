@@ -10,6 +10,7 @@ import ideasw.secopre.service.DashboardService;
 import ideasw.secopre.service.impl.mapper.NoticeMapper;
 import ideasw.secopre.utils.time.TimeUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -67,7 +68,7 @@ public class DashboardServiceImpl extends AccessNativeServiceBaseImpl implements
 	}
 
 	@Override
-	public Notice getNotice(User user, List<District> districts) {
+	public List<Notice> getNotice(User user, List<District> districts) {
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		String list = "";
 		for (District district : districts) {
@@ -80,7 +81,7 @@ public class DashboardServiceImpl extends AccessNativeServiceBaseImpl implements
 			StringBuffer buffer = new StringBuffer();
 			// Busca primero una aviso por el alguno de los distritos.
 		
-			buffer.append("SELECT N.* ");
+			buffer.append("SELECT DISTINCT N.* ");
 			buffer.append("FROM secopre.NOTICE N ");
 			buffer.append("INNER JOIN secopre.NOTICE_DISTRICT ND ");
 			buffer.append("ON N.ID = ND.NOTICE_ID ");
@@ -91,24 +92,25 @@ public class DashboardServiceImpl extends AccessNativeServiceBaseImpl implements
 	
 			List<Notice> notices = this.queryForList(Notice.class, buffer.toString(), params, new NoticeMapper());
 	
-			if (notices != null && !notices.isEmpty() ) {
-				return notices.get(0);
+			if (notices == null || notices.isEmpty() ) {
+				notices = new ArrayList<Notice>(0);
 			}
 			
 			// En caso que no exista algun aviso busca uno general;
 			buffer = new StringBuffer();
-			buffer.append("SELECT N.* ");
+			buffer.append("SELECT DISTINCT N.* ");
 			buffer.append("FROM secopre.NOTICE N ");
 			buffer.append("WHERE N.DISPLAY_DATE = DATE('"+TimeUtils.defaultDateFormat.format(new Date())+"') ");
 			buffer.append("AND N.ID NOT IN (SELECT ND.NOTICE_ID FROM secopre.NOTICE_DISTRICT ND) ");
 			buffer.append("AND N.ACTIVE = 1 ");
 
-			notices = this.queryForList(Notice.class, buffer.toString(), params, new NoticeMapper());
+			List<Notice> notices2 = this.queryForList(Notice.class, buffer.toString(), params, new NoticeMapper());
 			
-			if (notices != null && !notices.isEmpty() ) {
-				return notices.get(0);
+			if (notices2 != null && !notices2.isEmpty() ) {
+				notices.addAll(notices2);
 			}
 			
+			return notices;
 	    }
 	
 		return null;

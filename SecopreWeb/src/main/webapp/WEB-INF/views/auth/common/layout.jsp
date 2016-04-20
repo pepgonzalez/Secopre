@@ -224,29 +224,31 @@
 		   QuickSidebar.init(); // init quick sidebar
 		   Index.init(); // init index page
 		   Tasks.initDashboardWidget(); // init tash dashboard widget  
-
 	         $.getJSON("oper/notice/getNotice",{}, function(j){
-	              var json = eval(j);
-	              console.log("NOTICE ===>", json);
-	              console.log("EVAL =====>", eval(json != null));
-				  if(json != null ){
-		              BootstrapDialog.show({
-		            		title: 'Notificaciones Secopre',
-		            	    message: json.noticeInfo,
-		            	    size: BootstrapDialog.SIZE_WIDE,
-		            	    draggable: true,
-		            	    buttons: [{
-		            	        id: 'btn-ok',   
-		            	        icon: 'glyphicon glyphicon-check',       
-		            	        label: 'Cerrar',
-		            	        cssClass: 'btn-primary', 
-		            	        autospin: false,
-		            	        action: function(dialogRef){    
-		            	            dialogRef.close();
-		            	        }
-		            	    }]
-		            	});
-				  }
+	              var json = eval(j);	              
+	              $.each(json, function(key, value) {
+		              console.log("NOTICE ===>", value);
+		              console.log("EVAL =====>", eval(value != null));
+					  if(json != null ){
+			              BootstrapDialog.show({
+			            		title: 'Notificaciones Secopre',
+			            	    message: value.noticeInfo,
+			            	    size: BootstrapDialog.SIZE_WIDE,
+			            	    draggable: true,
+			            	    buttons: [{
+			            	        id: 'btn-ok',   
+			            	        icon: 'glyphicon glyphicon-check',       
+			            	        label: 'Cerrar',
+			            	        cssClass: 'btn-primary', 
+			            	        autospin: false,
+			            	        action: function(dialogRef){    
+			            	            dialogRef.close();
+			            	        }
+			            	    }]
+			            	});
+					  }
+	            	  
+	              });
 	            });
 		   
 		});
