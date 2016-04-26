@@ -2598,6 +2598,15 @@ function expenseCapture() {
 			submitAjaxJQ('requestForm', 'dashboard', '');
 		}
 	});
+	
+	$('#cancelRequest').click(function(e) {
+		$(document).find("#requestForm").find(".pk").prop("disabled",false);
+		$(document).find("#requestForm").find(".entry").prop("disabled",false);
+		$(document).find("#requestForm").find(".monthAmount").prop("disabled",false);
+		
+		requestForm.find('#nextStageValueCode').val("CANCELAR");
+		submitAjaxJQ('requestForm', 'dashboard', '');
+	});
 }
 
 

@@ -117,6 +117,15 @@
 																	</td>
 																</tr>
 															</c:if>
+															<c:if test="${inboxItem.isOperated == true && inboxItem.formalityId == 2}">
+																<tr>
+																	<td>
+																		<a href="#" onclick="rollbackMovement('auth/wf/rollback/${inboxItem.requestId}');">
+																			Revertir Operación
+																		</a>
+																	</td>
+																</tr>
+															</c:if>
 															
 														</tbody>
 													</table>

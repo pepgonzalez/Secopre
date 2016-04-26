@@ -246,9 +246,11 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		
 		
 		//si es etapa de cancelacion, se da rollback a los movimientos a la baja
-		if(next.getIsCanceled()){
+		if(next.getIsCanceled() && !currentStage.getIsOperated()){
 			//por cada movimiento a la baja, se resta el monto distrito-partida-mes, al saldo comprometido
 			this.runCancelation(requestId);
+		}else{
+			LOG.info("no se corre cancelacion");
 		}
 		
 		//si la siguiente etapa es de tramite finalizado, opera los movimientos
@@ -258,8 +260,14 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 			this.runOperation(requestId);
 		}
 		
-		//operar o modificar monto comprometido si aplica
+		//si es etapa de cancelacion, se da rollback a los movimientos a la baja
+		if(next.getIsCanceled() && currentStage.getIsOperated()){
+			LOG.info("ejecutando rollback de movimiento operado");
+			//por cada movimiento a la baja, se resta el monto distrito-partida-mes, al saldo comprometido
+			this.runRollback(requestId);
+		}
 		
+		//operar o modificar monto comprometido si aplica
 		this.inactivateActiveStage(requestId);
 		this.insertTransition(requestId, transition, consecutive, userId, comments);
 	}
@@ -290,6 +298,20 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 			baseService.remove(e);
 		}
 		
+	}
+	
+	private void runRollback(Long requestId){
+		//se obtiene el detalle del folio
+		Request request = this.getRequestAndDetailById(requestId);
+		for(Movement mov : request.getDownMovements()){
+			//iteracion sobre los meses del movimiento
+			for(int i= mov.getInitialMonthId(); i<= mov.getFinalMonthId();i++){
+				EntryDistrict entry = this.getEntryBalance(request.getDistrictId(), mov.getEntryId(), new Long(i));
+				//entry.setCommittedAmount((entry.getCommittedAmount() - mov.getMonthAmountValue()));
+				entry.setBudgetAmountAssign(entry.getBudgetAmountAssign() + mov.getMonthAmountValue());
+				baseService.update(entry);
+			}
+		}	
 	}
 	
 	private void runOperation(Long requestId){

@@ -453,6 +453,31 @@ function openResourceNative(actionURL) {
     window.location.href = downloadUrl;
 }
 
+function rollbackMovement(path){
+	bootbox.dialog({
+        message: "La reversi&oacute;n del gasto vuelve los montos del gasto operado a su estado original. &iquest;Desea continuar?",
+        title: "Revertir Operaci&oacute;n de Gasto",
+   	 	buttons: {
+   		    success: {
+   		      label: "Continuar",
+   		      className: "btn-success",
+   		      callback: function() {
+   		    	apiCall(path, function(data){
+   		    		alert("ROLLBACK");
+   		    		sendRequestJQ('auth/tram/mylist','dashboard','initMyTramiteListPage()','GET');
+   				  });
+   		      }
+   		 	},
+   		    cancel: {
+   		      label: "Cancelar",
+   		      className: "btn-danger",
+   		      callback: function() {
+   		      }
+   		    }
+   		 }
+   });
+}
+
 function openParamResourceNative(actionURL, formId) {
     var downloadUrl = actionURL;
     

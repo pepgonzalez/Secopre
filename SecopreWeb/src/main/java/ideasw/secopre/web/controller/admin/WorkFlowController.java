@@ -249,9 +249,17 @@ public class WorkFlowController extends AuthController {
 	public String saveExpense(@ModelAttribute("requestForm") Request requestForm, BindingResult result, ModelMap model, 
 			RedirectAttributes attributes, Principal principal, HttpServletRequest request, final RedirectAttributes redirectAttributes) throws Exception{
 		
-		LOG.info("guardando gasto");
+		LOG.info("guardando gasto: " + requestForm.getNextStageValueCode());
 		
 		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
+		
+		
+		
+		if(requestForm.getNextStageValueCode().equals("CANCELAR")){
+			LOG.info("Cancelando movimiento...");
+			accessNativeService.invokeNextStage(requestForm, loggedUser.getId());
+			return SecopreConstans.MV_TRAM_LIST_REDIRECT;
+		}
 		
 		try{
 			//se valida si la cuenta por certificar ya esta capturada para el distrito
@@ -821,6 +829,25 @@ public class WorkFlowController extends AuthController {
 		model.addAttribute("pk", pk);
 		model.addAttribute("existeKey", existeKey);
 		return SecopreConstans.MV_TRAM_PK;
+	}
+	
+	/*Metodo para obtener el detalle de la clave programatica */
+	@RequestMapping(value = "wf/rollback/{rId}", method = { RequestMethod.GET })
+	public String rollBackRequestId(@PathVariable("rId") Long requestId,
+								   ModelMap model, RedirectAttributes attributes, Principal principal) {
+
+		LOG.info("Haciendo Rollback de requestId: " + requestId);
+
+		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
+
+		Request baseRequest = accessNativeService.getRequestById(requestId);
+		baseRequest.setNextStageValueCode("CANCELAR");
+		baseRequest.setStageConfigId(7L);
+		accessNativeService.invokeNextStage(baseRequest, loggedUser.getId());
+		
+		
+		model.addAttribute("requestId", requestId);
+		return SecopreConstans.MV_TRAM_LIST_REDIRECT;
 	}
 	
 	
