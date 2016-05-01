@@ -3,6 +3,7 @@ package ideasw.secopre.dto;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -30,6 +31,9 @@ public class Inbox {
 	private Long statusId;
 	private String nextDescription;
 	private boolean hasComments;
+	
+	private Date folioCreationDate;
+	private Boolean canUserCancelRequest;
 	
 	private boolean isCanceled;
 	private boolean isOperated;
@@ -229,5 +233,25 @@ public class Inbox {
 	}
 	public void setHasComments(boolean hasComments) {
 		this.hasComments = hasComments;
+	}
+	public Boolean getCanUserCancelRequest() {
+		return canUserCancelRequest;
+	}
+	public void setCanUserCancelRequest(Boolean canUserCancelRequest) {
+		this.canUserCancelRequest = canUserCancelRequest;
+	}
+	public Date getFolioCreationDate() {
+		return folioCreationDate;
+	}
+	public void setFolioCreationDate(Date folioCreationDate) {
+		this.folioCreationDate = folioCreationDate;
+	}
+	public boolean getIsCreatedInCurrentMonth(){
+		Calendar now = Calendar.getInstance();
+		Calendar creation = Calendar.getInstance();
+		creation.setTime(this.folioCreationDate);
+		return creation.get(Calendar.MONTH) == now.get(Calendar.MONTH);
+	}
+	public void setIsCreatedInCurrentMonth(boolean v){
 	}
 }

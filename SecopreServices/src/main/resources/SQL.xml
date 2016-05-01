@@ -243,6 +243,7 @@
 								SC.IS_OPERATED,
 								ifnull(SC.CAPTURE_FORM,"") CAPTURE_FORM,
 								WC.STATUS_ID, S.DESCRIPTION NEXT_DESCRIPTION,
+								R.LAST_UPDATE FOLIO_CREATION_DATE,
 								(SELECT COUNT(*) FROM secopre.REQUEST_HISTORY IRH WHERE IRH.REQUEST_ID = R.ID AND IRH.COMMENTS IS NOT NULL) AS HAS_COMMENTS
 						   FROM secopre.REQUEST R,
 						   		secopre.REQUEST_HISTORY RH,
@@ -349,7 +350,8 @@
 							   R.MOVEMENT_TYPE_ID,
 							   R.CERTIFIED_ACCOUNT,
 							   R.ENTRY_ID,
-							   R.EXPENSE_DESCRIPTION
+							   R.EXPENSE_DESCRIPTION,
+							   R.LAST_UPDATE
 						  FROM secopre.REQUEST R
 						 WHERE R.ID = :requestId
 					]]>
@@ -1073,6 +1075,7 @@
 										IFNULL(MSC.CAPTURE_FORM,"") CAPTURE_FORM,
 										MWC.STATUS_ID, 
 										MSTATUS.DESCRIPTION NEXT_DESCRIPTION,
+										MR.LAST_UPDATE FOLIO_CREATION_DATE,
 										(SELECT COUNT(*) FROM secopre.REQUEST_HISTORY IRH WHERE IRH.REQUEST_ID = MR.ID AND IRH.COMMENTS IS NOT NULL) AS HAS_COMMENTS
 								  FROM secopre.REQUEST_HISTORY MRH
 								       JOIN secopre.WORKFLOW_CONFIG MWC ON (MRH.WORKFLOW_CONFIG_ID = MWC.ID)
@@ -1341,7 +1344,8 @@
 							   R.RESOURCE_PATH,
 							   R.MOVEMENT_TYPE_ID,
 							   R.CERTIFIED_ACCOUNT,
-							   R.ENTRY_ID 
+							   R.ENTRY_ID,
+							   R.LAST_UPDATE
 				  FROM secopre.REQUEST R,
 				  	   secopre.REQUEST_DETAIL RD,
 				  	   secopre.REQUEST_HISTORY RH,
@@ -1461,6 +1465,17 @@
 						 WHERE R.DISTRICT_ID = :districtId 
 						   AND R.CERTIFIED_ACCOUNT = :account
 						   AND R.ID <> :me
+					]]>
+				</prop>
+				
+				<prop key="CAN_USER_CANCEL_REQUEST">
+					<![CDATA[
+				  select COUNT(*) as TOTAL
+					from secopre.FORMALITY_CANCEL_ROLE FCR,
+						 secopre.USER_ROLE UR
+					where UR.ROLE_ID = FCR.ROLE_ID
+					and UR.USER_ID = :userId
+					and FCR.FORMALITY_ID = :formalityId
 					]]>
 				</prop>
 						

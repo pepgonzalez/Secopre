@@ -46,9 +46,13 @@
 											<div class="col-md-offset-2 col-md-10">
 												<button type="button" class="btn default" onclick="sendRequestJQ('auth/tram/list','dashboard','noAction()','GET');"><spring:message code="application.back"/></button>
 												<!-- <button type="button" class="btn default" id="partialSave">Guardado Parcial</button> -->
+												
 												<c:if test="${requestForm.formalityCode == 'expense'}">
-   													<button type="button" class="btn red" id="cancelRequest">Cancelar Trámite</button>
+														<c:if test="${requestForm.isCreatedInCurrentMonth == true && requestForm.canUserCancelFormality == true}">
+   															<button type="button" class="btn red" id="cancelRequest">Cancelar Trámite</button>
+   														</c:if>
 												</c:if>
+												
 												<button type="button" class="btn green" id="saveAndContinue">Finalizar Captura</button>
 											</div>
 										</div>

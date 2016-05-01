@@ -311,7 +311,10 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 				entry.setBudgetAmountAssign(entry.getBudgetAmountAssign() + mov.getMonthAmountValue());
 				baseService.update(entry);
 			}
-		}	
+		}
+		
+		request.setCertifiedAccount(request.getCertifiedAccount() + "_CANCEL");
+		this.insertOrUpdateRequest(request);
 	}
 	
 	private void runOperation(Long requestId){
@@ -835,6 +838,7 @@ private void insertMasiveMovements(List<Movement> list, Request request) throws 
 		String formalityName = formality.getDescription();
 
 		r.setFormalityName(formalityName);
+		r.setFormalityId(formality.getFormalityId());
 		
 		//se obtiene la transicion actual del tramite
 		RequestHistory rh = this.getActiveRequestHistory(requestId);
@@ -1203,6 +1207,11 @@ private void insertMasiveMovements(List<Movement> list, Request request) throws 
 	public boolean existCeritifiedAccountInDistrict(Long districtId, String account, Long requestId){
 		SqlParameterSource params = new MapSqlParameterSource().addValue("districtId", districtId).addValue("account", account).addValue("me", requestId);
 		return this.queryForObject(Integer.class, queryContainer.getSQL(SQLConstants.EXIST_CERTIFIED_ACCOUNT_IN_DISTRICT), params) > 0;			
+	}
+	
+	public boolean canUserCancelRequest(Long userId, Long formalityId){
+		SqlParameterSource params = new MapSqlParameterSource().addValue("userId", userId).addValue("formalityId", formalityId);
+		return this.queryForObject(Integer.class, queryContainer.getSQL(SQLConstants.CAN_USER_CANCEL_REQUEST), params) > 0;			
 	}
 	
 	private int getActiveRequestInCapture(Long userId){

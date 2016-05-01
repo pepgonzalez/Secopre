@@ -20,6 +20,7 @@ public class RequestMapper implements RowMapper<Object> {
 		 request.setCertifiedAccount(rs.getString("CERTIFIED_ACCOUNT"));
 		 request.setEntryId(rs.getLong("ENTRY_ID"));
 		 request.setExpenseDescription(rs.getString("EXPENSE_DESCRIPTION"));
+		 request.setLastUpdate(rs.getDate("LAST_UPDATE"));
 		 //request.setFirstName(rs.getString("FIRST_NAME"));
 		 //request.setParentLastName(rs.getString("PARENT_LAST_NAME"));
 		 //request.setMotherLastName(rs.getString("MOTHER_LAST_NAME"));

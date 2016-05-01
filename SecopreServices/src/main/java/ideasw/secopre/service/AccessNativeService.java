@@ -277,5 +277,7 @@ public interface AccessNativeService {
 	Long getRequestByEntryId(Long entryId);
 
 	boolean existCeritifiedAccountInDistrict(Long districtId, String account, Long requestId);
+	
+	boolean canUserCancelRequest(Long userId, Long formalityId);
 }
 

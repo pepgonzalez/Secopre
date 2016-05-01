@@ -188,6 +188,13 @@ public class TramiteController extends AuthController {
 
 		List<Inbox> inboxList = accessNativeService.getMyInboxByUserId(loggedUser.getId());
 		
+		for(Inbox e : inboxList){
+			if(e.getFormalityId().intValue() == 2){
+				e.setCanUserCancelRequest(accessNativeService.canUserCancelRequest(loggedUser.getId(), e.getFormalityId()));
+			}
+		}
+		
+		
 		model.addAttribute("inboxList", inboxList);	
 		return SecopreConstans.MV_TRAM_MY_LIST;
 	}

@@ -463,8 +463,7 @@ function rollbackMovement(path){
    		      className: "btn-success",
    		      callback: function() {
    		    	apiCall(path, function(data){
-   		    		alert("ROLLBACK");
-   		    		sendRequestJQ('auth/tram/mylist','dashboard','initMyTramiteListPage()','GET');
+   		    		sendRequestJQ('auth/tram/list','dashboard','initTramiteListPage()','GET');
    				  });
    		      }
    		 	},

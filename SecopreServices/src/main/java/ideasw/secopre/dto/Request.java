@@ -2,6 +2,7 @@ package ideasw.secopre.dto;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +30,8 @@ public class Request {
 	private Long entryId;
 	private Long rectificationId;
 	private Long requestIdByDistrict;
+	private Date lastUpdate;
+	private Boolean canUserCancelFormality;
 
 	//variables correspondientes a REQUEST DETAIL
 	private Long movementTypeId;
@@ -274,5 +277,27 @@ public class Request {
 	}
 	public void setReduccionTotalAmountStr(String reduccionTotalAmountStr) {
 		this.reduccionTotalAmountStr = reduccionTotalAmountStr;
+	}
+	public Date getLastUpdate() {
+		return lastUpdate;
+	}
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
+	
+	public boolean getIsCreatedInCurrentMonth(){
+		Calendar now = Calendar.getInstance();
+		Calendar creation = Calendar.getInstance();
+		creation.setTime(this.lastUpdate);
+		return creation.get(Calendar.MONTH) == now.get(Calendar.MONTH);
+	}
+	
+	public void setIsCreatedInCurrentMonth(boolean v){
+	}
+	public Boolean getCanUserCancelFormality() {
+		return canUserCancelFormality;
+	}
+	public void setCanUserCancelFormality(Boolean canUserCancelFormality) {
+		this.canUserCancelFormality = canUserCancelFormality;
 	}
 }

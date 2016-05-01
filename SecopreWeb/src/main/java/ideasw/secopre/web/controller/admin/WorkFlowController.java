@@ -90,6 +90,8 @@ public class WorkFlowController extends AuthController {
 			@PathVariable("executeInnerJs") Integer executeInnerJs,
 			ModelMap model, RedirectAttributes attributes, Principal principal) {
 		
+		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
+		
 		LOG.info("Cargando informacion parcial");
 		
 		Request requestForm = accessNativeService.getRequestAndPartialDetailById(requestId);
@@ -132,6 +134,14 @@ public class WorkFlowController extends AuthController {
 		
 		//Map<Long, String> conceptMap= accessNativeService.getConceptsMap();
 		List<Entry> concepts = accessNativeService.getConceptsMap();
+		
+		LOG.info("userId:" + loggedUser.getId());
+		LOG.info("formalityId:" + requestForm.getFormalityId());
+		Boolean canCancel = accessNativeService.canUserCancelRequest(loggedUser.getId(), requestForm.getFormalityId());
+		
+		LOG.info("canCancel: " + canCancel); 
+		
+		requestForm.setCanUserCancelFormality(canCancel);
 			
 		model.addAttribute("accountingTypes", accountingType);
 		model.addAttribute("conceptsList", concepts);
@@ -257,6 +267,9 @@ public class WorkFlowController extends AuthController {
 		
 		if(requestForm.getNextStageValueCode().equals("CANCELAR")){
 			LOG.info("Cancelando movimiento...");
+			Request baseRequest = accessNativeService.getRequestById(requestForm.getRequestId());
+			baseRequest.setCertifiedAccount(baseRequest.getCertifiedAccount() + "_CANCEL");
+			accessNativeService.insertOrUpdateRequestData(baseRequest);
 			accessNativeService.invokeNextStage(requestForm, loggedUser.getId());
 			return SecopreConstans.MV_TRAM_LIST_REDIRECT;
 		}
