@@ -112,12 +112,13 @@ public class ReportController extends AuthController {
 	}
 	
 	@RequestMapping(value = "report/params/{reportId}/{reportType}", method ={RequestMethod.GET})
-	public String showReportParams(@PathVariable("reportId") Long reportId, @PathVariable("reportType") String reportType, ModelMap model, HttpServletResponse response) throws Exception{
+	public String showReportParams(@PathVariable("reportId") Long reportId, @PathVariable("reportType") String reportType, ModelMap model, Principal principal, HttpServletResponse response) throws Exception{
 		LOG.info("report/params/" +  reportId + reportType.toString() );
 		LOG.info("mostrando parametros de reportId : " +  reportId);
 		LOG.info("Descargando reportType : " +  reportType);
 		
-		Report report = accessNativeService.getReportById(reportId);
+		User u = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
+		Report report = accessNativeService.getReportByIdWithUserId(reportId, u.getId() );
 		
 		ReportParameter params = new ReportParameter();
 		params.setReportId(report.getReportId());
@@ -125,6 +126,7 @@ public class ReportController extends AuthController {
 		//TODO validacion distritos en reportes
 		
 		model.addAttribute("reportParameters", report.getReportParameters());
+		
 		model.addAttribute("reportParametersForm",params);
 		model.addAttribute("reportName", report.getDescription());
 		model.addAttribute("reportType", reportType);

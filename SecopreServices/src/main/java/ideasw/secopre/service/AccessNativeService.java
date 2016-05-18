@@ -175,6 +175,9 @@ public interface AccessNativeService {
      /*Obtener reporte y parametero en base a id*/
      Report getReportById(Long reportId) throws Exception;
      
+     /*Obtener reporte y parametero en base a id con usuario*/
+     Report getReportByIdWithUserId(Long reportId, Long userId) throws Exception;
+     
      /*Metodo para obtener los parametros de un reporte*/
      List<ReportParameter> getParametersById(Long reportId) throws Exception;
      

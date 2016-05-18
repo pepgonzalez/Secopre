@@ -30,6 +30,7 @@ import ideasw.secopre.model.EntryDistrict;
 import ideasw.secopre.model.ProgrammaticKey;
 import ideasw.secopre.model.catalog.District;
 import ideasw.secopre.model.catalog.MovementType;
+import ideasw.secopre.model.catalog.Person;
 import ideasw.secopre.model.catalog.State;
 import ideasw.secopre.model.security.Permission;
 import ideasw.secopre.model.security.Role;
@@ -1099,6 +1100,13 @@ private void insertMasiveMovements(List<Movement> list, Request request) throws 
 		return report;
 	}
 	
+	public Report getReportByIdWithUserId(Long reportId, Long userId) throws Exception{
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("reportId", reportId);
+		Report report = this.queryForList(Report.class, queryContainer.getSQL(SQLConstants.GET_REPORT_BY_ID), namedParameters , new ReportMapper()).get(0);
+		report.setReportParameters(this.getReportParameterByReportIdByUserId(report.getReportId(),userId));
+		return report;
+	}
+	
 	public List<ReportParameter> getReportParameterByReportId(Long reportId) throws Exception{
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("reportId", reportId);
 		List<ReportParameter> reportParameterList = this.queryForList(ReportParameter.class, queryContainer.getSQL(SQLConstants.GET_REPORT_PARAMETERS), namedParameters, new ReportParameterMapper());
@@ -1109,6 +1117,32 @@ private void insertMasiveMovements(List<Movement> list, Request request) throws 
 				 Method method = this.getClass().getMethod(reportParameter.getAjax());
 				 Map<Long, String> parameterOptions = (Map<Long, String>) method.invoke(this);
 				 reportParameter.setParameterOptions(parameterOptions);
+			}
+		}
+		return reportParameterList;
+	}
+	
+	public List<ReportParameter> getReportParameterByReportIdByUserId(Long reportId, Long userId) throws Exception{
+		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("reportId", reportId);
+		List<ReportParameter> reportParameterList = this.queryForList(ReportParameter.class, queryContainer.getSQL(SQLConstants.GET_REPORT_PARAMETERS), namedParameters, new ReportParameterMapper());
+		
+		for(ReportParameter reportParameter: reportParameterList){
+			if(reportParameter.getAjax() != null && reportParameter.getAjax().length() > 0){
+				//se obtiene el mapa de opciones
+				Map<Long, String> parameterOptions = new HashMap<Long, String>();
+				if(reportParameter.getParameterName().equals("P_DISTRITO")) {
+			       List<District> districts = getDistrictsByUser(userId);
+			       for (District d : districts) {
+			        	 parameterOptions.put(d.getId()," DTO-"
+									+ d.getNumber());
+
+			 	   }	
+				}
+				else {
+			       Method method = this.getClass().getMethod(reportParameter.getAjax());
+				   parameterOptions = (Map<Long, String>) method.invoke(this);
+			    }
+				reportParameter.setParameterOptions(parameterOptions);
 			}
 		}
 		return reportParameterList;
