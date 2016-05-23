@@ -387,11 +387,19 @@ public class WorkFlowController extends AuthController {
 				propertiesMap.put("code", requestForm.getEntry().getCode());
 				List<Entry> currentEntriesWithCode = baseService.findByProperties(Entry.class, propertiesMap);
 				
+				boolean entryExist = false;
 				if(currentEntriesWithCode != null && currentEntriesWithCode.size() > 0){
 					for(Entry e : currentEntriesWithCode){
 						//si esta activa, significa que alguien ya la opero
-						if(e.getStatus() == StatusEntry.ACTIVE){
-							throw new EntryDistrictException("El código " + requestForm.getEntry().getCode() + " ya se encuentra actualmente asociado a la partida: " + e.getDescription() + ". Verifique.");
+						if(e.getStatus() == StatusEntry.ACTIVE){	
+							entryExist = Boolean.TRUE;
+							propertiesMap = new HashMap<String, Object>();
+							propertiesMap.put("entry.code", requestForm.getEntry().getCode());
+							propertiesMap.put("district.id", requestForm.getDistrictId());
+							List<EntryDistrict> entryDistrictList = baseService.findByProperties(EntryDistrict.class, propertiesMap);
+							if(entryDistrictList != null && entryDistrictList.size() > 0){
+								throw new EntryDistrictException("El código " + requestForm.getEntry().getCode() + " ya se encuentra actualmente asociado a la partida: " + e.getDescription() + ". Verifique.");
+							}
 						}
 						//si no esta activa, probablemente alguien la creó
 						else if(e.getStatus() == StatusEntry.INACTIVE){
@@ -406,11 +414,15 @@ public class WorkFlowController extends AuthController {
 					}
 				}
 				
-				//guardando partida
-				Long entryId = (Long) baseService.persistAndReturnId(entry);			
-				r.setEntryId(entryId);		
-				r = accessNativeService.insertOrUpdateRequestData(r);	
-		
+				if(!entryExist){
+					//guardando partida
+					Long entryId = (Long) baseService.persistAndReturnId(entry);			
+					r.setEntryId(entryId);		
+					r = accessNativeService.insertOrUpdateRequestData(r);	
+				}else{
+					throw new EntryDistrictException("El código " + requestForm.getEntry().getCode() + " ya se encuentra registrado en el sistema, informe al administrador.");
+					
+				}
 			}
 			
 			accessNativeService.invokeNextStage(requestForm, loggedUser.getId());
