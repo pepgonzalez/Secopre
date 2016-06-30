@@ -1133,7 +1133,7 @@
 				
 				<prop key="GET_NOTIFICATIONS_BY_USER">
 					<![CDATA[
-						SELECT * FROM secopre.NOTIFICATION 
+						SELECT * FROM secopre.NOTIFICATION
 						where USER_ID = :userId 
 						AND STATUS = 1
 					    AND YEAR(CREATION_DATE) = YEAR(NOW())				-- SOLO ANIO ACTUAL

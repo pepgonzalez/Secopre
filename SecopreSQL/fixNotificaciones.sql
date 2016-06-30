@@ -1,5 +1,16 @@
-DROP TRIGGER IF EXISTS createNotification;
+/*
+	-- A* ALTER A TABLA DE NOTIFICACIONES
+	-- B* AJUSTE A TRIGGER PARA BAJAR EL REQUEST_ID
+*/
 
+-- A* 
+ALTER TABLE secopre.NOTIFICATION ADD(
+	REQUEST_ID BIGINT(20)
+);
+
+-- B*
+DROP TRIGGER IF EXISTS createNotification;
+DELIMITER $$
 CREATE TRIGGER createNotification AFTER INSERT ON secopre.REQUEST_HISTORY
   FOR EACH ROW
     BEGIN
@@ -39,7 +50,7 @@ CREATE TRIGGER createNotification AFTER INSERT ON secopre.REQUEST_HISTORY
 		   AND SC.ID = WC.NEXT_STAGE_CONFIG
 		   AND WC.ID = transition;
 	  
-	  /*si el que avanzo el folio no es el dueño, se le avisa al dueño que su folio se avanzó */
+	  /*si el que avanzo el folio no es el dueÃ±o, se le avisa al dueÃ±o que su folio se avanzÃ³ */
 	  IF creator <> request_owner THEN
 	  
 	  	/* se obtiene el usuario */
@@ -77,4 +88,5 @@ CREATE TRIGGER createNotification AFTER INSERT ON secopre.REQUEST_HISTORY
  	  
  	  END IF;
       
-    END;
+    END$$
+DELIMITER ;

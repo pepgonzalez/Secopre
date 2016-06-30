@@ -104,7 +104,7 @@
 												<span class="details">
 												<span class="label label-sm label-icon label-success">
 												<i class="fa fa-plus"></i>
-												</span>${n.message}</span>
+												</span>prueba - ${n.message}</span>
 												</a>
 											</li>
 										
@@ -119,7 +119,7 @@
 												<span class="details">
 												<span class="label label-sm label-icon label-success">
 												<i class="fa fa-plus"></i>
-												</span>No hay notificaciones</span>
+												</span>prueba 2 - No hay notificaciones</span>
 												</a>
 											</li>
 									
