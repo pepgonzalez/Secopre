@@ -1136,6 +1136,7 @@
 						SELECT * FROM secopre.NOTIFICATION
 						where USER_ID = :userId 
 						AND STATUS = 1
+						AND TYPE = 1
 					    AND YEAR(CREATION_DATE) = YEAR(NOW())				-- SOLO ANIO ACTUAL
 						AND MONTH(CREATION_DATE) = MONTH(NOW())				-- SOLO MES ACTUAL						
 					]]>
@@ -1488,6 +1489,14 @@
 					where UR.ROLE_ID = FCR.ROLE_ID
 					and UR.USER_ID = :userId
 					and FCR.FORMALITY_ID = :formalityId
+					]]>
+				</prop>
+				
+				<prop key="UPDATE_NOTIFICATION">
+					<![CDATA[
+				  		UPDATE secopre.NOTIFICATION
+				  		   SET STATUS = 0
+				  		 WHERE ID = :notificationId
 					]]>
 				</prop>
 						

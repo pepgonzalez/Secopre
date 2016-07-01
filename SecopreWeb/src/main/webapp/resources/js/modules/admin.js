@@ -2165,7 +2165,11 @@ function initPersonValidations() {
 	updateMenu("#formalityMenu");
 }
 
-function initMyTramiteListPage(){
+function initMyTramiteListPage(folio, notifId, userId){
+	
+	var f = folio || undefined;
+	var nId = notifId || undefined;
+	var uId = userId || undefined;
 	
 	$(document).find(".tooltip-control").each(function(){
 		$(this).qtip({
@@ -2209,6 +2213,12 @@ function initMyTramiteListPage(){
 	$(document).find('#formalityDateSearch').on( 'keyup', function () {
 		formalityDatatable.search( this.value ).draw();
 	});
+	
+	if(f != undefined && nId != undefined && uId != undefined){
+		$(document).find('#formalityDateSearch').val(f);
+		formalityDatatable.search( f ).draw();
+		updateNotificationStatus(nId, uId);
+	}
 	
 	$(document).find(".dataTables_filter").hide();
 }
@@ -2817,4 +2827,34 @@ function initFinish() {
 	
 	$(document).find(".authorizationButtonContainer").hide();
 	$(document).find(".addButton").hide();
+}
+
+function updateNotificationStatus(notificationId, userId){
+	
+	apiCall("auth/API/updateNotifications/" + userId + "/" + notificationId, function(data){
+		var external = $(document).find(".externalNotif");
+		var container = $(document).find(".notificationContainer");
+		var notifBadge = $(document).find(".notificationBadge");
+		container.empty();
+		notifBadge.empty();
+		if(parseInt(data.length) == 0){
+			external.empty().html("<h3>Sin notificaciones pendientes</h3>");
+			notifBadge.html("<i class=\"icon-bell\"></i>");
+		}else{
+			notifBadge.html("<i class=\"icon-bell\"></i><span class=\"badge badge-success\">"+ data.length +"</span>");
+			external.empty().html("<h3><span class=\"bold\">" + data.length + " pendientes</span> notificaciones</h3>");
+			for(var i = 0; i < data.length; i++){
+				var n = data[i];
+				container.append("<li class=\"notification\" id=\"n"+ n.id +"\" data-id=\""+n.id+"\" data-request=\""+ n.requestId +"\" data-folio=\""+ n.folio +"\" data-userId=\""+ userId +"\">"+
+												"<a href=\"javascript:sendRequestJQ('auth/tram/mylist','dashboard','initMyTramiteListPage(\\'"+ n.folio +"\\', \\'"+ n.id +"\\', \\'"+ userId +"\\')','GET');\">"+
+												"<span class=\"time\">Ahora</span>"+
+												"<span class=\"details\">"+
+												"<span class=\"label label-sm label-icon label-success\">"+
+												"<i class=\"fa fa-plus\"></i>"+
+												"</span>"+ n.message +"</span>"+
+												"</a>"+
+											"</li>");
+			}
+		}
+	});
 }

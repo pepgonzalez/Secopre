@@ -1,12 +1,17 @@
 /*
 	-- A* ALTER A TABLA DE NOTIFICACIONES
 	-- B* AJUSTE A TRIGGER PARA BAJAR EL REQUEST_ID
+	-- C* BORRAR 
 */
 
 -- A* 
 ALTER TABLE secopre.NOTIFICATION ADD(
-	REQUEST_ID BIGINT(20)
+	REQUEST_ID BIGINT(20),
+	FOLIO VARCHAR(30),
+    ID BIGINT(10) NOT NULL PRIMARY KEY AUTO_INCREMENT
 );
+
+DELETE FROM secopre.NOTIFICATION WHERE ID > 0;
 
 -- B*
 DROP TRIGGER IF EXISTS createNotification;
@@ -59,9 +64,9 @@ CREATE TRIGGER createNotification AFTER INSERT ON secopre.REQUEST_HISTORY
 	  	SET message = CONCAT('El usuario ', v_username, ' avanzo su folio ', v_folio, ' a la etapa: ', stage);
 	  
 	  	 INSERT INTO secopre.NOTIFICATION
-	      (USER_ID, TYPE, MESSAGE, STATUS, TRANSITION_ID, REQUEST_ID)
+	      (USER_ID, TYPE, MESSAGE, STATUS, TRANSITION_ID, REQUEST_ID, FOLIO)
 	      VALUES
-	      (request_owner, 1, message, 1, transition, request_id);
+	      (request_owner, 1, message, 1, transition, request_id, v_folio);
 	  	
 	  END IF;
 	  
@@ -82,11 +87,13 @@ CREATE TRIGGER createNotification AFTER INSERT ON secopre.REQUEST_HISTORY
  	  	SET message = IFNULL(CONCAT('Folio ', COALESCE(v_folio,''), ' avanzado a etapa: ', COALESCE(stage,'')), 'NULO NO SE PORQUE');
  	  
  	  	INSERT INTO secopre.NOTIFICATION
-	      (USER_ID, TYPE, MESSAGE, STATUS, TRANSITION_ID, REQUEST_ID)
+	      (USER_ID, TYPE, MESSAGE, STATUS, TRANSITION_ID, REQUEST_ID, FOLIO)
 	      VALUES
-	      (-1, 2, message, 1, transition, request_id);
+	      (-1, 2, message, 1, transition, request_id, v_folio);
  	  
  	  END IF;
       
     END$$
 DELIMITER ;
+
+

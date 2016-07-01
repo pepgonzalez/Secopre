@@ -89,4 +89,6 @@ public class SQLConstants {
 	public static final String GET_REQUEST_BY_ENTRY = "GET_REQUEST_BY_ENTRY";
 	public static final String EXIST_CERTIFIED_ACCOUNT_IN_DISTRICT = "EXIST_CERTIFIED_ACCOUNT_IN_DISTRICT";
 	public static final String CAN_USER_CANCEL_REQUEST = "CAN_USER_CANCEL_REQUEST";
+	public static final String UPDATE_NOTIFICATION = "UPDATE_NOTIFICATION";
+	
 }

@@ -1,5 +1,6 @@
 package ideasw.secopre.web.controller.admin;
 
+import ideasw.secopre.dto.Notification;
 import ideasw.secopre.model.Entry;
 import ideasw.secopre.model.EntryDistrict;
 import ideasw.secopre.service.AccessNativeService;
@@ -43,6 +44,13 @@ public class APIController extends AuthController {
 			List<Entry> entryList = accessNativeService.getEntries(districtId, programaticKeyId);
 		
 			return entryList;
+	}
+	
+	@RequestMapping(value = "API/updateNotifications/{userId}/{notificationId}", method = { RequestMethod.GET })
+	public @ResponseBody List<Notification> updateNofification(@PathVariable("notificationId") Long notificationId,
+			@PathVariable("userId") Long userId){
+			accessNativeService.updateNotification(notificationId);
+		return accessNativeService.getNotificationByUserId(userId);
 	}
 	
 	@RequestMapping(value = "API/get/movOk/{districtId}/{entryId}/{month}/{amount}", method= {RequestMethod.GET})

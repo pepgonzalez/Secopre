@@ -77,14 +77,15 @@
 					 
 					<li id="step5" class="dropdown dropdown-extended dropdown-notification dropdown-light" id="header_notification_bar">
 						
-						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+						<a href="javascript:;" class="dropdown-toggle notificationBadge" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
 							<i class="icon-bell"></i>
 							<c:if test="${totalNotifications > 0}">
 								<span class="badge badge-success">${totalNotifications}</span>
 							</c:if>
 						</a>
 						<ul class="dropdown-menu">
-							<li class="external">
+							
+							<li class="external externalNotif">
 								<c:if test="${totalNotifications > 0}">
 									<h3><span class="bold">${totalNotifications} pendientes</span> notificaciones</h3>
 								</c:if>
@@ -92,19 +93,20 @@
 									<h3>Sin notificaciones pendientes</h3>
 								</c:if>
 							</li>
+							
 							<li>
-								<ul class="dropdown-menu-list scroller" style="height: 250px;" data-handle-color="#637283">
+								<ul class="dropdown-menu-list scroller notificationContainer" style="height: 250px;" data-handle-color="#637283">
 									<c:if test="${totalNotifications > 0}">
 									
 										<c:forEach items="${notifications}" var="n">
 										
-											<li>
-												<a href="javascript:;">
+											<li class="notification" id="n${n.id}" data-id="${n.id}" data-request="${n.requestId}" data-folio="${n.folio}" data-userId="${userId}">
+												<a href="javascript:sendRequestJQ('auth/tram/mylist','dashboard','initMyTramiteListPage(\'${n.folio}\', \'${n.id}\', \'${userId}\')','GET');">
 												<span class="time">Ahora</span>
 												<span class="details">
 												<span class="label label-sm label-icon label-success">
 												<i class="fa fa-plus"></i>
-												</span>prueba - ${n.message}</span>
+												</span>${n.message}</span>
 												</a>
 											</li>
 										
@@ -119,7 +121,7 @@
 												<span class="details">
 												<span class="label label-sm label-icon label-success">
 												<i class="fa fa-plus"></i>
-												</span>prueba 2 - No hay notificaciones</span>
+												</span>No hay notificaciones</span>
 												</a>
 											</li>
 									

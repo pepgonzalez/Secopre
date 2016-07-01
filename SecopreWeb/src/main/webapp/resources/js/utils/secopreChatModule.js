@@ -852,8 +852,10 @@ $(document).ready(function(){
 
 /*evento al hacer click en los elementos del menu popup*/
 $(document).on('click','.dropdown-menu-list.scroller li', function (e){
-	Chat.loadConversation(this, 'popup');
-	Chat.windowState = 'chat';
+	if(!$(this).hasClass("notification")){
+		Chat.loadConversation(this, 'popup');
+		Chat.windowState = 'chat';
+	}
 });
 
 /*evento para mostrar todas las conversaciones*/
@@ -880,8 +882,10 @@ $(document).on('click', '#userTab', function(){
 
 /*evento para mostrar la conversacion desde el panel lateral de conversaciones*/
 $(document).on('click', '.page-quick-sidebar-chat-users .media-list > .media', function () {
-	Chat.loadConversation(this, 'sidebar');
-	Chat.windowState = 'chat';
+	if(!$(this).hasClass("notification")){
+		Chat.loadConversation(this, 'sidebar');
+		Chat.windowState = 'chat';
+	}
 });
 
 

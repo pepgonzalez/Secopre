@@ -11,6 +11,9 @@ package ideasw.secopre.dto;
 public class Notification {
 
 	private Long userId;
+	private Long id;
+	private Long requestId;
+	private String folio;
 	private Integer notificationType;
 	private String message;
 	private Integer status;
@@ -54,5 +57,29 @@ public class Notification {
 
 	public void setTransitionId(Long transitionId) {
 		this.transitionId = transitionId;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getRequestId() {
+		return requestId;
+	}
+
+	public void setRequestId(Long requestId) {
+		this.requestId = requestId;
+	}
+
+	public String getFolio() {
+		return folio;
+	}
+
+	public void setFolio(String folio) {
+		this.folio = folio;
 	}
 }

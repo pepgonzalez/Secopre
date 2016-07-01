@@ -17,6 +17,9 @@ public class NotificationMapper implements RowMapper<Object> {
 		notification.setMessage(rs.getString("MESSAGE"));
 		notification.setStatus(rs.getInt("STATUS"));
 		notification.setTransitionId(rs.getLong("TRANSITION_ID"));
+		notification.setRequestId(rs.getLong("REQUEST_ID"));
+		notification.setFolio(rs.getString("FOLIO"));
+		notification.setId(rs.getLong("ID"));
 		
 		return notification;   
 	 }    

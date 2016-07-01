@@ -1495,5 +1495,10 @@ private void insertMasiveMovements(List<Movement> list, Request request) throws 
 		return this.insertOrUpdate(queryContainer.getSQL(SQLConstants.CLEAN_ROLE_PERMISSION), params);
 	}
 	
+	@Override
+	public int updateNotification(Long notificationId){
+		SqlParameterSource params = new MapSqlParameterSource().addValue("notificationId", notificationId);
+		return this.insertOrUpdate(queryContainer.getSQL(SQLConstants.UPDATE_NOTIFICATION), params);
+	}
 	
 }

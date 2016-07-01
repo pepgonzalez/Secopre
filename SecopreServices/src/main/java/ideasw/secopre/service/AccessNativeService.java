@@ -282,5 +282,7 @@ public interface AccessNativeService {
 	boolean existCeritifiedAccountInDistrict(Long districtId, String account, Long requestId);
 	
 	boolean canUserCancelRequest(Long userId, Long formalityId);
+	
+	int updateNotification(Long notificationId);
 }
 

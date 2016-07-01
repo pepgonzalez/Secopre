@@ -229,6 +229,7 @@ public class UserController extends AuthController {
 		//se obtienen las notificaciones
 		List<Notification> notifications = accessNativeService.getNotificationByUserId(loggedUser.getId());
 		
+		model.addAttribute("userId", loggedUser.getId());
 		model.addAttribute("notifications", notifications);
 		model.addAttribute("totalNotifications", notifications.size());
 
