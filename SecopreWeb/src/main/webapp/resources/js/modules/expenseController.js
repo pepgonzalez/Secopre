@@ -406,7 +406,7 @@ var expenseController = {
 				total = parseFloat(((finalMonth - initialMonth) + 1) * that.value);					
 				
 				//si el monto es mayor a cero, se elimina el error
-				if (parseInt(that.value) > 0){
+				if (parseFloat(that.value) > 0){
 					self.removeClassError(self.getId(grid, nextIndex, "monthAmount"));
 				}
 				
@@ -447,7 +447,7 @@ var expenseController = {
 			//si se capturó algo
 			if ( this.value.length > 0){
 				
-				if (parseInt(this.value) == 0){
+				if (parseFloat(this.value) == 0){
 					window.showNotification("error", "Capture un monto para continuar");
 					ma.closest("[data-name='monthAmount']").addClass("has-error");
 					updateTotalAmounts();
