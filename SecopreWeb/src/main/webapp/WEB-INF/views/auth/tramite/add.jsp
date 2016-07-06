@@ -42,7 +42,12 @@
 										<div class="col-md-4">
 												<form:select path="districtId" id="districtId" class="form-control">
 												   	<form:option value="-1" label="Seleccione..."/>
-	    											<form:options items="${districts}" />
+												   	
+												   	<c:forEach items="${districtList}" var="e">
+												   		<form:option value="${e.id}" label="${e.number}"/>
+												   	
+												   	</c:forEach>
+	    											
 												</form:select>
 												<div class="form-control-focus"></div>
 												<span class="help-block">
