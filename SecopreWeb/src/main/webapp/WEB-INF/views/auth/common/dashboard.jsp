@@ -29,7 +29,7 @@
                         </div>
                         <div class="details">
                             <div class="number">
-                                <span data-counter="counterup" data-value='<c:out value="${balance.annualAmount}"/>'><c:out value="${balance.annualAmount}"/></span> $
+                                <span data-counter="counterup" data-value='<c:out value="${balance.annualAmount}"/>'><c:out value="${balance.annualAmountStr}"/></span>
                             </div>
                             <div class="desc">Presupuesto Mensual</div>
                         </div>
@@ -45,7 +45,7 @@
                         </div>
                         <div class="details">
                             <div class="number">
-                                <span data-counter="counterup" data-value="<c:out value="${balance.budgetAsing}"/>"><c:out value="${balance.budgetAsing}"/></span> $
+                                <span data-counter="counterup" data-value="<c:out value="${balance.budgetAsing}"/>"><c:out value="${balance.budgetAsingStr}"/></span>
                             	<div class="desc">Presupuesto Modificado</div>
                             </div>
                         </div>
@@ -62,7 +62,7 @@
                         </div>
                         <div class="details">
                             <div class="number">
-                                <span data-counter="counterup" data-value="<c:out value="${balance.budgetCommit}"/>"><c:out value="${balance.budgetCommit}"/></span> $
+                                <span data-counter="counterup" data-value="<c:out value="${balance.budgetCommit}"/>"><c:out value="${balance.budgetCommitStr}"/></span>
                             </div>
                             <div class="desc">Total Comprometido</div>
                         </div>
@@ -79,7 +79,7 @@
                         </div>
                         <div class="details">
                             <div class="number"> 
-                                <span data-counter="counterup" data-value="<c:out value="${balance.budgetAsing - balance.budgetCommit}"/>"><c:out value="${balance.budgetAsing - balance.budgetCommit}"/></span> $
+                                <span data-counter="counterup" data-value="<c:out value="${balance.budgetAsing - balance.budgetCommit}"/>"><c:out value="${balance.availableStr}"/></span>
                             	<div class="desc"> Disponible</div>
                             </div>
                         </div>

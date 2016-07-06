@@ -25,7 +25,7 @@
 		                                </div>
 		                                <div class="details">
 		                                    <div class="number">
-		                                        <span data-counter="counterup" data-value="<c:out value="${balance.budgetAsingStr}"/>"><c:out value="${balance.budgetAsing}"/></span>
+		                                        <span data-counter="counterup" data-value="<c:out value="${balance.budgetAsingStr}"/>"><c:out value="${balance.budgetAsingStr}"/></span>
 		                                    	<div class="desc">Presupuesto Modificado </div>
 		                                    </div>
 		                                </div>
