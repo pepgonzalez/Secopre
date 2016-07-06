@@ -1,5 +1,7 @@
 package ideasw.secopre.exception;
 
+import ideasw.secopre.utils.number.NumberUtils;
+
 public class EntryDistrictException extends Exception {
 
 	/**
@@ -24,14 +26,14 @@ public class EntryDistrictException extends Exception {
 	}
 	
 	public EntryDistrictException(Long districtId, Long entryId, Long month, Double amount){
-		super("Error al tratar de afectar distrito: " + districtId + ", partida: " + entryId + ", mes: " + month + "con monto:" + amount );
+		super("Error al tratar de afectar distrito: " + districtId + ", partida: " + entryId + ", mes: " + month + "con monto:" + NumberUtils.round(amount, 2));
 	}
 	
 	public EntryDistrictException(String districtId, String entryId, String month, Double currentAmount, Double amount){
-		super("Error al tratar de afectar distrito: " + districtId + ", partida: " + entryId + ", mes: " + month + " con monto: " + amount + ". Saldo disponible: " + currentAmount);
+		super("Error al tratar de afectar distrito: " + districtId + ", partida: " + entryId + ", mes: " + month + " con monto: " + NumberUtils.round(amount, 2) + ". Saldo disponible: " + NumberUtils.round(currentAmount, 2));
 	}
 	
 	public EntryDistrictException(String districtId, String entryCode, String entryId, String month, Double currentAmount, Double amount){
-		super("Error al tratar de afectar distrito: " + districtId + ", partida: " + entryCode + " - "+ entryId + ", mes: " + month + " con monto: " + amount + ". Saldo disponible: " + currentAmount);
+		super("Error al tratar de afectar distrito: " + districtId + ", partida: " + entryCode + " - "+ entryId + ", mes: " + month + " con monto: " + NumberUtils.round(amount, 2) + ". Saldo disponible: " + NumberUtils.round(currentAmount, 2));
 	}
 }
