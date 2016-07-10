@@ -1,5 +1,8 @@
 /*utilidades*/
 utils = new SecopreUtils();
+
+baseSocketURL = utils.Constants.SOCKET_URL;
+
 urls = {
 		chat : utils.Constants.SOCKET_URL,
 		updateSeen : utils.Constants.SOCKET_URL + "v1/chat/updateSeen/",
@@ -10,6 +13,18 @@ urls = {
 		getMoreMessages : utils.Constants.SOCKET_URL +  "v1/chat/getMoreMsgs/",
 		getConversationId : utils.Constants.SOCKET_URL + "v1/chat/getConversationId/",
 		ping : utils.Constants.SOCKET_URL + "v1/",
+}
+
+function replaceURLBasePath(newUrl, urls){
+	urls.chat = newUrl;
+	urls.updateSeen = newUrl + "v1/chat/updateSeen/";
+	urls.getConversation = newUrl + "v1/chat/getConversation/";
+    urls.getConversations = newUrl + "v1/chat/getConversations/";
+    urls.getFrecuentUsers = newUrl +  "v1/chat/getFrecuentUsers/";
+    urls.createConversation = newUrl + "v1/chat/createConversation/";
+    urls.getMoreMessages = newUrl +  "v1/chat/getMoreMsgs/";
+    urls.getConversationId = newUrl + "v1/chat/getConversationId/";
+    urls.ping = newUrl + "v1/";
 }
 
 
@@ -699,7 +714,7 @@ var SecopreChat = function(){
 		
 		var data = {"userId" : this.userId};
 		
-		this.socket = io.connect(utils.Constants.SOCKET_URL, {query :'data=' + JSON.stringify(data) });
+		this.socket = io.connect(urls.chat, {query :'data=' + JSON.stringify(data) });
 		
 		this.socket.on('load_active_users', function(r){
 			if(r.length > 0){
@@ -817,12 +832,18 @@ $(document).ready(function(){
 
 	var userId = parseInt( $("#loggedUserId").val());
 	var userHasChatModule = Boolean ($("#chatModuleActive").val());
+	var socketURL = $("#socketURL").val();
 	
 	if (userHasChatModule){
 		
-		//ping al server para validar si existe
+		utils.Constants.SOCKET_URL = socketURL;
 		
-		var miUrl = urls.ping;		
+		//ping al server para validar si existe
+		replaceURLBasePath(socketURL, urls);
+		
+		var miUrl = urls.ping;	
+		console.log(miUrl);
+		
 		$.ajax({
 		      type: "GET",
 		      url: miUrl,

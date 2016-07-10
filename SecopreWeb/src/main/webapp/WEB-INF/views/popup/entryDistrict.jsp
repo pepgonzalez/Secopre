@@ -98,6 +98,7 @@
 
 	<input type="hidden" name="loggedUserId" id="loggedUserId" value="${loggedUser.id}" />
 	<input type="hidden" name="chatModuleActive" id="chatModuleActive" value="${loggedUser.hasChatActive}" />
+	<input type="hidden" name="socketURL" id="socketURL" value="${socketURL}" />
 
 
 	<!-- BEGIN HEADER -->

@@ -2,10 +2,10 @@ var mysql     =    require('mysql');
 
 var DBPool =  mysql.createPool({
         connectionLimit : 100,
-        host     : '172.17.0.50',
-        user     : 'secopre',
-        password : 'secopre123',
-        database : 'secopre',
+        host     : process.env.SECOPRE_DB_HOST,
+        user     : process.env.SECOPRE_DB_USER,
+        password : process.env.SECOPRE_DB_PASS,
+        database : process.env.SECOPRE_DB_DB,
         debug    :  false,
         multipleStatements: true
     });
@@ -19,6 +19,10 @@ QueryManager.loadQueries(function(r){
 var DBManager = function(config){
 	config = config || {};
 
+	console.log(process.env);
+	console.log("DBPOOL");
+	console.log(DBPool);
+	
 	this.processQuery = function(key, params, callback){
 
 		console.log("ejecutando consulta: " + key + ", con parametros: " + params);

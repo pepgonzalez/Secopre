@@ -232,6 +232,18 @@ public class UserController extends AuthController {
 		model.addAttribute("userId", loggedUser.getId());
 		model.addAttribute("notifications", notifications);
 		model.addAttribute("totalNotifications", notifications.size());
+		
+		//se busca la url del socket de las properties del sistema si el usuario tiene el chat activo
+		if(loggedUser.getHasChatActive()){
+			String url = "";
+			Property socketUrl = accessNativeService.getPropertyByCode(PropertyConstants.SOCKET_URL);
+			if(socketUrl == null || socketUrl.getValue() == null || socketUrl.getValue().length() <= 0){
+				url = SecopreConstans.DEFAULT_SOCKET_URL;
+			}else{
+				url = socketUrl.getValue();
+			}
+			model.addAttribute("socketURL", url);
+		}
 
 		List<UserMovement> createdMovements = accessNativeService
 				.getCreatedFormalitiesByUserId(loggedUser.getId(), 10);

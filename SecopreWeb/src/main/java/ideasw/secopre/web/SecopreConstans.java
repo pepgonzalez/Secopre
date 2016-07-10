@@ -123,7 +123,9 @@ public class SecopreConstans {
 
 	//####Modulo de presupuesto anual
 	public static final String MV_ADM_SCHEDULING = "auth/admin/config/scheduling/list";
-	public static final String MV_ADM_SCHEDULING_REDIRECT = "redirect:/auth/adm/sche";	
+	public static final String MV_ADM_SCHEDULING_REDIRECT = "redirect:/auth/adm/sche";
+	
+	public static final String DEFAULT_SOCKET_URL = "http://www.tribunalesagrarios.gob.mx:3000/";
 	
 		
 }

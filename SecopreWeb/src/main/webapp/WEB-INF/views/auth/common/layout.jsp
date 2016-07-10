@@ -98,6 +98,7 @@
 
 	<input type="hidden" name="loggedUserId" id="loggedUserId" value="${loggedUser.id}" />
 	<input type="hidden" name="chatModuleActive" id="chatModuleActive" value="${loggedUser.hasChatActive}" />
+	<input type="hidden" name="socketURL" id="socketURL" value="${socketURL}" />
 
 
 	<!-- BEGIN HEADER -->
@@ -211,7 +212,7 @@
 	<!-- END PAGE LEVEL CUSTOM SCRIPTS -->
 	
 	<!-- scripts para modulo de chat -->
-	<script src="http://www.tribunalesagrarios.gob.mx:3000/socket.io/socket.io.js" type="text/javascript"></script>
+	<script src="${socketURL}socket.io/socket.io.js" type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/utils/secopreChatModule.js"/>' type="text/javascript"></script>
 
 
