@@ -1019,15 +1019,17 @@ function initEntryByDistrict(){
 	$("select#districtId").change(function(){
 		$("select#entryId").html('');
 		blockPage();
-         $.getJSON("cfg/entry/getEntries",{districtId: $(this).val()}, function(j){
-              var options = '<option value="">Seleccione... </option>';
-              var json = eval(j);
-              $.each(json, function(key, value) {
-            	  options += '<option value="' + key + '">' + value + '</option>';
-              });        
+         $.getJSON("cfg/entry/getEntries2",{districtId: $(this).val()}, function(j){
+              alert(j);
+        	  var options = '<option value="">Seleccione... </option>';
+              
+        	  //var json = eval(j);
+              $.each(json, function(index, element) {
+            	  options += '<option value="' + element.id + '">' + element.codeAndDescription + '</option>';
+              });  
    			  unblockPage();            
               $("select#entryId").html(options);
-            });
+         });
      });	
 }
 

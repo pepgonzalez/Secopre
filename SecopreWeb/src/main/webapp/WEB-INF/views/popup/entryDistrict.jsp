@@ -410,17 +410,21 @@ $( document ).ready(function() {
 			            });
 			     });	
 				
-				var url2 = "http://" + document.location.host + "/Secopre/" + context + "/cfg/entry/getEntries";
+				var url2 = "http://" + document.location.host + "/Secopre/" + context + "/cfg/entry/getEntries2";
 				
 				$("select#districtId").change(function(){
 					$("select#entryId").html('');
 					blockPage();
 			         $.getJSON(url2, {districtId: $(this).val()}, function(j){
+			        	  console.log(j);
 			              var options = '<option value="">Seleccione... </option>';
+			             
 			              var json = eval(j);
-			              $.each(json, function(key, value) {
-			            	  options += '<option value="' + key + '">' + value + '</option>';
-			              });        
+			              $.each(json, function(index, element) {
+			            	  options += '<option value="' + element.id + '">' + element.codeAndDescription + '</option>';
+			              });
+			              
+			              
 			   			  unblockPage();            
 			              $("select#entryId").html(options);
 			            });

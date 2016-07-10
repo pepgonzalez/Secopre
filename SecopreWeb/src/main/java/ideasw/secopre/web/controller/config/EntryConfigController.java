@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -102,7 +104,14 @@ public class EntryConfigController extends AuthController {
 		for (Entry item : entryList) {
 			entryMap.put(item.getId(), item.getCode() + " - "+item.getName());
 		}
+		
 		return entryMap;
+	}
+	
+	@RequestMapping(value = "cfg/entry/getEntries2")
+	public ResponseEntity<List<Entry>> getEntries2(@RequestParam(value = "districtId", required = true) Long districtId,ModelMap modelMap) {
+		List<Entry> entryList = accessNativeService.getValidEntriesByDistrict(districtId);
+		return new ResponseEntity<List<Entry>>(entryList, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "cfg/entry/add", method = RequestMethod.POST)
