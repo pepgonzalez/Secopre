@@ -940,6 +940,12 @@ private void insertMasiveMovements(List<Movement> list, Request request) throws 
 		return map;
 	}
 	
+	@Override
+	public List<Entry> getSortedEntriesList(){
+		List<Entry> list = this.queryForList(Entry.class, queryContainer.getSQL(SQLConstants.GET_SORTED_ENTRIES), new MapSqlParameterSource(), new EntryMapper());	
+		return list;
+	}
+	
 	public Map<Long, String> getDistrictsMap(){
 		List<District> l = new ArrayList<District>();
 		l = baseService.findAll(District.class);
@@ -1130,17 +1136,19 @@ private void insertMasiveMovements(List<Movement> list, Request request) throws 
 			if(reportParameter.getAjax() != null && reportParameter.getAjax().length() > 0){
 				//se obtiene el mapa de opciones
 				Map<Long, String> parameterOptions = new HashMap<Long, String>();
+				
 				if(reportParameter.getParameterName().equals("P_DISTRITO")) {
 			       List<District> districts = getDistrictsByUser(userId);
-			       for (District d : districts) {
-			        	 parameterOptions.put(d.getId()," DTO-"
-									+ d.getNumber());
-
-			 	   }	
-				}
-				else {
+			       reportParameter.setParametersOptionsList(districts);
+			       reportParameter.setParameterArgType("list");
+				}else if(reportParameter.getParameterName().equals("P_PARTIDA")){
+					List<Entry> entries = this.getSortedEntriesList();
+					reportParameter.setParametersOptionsList(entries);
+				    reportParameter.setParameterArgType("list");
+				}else {
 			       Method method = this.getClass().getMethod(reportParameter.getAjax());
 				   parameterOptions = (Map<Long, String>) method.invoke(this);
+				   reportParameter.setParameterArgType("map");
 			    }
 				reportParameter.setParameterOptions(parameterOptions);
 			}

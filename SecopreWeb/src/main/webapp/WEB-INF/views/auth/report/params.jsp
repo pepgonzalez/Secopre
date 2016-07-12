@@ -94,7 +94,14 @@
 													<form:select path="${reportParam.parameterPath}" class="form-control input-small" 
 																 data-required="${reportParam.required}" data-parametername="${reportParam.label}" data-parameterType="date">
 														<form:option value="-1" label="Seleccione..."/>
-						    							<form:options items="${reportParam.parameterOptions}" />
+														<c:if test="${reportParam.parameterArgType == 'list'}">
+															<c:forEach items="${reportParam.parametersOptionsList}" var="option">
+																<form:option value="${option.id}" label="${option.label}"/>
+															</c:forEach>
+														</c:if>
+														<c:if test="${reportParam.parameterArgType == 'map'}">
+															<form:options items="${reportParam.parameterOptions}" />
+														</c:if>
 													</form:select>
 												</div>
 											</div>

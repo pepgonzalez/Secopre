@@ -210,7 +210,9 @@ public class District extends AuditEntity implements Persistible {
 		this.entity = entity;
 	}
 
-
+	public String getLabel(){
+		return this.getNumber();
+	}
 
 
 

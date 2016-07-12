@@ -284,5 +284,7 @@ public interface AccessNativeService {
 	boolean canUserCancelRequest(Long userId, Long formalityId);
 	
 	int updateNotification(Long notificationId);
+	
+	List<Entry> getSortedEntriesList();
 }
 

@@ -45,6 +45,11 @@ public class ReportParameter {
 	//opciones para parametros dinamicos del tipo select
 	private Map<Long, String> parameterOptions;
 	
+	//opciones para parametros dinamicos en lista
+	private List<?> parametersOptionsList;
+	
+	private String parameterArgType;
+	
 	//datos de reporte
 	private Blob reportImage;
 	private Long reportImageId;
@@ -191,5 +196,17 @@ public class ReportParameter {
 	}
 	public void setStateId(String stateId) {
 		this.stateId = stateId;
+	}
+	public List<?> getParametersOptionsList() {
+		return parametersOptionsList;
+	}
+	public void setParametersOptionsList(List<?> parametersOptionsList) {
+		this.parametersOptionsList = parametersOptionsList;
+	}
+	public String getParameterArgType() {
+		return parameterArgType;
+	}
+	public void setParameterArgType(String parameterArgType) {
+		this.parameterArgType = parameterArgType;
 	}
 }

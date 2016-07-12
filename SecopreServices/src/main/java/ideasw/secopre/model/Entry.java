@@ -185,4 +185,8 @@ public class Entry extends AuditEntity implements Persistible {
 	public String getCodeAndDescription(){
 		return this.code + " - " + this.name;
 	}
+	
+	public String getLabel(){
+		return this.code + " - " + this.name;
+	}
 }
