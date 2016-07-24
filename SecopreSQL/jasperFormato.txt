@@ -1,0 +1,544 @@
+
+UPDATE secopre.REPORT
+SET resource = '<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="50" bottomMargin="40">
+	<property name="ireport.zoom" value="1.3310000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="69"/>
+	<parameter name="P_REQUEST" class="java.lang.String">
+		<defaultValueExpression><![CDATA[Integer.valueOf(0)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_LOGO" class="java.lang.Object" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[call prc_report_formato_operacion($P{P_REQUEST})]]>
+	</queryString>
+	<field name="ID" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sec" class="java.lang.String"/>
+	<field name="monto" class="java.lang.Double"/>
+	<field name="seccion" class="java.lang.String"/>
+	<field name="CURDATE" class="java.lang.String"/>
+	<field name="CURDATE()" class="java.sql.Date"/>
+	<field name="oficio" class="java.lang.String"/>
+	<field name="distrito" class="java.lang.String"/>
+	<field name="magistrado" class="java.lang.String"/>
+	<field name="jefe_unidad" class="java.lang.String"/>
+	<field name="DESCRIPTION" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_tipo_movimiento" class="java.lang.Long"/>
+	<field name="tipo_movimiento" class="java.lang.String"/>
+	<field name="mes_inf" class="java.lang.Long"/>
+	<field name="mes_sup" class="java.lang.Long"/>
+	<field name="mes_inicial" class="java.lang.String"/>
+	<field name="mes_final" class="java.lang.String"/>
+	<field name="tipo" class="java.lang.String"/>
+	<field name="entryDescription" class="java.lang.String"/>
+	<field name="monto_mensual" class="java.lang.Double"/>
+	<field name="montoTotal" class="java.lang.Double"/>
+	<field name="sec_ofc" class="java.lang.String"/>
+	<field name="clave_programatica" class="java.lang.String"/>
+	<field name="monto_partida" class="java.lang.Object"/>
+	<field name="director" class="java.lang.String"/>
+	<field name="LEGEND" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="V_SEC" class="java.lang.Integer" calculation="DistinctCount">
+		<variableExpression><![CDATA[$V{V_CVEP}.equals( $F{clave_programatica} )?Integer.valueOf($V{V_SEC}.intValue()):Integer.valueOf($V{V_SEC}.intValue() + 1)]]></variableExpression>
+	</variable>
+	<variable name="V_CVEP" class="java.lang.String" resetType="None">
+		<variableExpression><![CDATA[$F{clave_programatica}]]></variableExpression>
+	</variable>
+	<variable name="vtotOperacion" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{montoTotal}]]></variableExpression>
+	</variable>
+	<variable name="vtotMontoMes" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{monto_mensual}]]></variableExpression>
+	</variable>
+	<variable name="vtotMontoMesTipoMov" class="java.math.BigDecimal" resetType="Group" resetGroup="tipoMov" calculation="Sum">
+		<variableExpression><![CDATA[$F{monto_mensual}]]></variableExpression>
+	</variable>
+	<variable name="vtotMontoMesTotOpe" class="java.math.BigDecimal" resetType="Group" resetGroup="tipoMov" calculation="Sum">
+		<variableExpression><![CDATA[$F{montoTotal}]]></variableExpression>
+	</variable>
+	<variable name="Total Movto" class="java.lang.String">
+		<variableExpression><![CDATA["TOTAL " + $F{tipo}]]></variableExpression>
+	</variable>
+	<variable name="Total" class="java.lang.String">
+		<variableExpression><![CDATA["TOTAL "]]></variableExpression>
+	</variable>
+	<variable name="variable1" class="java.lang.Number" resetType="Column" incrementType="Column" calculation="Count"/>
+	<group name="tipoMov">
+		<groupExpression><![CDATA[$F{tipo}]]></groupExpression>
+		<groupHeader>
+			<band/>
+		</groupHeader>
+		<groupFooter>
+			<band height="20">
+				<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+					<reportElement x="433" y="0" width="53" height="20" forecolor="#000066"/>
+					<box rightPadding="2">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{vtotMontoMesTipoMov}]]></textFieldExpression>
+				</textField>
+				<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+					<reportElement x="486" y="0" width="69" height="20" forecolor="#000066"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.5" lineColor="#000066"/>
+						<topPen lineWidth="0.5" lineColor="#000066"/>
+						<leftPen lineWidth="0.5" lineColor="#000066"/>
+						<bottomPen lineWidth="0.5" lineColor="#000066"/>
+						<rightPen lineWidth="0.5" lineColor="#000066"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{vtotMontoMesTotOpe}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="0" y="0" width="433" height="20" forecolor="#000066"/>
+					<box leftPadding="4" rightPadding="4">
+						<pen lineWidth="0.5" lineColor="#000066"/>
+						<topPen lineWidth="0.5" lineColor="#000066"/>
+						<leftPen lineWidth="0.5" lineColor="#000066"/>
+						<bottomPen lineWidth="0.5" lineColor="#000066"/>
+						<rightPen lineWidth="0.5" lineColor="#000066"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$V{Total Movto}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="284">
+			<staticText>
+				<reportElement x="18" y="258" width="522" height="14" forecolor="#000066"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[SOLICITUD DE LOS MOVIMIENTOS QUE A CONTINUACION SE CITAN:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="134" y="242" width="405" height="14" forecolor="#000066"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[, ME  PERMITO  HACER DE  SU CONOCIMIENTO  QUE  HA  SIDO  PROCEDENTE  LA ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="448" y="224" width="90" height="17" forecolor="#000066"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[POR UN IMPORTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="224" width="359" height="17" forecolor="#000066"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[EN REFERENCIA A SU SOLICITUD DE MODIFICACION PRESUPUESTAL No. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="283" y="166" width="178" height="15" forecolor="#000066"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[JEFE DE LA UNIDAD ADMVA.]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="311" y="154" width="244" height="13" isPrintInFirstWholeBand="true" forecolor="#000066"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{jefe_unidad}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="139" y="178" width="85" height="18" forecolor="#000066"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{distrito}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="17" y="166" width="169" height="30" forecolor="#000066"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[MAGISTRADO(A) DEL TRIBUNAL UNITARIO AGRARIO No.]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="17" y="154" width="219" height="13" isPrintInFirstWholeBand="true" forecolor="#000066"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{magistrado}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="134" y="17" width="314" height="13" forecolor="#000066"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Top">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIRECCION GRAL. DE RECURSOS FINANCIEROS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="283" y="154" width="59" height="13" isPrintInFirstWholeBand="true" forecolor="#000066"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[AT''N:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="134" y="31" width="338" height="13" forecolor="#000066"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Top">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIRECCIÓN DE OPERACIÓN Y CONTROL PRESUPUESTAL]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="377" y="224" width="70" height="17" forecolor="#000066"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{oficio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement x="385" y="122" width="170" height="15" forecolor="#000066"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{CURDATE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="271" y="122" width="114" height="15" forecolor="#000066"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Ciudad de México, a]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="242" width="16" height="14" forecolor="#000066"/>
+				<textElement/>
+				<text><![CDATA[DE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="134" y="45" width="116" height="13" forecolor="#000066"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Top">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[OFICIO No.    DGRF /]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="326" y="45" width="27" height="13" forecolor="#000066"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<textField pattern="yyyy" isBlankWhenNull="true">
+				<reportElement x="353" y="45" width="80" height="13" forecolor="#000066"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{CURDATE()}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="250" y="45" width="76" height="13" forecolor="#000066"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{oficio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="36" y="241" width="98" height="15" forecolor="#000066"/>
+				<box leftPadding="3">
+					<topPen lineWidth="0.0" lineColor="#003366"/>
+					<leftPen lineWidth="0.0" lineColor="#003366"/>
+					<bottomPen lineWidth="0.0" lineColor="#003366"/>
+					<rightPen lineWidth="0.0" lineColor="#003366"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{monto}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="231" y="82" width="324" height="20" forecolor="#000066"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{LEGEND}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement key="logo" x="10" y="17" width="113" height="85"/>
+				<imageExpression class="java.lang.String"><![CDATA[$P{P_LOGO}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="26">
+			<staticText>
+				<reportElement mode="Opaque" x="36" y="0" width="93" height="26" forecolor="#000066" backcolor="#CBDCFF"/>
+				<box>
+					<topPen lineWidth="0.5" lineColor="#003366"/>
+					<leftPen lineWidth="0.5" lineColor="#003366"/>
+					<bottomPen lineWidth="0.5" lineColor="#003366"/>
+					<rightPen lineWidth="0.5" lineColor="#003366"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CLAVE PRESUPUESTAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="486" y="0" width="69" height="26" forecolor="#000066" backcolor="#CBDCFF"/>
+				<box>
+					<topPen lineWidth="0.5" lineColor="#003366"/>
+					<leftPen lineWidth="0.5" lineColor="#003366"/>
+					<bottomPen lineWidth="0.5" lineColor="#003366"/>
+					<rightPen lineWidth="0.5" lineColor="#003366"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL DE OPERACION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="323" y="0" width="54" height="26" forecolor="#000066" backcolor="#CBDCFF"/>
+				<box>
+					<topPen lineWidth="0.5" lineColor="#003366"/>
+					<leftPen lineWidth="0.5" lineColor="#003366"/>
+					<bottomPen lineWidth="0.5" lineColor="#003366"/>
+					<rightPen lineWidth="0.5" lineColor="#003366"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MES INICIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="377" y="0" width="56" height="26" forecolor="#000066" backcolor="#CBDCFF"/>
+				<box>
+					<topPen lineWidth="0.5" lineColor="#003366"/>
+					<leftPen lineWidth="0.5" lineColor="#003366"/>
+					<bottomPen lineWidth="0.5" lineColor="#003366"/>
+					<rightPen lineWidth="0.5" lineColor="#003366"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MES FIN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="433" y="0" width="53" height="26" forecolor="#000066" backcolor="#CBDCFF"/>
+				<box>
+					<topPen lineWidth="0.5" lineColor="#003366"/>
+					<leftPen lineWidth="0.5" lineColor="#003366"/>
+					<bottomPen lineWidth="0.5" lineColor="#003366"/>
+					<rightPen lineWidth="0.5" lineColor="#003366"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MONTO MENSUAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="129" y="0" width="57" height="26" forecolor="#000066" backcolor="#CBDCFF"/>
+				<box>
+					<topPen lineWidth="0.5" lineColor="#003366"/>
+					<leftPen lineWidth="0.5" lineColor="#003366"/>
+					<bottomPen lineWidth="0.5" lineColor="#003366"/>
+					<rightPen lineWidth="0.5" lineColor="#003366"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TIPO MOV]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="186" y="0" width="137" height="26" forecolor="#000066" backcolor="#CBDCFF"/>
+				<box>
+					<topPen lineWidth="0.5" lineColor="#003366"/>
+					<leftPen lineWidth="0.5" lineColor="#003366"/>
+					<bottomPen lineWidth="0.5" lineColor="#003366"/>
+					<rightPen lineWidth="0.5" lineColor="#003366"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PARTIDA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="36" height="26" forecolor="#000066" backcolor="#CBDCFF"/>
+				<box>
+					<topPen lineWidth="0.5" lineColor="#003366"/>
+					<leftPen lineWidth="0.5" lineColor="#003366"/>
+					<bottomPen lineWidth="0.5" lineColor="#003366"/>
+					<rightPen lineWidth="0.5" lineColor="#003366"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SEC]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<textField isBlankWhenNull="true">
+				<reportElement x="323" y="0" width="54" height="20" forecolor="#000066"/>
+				<box rightPadding="3">
+					<pen lineColor="#000066"/>
+					<topPen lineWidth="0.5" lineColor="#000066"/>
+					<leftPen lineWidth="0.5" lineColor="#000066"/>
+					<bottomPen lineWidth="0.5" lineColor="#000066"/>
+					<rightPen lineWidth="0.5" lineColor="#000066"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{mes_inicial}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="377" y="0" width="56" height="20" forecolor="#000066"/>
+				<box rightPadding="3">
+					<pen lineColor="#000066"/>
+					<topPen lineWidth="0.5" lineColor="#000066"/>
+					<leftPen lineWidth="0.5" lineColor="#000066"/>
+					<bottomPen lineWidth="0.5" lineColor="#000066"/>
+					<rightPen lineWidth="0.5" lineColor="#000066"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{mes_final}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="433" y="0" width="53" height="20" forecolor="#000066"/>
+				<box rightPadding="2">
+					<topPen lineWidth="0.5" lineColor="#003366"/>
+					<leftPen lineWidth="0.5" lineColor="#003366"/>
+					<bottomPen lineWidth="0.5" lineColor="#003366"/>
+					<rightPen lineWidth="0.5" lineColor="#003366"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{monto_mensual}]]></textFieldExpression>
+			</textField>
+			<textField pattern="½Û #,##0.00" isBlankWhenNull="true">
+				<reportElement x="36" y="0" width="93" height="20" forecolor="#000066"/>
+				<box>
+					<topPen lineWidth="0.5" lineColor="#003366"/>
+					<leftPen lineWidth="0.5" lineColor="#003366"/>
+					<bottomPen lineWidth="0.5" lineColor="#003366"/>
+					<rightPen lineWidth="0.5" lineColor="#003366"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{clave_programatica}]]></textFieldExpression>
+			</textField>
+			<textField pattern="½Û #,##0.00" isBlankWhenNull="true">
+				<reportElement x="129" y="0" width="57" height="20" forecolor="#000066"/>
+				<box leftPadding="3">
+					<topPen lineWidth="0.5" lineColor="#003366"/>
+					<leftPen lineWidth="0.5" lineColor="#003366"/>
+					<bottomPen lineWidth="0.5" lineColor="#003366"/>
+					<rightPen lineWidth="0.5" lineColor="#003366"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{tipo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="½Û #,##0.00" isBlankWhenNull="true">
+				<reportElement x="186" y="0" width="137" height="20" forecolor="#000066"/>
+				<box leftPadding="3">
+					<topPen lineWidth="0.5" lineColor="#003366"/>
+					<leftPen lineWidth="0.5" lineColor="#003366"/>
+					<bottomPen lineWidth="0.5" lineColor="#003366"/>
+					<rightPen lineWidth="0.5" lineColor="#003366"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{entryDescription}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="486" y="0" width="69" height="20" forecolor="#000066"/>
+				<box rightPadding="2">
+					<topPen lineWidth="0.5" lineColor="#003366"/>
+					<leftPen lineWidth="0.5" lineColor="#003366"/>
+					<bottomPen lineWidth="0.5" lineColor="#003366"/>
+					<rightPen lineWidth="0.5" lineColor="#003366"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{montoTotal}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="36" height="20" forecolor="#000066"/>
+				<box>
+					<topPen lineWidth="0.5" lineColor="#003366"/>
+					<leftPen lineWidth="0.5" lineColor="#003366"/>
+					<bottomPen lineWidth="0.5" lineColor="#003366"/>
+					<rightPen lineWidth="0.5" lineColor="#003366"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band/>
+	</pageFooter>
+	<lastPageFooter>
+		<band splitType="Immediate"/>
+	</lastPageFooter>
+	<summary>
+		<band height="168">
+			<staticText>
+				<reportElement x="17" y="40" width="521" height="15" forecolor="#000066"/>
+				<textElement/>
+				<text><![CDATA[LA PRESENTE MODIFICACION TENDRA LA FINALIDAD DE CUBRIR LAS NECESIDADES GENERADAS EN ESE]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="146" width="555" height="20" forecolor="#000066"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{director}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="87" width="555" height="59" forecolor="#000066"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[
+EL DIRECTOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="85" width="521" height="15" forecolor="#000066"/>
+				<textElement/>
+				<text><![CDATA[SIN OTRO PARTICULAR, ME ES GRATO EL REITERARLE MI ATENTA Y DISTINGUIDA CONSIDERACION.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="16" y="55" width="522" height="15" forecolor="#000066"/>
+				<textElement/>
+				<text><![CDATA[TRIBUNAL UNITARIO AGRARIO DE  DISTRITO.]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>'
+WHERE ID = 21;
