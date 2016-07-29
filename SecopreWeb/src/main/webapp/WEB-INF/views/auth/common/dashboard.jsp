@@ -97,10 +97,11 @@
 						<div class="portlet-title">
 							<div class="caption caption-md">
 								<i class="icon-bar-chart theme-font hide"></i>
-								<span class="caption-subject font-blue-madison bold uppercase">Tus Trámites Recientes</span>
+								<span class="caption-subject font-blue-madison bold uppercase">Listado de Trámites</span>
 								<span class="caption-helper hide">weekly stats...</span>
 							</div>
 						</div>
+						<!--
 						<div class="portlet-body">
 							<div class="table-scrollable table-scrollable-borderless">
 								<table class="table table-hover table-light">
@@ -142,6 +143,43 @@
 									<td>
 										<span class="bold theme-font">${createdMovement.creationDate}</span>
 									</td>
+								</tr>
+								</c:forEach>
+								</tbody>
+							  </table>
+							</div>
+						</div>
+						-->
+						
+						<div class="portlet-body">
+							<div class="table-scrollable table-scrollable-borderless">
+								<table class="table table-hover table-light">
+								<thead>
+								<tr class="uppercase">
+									<th>ID</th>
+									<th>Folio</th>
+									<th>Justificacion</th>
+									<th>Distrito</th>
+									<th>Tipo Transacción</th>
+									<th>Monto</th>
+									<th>Fecha Creación</th>
+									<th>Siguiente Etapa</th>
+								</tr>
+								</thead>
+								
+								<tbody>
+								<c:forEach items="${lastInbox}" var="lastInbox">
+								<tr>
+									
+									<td>${lastInbox.requestId}</td>
+									<td>${lastInbox.folio}</td>
+									<td>${lastInbox.justification}</td>
+									<td>${lastInbox.districtDescription}</td>
+									<td>${lastInbox.formalityDescription}</td>
+									<td>${lastInbox.totalAmountStr}</td>
+									<td>${lastInbox.folioCreationDate}</td>
+									<td>${lastInbox.nextDescription}</td>
+									
 								</tr>
 								</c:forEach>
 								</tbody>

@@ -147,6 +147,11 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 		return this.queryForList(Inbox.class, queryContainer.getSQL(SQLConstants.GET_FORMALITY_INBOX), namedParameters, new InboxMapper());
 	}
 	
+	public List<Inbox> getAllFormalities(){
+		SqlParameterSource namedParameters = new MapSqlParameterSource();	
+		return this.queryForList(Inbox.class, queryContainer.getSQL(SQLConstants.GET_ALL_FORMALITY), namedParameters, new InboxMapper());
+	}
+	
 	public List<Inbox> getMyInboxByUserId(Long userId){
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("userId", userId);	
 		return this.queryForList(Inbox.class, queryContainer.getSQL(SQLConstants.GET_MY_FORMALITY_INBOX_2), namedParameters, new InboxMapper());

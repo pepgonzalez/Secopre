@@ -286,5 +286,7 @@ public interface AccessNativeService {
 	int updateNotification(Long notificationId);
 	
 	List<Entry> getSortedEntriesList();
+	
+	List<Inbox> getAllFormalities();
 }
 

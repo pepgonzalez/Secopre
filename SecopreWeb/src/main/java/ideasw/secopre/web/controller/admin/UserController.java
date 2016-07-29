@@ -3,6 +3,7 @@ package ideasw.secopre.web.controller.admin;
 import ideasw.secopre.constants.PropertyConstants;
 import ideasw.secopre.dto.EntryBalance;
 import ideasw.secopre.dto.EntryFilter;
+import ideasw.secopre.dto.Inbox;
 import ideasw.secopre.dto.Notification;
 import ideasw.secopre.dto.Property;
 import ideasw.secopre.dto.UserMovement;
@@ -245,9 +246,11 @@ public class UserController extends AuthController {
 			model.addAttribute("socketURL", url);
 		}
 
-		List<UserMovement> createdMovements = accessNativeService
-				.getCreatedFormalitiesByUserId(loggedUser.getId(), 10);
+		List<UserMovement> createdMovements = accessNativeService.getCreatedFormalitiesByUserId(loggedUser.getId(), 10);
 		model.addAttribute("createdMovements", createdMovements);
+
+		List<Inbox> formalities = accessNativeService.getAllFormalities();
+		model.addAttribute("lastInbox", formalities);
 		
 		//Valida si tiene 1 distrito asignado
 		List<District> districts = secopreCache.getDistrictsByUser(loggedUser.getUsername());
