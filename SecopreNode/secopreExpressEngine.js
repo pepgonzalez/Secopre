@@ -34,6 +34,9 @@ var SecopreChat = function(config){
         var toP = req.params.to;
         
         DB.processQuery("getConversations", [usrId, usrId, parseInt(fromP), parseInt(toP)], function(r){
+			console.log("get conversation response--------------------------------------------------------");
+			console.log(r);
+			console.log("----------------------------------------------------------------------------------");
             res.json(r);
         });
     });
@@ -49,6 +52,9 @@ var SecopreChat = function(config){
         var cId = req.params.cId;
         var userId = req.params.userId;
         DB.processQuery("getConversation", [cId, userId, cId, userId, 0, 21], function(r){
+			console.log("get conversation response--------------------------------------------------------");
+			console.log(r);
+			console.log("----------------------------------------------------------------------------------");
             res.json(r);
         });
     });

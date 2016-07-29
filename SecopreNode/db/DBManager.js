@@ -84,7 +84,8 @@ var DBManager = function(config){
                 }
                 
                 function _cb(r){
-                    if(r.length > 0){
+					console.log("ejecucion _cb");
+                    if(r != undefined && r.length > 0){
                         d2.push(r[0]);
                     }
                     if ( i == params.length){

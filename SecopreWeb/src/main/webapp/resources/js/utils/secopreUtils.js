@@ -16,7 +16,7 @@ monthMap = {
 SecopreUtils = function(){
 	this.DateUtils = {
 			getUXTimeFromDBDate :function(string){
-				var str = string.substring(11,16);
+				var str = string.substring(11,17);
 				return str;
 			},
 			getDateFromDBString : function(string){
@@ -75,7 +75,7 @@ SecopreUtils = function(){
 	}
 	
 	this.Constants = {
-			USER_BASE_PATH : '/Secopre/resources/img/users/',
+			USER_BASE_PATH : '../SecopreResources/',
 			USER_DEFAULT_AVATAR : 'avatar.png',
 			Templates: {
 				INBOX_TEMPLATE : "#inbox__popup__message__template",

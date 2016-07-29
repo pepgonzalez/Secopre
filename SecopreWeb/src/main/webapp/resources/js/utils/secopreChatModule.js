@@ -364,7 +364,6 @@ var SecopreChat = function(){
 		var url = urls.getConversation + c.id + "/" + c.userId;
         
 		_getAjaxRequest(url, function(data){
-			
 			var total = data.length;			
 			var batch = 20;
 			

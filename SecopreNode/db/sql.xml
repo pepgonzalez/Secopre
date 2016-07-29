@@ -10,7 +10,8 @@
 					   IFNULL(U.AVATAR, 'avatar.png') avatar,
 					   CM.MESSAGE msg,
 					   CM.ESTATUS status,
-					   CM.CREATION_DATE creationDate
+					   DATE_FORMAT(CM.CREATION_DATE,'%d %b %Y %T') creationDate,
+                       CM.CREATION_DATE originalCreationDate
 				  FROM secopre.CHAT_CONVERSATION CC,
 				  	   secopre.CHAT_MESSAGE CM,
 				  	   secopre.USER U
@@ -29,7 +30,8 @@
 					   IFNULL(U.AVATAR, 'avatar.png') avatar,
 					   CM.MESSAGE msg,
 					   CM.ESTATUS status,
-					   CM.CREATION_DATE creationDate
+					   DATE_FORMAT(CM.CREATION_DATE,'%d %b %Y %T') creationDate,
+                       CM.CREATION_DATE originalCreationDate
 				  FROM secopre.CHAT_CONVERSATION CC,
 				  	   secopre.CHAT_MESSAGE CM,
 				  	   secopre.USER U
@@ -61,7 +63,8 @@
 					   IFNULL(UF.AVATAR, 'avatar.png') avatar,
 					   CM.MESSAGE msg,
 					   CM.ESTATUS status,
-					   CM.CREATION_DATE creationDate
+					   DATE_FORMAT(CM.CREATION_DATE,'%d %b %Y %T') creationDate,
+                       CM.CREATION_DATE originalCreationDate
 				  FROM secopre.CHAT_MESSAGE CM,
 				  	   secopre.USER UF
 				WHERE CM.CONVERSATION_ID = ?
@@ -74,7 +77,8 @@
 					   IFNULL(UT.AVATAR, 'avatar.png') avatar,
 					   CM.MESSAGE msg,
 					   CM.ESTATUS status,
-					   CM.CREATION_DATE creationDate
+					   DATE_FORMAT(CM.CREATION_DATE,'%d %b %Y %T') creationDate,
+                       CM.CREATION_DATE originalCreationDate
 				  FROM secopre.CHAT_MESSAGE CM,
 				  	   secopre.USER UT
 				WHERE CM.CONVERSATION_ID = ?
