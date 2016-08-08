@@ -1497,9 +1497,12 @@ private void insertMasiveMovements(List<Movement> list, Request request) throws 
 	@Override
 	public User getUserByUsename(String username) {
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("username", username);
+		LOG.info("buscando instancia de usuario: " + username);
 		List<User> list = this.queryForList(User.class, queryContainer.getSQL(SQLConstants.GET_USER_BY_USERNAME), namedParameters, new UserMapper());
-		User u =  list.get(0);
-		return u;
+		if (list != null && list.size() > 0){
+			return list.get(0);
+		}
+		return null;
 	}
 	
 	@Override

@@ -224,3 +224,22 @@ VALUES
 (188, -1),
 (188, 1),
 (188, 2);
+
+
+-- 
+
+SELECT SC1.ID,
+	   S1.DESCRIPTION,
+	   WC.WF_CFG_CODE,
+       SC2.ID,
+       S2.DESCRIPTION
+  FROM secopre.WORKFLOW_CONFIG WC,
+       secopre.STAGE_CONFIG SC1,
+       secopre.STAGE_CONFIG SC2,
+       secopre.STAGE S1,
+       secopre.STAGE S2
+ WHERE WC.WORKFLOW_ID = 1
+   AND WC.STAGE_CONFIG_ID = SC1.ID
+   AND SC1.STAGE_ID = S1.ID
+   AND WC.NEXT_STAGE_CONFIG = SC2.ID
+   AND SC2.STAGE_ID = S2.ID;
