@@ -282,7 +282,6 @@
 						    AND DIST.ID = DU.DISTRICT_ID						-- JOIN DISTRICT USER CON DISTRITO
 						    AND DIST.STATE_ID = STATE.ID						-- JOIN DISTRICT CON STATE
 						    AND YEAR(R.LAST_UPDATE) = YEAR(NOW())				-- SOLO ANIO ACTUAL
-							AND MONTH(R.LAST_UPDATE) = MONTH(NOW())				-- SOLO MES ACTUAL
 						    ORDER BY RH.LAST_UPDATE DESC
 					]]>
 				</prop>
@@ -1095,8 +1094,7 @@
 								) MY_REQUEST
 						  WHERE 
 						        MY_REQUEST.ID = RH.REQUEST_ID
-						    AND YEAR(R.LAST_UPDATE) = YEAR(NOW())				-- SOLO ANIO ACTUAL
-							AND MONTH(R.LAST_UPDATE) = MONTH(NOW())				-- SOLO MES ACTUAL						        
+						    AND YEAR(R.LAST_UPDATE) = YEAR(NOW())				-- SOLO ANIO ACTUAL					        
 						  	AND	R.ID = RH.REQUEST_ID 							-- TODOS LOS FOLIOS Y SU HISTORIA
 						    AND R.ACTIVE = 1									-- ACTIVOS
 						    AND RH.ACTIVE = 1		 							-- FILTRO POR TRANSICION ACTIVA
@@ -1166,8 +1164,7 @@
 								       JOIN secopre.REQUEST_HISTORY CDRH ON (MRH.REQUEST_ID = CDRH.REQUEST_ID)
 								       JOIN secopre.REQUEST_HISTORY MY ON (MY.REQUEST_ID = MRH.REQUEST_ID)
 								 WHERE MY.USER_ID = :userId
-								    AND YEAR(MR.LAST_UPDATE) = YEAR(NOW())				-- SOLO ANIO ACTUAL
-									AND MONTH(MR.LAST_UPDATE) = MONTH(NOW())				-- SOLO MES ACTUAL								 
+								    AND YEAR(MR.LAST_UPDATE) = YEAR(NOW())				-- SOLO ANIO ACTUAL							 
 								   AND (MY.CONSECUTIVE = 1 OR (MSC.IS_CANCELED = 1 OR MSC.IS_OPERATED = 1))
 								   AND CDRH.CONSECUTIVE = 1
 								   AND MRH.ACTIVE = 1
@@ -1204,8 +1201,7 @@
 						where USER_ID = :userId 
 						AND STATUS = 1
 						AND TYPE = 1
-					    AND YEAR(CREATION_DATE) = YEAR(NOW())				-- SOLO ANIO ACTUAL
-						AND MONTH(CREATION_DATE) = MONTH(NOW())				-- SOLO MES ACTUAL						
+					    AND YEAR(CREATION_DATE) = YEAR(NOW())				-- SOLO ANIO ACTUAL					
 					]]>
 				</prop>
 				
