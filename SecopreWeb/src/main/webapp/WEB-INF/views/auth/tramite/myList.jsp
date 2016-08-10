@@ -20,6 +20,7 @@
 								<div class="row">
 									<div class="col-md-6">
 									</div>
+									<!-- 
 									<div class="col-md-6">
 										<div class="btn-group pull-right">
 											<button class="btn dropdown-toggle" data-toggle="dropdown"><spring:message code="application.tools"/><i class="fa fa-angle-down"></i>
@@ -31,6 +32,7 @@
 											</ul>
 										</div>
 									</div>
+									 -->
 								</div>
 								<div class="row" style="margin-top:10px;">
 									<div class="col-md-12">

@@ -2208,7 +2208,11 @@ function initMyTramiteListPage(folio, notifId, userId){
                "visible": false
            },
            { "sClass": "right", "aTargets": [ 5 ] }
-       ]
+       ],
+       dom: 'Bfrtip',
+       buttons: [
+                 'excel'
+             ]
     });
 	
 	// Filtro de datatable por fecha
@@ -2288,7 +2292,11 @@ function initTramiteListPage() {
                "visible": false
            },
            { "sClass": "right", "aTargets": [ 5 ] }
-       ]
+       ],
+       dom: 'Bfrtip',
+       buttons: [
+                 'excel'
+             ]
     });
 	
 	// Filtro de datatable por fecha
