@@ -24,7 +24,8 @@ http://www.springframework.org/schema/jee/spring-jee.xsd">
 
 	<!-- the mvc resources tag does the magic -->
 	<mvc:resources mapping="/resources/**" location="/resources/" />
-    <mvc:resources mapping="/SecopreResources/**" location="file:/C:/SecopreResources/" />
+    <mvc:resources mapping="/SecopreResources/**" location="file:///C:/SecopreResources/" />
+    <mvc:resources mapping="/SecopreResources/**" location="file:/opt/SecopreResources/" />
     
 	<bean
 		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">

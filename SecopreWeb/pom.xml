@@ -158,6 +158,13 @@
 					</connectors>
 					<scanIntervalSeconds>3</scanIntervalSeconds>
 				</configuration>
+				<dependencies>
+				<dependency>
+					<groupId>ch.qos.logback</groupId>
+					<artifactId>logback-classic</artifactId>
+					<version>1.0.12</version>
+				</dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>
