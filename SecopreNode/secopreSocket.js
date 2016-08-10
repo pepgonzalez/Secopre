@@ -57,9 +57,11 @@ var SecopreSocket = function(config){
 		/*funcion generica para empujar un msj al socket si esta en linea y ejecutar el callback recibido*/
 		function pushEvent(event, userId, data, callback){
 			DB.processQuery('isUserOnline', [userId], function(res){
-				if (res[0].active == 1){
-					console.log("enviando evento " + event + " a socketid: " + res[0].data);
-					io.to(res[0].socketId).emit(event, data);
+				if(res != undefined){
+					if (res[0].active == 1){
+						console.log("enviando evento " + event + " a socketid: " + res[0].data);
+						io.to(res[0].socketId).emit(event, data);
+					}
 				}
 				if (typeof callback === "function") {
 					callback();

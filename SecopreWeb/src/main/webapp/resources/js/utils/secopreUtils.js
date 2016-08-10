@@ -75,7 +75,7 @@ SecopreUtils = function(){
 	}
 	
 	this.Constants = {
-			USER_BASE_PATH : '../SecopreResources/',
+			USER_BASE_PATH : '../auth/img/',
 			USER_DEFAULT_AVATAR : 'avatar.png',
 			Templates: {
 				INBOX_TEMPLATE : "#inbox__popup__message__template",

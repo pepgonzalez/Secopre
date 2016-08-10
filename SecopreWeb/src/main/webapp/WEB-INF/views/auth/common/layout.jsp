@@ -71,6 +71,7 @@
 	<!-- END THEME STYLES -->
 	<!-- BEGIN PAGE CUSTOM STYLES -->
 	<link href='<c:url value="/resources/css/plugins/dataTables.bootstrap.css"/>' rel="stylesheet" type="text/css"/>
+	<link href='<c:url value="/resources/css/plugins/buttons.dataTables.min.css"/>' rel="stylesheet" type="text/css"/>
 	<link href='<c:url value="/resources/css/plugins/multi-select.css"/>' rel="stylesheet" type="text/css"/>
 	<link href='<c:url value="/resources/css/plugins/toastr.min.css"/>' rel="stylesheet" type="text/css"/>
 	<link href='<c:url value="/resources/css/plugins/introjs.min.css"/>' rel="stylesheet" type="text/css"/>
@@ -179,8 +180,17 @@
 	<script src='<c:url value="/resources/js/plugins/jquery.validate.min.js"/>' type="text/javascript"></script>
     <script src='<c:url value="/resources/js/plugins/messages_es.min.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/additional-methods.min.js"/>' type="text/javascript"></script>	
-	<script src='<c:url value="/resources/js/plugins/jquery.dataTables.min.js"/>' type="text/javascript"></script>
+	<script src='<c:url value="/resources/js/plugins/jquery.dataTables.min.2.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/dataTables.bootstrap.js"/>' type="text/javascript"></script>
+	<script src='<c:url value="/resources/js/plugins/dataTables.buttons.min.js"/>' type="text/javascript"></script>
+	
+	<script src='<c:url value="/resources/js/plugins/buttons.flash.min.js"/>' type="text/javascript"></script>
+	<script src='<c:url value="/resources/js/plugins/jszip.min.js"/>' type="text/javascript"></script>
+	<script src='<c:url value="/resources/js/plugins/pdfmake.min.js"/>' type="text/javascript"></script>
+	<script src='<c:url value="/resources/js/plugins/vfs_fonts.js"/>' type="text/javascript"></script>
+	<script src='<c:url value="/resources/js/plugins/buttons.html5.min.js"/>' type="text/javascript"></script>
+	<script src='<c:url value="/resources/js/plugins/buttons.print.min.js"/>' type="text/javascript"></script>
+	
 	
 	<script src='<c:url value="/resources/js/plugins/intro.min.js"/>' type="text/javascript"></script>
 	<script src='<c:url value="/resources/js/plugins/toastr.min.js"/>' type="text/javascript"></script>
