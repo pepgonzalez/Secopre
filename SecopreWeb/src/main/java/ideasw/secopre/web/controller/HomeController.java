@@ -3,6 +3,7 @@ package ideasw.secopre.web.controller;
 import ideasw.secopre.exception.ResourceNotFoundException;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.model.security.UserAccess;
+import ideasw.secopre.service.AccessService;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.ControllerBase;
 
@@ -16,12 +17,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -33,6 +36,8 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class HomeController extends ControllerBase {
+	@Autowired
+	protected AccessService accessService;
 
 	static final Logger LOG = LoggerFactory.getLogger(HomeController.class);
 
@@ -54,20 +59,27 @@ public class HomeController extends ControllerBase {
 	 * @return pagina JSP
 	 */
 	// Spring Security see this :
-	@RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/login", method = { RequestMethod.GET,
+			RequestMethod.POST })
 	public ModelAndView login(
 			@RequestParam(value = "error", required = false) String error) {
 		ModelAndView model = new ModelAndView();
 		if (error != null && !StringUtils.isEmpty(error)) {
-			if(error.equals("1")){
-				model.addObject("error", "Credenciales Inválidas!");				
-			}else{
+			if (error.equals("1")) {
+				model.addObject("error", "Credenciales Inválidas!");
+			} else {
 				model.addObject("error", "Sesion Inválida!");
-				
+
 			}
 		}
 		model.setViewName(SecopreConstans.MV_LOGIN);
 		return model;
+	}
+
+	@RequestMapping(value = "login/resetPass")
+	public @ResponseBody Boolean resetPass(ModelMap modelMap,
+			@RequestParam("username") String username) {
+		return accessService.resetPass(username);
 	}
 
 	/**
@@ -77,29 +89,33 @@ public class HomeController extends ControllerBase {
 	 * @return pagina JSP
 	 */
 	// Spring Security see this :
-	@RequestMapping(value = "/logout", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/logout", method = { RequestMethod.GET,
+			RequestMethod.POST })
 	public ModelAndView logout(HttpServletRequest request,
-			@RequestParam(value = "logout", required = false) String logout, Principal principal) {
+			@RequestParam(value = "logout", required = false) String logout,
+			Principal principal) {
 		ModelAndView model = new ModelAndView();
 		String jSessionId = request.getSession().getId();
 		String ipAddress = request.getRemoteAddr();
 		User user = secopreCache.getUser(principal.getName());
-		Map<String,Object>params = new HashMap<String, Object>(0);
+		Map<String, Object> params = new HashMap<String, Object>(0);
 		params.put("jSessionId", jSessionId);
 		params.put("remoteIP", ipAddress);
 		params.put("user", user);
-		
-		 List<UserAccess> accessList = baseService.findByProperties(UserAccess.class, params);
-		
-		for(UserAccess access: accessList){
+
+		List<UserAccess> accessList = baseService.findByProperties(
+				UserAccess.class, params);
+
+		for (UserAccess access : accessList) {
 			access.setLogoutDate(new Date());
 			baseService.update(access);
 		}
 		model.addObject("msg", "Salió de la aplicacion Exitosamente.");
-		
+
 		model.setViewName(SecopreConstans.MV_LOGIN);
 		return model;
 	}
+
 	/***
 	 * Metodo que redireccion a una pagina custom los accesos no autorizados
 	 * 
@@ -107,7 +123,8 @@ public class HomeController extends ControllerBase {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/invalidSession", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/invalidSession", method = { RequestMethod.GET,
+			RequestMethod.POST })
 	public String invalidSession(Principal user, ModelMap model) {
 		model.addAttribute("title", "Upsss! Lo sentimos su session ha expirado");
 		if (user != null) {
@@ -124,6 +141,7 @@ public class HomeController extends ControllerBase {
 		return SecopreConstans.MV_INVALID_SESSION;
 
 	}
+
 	/***
 	 * Metodo que redireccion a una pagina custom los accesos no autorizados
 	 * 
@@ -131,7 +149,8 @@ public class HomeController extends ControllerBase {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/403", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/403", method = { RequestMethod.GET,
+			RequestMethod.POST })
 	public String accesssDenied(Principal user, ModelMap model) {
 		model.addAttribute("title", "Upsss! Lo sentimos no tienes permisos");
 		if (user != null) {
@@ -157,7 +176,8 @@ public class HomeController extends ControllerBase {
 	 * 
 	 * @param request
 	 */
-	@RequestMapping(value = "/404",method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/404", method = { RequestMethod.GET,
+			RequestMethod.POST })
 	public void error404(HttpServletRequest req) {
 		String originalUri = (String) req
 				.getAttribute("javax.servlet.forward.request_uri");

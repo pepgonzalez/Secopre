@@ -9,6 +9,7 @@ import ideasw.secopre.model.security.User;
 import ideasw.secopre.model.security.UserAccess;
 import ideasw.secopre.service.AccessNativeService;
 import ideasw.secopre.service.AccessService;
+import ideasw.secopre.utils.encryption.Encryption;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -134,5 +135,16 @@ public class AccessServiceImpl implements AccessService {
 		access.setRemoteIP(remoteIP);
 		access.setUser(user);
 		jpaDao.persist(access);
+	}
+
+	@Override
+	public boolean resetPass(String username) {
+		User user = loadUserByUsername(username);
+		//Set default password
+		String temporal = Encryption.generateDynamicCode();
+		user.setPassword(Encryption.encrypByBCrypt(temporal));
+		//send mail
+		
+		return true;
 	}
 }

@@ -87,7 +87,7 @@
 					<label class="control-label visible-ie8 visible-ie9"><spring:message code="application.pages.login.username"/></label>
 					<div class="input-icon">
 						<i class="fa fa-user"></i>
-						<input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder='<spring:message code="application.pages.login.username"/>' name="username"/>
+						<input id="username" class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder='<spring:message code="application.pages.login.username"/>' name="username"/>
 					</div>
 				</div>
 				<div class="form-group">
@@ -106,7 +106,7 @@
 				</div>
 				<div class="forget-password">
 					<h4><spring:message code="application.pages.login.forgot"/></h4>
-					<p><spring:message code="application.pages.login.forgot.message1"/><a href="javascript:;" id="forget-password">
+					<p><spring:message code="application.pages.login.forgot.message1"/><a href="javascript:;" id="forget-password" onclick="confirmResetPass();">
 						<spring:message code="application.pages.login.forgot.message2"/> </a>
 						<spring:message code="application.pages.login.forgot.message3"/>
 					</p>
@@ -165,6 +165,7 @@
 <script src='<c:url value="/resources/js/global/metronic.js"/>' type="text/javascript"></script>
 <script src='<c:url value="/resources/js/global/layout.js"/>' type="text/javascript"></script>
 <script src='<c:url value="/resources/js/plugins/login-soft.js"/>' type="text/javascript"></script>
+<script src='<c:url value="/resources/js/plugins/bootstrap-dialog.min.js"/>' type="text/javascript"></script>
 <!-- END PAGE LEVEL SCRIPTS -->
 <script>
 	jQuery(document).ready(
@@ -181,7 +182,31 @@
 					fade : 1000,
 					duration : 8000
 				});
-			});
+			},
+
+			function confirmResetPass() {
+				BootstrapDialog.show({
+					type : BootstrapDialog.TYPE_WARNING,
+					title : 'Restaurar Password',
+					message : 'Esta seguro de restaurar su password?',
+					buttons : [ {
+						icon : 'glyphicon glyphicon-ban-circle',
+						label : 'Restaurar',
+						cssClass : 'btn-warning',
+							action : function() {
+								$.getJSON( "login/resetPass",{ username: $('#username').val()}, function( data ) {
+									});
+							}						
+					}, {
+						label : 'Cancelar',
+						action : function(dialogItself) {
+							dialogItself.close();
+						}
+					} ]
+				});
+			}
+
+	);
 </script>
 <!-- END JAVASCRIPTS -->
 </body>
