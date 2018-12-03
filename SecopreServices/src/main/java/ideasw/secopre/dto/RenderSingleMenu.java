@@ -1,8 +1,8 @@
 package ideasw.secopre.dto;
 
-import ideasw.secopre.model.security.Menu;
+import java.util.HashMap;
 
-import java.util.List;
+import ideasw.secopre.model.security.Menu;
 
 /**
  * Clase de estereotipo DTO que permite almacenar la informacion correspondiente
@@ -15,7 +15,7 @@ import java.util.List;
 public class RenderSingleMenu {
 
 	private Menu parent;
-	private List<Menu> childs;
+	private HashMap<Long,Menu> childs;
 
 	/**
 	 * @return the parent
@@ -35,7 +35,7 @@ public class RenderSingleMenu {
 	/**
 	 * @return the childs
 	 */
-	public List<Menu> getChilds() {
+	public HashMap<Long,Menu> getChilds() {
 		return childs;
 	}
 
@@ -43,7 +43,7 @@ public class RenderSingleMenu {
 	 * @param childs
 	 *            the childs to set
 	 */
-	public void setChilds(List<Menu> childs) {
+	public void setChilds(HashMap<Long,Menu> childs) {
 		this.childs = childs;
 	}
 

@@ -30,9 +30,9 @@
 							<ul class="sub-menu">
 								<c:forEach items="${itemMenu.childs}" var="itemSubMenu" varStatus="itemSubStatus">
 									<li>
-										<a href="javascript:;" onclick="${itemSubMenu.jsFunction}">
-										<i class="${itemSubMenu.cssClass}">
-										</i>${itemSubMenu.name}</a>
+										<a href="javascript:;" onclick="${itemSubMenu.value.jsFunction}">
+										<i class="${itemSubMenu.value.cssClass}">
+										</i>${itemSubMenu.value.name}</a>
 										<c:if test="${itemSubStatus.index == 0}">
 											<span class="arrow "></span>
 										</c:if>

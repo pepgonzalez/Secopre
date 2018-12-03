@@ -1,5 +1,17 @@
 package ideasw.secopre.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.Predicate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import ideasw.secopre.dao.JpaDao;
 import ideasw.secopre.dto.RenderSingleMenu;
 import ideasw.secopre.model.security.Menu;
@@ -10,17 +22,6 @@ import ideasw.secopre.model.security.UserAccess;
 import ideasw.secopre.service.AccessNativeService;
 import ideasw.secopre.service.AccessService;
 import ideasw.secopre.utils.encryption.Encryption;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.Predicate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class AccessServiceImpl implements AccessService {
@@ -110,8 +111,9 @@ public class AccessServiceImpl implements AccessService {
 		return buildMenus;
 	}
 
-	private List<Menu> getChilds(List<Menu> all, Menu menu) {
+	private HashMap<Long,Menu> getChilds(List<Menu> all, Menu menu) {
 		final Menu finalMenu = menu;
+		HashMap<Long,Menu> menus = new HashMap<Long,Menu>();
 		List<Menu> childs = (List<Menu>) CollectionUtils.select(all,
 				new Predicate<Menu>() {
 					@Override
@@ -122,7 +124,10 @@ public class AccessServiceImpl implements AccessService {
 					}
 
 				});
-		return childs;
+		for(Menu item: childs) {
+			menus.put(item.getId(), item);
+		}
+		return menus;
 	}
 
 	@Override

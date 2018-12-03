@@ -1,26 +1,5 @@
 package ideasw.secopre.web.controller.admin;
 
-import ideasw.secopre.constants.PropertyConstants;
-import ideasw.secopre.dto.EntryBalance;
-import ideasw.secopre.dto.EntryFilter;
-import ideasw.secopre.dto.Inbox;
-import ideasw.secopre.dto.Notification;
-import ideasw.secopre.dto.Property;
-import ideasw.secopre.dto.UserMovement;
-import ideasw.secopre.enums.StatusEntry;
-import ideasw.secopre.model.catalog.District;
-import ideasw.secopre.model.catalog.Person;
-import ideasw.secopre.model.catalog.Position;
-import ideasw.secopre.model.security.Permission;
-import ideasw.secopre.model.security.Role;
-import ideasw.secopre.model.security.User;
-import ideasw.secopre.service.AccessNativeService;
-import ideasw.secopre.service.AccessService;
-import ideasw.secopre.service.EntryConfigService;
-import ideasw.secopre.utils.encryption.Encryption;
-import ideasw.secopre.web.SecopreConstans;
-import ideasw.secopre.web.controller.base.AuthController;
-
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,6 +23,28 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import ideasw.secopre.constants.PropertyConstants;
+import ideasw.secopre.dto.EntryBalance;
+import ideasw.secopre.dto.EntryFilter;
+import ideasw.secopre.dto.Inbox;
+import ideasw.secopre.dto.Notification;
+import ideasw.secopre.dto.Property;
+import ideasw.secopre.dto.RenderSingleMenu;
+import ideasw.secopre.dto.UserMovement;
+import ideasw.secopre.enums.StatusEntry;
+import ideasw.secopre.model.catalog.District;
+import ideasw.secopre.model.catalog.Person;
+import ideasw.secopre.model.catalog.Position;
+import ideasw.secopre.model.security.Permission;
+import ideasw.secopre.model.security.Role;
+import ideasw.secopre.model.security.User;
+import ideasw.secopre.service.AccessNativeService;
+import ideasw.secopre.service.AccessService;
+import ideasw.secopre.service.EntryConfigService;
+import ideasw.secopre.utils.encryption.Encryption;
+import ideasw.secopre.web.SecopreConstans;
+import ideasw.secopre.web.controller.base.AuthController;
 
 /**
  * Controller principal encargada del modulo de administracion de
@@ -217,6 +218,7 @@ public class UserController extends AuthController {
 		String name = principal.getName(); // get logged in username
 		model.addAttribute("username", name);
 		// Se colocan los menus del usuario en session
+		
 		request.getSession().setAttribute("menus", accessService.getMenuByUserName(name));
 
 		User user = baseService.findByProperty(User.class, "username",

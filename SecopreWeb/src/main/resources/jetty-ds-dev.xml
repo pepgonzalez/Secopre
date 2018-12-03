@@ -6,7 +6,7 @@
 	 				<!--  <Set name="Url">jdbc:mysql://189.210.196.197:3306/secopre</Set>-->
 	 				<Set name="Url">jdbc:mysql://localhost:3306/secopre</Set>
 				<Set name="User">secopre</Set>
-				<Set name="Password">secopre</Set>
+				<Set name="Password">Secopre.123</Set>
 			</New>
 		</Arg>
 	</New>

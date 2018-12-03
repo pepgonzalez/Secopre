@@ -47,36 +47,40 @@
 									<tr class="odd gradeX">
 	
 										<td>${reportItem.reportId}</td>
-										<td>${reportItem.description}</td>
-										<td>${reportItem.reportSourceDescription}
+										<td>${reportItem.description} |  ${reportItem.reportType}</td>
+										<td>${reportItem.reportSourceDescription} 
 <%-- 										<td>${reportItem.reportType}</td> --%>
 										<td>	
-											<c:if test="${reportItem.hasReportParameters == false}">
-												<a href="#" onclick="openResourceNative('report/download/${reportItem.reportId}/PDF','dashboard','()','GET');">
-													<span class="fa fa-file-pdf-o">  	    </span>
-												</a>
-											</c:if>
-										
-										
-											<c:if test="${reportItem.hasReportParameters == true}">
-												<a href="#" onclick="sendRequestJQ('auth/report/params/${reportItem.reportId}/PDF','dashboard','initReportParamCapture()','GET');">
-													<span class="fa fa-file-pdf-o">      </span>
-												</a>
+											<c:if test="${reportItem.reportType == 'PDF'}">
+											
+												<c:if test="${reportItem.hasReportParameters == false}">
+													<a href="#" onclick="openResourceNative('report/download/${reportItem.reportId}/PDF','dashboard','()','GET');">
+														<span class="fa fa-file-pdf-o">  	    </span>
+													</a>
+												</c:if>
+											
+											
+												<c:if test="${reportItem.hasReportParameters == true}">
+													<a href="#" onclick="sendRequestJQ('auth/report/params/${reportItem.reportId}/PDF','dashboard','initReportParamCapture()','GET');">
+														<span class="fa fa-file-pdf-o">      </span>
+													</a>
+												</c:if>
 											</c:if>
 										</td>	
 								        <td>
-											<c:if test="${reportItem.hasReportParameters == false}">
-												<a href="#" onclick="openResourceNative('report/download/${reportItem.reportId}/XLS','dashboard','()','GET');">
-													<span class="fa fa-file-excel-o">     </span>
-												</a>
+								        	<c:if test="${reportItem.reportType == 'XLS'}">
+												<c:if test="${reportItem.hasReportParameters == false}">
+													<a href="#" onclick="openResourceNative('report/download/${reportItem.reportId}/XLS','dashboard','()','GET');">
+														<span class="fa fa-file-excel-o">     </span>
+													</a>
+												</c:if>
+												
+												<c:if test="${reportItem.hasReportParameters == true}">
+													<a href="#" onclick="sendRequestJQ('auth/report/params/${reportItem.reportId}/XLS','dashboard','initReportParamCapture()','GET');">
+														<span class="fa fa-file-excel-o">    </span>
+													</a>
+												</c:if>
 											</c:if>
-											
-											<c:if test="${reportItem.hasReportParameters == true}">
-												<a href="#" onclick="sendRequestJQ('auth/report/params/${reportItem.reportId}/XLS','dashboard','initReportParamCapture()','GET');">
-													<span class="fa fa-file-excel-o">    </span>
-												</a>
-											</c:if>
-											
 										</td>
 									</tr>							
 								</c:forEach>
