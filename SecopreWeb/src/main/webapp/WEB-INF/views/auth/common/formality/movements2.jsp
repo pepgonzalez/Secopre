@@ -36,6 +36,7 @@
 						<th></th>
 						<th>Clave Programatica</th>
 						<th>Partida</th>
+						<th>Tipo partida</th>
 						<th>Rango meses</th>
 						<th></th>
 						<th>Monto Mensual</th>
@@ -78,6 +79,16 @@
 						    				<form:options items="${entries}" />
 										</form:select>
 									</td>
+									
+									<td data-name="entryType">
+										<form:select path="downMovements[${i.index}].entryTypeId" 
+										             class="form-control input-small movementComponent entryType" 
+										             value="${mov.entryTypeId}">
+											<form:option value="1" label="Externa"/>
+						    				<form:option value="2" label="Interna"/>
+										</form:select>
+									</td>
+									
 									<td data-name="sliderControl">
 										<div class="input-small" style="padding-top:8px;">
 											<div id="downSliderControl${i.index}"></div>
@@ -139,6 +150,7 @@
 						<th></th>
 						<th>Clave Programatica</th>
 						<th>Partida</th>
+						<th>Tipo Partida</th>
 						<th>Rango meses</th>
 						<th></th>
 						<th>Monto Mensual</th>
@@ -179,6 +191,16 @@
 						    				<form:options items="${entries}" />
 										</form:select>
 									</td>
+									
+									<td data-name="entryType">
+										<form:select path="upMovements[${i.index}].entryTypeId" 
+										             class="form-control input-small movementComponent entry" 
+										             value="${mov.entryTypeId}">
+											<form:option value="1" label="Externa"/>
+						    				<form:option value="2" label="Interna"/>
+										</form:select>
+									</td>
+									
 									<td data-name="sliderControl">
 										<div class="input-small" style="padding-top:8px;">
 											<div id="upSliderControl${i.index}"></div>
@@ -242,6 +264,15 @@
 				<form:options items="${entries}" />
 			</form:select>
 		</td>
+		
+		<td data-name="entryType">
+			<form:select path="upMovements" class="form-control input-small movementComponent">
+				<form:option value="1" label="Externa"/>
+				<form:option value="2" label="Interna"/>
+			</form:select>
+		</td>
+		
+		
 		<td data-name="sliderControl">
 			<div class="input-small" style="padding-top:8px;">
 				<div id="sliderControl"></div>

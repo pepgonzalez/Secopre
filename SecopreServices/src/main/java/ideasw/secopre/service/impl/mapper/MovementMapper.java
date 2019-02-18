@@ -21,6 +21,7 @@ public class MovementMapper implements RowMapper<Object> {
 		 mov.setMonthAmountValue(rs.getDouble("MONTH_AMOUNT"));
 		 mov.setTotalAmountValue(rs.getDouble("TOTAL_AMOUNT"));
 		 mov.setIsSaved(true);
+		 mov.setEntryTypeId(rs.getString("ENTRY_TYPE_ID"));
 		 return mov;   
 	 }    
 } 

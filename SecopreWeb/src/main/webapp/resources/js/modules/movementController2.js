@@ -217,9 +217,12 @@ var movementController2 = {
 		});
 
 		var saveBtn = grd.find(".actions #saveMov").on("click",function() {
+			
 			$(document).find("#requestForm").find(".pk").prop("disabled",false);
 			$(document).find("#requestForm").find(".entry").prop("disabled",false);
+			$(document).find("#requestForm").find(".entryType").prop("disabled",false);
 			$(document).find("#requestForm").find(".monthAmount").prop("disabled",false);
+			
 			submitAjaxJQWithAction('requestForm', 'dashboard','movements2Capture','auth/wf/capture/partial/movements2');
 		});
 		
@@ -253,7 +256,12 @@ var movementController2 = {
 		e.find("[data-name='entry'] select").attr("name",self.getPath(grid, nextIndex, "entryId"))
 		.attr("id",self.getId(grid, nextIndex, "entryId", 2)).removeAttr("multiple");
 		e.find("[data-name='entry']").find("input[type='hidden']").remove();
-
+		
+		// entryType
+		e.find("[data-name='entryType'] select").attr("name",self.getPath(grid, nextIndex, "entryTypeId"))
+		.attr("id",self.getId(grid, nextIndex, "entryTypeId", 2)).removeAttr("multiple");	
+		e.find("[data-name='entryType']").find("input[type='hidden']").remove();
+		
 		// sliderControl
 		e.find("[data-name='sliderControl'] #sliderControl").attr("id",self.getSliderId(grid).substring(1) + nextIndex);
 

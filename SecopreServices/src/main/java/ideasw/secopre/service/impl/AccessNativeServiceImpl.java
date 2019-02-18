@@ -783,7 +783,9 @@ private void insertMasiveMovements(List<Movement> list, Request request) throws 
 				.addValue("finalMonth", m.getFinalMonthId())
 				.addValue("monthAmount", m.getMonthAmountValue())
 				.addValue("totalAmount", m.getTotalAmountValue())
-				.addValue("active", 1);
+				.addValue("active", 1)
+				.addValue("entryTypeId", m.getEntryTypeId());
+		
 		LOG.info("insertando movimiento");
 		LOG.info(m.toString());
 		return this.insertOrUpdate(queryContainer.getSQL(SQLConstants.INSERT_REQUEST_DETAIL), params);

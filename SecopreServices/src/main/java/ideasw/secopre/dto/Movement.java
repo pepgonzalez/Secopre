@@ -23,6 +23,7 @@ public class Movement {
 	private String description;
 	private Long programaticKeyId;
 	private Long entryId;
+	private String entryTypeId = "";
 	private Integer initialMonthId;
 	private Integer finalMonthId;
 	private String monthAmount;
@@ -159,6 +160,12 @@ public class Movement {
 	}
 	public void setTotalAmountValue(Double totalAmountValue) {
 		this.totalAmountValue = totalAmountValue;
+	}
+	public String getEntryTypeId() {
+		return entryTypeId;
+	}
+	public void setEntryTypeId(String entryTypeId) {
+		this.entryTypeId = entryTypeId;
 	}
 
 }
